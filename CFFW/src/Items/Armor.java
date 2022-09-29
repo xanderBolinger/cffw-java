@@ -1,0 +1,912 @@
+package Items;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import Conflict.GameWindow;
+import UtilityClasses.Location;
+import UtilityClasses.PCUtility;
+
+public class Armor implements Serializable {
+
+	private int bPF; 
+	private ArrayList<ArrayList<Integer>> excludedZones;
+	private ArrayList<ArrayList<Integer>> excludedZonesOpen;
+	private ArrayList<ArrayList<Integer>> differingZoneValues = new ArrayList<ArrayList<Integer>>();
+	private ArrayList<ArrayList<Integer>> differingZoneValuesOpen = new ArrayList<ArrayList<Integer>>();
+	private ArrayList<Integer> differingZonePF = new ArrayList<Integer>();
+	private ArrayList<Integer> differingZonePFOpen = new ArrayList<Integer>();
+	private ArrayList<Boolean> differingHardnessZone = new ArrayList<>();
+	private ArrayList<Boolean> differingHardnessZoneOpen = new ArrayList<>();
+	
+	public String armorName; 
+	public ArmorType type; 
+	public boolean shield = false; 
+	public int shieldMax; 
+	public int currentShieldValue; 
+	public int actionsToRefresh; 
+	public int refreshProgress;
+	public boolean hardBodyArmor = true;
+	
+	public Armor() {
+		this.bPF = 0; 
+		this.excludedZones = new ArrayList<ArrayList<Integer>>();
+		this.excludedZonesOpen = new ArrayList<ArrayList<Integer>>();
+	}
+	
+	public enum ArmorType {
+		NONE,PHASEONE,PHASEONEARC,KATARN,B1,B2,COMMANDODROID,MAGMAGUARD,DURASTEELMEDIUMMANDO,DURASTEELHELEMT,UNSCMARINE,ODST,GRUNT,ELITE,JACKAL
+	}
+	
+	public Armor(ArmorType type) {
+		this.bPF = 0; 
+		this.excludedZones = new ArrayList<ArrayList<Integer>>();
+		this.excludedZonesOpen = new ArrayList<ArrayList<Integer>>();
+		
+		if(type == ArmorType.PHASEONE) {
+			Phase1CloneArmor();
+		} else if(type == ArmorType.PHASEONEARC) {
+			Phase1ARC();
+		} else if(type == ArmorType.KATARN) {
+			katarnArmor();
+		} else if(type == ArmorType.B1) {
+			b1Armor();
+		} else if(type == ArmorType.B2) {
+			b2Armor();
+		} else if(type == ArmorType.COMMANDODROID) {
+			commandoDroidArmor();
+		} else if(type == ArmorType.MAGMAGUARD) {
+			magmaGuard();
+		} else if(type == ArmorType.DURASTEELMEDIUMMANDO) {
+			mediumDuraSteelMandoArmor();
+		} else if(type == ArmorType.DURASTEELHELEMT) {
+			duraSteelHelmet();
+		} else if(type == ArmorType.UNSCMARINE) { 
+			//System.out.println("Creating UNSC Marine");
+			unscMarine();
+		} else if(type == ArmorType.ODST) { 
+			odst();
+		} else if(type == ArmorType.GRUNT){
+			grunt();
+		} else if(type == ArmorType.JACKAL){
+			jackal();
+		} else if(type == ArmorType.ELITE){
+			eliteMinor();
+		} else {
+			armorName = "None";
+			type = ArmorType.NONE;
+		}
+		
+	}
+	
+	
+	public void Phase1CloneArmor() {
+		this.bPF = 20; 
+		armorName = "Phase 1";
+		type = ArmorType.PHASEONE;
+		ArrayList<Integer> a1 = new ArrayList<Integer>();
+		a1.add(34);
+		a1.add(34);
+		excludedZones.add(a1);
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		a2.add(36);
+		a2.add(36);
+		excludedZones.add(a2);
+		ArrayList<Integer> a3 = new ArrayList<Integer>();
+		a3.add(77);
+		a3.add(78);
+		excludedZones.add(a3);
+		ArrayList<Integer> a4 = new ArrayList<Integer>();
+		a4.add(91);
+		a4.add(93);
+		excludedZones.add(a4);
+		
+		ArrayList<Integer> a5 = new ArrayList<Integer>();
+		a5.add(6);
+		a5.add(6);
+		excludedZonesOpen.add(a5);
+		ArrayList<Integer> a6 = new ArrayList<Integer>();
+		a6.add(8);
+		a6.add(8);
+		excludedZonesOpen.add(a6);
+		ArrayList<Integer> a7 = new ArrayList<Integer>();
+		a7.add(11);
+		a7.add(11);
+		excludedZonesOpen.add(a7);
+		ArrayList<Integer> a8 = new ArrayList<Integer>();
+		a8.add(59);
+		a8.add(61);
+		excludedZonesOpen.add(a8);
+		ArrayList<Integer> a9 = new ArrayList<Integer>();
+		a9.add(82);
+		a9.add(82);
+		excludedZonesOpen.add(a9);
+		ArrayList<Integer> a10 = new ArrayList<Integer>();
+		a10.add(84);
+		a10.add(84);
+		excludedZonesOpen.add(a10);
+		
+	}
+	
+	public void mediumDuraSteelMandoArmor() {
+		this.bPF = 30; 
+		armorName = "Durasteel Medium Mando";
+		type = ArmorType.DURASTEELMEDIUMMANDO;
+		ArrayList<Integer> a1 = new ArrayList<Integer>();
+		a1.add(34);
+		a1.add(34);
+		excludedZones.add(a1);
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		a2.add(36);
+		a2.add(36);
+		excludedZones.add(a2);
+		ArrayList<Integer> a3 = new ArrayList<Integer>();
+		a3.add(77);
+		a3.add(78);
+		excludedZones.add(a3);
+		ArrayList<Integer> a4 = new ArrayList<Integer>();
+		a4.add(91);
+		a4.add(93);
+		excludedZones.add(a4);
+		
+		ArrayList<Integer> a5 = new ArrayList<Integer>();
+		a5.add(6);
+		a5.add(6);
+		excludedZonesOpen.add(a5);
+		ArrayList<Integer> a6 = new ArrayList<Integer>();
+		a6.add(8);
+		a6.add(8);
+		excludedZonesOpen.add(a6);
+		ArrayList<Integer> a7 = new ArrayList<Integer>();
+		a7.add(11);
+		a7.add(11);
+		excludedZonesOpen.add(a7);
+		ArrayList<Integer> a8 = new ArrayList<Integer>();
+		a8.add(59);
+		a8.add(61);
+		excludedZonesOpen.add(a8);
+		ArrayList<Integer> a9 = new ArrayList<Integer>();
+		a9.add(82);
+		a9.add(82);
+		excludedZonesOpen.add(a9);
+		ArrayList<Integer> a10 = new ArrayList<Integer>();
+		a10.add(84);
+		a10.add(84);
+		excludedZonesOpen.add(a10);
+		
+	}
+	
+	public void Phase1ARC() {
+		this.bPF = 25; 
+		armorName = "Phase 1 Arc";
+		type = ArmorType.PHASEONEARC;
+		ArrayList<Integer> a1 = new ArrayList<Integer>();
+		a1.add(34);
+		a1.add(34);
+		excludedZones.add(a1);
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		a2.add(36);
+		a2.add(36);
+		excludedZones.add(a2);
+		ArrayList<Integer> a3 = new ArrayList<Integer>();
+		a3.add(77);
+		a3.add(78);
+		excludedZones.add(a3);
+		ArrayList<Integer> a4 = new ArrayList<Integer>();
+		a4.add(91);
+		a4.add(93);
+		excludedZones.add(a4);
+		
+		ArrayList<Integer> a5 = new ArrayList<Integer>();
+		a5.add(6);
+		a5.add(6);
+		excludedZonesOpen.add(a5);
+		ArrayList<Integer> a6 = new ArrayList<Integer>();
+		a6.add(8);
+		a6.add(8);
+		excludedZonesOpen.add(a6);
+		ArrayList<Integer> a7 = new ArrayList<Integer>();
+		a7.add(11);
+		a7.add(11);
+		excludedZonesOpen.add(a7);
+		ArrayList<Integer> a8 = new ArrayList<Integer>();
+		a8.add(59);
+		a8.add(61);
+		excludedZonesOpen.add(a8);
+		ArrayList<Integer> a9 = new ArrayList<Integer>();
+		a9.add(82);
+		a9.add(82);
+		excludedZonesOpen.add(a9);
+		ArrayList<Integer> a10 = new ArrayList<Integer>();
+		a10.add(84);
+		a10.add(84);
+		excludedZonesOpen.add(a10);
+		
+	}
+	
+	public void katarnArmor() {
+		
+		this.bPF = 30; 
+		armorName = "Katarn MK1";
+		type = ArmorType.KATARN;
+		ArrayList<Integer> a1 = new ArrayList<Integer>();
+		a1.add(34);
+		a1.add(34);
+		excludedZones.add(a1);
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		a2.add(36);
+		a2.add(36);
+		excludedZones.add(a2);
+		ArrayList<Integer> a3 = new ArrayList<Integer>();
+		a3.add(77);
+		a3.add(78);
+		excludedZones.add(a3);
+		ArrayList<Integer> a4 = new ArrayList<Integer>();
+		a4.add(91);
+		a4.add(93);
+		excludedZones.add(a4);
+		
+		ArrayList<Integer> a5 = new ArrayList<Integer>();
+		a5.add(6);
+		a5.add(6);
+		excludedZonesOpen.add(a5);
+		ArrayList<Integer> a6 = new ArrayList<Integer>();
+		a6.add(8);
+		a6.add(8);
+		excludedZonesOpen.add(a6);
+		ArrayList<Integer> a7 = new ArrayList<Integer>();
+		a7.add(11);
+		a7.add(11);
+		excludedZonesOpen.add(a7);
+		ArrayList<Integer> a8 = new ArrayList<Integer>();
+		a8.add(59);
+		a8.add(61);
+		excludedZonesOpen.add(a8);
+		ArrayList<Integer> a9 = new ArrayList<Integer>();
+		a9.add(82);
+		a9.add(82);
+		excludedZonesOpen.add(a9);
+		ArrayList<Integer> a10 = new ArrayList<Integer>();
+		a10.add(84);
+		a10.add(84);
+		excludedZonesOpen.add(a10);
+		
+	}
+	
+	public void b1Armor() {
+		this.bPF = 20; 
+		armorName = "B1";
+		type = ArmorType.B1;
+	}
+	
+	public void b2Armor() {
+		this.bPF = 25; 
+		armorName = "B2";
+		type = ArmorType.B2;
+	}
+	
+	public void commandoDroidArmor() {
+		this.bPF = 25; 
+		armorName = "Commando Droid";
+		type = ArmorType.COMMANDODROID;
+	}
+	
+	public void magmaGuard() {
+		this.bPF = 25; 
+		armorName = "Margma Guard";
+		type = ArmorType.MAGMAGUARD;
+	}
+	
+	public void duraSteelHelmet() {
+		this.bPF = 25; 
+		armorName = "Durasteel Helmet";
+		type = ArmorType.DURASTEELHELEMT;
+		
+		
+		ArrayList<Integer> a1 = new ArrayList<Integer>();
+		a1.add(37);
+		a1.add(100);
+		excludedZones.add(a1);
+		
+		ArrayList<Integer> a0 = new ArrayList<Integer>();
+		a0.add(8);
+		a0.add(100);
+		excludedZonesOpen.add(a0);
+	}
+	
+	public void odst() {
+		this.armorName = "ODST";
+		type = ArmorType.ODST;
+		this.bPF = 25; 
+		
+		// Fore arm fire
+		ArrayList<Integer> a6 = new ArrayList<Integer>();
+		a6.add(88);
+		a6.add(93);
+		excludedZones.add(a6);
+						
+		// shoulder open
+		ArrayList<Integer> a5 = new ArrayList<Integer>();
+		a5.add(10);
+		a5.add(10);
+		excludedZonesOpen.add(a5);
+		
+		// Fore arm open
+		ArrayList<Integer> a4 = new ArrayList<Integer>();
+		a4.add(16);
+		a4.add(16);
+		excludedZonesOpen.add(a4);
+						
+		// Part of thigh
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		a2.add(75);
+		a2.add(76);
+		excludedZonesOpen.add(a2);
+		
+		// Part of knee and below 
+		ArrayList<Integer> a0 = new ArrayList<Integer>();
+		a0.add(81);
+		a0.add(83);
+		excludedZonesOpen.add(a0);
+		
+		// Differing zones 
+		
+		
+		// Helmet Open
+		ArrayList<Integer> diffValue3 = new ArrayList<Integer>();
+		diffValue3.add(0);
+		diffValue3.add(2);
+		differingZoneValuesOpen.add(diffValue3);
+		differingZonePFOpen.add(20);
+		differingHardnessZoneOpen.add(false);
+		
+		// Face Open 
+		ArrayList<Integer> diffValue2 = new ArrayList<Integer>();
+		diffValue2.add(3);
+		diffValue2.add(7);
+		differingZoneValuesOpen.add(diffValue2);
+		differingZonePFOpen.add(16);
+		differingHardnessZoneOpen.add(false);
+
+		// Pelvis Open
+		ArrayList<Integer> diffValue = new ArrayList<Integer>();
+		diffValue.add(43);
+		diffValue.add(56);
+		differingZoneValuesOpen.add(diffValue);
+		differingZonePFOpen.add(10);
+		differingHardnessZoneOpen.add(true);
+		
+
+		
+		// Face Fire 
+		ArrayList<Integer> diffValue4 = new ArrayList<Integer>();
+		diffValue4.add(17);
+		diffValue4.add(36);
+		differingZoneValues.add(diffValue4);
+		differingZonePF.add(16);
+		differingHardnessZone.add(false);
+
+		// Helmet Fire
+		ArrayList<Integer> diffValue5 = new ArrayList<Integer>();
+		diffValue5.add(0);
+		diffValue5.add(16);
+		differingZoneValues.add(diffValue5);
+		differingZonePF.add(20);
+		differingHardnessZone.add(false);
+		
+		
+
+		
+	}
+	
+	public void unscMarine() {
+		this.bPF = 20; 
+		this.armorName = "UNSC Marine";
+		this.type = ArmorType.UNSCMARINE;
+		
+		// Fore arm fire
+		ArrayList<Integer> a6 = new ArrayList<Integer>();
+		a6.add(75);
+		a6.add(99);
+		excludedZones.add(a6);			
+		
+		// shoulder open
+		ArrayList<Integer> a5 = new ArrayList<Integer>();
+		a5.add(10);
+		a5.add(10);
+		excludedZonesOpen.add(a5);
+		
+		// Fore arm open
+		ArrayList<Integer> a4 = new ArrayList<Integer>();
+		a4.add(14);
+		a4.add(17);
+		excludedZonesOpen.add(a4);
+				
+		// base of neck 
+		ArrayList<Integer> a3 = new ArrayList<Integer>();
+		a3.add(20);
+		a3.add(21);
+		excludedZonesOpen.add(a3);
+		
+		// Part of thigh
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		a2.add(70);
+		a2.add(75);
+		excludedZonesOpen.add(a2);
+		
+		ArrayList<Integer> a1 = new ArrayList<Integer>();
+		a1.add(78);
+		a1.add(79);
+		excludedZonesOpen.add(a1);
+		
+		// Part of knee and below 
+		ArrayList<Integer> a0 = new ArrayList<Integer>();
+		a0.add(82);
+		a0.add(99);
+		excludedZonesOpen.add(a0);
+		
+		
+		// Differing zones 
+		
+		// Pelvis 
+		ArrayList<Integer> diffValue1 = new ArrayList<Integer>();
+		diffValue1.add(43);
+		diffValue1.add(56);
+		differingZoneValuesOpen.add(diffValue1);
+		differingZonePFOpen.add(10);
+		differingHardnessZoneOpen.add(true);
+		
+		// Face Open 
+		ArrayList<Integer> diffValue2 = new ArrayList<Integer>();
+		diffValue2.add(3);
+		diffValue2.add(7);
+		differingZoneValuesOpen.add(diffValue2);
+		differingZonePFOpen.add(10);
+		differingHardnessZoneOpen.add(false);
+
+		// Helmet Open
+		ArrayList<Integer> diffValue3 = new ArrayList<Integer>();
+		diffValue3.add(0);
+		diffValue3.add(2);
+		differingZoneValuesOpen.add(diffValue3);
+		differingZonePFOpen.add(16);
+		differingHardnessZoneOpen.add(false);
+		
+		// Face Fire 
+		ArrayList<Integer> diffValue4 = new ArrayList<Integer>();
+		diffValue4.add(17);
+		diffValue4.add(36);
+		differingZoneValues.add(diffValue4);
+		differingZonePF.add(10);
+		differingHardnessZone.add(false);
+		
+		// Helmet Fire
+		ArrayList<Integer> diffValue5 = new ArrayList<Integer>();
+		diffValue5.add(0);
+		diffValue5.add(16);
+		differingZoneValues.add(diffValue5);
+		differingZonePF.add(16);
+		differingHardnessZone.add(false);
+
+		
+	}
+	
+	public void eliteMinor() {
+		this.bPF = 25; 
+		this.armorName = "Elite Minor";
+		this.type = ArmorType.ELITE;
+		
+		// Fore arm fire
+		ArrayList<Integer> a6 = new ArrayList<Integer>();
+		a6.add(75);
+		a6.add(99);
+		excludedZones.add(a6);			
+		
+		ArrayList<Integer> diffValue5 = new ArrayList<Integer>();
+		diffValue5.add(17);
+		diffValue5.add(36);
+		excludedZones.add(diffValue5);
+		
+		// shoulder open
+		ArrayList<Integer> a5 = new ArrayList<Integer>();
+		a5.add(10);
+		a5.add(10);
+		excludedZonesOpen.add(a5);
+		
+		// Fore arm open
+		ArrayList<Integer> a4 = new ArrayList<Integer>();
+		a4.add(14);
+		a4.add(17);
+		excludedZonesOpen.add(a4);
+				
+		// base of neck 
+		ArrayList<Integer> a3 = new ArrayList<Integer>();
+		a3.add(20);
+		a3.add(21);
+		excludedZonesOpen.add(a3);
+		
+		// Part of thigh
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		a2.add(70);
+		a2.add(75);
+		excludedZonesOpen.add(a2);
+		
+		ArrayList<Integer> a1 = new ArrayList<Integer>();
+		a1.add(78);
+		a1.add(79);
+		excludedZonesOpen.add(a1);
+		
+		// Part of knee and below 
+		ArrayList<Integer> a0 = new ArrayList<Integer>();
+		a0.add(82);
+		a0.add(99);
+		excludedZonesOpen.add(a0);
+		
+		// Face Open 
+		ArrayList<Integer> diffValue2 = new ArrayList<Integer>();
+		diffValue2.add(3);
+		diffValue2.add(7);
+		excludedZonesOpen.add(diffValue2);
+
+		
+		// Differing zones 
+		
+		// Pelvis 
+		ArrayList<Integer> diffValue1 = new ArrayList<Integer>();
+		diffValue1.add(43);
+		diffValue1.add(56);
+		differingZoneValuesOpen.add(diffValue1);
+		differingZonePFOpen.add(10);
+		differingHardnessZoneOpen.add(true);
+		
+
+		// Helmet Open
+		ArrayList<Integer> diffValue3 = new ArrayList<Integer>();
+		diffValue3.add(0);
+		diffValue3.add(2);
+		differingZoneValuesOpen.add(diffValue3);
+		differingZonePFOpen.add(16);
+		differingHardnessZoneOpen.add(false);
+		
+		// Helmet Fire
+		ArrayList<Integer> diffValu6 = new ArrayList<Integer>();
+		diffValu6.add(0);
+		diffValu6.add(16);
+		differingZoneValues.add(diffValu6);
+		differingZonePF.add(16);
+		differingHardnessZone.add(false);
+
+		
+	}
+	
+	public void jackal() {
+		this.bPF = 20; 
+		this.armorName = "Jackal Armor";
+		this.type = ArmorType.JACKAL;
+		
+		// Fore arm fire
+		ArrayList<Integer> a6 = new ArrayList<Integer>();
+		a6.add(75);
+		a6.add(99);
+		excludedZones.add(a6);			
+		
+		ArrayList<Integer> diffValue5 = new ArrayList<Integer>();
+		diffValue5.add(17);
+		diffValue5.add(36);
+		excludedZones.add(diffValue5);
+		
+		// shoulder open
+		ArrayList<Integer> a5 = new ArrayList<Integer>();
+		a5.add(10);
+		a5.add(10);
+		excludedZonesOpen.add(a5);
+		
+		// Fore arm open
+		ArrayList<Integer> a4 = new ArrayList<Integer>();
+		a4.add(14);
+		a4.add(17);
+		excludedZonesOpen.add(a4);
+				
+		// base of neck 
+		ArrayList<Integer> a3 = new ArrayList<Integer>();
+		a3.add(20);
+		a3.add(21);
+		excludedZonesOpen.add(a3);
+		
+		// Part of thigh
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		a2.add(70);
+		a2.add(75);
+		excludedZonesOpen.add(a2);
+		
+		ArrayList<Integer> a1 = new ArrayList<Integer>();
+		a1.add(78);
+		a1.add(79);
+		excludedZonesOpen.add(a1);
+		
+		// Part of knee and below 
+		ArrayList<Integer> a0 = new ArrayList<Integer>();
+		a0.add(82);
+		a0.add(99);
+		excludedZonesOpen.add(a0);
+		
+		// Face Open 
+		ArrayList<Integer> diffValue2 = new ArrayList<Integer>();
+		diffValue2.add(3);
+		diffValue2.add(7);
+		excludedZonesOpen.add(diffValue2);
+
+		
+		// Differing zones 
+		
+		// Pelvis 
+		ArrayList<Integer> diffValue1 = new ArrayList<Integer>();
+		diffValue1.add(43);
+		diffValue1.add(56);
+		differingZoneValuesOpen.add(diffValue1);
+		differingZonePFOpen.add(10);
+		differingHardnessZoneOpen.add(true);
+		
+
+		// Helmet Open
+		ArrayList<Integer> diffValue3 = new ArrayList<Integer>();
+		diffValue3.add(0);
+		diffValue3.add(2);
+		differingZoneValuesOpen.add(diffValue3);
+		differingZonePFOpen.add(16);
+		differingHardnessZoneOpen.add(false);
+		
+		// Helmet Fire
+		ArrayList<Integer> diffValu6 = new ArrayList<Integer>();
+		diffValu6.add(0);
+		diffValu6.add(16);
+		differingZoneValues.add(diffValu6);
+		differingZonePF.add(16);
+		differingHardnessZone.add(false);
+
+		
+	}
+	
+	public void grunt() {
+		this.bPF = 20; 
+		this.armorName = "Grunt Armor";
+		this.type = ArmorType.GRUNT;
+		
+		// Fore arm fire
+		ArrayList<Integer> a6 = new ArrayList<Integer>();
+		a6.add(75);
+		a6.add(99);
+		excludedZones.add(a6);			
+		
+		ArrayList<Integer> diffValue5 = new ArrayList<Integer>();
+		diffValue5.add(17);
+		diffValue5.add(36);
+		excludedZones.add(diffValue5);
+		
+		// shoulder open
+		ArrayList<Integer> a5 = new ArrayList<Integer>();
+		a5.add(10);
+		a5.add(10);
+		excludedZonesOpen.add(a5);
+		
+		// Fore arm open
+		ArrayList<Integer> a4 = new ArrayList<Integer>();
+		a4.add(14);
+		a4.add(17);
+		excludedZonesOpen.add(a4);
+				
+		// base of neck 
+		ArrayList<Integer> a3 = new ArrayList<Integer>();
+		a3.add(20);
+		a3.add(21);
+		excludedZonesOpen.add(a3);
+		
+		// Part of thigh
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		a2.add(70);
+		a2.add(75);
+		excludedZonesOpen.add(a2);
+		
+		ArrayList<Integer> a1 = new ArrayList<Integer>();
+		a1.add(78);
+		a1.add(79);
+		excludedZonesOpen.add(a1);
+		
+		// Part of knee and below 
+		ArrayList<Integer> a0 = new ArrayList<Integer>();
+		a0.add(82);
+		a0.add(99);
+		excludedZonesOpen.add(a0);
+		
+		// Face Open 
+		ArrayList<Integer> diffValue2 = new ArrayList<Integer>();
+		diffValue2.add(3);
+		diffValue2.add(7);
+		excludedZonesOpen.add(diffValue2);
+
+		
+		// Differing zones 
+		
+		// Pelvis 
+		ArrayList<Integer> diffValue1 = new ArrayList<Integer>();
+		diffValue1.add(43);
+		diffValue1.add(56);
+		differingZoneValuesOpen.add(diffValue1);
+		differingZonePFOpen.add(10);
+		differingHardnessZoneOpen.add(true);
+		
+
+		// Helmet Open
+		ArrayList<Integer> diffValue3 = new ArrayList<Integer>();
+		diffValue3.add(0);
+		diffValue3.add(2);
+		differingZoneValuesOpen.add(diffValue3);
+		differingZonePFOpen.add(16);
+		differingHardnessZoneOpen.add(false);
+		
+		// Helmet Fire
+		ArrayList<Integer> diffValu6 = new ArrayList<Integer>();
+		diffValu6.add(0);
+		diffValu6.add(16);
+		differingZoneValues.add(diffValu6);
+		differingZonePF.add(16);
+		differingHardnessZone.add(false);
+
+		
+	}
+	
+	
+	public boolean getProtectedOpen(int roll) {
+		
+		boolean protectedZone = true;
+		
+		for(int i = 0; i < excludedZonesOpen.size(); i++) {
+			//System.out.println("Excluded Zone: "+excludedZonesOpen.get(i).get(0)+", "+excludedZonesOpen.get(i).get(1));
+			if(roll >= excludedZonesOpen.get(i).get(0) && roll <= excludedZonesOpen.get(i).get(1)) {
+				protectedZone = false; 
+				break; 
+			}
+		}
+
+		if(GameWindow.gameWindow != null && GameWindow.gameWindow.conflictLog != null) {
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Armor Wearer Hit Open, Location Roll: "+roll+", Protected: "+protectedZone);
+		}
+		
+		return protectedZone; 
+	}
+	
+	public boolean getProtected(int roll) {
+		
+		boolean protectedZone = true; 
+		
+		for(int i = 0; i < excludedZones.size(); i++) {
+			//System.out.println("Excluded Zone: "+excludedZones.get(i).get(0)+", "+excludedZones.get(i).get(1));
+			if(roll >= excludedZones.get(i).get(0) && roll <= excludedZones.get(i).get(1)) {
+				protectedZone = false; 
+				break; 
+			}
+		}
+		
+		if(GameWindow.gameWindow != null && GameWindow.gameWindow.conflictLog != null) {
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Armor Wearer Hit Fire Position, Location Roll: "+roll+", Protected: "+protectedZone);
+		}
+		
+		return protectedZone; 
+	}
+	
+	public int getBPF(int roll, boolean open) {
+		
+		//System.out.println("getBPF: "+roll);
+		
+		ArrayList<ArrayList<Integer>> zonesValues;
+		ArrayList<Integer> zonePF;
+		if(open) {
+			zonesValues = differingZoneValuesOpen; 
+			zonePF = differingZonePFOpen; 
+		} else {
+			zonesValues = differingZoneValues;
+			zonePF = differingZonePF;
+		}
+		
+		int pf = this.bPF;
+		//System.out.println("Zone Values: "+zonesValues.size());
+		//System.out.println("Zone PF: "+zonePF.size());
+		for(int i = 0; i < zonesValues.size(); i++) {
+			System.out.println("zonesValues: "+zonesValues.get(i).get(0)+", "+zonesValues.get(i).get(1));
+			if(roll >= zonesValues.get(i).get(0) && roll <= zonesValues.get(i).get(1)) {
+				pf = zonePF.get(i); 
+				break; 
+			}
+		}
+		
+		if(GameWindow.gameWindow != null && GameWindow.gameWindow.conflictLog != null) {
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Armor Hit, Location Roll: "+roll+", PF: "+pf);
+		}
+		
+		return pf;
+	
+	}
+	
+	public ArrayList<String> getLocations() {
+		ArrayList<String> rslts = new ArrayList<>();
+
+		rslts.add("  Base PF: "+bPF);
+		
+		if(hardBodyArmor)
+			rslts.add("  Type: Hard Body Armor");
+		else 
+			rslts.add("  Type: Soft Body Armor");
+		
+		rslts.add("      Unprotected Zones Fire:");
+		updateRslts(rslts, excludedZones, null, null, false);
+		
+		rslts.add("      Unprotected Zones Open:");
+		updateRslts(rslts, excludedZonesOpen, null, null, true);
+		
+		rslts.add("      Differing Zones Fire:");
+		updateRslts(rslts, differingZoneValues, differingZonePF, differingHardnessZone, false);
+		
+		rslts.add("      Differing Zones Open:");
+		updateRslts(rslts, differingZoneValuesOpen, differingZonePFOpen, differingHardnessZoneOpen, true);
+		
+		return rslts; 
+		
+	}
+	
+	public void updateRslts(ArrayList<String> rslts, ArrayList<ArrayList<Integer>> pairs, ArrayList<Integer> val,  ArrayList<Boolean> bools, boolean open) {
+		//System.out.println("UPDATING RESULTS, pairs size : "+pairs.size()+", val size: "+val.size());
+		int i = 0;
+		for(ArrayList<Integer> pair : pairs) {
+			//System.out.println("Pair: "+pair.get(0)+", "+pair.get(1));
+			if(val != null) {
+				//System.out.println("Val: "+val.get(i)+", i: "+i);
+				
+			}
+			for(String str : Location.convertLocationArrayToString(PCUtility.getPCLocations(pair.get(0), pair.get(1), open))) {
+				if(val != null) 
+					str += ", PF: "+val.get(i);
+				
+				if(bools != null) {
+					if(bools.get(i) && hardBodyArmor) 
+						str += ", "+"Soft Body Armor";
+					else if(bools.get(i))
+						str += ", "+"Hard Body Armor";
+				}
+				
+				rslts.add("  "+str);
+				
+			}
+			i++; 
+			
+		}
+	}
+	
+	
+	public boolean isHardBodyArmor(int roll, boolean open) {
+		
+		ArrayList<ArrayList<Integer>> zonesValues;
+		ArrayList<Boolean> diffHardnessZones; 
+		if(open) {
+			zonesValues = differingZoneValuesOpen; 
+			diffHardnessZones = differingHardnessZoneOpen;
+		} else {
+			zonesValues = differingZoneValues;
+			diffHardnessZones = differingHardnessZone;
+		}
+		
+		for(int i = 0; i < zonesValues.size(); i++) {
+			//System.out.println("Excluded Zone: "+excludedZones.get(i).get(0)+", "+excludedZones.get(i).get(1));
+			if(roll >= zonesValues.get(i).get(0) && roll <= zonesValues.get(i).get(1)) {
+				
+				if(diffHardnessZones.get(i)) {
+					return !hardBodyArmor;
+				}
+				
+			}
+		}
+		
+		return hardBodyArmor; 
+		
+	}
+	
+}
