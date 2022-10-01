@@ -109,7 +109,7 @@ public class TargetedFire implements Serializable {
 		//System.out.println("Manual Range: "+manualRange);
 		
 		if(manualRange == 0)
-			this.rangeInPCHexes = hexDif(targetUnit, shooterUnit) * (GameWindow.hexSize / 2); 
+			this.rangeInPCHexes = GameWindow.hexDif(targetUnit, shooterUnit) * (GameWindow.hexSize / 2); 
 		else 
 			this.rangeInPCHexes = manualRange;
 		
@@ -1210,7 +1210,7 @@ public class TargetedFire implements Serializable {
 	
 	
 	public TargetedFire(int RWS, int bonus, Weapons weapon, int shots, Trooper target, Trooper shooter, Unit targetUnit, Unit shooterUnit, boolean suppressiveFire) {
-		int rangeInYards = hexDif(targetUnit, shooterUnit) * GameWindow.hexSize;
+		int rangeInYards = GameWindow.hexDif(targetUnit, shooterUnit) * GameWindow.hexSize;
 		int rangeMod = getRangeMod(rangeInYards);
 		int concealmentMod = getConcealmentMod(targetUnit);
 		int getSpeedMod = getSpeedMod(targetUnit);
@@ -1268,16 +1268,7 @@ public class TargetedFire implements Serializable {
 		calculateShots();
 	}
 
-	// Finds the differance between the two locations
-	public int hexDif(Unit targetUnit, Unit shooterUnit) {
-		double xDif = Math.abs(targetUnit.X - shooterUnit.X);
-		double yDif = Math.abs(targetUnit.Y - shooterUnit.Y);
-		
-		xDif *= xDif; 
-		yDif *= yDif; 
-		
-		return (int) Math.floor(Math.sqrt((xDif + yDif)));
-	}
+
 
 	// Takes range in yards and returns GURPS percentage penalty
 	public int getRangeMod(int rangeInYards) {

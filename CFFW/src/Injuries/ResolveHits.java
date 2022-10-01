@@ -471,7 +471,7 @@ public class ResolveHits implements Serializable {
 			// System.out.println("Hit Row PC: "+hitRow);
 			locationName = worksheet.getRow(hitRow).getCell(2).getStringCellValue();
 
-			int range = hexDif(targetUnit, shooterUnit) * 10;
+			int range = GameWindow.hexDif(targetUnit, shooterUnit) * 10;
 			int rangeCol = 7;
 
 			ArrayList<Integer> ranges = new ArrayList<Integer>();
@@ -1038,7 +1038,7 @@ public class ResolveHits implements Serializable {
 			if (targetUnit == null || shooterUnit == null) {
 				range = distanceToTarget; 
 			} else {
-				range = hexDif(targetUnit, shooterUnit) * 10;
+				range = GameWindow.hexDif(targetUnit, shooterUnit) * 10;
 			}
 
 			// System.out.println("range: "+range);
@@ -1189,7 +1189,7 @@ public class ResolveHits implements Serializable {
 			if(targetUnit == null || shooterUnit == null) {
 				range = distanceToTarget;
 			} else {
-				range = hexDif(targetUnit, shooterUnit) * 10;
+				range = GameWindow.hexDif(targetUnit, shooterUnit) * 10;
 			}
 			
 			
@@ -1990,16 +1990,7 @@ public class ResolveHits implements Serializable {
 
 	}
 
-	// Finds the differance between the two locations
-	public int hexDif(Unit targetUnit, Unit shooterUnit) {
-		double xDif = Math.abs(targetUnit.X - shooterUnit.X);
-		double yDif = Math.abs(targetUnit.Y - shooterUnit.Y);
 
-		xDif *= xDif;
-		yDif *= yDif;
-
-		return (int) Math.floor(Math.sqrt((xDif + yDif)));
-	}
 
 	int ionDamage = 0;
 
