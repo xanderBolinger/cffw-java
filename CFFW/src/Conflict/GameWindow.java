@@ -585,10 +585,10 @@ public class GameWindow implements Serializable {
 		f.getContentPane().add(lblHexSize);
 
 		spinnerHexSize = new JSpinner();
-		spinnerHexSize.setBounds(475, 39, 44, 20);
+		spinnerHexSize.setBounds(467, 41, 44, 20);
 		f.getContentPane().add(spinnerHexSize);
 
-		JButton btnSetHex = new JButton("Set Hex");
+		JButton btnSetHex = new JButton("S");
 		btnSetHex.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -596,7 +596,7 @@ public class GameWindow implements Serializable {
 				conflictLog.addNewLine("Hex Size Set To " + hexSize);
 			}
 		});
-		btnSetHex.setBounds(406, 70, 89, 23);
+		btnSetHex.setBounds(521, 40, 53, 23);
 		f.getContentPane().add(btnSetHex);
 
 		// System.out.println("Init order size: "+initiativeOrder.size());
@@ -645,6 +645,21 @@ public class GameWindow implements Serializable {
 		});
 		btnNewButton_3.setBounds(444, 101, 128, 23);
 		f.getContentPane().add(btnNewButton_3);
+		
+		JButton btnSetContact = new JButton("Set Contact");
+		btnSetContact.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				for(Unit unit : initiativeOrder) {
+					unit.behavior = "Contact";
+				}
+				
+				conflictLog.addNewLine("Set Contact.");
+				
+			}
+		});
+		btnSetContact.setBounds(444, 70, 128, 23);
+		f.getContentPane().add(btnSetContact);
 
 	}
 
@@ -1928,7 +1943,7 @@ public class GameWindow implements Serializable {
 	}
 
 	public static int hexDif(int x, int y, int x1, int y1) {
-		System.out.println("Distance: "+dist(x, y, x1, y1));
+		//System.out.println("Distance: "+dist(x, y, x1, y1));
 		return dist(x, y, x1, y1);
 	}
 	

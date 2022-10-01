@@ -763,6 +763,54 @@ public class HexGrid implements Serializable {
 			// System.out.println("Current Cursor Point, X: "+currentCursorPoint.x+", Y:
 			// "+currentCursorPoint.y);
 			//repaint();
+			
+			if(e.getButton() == MouseEvent.BUTTON1 && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)) {
+				for (int i = 0; i < hexMap.size(); i++) {
+
+					for (int j = 0; j < hexMap.get(0).size(); j++) {
+
+						Polygon hex = hexMap.get(i).get(j);
+											
+						if (!hex.contains(e.getPoint())) {
+							continue; 
+						}
+						
+						Hex pastedHex = GameWindow.gameWindow.findHex(i, j);
+						
+						if(pastedHex != null) {
+							 GameWindow.gameWindow.hexes.remove(pastedHex);
+						}
+						
+						copiedHex.coverPositions = 0; 
+						
+						for(Feature feature : copiedHex.features) {
+							int cover = HexWindow.getCoverPostitions(feature.featureType);
+							feature.coverPositions = cover; 
+							copiedHex.coverPositions += feature.coverPositions;
+						}
+						
+						Hex newHex = new Hex(i, j, copiedHex);
+						
+						newHex.usedPositions = 0; 
+						
+						
+						for(Unit unit : GameWindow.gameWindow.initiativeOrder) {
+							
+							if(unit.X == i && unit.Y == j) {
+								unit.seekCover(newHex, GameWindow.gameWindow);
+							}
+							
+						}
+						
+						GameWindow.gameWindow.hexes.add(newHex);	
+						System.out.println("Copied");
+						
+					}
+				}
+			}
+			
+			
+			
 		}
 
 		public void mouseReleased() {
@@ -1337,7 +1385,7 @@ public class HexGrid implements Serializable {
 				opforUnitHeight = (int) Math.round(opforUnitHeightConst * zoom);
 			}
 
-			if (pressedCursorPoint != null && currentCursorPoint != null && dragging) {
+			if (pressedCursorPoint != null && currentCursorPoint != null && dragging && !Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)) {
 
 				backgroundImageX = shapeList.get(0).getBounds().x + 11;
 				backgroundImageY = shapeList.get(0).getBounds().y;
