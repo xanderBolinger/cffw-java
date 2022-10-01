@@ -270,7 +270,7 @@ public class Spot implements Serializable {
 				if(IRlaser)
 					visibilityMod -= 4; 
 				
-			} else if(!spotter.nightVisionInUse && spotter.weaponLightOn && hexDif(spotterUnit, unit) <= 1) {
+			} else if(!spotter.nightVisionInUse && spotter.weaponLightOn && GameWindow.hexDif(spotterUnit, unit) <= 1) {
 				visibilityMod -= 4; 
 			}
 			
@@ -612,7 +612,7 @@ public class Spot implements Serializable {
 				if(IRlaser)
 					visibilityMod -= 4; 
 				
-			} else if(!spotter.nightVisionInUse && spotter.weaponLightOn && hexDif(spotterUnit, unit) <= 1) {
+			} else if(!spotter.nightVisionInUse && spotter.weaponLightOn && GameWindow.hexDif(spotterUnit, unit) <= 1) {
 				visibilityMod -= 4; 
 			}
 			
@@ -856,7 +856,7 @@ public class Spot implements Serializable {
 		// Behavior
 		//
 
-		int hexDiff = hexDif(targetUnit, spotterUnit);
+		int hexDiff = GameWindow.hexDif(targetUnit, spotterUnit);
 		
 		// Range
 		int rangeMod = getRangeMod(targetUnit, spotterUnit);
@@ -1007,7 +1007,7 @@ public class Spot implements Serializable {
 				if(IRlaser)
 					visibilityMod -= 4; 
 				
-			} else if(!spotter.nightVisionInUse && spotter.weaponLightOn && hexDif(spotterUnit, targetUnit) <= 1) {
+			} else if(!spotter.nightVisionInUse && spotter.weaponLightOn && GameWindow.hexDif(spotterUnit, targetUnit) <= 1) {
 				visibilityModifications += "Inside Flashlight Range(-4); ";
 				visibilityMod -= 4; 
 			}
@@ -1376,26 +1376,11 @@ public class Spot implements Serializable {
 		
 		return 0; 
 	}
-	
-	// Finds the differance between the two locations
-	public int hexDif(Unit targetUnit, Unit shooterUnit) {
-		// System.out.println(
-		// "Target: X:" + targetUnit.X + ", Y:" + targetUnit.Y + "\nSpotter: X:" +
-		// shooterUnit.X + ", Y:" + shooterUnit.Y);
-		double xDif = Math.abs(targetUnit.X - shooterUnit.X);
-		double yDif = Math.abs(targetUnit.Y - shooterUnit.Y);
-		
-		xDif *= xDif; 
-		yDif *= yDif; 
-		
-		return (int) Math.floor(Math.sqrt((xDif + yDif)));
-
-	}
 
 	// Compares the diff to the PC range chart
 	// Gets mod
 	public int getRangeMod(Unit target, Unit spotter) {
-		int hexes = hexDif(target, spotter);
+		int hexes = GameWindow.hexDif(target, spotter);
 
 		int mod = 0;
 		int yards = hexes * GameWindow.hexSize;

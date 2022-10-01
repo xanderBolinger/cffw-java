@@ -41,7 +41,7 @@ public class Launcher {
 	public void shootLauncher() {
 		
 		// Determines throw type 
-		int dif = hexDif(unit, xCordinate, yCordinate);
+		int dif = GameWindow.hexDif(xCordinate, yCordinate, unit);
 		//System.out.println("Grenade hexDif: "+dif);
 		
 		int modifier = 0; 
@@ -441,16 +441,7 @@ public class Launcher {
 		return mod;
 	}
 	
-	// Finds the differance between the two locations
-	public int hexDif(Unit targetUnit, int x, int y) {
-		double xDif = Math.abs(targetUnit.X - x);
-		double yDif = Math.abs(targetUnit.Y - y);
-		
-		xDif *= xDif; 
-		yDif *= yDif; 
-		
-		return (int) Math.floor(Math.sqrt((xDif + yDif)));
-	}
+
 	
 	// Searches an array of a table
 	// Returns the item crossrefereanced in the table

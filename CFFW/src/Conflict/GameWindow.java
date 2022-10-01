@@ -1,6 +1,8 @@
 package Conflict;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -26,6 +28,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -1916,31 +1919,32 @@ public class GameWindow implements Serializable {
 
 	// Finds the differance between the two locations
 	public static int hexDif(Unit targetUnit, Unit shooterUnit) {
-
 		return hexDif(targetUnit.X, targetUnit.Y, shooterUnit.X, shooterUnit.Y);
 	}
 
 	// Finds the differance between the two locations
 	public static int hexDif(int x, int y, Unit shooterUnit) {
-
-
 		return hexDif(x, y, shooterUnit.X, shooterUnit.Y);
 	}
 
 	public static int hexDif(int x, int y, int x1, int y1) {
-		if(x == x1)
-			return Math.abs(y - y1);
-		else if(y == y1)
-			return Math.abs(x - x1);
-		else {
-			int dx = Math.abs(x - x1);
-			int dy = Math.abs(y - y1);
-			if(y < y1)
-				return dx + dy - (int)(Math.ceil(dx / 2.0));
-			else 
-				return dx + dy - (int)(Math.floor(dx / 2.0));
-		}
+		System.out.println("Distance: "+dist(x, y, x1, y1));
+		return dist(x, y, x1, y1);
 	}
+	
+	public static int dist(int y1, int x1, int y2, int x2) {
+		
+		int du = x2 - x1;
+		int dv = (y2 + Math.floorDiv(x2, 2)) - (y1 + Math.floorDiv(x1, 2));
+		
+		if( du >= 0 && dv >= 0 || (du < 0 && dv < 0)) {
+			return Math.max(Math.abs(du), Math.abs(dv));
+		} else {
+			return Math.abs(du) + Math.abs(dv);
+		}
+		
+	}
+	
 	
 	public ArrayList<Unit> getUnitsInHex(String sideSpecified, int x, int y) {
 
