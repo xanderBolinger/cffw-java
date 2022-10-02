@@ -100,7 +100,7 @@ public class GameWindow implements Serializable {
 		this.companies = companiesFromSetupWindow;
 		conflictLog.addNewLine("     Round: " + game.getRound() + " Phase: " + game.getPhase());
 		f = new JFrame("Conflict");
-		f.setSize(600, 545);
+		f.setSize(700, 545);
 
 		// Get the screen size
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -119,7 +119,7 @@ public class GameWindow implements Serializable {
 		});
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 196, 564, 302);
+		scrollPane.setBounds(10, 196, 664, 302);
 
 		listIniativeOrder = new JList();
 		listIniativeOrder.addMouseListener(new MouseAdapter() {
@@ -231,7 +231,7 @@ public class GameWindow implements Serializable {
 
 			}
 		});
-		btnStartingSpotTest.setBounds(444, 162, 128, 23);
+		btnStartingSpotTest.setBounds(546, 162, 128, 23);
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -466,7 +466,7 @@ public class GameWindow implements Serializable {
 
 			}
 		});
-		btnClearAllSpotted.setBounds(444, 132, 128, 23);
+		btnClearAllSpotted.setBounds(546, 132, 128, 23);
 		f.getContentPane().add(btnClearAllSpotted);
 
 		JButton btnRefreshCompanyUnits = new JButton("Refresh Company Units");
@@ -581,14 +581,14 @@ public class GameWindow implements Serializable {
 
 		JLabel lblHexSize = new JLabel("Hex Size:");
 		lblHexSize.setFont(new Font("Calibri", Font.BOLD, 13));
-		lblHexSize.setBounds(406, 41, 59, 17);
+		lblHexSize.setBounds(546, 26, 59, 17);
 		f.getContentPane().add(lblHexSize);
 
 		spinnerHexSize = new JSpinner();
-		spinnerHexSize.setBounds(467, 41, 44, 20);
+		spinnerHexSize.setBounds(546, 41, 44, 20);
 		f.getContentPane().add(spinnerHexSize);
 
-		JButton btnSetHex = new JButton("S");
+		JButton btnSetHex = new JButton("Set");
 		btnSetHex.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -596,7 +596,7 @@ public class GameWindow implements Serializable {
 				conflictLog.addNewLine("Hex Size Set To " + hexSize);
 			}
 		});
-		btnSetHex.setBounds(521, 40, 53, 23);
+		btnSetHex.setBounds(600, 40, 74, 23);
 		f.getContentPane().add(btnSetHex);
 
 		// System.out.println("Init order size: "+initiativeOrder.size());
@@ -643,7 +643,7 @@ public class GameWindow implements Serializable {
 				closeQuartersBattleCheck(currentlyOpenUnit);
 			}
 		});
-		btnNewButton_3.setBounds(444, 101, 128, 23);
+		btnNewButton_3.setBounds(546, 101, 128, 23);
 		f.getContentPane().add(btnNewButton_3);
 		
 		JButton btnSetContact = new JButton("Set Contact");
@@ -658,8 +658,17 @@ public class GameWindow implements Serializable {
 				
 			}
 		});
-		btnSetContact.setBounds(444, 70, 128, 23);
+		btnSetContact.setBounds(546, 70, 128, 23);
 		f.getContentPane().add(btnSetContact);
+		
+		JButton btnSelectedUnits = new JButton("Selected Units");
+		btnSelectedUnits.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new SelectedUnitsWindow();
+			}
+		});
+		btnSelectedUnits.setBounds(418, 162, 128, 23);
+		f.getContentPane().add(btnSelectedUnits);
 
 	}
 
