@@ -1335,7 +1335,7 @@ public class HexGrid implements Serializable {
 
 			}
 
-			String s = deployedUnit.getCallsign();
+			String s = deployedUnit.getCallsign() + ":: "+GameWindow.gameWindow.initiativeOrder.indexOf(deployedUnit.unit);
 
 			/*
 			 * double textSizeMod = 0.8;

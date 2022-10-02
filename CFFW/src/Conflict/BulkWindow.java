@@ -2473,7 +2473,7 @@ public class BulkWindow {
 		//System.out.println("Target: "+targetTrooper.name);
 		Trooper trooper = bulkTrooper.trooper;
 		int maxAim = new Weapons().findWeapon(trooper.wep).aimTime.size(); 
-		System.out.println("Trooper Stored Aim Size: "+bulkTrooper.trooper.storedAimTime.size());
+		//System.out.println("Trooper Stored Aim Size: "+bulkTrooper.trooper.storedAimTime.size());
 		// Get stored aim time 
 		Hashtable<Trooper, Integer> storedAim;
 		
@@ -3126,7 +3126,7 @@ public class BulkWindow {
 				
 				InjuryLog.InjuryLog.addAlreadyInjured();
 				ArrayList<BulkTrooper> troops = getSelectedBulkTroopers();
-				System.out.println("Troops Size, for debuggings abrubt stop volley fire: "+troops.size());
+				//System.out.println("Troops Size, for debuggings abrubt stop volley fire: "+troops.size());
 				for(BulkTrooper bulkTrooper : troops) {
 					
 						

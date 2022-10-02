@@ -5202,7 +5202,7 @@ public class OpenTrooper implements Serializable {
 		}
 
 		int maxAim = weapon.aimTime.size();
-		System.out.println("Trooper Stored Aim Size: " + trooper.storedAimTime.size());
+		//System.out.println("Trooper Stored Aim Size: " + trooper.storedAimTime.size());
 		// Get stored aim time
 		Hashtable<Trooper, Integer> storedAim;
 
@@ -5315,7 +5315,7 @@ public class OpenTrooper implements Serializable {
 		} else {
 			wepName = shooterTrooper.wep;
 		}
-		System.out.println("Wep Name: " + wepName);
+		//System.out.println("Wep Name: " + wepName);
 
 		setAction();
 
@@ -5456,7 +5456,7 @@ public class OpenTrooper implements Serializable {
 		}
 		Weapons weapon = new Weapons().findWeapon(wepName);
 
-		System.out.println("Wep Name: " + wepName);
+		//System.out.println("Wep Name: " + wepName);
 
 		setAction();
 		TargetedFire tf = new TargetedFire(shooterTrooper, targetTrooper, shooterUnit, targetUnit, gameWindow, maxAim,
@@ -5514,19 +5514,19 @@ public class OpenTrooper implements Serializable {
 
 		if (weapon.type.equals("Launcher")) {
 			try {
-				System.out.println("Pass Launcher");
+				//System.out.println("Pass Launcher");
 				InjuryLog.InjuryLog.addAlreadyInjured(targetedFire.targetUnit.X, targetedFire.targetUnit.Y);
 				PCAmmo pcAmmo = weapon.pcAmmoTypes.get(comboBoxAmmoTypeLauncher.getSelectedIndex());
 				Explosion explosion = new Explosion(pcAmmo);
 				if (targetedFire.PCHits > 0) {
-					System.out.println("Pass Launcher 1, PC Ammo: " + pcAmmo.name + ", pen:" + pcAmmo.impactDc
-							+ ", dc: " + pcAmmo.impactDc);
+					//System.out.println("Pass Launcher 1, PC Ammo: " + pcAmmo.name + ", pen:" + pcAmmo.impactDc
+					//		+ ", dc: " + pcAmmo.impactDc);
 					// Impact
 					explosion.explosiveImpact(targetedFire.targetTrooper, pcAmmo, weapon);
-					System.out.println("Pass Launcher 2");
+					//System.out.println("Pass Launcher 2");
 					// Linked explosion
 					explosion.explodeTrooper(targetedFire.targetTrooper, 0);
-					System.out.println("Pass Launcher 3");
+					//System.out.println("Pass Launcher 3");
 					explosion.excludeTroopers.add(targetedFire.targetTrooper);
 				}
 
@@ -5534,15 +5534,15 @@ public class OpenTrooper implements Serializable {
 				targetedFire.EAL += 20;
 
 				int eal = targetedFire.BA > targetedFire.EAL ? targetedFire.EAL : targetedFire.BA;
-				System.out.println(
+				/*System.out.println(
 						"Ternary Test, BA: " + targetedFire.BA + ", EAL: " + targetedFire.EAL + ", used Value: " + eal);
 				System.out.println("TF Roll: +targetedFire.tfRoll");
-				System.out.println("Odds: " + PCUtility.getOddsOfHitting(true, eal));
+				System.out.println("Odds: " + PCUtility.getOddsOfHitting(true, eal));*/
 				// Hit Hex
 				if (targetedFire.tfRoll <= PCUtility.getOddsOfHitting(true, eal)) {
-					System.out.println("Pass Explosion 1");
+					//System.out.println("Pass Explosion 1");
 					explosion.explodeHex(targetedFire.targetUnit.X, targetedFire.targetUnit.Y, "None");
-					System.out.println("Pass Explosion 2");
+					//System.out.println("Pass Explosion 2");
 				}
 
 				reaction = null;
@@ -6169,7 +6169,7 @@ public class OpenTrooper implements Serializable {
 
 			if (count == comboBoxArmor.getSelectedIndex()) {
 				individual.armor = new Armor(type);
-				System.out.println("New Armor Type: " + type);
+				//System.out.println("New Armor Type: " + type);
 				break;
 			}
 

@@ -652,6 +652,29 @@ public class GameWindow implements Serializable {
 				
 				for(Unit unit : initiativeOrder) {
 					unit.behavior = "Contact";
+					if(gameWindow.findHex(unit.X, unit.Y) != null)
+						gameWindow.findHex(unit.X, unit.Y).usedPositions -= unit.individualsInCover;
+					
+					unit.individualsInCover = 0; 
+					for(Trooper trooper : unit.individuals) {
+						if(!trooper.inBuilding(gameWindow)) 
+							trooper.inCover = false; 
+											
+					}
+					
+					unit.soughtCover = false; 
+					if(!unit.behavior.equals("No Contact")) {
+						unit.timeSinceContact = 0;				
+						unit.seekCover(gameWindow.findHex(unit.X, unit.Y), gameWindow);
+					}
+					
+					for(Trooper trooper : unit.individuals) {
+						if(!trooper.inCover && !trooper.manualStance)
+							trooper.stance = "Prone";
+						else if(! trooper.manualStance)
+							trooper.stance = "Standing";
+					}
+				
 				}
 				
 				conflictLog.addNewLine("Set Contact.");

@@ -90,7 +90,7 @@ public class CloseQuartersBattle implements Serializable {
 					continue; 
 				}
 
-				System.out.println("CQB Valid Trooper: "+trooper.number+" "+trooper.name);
+				//System.out.println("CQB Valid Trooper: "+trooper.number+" "+trooper.name);
 				
 				// Get Hex 
 				Hex hex = gameWindow.findHex(unit.X, unit.Y);
