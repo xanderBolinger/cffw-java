@@ -680,7 +680,7 @@ public class Unit implements Serializable {
 					if(!adjacentUnit.behavior.equals("No Contact")) {
 						adjacentUnit.seekCover(leftHex, gameWindow);
 					} else {
-						System.out.println("Pass No Contact");
+						//System.out.println("Pass No Contact");
 					}
 					
 				}
@@ -724,7 +724,7 @@ public class Unit implements Serializable {
 			if(!behavior.equals("No Contact")) {
 				seekCover(newHex, gameWindow);
 			} else {
-				System.out.println("Pass 2 No Contact");
+				//System.out.println("Pass 2 No Contact");
 			}
 			
 			

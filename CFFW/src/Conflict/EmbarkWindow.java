@@ -317,7 +317,7 @@ public class EmbarkWindow {
 		if(setFloorNum > 0) {
 			
 			Floor floor = selectedBuilding.floors.get(setFloorNum-1);
-			System.out.println("Floor rooms: "+floor.rooms.size());
+			//System.out.println("Floor rooms: "+floor.rooms.size());
 			SpinnerModel  model1 = new SpinnerNumberModel(DiceRoller.randInt(1, floor.rooms.size()), 1, floor.rooms.size(), 1);
 			spinnerEmbarkedIndividualRoom.setModel(model1);
 		} else {

@@ -129,85 +129,85 @@ public class generateSquad implements Serializable {
 		if (type.equals("Riflesquad")) {
 			Trooper[] troopers = new Trooper[9];
 			// Squad leader
-			troopers[0] = new Trooper("Squad Leader", faction);
+			troopers[0] = new Trooper("Clone Squad Leader", faction);
 			// Rifleman++
-			troopers[1] = new Trooper("Rifleman++", faction);
+			troopers[1] = new Trooper("Clone Rifleman++", faction);
 			// Rifleman
-			troopers[2] = new Trooper("Rifleman", faction);
-			troopers[3] = new Trooper("Rifleman", faction);
-			troopers[4] = new Trooper("Rifleman", faction);
+			troopers[2] = new Trooper("Clone Rifleman", faction);
+			troopers[3] = new Trooper("Clone Rifleman", faction);
+			troopers[4] = new Trooper("Clone Rifleman", faction);
 			// Autorifleman
-			troopers[5] = new Trooper("Autorifleman", faction);
+			troopers[5] = new Trooper("Clone Autorifleman", faction);
 			// Assistant Autorifleman
-			troopers[6] = new Trooper("Assistant Autorifleman", faction);
+			troopers[6] = new Trooper("Clone Assistant Autorifleman", faction);
 			// Marksman
-			troopers[7] = new Trooper("Marksman", faction);
+			troopers[7] = new Trooper("Clone Marksman", faction);
 			// Combat Life Saver
-			troopers[8] = new Trooper("Combat Life Saver", faction);
+			troopers[8] = new Trooper("Clone Combat Life Saver", faction);
 			setSquad(troopers);
 
 		} else if (type.equals("Special Riflesquad")) {
 			Trooper[] troopers = new Trooper[12];
 			// Squad leader
-			troopers[0] = new Trooper("Squad Leader", faction);
+			troopers[0] = new Trooper("Clone Squad Leader", faction);
 			// Rifleman++
-			troopers[1] = new Trooper("Rifleman++", faction);
+			troopers[1] = new Trooper("Clone Rifleman++", faction);
 			// Rifleman
-			troopers[2] = new Trooper("Rifleman++", faction);
-			troopers[3] = new Trooper("Autorifleman", faction);
-			troopers[4] = new Trooper("Assistant Autorifleman", faction);
+			troopers[2] = new Trooper("Clone Rifleman++", faction);
+			troopers[3] = new Trooper("Clone Autorifleman", faction);
+			troopers[4] = new Trooper("Clone Assistant Autorifleman", faction);
 			// Autorifleman
-			troopers[5] = new Trooper("Autorifleman", faction);
+			troopers[5] = new Trooper("Clone Autorifleman", faction);
 			// Assistant Autorifleman
-			troopers[6] = new Trooper("Assistant Autorifleman", faction);
+			troopers[6] = new Trooper("Clone Assistant Autorifleman", faction);
 			// Marksman
-			troopers[7] = new Trooper("Ammo Bearer", faction);
+			troopers[7] = new Trooper("Clone Ammo Bearer", faction);
 			// Combat Life Saver
-			troopers[8] = new Trooper("Marksman", faction);
-			troopers[9] = new Trooper("Combat Life Saver", faction);
-			troopers[10] = new Trooper("AT Specialist", faction);
-			troopers[11] = new Trooper("Assistant AT Specialist", faction);
+			troopers[8] = new Trooper("Clone Marksman", faction);
+			troopers[9] = new Trooper("Clone Combat Life Saver", faction);
+			troopers[10] = new Trooper("Clone AT Specialist", faction);
+			troopers[11] = new Trooper("Clone Assistant AT Specialist", faction);
 			setSquad(troopers);
 
 		} else if (type.equals("Platoon Squad")) {
 			Trooper[] troopers = new Trooper[10];
 			// Squad leader
-			troopers[0] = new Trooper("Squad Leader", faction);
+			troopers[0] = new Trooper("Clone Squad Leader", faction);
 			// Rifleman++
-			troopers[1] = new Trooper("Rifleman++", faction);
+			troopers[1] = new Trooper("Clone Rifleman++", faction);
 			// Rifleman
-			troopers[2] = new Trooper("Rifleman", faction);
-			troopers[3] = new Trooper("Rifleman", faction);
-			troopers[4] = new Trooper("Rifleman", faction);
+			troopers[2] = new Trooper("Clone Rifleman", faction);
+			troopers[3] = new Trooper("Clone Rifleman", faction);
+			troopers[4] = new Trooper("Clone Rifleman", faction);
 			// Autorifleman
-			troopers[5] = new Trooper("Autorifleman", faction);
+			troopers[5] = new Trooper("Clone Autorifleman", faction);
 			// Assistant Autorifleman
-			troopers[6] = new Trooper("Assistant Autorifleman", faction);
+			troopers[6] = new Trooper("Clone Assistant Autorifleman", faction);
 			// Marksman
-			troopers[7] = new Trooper("Marksman", faction);
+			troopers[7] = new Trooper("Clone Marksman", faction);
 			// Combat Life Saver
-			troopers[8] = new Trooper("Combat Life Saver", faction);
+			troopers[8] = new Trooper("Clone Combat Life Saver", faction);
 			troopers[9] = new Trooper("Platoon Leader", faction);
 			setSquad(troopers);
 
 		} else if (type.equals("Company Squad")) {
 			Trooper[] troopers = new Trooper[11];
 			// Squad leader
-			troopers[0] = new Trooper("Squad Leader", faction);
+			troopers[0] = new Trooper("Clone Squad Leader", faction);
 			// Rifleman++
-			troopers[1] = new Trooper("Rifleman++", faction);
+			troopers[1] = new Trooper("Clone Rifleman++", faction);
 			// Rifleman
-			troopers[2] = new Trooper("Rifleman", faction);
-			troopers[3] = new Trooper("Rifleman", faction);
-			troopers[4] = new Trooper("Rifleman", faction);
+			troopers[2] = new Trooper("Clone Rifleman", faction);
+			troopers[3] = new Trooper("Clone Rifleman", faction);
+			troopers[4] = new Trooper("Clone Rifleman", faction);
 			// Autorifleman
-			troopers[5] = new Trooper("Autorifleman", faction);
+			troopers[5] = new Trooper("Clone Autorifleman", faction);
 			// Assistant Autorifleman
-			troopers[6] = new Trooper("Assistant Autorifleman", faction);
+			troopers[6] = new Trooper("Clone Assistant Autorifleman", faction);
 			// Marksman
-			troopers[7] = new Trooper("Marksman", faction);
+			troopers[7] = new Trooper("Clone Marksman", faction);
 			// Combat Life Saver
-			troopers[8] = new Trooper("Combat Life Saver", faction);
+			troopers[8] = new Trooper("Clone Combat Life Saver", faction);
 			troopers[9] = new Trooper("Platoon Leader", faction);
 			troopers[10] = new Trooper("Captain", faction);
 			setSquad(troopers);

@@ -62,17 +62,17 @@ public class AddIndividual implements Serializable {
 					comboBoxRole.removeAllItems();
 					comboBoxRole.addItem("Empty");
 
-					comboBoxRole.addItem("Squad Leader");
-					comboBoxRole.addItem("Rifleman");
-					comboBoxRole.addItem("Rifleman++");
-					comboBoxRole.addItem("Autorifleman");
-					comboBoxRole.addItem("Assistant Autorifleman");
-					comboBoxRole.addItem("Ammo Bearer");
-					comboBoxRole.addItem("Marksman");
-					comboBoxRole.addItem("Combat Life Saver");
+					comboBoxRole.addItem("Clone Squad Leader");
+					comboBoxRole.addItem("Clone Rifleman");
+					comboBoxRole.addItem("Clone Rifleman++");
+					comboBoxRole.addItem("Clone Autorifleman");
+					comboBoxRole.addItem("Clone Assistant Autorifleman");
+					comboBoxRole.addItem("Clone Ammo Bearer");
+					comboBoxRole.addItem("Clone Marksman");
+					comboBoxRole.addItem("Clone Combat Life Saver");
 					comboBoxRole.addItem("EOD");
-					comboBoxRole.addItem("AT Specialist");
-					comboBoxRole.addItem("Assistant AT Specialist");
+					comboBoxRole.addItem("Clone AT Specialist");
+					comboBoxRole.addItem("Clone Assistant AT Specialist");
 					comboBoxRole.addItem("Ranger");
 					comboBoxRole.addItem("Platoon Sergeant");
 					comboBoxRole.addItem("Captain");

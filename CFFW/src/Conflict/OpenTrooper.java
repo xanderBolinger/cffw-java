@@ -99,7 +99,7 @@ public class OpenTrooper implements Serializable {
 	public OpenUnit openUnit;
 	public Unit trooperUnit;
 	public Trooper openTrooper;
-	public Building trooperBuilding; 
+	public Building trooperBuilding;
 	public JFrame f;
 	public int index;
 	public GameWindow gameWindow;
@@ -855,1478 +855,1482 @@ public class OpenTrooper implements Serializable {
 		lblInjuries_1.setFont(new Font("Calibri", Font.PLAIN, 25));
 		lblInjuries_1.setBounds(581, 44, 105, 31);
 		panelStats.add(lblInjuries_1);
-		
-				comboBoxAimTime = new JComboBox();
-				comboBoxAimTime.setBounds(329, 270, 87, 23);
-				comboBoxAimTime.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
 
-						if (comboBoxAimTime.getSelectedIndex() == 0)
-							return;
+		comboBoxAimTime = new JComboBox();
+		comboBoxAimTime.setBounds(329, 270, 87, 23);
+		comboBoxAimTime.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 
-						SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+				if (comboBoxAimTime.getSelectedIndex() == 0)
+					return;
 
-							@Override
-							protected Void doInBackground() throws Exception {
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
-								// System.out.println("Aim Time - Target Changed Shots1");
-								PCShots();
-								// System.out.println("Aim Time - Target Changed Shots2");
+					@Override
+					protected Void doInBackground() throws Exception {
 
-								return null;
-							}
+						// System.out.println("Aim Time - Target Changed Shots1");
+						PCShots();
+						// System.out.println("Aim Time - Target Changed Shots2");
 
-							@Override
-							protected void done() {
+						return null;
+					}
 
-								PCFireGuiUpdates();
+					@Override
+					protected void done() {
 
-							}
-
-						};
-
-						worker.execute();
+						PCFireGuiUpdates();
 
 					}
-				});
-				comboBoxAimTime.addItemListener(new ItemListener() {
-					public void itemStateChanged(ItemEvent arg0) {
 
+				};
+
+				worker.execute();
+
+			}
+		});
+		comboBoxAimTime.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+
+			}
+		});
+		comboBoxAimTime.setModel(new DefaultComboBoxModel(new String[] { "Auto", "0", "1", "2", "3", "4", "5", "6", "7",
+				"8", "9", "10", "11", "12", "13", "14", "15" }));
+		comboBoxAimTime.setSelectedIndex(0);
+
+		JPanel panelActions = new JPanel();
+		panelActions.setBackground(Color.DARK_GRAY);
+		tabbedPane.addTab("Actions", null, panelActions, null);
+
+		btnRollSpot = new JButton("Roll Spot");
+		btnRollSpot.setBounds(237, 149, 101, 23);
+		btnRollSpot.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnRollSpot.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// System.out.println("Roll Spot Pass");
+				/*
+				 * String targetCallsign = textFieldTargetUnit.getText();
+				 * spotTest(targetCallsign, window, trooper, unit, index); if (openNext) {
+				 * window.openNext(true); }
+				 * 
+				 * f.dispose();
+				 */
+
+				// Loops through all signs, performs spotting test
+				for (int i = 0; i < callsigns.size(); i++) {
+					spotTest(callsigns.get(i), window, trooper, unit, index);
+				}
+
+				// Clears list
+				listSpottedUnitsArray.removeAll();
+				callsigns.clear();
+
+				DefaultListModel listSpottedUnits = new DefaultListModel();
+
+				for (int i = 0; i < callsigns.size(); i++) {
+					listSpottedUnits.addElement(callsigns.get(i));
+
+				}
+
+				listSpottedUnitsArray.setModel(listSpottedUnits);
+
+				// If not a free test
+				if (!chckbxFreeSpotTest.isSelected()) {
+					// Opens next window
+					if (openNext) {
+						window.openNext(true);
 					}
-				});
-				comboBoxAimTime.setModel(new DefaultComboBoxModel(new String[] { "Auto", "0", "1", "2", "3", "4", "5", "6", "7",
-						"8", "9", "10", "11", "12", "13", "14", "15" }));
+
+					// Closes window
+					f.dispose();
+				}
+
+			}
+		});
+
+		JLabel lblSpot_1 = new JLabel("Spot");
+		lblSpot_1.setBounds(81, 74, 53, 31);
+		lblSpot_1.setForeground(Color.WHITE);
+		lblSpot_1.setFont(new Font("Calibri", Font.PLAIN, 25));
+
+		chckbxFreeSpotTest = new JCheckBox("Free Spot Test");
+		chckbxFreeSpotTest.setBounds(344, 148, 101, 25);
+		chckbxFreeSpotTest.setFont(new Font("Calibri", Font.PLAIN, 13));
+		chckbxFreeSpotTest.setForeground(Color.WHITE);
+		chckbxFreeSpotTest.setBackground(Color.DARK_GRAY);
+
+		comboBoxScanArea = new JComboBox();
+		comboBoxScanArea.setBounds(348, 122, 86, 20);
+		comboBoxScanArea
+				.setModel(new DefaultComboBoxModel(new String[] { "60 Degrees", "180 Degrees", "20 Yard Hex" }));
+
+		JLabel lblSustainedFire = new JLabel("Targeted Fire");
+		lblSustainedFire.setBounds(79, 212, 148, 31);
+		lblSustainedFire.setForeground(Color.WHITE);
+		lblSustainedFire.setFont(new Font("Calibri", Font.PLAIN, 25));
+
+		comboBoxTargets = new JComboBox();
+		comboBoxTargets.setBounds(14, 270, 163, 23);
+		comboBoxTargets.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 				comboBoxAimTime.setSelectedIndex(0);
-				
-						JPanel panelActions = new JPanel();
-						panelActions.setBackground(Color.DARK_GRAY);
-						tabbedPane.addTab("Actions", null, panelActions, null);
-						
-								btnRollSpot = new JButton("Roll Spot");
-								btnRollSpot.setBounds(237, 149, 101, 23);
-								btnRollSpot.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent e) {
-									}
-								});
-								btnRollSpot.addMouseListener(new MouseAdapter() {
-									@Override
-									public void mouseClicked(MouseEvent e) {
-										// System.out.println("Roll Spot Pass");
-										/*
-										 * String targetCallsign = textFieldTargetUnit.getText();
-										 * spotTest(targetCallsign, window, trooper, unit, index); if (openNext) {
-										 * window.openNext(true); }
-										 * 
-										 * f.dispose();
-										 */
-
-										// Loops through all signs, performs spotting test
-										for (int i = 0; i < callsigns.size(); i++) {
-											spotTest(callsigns.get(i), window, trooper, unit, index);
-										}
-
-										// Clears list
-										listSpottedUnitsArray.removeAll();
-										callsigns.clear();
-
-										DefaultListModel listSpottedUnits = new DefaultListModel();
-
-										for (int i = 0; i < callsigns.size(); i++) {
-											listSpottedUnits.addElement(callsigns.get(i));
-
-										}
-
-										listSpottedUnitsArray.setModel(listSpottedUnits);
-
-										// If not a free test
-										if (!chckbxFreeSpotTest.isSelected()) {
-											// Opens next window
-											if (openNext) {
-												window.openNext(true);
-											}
-
-											// Closes window
-											f.dispose();
-										}
-
-									}
-								});
-								
-										JLabel lblSpot_1 = new JLabel("Spot");
-										lblSpot_1.setBounds(81, 74, 53, 31);
-										lblSpot_1.setForeground(Color.WHITE);
-										lblSpot_1.setFont(new Font("Calibri", Font.PLAIN, 25));
-										
-												chckbxFreeSpotTest = new JCheckBox("Free Spot Test");
-												chckbxFreeSpotTest.setBounds(344, 148, 101, 25);
-												chckbxFreeSpotTest.setFont(new Font("Calibri", Font.PLAIN, 13));
-												chckbxFreeSpotTest.setForeground(Color.WHITE);
-												chckbxFreeSpotTest.setBackground(Color.DARK_GRAY);
-												
-														comboBoxScanArea = new JComboBox();
-														comboBoxScanArea.setBounds(348, 122, 86, 20);
-														comboBoxScanArea
-																.setModel(new DefaultComboBoxModel(new String[] { "60 Degrees", "180 Degrees", "20 Yard Hex" }));
-														
-																JLabel lblSustainedFire = new JLabel("Targeted Fire");
-																lblSustainedFire.setBounds(79, 212, 148, 31);
-																lblSustainedFire.setForeground(Color.WHITE);
-																lblSustainedFire.setFont(new Font("Calibri", Font.PLAIN, 25));
-																
-																		comboBoxTargets = new JComboBox();
-																		comboBoxTargets.setBounds(14, 270, 163, 23);
-																		comboBoxTargets.addActionListener(new ActionListener() {
-																			public void actionPerformed(ActionEvent arg0) {
-																				comboBoxAimTime.setSelectedIndex(0);
-																				if (targetedFire != null) {
-																					spentCA = targetedFire.spentCA + targetedFire.spentAimTime;
-																					targetedFire = null;
-																				}
-																				possibleShots = true;
-																				reaction = null;
-
-																				if (comboBoxTargets.getSelectedIndex() == 0)
-																					return;
-
-																				// System.out.println("Targets Size: "+targetTroopers.size()+", Target Name:
-																				// "+findTarget().number+" "+findTarget().name);
-
-																				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
-
-																					@Override
-																					protected Void doInBackground() throws Exception {
-
-																						// System.out.println("Target Changed Shots1");
-																						PCShots();
-																						// System.out.println("Target Changed Shots2");
-
-																						return null;
-																					}
-
-																					@Override
-																					protected void done() {
-
-																						PCFireGuiUpdates();
-
-																					}
-
-																				};
-
-																				worker.execute();
-																			}
-																		});
-																		comboBoxTargets.addItemListener(new ItemListener() {
-																			public void itemStateChanged(ItemEvent arg0) {
-																				/*
-																				 * comboBoxAimTime.setSelectedIndex(0); targetedFire = null; possibleShots =
-																				 * true; reaction = null;
-																				 * 
-																				 * if(comboBoxTargets.getSelectedIndex() == 0) return;
-																				 * 
-																				 * SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
-																				 * 
-																				 * @Override protected Void doInBackground() throws Exception {
-																				 * 
-																				 * System.out.println("Target Changed Shots1"); PCShots();
-																				 * System.out.println("Target Changed Shots2");
-																				 * 
-																				 * return null; }
-																				 * 
-																				 * @Override protected void done() {
-																				 * 
-																				 * PCFireGuiUpdates();
-																				 * 
-																				 * }
-																				 * 
-																				 * };
-																				 * 
-																				 * worker.execute();
-																				 */
-
-																			}
-																		});
-																		
-																				comboBoxTargets.setModel(new DefaultComboBoxModel(new String[] { "None" }));
-																				comboBoxTargets.setSelectedIndex(0);
-																				
-																						JLabel lblTagetIndividual = new JLabel("Taget Individual: ");
-																						lblTagetIndividual.setBounds(25, 244, 125, 23);
-																						lblTagetIndividual.setForeground(Color.WHITE);
-																						lblTagetIndividual.setFont(new Font("Calibri", Font.PLAIN, 15));
-																						
-																								comboBoxWeapon = new JComboBox();
-																								comboBoxWeapon.setBounds(187, 270, 136, 23);
-																								comboBoxWeapon.addItemListener(new ItemListener() {
-																									public void itemStateChanged(ItemEvent arg0) {
-																										Weapons weapon = new Weapons();
-																										weapon = weapon.findWeapon(comboBoxWeapon.getSelectedItem().toString());
-
-																										// array of shots size
-																										int size = weapon.getTargetedROF() + 1;
-																										String[] shots = new String[size];
-																										shots[0] = "0";
-
-																										for (int i = 0; i < shots.length - 1; i++) {
-																											shots[i + 1] = String.valueOf(i + 1);
-																										}
-
-																										DefaultComboBoxModel model = new DefaultComboBoxModel(shots);
-																										// comboBoxAimTime.setModel(model);
-
-																									}
-																								});
-																								comboBoxWeapon.setModel(new DefaultComboBoxModel(
-																										new String[] { "None", "DC15A", "DC15A-ion", "DC15LE", "DC15X", "DC20", "DC15S", "DC17m", "DC17 Sniper",
-																												"Z6", "Westar M5", "E5", "E5S", "E5C", "MA37", "M392 DMR", "BR55", "M739 SAW", "M6G", "SRS99",
-																												"Type-51 Carbine", "Type-25 Rifle", "Type-25 Pistol", "Type-50 SRS", "Type-51 DER" }));
-																								comboBoxWeapon.setSelectedIndex(0);
-																								
-																										JLabel lblWeapon_1 = new JLabel("Weapon:");
-																										lblWeapon_1.setBounds(187, 244, 114, 23);
-																										lblWeapon_1.setForeground(Color.WHITE);
-																										lblWeapon_1.setFont(new Font("Calibri", Font.PLAIN, 15));
-																										
-																												JLabel lblShots = new JLabel("Starting Aim T:");
-																												lblShots.setBounds(302, 244, 114, 23);
-																												lblShots.setForeground(Color.WHITE);
-																												lblShots.setFont(new Font("Calibri", Font.PLAIN, 15));
-																												
-																														JButton btnFire = new JButton("Fire");
-																														btnFire.setBounds(659, 269, 87, 23);
-																														btnFire.addActionListener(new ActionListener() {
-																															public void actionPerformed(ActionEvent e) {
-
-																																try {
-																																	SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
-
-																																		@Override
-																																		protected Void doInBackground() throws Exception {
-
-																																			// System.out.println("Shots1");
-																																			PCFire();
-																																			targetedFire.EAL += (int) spinnerConsecutiveEALBonus.getValue();
-																																			PCShots();
-																																			trooper.storedAimTime.clear();
-																																			// System.out.println("Shots2");
-
-																																			return null;
-																																		}
-
-																																		@Override
-																																		protected void done() {
-
-																																			// System.out.println("Done");
-																																			PCFireGuiUpdates();
-
-																																			// fire(window, unit, index, f, false);
-																																			if (openNext && !chckbxMultipleTargets.isSelected() && possibleShots == false
-																																					&& reaction == null) {
-																																				if (reaction != null) {
-																																					reaction.frame.dispose();
-																																					reaction = null;
-																																				}
-
-																																				actionSpent(window, index);
-																																				window.openNext(true);
-																																				f.dispose();
-
-																																			} else {
-																																				// refreshTargets();
-																																			}
-
-																																			GameWindow.gameWindow.conflictLog.addQueuedText();
-
-																																		}
-
-																																	};
-
-																																	worker.execute();
-																																} catch (Exception exception) {
-																																	exception.printStackTrace();
-																																}
-
-																															}
-																														});
-																														btnFire.addMouseListener(new MouseAdapter() {
-																															@Override
-																															public void mouseClicked(MouseEvent arg0) {
-
-																															}
-																														});
-																														
-																																JLabel lblEALBonus = new JLabel("% Bonus:");
-																																lblEALBonus.setBounds(625, 182, 74, 31);
-																																lblEALBonus.setForeground(Color.WHITE);
-																																lblEALBonus.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																
-																																		spinnerEALBonus = new JSpinner();
-																																		spinnerEALBonus.setBounds(541, 220, 74, 20);
-																																		
-																																				textPaneTargetedFire = new JTextPane();
-																																				textPaneTargetedFire.setBounds(10, 343, 6, 64);
-																																				textPaneTargetedFire.setForeground(Color.WHITE);
-																																				textPaneTargetedFire.setFont(new Font("Calibri", Font.PLAIN, 13));
-																																				textPaneTargetedFire.setBackground(Color.DARK_GRAY);
-																																				
-																																						JLabel lblSuppressiveFire = new JLabel("Suppressive Fire");
-																																						lblSuppressiveFire.setBounds(81, 300, 221, 31);
-																																						lblSuppressiveFire.setForeground(Color.WHITE);
-																																						lblSuppressiveFire.setFont(new Font("Calibri", Font.PLAIN, 18));
-																																						
-																																								JLabel lblTagetUnit_1 = new JLabel("Taget Unit: ");
-																																								lblTagetUnit_1.setBounds(26, 325, 125, 23);
-																																								lblTagetUnit_1.setForeground(Color.WHITE);
-																																								lblTagetUnit_1.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																								
-																																										JLabel label_1 = new JLabel("Weapon:");
-																																										label_1.setBounds(157, 325, 136, 23);
-																																										label_1.setForeground(Color.WHITE);
-																																										label_1.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																										
-																																												comboBoxSuppressWeapon = new JComboBox();
-																																												comboBoxSuppressWeapon.setBounds(156, 345, 136, 20);
-																																												comboBoxSuppressWeapon.addItemListener(new ItemListener() {
-																																													public void itemStateChanged(ItemEvent arg0) {
-																																														Weapons weapon = new Weapons();
-																																														weapon = weapon.findWeapon(comboBoxSuppressWeapon.getSelectedItem().toString());
-
-																																														// array of shots size
-																																														int size = weapon.getSuppressROF() + 1;
-																																														String[] shots = new String[size];
-																																														shots[0] = "0";
-
-																																														for (int i = 0; i < shots.length - 1; i++) {
-																																															shots[i + 1] = String.valueOf(i + 1);
-																																														}
-
-																																														DefaultComboBoxModel model = new DefaultComboBoxModel(shots);
-																																														comboBoxSuppressShots.setModel(model);
-																																													}
-																																												});
-																																												comboBoxSuppressWeapon.setModel(new DefaultComboBoxModel(
-																																														new String[] { "None", "DC15A", "DC15X", "DC15S", "DC17m", "DC17 Sniper", "Z6", "E5", "E5S", "E5C",
-																																																"MA37", "M392 DMR", "M739 SAW", "Type-51 Carbine", "Type-52 Rifle", "Type-52 Pistol" }));
-																																												comboBoxSuppressWeapon.setSelectedIndex(0);
-																																												
-																																														JLabel label_2 = new JLabel("Shots:");
-																																														label_2.setBounds(299, 325, 87, 23);
-																																														label_2.setForeground(Color.WHITE);
-																																														label_2.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																														
-																																																comboBoxSuppressShots = new JComboBox();
-																																																comboBoxSuppressShots.setBounds(298, 345, 87, 20);
-																																																comboBoxSuppressShots.setModel(new DefaultComboBoxModel(new String[] { "0" }));
-																																																comboBoxSuppressShots.setSelectedIndex(0);
-																																																
-																																																		spinnerSuppressiveBonus = new JSpinner();
-																																																		spinnerSuppressiveBonus.setBounds(399, 345, 74, 20);
-																																																		
-																																																				JLabel label_3 = new JLabel("Other Bonus:");
-																																																				label_3.setBounds(404, 325, 87, 23);
-																																																				label_3.setForeground(Color.WHITE);
-																																																				label_3.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																				
-																																																						JButton button = new JButton("Fire");
-																																																						button.setBounds(483, 344, 63, 23);
-																																																						button.addMouseListener(new MouseAdapter() {
-																																																							@Override
-																																																							public void mouseClicked(MouseEvent arg0) {
-																																																								trooper.storedAimTime.clear();
-																																																								fireSuppressive(window, unit, index, f, true);
-																																																								if (openNext && !chckbxFreeAction.isSelected()) {
-																																																									window.openNext(true);
-																																																									f.dispose();
-
-																																																								}
-																																																							}
-																																																						});
-																																																						
-																																																								comboBoxTargetUnits = new JComboBox();
-																																																								comboBoxTargetUnits.setBounds(10, 345, 136, 20);
-																																																								comboBoxTargetUnits.setModel(new DefaultComboBoxModel(new String[] { "None" }));
-																																																								comboBoxTargetUnits.setSelectedIndex(0);
-																																																								panelActions.setLayout(null);
-																																																								panelActions.add(lblSpot_1);
-																																																								panelActions.add(lblSuppressiveFire);
-																																																								panelActions.add(btnRollSpot);
-																																																								panelActions.add(comboBoxScanArea);
-																																																								panelActions.add(chckbxFreeSpotTest);
-																																																								panelActions.add(lblSustainedFire);
-																																																								panelActions.add(lblTagetUnit_1);
-																																																								panelActions.add(label_1);
-																																																								panelActions.add(label_2);
-																																																								panelActions.add(comboBoxTargetUnits);
-																																																								panelActions.add(comboBoxSuppressWeapon);
-																																																								panelActions.add(comboBoxSuppressShots);
-																																																								panelActions.add(label_3);
-																																																								panelActions.add(spinnerSuppressiveBonus);
-																																																								panelActions.add(button);
-																																																								panelActions.add(textPaneTargetedFire);
-																																																								panelActions.add(lblTagetIndividual);
-																																																								panelActions.add(comboBoxTargets);
-																																																								panelActions.add(lblWeapon_1);
-																																																								panelActions.add(lblShots);
-																																																								panelActions.add(comboBoxWeapon);
-																																																								panelActions.add(comboBoxAimTime);
-																																																								panelActions.add(lblEALBonus);
-																																																								panelActions.add(spinnerEALBonus);
-																																																								panelActions.add(btnFire);
-																																																								
-																																																										JLabel lblSpottingUnits = new JLabel("Spotting Units");
-																																																										lblSpottingUnits.setBounds(560, 74, 369, 31);
-																																																										lblSpottingUnits.setForeground(Color.WHITE);
-																																																										lblSpottingUnits.setFont(new Font("Calibri", Font.PLAIN, 25));
-																																																										panelActions.add(lblSpottingUnits);
-																																																										
-																																																												comboBoxSpottingUnits = new JComboBox();
-																																																												comboBoxSpottingUnits.setBounds(91, 121, 136, 23);
-																																																												comboBoxSpottingUnits.setModel(new DefaultComboBoxModel(new String[] { "None" }));
-																																																												comboBoxSpottingUnits.setSelectedIndex(0);
-																																																												panelActions.add(comboBoxSpottingUnits);
-																																																												
-																																																														JButton btnAddUnit = new JButton("Add Unit");
-																																																														btnAddUnit.setBounds(237, 120, 101, 23);
-																																																														btnAddUnit.addActionListener(new ActionListener() {
-																																																															public void actionPerformed(ActionEvent e) {
-																																																															}
-																																																														});
-																																																														btnAddUnit.addMouseListener(new MouseAdapter() {
-																																																															@Override
-																																																															public void mouseClicked(MouseEvent arg0) {
-
-																																																																if (comboBoxSpottingUnits.getSelectedIndex() > 0) {
-
-																																																																	String callsign = comboBoxSpottingUnits.getSelectedItem().toString();
-
-																																																																	if (!callsigns.contains(callsign)) {
-																																																																		callsigns.add(callsign);
-																																																																	}
-
-																																																																	listSpottedUnitsArray.removeAll();
-
-																																																																	DefaultListModel listSpottedUnits = new DefaultListModel();
-
-																																																																	for (int i = 0; i < callsigns.size(); i++) {
-																																																																		listSpottedUnits.addElement(callsigns.get(i));
-
-																																																																	}
-
-																																																																	listSpottedUnitsArray.setModel(listSpottedUnits);
-
-																																																																}
-
-																																																															}
-																																																														});
-																																																														panelActions.add(btnAddUnit);
-																																																														
-																																																																JLabel lblAddUnit = new JLabel("Add Unit: ");
-																																																																lblAddUnit.setBounds(91, 94, 70, 31);
-																																																																lblAddUnit.setForeground(Color.WHITE);
-																																																																lblAddUnit.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																panelActions.add(lblAddUnit);
-																																																																
-																																																																		JButton btnClear = new JButton("Clear");
-																																																																		btnClear.setBounds(444, 121, 101, 23);
-																																																																		btnClear.addActionListener(new ActionListener() {
-																																																																			public void actionPerformed(ActionEvent e) {
-																																																																			}
-																																																																		});
-																																																																		btnClear.addMouseListener(new MouseAdapter() {
-																																																																			@Override
-																																																																			public void mouseClicked(MouseEvent e) {
-
-																																																																				listSpottedUnitsArray.removeAll();
-																																																																				callsigns.clear();
-
-																																																																				DefaultListModel listSpottedUnits = new DefaultListModel();
-
-																																																																				for (int i = 0; i < callsigns.size(); i++) {
-																																																																					listSpottedUnits.addElement(callsigns.get(i));
-
-																																																																				}
-
-																																																																				listSpottedUnitsArray.setModel(listSpottedUnits);
-
-																																																																			}
-																																																																		});
-																																																																		panelActions.add(btnClear);
-																																																																		
-																																																																				JLabel lblCloseCombat = new JLabel("Close Combat:");
-																																																																				lblCloseCombat.setBounds(81, 375, 221, 31);
-																																																																				lblCloseCombat.setForeground(Color.WHITE);
-																																																																				lblCloseCombat.setFont(new Font("Calibri", Font.PLAIN, 18));
-																																																																				panelActions.add(lblCloseCombat);
-																																																																				
-																																																																						JLabel label_13 = new JLabel("Taget Individual: ");
-																																																																						label_13.setBounds(24, 395, 121, 31);
-																																																																						label_13.setForeground(Color.WHITE);
-																																																																						label_13.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																						panelActions.add(label_13);
-																																																																						
-																																																																								JLabel lblMeleeWeapon = new JLabel("Melee Weapon:");
-																																																																								lblMeleeWeapon.setBounds(151, 395, 136, 31);
-																																																																								lblMeleeWeapon.setForeground(Color.WHITE);
-																																																																								lblMeleeWeapon.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																								panelActions.add(lblMeleeWeapon);
-																																																																								
-																																																																										JLabel label_14 = new JLabel("Other Bonus:");
-																																																																										label_14.setBounds(293, 395, 87, 31);
-																																																																										label_14.setForeground(Color.WHITE);
-																																																																										label_14.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																										panelActions.add(label_14);
-																																																																										
-																																																																												spinnerMeleeBonus = new JSpinner();
-																																																																												spinnerMeleeBonus.setBounds(293, 426, 74, 20);
-																																																																												panelActions.add(spinnerMeleeBonus);
-																																																																												
-																																																																														JButton button_2 = new JButton("Fire");
-																																																																														button_2.setBounds(386, 425, 59, 23);
-																																																																														button_2.addMouseListener(new MouseAdapter() {
-																																																																															@Override
-																																																																															public void mouseClicked(MouseEvent e) {
-																																																																																// System.out.println("Pass 2556");
-																																																																																meleeAttack(openUnit, openTrooper);
-																																																																																if (openNext && !chckbxFreeAction.isSelected()) {
-																																																																																	window.openNext(true);
-																																																																																	f.dispose();
-
-																																																																																}
-																																																																															}
-																																																																														});
-																																																																														panelActions.add(button_2);
-																																																																														
-																																																																																comboBoxMeleeWeapon = new JComboBox();
-																																																																																comboBoxMeleeWeapon.setBounds(151, 426, 136, 20);
-																																																																																comboBoxMeleeWeapon.setModel(new DefaultComboBoxModel(new String[] { "None", "Vibroknife" }));
-																																																																																comboBoxMeleeWeapon.setSelectedIndex(0);
-																																																																																panelActions.add(comboBoxMeleeWeapon);
-																																																																																
-																																																																																		comboBoxMeleeTargets = new JComboBox();
-																																																																																		comboBoxMeleeTargets.setBounds(9, 426, 136, 20);
-																																																																																		comboBoxMeleeTargets.setModel(new DefaultComboBoxModel(new String[] { "None" }));
-																																																																																		comboBoxMeleeTargets.setSelectedIndex(0);
-																																																																																		panelActions.add(comboBoxMeleeTargets);
-																																																																																		
-																																																																																				JLabel lblHandGrenades = new JLabel("Hand Grenades:");
-																																																																																				lblHandGrenades.setBounds(77, 456, 221, 31);
-																																																																																				lblHandGrenades.setForeground(Color.WHITE);
-																																																																																				lblHandGrenades.setFont(new Font("Calibri", Font.PLAIN, 18));
-																																																																																				panelActions.add(lblHandGrenades);
-																																																																																				
-																																																																																						JLabel lblGrenade = new JLabel("Grenade: ");
-																																																																																						lblGrenade.setBounds(10, 484, 136, 31);
-																																																																																						lblGrenade.setForeground(Color.WHITE);
-																																																																																						lblGrenade.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																						panelActions.add(lblGrenade);
-																																																																																						
-																																																																																								comboBoxGrenade = new JComboBox();
-																																																																																								comboBoxGrenade.setBounds(10, 514, 136, 20);
-																																																																																								comboBoxGrenade.setModel(new DefaultComboBoxModel(new String[] { "None", "Class-A Thermal Detonator",
-																																																																																										"Class-A Haywire Grenade", "M9 Frag", "Type-1 Plasma Grenade" }));
-																																																																																								comboBoxGrenade.setSelectedIndex(0);
-																																																																																								panelActions.add(comboBoxGrenade);
-																																																																																								
-																																																																																										JLabel label_15 = new JLabel("Other Bonus:");
-																																																																																										label_15.setBounds(692, 541, 87, 31);
-																																																																																										label_15.setForeground(Color.WHITE);
-																																																																																										label_15.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																										panelActions.add(label_15);
-																																																																																										
-																																																																																												spinnerThrowBonus = new JSpinner();
-																																																																																												spinnerThrowBonus.setBounds(696, 571, 74, 20);
-																																																																																												panelActions.add(spinnerThrowBonus);
-																																																																																												
-																																																																																														JButton btnThrow = new JButton("Throw");
-																																																																																														btnThrow.addActionListener(new ActionListener() {
-																																																																																															public void actionPerformed(ActionEvent arg0) {
-																																																																																																if (comboBoxGrenade.getSelectedItem().equals("None")) {
-																																																																																																	window.gameWindow.conflictLog.addNewLine("Select Grenade!");
-																																																																																																	return;
-																																																																																																}
-
-																																																																																																Trooper target;
-
-																																																																																																if (grenadeTargets.size() < 1 || comboBoxGrenadeTargets.getSelectedIndex() < 1) {
-																																																																																																	target = null;
-																																																																																																} else {
-																																																																																																	target = grenadeTargets.get(comboBoxGrenadeTargets.getSelectedIndex() - 1);
-																																																																																																}
-
-																																																																																																
-																																																																																																
-																																																																																																PcGrenadeThrow nade = new PcGrenadeThrow(trooper, target, (String) comboBoxGrenade.getSelectedItem(),
-																																																																																																		(int) spinnerThrowBonus.getValue(), (int) spinnerThrowEALBonus.getValue());
-
-																																																																																																// If target is a building 
-																																																																																																if(target == null && (int) spinnerTargetRoom.getValue() > 0 && (comboBoxBuilding.getSelectedItem().toString().equals("ALREADY INSIDE") || comboBoxBuilding.getSelectedIndex() > 0)) {
-																																																																																																	
-																																																																																																	Hex hex = gameWindow.findHex(trooperUnit.X, trooperUnit.Y);
-																																																																																																	
-																																																																																																	if(trooperBuilding == null) {
-																																																																																																		Building building = hex.buildings.get(comboBoxBuilding.getSelectedIndex() - 1);
-																																																																																																		
-																																																																																																		if((int) spinnerTargetFloor.getValue() >= building.floors.size()) {
-																																																																																																			gameWindow.conflictLog.addNewLine("Input a valid floor.");
-																																																																																																			return; 
-																																																																																																		}
-																																																																																																		
-																																																																																																		nade.tossIntoRoom(building
-																																																																																																				.floors.get((int) spinnerTargetFloor.getValue()-1)
-																																																																																																				.rooms.get((int) spinnerTargetRoom.getValue()-1), true, (int) spinnerTargetFloor.getValue(), trooperUnit.X, trooperUnit.Y, building.name);
-																																																																																																	} else if(comboBoxBuilding.getSelectedItem().toString().equals("ALREADY INSIDE")) {	
-																																																																																																		nade.tossIntoRoom(trooperBuilding.getTrooperFloor(trooper).rooms.get((int) spinnerTargetRoom.getValue()-1), false, 0, trooperUnit.X, trooperUnit.Y, trooperBuilding.name);
-
-																																																																																																	}
-																																																																																																
-																																																																																																// If target is a hex 
-																																																																																																} else {
-																																																																																																	nade.toss((int) spinnerGrenadeX.getValue(), (int) spinnerGrenadeY.getValue());
-																																																																																																}
-																																																																																																
-																																																																																																
-
-																																																																																																GameWindow.gameWindow.conflictLog.addQueuedText();
-
-																																																																																																refreshTargets();
-
-																																																																																																if (!chckbxFreeAction.isSelected())
-																																																																																																	actionSpent(window, index);
-
-																																																																																																gameWindow.refreshInitiativeOrder();
-																																																																																															}
-																																																																																														});
-																																																																																														btnThrow.setBounds(738, 513, 125, 23);
-																																																																																														btnThrow.addMouseListener(new MouseAdapter() {
-																																																																																															@Override
-																																																																																															public void mouseClicked(MouseEvent arg0) {
-
-																																																																																															}
-																																																																																														});
-																																																																																														panelActions.add(btnThrow);
-																																																																																														
-																																																																																																JLabel lblTargetHex = new JLabel("Target Hex:");
-																																																																																																lblTargetHex.setBounds(355, 484, 87, 31);
-																																																																																																lblTargetHex.setForeground(Color.WHITE);
-																																																																																																lblTargetHex.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																panelActions.add(lblTargetHex);
-																																																																																																
-																																																																																																		JLabel lblX = new JLabel("X:");
-																																																																																																		lblX.setBounds(340, 510, 16, 31);
-																																																																																																		lblX.setForeground(Color.WHITE);
-																																																																																																		lblX.setFont(new Font("Calibri", Font.PLAIN, 12));
-																																																																																																		panelActions.add(lblX);
-																																																																																																		
-																																																																																																				spinnerGrenadeX = new JSpinner();
-																																																																																																				spinnerGrenadeX.setBounds(355, 514, 40, 20);
-																																																																																																				panelActions.add(spinnerGrenadeX);
-																																																																																																				
-																																																																																																						spinnerGrenadeY = new JSpinner();
-																																																																																																						spinnerGrenadeY.setBounds(419, 514, 40, 20);
-																																																																																																						panelActions.add(spinnerGrenadeY);
-																																																																																																						
-																																																																																																								JLabel lblY = new JLabel("Y:");
-																																																																																																								lblY.setBounds(404, 510, 16, 31);
-																																																																																																								lblY.setForeground(Color.WHITE);
-																																																																																																								lblY.setFont(new Font("Calibri", Font.PLAIN, 12));
-																																																																																																								panelActions.add(lblY);
-																																																																																																								
-																																																																																																										comboBoxGrenadeTargets = new JComboBox();
-																																																																																																										comboBoxGrenadeTargets.addActionListener(new ActionListener() {
-																																																																																																											public void actionPerformed(ActionEvent e) {
-																																																																																																												comboBoxAimTime.setSelectedIndex(0);
-																																																																																																												if (targetedFire != null) {
-																																																																																																													spentCA = targetedFire.spentCA + targetedFire.spentAimTime;
-																																																																																																													targetedFire = null;
-																																																																																																												}
-																																																																																																												possibleShots = true;
-																																																																																																												reaction = null;
-
-																																																																																																												if (comboBoxTargets.getSelectedIndex() == 0)
-																																																																																																													return;
-
-																																																																																																												// System.out.println("Targets Size: "+targetTroopers.size()+", Target Name:
-																																																																																																												// "+findTarget().number+" "+findTarget().name);
-
-																																																																																																												SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
-
-																																																																																																													@Override
-																																																																																																													protected Void doInBackground() throws Exception {
-
-																																																																																																														// System.out.println("Target Changed Shots1");
-																																																																																																														PCShots();
-																																																																																																														// System.out.println("Target Changed Shots2");
-
-																																																																																																														return null;
-																																																																																																													}
-
-																																																																																																													@Override
-																																																																																																													protected void done() {
-
-																																																																																																														PCFireGuiUpdates();
-
-																																																																																																													}
-
-																																																																																																												};
-
-																																																																																																												worker.execute();
-																																																																																																											}
-																																																																																																										});
-																																																																																																										comboBoxGrenadeTargets.setBounds(157, 514, 136, 20);
-																																																																																																										comboBoxGrenadeTargets.setModel(new DefaultComboBoxModel(new String[] { "None" }));
-																																																																																																										comboBoxGrenadeTargets.setSelectedIndex(0);
-																																																																																																										panelActions.add(comboBoxGrenadeTargets);
-																																																																																																										
-																																																																																																												JLabel label_16 = new JLabel("Taget Individual: ");
-																																																																																																												label_16.setBounds(157, 484, 121, 31);
-																																																																																																												label_16.setForeground(Color.WHITE);
-																																																																																																												label_16.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																												panelActions.add(label_16);
-																																																																																																												
-																																																																																																														JLabel lblLauncher_1 = new JLabel("Launcher:");
-																																																																																																														lblLauncher_1.setBounds(79, 544, 221, 31);
-																																																																																																														lblLauncher_1.setForeground(Color.WHITE);
-																																																																																																														lblLauncher_1.setFont(new Font("Calibri", Font.PLAIN, 25));
-																																																																																																														panelActions.add(lblLauncher_1);
-																																																																																																														
-																																																																																																																comboBoxLauncher = new JComboBox();
-																																																																																																																comboBoxLauncher.setBounds(10, 603, 136, 20);
-																																																																																																																comboBoxLauncher.addItemListener(new ItemListener() {
-																																																																																																																	public void itemStateChanged(ItemEvent arg0) {
-
-																																																																																																																		if (comboBoxLauncher.getSelectedIndex() < 0) {
-																																																																																																																			return;
-																																																																																																																		}
-
-																																																																																																																		if (comboBoxLauncher.getSelectedItem().equals("None")) {
-																																																																																																																			comboBoxAmmoTypeLauncher.removeAllItems();
-																																																																																																																			return;
-																																																																																																																		}
-
-																																																																																																																		DefaultComboBoxModel ammoTypes = new DefaultComboBoxModel();
-
-																																																																																																																		SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
-
-																																																																																																																			@Override
-																																																																																																																			protected Void doInBackground() throws Exception {
-
-																																																																																																																				// Sets ammo types
-																																																																																																																				Weapons weapon = new Weapons();
-																																																																																																																				weapon.getWeapons();
-																																																																																																																				Weapons launcher = weapon.findWeapon((String) comboBoxLauncher.getSelectedItem());
-																																																																																																																				// System.out.println("Launcher Name: "+launcher.name);
-
-																																																																																																																				for (PCAmmo ammo : launcher.pcAmmoTypes) {
-																																																																																																																					// System.out.println("ADDED Name: "+ammo.name);
-																																																																																																																					ammoTypes.addElement(ammo.name);
-
-																																																																																																																				}
-
-																																																																																																																				comboBoxAimTime.setSelectedIndex(0);
-																																																																																																																				if (targetedFire != null) {
-																																																																																																																					spentCA = targetedFire.spentCA + targetedFire.spentAimTime;
-																																																																																																																					targetedFire = null;
-																																																																																																																				}
-																																																																																																																				possibleShots = true;
-																																																																																																																				reaction = null;
-
-																																																																																																																				if (comboBoxTargets.getSelectedIndex() == 0)
-																																																																																																																					return null;
-
-																																																																																																																				PCShots();
-
-																																																																																																																				return null;
-																																																																																																																			}
-
-																																																																																																																			@Override
-																																																																																																																			protected void done() {
-
-																																																																																																																				comboBoxAmmoTypeLauncher.setModel(ammoTypes);
-																																																																																																																				PCFireGuiUpdates();
-
-																																																																																																																			}
-
-																																																																																																																		};
-
-																																																																																																																		worker.execute();
-
-																																																																																																																	}
-																																																																																																																});
-																																																																																																																comboBoxLauncher
-																																																																																																																		.setModel(new DefaultComboBoxModel(new String[] { "None", "RPS-6", "DC40", "B2RR", "DC17 Rocket" }));
-																																																																																																																comboBoxLauncher.setSelectedIndex(0);
-																																																																																																																panelActions.add(comboBoxLauncher);
-																																																																																																																
-																																																																																																																		JLabel lblLauncher_2 = new JLabel("Launcher: ");
-																																																																																																																		lblLauncher_2.setBounds(10, 573, 136, 31);
-																																																																																																																		lblLauncher_2.setForeground(Color.WHITE);
-																																																																																																																		lblLauncher_2.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																		panelActions.add(lblLauncher_2);
-																																																																																																																		
-																																																																																																																				spinnerLauncherBonus = new JSpinner();
-																																																																																																																				spinnerLauncherBonus.setBounds(156, 603, 74, 20);
-																																																																																																																				panelActions.add(spinnerLauncherBonus);
-																																																																																																																				
-																																																																																																																						JLabel label_19 = new JLabel("Other Bonus:");
-																																																																																																																						label_19.setBounds(152, 573, 87, 31);
-																																																																																																																						label_19.setForeground(Color.WHITE);
-																																																																																																																						label_19.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																						panelActions.add(label_19);
-																																																																																																																						
-																																																																																																																								spinnerLauncherX = new JSpinner();
-																																																																																																																								spinnerLauncherX.setBounds(264, 603, 40, 20);
-																																																																																																																								panelActions.add(spinnerLauncherX);
-																																																																																																																								
-																																																																																																																										JLabel label_20 = new JLabel("X:");
-																																																																																																																										label_20.setBounds(249, 599, 16, 31);
-																																																																																																																										label_20.setForeground(Color.WHITE);
-																																																																																																																										label_20.setFont(new Font("Calibri", Font.PLAIN, 12));
-																																																																																																																										panelActions.add(label_20);
-																																																																																																																										
-																																																																																																																												JLabel label_21 = new JLabel("Y:");
-																																																																																																																												label_21.setBounds(313, 599, 16, 31);
-																																																																																																																												label_21.setForeground(Color.WHITE);
-																																																																																																																												label_21.setFont(new Font("Calibri", Font.PLAIN, 12));
-																																																																																																																												panelActions.add(label_21);
-																																																																																																																												
-																																																																																																																														spinnerLauncherY = new JSpinner();
-																																																																																																																														spinnerLauncherY.setBounds(328, 603, 40, 20);
-																																																																																																																														panelActions.add(spinnerLauncherY);
-																																																																																																																														
-																																																																																																																																JLabel label_22 = new JLabel("Target Hex:");
-																																																																																																																																label_22.setBounds(264, 573, 87, 31);
-																																																																																																																																label_22.setForeground(Color.WHITE);
-																																																																																																																																label_22.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																panelActions.add(label_22);
-																																																																																																																																
-																																																																																																																																		JLabel lblAmmoType = new JLabel("Ammo Type:");
-																																																																																																																																		lblAmmoType.setBounds(26, 633, 125, 16);
-																																																																																																																																		lblAmmoType.setForeground(Color.WHITE);
-																																																																																																																																		lblAmmoType.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																		panelActions.add(lblAmmoType);
-																																																																																																																																		
-																																																																																																																																				comboBoxAmmoTypeLauncher = new JComboBox();
-																																																																																																																																				comboBoxAmmoTypeLauncher.setBounds(10, 651, 136, 20);
-																																																																																																																																				comboBoxAmmoTypeLauncher.setSelectedIndex(-1);
-																																																																																																																																				panelActions.add(comboBoxAmmoTypeLauncher);
-																																																																																																																																				
-																																																																																																																																						comboBoxLauncherConcealment = new JComboBox();
-																																																																																																																																						comboBoxLauncherConcealment.setBounds(152, 651, 136, 20);
-																																																																																																																																						comboBoxLauncherConcealment.setModel(new DefaultComboBoxModel(
-																																																																																																																																								new String[] { "No Concealment ", "Level 1", "Level 2", "Level 3", "Level 4", "Level 5" }));
-																																																																																																																																						comboBoxLauncherConcealment.setSelectedIndex(0);
-																																																																																																																																						panelActions.add(comboBoxLauncherConcealment);
-																																																																																																																																						
-																																																																																																																																								JLabel lblHexConcealment = new JLabel("Hex Concealment:");
-																																																																																																																																								lblHexConcealment.setBounds(152, 818, 136, 31);
-																																																																																																																																								lblHexConcealment.setForeground(Color.WHITE);
-																																																																																																																																								lblHexConcealment.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																								panelActions.add(lblHexConcealment);
-																																																																																																																																								
-																																																																																																																																										chckbxFreeAction = new JCheckBox("Free Action");
-																																																																																																																																										chckbxFreeAction.setBounds(14, 156, 97, 23);
-																																																																																																																																										chckbxFreeAction.setBackground(Color.DARK_GRAY);
-																																																																																																																																										chckbxFreeAction.setFont(new Font("Calibri", Font.BOLD, 15));
-																																																																																																																																										chckbxFreeAction.setForeground(Color.WHITE);
-																																																																																																																																										panelActions.add(chckbxFreeAction);
-																																																																																																																																										
-																																																																																																																																												chckbxReacted = new JCheckBox("Reacted");
-																																																																																																																																												chckbxReacted.setBounds(113, 156, 86, 23);
-																																																																																																																																												chckbxReacted.setForeground(Color.WHITE);
-																																																																																																																																												chckbxReacted.setFont(new Font("Calibri", Font.BOLD, 15));
-																																																																																																																																												chckbxReacted.setBackground(Color.DARK_GRAY);
-																																																																																																																																												panelActions.add(chckbxReacted);
-																																																																																																																																												
-																																																																																																																																														lblCombatActions = new JLabel("Combat Actions:");
-																																																																																																																																														lblCombatActions.setBounds(258, 203, 65, 31);
-																																																																																																																																														lblCombatActions.setForeground(Color.WHITE);
-																																																																																																																																														lblCombatActions.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																														panelActions.add(lblCombatActions);
-																																																																																																																																														
-																																																																																																																																																JLabel lblCaBonus = new JLabel("CA Bonus:");
-																																																																																																																																																lblCaBonus.setBounds(459, 182, 74, 31);
-																																																																																																																																																lblCaBonus.setForeground(Color.WHITE);
-																																																																																																																																																lblCaBonus.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																																panelActions.add(lblCaBonus);
-																																																																																																																																																
-																																																																																																																																																		spinnerCABonus = new JSpinner();
-																																																																																																																																																		spinnerCABonus.setBounds(459, 219, 73, 20);
-																																																																																																																																																		panelActions.add(spinnerCABonus);
-																																																																																																																																																		
-																																																																																																																																																				JLabel label_18 = new JLabel("EAL Bonus:");
-																																																																																																																																																				label_18.setBounds(541, 182, 87, 31);
-																																																																																																																																																				label_18.setForeground(Color.WHITE);
-																																																																																																																																																				label_18.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																																				panelActions.add(label_18);
-																																																																																																																																																				
-																																																																																																																																																						spinnerPercentBonus = new JSpinner();
-																																																																																																																																																						spinnerPercentBonus.setBounds(625, 220, 74, 20);
-																																																																																																																																																						panelActions.add(spinnerPercentBonus);
-																																																																																																																																																						
-																																																																																																																																																								lblPossibleShots = new JLabel("Possible Shots:");
-																																																																																																																																																								lblPossibleShots.setBounds(669, 328, 222, 20);
-																																																																																																																																																								lblPossibleShots.setForeground(Color.WHITE);
-																																																																																																																																																								lblPossibleShots.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																																								panelActions.add(lblPossibleShots);
-																																																																																																																																																								
-																																																																																																																																																										lblAimTime = new JLabel("Aim Time:");
-																																																																																																																																																										lblAimTime.setBounds(551, 242, 178, 23);
-																																																																																																																																																										lblAimTime.setForeground(Color.WHITE);
-																																																																																																																																																										lblAimTime.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																																										panelActions.add(lblAimTime);
-																																																																																																																																																										
-																																																																																																																																																												lblTN = new JLabel("TN: 0");
-																																																																																																																																																												lblTN.setBounds(669, 300, 222, 23);
-																																																																																																																																																												lblTN.setForeground(Color.WHITE);
-																																																																																																																																																												lblTN.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																																												panelActions.add(lblTN);
-																																																																																																																																																												
-																																																																																																																																																														chckbxFullAuto = new JCheckBox("Full Auto");
-																																																																																																																																																														chckbxFullAuto.setBounds(462, 296, 74, 23);
-																																																																																																																																																														chckbxFullAuto.addActionListener(new ActionListener() {
-																																																																																																																																																															public void actionPerformed(ActionEvent arg0) {
-
-																																																																																																																																																																if (targetedFire != null) {
-
-																																																																																																																																																																	if (targetedFire.consecutiveShots) {
-																																																																																																																																																																		targetedFire.EAL -= 2;
-																																																																																																																																																																		targetedFire.ALMSum -= 2;
-																																																																																																																																																																		targetedFire.consecutiveShots = false;
-																																																																																																																																																																	}
-
-																																																																																																																																																																}
-
-																																																																																																																																																																PCShots();
-																																																																																																																																																																PCFireGuiUpdates();
-																																																																																																																																																															}
-																																																																																																																																																														});
-																																																																																																																																																														chckbxFullAuto.setForeground(Color.WHITE);
-																																																																																																																																																														chckbxFullAuto.setBackground(Color.DARK_GRAY);
-																																																																																																																																																														panelActions.add(chckbxFullAuto);
-																																																																																																																																																														
-																																																																																																																																																																chckbxSustainedFullAuto = new JCheckBox("Sustained FAB");
-																																																																																																																																																																chckbxSustainedFullAuto.setBounds(551, 296, 113, 23);
-																																																																																																																																																																chckbxSustainedFullAuto.addActionListener(new ActionListener() {
-																																																																																																																																																																	public void actionPerformed(ActionEvent e) {
-
-																																																																																																																																																																		if (targetedFire != null) {
-
-																																																																																																																																																																			if (targetedFire.consecutiveShots) {
-																																																																																																																																																																				targetedFire.EAL -= 2;
-																																																																																																																																																																				targetedFire.ALMSum -= 2;
-																																																																																																																																																																				targetedFire.consecutiveShots = false;
-																																																																																																																																																																			}
-
-																																																																																																																																																																		}
-
-																																																																																																																																																																		PCShots();
-
-																																																																																																																																																																	}
-																																																																																																																																																																});
-																																																																																																																																																																chckbxSustainedFullAuto.setForeground(Color.WHITE);
-																																																																																																																																																																chckbxSustainedFullAuto.setBackground(Color.DARK_GRAY);
-																																																																																																																																																																panelActions.add(chckbxSustainedFullAuto);
-																																																																																																																																																																
-																																																																																																																																																																		JButton btnAim = new JButton("Aim");
-																																																																																																																																																																		btnAim.addActionListener(new ActionListener() {
-																																																																																																																																																																			public void actionPerformed(ActionEvent e) {
-																																																																																																																																																																			}
-																																																																																																																																																																		});
-																																																																																																																																																																		btnAim.setBounds(551, 269, 87, 23);
-																																																																																																																																																																		btnAim.addMouseListener(new MouseAdapter() {
-																																																																																																																																																																			@Override
-																																																																																																																																																																			public void mouseClicked(MouseEvent e) {
-
-																																																																																																																																																																				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
-
-																																																																																																																																																																					@Override
-																																																																																																																																																																					protected Void doInBackground() throws Exception {
-
-																																																																																																																																																																						aim(comboBoxAimTime.getSelectedIndex());
-																																																																																																																																																																						// PCShots();
-																																																																																																																																																																						if (!chckbxFreeAction.isSelected() && spentCA >= TFCA) {
-
-																																																																																																																																																																							actionSpent(window, index);
-																																																																																																																																																																							if (openNext)
-																																																																																																																																																																								window.openNext(true);
-																																																																																																																																																																							f.dispose();
-
-																																																																																																																																																																						} else {
-																																																																																																																																																																							PCShots();
-
-																																																																																																																																																																						}
-
-																																																																																																																																																																						return null;
-																																																																																																																																																																					}
-
-																																																																																																																																																																					@Override
-																																																																																																																																																																					protected void done() {
-
-																																																																																																																																																																						PCFireGuiUpdates();
-
-																																																																																																																																																																					}
-
-																																																																																																																																																																				};
-
-																																																																																																																																																																				worker.execute();
-
-																																																																																																																																																																			}
-																																																																																																																																																																		});
-																																																																																																																																																																		panelActions.add(btnAim);
-																																																																																																																																																																		
-																																																																																																																																																																				JLabel lblTargetZone = new JLabel("Target Zone:");
-																																																																																																																																																																				lblTargetZone.setBounds(426, 243, 114, 23);
-																																																																																																																																																																				lblTargetZone.setForeground(Color.WHITE);
-																																																																																																																																																																				lblTargetZone.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																																																				panelActions.add(lblTargetZone);
-																																																																																																																																																																				
-																																																																																																																																																																						comboBoxTargetZone = new JComboBox();
-																																																																																																																																																																						comboBoxTargetZone.setBounds(427, 270, 113, 23);
-																																																																																																																																																																						comboBoxTargetZone.setModel(new DefaultComboBoxModel(new String[] { "None", "Head", "Mid Body", "Legs" }));
-																																																																																																																																																																						comboBoxTargetZone.setSelectedIndex(0);
-																																																																																																																																																																						panelActions.add(comboBoxTargetZone);
-																																																																																																																																																																						
-																																																																																																																																																																								chckbxMultipleTargets = new JCheckBox("Multiple Targets");
-																																																																																																																																																																								chckbxMultipleTargets.setBounds(339, 296, 121, 23);
-																																																																																																																																																																								chckbxMultipleTargets.setForeground(Color.WHITE);
-																																																																																																																																																																								chckbxMultipleTargets.setBackground(Color.DARK_GRAY);
-																																																																																																																																																																								panelActions.add(chckbxMultipleTargets);
-																																																																																																																																																																								
-																																																																																																																																																																										lblTfSpentCa = new JLabel("TF Spent CA: 0");
-																																																																																																																																																																										lblTfSpentCa.setBounds(348, 203, 102, 31);
-																																																																																																																																																																										lblTfSpentCa.setForeground(Color.WHITE);
-																																																																																																																																																																										lblTfSpentCa.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																																																										panelActions.add(lblTfSpentCa);
-																																																																																																																																																																										
-																																																																																																																																																																												JButton btnSpotAllUnits = new JButton("Spot All");
-																																																																																																																																																																												btnSpotAllUnits.setBounds(444, 149, 101, 23);
-																																																																																																																																																																												btnSpotAllUnits.addMouseListener(new MouseAdapter() {
-																																																																																																																																																																													@Override
-																																																																																																																																																																													public void mouseClicked(MouseEvent arg0) {
-
-																																																																																																																																																																														if (trooper.returnTrooperUnit(gameWindow).lineOfSight.size() <= 0)
-																																																																																																																																																																															return;
-
-																																																																																																																																																																														if (comboBoxSpottingUnits.getComponentCount() > 1) {
-
-																																																																																																																																																																															for (int i = 1; i < comboBoxSpottingUnits.getComponentCount(); i++) {
-
-																																																																																																																																																																																String callsign = (String) comboBoxSpottingUnits.getItemAt(i);
-
-																																																																																																																																																																																if (!callsigns.contains(callsign)) {
-																																																																																																																																																																																	callsigns.add(callsign);
-																																																																																																																																																																																}
-
-																																																																																																																																																																																listSpottedUnitsArray.removeAll();
-
-																																																																																																																																																																																DefaultListModel listSpottedUnits = new DefaultListModel();
-
-																																																																																																																																																																																for (int x = 0; x < callsigns.size(); x++) {
-																																																																																																																																																																																	listSpottedUnits.addElement(callsigns.get(x));
-
-																																																																																																																																																																																}
-
-																																																																																																																																																																																listSpottedUnitsArray.setModel(listSpottedUnits);
-																																																																																																																																																																															}
-
-																																																																																																																																																																															// System.out.println("Pass Roll Spot Programatical click");
-																																																																																																																																																																															btnRollSpot.doClick();
-
-																																																																																																																																																																															for (int i = 0; i < callsigns.size(); i++) {
-																																																																																																																																																																																spotTest(callsigns.get(i), window, trooper, unit, index);
-																																																																																																																																																																															}
-
-																																																																																																																																																																															// Clears list
-																																																																																																																																																																															listSpottedUnitsArray.removeAll();
-																																																																																																																																																																															callsigns.clear();
-
-																																																																																																																																																																															DefaultListModel listSpottedUnits = new DefaultListModel();
-
-																																																																																																																																																																															for (int i = 0; i < callsigns.size(); i++) {
-																																																																																																																																																																																listSpottedUnits.addElement(callsigns.get(i));
-
-																																																																																																																																																																															}
-
-																																																																																																																																																																															listSpottedUnitsArray.setModel(listSpottedUnits);
-
-																																																																																																																																																																															// If not a free test
-																																																																																																																																																																															if (!chckbxFreeSpotTest.isSelected()) {
-																																																																																																																																																																																// Opens next window
-																																																																																																																																																																																if (openNext) {
-																																																																																																																																																																																	window.openNext(true);
-																																																																																																																																																																																}
-
-																																																																																																																																																																																// Closes window
-																																																																																																																																																																																f.dispose();
-																																																																																																																																																																															}
-
-																																																																																																																																																																														}
-
-																																																																																																																																																																													}
-																																																																																																																																																																												});
-																																																																																																																																																																												panelActions.add(btnSpotAllUnits);
-																																																																																																																																																																												
-																																																																																																																																																																														JLabel lblStance = new JLabel("Misc.");
-																																																																																																																																																																														lblStance.setBounds(81, 11, 146, 31);
-																																																																																																																																																																														lblStance.setForeground(Color.WHITE);
-																																																																																																																																																																														lblStance.setFont(new Font("Calibri", Font.PLAIN, 25));
-																																																																																																																																																																														panelActions.add(lblStance);
-																																																																																																																																																																														
-																																																																																																																																																																																comboBoxStance = new JComboBox();
-																																																																																																																																																																																comboBoxStance.setBounds(91, 42, 136, 23);
-																																																																																																																																																																																comboBoxStance.addActionListener(new ActionListener() {
-																																																																																																																																																																																	public void actionPerformed(ActionEvent e) {
-
-																																																																																																																																																																																		if (comboBoxStance.getSelectedItem().toString().equals(trooper.stance)) {
-																																																																																																																																																																																			return;
-																																																																																																																																																																																		}
-
-																																																																																																																																																																																		// System.out.println("Changing Stance, Trooper Stance: |"+trooper.stance+"| Box
-																																																																																																																																																																																		// Stance: |"+ comboBoxStance.getSelectedItem().toString()+"|");
-																																																																																																																																																																																		trooper.stance = comboBoxStance.getSelectedItem().toString();
-
-																																																																																																																																																																																		if (targetedFire != null) {
-																																																																																																																																																																																			targetedFire.spentCA++;
-																																																																																																																																																																																		} else {
-
-																																																																																																																																																																																			spentCA++;
-																																																																																																																																																																																		}
-																																																																																																																																																																																		PCShots();
-																																																																																																																																																																																		PCFireGuiUpdates();
-																																																																																																																																																																																	}
-																																																																																																																																																																																});
-																																																																																																																																																																																comboBoxStance.setModel(new DefaultComboBoxModel(new String[] { "Standing", "Crouched", "Prone" }));
-																																																																																																																																																																																panelActions.add(comboBoxStance);
-																																																																																																																																																																																
-																																																																																																																																																																																		chckbxManualStance = new JCheckBox("Manual Stance");
-																																																																																																																																																																																		chckbxManualStance.setBounds(237, 42, 136, 23);
-																																																																																																																																																																																		chckbxManualStance.addActionListener(new ActionListener() {
-																																																																																																																																																																																			public void actionPerformed(ActionEvent e) {
-																																																																																																																																																																																				if (chckbxManualStance.isSelected())
-																																																																																																																																																																																					trooper.manualStance = true;
-																																																																																																																																																																																				else
-																																																																																																																																																																																					trooper.manualStance = false;
-
-																																																																																																																																																																																				// System.out.println("Manual Stance: "+trooper.manualStance);
-																																																																																																																																																																																			}
-																																																																																																																																																																																		});
-																																																																																																																																																																																		chckbxManualStance.setForeground(Color.WHITE);
-																																																																																																																																																																																		chckbxManualStance.setFont(new Font("Calibri", Font.BOLD, 15));
-																																																																																																																																																																																		chckbxManualStance.setBackground(Color.DARK_GRAY);
-																																																																																																																																																																																		panelActions.add(chckbxManualStance);
-																																																																																																																																																																																		
-																																																																																																																																																																																				chckbxWeaponLights = new JCheckBox("Weapon Lights");
-																																																																																																																																																																																				chckbxWeaponLights.setBounds(372, 42, 142, 23);
-																																																																																																																																																																																				chckbxWeaponLights.addActionListener(new ActionListener() {
-																																																																																																																																																																																					public void actionPerformed(ActionEvent e) {
-
-																																																																																																																																																																																						if (!getWeapon().light) {
-																																																																																																																																																																																							gameWindow.conflictLog.addNewLine("This trooper does not have weapon lights.");
-																																																																																																																																																																																							return;
-																																																																																																																																																																																						}
-
-																																																																																																																																																																																						if (chckbxWeaponLights.isSelected())
-																																																																																																																																																																																							trooper.weaponLightOn = true;
-																																																																																																																																																																																						else
-																																																																																																																																																																																							trooper.weaponLightOn = false;
-
-																																																																																																																																																																																					}
-																																																																																																																																																																																				});
-																																																																																																																																																																																				chckbxWeaponLights.setForeground(Color.WHITE);
-																																																																																																																																																																																				chckbxWeaponLights.setFont(new Font("Calibri", Font.BOLD, 15));
-																																																																																																																																																																																				chckbxWeaponLights.setBackground(Color.DARK_GRAY);
-																																																																																																																																																																																				panelActions.add(chckbxWeaponLights);
-																																																																																																																																																																																				
-																																																																																																																																																																																						chckbxNvgs = new JCheckBox("NVGs");
-																																																																																																																																																																																						chckbxNvgs.setBounds(524, 42, 61, 23);
-																																																																																																																																																																																						chckbxNvgs.addActionListener(new ActionListener() {
-																																																																																																																																																																																							public void actionPerformed(ActionEvent e) {
-
-																																																																																																																																																																																								if (!trooper.nightVision) {
-																																																																																																																																																																																									gameWindow.conflictLog.addNewLine("This trooper does not have night vision.");
-																																																																																																																																																																																									return;
-																																																																																																																																																																																								}
-
-																																																																																																																																																																																								if (chckbxWeaponLights.isSelected())
-																																																																																																																																																																																									trooper.nightVisionInUse = true;
-																																																																																																																																																																																								else
-																																																																																																																																																																																									trooper.nightVisionInUse = false;
-
-																																																																																																																																																																																							}
-																																																																																																																																																																																						});
-																																																																																																																																																																																						chckbxNvgs.setForeground(Color.WHITE);
-																																																																																																																																																																																						chckbxNvgs.setFont(new Font("Calibri", Font.BOLD, 15));
-																																																																																																																																																																																						chckbxNvgs.setBackground(Color.DARK_GRAY);
-																																																																																																																																																																																						panelActions.add(chckbxNvgs);
-																																																																																																																																																																																						
-																																																																																																																																																																																								JLabel lblGen = new JLabel("Gen:");
-																																																																																																																																																																																								lblGen.setBounds(619, 40, 40, 28);
-																																																																																																																																																																																								lblGen.setForeground(Color.WHITE);
-																																																																																																																																																																																								lblGen.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																																																																								panelActions.add(lblGen);
-																																																																																																																																																																																								
-																																																																																																																																																																																										spinnerNVGGen = new JSpinner();
-																																																																																																																																																																																										spinnerNVGGen.setBounds(664, 44, 34, 20);
-																																																																																																																																																																																										panelActions.add(spinnerNVGGen);
-																																																																																																																																																																																										
-																																																																																																																																																																																												btnAddNvgs = new JButton("Add NVGs");
-																																																																																																																																																																																												btnAddNvgs.setBounds(619, 11, 114, 23);
-																																																																																																																																																																																												btnAddNvgs.addMouseListener(new MouseAdapter() {
-																																																																																																																																																																																													@Override
-																																																																																																																																																																																													public void mouseClicked(MouseEvent arg0) {
-
-																																																																																																																																																																																														if ((int) spinnerNVGGen.getValue() < 1 || (int) spinnerNVGGen.getValue() > 5) {
-																																																																																																																																																																																															gameWindow.conflictLog.addNewLine("NVG Gen not a value from 1 to 5.");
-																																																																																																																																																																																															return;
-																																																																																																																																																																																														}
-
-																																																																																																																																																																																														trooper.nightVision = true;
-																																																																																																																																																																																														trooper.nightVisionEffectiveness = (int) spinnerNVGGen.getValue();
-
-																																																																																																																																																																																													}
-																																																																																																																																																																																												});
-																																																																																																																																																																																												panelActions.add(btnAddNvgs);
-																																																																																																																																																																																												
-																																																																																																																																																																																														chckbxLaser = new JCheckBox("Laser");
-																																																																																																																																																																																														chckbxLaser.setBounds(237, 11, 74, 23);
-																																																																																																																																																																																														chckbxLaser.addActionListener(new ActionListener() {
-																																																																																																																																																																																															public void actionPerformed(ActionEvent e) {
-
-																																																																																																																																																																																																if (!getWeapon().laser) {
-																																																																																																																																																																																																	gameWindow.conflictLog.addNewLine("This trooper does not have a laser pointer.");
-																																																																																																																																																																																																	return;
-																																																																																																																																																																																																}
-
-																																																																																																																																																																																																if (chckbxLaser.isSelected())
-																																																																																																																																																																																																	trooper.weaponLaserOn = true;
-																																																																																																																																																																																																else
-																																																																																																																																																																																																	trooper.weaponLaserOn = false;
-
-																																																																																																																																																																																															}
-																																																																																																																																																																																														});
-																																																																																																																																																																																														chckbxLaser.setForeground(Color.WHITE);
-																																																																																																																																																																																														chckbxLaser.setFont(new Font("Calibri", Font.BOLD, 15));
-																																																																																																																																																																																														chckbxLaser.setBackground(Color.DARK_GRAY);
-																																																																																																																																																																																														panelActions.add(chckbxLaser);
-																																																																																																																																																																																														
-																																																																																																																																																																																																chckbxIrLaser = new JCheckBox("IR Laser");
-																																																																																																																																																																																																chckbxIrLaser.setBounds(372, 11, 138, 23);
-																																																																																																																																																																																																chckbxIrLaser.addActionListener(new ActionListener() {
-																																																																																																																																																																																																	public void actionPerformed(ActionEvent e) {
-																																																																																																																																																																																																		if (!getWeapon().irLaser) {
-																																																																																																																																																																																																			gameWindow.conflictLog.addNewLine("This trooper does not have a IR laser pointer.");
-																																																																																																																																																																																																			return;
-																																																																																																																																																																																																		}
-
-																																																																																																																																																																																																		if (chckbxIrLaser.isSelected())
-																																																																																																																																																																																																			trooper.weaponIRLaserOn = true;
-																																																																																																																																																																																																		else
-																																																																																																																																																																																																			trooper.weaponIRLaserOn = false;
-																																																																																																																																																																																																	}
-																																																																																																																																																																																																});
-																																																																																																																																																																																																chckbxIrLaser.setForeground(Color.WHITE);
-																																																																																																																																																																																																chckbxIrLaser.setFont(new Font("Calibri", Font.BOLD, 15));
-																																																																																																																																																																																																chckbxIrLaser.setBackground(Color.DARK_GRAY);
-																																																																																																																																																																																																panelActions.add(chckbxIrLaser);
-																																																																																																																																																																																																
-																																																																																																																																																																																																		chckbxThermals = new JCheckBox("Thermals");
-																																																																																																																																																																																																		chckbxThermals.setBounds(524, 11, 91, 23);
-																																																																																																																																																																																																		chckbxThermals.addActionListener(new ActionListener() {
-																																																																																																																																																																																																			public void actionPerformed(ActionEvent e) {
-
-																																																																																																																																																																																																				if (!trooper.thermalVision) {
-																																																																																																																																																																																																					gameWindow.conflictLog.addNewLine("This trooper does not have thermal vision.");
-																																																																																																																																																																																																					return;
-																																																																																																																																																																																																				}
-
-																																																																																																																																																																																																				if (chckbxThermals.isSelected())
-																																																																																																																																																																																																					trooper.thermalVisionInUse = true;
-																																																																																																																																																																																																				else
-																																																																																																																																																																																																					trooper.thermalVisionInUse = false;
-
-																																																																																																																																																																																																			}
-																																																																																																																																																																																																		});
-																																																																																																																																																																																																		chckbxThermals.setForeground(Color.WHITE);
-																																																																																																																																																																																																		chckbxThermals.setFont(new Font("Calibri", Font.BOLD, 15));
-																																																																																																																																																																																																		chckbxThermals.setBackground(Color.DARK_GRAY);
-																																																																																																																																																																																																		panelActions.add(chckbxThermals);
-																																																																																																																																																																																																		
-																																																																																																																																																																																																				JButton btnAddThermals = new JButton("Add Thermals");
-																																																																																																																																																																																																				btnAddThermals.setBounds(743, 11, 130, 23);
-																																																																																																																																																																																																				btnAddThermals.addMouseListener(new MouseAdapter() {
-																																																																																																																																																																																																					@Override
-																																																																																																																																																																																																					public void mouseClicked(MouseEvent arg0) {
-
-																																																																																																																																																																																																						trooper.thermalVision = true;
-
-																																																																																																																																																																																																					}
-																																																																																																																																																																																																				});
-																																																																																																																																																																																																				panelActions.add(btnAddThermals);
-																																																																																																																																																																																																				
-																																																																																																																																																																																																						JScrollPane scrollPane_6 = new JScrollPane();
-																																																																																																																																																																																																						scrollPane_6.setBounds(570, 115, 215, 64);
-																																																																																																																																																																																																						panelActions.add(scrollPane_6);
-																																																																																																																																																																																																						
-																																																																																																																																																																																																								listSpottedUnitsArray = new JList();
-																																																																																																																																																																																																								listSpottedUnitsArray.setBackground(Color.DARK_GRAY);
-																																																																																																																																																																																																								listSpottedUnitsArray.setForeground(Color.WHITE);
-																																																																																																																																																																																																								scrollPane_6.setViewportView(listSpottedUnitsArray);
-																																																																																																																																																																																																								
-																																																																																																																																																																																																										JLabel lblConsecutiveEalBonus = new JLabel("Consecutive EAL Bonus:");
-																																																																																																																																																																																																										lblConsecutiveEalBonus.setForeground(Color.WHITE);
-																																																																																																																																																																																																										lblConsecutiveEalBonus.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																																																																																										lblConsecutiveEalBonus.setBounds(709, 186, 164, 23);
-																																																																																																																																																																																																										panelActions.add(lblConsecutiveEalBonus);
-																																																																																																																																																																																																										
-																																																																																																																																																																																																												spinnerConsecutiveEALBonus = new JSpinner();
-																																																																																																																																																																																																												spinnerConsecutiveEALBonus.setBounds(709, 220, 85, 20);
-																																																																																																																																																																																																												panelActions.add(spinnerConsecutiveEALBonus);
-																																																																																																																																																																																																												
-																																																																																																																																																																																																														spinner2YardHexRange = new JSpinner();
-																																																																																																																																																																																																														spinner2YardHexRange.setBounds(756, 270, 74, 22);
-																																																																																																																																																																																																														panelActions.add(spinner2YardHexRange);
-																																																																																																																																																																																																														
-																																																																																																																																																																																																																JLabel lblYardHexes = new JLabel("2 Yard Hexes Range");
-																																																																																																																																																																																																																lblYardHexes.setForeground(Color.WHITE);
-																																																																																																																																																																																																																lblYardHexes.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																																																																																																lblYardHexes.setBounds(756, 242, 135, 31);
-																																																																																																																																																																																																																panelActions.add(lblYardHexes);
-																																																																																																																																																																																																																
-																																																																																																																																																																																																																		spinnerThrowEALBonus = new JSpinner();
-																																																																																																																																																																																																																		spinnerThrowEALBonus.setBounds(789, 571, 74, 20);
-																																																																																																																																																																																																																		panelActions.add(spinnerThrowEALBonus);
-																																																																																																																																																																																																																		
-																																																																																																																																																																																																																				JLabel lblEalBonus = new JLabel("EAL Bonus:");
-																																																																																																																																																																																																																				lblEalBonus.setForeground(Color.WHITE);
-																																																																																																																																																																																																																				lblEalBonus.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																																																																																																				lblEalBonus.setBounds(785, 541, 87, 31);
-																																																																																																																																																																																																																				panelActions.add(lblEalBonus);
-																																																																																																																																																																																																																				
-																																																																																																																																																																																																																						JLabel lblOr = new JLabel("OR");
-																																																																																																																																																																																																																						lblOr.setForeground(Color.WHITE);
-																																																																																																																																																																																																																						lblOr.setFont(new Font("Calibri", Font.PLAIN, 12));
-																																																																																																																																																																																																																						lblOr.setBounds(307, 510, 16, 31);
-																																																																																																																																																																																																																						panelActions.add(lblOr);
-																																																																																																																																																																																																																						
-																																																																																																																																																																																																																								chckbxHoming = new JCheckBox("Homing");
-																																																																																																																																																																																																																								chckbxHoming.setForeground(Color.WHITE);
-																																																																																																																																																																																																																								chckbxHoming.setBackground(Color.DARK_GRAY);
-																																																																																																																																																																																																																								chckbxHoming.setBounds(258, 296, 80, 23);
-																																																																																																																																																																																																																								panelActions.add(chckbxHoming);
-																																																																																																																																																																																																																								
-																																																																																																																																																																																																																										JButton btnShootHex = new JButton("Shoot Hex");
-																																																																																																																																																																																																																										btnShootHex.addActionListener(new ActionListener() {
-																																																																																																																																																																																																																											public void actionPerformed(ActionEvent e) {
-																																																																																																																																																																																																																												try {
-																																																																																																																																																																																																																													int hexDiff = GameWindow.hexDif((int) spinnerLauncherX.getValue(),
-																																																																																																																																																																																																																															(int) spinnerLauncherY.getValue(), unit);
-
-																																																																																																																																																																																																																													int rangeInPcHexes = hexDiff * GameWindow.hexSize;
-
-																																																																																																																																																																																																																													InjuryLog.InjuryLog.addAlreadyInjured(x, y);
-
-																																																																																																																																																																																																																													// 32 is target size of 20 yard hex
-																																																																																																																																																																																																																													int EAL = PCUtility.findVisibiltyALM(unit, trooper, rangeInPcHexes) + 32
-																																																																																																																																																																																																																															+ PCUtility.findRangeALM(rangeInPcHexes) + PCUtility.getSL("Launcher", trooper)
-																																																																																																																																																																																																																															+ new Weapons().findWeapon(comboBoxLauncher.getSelectedItem().toString()).aimTime
-																																																																																																																																																																																																																																	.get(new Weapons().findWeapon(comboBoxLauncher.getSelectedItem().toString()).aimTime
-																																																																																																																																																																																																																																			.size() - 1);
-
-																																																																																																																																																																																																																													int TN = PCUtility.getOddsOfHitting(true, EAL);
-																																																																																																																																																																																																																													int roll = DiceRoller.randInt(0, 99);
-
-																																																																																																																																																																																																																													GameWindow.addTrooperEntryToLog(trooper, "fires rocket into hex, X: "
-																																																																																																																																																																																																																															+ (int) spinnerLauncherX.getValue() + ", Y: " + (int) spinnerLauncherY.getValue());
-
-																																																																																																																																																																																																																													if (roll <= TN) {
-
-																																																																																																																																																																																																																														GameWindow.gameWindow.conflictLog
-																																																																																																																																																																																																																																.addNewLineToQueue("Launcher Hits. TN: " + TN + ", Roll: " + roll);
-																																																																																																																																																																																																																														Explosion explosion = new Explosion(
-																																																																																																																																																																																																																																new Weapons().findWeapon(comboBoxLauncher.getSelectedItem().toString()).pcAmmoTypes
-																																																																																																																																																																																																																																		.get(comboBoxAmmoTypeLauncher.getSelectedIndex()));
-																																																																																																																																																																																																																														explosion.explodeHex((int) spinnerLauncherX.getValue(), (int) spinnerLauncherY.getValue(),
-																																																																																																																																																																																																																																"None");
-																																																																																																																																																																																																																														GameWindow.gameWindow.conflictLog.addNewLineToQueue("Launcher EXPLOSION\n" + "Total BC Dealt: "
-																																																																																																																																																																																																																																+ explosion.totalBC + "\n" + "Total Shrap Hits: " + explosion.totalShrapHits + "\n");
-																																																																																																																																																																																																																														InjuryLog.InjuryLog.printResultsToLog();
-																																																																																																																																																																																																																													} else {
-																																																																																																																																																																																																																														GameWindow.gameWindow.conflictLog
-																																																																																																																																																																																																																																.addNewLineToQueue("Launcher misses. TN: " + TN + ", Roll: " + roll);
-																																																																																																																																																																																																																													}
-
-																																																																																																																																																																																																																													GameWindow.gameWindow.conflictLog.addQueuedText();
-																																																																																																																																																																																																																												} catch (Exception exception) {
-																																																																																																																																																																																																																													exception.printStackTrace();
-																																																																																																																																																																																																																												}
-
-																																																																																																																																																																																																																											}
-																																																																																																																																																																																																																										});
-																																																																																																																																																																																																																										btnShootHex.setBounds(386, 602, 128, 23);
-																																																																																																																																																																																																																										panelActions.add(btnShootHex);
-																																																																																																																																																																																																																										
-																																																																																																																																																																																																																												chckbxGuided = new JCheckBox("Guided");
-																																																																																																																																																																																																																												chckbxGuided.setForeground(Color.WHITE);
-																																																																																																																																																																																																																												chckbxGuided.setBackground(Color.DARK_GRAY);
-																																																																																																																																																																																																																												chckbxGuided.setBounds(299, 650, 80, 23);
-																																																																																																																																																																																																																												panelActions.add(chckbxGuided);
-																																																																																																																																																																																																																												
-																																																																																																																																																																																																																														JLabel label_10 = new JLabel("OR");
-																																																																																																																																																																																																																														label_10.setForeground(Color.WHITE);
-																																																																																																																																																																																																																														label_10.setFont(new Font("Calibri", Font.PLAIN, 12));
-																																																																																																																																																																																																																														label_10.setBounds(469, 510, 16, 31);
-																																																																																																																																																																																																																														panelActions.add(label_10);
-																																																																																																																																																																																																																														
-																																																																																																																																																																																																																																JLabel lblTargetRoom = new JLabel("Room:");
-																																																																																																																																																																																																																																lblTargetRoom.setForeground(Color.WHITE);
-																																																																																																																																																																																																																																lblTargetRoom.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																																																																																																																lblTargetRoom.setBounds(643, 484, 53, 31);
-																																																																																																																																																																																																																																panelActions.add(lblTargetRoom);
-																																																																																																																																																																																																																																
-																																																																																																																																																																																																																																		spinnerTargetRoom = new JSpinner();
-																																																																																																																																																																																																																																		spinnerTargetRoom.setBounds(641, 514, 40, 20);
-																																																																																																																																																																																																																																		panelActions.add(spinnerTargetRoom);
-																																																																																																																																																																																																																																		
-																																																																																																																																																																																																																																				comboBoxBuilding = new JComboBox();
-																																																																																																																																																																																																																																				comboBoxBuilding.addActionListener(new ActionListener() {
-																																																																																																																																																																																																																																					public void actionPerformed(ActionEvent e) {
-																																																																																																																																																																																																																																						
-																																																																																																																																																																																																																																						if(comboBoxBuilding.getSelectedIndex() < 0)
-																																																																																																																																																																																																																																							return; 
-																																																																																																																																																																																																																																						else if(comboBoxBuilding.getSelectedIndex() == 0 && trooper.inBuilding(gameWindow) && trooperBuilding != null) {
-																																																																																																																																																																																																																																							Floor floor = trooperBuilding.getTrooperFloor(trooper);
-																																																																																																																																																																																																																																							SpinnerModel  model = new SpinnerNumberModel(1, 1, floor.rooms.size(), 1);
-																																																																																																																																																																																																																																							spinnerTargetRoom.setModel(model);
-																																																																																																																																																																																																																																							return; 
-																																																																																																																																																																																																																																						} else if(comboBoxBuilding.getSelectedItem().toString().equals("None"))
-																																																																																																																																																																																																																																							return; 
-																																																																																																																																																																																																																																						
-																																																																																																																																																																																																																																						Building selectedBuilding = GameWindow.gameWindow.findHex(trooperUnit.X, trooperUnit.Y).buildings.get(comboBoxBuilding.getSelectedIndex()-1);
-																																																																																																																																																																																																																																						SpinnerModel  model = new SpinnerNumberModel(1, 1, selectedBuilding.floors.get(0).rooms.size(), 1);
-																																																																																																																																																																																																																																						spinnerTargetRoom.setModel(model);
-																																																																																																																																																																																																																																						// from 0 to 9, in 1.0 steps start value 5  
-																																																																																																																																																																																																																																						//SpinnerModel  model1 = new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0); 
-																																																																																																																																																																																																																																					}
-																																																																																																																																																																																																																																				});
-																																																																																																																																																																																																																																				comboBoxBuilding.setSelectedIndex(-1);
-																																																																																																																																																																																																																																				comboBoxBuilding.setBounds(495, 514, 136, 20);
-																																																																																																																																																																																																																																				panelActions.add(comboBoxBuilding);
-																																																																																																																																																																																																																																				
-																																																																																																																																																																																																																																						JLabel lblBuilding = new JLabel("Target Building:");
-																																																																																																																																																																																																																																						lblBuilding.setForeground(Color.WHITE);
-																																																																																																																																																																																																																																						lblBuilding.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																																																																																																																						lblBuilding.setBounds(495, 484, 121, 31);
-																																																																																																																																																																																																																																						panelActions.add(lblBuilding);
-																																																																																																																																																																																																																																						
-																																																																																																																																																																																																																																						spinnerTargetFloor = new JSpinner();
-																																																																																																																																																																																																																																						spinnerTargetFloor.setModel(new SpinnerNumberModel(new Integer(1), null, null, new Integer(1)));
-																																																																																																																																																																																																																																						spinnerTargetFloor.setBounds(691, 514, 40, 20);
-																																																																																																																																																																																																																																						panelActions.add(spinnerTargetFloor);
-																																																																																																																																																																																																																																						
-																																																																																																																																																																																																																																						JLabel lblFloor = new JLabel("Floor:");
-																																																																																																																																																																																																																																						lblFloor.setForeground(Color.WHITE);
-																																																																																																																																																																																																																																						lblFloor.setFont(new Font("Calibri", Font.PLAIN, 15));
-																																																																																																																																																																																																																																						lblFloor.setBounds(693, 484, 53, 31);
-																																																																																																																																																																																																																																						panelActions.add(lblFloor);
+				if (targetedFire != null) {
+					spentCA = targetedFire.spentCA + targetedFire.spentAimTime;
+					targetedFire = null;
+				}
+				possibleShots = true;
+				reaction = null;
+
+				if (comboBoxTargets.getSelectedIndex() == 0)
+					return;
+
+				// System.out.println("Targets Size: "+targetTroopers.size()+", Target Name:
+				// "+findTarget().number+" "+findTarget().name);
+
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+
+						// System.out.println("Target Changed Shots1");
+						PCShots();
+						// System.out.println("Target Changed Shots2");
+
+						return null;
+					}
+
+					@Override
+					protected void done() {
+
+						PCFireGuiUpdates();
+
+					}
+
+				};
+
+				worker.execute();
+			}
+		});
+		comboBoxTargets.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				/*
+				 * comboBoxAimTime.setSelectedIndex(0); targetedFire = null; possibleShots =
+				 * true; reaction = null;
+				 * 
+				 * if(comboBoxTargets.getSelectedIndex() == 0) return;
+				 * 
+				 * SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+				 * 
+				 * @Override protected Void doInBackground() throws Exception {
+				 * 
+				 * System.out.println("Target Changed Shots1"); PCShots();
+				 * System.out.println("Target Changed Shots2");
+				 * 
+				 * return null; }
+				 * 
+				 * @Override protected void done() {
+				 * 
+				 * PCFireGuiUpdates();
+				 * 
+				 * }
+				 * 
+				 * };
+				 * 
+				 * worker.execute();
+				 */
+
+			}
+		});
+
+		comboBoxTargets.setModel(new DefaultComboBoxModel(new String[] { "None" }));
+		comboBoxTargets.setSelectedIndex(0);
+
+		JLabel lblTagetIndividual = new JLabel("Taget Individual: ");
+		lblTagetIndividual.setBounds(25, 244, 125, 23);
+		lblTagetIndividual.setForeground(Color.WHITE);
+		lblTagetIndividual.setFont(new Font("Calibri", Font.PLAIN, 15));
+
+		comboBoxWeapon = new JComboBox();
+		comboBoxWeapon.setBounds(187, 270, 136, 23);
+		comboBoxWeapon.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				Weapons weapon = new Weapons();
+				weapon = weapon.findWeapon(comboBoxWeapon.getSelectedItem().toString());
+
+				// array of shots size
+				int size = weapon.getTargetedROF() + 1;
+				String[] shots = new String[size];
+				shots[0] = "0";
+
+				for (int i = 0; i < shots.length - 1; i++) {
+					shots[i + 1] = String.valueOf(i + 1);
+				}
+
+				DefaultComboBoxModel model = new DefaultComboBoxModel(shots);
+				// comboBoxAimTime.setModel(model);
+
+			}
+		});
+		comboBoxWeapon.setModel(new DefaultComboBoxModel(
+				new String[] { "None", "DC15A", "DC15A-ion", "DC15LE", "DC15X", "DC20", "DC15S", "DC17m", "DC17 Sniper",
+						"Z6", "Westar M5", "E5", "E5S", "E5C", "MA37", "M392 DMR", "BR55", "M739 SAW", "M6G", "SRS99",
+						"Type-51 Carbine", "Type-25 Rifle", "Type-25 Pistol", "Type-50 SRS", "Type-51 DER" }));
+		comboBoxWeapon.setSelectedIndex(0);
+
+		JLabel lblWeapon_1 = new JLabel("Weapon:");
+		lblWeapon_1.setBounds(187, 244, 114, 23);
+		lblWeapon_1.setForeground(Color.WHITE);
+		lblWeapon_1.setFont(new Font("Calibri", Font.PLAIN, 15));
+
+		JLabel lblShots = new JLabel("Starting Aim T:");
+		lblShots.setBounds(302, 244, 114, 23);
+		lblShots.setForeground(Color.WHITE);
+		lblShots.setFont(new Font("Calibri", Font.PLAIN, 15));
+
+		JButton btnFire = new JButton("Fire");
+		btnFire.setBounds(659, 269, 87, 23);
+		btnFire.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				try {
+					SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+						@Override
+						protected Void doInBackground() throws Exception {
+
+							// System.out.println("Shots1");
+							PCFire();
+							targetedFire.EAL += (int) spinnerConsecutiveEALBonus.getValue();
+							PCShots();
+							trooper.storedAimTime.clear();
+							// System.out.println("Shots2");
+
+							return null;
+						}
+
+						@Override
+						protected void done() {
+
+							// System.out.println("Done");
+							PCFireGuiUpdates();
+
+							// fire(window, unit, index, f, false);
+							if (openNext && !chckbxMultipleTargets.isSelected() && possibleShots == false
+									&& reaction == null) {
+								if (reaction != null) {
+									reaction.frame.dispose();
+									reaction = null;
+								}
+
+								actionSpent(window, index);
+								window.openNext(true);
+								f.dispose();
+
+							} else {
+								// refreshTargets();
+							}
+
+							GameWindow.gameWindow.conflictLog.addQueuedText();
+
+						}
+
+					};
+
+					worker.execute();
+				} catch (Exception exception) {
+					exception.printStackTrace();
+				}
+
+			}
+		});
+		btnFire.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+			}
+		});
+
+		JLabel lblEALBonus = new JLabel("% Bonus:");
+		lblEALBonus.setBounds(625, 182, 74, 31);
+		lblEALBonus.setForeground(Color.WHITE);
+		lblEALBonus.setFont(new Font("Calibri", Font.PLAIN, 15));
+
+		spinnerEALBonus = new JSpinner();
+		spinnerEALBonus.setBounds(541, 220, 74, 20);
+
+		textPaneTargetedFire = new JTextPane();
+		textPaneTargetedFire.setBounds(10, 343, 6, 64);
+		textPaneTargetedFire.setForeground(Color.WHITE);
+		textPaneTargetedFire.setFont(new Font("Calibri", Font.PLAIN, 13));
+		textPaneTargetedFire.setBackground(Color.DARK_GRAY);
+
+		JLabel lblSuppressiveFire = new JLabel("Suppressive Fire");
+		lblSuppressiveFire.setBounds(81, 300, 221, 31);
+		lblSuppressiveFire.setForeground(Color.WHITE);
+		lblSuppressiveFire.setFont(new Font("Calibri", Font.PLAIN, 18));
+
+		JLabel lblTagetUnit_1 = new JLabel("Taget Unit: ");
+		lblTagetUnit_1.setBounds(26, 325, 125, 23);
+		lblTagetUnit_1.setForeground(Color.WHITE);
+		lblTagetUnit_1.setFont(new Font("Calibri", Font.PLAIN, 15));
+
+		JLabel label_1 = new JLabel("Weapon:");
+		label_1.setBounds(157, 325, 136, 23);
+		label_1.setForeground(Color.WHITE);
+		label_1.setFont(new Font("Calibri", Font.PLAIN, 15));
+
+		comboBoxSuppressWeapon = new JComboBox();
+		comboBoxSuppressWeapon.setBounds(156, 345, 136, 20);
+		comboBoxSuppressWeapon.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				Weapons weapon = new Weapons();
+				weapon = weapon.findWeapon(comboBoxSuppressWeapon.getSelectedItem().toString());
+
+				// array of shots size
+				int size = weapon.getSuppressROF() + 1;
+				String[] shots = new String[size];
+				shots[0] = "0";
+
+				for (int i = 0; i < shots.length - 1; i++) {
+					shots[i + 1] = String.valueOf(i + 1);
+				}
+
+				DefaultComboBoxModel model = new DefaultComboBoxModel(shots);
+				comboBoxSuppressShots.setModel(model);
+			}
+		});
+		comboBoxSuppressWeapon.setModel(new DefaultComboBoxModel(
+				new String[] { "None", "DC15A", "DC15X", "DC15S", "DC17m", "DC17 Sniper", "Z6", "E5", "E5S", "E5C",
+						"MA37", "M392 DMR", "M739 SAW", "Type-51 Carbine", "Type-52 Rifle", "Type-52 Pistol" }));
+		comboBoxSuppressWeapon.setSelectedIndex(0);
+
+		JLabel label_2 = new JLabel("Shots:");
+		label_2.setBounds(299, 325, 87, 23);
+		label_2.setForeground(Color.WHITE);
+		label_2.setFont(new Font("Calibri", Font.PLAIN, 15));
+
+		comboBoxSuppressShots = new JComboBox();
+		comboBoxSuppressShots.setBounds(298, 345, 87, 20);
+		comboBoxSuppressShots.setModel(new DefaultComboBoxModel(new String[] { "0" }));
+		comboBoxSuppressShots.setSelectedIndex(0);
+
+		spinnerSuppressiveBonus = new JSpinner();
+		spinnerSuppressiveBonus.setBounds(399, 345, 74, 20);
+
+		JLabel label_3 = new JLabel("Other Bonus:");
+		label_3.setBounds(404, 325, 87, 23);
+		label_3.setForeground(Color.WHITE);
+		label_3.setFont(new Font("Calibri", Font.PLAIN, 15));
+
+		JButton button = new JButton("Fire");
+		button.setBounds(483, 344, 63, 23);
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				trooper.storedAimTime.clear();
+				fireSuppressive(window, unit, index, f, true);
+				if (openNext && !chckbxFreeAction.isSelected()) {
+					window.openNext(true);
+					f.dispose();
+
+				}
+			}
+		});
+
+		comboBoxTargetUnits = new JComboBox();
+		comboBoxTargetUnits.setBounds(10, 345, 136, 20);
+		comboBoxTargetUnits.setModel(new DefaultComboBoxModel(new String[] { "None" }));
+		comboBoxTargetUnits.setSelectedIndex(0);
+		panelActions.setLayout(null);
+		panelActions.add(lblSpot_1);
+		panelActions.add(lblSuppressiveFire);
+		panelActions.add(btnRollSpot);
+		panelActions.add(comboBoxScanArea);
+		panelActions.add(chckbxFreeSpotTest);
+		panelActions.add(lblSustainedFire);
+		panelActions.add(lblTagetUnit_1);
+		panelActions.add(label_1);
+		panelActions.add(label_2);
+		panelActions.add(comboBoxTargetUnits);
+		panelActions.add(comboBoxSuppressWeapon);
+		panelActions.add(comboBoxSuppressShots);
+		panelActions.add(label_3);
+		panelActions.add(spinnerSuppressiveBonus);
+		panelActions.add(button);
+		panelActions.add(textPaneTargetedFire);
+		panelActions.add(lblTagetIndividual);
+		panelActions.add(comboBoxTargets);
+		panelActions.add(lblWeapon_1);
+		panelActions.add(lblShots);
+		panelActions.add(comboBoxWeapon);
+		panelActions.add(comboBoxAimTime);
+		panelActions.add(lblEALBonus);
+		panelActions.add(spinnerEALBonus);
+		panelActions.add(btnFire);
+
+		JLabel lblSpottingUnits = new JLabel("Spotting Units");
+		lblSpottingUnits.setBounds(560, 74, 369, 31);
+		lblSpottingUnits.setForeground(Color.WHITE);
+		lblSpottingUnits.setFont(new Font("Calibri", Font.PLAIN, 25));
+		panelActions.add(lblSpottingUnits);
+
+		comboBoxSpottingUnits = new JComboBox();
+		comboBoxSpottingUnits.setBounds(91, 121, 136, 23);
+		comboBoxSpottingUnits.setModel(new DefaultComboBoxModel(new String[] { "None" }));
+		comboBoxSpottingUnits.setSelectedIndex(0);
+		panelActions.add(comboBoxSpottingUnits);
+
+		JButton btnAddUnit = new JButton("Add Unit");
+		btnAddUnit.setBounds(237, 120, 101, 23);
+		btnAddUnit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnAddUnit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				if (comboBoxSpottingUnits.getSelectedIndex() > 0) {
+
+					String callsign = comboBoxSpottingUnits.getSelectedItem().toString();
+
+					if (!callsigns.contains(callsign)) {
+						callsigns.add(callsign);
+					}
+
+					listSpottedUnitsArray.removeAll();
+
+					DefaultListModel listSpottedUnits = new DefaultListModel();
+
+					for (int i = 0; i < callsigns.size(); i++) {
+						listSpottedUnits.addElement(callsigns.get(i));
+
+					}
+
+					listSpottedUnitsArray.setModel(listSpottedUnits);
+
+				}
+
+			}
+		});
+		panelActions.add(btnAddUnit);
+
+		JLabel lblAddUnit = new JLabel("Add Unit: ");
+		lblAddUnit.setBounds(91, 94, 70, 31);
+		lblAddUnit.setForeground(Color.WHITE);
+		lblAddUnit.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(lblAddUnit);
+
+		JButton btnClear = new JButton("Clear");
+		btnClear.setBounds(444, 121, 101, 23);
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnClear.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				listSpottedUnitsArray.removeAll();
+				callsigns.clear();
+
+				DefaultListModel listSpottedUnits = new DefaultListModel();
+
+				for (int i = 0; i < callsigns.size(); i++) {
+					listSpottedUnits.addElement(callsigns.get(i));
+
+				}
+
+				listSpottedUnitsArray.setModel(listSpottedUnits);
+
+			}
+		});
+		panelActions.add(btnClear);
+
+		JLabel lblCloseCombat = new JLabel("Close Combat:");
+		lblCloseCombat.setBounds(81, 375, 221, 31);
+		lblCloseCombat.setForeground(Color.WHITE);
+		lblCloseCombat.setFont(new Font("Calibri", Font.PLAIN, 18));
+		panelActions.add(lblCloseCombat);
+
+		JLabel label_13 = new JLabel("Taget Individual: ");
+		label_13.setBounds(24, 395, 121, 31);
+		label_13.setForeground(Color.WHITE);
+		label_13.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(label_13);
+
+		JLabel lblMeleeWeapon = new JLabel("Melee Weapon:");
+		lblMeleeWeapon.setBounds(151, 395, 136, 31);
+		lblMeleeWeapon.setForeground(Color.WHITE);
+		lblMeleeWeapon.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(lblMeleeWeapon);
+
+		JLabel label_14 = new JLabel("Other Bonus:");
+		label_14.setBounds(293, 395, 87, 31);
+		label_14.setForeground(Color.WHITE);
+		label_14.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(label_14);
+
+		spinnerMeleeBonus = new JSpinner();
+		spinnerMeleeBonus.setBounds(293, 426, 74, 20);
+		panelActions.add(spinnerMeleeBonus);
+
+		JButton button_2 = new JButton("Fire");
+		button_2.setBounds(386, 425, 59, 23);
+		button_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// System.out.println("Pass 2556");
+				meleeAttack(openUnit, openTrooper);
+				if (openNext && !chckbxFreeAction.isSelected()) {
+					window.openNext(true);
+					f.dispose();
+
+				}
+			}
+		});
+		panelActions.add(button_2);
+
+		comboBoxMeleeWeapon = new JComboBox();
+		comboBoxMeleeWeapon.setBounds(151, 426, 136, 20);
+		comboBoxMeleeWeapon.setModel(new DefaultComboBoxModel(new String[] { "None", "Vibroknife" }));
+		comboBoxMeleeWeapon.setSelectedIndex(0);
+		panelActions.add(comboBoxMeleeWeapon);
+
+		comboBoxMeleeTargets = new JComboBox();
+		comboBoxMeleeTargets.setBounds(9, 426, 136, 20);
+		comboBoxMeleeTargets.setModel(new DefaultComboBoxModel(new String[] { "None" }));
+		comboBoxMeleeTargets.setSelectedIndex(0);
+		panelActions.add(comboBoxMeleeTargets);
+
+		JLabel lblHandGrenades = new JLabel("Hand Grenades:");
+		lblHandGrenades.setBounds(77, 456, 221, 31);
+		lblHandGrenades.setForeground(Color.WHITE);
+		lblHandGrenades.setFont(new Font("Calibri", Font.PLAIN, 18));
+		panelActions.add(lblHandGrenades);
+
+		JLabel lblGrenade = new JLabel("Grenade: ");
+		lblGrenade.setBounds(10, 484, 136, 31);
+		lblGrenade.setForeground(Color.WHITE);
+		lblGrenade.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(lblGrenade);
+
+		comboBoxGrenade = new JComboBox();
+		comboBoxGrenade.setBounds(10, 514, 136, 20);
+		comboBoxGrenade.setModel(new DefaultComboBoxModel(new String[] { "None", "Class-A Thermal Detonator",
+				"Class-A Haywire Grenade", "M9 Frag", "Type-1 Plasma Grenade" }));
+		comboBoxGrenade.setSelectedIndex(0);
+		panelActions.add(comboBoxGrenade);
+
+		JLabel label_15 = new JLabel("Other Bonus:");
+		label_15.setBounds(692, 541, 87, 31);
+		label_15.setForeground(Color.WHITE);
+		label_15.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(label_15);
+
+		spinnerThrowBonus = new JSpinner();
+		spinnerThrowBonus.setBounds(696, 571, 74, 20);
+		panelActions.add(spinnerThrowBonus);
+
+		JButton btnThrow = new JButton("Throw");
+		btnThrow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (comboBoxGrenade.getSelectedItem().equals("None")) {
+					window.gameWindow.conflictLog.addNewLine("Select Grenade!");
+					return;
+				}
+
+				Trooper target;
+
+				if (grenadeTargets.size() < 1 || comboBoxGrenadeTargets.getSelectedIndex() < 1) {
+					target = null;
+				} else {
+					target = grenadeTargets.get(comboBoxGrenadeTargets.getSelectedIndex() - 1);
+				}
+
+				PcGrenadeThrow nade = new PcGrenadeThrow(trooper, target, (String) comboBoxGrenade.getSelectedItem(),
+						(int) spinnerThrowBonus.getValue(), (int) spinnerThrowEALBonus.getValue());
+
+				// If target is a building
+				if (target == null && (int) spinnerTargetRoom.getValue() > 0
+						&& (comboBoxBuilding.getSelectedItem().toString().equals("ALREADY INSIDE")
+								|| comboBoxBuilding.getSelectedIndex() > 0)) {
+
+					Hex hex = gameWindow.findHex(trooperUnit.X, trooperUnit.Y);
+
+					if (trooperBuilding == null) {
+						Building building = hex.buildings.get(comboBoxBuilding.getSelectedIndex() - 1);
+
+						if ((int) spinnerTargetFloor.getValue() >= building.floors.size()) {
+							gameWindow.conflictLog.addNewLine("Input a valid floor.");
+							return;
+						}
+
+						nade.tossIntoRoom(
+								building.floors.get((int) spinnerTargetFloor.getValue() - 1).rooms
+										.get((int) spinnerTargetRoom.getValue() - 1),
+								true, (int) spinnerTargetFloor.getValue(), trooperUnit.X, trooperUnit.Y, building.name);
+					} else if (comboBoxBuilding.getSelectedItem().toString().equals("ALREADY INSIDE")) {
+						nade.tossIntoRoom(
+								trooperBuilding.getTrooperFloor(trooper).rooms
+										.get((int) spinnerTargetRoom.getValue() - 1),
+								false, 0, trooperUnit.X, trooperUnit.Y, trooperBuilding.name);
+
+					}
+
+					// If target is a hex
+				} else {
+					nade.toss((int) spinnerGrenadeX.getValue(), (int) spinnerGrenadeY.getValue());
+				}
+
+				GameWindow.gameWindow.conflictLog.addQueuedText();
+
+				refreshTargets();
+
+				if (!chckbxFreeAction.isSelected())
+					actionSpent(window, index);
+
+				gameWindow.refreshInitiativeOrder();
+			}
+		});
+		btnThrow.setBounds(738, 513, 125, 23);
+		btnThrow.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+			}
+		});
+		panelActions.add(btnThrow);
+
+		JLabel lblTargetHex = new JLabel("Target Hex:");
+		lblTargetHex.setBounds(355, 484, 87, 31);
+		lblTargetHex.setForeground(Color.WHITE);
+		lblTargetHex.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(lblTargetHex);
+
+		JLabel lblX = new JLabel("X:");
+		lblX.setBounds(340, 510, 16, 31);
+		lblX.setForeground(Color.WHITE);
+		lblX.setFont(new Font("Calibri", Font.PLAIN, 12));
+		panelActions.add(lblX);
+
+		spinnerGrenadeX = new JSpinner();
+		spinnerGrenadeX.setBounds(355, 514, 40, 20);
+		panelActions.add(spinnerGrenadeX);
+
+		spinnerGrenadeY = new JSpinner();
+		spinnerGrenadeY.setBounds(419, 514, 40, 20);
+		panelActions.add(spinnerGrenadeY);
+
+		JLabel lblY = new JLabel("Y:");
+		lblY.setBounds(404, 510, 16, 31);
+		lblY.setForeground(Color.WHITE);
+		lblY.setFont(new Font("Calibri", Font.PLAIN, 12));
+		panelActions.add(lblY);
+
+		comboBoxGrenadeTargets = new JComboBox();
+		comboBoxGrenadeTargets.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				comboBoxAimTime.setSelectedIndex(0);
+				if (targetedFire != null) {
+					spentCA = targetedFire.spentCA + targetedFire.spentAimTime;
+					targetedFire = null;
+				}
+				possibleShots = true;
+				reaction = null;
+
+				if (comboBoxTargets.getSelectedIndex() == 0)
+					return;
+
+				// System.out.println("Targets Size: "+targetTroopers.size()+", Target Name:
+				// "+findTarget().number+" "+findTarget().name);
+
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+
+						// System.out.println("Target Changed Shots1");
+						PCShots();
+						// System.out.println("Target Changed Shots2");
+
+						return null;
+					}
+
+					@Override
+					protected void done() {
+
+						PCFireGuiUpdates();
+
+					}
+
+				};
+
+				worker.execute();
+			}
+		});
+		comboBoxGrenadeTargets.setBounds(157, 514, 136, 20);
+		comboBoxGrenadeTargets.setModel(new DefaultComboBoxModel(new String[] { "None" }));
+		comboBoxGrenadeTargets.setSelectedIndex(0);
+		panelActions.add(comboBoxGrenadeTargets);
+
+		JLabel label_16 = new JLabel("Taget Individual: ");
+		label_16.setBounds(157, 484, 121, 31);
+		label_16.setForeground(Color.WHITE);
+		label_16.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(label_16);
+
+		JLabel lblLauncher_1 = new JLabel("Launcher:");
+		lblLauncher_1.setBounds(79, 544, 221, 31);
+		lblLauncher_1.setForeground(Color.WHITE);
+		lblLauncher_1.setFont(new Font("Calibri", Font.PLAIN, 25));
+		panelActions.add(lblLauncher_1);
+
+		comboBoxLauncher = new JComboBox();
+		comboBoxLauncher.setBounds(10, 603, 136, 20);
+		comboBoxLauncher.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+
+				if (comboBoxLauncher.getSelectedIndex() < 0) {
+					return;
+				}
+
+				if (comboBoxLauncher.getSelectedItem().equals("None")) {
+					comboBoxAmmoTypeLauncher.removeAllItems();
+					return;
+				}
+
+				DefaultComboBoxModel ammoTypes = new DefaultComboBoxModel();
+
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+
+						// Sets ammo types
+						Weapons weapon = new Weapons();
+						weapon.getWeapons();
+						Weapons launcher = weapon.findWeapon((String) comboBoxLauncher.getSelectedItem());
+						// System.out.println("Launcher Name: "+launcher.name);
+
+						for (PCAmmo ammo : launcher.pcAmmoTypes) {
+							// System.out.println("ADDED Name: "+ammo.name);
+							ammoTypes.addElement(ammo.name);
+
+						}
+
+						comboBoxAimTime.setSelectedIndex(0);
+						if (targetedFire != null) {
+							spentCA = targetedFire.spentCA + targetedFire.spentAimTime;
+							targetedFire = null;
+						}
+						possibleShots = true;
+						reaction = null;
+
+						if (comboBoxTargets.getSelectedIndex() == 0)
+							return null;
+
+						PCShots();
+
+						return null;
+					}
+
+					@Override
+					protected void done() {
+
+						comboBoxAmmoTypeLauncher.setModel(ammoTypes);
+						PCFireGuiUpdates();
+
+					}
+
+				};
+
+				worker.execute();
+
+			}
+		});
+		comboBoxLauncher
+				.setModel(new DefaultComboBoxModel(new String[] { "None", "RPS-6", "DC40", "B2RR", "DC17 Rocket" }));
+		comboBoxLauncher.setSelectedIndex(0);
+		panelActions.add(comboBoxLauncher);
+
+		JLabel lblLauncher_2 = new JLabel("Launcher: ");
+		lblLauncher_2.setBounds(10, 573, 136, 31);
+		lblLauncher_2.setForeground(Color.WHITE);
+		lblLauncher_2.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(lblLauncher_2);
+
+		spinnerLauncherBonus = new JSpinner();
+		spinnerLauncherBonus.setBounds(156, 603, 74, 20);
+		panelActions.add(spinnerLauncherBonus);
+
+		JLabel label_19 = new JLabel("Other Bonus:");
+		label_19.setBounds(152, 573, 87, 31);
+		label_19.setForeground(Color.WHITE);
+		label_19.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(label_19);
+
+		spinnerLauncherX = new JSpinner();
+		spinnerLauncherX.setBounds(264, 603, 40, 20);
+		panelActions.add(spinnerLauncherX);
+
+		JLabel label_20 = new JLabel("X:");
+		label_20.setBounds(249, 599, 16, 31);
+		label_20.setForeground(Color.WHITE);
+		label_20.setFont(new Font("Calibri", Font.PLAIN, 12));
+		panelActions.add(label_20);
+
+		JLabel label_21 = new JLabel("Y:");
+		label_21.setBounds(313, 599, 16, 31);
+		label_21.setForeground(Color.WHITE);
+		label_21.setFont(new Font("Calibri", Font.PLAIN, 12));
+		panelActions.add(label_21);
+
+		spinnerLauncherY = new JSpinner();
+		spinnerLauncherY.setBounds(328, 603, 40, 20);
+		panelActions.add(spinnerLauncherY);
+
+		JLabel label_22 = new JLabel("Target Hex:");
+		label_22.setBounds(264, 573, 87, 31);
+		label_22.setForeground(Color.WHITE);
+		label_22.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(label_22);
+
+		JLabel lblAmmoType = new JLabel("Ammo Type:");
+		lblAmmoType.setBounds(26, 633, 125, 16);
+		lblAmmoType.setForeground(Color.WHITE);
+		lblAmmoType.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(lblAmmoType);
+
+		comboBoxAmmoTypeLauncher = new JComboBox();
+		comboBoxAmmoTypeLauncher.setBounds(10, 651, 136, 20);
+		comboBoxAmmoTypeLauncher.setSelectedIndex(-1);
+		panelActions.add(comboBoxAmmoTypeLauncher);
+
+		comboBoxLauncherConcealment = new JComboBox();
+		comboBoxLauncherConcealment.setBounds(152, 651, 136, 20);
+		comboBoxLauncherConcealment.setModel(new DefaultComboBoxModel(
+				new String[] { "No Concealment ", "Level 1", "Level 2", "Level 3", "Level 4", "Level 5" }));
+		comboBoxLauncherConcealment.setSelectedIndex(0);
+		panelActions.add(comboBoxLauncherConcealment);
+
+		JLabel lblHexConcealment = new JLabel("Hex Concealment:");
+		lblHexConcealment.setBounds(152, 818, 136, 31);
+		lblHexConcealment.setForeground(Color.WHITE);
+		lblHexConcealment.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(lblHexConcealment);
+
+		chckbxFreeAction = new JCheckBox("Free Action");
+		chckbxFreeAction.setBounds(14, 156, 97, 23);
+		chckbxFreeAction.setBackground(Color.DARK_GRAY);
+		chckbxFreeAction.setFont(new Font("Calibri", Font.BOLD, 15));
+		chckbxFreeAction.setForeground(Color.WHITE);
+		panelActions.add(chckbxFreeAction);
+
+		chckbxReacted = new JCheckBox("Reacted");
+		chckbxReacted.setBounds(113, 156, 86, 23);
+		chckbxReacted.setForeground(Color.WHITE);
+		chckbxReacted.setFont(new Font("Calibri", Font.BOLD, 15));
+		chckbxReacted.setBackground(Color.DARK_GRAY);
+		panelActions.add(chckbxReacted);
+
+		lblCombatActions = new JLabel("Combat Actions:");
+		lblCombatActions.setBounds(258, 203, 65, 31);
+		lblCombatActions.setForeground(Color.WHITE);
+		lblCombatActions.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(lblCombatActions);
+
+		JLabel lblCaBonus = new JLabel("CA Bonus:");
+		lblCaBonus.setBounds(459, 182, 74, 31);
+		lblCaBonus.setForeground(Color.WHITE);
+		lblCaBonus.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(lblCaBonus);
+
+		spinnerCABonus = new JSpinner();
+		spinnerCABonus.setBounds(459, 219, 73, 20);
+		panelActions.add(spinnerCABonus);
+
+		JLabel label_18 = new JLabel("EAL Bonus:");
+		label_18.setBounds(541, 182, 87, 31);
+		label_18.setForeground(Color.WHITE);
+		label_18.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(label_18);
+
+		spinnerPercentBonus = new JSpinner();
+		spinnerPercentBonus.setBounds(625, 220, 74, 20);
+		panelActions.add(spinnerPercentBonus);
+
+		lblPossibleShots = new JLabel("Possible Shots:");
+		lblPossibleShots.setBounds(669, 328, 222, 20);
+		lblPossibleShots.setForeground(Color.WHITE);
+		lblPossibleShots.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(lblPossibleShots);
+
+		lblAimTime = new JLabel("Aim Time:");
+		lblAimTime.setBounds(551, 242, 178, 23);
+		lblAimTime.setForeground(Color.WHITE);
+		lblAimTime.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(lblAimTime);
+
+		lblTN = new JLabel("TN: 0");
+		lblTN.setBounds(669, 300, 222, 23);
+		lblTN.setForeground(Color.WHITE);
+		lblTN.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(lblTN);
+
+		chckbxFullAuto = new JCheckBox("Full Auto");
+		chckbxFullAuto.setBounds(462, 296, 74, 23);
+		chckbxFullAuto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				if (targetedFire != null) {
+
+					if (targetedFire.consecutiveShots) {
+						targetedFire.EAL -= 2;
+						targetedFire.ALMSum -= 2;
+						targetedFire.consecutiveShots = false;
+					}
+
+				}
+
+				PCShots();
+				PCFireGuiUpdates();
+			}
+		});
+		chckbxFullAuto.setForeground(Color.WHITE);
+		chckbxFullAuto.setBackground(Color.DARK_GRAY);
+		panelActions.add(chckbxFullAuto);
+
+		chckbxSustainedFullAuto = new JCheckBox("Sustained FAB");
+		chckbxSustainedFullAuto.setBounds(551, 296, 113, 23);
+		chckbxSustainedFullAuto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (targetedFire != null) {
+
+					if (targetedFire.consecutiveShots) {
+						targetedFire.EAL -= 2;
+						targetedFire.ALMSum -= 2;
+						targetedFire.consecutiveShots = false;
+					}
+
+				}
+
+				PCShots();
+
+			}
+		});
+		chckbxSustainedFullAuto.setForeground(Color.WHITE);
+		chckbxSustainedFullAuto.setBackground(Color.DARK_GRAY);
+		panelActions.add(chckbxSustainedFullAuto);
+
+		JButton btnAim = new JButton("Aim");
+		btnAim.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnAim.setBounds(551, 269, 87, 23);
+		btnAim.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+
+						aim(comboBoxAimTime.getSelectedIndex());
+						// PCShots();
+						if (!chckbxFreeAction.isSelected() && spentCA >= TFCA) {
+
+							actionSpent(window, index);
+							if (openNext)
+								window.openNext(true);
+							f.dispose();
+
+						} else {
+							PCShots();
+
+						}
+
+						return null;
+					}
+
+					@Override
+					protected void done() {
+
+						PCFireGuiUpdates();
+
+					}
+
+				};
+
+				worker.execute();
+
+			}
+		});
+		panelActions.add(btnAim);
+
+		JLabel lblTargetZone = new JLabel("Target Zone:");
+		lblTargetZone.setBounds(426, 243, 114, 23);
+		lblTargetZone.setForeground(Color.WHITE);
+		lblTargetZone.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(lblTargetZone);
+
+		comboBoxTargetZone = new JComboBox();
+		comboBoxTargetZone.setBounds(427, 270, 113, 23);
+		comboBoxTargetZone.setModel(new DefaultComboBoxModel(new String[] { "None", "Head", "Mid Body", "Legs" }));
+		comboBoxTargetZone.setSelectedIndex(0);
+		panelActions.add(comboBoxTargetZone);
+
+		chckbxMultipleTargets = new JCheckBox("Multiple Targets");
+		chckbxMultipleTargets.setBounds(339, 296, 121, 23);
+		chckbxMultipleTargets.setForeground(Color.WHITE);
+		chckbxMultipleTargets.setBackground(Color.DARK_GRAY);
+		panelActions.add(chckbxMultipleTargets);
+
+		lblTfSpentCa = new JLabel("TF Spent CA: 0");
+		lblTfSpentCa.setBounds(348, 203, 102, 31);
+		lblTfSpentCa.setForeground(Color.WHITE);
+		lblTfSpentCa.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(lblTfSpentCa);
+
+		JButton btnSpotAllUnits = new JButton("Spot All");
+		btnSpotAllUnits.setBounds(444, 149, 101, 23);
+		btnSpotAllUnits.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				if (trooper.returnTrooperUnit(gameWindow).lineOfSight.size() <= 0)
+					return;
+
+				if (comboBoxSpottingUnits.getComponentCount() > 1) {
+
+					for (int i = 1; i < comboBoxSpottingUnits.getComponentCount(); i++) {
+
+						String callsign = (String) comboBoxSpottingUnits.getItemAt(i);
+
+						if (!callsigns.contains(callsign)) {
+							callsigns.add(callsign);
+						}
+
+						listSpottedUnitsArray.removeAll();
+
+						DefaultListModel listSpottedUnits = new DefaultListModel();
+
+						for (int x = 0; x < callsigns.size(); x++) {
+							listSpottedUnits.addElement(callsigns.get(x));
+
+						}
+
+						listSpottedUnitsArray.setModel(listSpottedUnits);
+					}
+
+					// System.out.println("Pass Roll Spot Programatical click");
+					btnRollSpot.doClick();
+
+					for (int i = 0; i < callsigns.size(); i++) {
+						spotTest(callsigns.get(i), window, trooper, unit, index);
+					}
+
+					// Clears list
+					listSpottedUnitsArray.removeAll();
+					callsigns.clear();
+
+					DefaultListModel listSpottedUnits = new DefaultListModel();
+
+					for (int i = 0; i < callsigns.size(); i++) {
+						listSpottedUnits.addElement(callsigns.get(i));
+
+					}
+
+					listSpottedUnitsArray.setModel(listSpottedUnits);
+
+					// If not a free test
+					if (!chckbxFreeSpotTest.isSelected()) {
+						// Opens next window
+						if (openNext) {
+							window.openNext(true);
+						}
+
+						// Closes window
+						f.dispose();
+					}
+
+				}
+
+			}
+		});
+		panelActions.add(btnSpotAllUnits);
+
+		JLabel lblStance = new JLabel("Misc.");
+		lblStance.setBounds(81, 11, 146, 31);
+		lblStance.setForeground(Color.WHITE);
+		lblStance.setFont(new Font("Calibri", Font.PLAIN, 25));
+		panelActions.add(lblStance);
+
+		comboBoxStance = new JComboBox();
+		comboBoxStance.setBounds(91, 42, 136, 23);
+		comboBoxStance.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (comboBoxStance.getSelectedItem().toString().equals(trooper.stance)) {
+					return;
+				}
+
+				// System.out.println("Changing Stance, Trooper Stance: |"+trooper.stance+"| Box
+				// Stance: |"+ comboBoxStance.getSelectedItem().toString()+"|");
+				trooper.stance = comboBoxStance.getSelectedItem().toString();
+
+				if (targetedFire != null) {
+					targetedFire.spentCA++;
+				} else {
+
+					spentCA++;
+				}
+				PCShots();
+				PCFireGuiUpdates();
+			}
+		});
+		comboBoxStance.setModel(new DefaultComboBoxModel(new String[] { "Standing", "Crouched", "Prone" }));
+		panelActions.add(comboBoxStance);
+
+		chckbxManualStance = new JCheckBox("Manual Stance");
+		chckbxManualStance.setBounds(237, 42, 136, 23);
+		chckbxManualStance.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (chckbxManualStance.isSelected())
+					trooper.manualStance = true;
+				else
+					trooper.manualStance = false;
+
+				// System.out.println("Manual Stance: "+trooper.manualStance);
+			}
+		});
+		chckbxManualStance.setForeground(Color.WHITE);
+		chckbxManualStance.setFont(new Font("Calibri", Font.BOLD, 15));
+		chckbxManualStance.setBackground(Color.DARK_GRAY);
+		panelActions.add(chckbxManualStance);
+
+		chckbxWeaponLights = new JCheckBox("Weapon Lights");
+		chckbxWeaponLights.setBounds(372, 42, 142, 23);
+		chckbxWeaponLights.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (!getWeapon().light) {
+					gameWindow.conflictLog.addNewLine("This trooper does not have weapon lights.");
+					return;
+				}
+
+				if (chckbxWeaponLights.isSelected())
+					trooper.weaponLightOn = true;
+				else
+					trooper.weaponLightOn = false;
+
+			}
+		});
+		chckbxWeaponLights.setForeground(Color.WHITE);
+		chckbxWeaponLights.setFont(new Font("Calibri", Font.BOLD, 15));
+		chckbxWeaponLights.setBackground(Color.DARK_GRAY);
+		panelActions.add(chckbxWeaponLights);
+
+		chckbxNvgs = new JCheckBox("NVGs");
+		chckbxNvgs.setBounds(524, 42, 61, 23);
+		chckbxNvgs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (!trooper.nightVision) {
+					gameWindow.conflictLog.addNewLine("This trooper does not have night vision.");
+					return;
+				}
+
+				if (chckbxWeaponLights.isSelected())
+					trooper.nightVisionInUse = true;
+				else
+					trooper.nightVisionInUse = false;
+
+			}
+		});
+		chckbxNvgs.setForeground(Color.WHITE);
+		chckbxNvgs.setFont(new Font("Calibri", Font.BOLD, 15));
+		chckbxNvgs.setBackground(Color.DARK_GRAY);
+		panelActions.add(chckbxNvgs);
+
+		JLabel lblGen = new JLabel("Gen:");
+		lblGen.setBounds(619, 40, 40, 28);
+		lblGen.setForeground(Color.WHITE);
+		lblGen.setFont(new Font("Calibri", Font.PLAIN, 15));
+		panelActions.add(lblGen);
+
+		spinnerNVGGen = new JSpinner();
+		spinnerNVGGen.setBounds(664, 44, 34, 20);
+		panelActions.add(spinnerNVGGen);
+
+		btnAddNvgs = new JButton("Add NVGs");
+		btnAddNvgs.setBounds(619, 11, 114, 23);
+		btnAddNvgs.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				if ((int) spinnerNVGGen.getValue() < 1 || (int) spinnerNVGGen.getValue() > 5) {
+					gameWindow.conflictLog.addNewLine("NVG Gen not a value from 1 to 5.");
+					return;
+				}
+
+				trooper.nightVision = true;
+				trooper.nightVisionEffectiveness = (int) spinnerNVGGen.getValue();
+
+			}
+		});
+		panelActions.add(btnAddNvgs);
+
+		chckbxLaser = new JCheckBox("Laser");
+		chckbxLaser.setBounds(237, 11, 74, 23);
+		chckbxLaser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (!getWeapon().laser) {
+					gameWindow.conflictLog.addNewLine("This trooper does not have a laser pointer.");
+					return;
+				}
+
+				if (chckbxLaser.isSelected())
+					trooper.weaponLaserOn = true;
+				else
+					trooper.weaponLaserOn = false;
+
+			}
+		});
+		chckbxLaser.setForeground(Color.WHITE);
+		chckbxLaser.setFont(new Font("Calibri", Font.BOLD, 15));
+		chckbxLaser.setBackground(Color.DARK_GRAY);
+		panelActions.add(chckbxLaser);
+
+		chckbxIrLaser = new JCheckBox("IR Laser");
+		chckbxIrLaser.setBounds(372, 11, 138, 23);
+		chckbxIrLaser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (!getWeapon().irLaser) {
+					gameWindow.conflictLog.addNewLine("This trooper does not have a IR laser pointer.");
+					return;
+				}
+
+				if (chckbxIrLaser.isSelected())
+					trooper.weaponIRLaserOn = true;
+				else
+					trooper.weaponIRLaserOn = false;
+			}
+		});
+		chckbxIrLaser.setForeground(Color.WHITE);
+		chckbxIrLaser.setFont(new Font("Calibri", Font.BOLD, 15));
+		chckbxIrLaser.setBackground(Color.DARK_GRAY);
+		panelActions.add(chckbxIrLaser);
+
+		chckbxThermals = new JCheckBox("Thermals");
+		chckbxThermals.setBounds(524, 11, 91, 23);
+		chckbxThermals.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (!trooper.thermalVision) {
+					gameWindow.conflictLog.addNewLine("This trooper does not have thermal vision.");
+					return;
+				}
+
+				if (chckbxThermals.isSelected())
+					trooper.thermalVisionInUse = true;
+				else
+					trooper.thermalVisionInUse = false;
+
+			}
+		});
+		chckbxThermals.setForeground(Color.WHITE);
+		chckbxThermals.setFont(new Font("Calibri", Font.BOLD, 15));
+		chckbxThermals.setBackground(Color.DARK_GRAY);
+		panelActions.add(chckbxThermals);
+
+		JButton btnAddThermals = new JButton("Add Thermals");
+		btnAddThermals.setBounds(743, 11, 130, 23);
+		btnAddThermals.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				trooper.thermalVision = true;
+
+			}
+		});
+		panelActions.add(btnAddThermals);
+
+		JScrollPane scrollPane_6 = new JScrollPane();
+		scrollPane_6.setBounds(570, 115, 215, 64);
+		panelActions.add(scrollPane_6);
+
+		listSpottedUnitsArray = new JList();
+		listSpottedUnitsArray.setBackground(Color.DARK_GRAY);
+		listSpottedUnitsArray.setForeground(Color.WHITE);
+		scrollPane_6.setViewportView(listSpottedUnitsArray);
+
+		JLabel lblConsecutiveEalBonus = new JLabel("Consecutive EAL Bonus:");
+		lblConsecutiveEalBonus.setForeground(Color.WHITE);
+		lblConsecutiveEalBonus.setFont(new Font("Calibri", Font.PLAIN, 15));
+		lblConsecutiveEalBonus.setBounds(709, 186, 164, 23);
+		panelActions.add(lblConsecutiveEalBonus);
+
+		spinnerConsecutiveEALBonus = new JSpinner();
+		spinnerConsecutiveEALBonus.setBounds(709, 220, 85, 20);
+		panelActions.add(spinnerConsecutiveEALBonus);
+
+		spinner2YardHexRange = new JSpinner();
+		spinner2YardHexRange.setBounds(756, 270, 74, 22);
+		panelActions.add(spinner2YardHexRange);
+
+		JLabel lblYardHexes = new JLabel("2 Yard Hexes Range");
+		lblYardHexes.setForeground(Color.WHITE);
+		lblYardHexes.setFont(new Font("Calibri", Font.PLAIN, 15));
+		lblYardHexes.setBounds(756, 242, 135, 31);
+		panelActions.add(lblYardHexes);
+
+		spinnerThrowEALBonus = new JSpinner();
+		spinnerThrowEALBonus.setBounds(789, 571, 74, 20);
+		panelActions.add(spinnerThrowEALBonus);
+
+		JLabel lblEalBonus = new JLabel("EAL Bonus:");
+		lblEalBonus.setForeground(Color.WHITE);
+		lblEalBonus.setFont(new Font("Calibri", Font.PLAIN, 15));
+		lblEalBonus.setBounds(785, 541, 87, 31);
+		panelActions.add(lblEalBonus);
+
+		JLabel lblOr = new JLabel("OR");
+		lblOr.setForeground(Color.WHITE);
+		lblOr.setFont(new Font("Calibri", Font.PLAIN, 12));
+		lblOr.setBounds(307, 510, 16, 31);
+		panelActions.add(lblOr);
+
+		chckbxHoming = new JCheckBox("Homing");
+		chckbxHoming.setForeground(Color.WHITE);
+		chckbxHoming.setBackground(Color.DARK_GRAY);
+		chckbxHoming.setBounds(258, 296, 80, 23);
+		panelActions.add(chckbxHoming);
+
+		JButton btnShootHex = new JButton("Shoot Hex");
+		btnShootHex.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int hexDiff = GameWindow.hexDif((int) spinnerLauncherX.getValue(),
+							(int) spinnerLauncherY.getValue(), unit);
+
+					int rangeInPcHexes = hexDiff * GameWindow.hexSize;
+
+					InjuryLog.InjuryLog.addAlreadyInjured(x, y);
+
+					// 32 is target size of 20 yard hex
+					int EAL = PCUtility.findVisibiltyALM(unit, trooper, rangeInPcHexes) + 32
+							+ PCUtility.findRangeALM(rangeInPcHexes) + PCUtility.getSL("Launcher", trooper)
+							+ new Weapons().findWeapon(comboBoxLauncher.getSelectedItem().toString()).aimTime
+									.get(new Weapons().findWeapon(comboBoxLauncher.getSelectedItem().toString()).aimTime
+											.size() - 1);
+
+					int TN = PCUtility.getOddsOfHitting(true, EAL);
+					int roll = DiceRoller.randInt(0, 99);
+
+					GameWindow.addTrooperEntryToLog(trooper, "fires rocket into hex, X: "
+							+ (int) spinnerLauncherX.getValue() + ", Y: " + (int) spinnerLauncherY.getValue());
+
+					if (roll <= TN) {
+
+						GameWindow.gameWindow.conflictLog
+								.addNewLineToQueue("Launcher Hits. TN: " + TN + ", Roll: " + roll);
+						Explosion explosion = new Explosion(
+								new Weapons().findWeapon(comboBoxLauncher.getSelectedItem().toString()).pcAmmoTypes
+										.get(comboBoxAmmoTypeLauncher.getSelectedIndex()));
+						explosion.explodeHex((int) spinnerLauncherX.getValue(), (int) spinnerLauncherY.getValue(),
+								"None");
+						GameWindow.gameWindow.conflictLog.addNewLineToQueue("Launcher EXPLOSION\n" + "Total BC Dealt: "
+								+ explosion.totalBC + "\n" + "Total Shrap Hits: " + explosion.totalShrapHits + "\n");
+						InjuryLog.InjuryLog.printResultsToLog();
+					} else {
+						GameWindow.gameWindow.conflictLog
+								.addNewLineToQueue("Launcher misses. TN: " + TN + ", Roll: " + roll);
+					}
+
+					GameWindow.gameWindow.conflictLog.addQueuedText();
+				} catch (Exception exception) {
+					exception.printStackTrace();
+				}
+
+			}
+		});
+		btnShootHex.setBounds(386, 602, 128, 23);
+		panelActions.add(btnShootHex);
+
+		chckbxGuided = new JCheckBox("Guided");
+		chckbxGuided.setForeground(Color.WHITE);
+		chckbxGuided.setBackground(Color.DARK_GRAY);
+		chckbxGuided.setBounds(299, 650, 80, 23);
+		panelActions.add(chckbxGuided);
+
+		JLabel label_10 = new JLabel("OR");
+		label_10.setForeground(Color.WHITE);
+		label_10.setFont(new Font("Calibri", Font.PLAIN, 12));
+		label_10.setBounds(469, 510, 16, 31);
+		panelActions.add(label_10);
+
+		JLabel lblTargetRoom = new JLabel("Room:");
+		lblTargetRoom.setForeground(Color.WHITE);
+		lblTargetRoom.setFont(new Font("Calibri", Font.PLAIN, 15));
+		lblTargetRoom.setBounds(643, 484, 53, 31);
+		panelActions.add(lblTargetRoom);
+
+		spinnerTargetRoom = new JSpinner();
+		spinnerTargetRoom.setBounds(641, 514, 40, 20);
+		panelActions.add(spinnerTargetRoom);
+
+		comboBoxBuilding = new JComboBox();
+		comboBoxBuilding.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (comboBoxBuilding.getSelectedIndex() < 0)
+					return;
+				else if (comboBoxBuilding.getSelectedIndex() == 0 && trooper.inBuilding(gameWindow)
+						&& trooperBuilding != null) {
+					Floor floor = trooperBuilding.getTrooperFloor(trooper);
+					SpinnerModel model = new SpinnerNumberModel(1, 1, floor.rooms.size(), 1);
+					spinnerTargetRoom.setModel(model);
+					return;
+				} else if (comboBoxBuilding.getSelectedItem().toString().equals("None"))
+					return;
+
+				Building selectedBuilding = GameWindow.gameWindow.findHex(trooperUnit.X, trooperUnit.Y).buildings
+						.get(comboBoxBuilding.getSelectedIndex() - 1);
+				SpinnerModel model = new SpinnerNumberModel(1, 1, selectedBuilding.floors.get(0).rooms.size(), 1);
+				spinnerTargetRoom.setModel(model);
+				// from 0 to 9, in 1.0 steps start value 5
+				// SpinnerModel model1 = new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0);
+			}
+		});
+		comboBoxBuilding.setSelectedIndex(-1);
+		comboBoxBuilding.setBounds(495, 514, 136, 20);
+		panelActions.add(comboBoxBuilding);
+
+		JLabel lblBuilding = new JLabel("Target Building:");
+		lblBuilding.setForeground(Color.WHITE);
+		lblBuilding.setFont(new Font("Calibri", Font.PLAIN, 15));
+		lblBuilding.setBounds(495, 484, 121, 31);
+		panelActions.add(lblBuilding);
+
+		spinnerTargetFloor = new JSpinner();
+		spinnerTargetFloor.setModel(new SpinnerNumberModel(new Integer(1), null, null, new Integer(1)));
+		spinnerTargetFloor.setBounds(691, 514, 40, 20);
+		panelActions.add(spinnerTargetFloor);
+
+		JLabel lblFloor = new JLabel("Floor:");
+		lblFloor.setForeground(Color.WHITE);
+		lblFloor.setFont(new Font("Calibri", Font.PLAIN, 15));
+		lblFloor.setBounds(693, 484, 53, 31);
+		panelActions.add(lblFloor);
 
 		JPanel panelIndividualEdit = new JPanel();
 		panelIndividualEdit.setBackground(Color.DARK_GRAY);
@@ -4787,17 +4791,16 @@ public class OpenTrooper implements Serializable {
 		JButton btnNewButton = new JButton("Add Injury");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if((int) spinnerPD.getValue() > 0) {
-					
+
+				if ((int) spinnerPD.getValue() > 0) {
+
 					trooper.physicalDamage += (int) spinnerPD.getValue();
 					trooper.calculateInjury(gameWindow, gameWindow.conflictLog);
 					refreshTrooper(trooper);
 					gameWindow.conflictLog.addQueuedText();
-					return; 
+					return;
 				}
-				
-				
+
 				ResolveHits resolveHits = new ResolveHits(trooper);
 
 				Injuries newInjury = resolveHits.getPCHitsManual(Integer.parseInt(textFieldPen.getText()),
@@ -5058,10 +5061,6 @@ public class OpenTrooper implements Serializable {
 		spinnerMagnification.setBounds(279, 434, 47, 20);
 		panelStats.add(spinnerMagnification);
 
-		
-
-		
-
 		spinnerPD = new JSpinner();
 		spinnerPD.setBounds(817, 307, 47, 20);
 		panelStats.add(spinnerPD);
@@ -5073,83 +5072,79 @@ public class OpenTrooper implements Serializable {
 		lblPd.setBounds(788, 302, 37, 31);
 		panelStats.add(lblPd);
 
-		
 		f.setVisible(true);
 
-		
-		
 		JPanel panel_53 = new JPanel();
 		panel_53.setLayout(null);
 		panel_53.setBackground(Color.DARK_GRAY);
 		tabbedPane.addTab("Inventory", null, panel_53, null);
-		
+
 		JLabel lblArmorPage = new JLabel("Armor Page");
 		lblArmorPage.setHorizontalAlignment(SwingConstants.CENTER);
 		lblArmorPage.setForeground(Color.WHITE);
 		lblArmorPage.setFont(new Font("Calibri", Font.BOLD, 16));
 		lblArmorPage.setBounds(10, 31, 268, 16);
 		panel_53.add(lblArmorPage);
-		
+
 		JScrollPane scrollPane_4 = new JScrollPane();
 		scrollPane_4.setBounds(10, 110, 268, 634);
 		panel_53.add(scrollPane_4);
-		
+
 		armorList = new JList();
 		armorList.setBackground(Color.DARK_GRAY);
 		armorList.setForeground(Color.WHITE);
 		armorList.setFont(new Font("Calibri", Font.PLAIN, 13));
 		scrollPane_4.setViewportView(armorList);
-		
+
 		JLabel lblShieldPage = new JLabel("Shield Page");
 		lblShieldPage.setHorizontalAlignment(SwingConstants.CENTER);
 		lblShieldPage.setForeground(Color.WHITE);
 		lblShieldPage.setFont(new Font("Calibri", Font.BOLD, 16));
 		lblShieldPage.setBounds(288, 31, 268, 16);
 		panel_53.add(lblShieldPage);
-		
+
 		JScrollPane scrollPane_7 = new JScrollPane();
 		scrollPane_7.setBounds(288, 110, 268, 634);
 		panel_53.add(scrollPane_7);
-		
+
 		shieldList = new JList();
 		shieldList.setFont(new Font("Calibri", Font.PLAIN, 13));
 		shieldList.setForeground(Color.WHITE);
 		shieldList.setBackground(Color.DARK_GRAY);
 		scrollPane_7.setViewportView(shieldList);
-		
+
 		comboBoxArmor = new JComboBox();
 		comboBoxArmor.setSelectedIndex(-1);
 		comboBoxArmor.setBounds(10, 79, 143, 20);
 		panel_53.add(comboBoxArmor);
-		
+
 		JLabel label_17 = new JLabel("Armor Type");
 		label_17.setForeground(Color.WHITE);
 		label_17.setFont(new Font("Calibri", Font.PLAIN, 15));
 		label_17.setBounds(10, 58, 143, 20);
 		panel_53.add(label_17);
-		
+
 		comboBoxPersonalShield = new JComboBox();
 		comboBoxPersonalShield.setSelectedIndex(-1);
 		comboBoxPersonalShield.setBounds(288, 79, 177, 20);
 		panel_53.add(comboBoxPersonalShield);
-		
+
 		JLabel label_24 = new JLabel("Current Shield Strength");
 		label_24.setForeground(Color.WHITE);
 		label_24.setFont(new Font("Calibri", Font.PLAIN, 13));
 		label_24.setBounds(475, 58, 150, 17);
 		panel_53.add(label_24);
-		
+
 		spinnerCurrentShieldStrength = new JSpinner();
 		spinnerCurrentShieldStrength.setBounds(475, 79, 45, 20);
 		panel_53.add(spinnerCurrentShieldStrength);
-		
+
 		JLabel lblShieldType = new JLabel("Shield Type");
 		lblShieldType.setForeground(Color.WHITE);
 		lblShieldType.setFont(new Font("Calibri", Font.PLAIN, 15));
 		lblShieldType.setBounds(288, 58, 143, 20);
 		panel_53.add(lblShieldType);
-		
-		
+
 		// Calls methods
 		// Sets all fields on both pages
 		trooperBuilding = trooper.getBuilding();
@@ -5181,9 +5176,9 @@ public class OpenTrooper implements Serializable {
 			listInjuries2.addElement(injury.toString());
 
 		}
-		
+
 		listInjuries.setModel(listInjuries2);
-		
+
 	}
 
 	public void aim(int aimTime) {
@@ -5202,7 +5197,8 @@ public class OpenTrooper implements Serializable {
 		}
 
 		int maxAim = weapon.aimTime.size();
-		//System.out.println("Trooper Stored Aim Size: " + trooper.storedAimTime.size());
+		// System.out.println("Trooper Stored Aim Size: " +
+		// trooper.storedAimTime.size());
 		// Get stored aim time
 		Hashtable<Trooper, Integer> storedAim;
 
@@ -5315,7 +5311,7 @@ public class OpenTrooper implements Serializable {
 		} else {
 			wepName = shooterTrooper.wep;
 		}
-		//System.out.println("Wep Name: " + wepName);
+		// System.out.println("Wep Name: " + wepName);
 
 		setAction();
 
@@ -5456,7 +5452,7 @@ public class OpenTrooper implements Serializable {
 		}
 		Weapons weapon = new Weapons().findWeapon(wepName);
 
-		//System.out.println("Wep Name: " + wepName);
+		// System.out.println("Wep Name: " + wepName);
 
 		setAction();
 		TargetedFire tf = new TargetedFire(shooterTrooper, targetTrooper, shooterUnit, targetUnit, gameWindow, maxAim,
@@ -5514,19 +5510,20 @@ public class OpenTrooper implements Serializable {
 
 		if (weapon.type.equals("Launcher")) {
 			try {
-				//System.out.println("Pass Launcher");
+				// System.out.println("Pass Launcher");
 				InjuryLog.InjuryLog.addAlreadyInjured(targetedFire.targetUnit.X, targetedFire.targetUnit.Y);
 				PCAmmo pcAmmo = weapon.pcAmmoTypes.get(comboBoxAmmoTypeLauncher.getSelectedIndex());
 				Explosion explosion = new Explosion(pcAmmo);
 				if (targetedFire.PCHits > 0) {
-					//System.out.println("Pass Launcher 1, PC Ammo: " + pcAmmo.name + ", pen:" + pcAmmo.impactDc
-					//		+ ", dc: " + pcAmmo.impactDc);
+					// System.out.println("Pass Launcher 1, PC Ammo: " + pcAmmo.name + ", pen:" +
+					// pcAmmo.impactDc
+					// + ", dc: " + pcAmmo.impactDc);
 					// Impact
 					explosion.explosiveImpact(targetedFire.targetTrooper, pcAmmo, weapon);
-					//System.out.println("Pass Launcher 2");
+					// System.out.println("Pass Launcher 2");
 					// Linked explosion
 					explosion.explodeTrooper(targetedFire.targetTrooper, 0);
-					//System.out.println("Pass Launcher 3");
+					// System.out.println("Pass Launcher 3");
 					explosion.excludeTroopers.add(targetedFire.targetTrooper);
 				}
 
@@ -5534,15 +5531,17 @@ public class OpenTrooper implements Serializable {
 				targetedFire.EAL += 20;
 
 				int eal = targetedFire.BA > targetedFire.EAL ? targetedFire.EAL : targetedFire.BA;
-				/*System.out.println(
-						"Ternary Test, BA: " + targetedFire.BA + ", EAL: " + targetedFire.EAL + ", used Value: " + eal);
-				System.out.println("TF Roll: +targetedFire.tfRoll");
-				System.out.println("Odds: " + PCUtility.getOddsOfHitting(true, eal));*/
+				/*
+				 * System.out.println( "Ternary Test, BA: " + targetedFire.BA + ", EAL: " +
+				 * targetedFire.EAL + ", used Value: " + eal);
+				 * System.out.println("TF Roll: +targetedFire.tfRoll");
+				 * System.out.println("Odds: " + PCUtility.getOddsOfHitting(true, eal));
+				 */
 				// Hit Hex
 				if (targetedFire.tfRoll <= PCUtility.getOddsOfHitting(true, eal)) {
-					//System.out.println("Pass Explosion 1");
+					// System.out.println("Pass Explosion 1");
 					explosion.explodeHex(targetedFire.targetUnit.X, targetedFire.targetUnit.Y, "None");
-					//System.out.println("Pass Explosion 2");
+					// System.out.println("Pass Explosion 2");
 				}
 
 				reaction = null;
@@ -5896,29 +5895,25 @@ public class OpenTrooper implements Serializable {
 			}
 			count++;
 		}
-		comboBoxPersonalShield.setSelectedIndex(index-1);
-		
+		comboBoxPersonalShield.setSelectedIndex(index - 1);
+
 		comboBoxBuilding.removeAllItems();
 		comboBoxBuilding.addItem("None");
 		Hex hex = GameWindow.gameWindow.findHex(trooperUnit.X, trooperUnit.Y);
-		if(trooperBuilding == null && hex != null) {
-			for(Building building : hex.buildings) {
-				
+		if (trooperBuilding == null && hex != null) {
+			for (Building building : hex.buildings) {
+
 				comboBoxBuilding.addItem(building.name);
-				
+
 			}
 			comboBoxBuilding.setSelectedIndex(0);
-		} else if(hex != null) {
+		} else if (hex != null) {
 			comboBoxBuilding.removeAllItems();
 			comboBoxBuilding.addItem("None");
 			comboBoxBuilding.addItem("ALREADY INSIDE");
 			comboBoxBuilding.setSelectedIndex(1);
 		}
-		
-		
-		
-		
-		
+
 	}
 
 	// Gets weapon name from trooper
@@ -6169,7 +6164,7 @@ public class OpenTrooper implements Serializable {
 
 			if (count == comboBoxArmor.getSelectedIndex()) {
 				individual.armor = new Armor(type);
-				//System.out.println("New Armor Type: " + type);
+				// System.out.println("New Armor Type: " + type);
 				break;
 			}
 
@@ -6272,12 +6267,12 @@ public class OpenTrooper implements Serializable {
 		else
 			checkBoxFirstAid.setSelected(false);
 
-		if(individual.armor != null)
+		if (individual.armor != null)
 			SwingUtility.setList(armorList, individual.armor.getLocations());
-		
-		if(individual.personalShield != null)
+
+		if (individual.personalShield != null)
 			SwingUtility.setList(shieldList, individual.personalShield.getLocations());
-		
+
 	}
 
 	public void refreshSpotted(Trooper individual) {

@@ -103,7 +103,7 @@ public class Skills implements Serializable {
 	public int htlMod;
 	public int agiMod;
 
-	public Skills(String input, int attr[]) {
+	public Skills(String input, int attr[]) throws Exception {
 
 		getAttr(attr);
 		calculateSkills();
@@ -207,6 +207,42 @@ public class Skills implements Serializable {
 			line();
 			lineAtSpecalist();
 
+		} else if (input.equals("Clone Squad Leader")) { // Squad Leader
+			crack();
+			crackSquadLeader();
+		} else if (input.equals("Clone Rifleman")) { // Rifleman
+			crack();
+		} else if (input.equals("Clone Rifleman++")) { // Rifleman++
+			crack();
+		} else if (input.equals("Clone Autorifleman")) { // Autorifleman
+			crack();
+			crackAutorifleman();
+		} else if (input.equals("Clone Assistant Autorifleman")) { // Assistant Autorifleman
+			crack();
+			crackAutorifleman();
+		} else if (input.equals("Clone Ammo Bearer")) { // Ammo Bearer
+			// Adds skill dice levels to the skills
+			// Soldier Training
+			crack();
+		} else if (input.equals("Clone Marksman")) { // Marksman
+			crack();
+			crackMarksman();
+			//line();
+			//lineMarksman();
+			
+		} else if (input.equals("Clone Combat Life Saver")) { // Combat Life Saver
+			crack();
+			lineMedic();
+		} else if (input.equals("Clone AT Specialist")) { // AT Specialist
+			crack();
+			crackAtSpecalist();
+
+		} else if (input.equals("Assistant AT specialist")) { // Assistant AT specialist
+			// Adds skill dice levels to the skills
+			// Soldier Training
+			crack();
+			crackAtSpecalist();
+
 		} else if (input.equals("EOD")) { // EOD
 			// Adds skill dice levels to the skills
 			// Soldier Training
@@ -245,6 +281,7 @@ public class Skills implements Serializable {
 			getSkill("Rifle").rankUp();
 			getSkill("Rifle").rankUp();
 			getSkill("Rifle").rankUp();
+			getSkill("Rifle").rankUp();
 
 			getSkill("Subgun").supported = true;
 			getSkill("Subgun").trainingValue = 3;
@@ -274,6 +311,7 @@ public class Skills implements Serializable {
 
 			getSkill("Fighter").supported = true;
 			getSkill("Fighter").trainingValue = 4;
+			getSkill("Fighter").rankUp();
 			getSkill("Fighter").rankUp();
 			getSkill("Fighter").rankUp();
 			getSkill("Fighter").rankUp();
@@ -334,6 +372,7 @@ public class Skills implements Serializable {
 			getSkill("Rifle").rankUp();
 			getSkill("Rifle").rankUp();
 			getSkill("Rifle").rankUp();
+			getSkill("Rifle").rankUp();
 
 			getSkill("Subgun").supported = true;
 			getSkill("Subgun").trainingValue = 3;
@@ -363,6 +402,7 @@ public class Skills implements Serializable {
 
 			getSkill("Fighter").supported = true;
 			getSkill("Fighter").trainingValue = 4;
+			getSkill("Fighter").rankUp();
 			getSkill("Fighter").rankUp();
 			getSkill("Fighter").rankUp();
 			getSkill("Fighter").rankUp();
@@ -438,6 +478,7 @@ public class Skills implements Serializable {
 			getSkill("Rifle").rankUp();
 			getSkill("Rifle").rankUp();
 			getSkill("Rifle").rankUp();
+			getSkill("Rifle").rankUp();
 
 			getSkill("Subgun").supported = true;
 			getSkill("Subgun").trainingValue = 3;
@@ -466,6 +507,7 @@ public class Skills implements Serializable {
 
 			getSkill("Fighter").supported = true;
 			getSkill("Fighter").trainingValue = 4;
+			getSkill("Fighter").rankUp();
 			getSkill("Fighter").rankUp();
 			getSkill("Fighter").rankUp();
 			getSkill("Fighter").rankUp();
@@ -1272,6 +1314,7 @@ public class Skills implements Serializable {
 			elite();
 		} else {
 			System.out.println("WARNING during indiviudal creation: individual input was not valid.");
+			throw new Exception("Input not a valid designation.");
 		}
 
 		setSkills();
@@ -1338,6 +1381,30 @@ public class Skills implements Serializable {
 	public void lineMarksman() {
 		Skill skill = getSkill("Rifle");
 		skill.newTrainingValue(3);
+		skill.rankUpTo(4);
+	}
+	
+	public void crackAutorifleman() {
+		Skill skill = getSkill("Heavy");
+		skill.newTrainingValue(4);
+		skill.rankUpTo(4);
+	}
+	
+	public void crackAtSpecalist() {
+		Skill skill = getSkill("Launcher");
+		skill.newTrainingValue(4);
+		skill.rankUpTo(4);
+	}
+		
+	public void crackMedic() {
+		Skill skill = getSkill("First Aid");
+		skill.newTrainingValue(4);
+		skill.rankUpTo(4);
+	}
+	
+	public void crackMarksman() {
+		Skill skill = getSkill("Rifle");
+		skill.newTrainingValue(4);
 		skill.rankUpTo(4);
 	}
 	

@@ -321,7 +321,12 @@ public class Trooper implements Serializable {
 
 		if (faction.equals("Clone Trooper Phase 1")) {
 			this.faction = "Clone Trooper Phase 1";
-			cloneTrooperPhase1(input);
+			try {
+				cloneTrooperPhase1(input);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		} else if (faction.equals("CIS Battle Droid")) {
 			// Should I add faction here, like above?
@@ -1073,7 +1078,7 @@ public class Trooper implements Serializable {
 
 	}
 
-	public void cloneTrooperPhase1(String input) {
+	public void cloneTrooperPhase1(String input) throws Exception {
 		this.kills = 0;
 		this.veterancy = 0;
 		this.physicalDamage = 0;
@@ -1092,7 +1097,7 @@ public class Trooper implements Serializable {
 		// in 20 second increments
 		this.timePassed = 0;
 		this.recoveryRoll = 0;
-		if (input.equals("Squad Leader")) { // Squad Leader
+		if (input.equals("Clone Squad Leader")) { // Squad Leader
 			// Creates attributes
 
 			this.str = attributes.str;
@@ -1117,7 +1122,7 @@ public class Trooper implements Serializable {
 			this.encumberance = 67;
 			this.magnification = 24;
 
-		} else if (input.equals("Rifleman")) { // Rifleman
+		} else if (input.equals("Clone Rifleman")) { // Rifleman
 			// Creates attributes
 
 			this.str = attributes.str;
@@ -1138,7 +1143,7 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 55;
 
-		} else if (input.equals("Rifleman++")) { // Rifleman++
+		} else if (input.equals("Clone Rifleman++")) { // Rifleman++
 			// Creates attributes
 			this.str = attributes.str;
 			this.wit = attributes.wit;
@@ -1158,7 +1163,7 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 55;
 
-		} else if (input.equals("Autorifleman")) { // Autorifleman
+		} else if (input.equals("Clone Autorifleman")) { // Autorifleman
 			// Creates attributes
 			this.str = attributes.str;
 			this.wit = attributes.wit;
@@ -1178,7 +1183,7 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 59;
 
-		} else if (input.equals("Assistant Autorifleman")) { // Assistant Autorifleman
+		} else if (input.equals("Clone Assistant Autorifleman")) { // Assistant Autorifleman
 			// Creates attributes
 			this.str = attributes.str;
 			this.wit = attributes.wit;
@@ -1198,7 +1203,7 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 63;
 
-		} else if (input.equals("Ammo Bearer")) { // Ammo Bearer
+		} else if (input.equals("Clone Ammo Bearer")) { // Ammo Bearer
 			// Creates attributes
 			this.str = attributes.str;
 			this.wit = attributes.wit;
@@ -1218,7 +1223,7 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 73;
 
-		} else if (input.equals("Marksman")) { // Marksman
+		} else if (input.equals("Clone Marksman")) { // Marksman
 
 			// Creates attributes
 			this.str = attributes.str;
@@ -1240,7 +1245,7 @@ public class Trooper implements Serializable {
 			this.encumberance = 60;
 			this.magnification = 24;
 
-		} else if (input.equals("Combat Life Saver")) { // Combat Life Saver
+		} else if (input.equals("Clone Combat Life Saver")) { // Combat Life Saver
 			// Creates attributes
 			this.str = attributes.str;
 			this.wit = attributes.wit;
@@ -1280,7 +1285,7 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 55;
 
-		} else if (input.equals("AT Specialist")) { // AT Specialist
+		} else if (input.equals("Clone AT Specialist")) { // AT Specialist
 			// Creates attributes
 			this.str = attributes.str;
 			this.wit = attributes.wit;
@@ -1300,7 +1305,7 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 85;
 
-		} else if (input.equals("Assistant AT Specialist")) { // Assistant AT specialist
+		} else if (input.equals("Clone Assistant AT Specialist")) { // Assistant AT specialist
 			// Creates attributes
 			this.str = attributes.str;
 			this.wit = attributes.wit;
@@ -1407,6 +1412,8 @@ public class Trooper implements Serializable {
 			this.eqiupment = "Westar M5, 10lbs(12lbs loaded), Hands[10x1xN/A].\n4 BlasTech DCA1, 8lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\nArc Trooper Phase 1 Armor, 35lbs.";
 			this.accomodations = "";
 			this.encumberance = 57;
+			this.armor = new Armor();
+			this.armor.Phase1ARC();
 
 		} else if (input.equals("Republic Commando")) { // ARC Trooper
 			// Creates attributes
@@ -1428,9 +1435,24 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC17m, 8lbs(10lbs loaded), Hands[10x1xN/A].\nDC17m Launcher, 4lbs, Belt Magnitized[1x1x0.5].\nDC17m Sniper, 4lbs, Belt Magnitized[1x1x0.5].\n4 DC17m Sniper Cartridges(5)(5)(5)(5), 4lbs, Belt Magnitized[1x1x0.5].\\4 BlasTech DCA1, 8lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\n2 HE Grenades, 2 HEAT Grenades, 8lbs, Belt Magnitized[0.75x0.75x0.75].\\nKatarn Armor, 35lbs.";
 			this.accomodations = "";
 			this.encumberance = 75;
-
+			this.armor.katarnArmor();
+		} else {
+			throw new Exception("Invalid Trooper Input.");
 		}
 
+		// Pack mule 
+		this.encumberance -= 20; 
+		if(this.encumberance < 0) {
+			this.encumberance = 5; 
+		}
+		
+		// According to the Jango Fett clone template special rule, sets the minimum
+		// health to ten
+		if (hlt < 10) {
+			this.hlt = 10;
+		}
+
+				
 		// Creates skills
 		// Stores attributes in an array for the skill attr parameter
 		int attr[] = { str, wit, soc, wil, per, hlt, agi };
@@ -1457,12 +1479,7 @@ public class Trooper implements Serializable {
 		this.HD = false;
 		// Sets max HP
 
-		// According to the Jango Fett clone template special rule, sets the minimum
-		// health to ten
-		if (hlt < 10) {
-			this.hlt = 10;
-		}
-
+		
 		this.hp = hlt;
 		this.legArmor = 44;
 		this.armArmor = 44;
@@ -1471,8 +1488,7 @@ public class Trooper implements Serializable {
 		// Sets current HP
 		this.currentHP = hp;
 
-		this.armor = new Armor();
-		this.armor.Phase1CloneArmor();
+		
 
 		if (this.str <= 6) {
 			this.carryingCapacity = 40;
@@ -2017,7 +2033,13 @@ public class Trooper implements Serializable {
 	// Uses attr array and input number to generate skills
 	// Sets class values of skills
 	public void skills(String input, int attr[]) {
-		Skills skillsList = new Skills(input, attr);
+		Skills skillsList = null;
+		try {
+			skillsList = new Skills(input, attr);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		this.skills = skillsList;
 

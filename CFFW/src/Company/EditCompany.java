@@ -346,6 +346,97 @@ public class EditCompany implements Serializable {
 		lblTroopers.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 11));
 		lblTroopers.setBounds(199, 106, 321, 14);
 		f.getContentPane().add(lblTroopers);
+		
+		JButton btnReorg = new JButton("Re-Org");
+		btnReorg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				boolean createdSw = false; 
+				boolean createdD = false; 
+				
+				Unit deadUnit = new Unit("Dead", 0, 0, new ArrayList<Trooper>(), 100, 100, 100, 0, 100, 20, 6, "No Contact");
+				Unit swUnit = new Unit("Seriously Wounded", 0, 0, new ArrayList<Trooper>(), 100, 100, 100, 0, 100, 20, 6, "No Contact");
+				
+				for(Unit unit : units) {
+					if(unit.callsign.equals("Seriously Wounded")) {
+						createdSw = true; 
+						swUnit = unit;
+					}
+					if(unit.callsign.equals("Dead")) {
+						createdD = true; 
+						deadUnit = unit;
+					}
+				}
+				
+				
+				
+				if(!createdSw) {
+					units.add(swUnit);
+				} 
+				
+				
+				
+				if(!createdD) {
+					units.add(deadUnit);
+				} 
+				
+				ArrayList<Trooper> sw = new ArrayList<>();
+				ArrayList<Trooper> dead = new ArrayList<>();
+				
+				for(Unit unit : units) {
+					
+					unit.organization = 100; 
+					unit.moral = 100; 
+					unit.suppression = 0; 
+					
+					for(Trooper trooper : unit.getTroopers()) {
+						trooper.conscious = true; 
+						
+						if(!trooper.alive) {
+							dead.add(trooper);
+						} else if(trooper.physicalDamage > trooper.KO * 3) {
+							sw.add(trooper);
+						}
+						
+					}
+				}
+				
+				for(Trooper trooper : sw) {
+					swUnit.individuals.add(trooper);
+					for(Unit unit : units) {
+						if(unit.compareTo(swUnit))
+							continue; 
+						
+						if(unit.individuals.contains(trooper)) {
+							unit.individuals.remove(trooper);
+						}
+					}
+					
+				}
+				
+				for(Trooper trooper : dead) {
+					deadUnit.individuals.add(trooper);
+					for(Unit unit : units) {
+						if(unit.compareTo(deadUnit))
+							continue; 
+						
+						if(unit.individuals.contains(trooper)) {
+							unit.individuals.remove(trooper);
+						}
+					}
+				}
+				
+
+				
+				refreshUnitComboBox();
+				refreshUnits();
+				setOperationLabels();
+				
+				
+			}
+		});
+		btnReorg.setBounds(293, 176, 95, 23);
+		f.getContentPane().add(btnReorg);
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

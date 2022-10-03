@@ -1144,6 +1144,7 @@ public class BulkWindow {
 						try {
 							for(BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
 								
+
 								PCShots(bulkTrooper, getTargetTrooper(bulkTrooper));
 								
 								

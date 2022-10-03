@@ -606,6 +606,8 @@ public class HexGrid implements Serializable {
 					});
 				}
 				
+				addLOS();
+				removeLOS();
 				selectedUnitsItem(xCord, yCord);
 				newHexItem(xCord, yCord);
 				attackWindowItem(GameWindow.gameWindow.findHex(xCord, yCord));
@@ -638,12 +640,103 @@ public class HexGrid implements Serializable {
 				add(item);
 				
 				
-				
+				addLOS();
+				removeLOS();
 				selectedUnitsItem(xCord, yCord);
 				newHexItem(xCord, yCord);
 				attackWindowItem(GameWindow.gameWindow.findHex(xCord, yCord));
 			}
 			
+			public void removeLOS() {
+				
+				//System.out.println("remove, selectedunits Side: "+selectedUnits.size());
+				
+				if(selectedUnits.size() < 2 || sameSide()) {
+					//System.out.println("remove los return");
+					return; 
+				}
+				
+				JMenuItem item = new JMenuItem("Remove Units from LOS");
+
+				item.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						for(DeployedUnit dp : selectedUnits) {
+							
+							Unit unit = dp.unit;
+							
+							for(DeployedUnit dp2 : selectedUnits) {
+								if(dp2.unit.side.equals(unit.side) || !unit.lineOfSight.contains(dp2.unit))
+										continue; 
+								
+								unit.lineOfSight.remove(dp2.unit);
+							}
+							
+						}
+						
+						selectedUnit = selectedUnits.get(0);
+						selectedUnits.clear();
+						
+					}
+				});
+
+				add(item);
+				
+			}
+			
+			public void addLOS() {
+				
+				//System.out.println("add Los, selectedunits Side: "+selectedUnits.size());
+				
+				if(selectedUnits.size() < 2 || sameSide()) {
+					//System.out.println("add los return");
+					return; 
+				}
+				
+				JMenuItem item = new JMenuItem("Add Units to LOS");
+
+				item.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						for(DeployedUnit dp : selectedUnits) {
+							
+							Unit unit = dp.unit;
+							
+							for(DeployedUnit dp2 : selectedUnits) {
+								if(dp2.unit.side.equals(unit.side) || unit.lineOfSight.contains(dp2.unit))
+										continue; 
+								
+								unit.lineOfSight.add(dp2.unit);
+							}
+							
+						}
+						
+						selectedUnit = selectedUnits.get(0);
+						selectedUnits.clear();
+						
+					}
+				});
+
+				add(item);
+				
+			}
+			
+			public boolean sameSide() {
+				
+				boolean opfor = false; 
+				boolean blufor = false; 
+				for(DeployedUnit dp : selectedUnits) {
+					if(dp.unit.side.equals("BLUFOR")) 
+						blufor = true; 
+					else 
+						opfor = true; 
+					
+					if(opfor && blufor)
+						return false; 
+				}
+				
+				return true; 
+			}
 			
 			public void selectedUnitsItem(int x, int y) {
 				
@@ -1272,7 +1365,8 @@ public class HexGrid implements Serializable {
 			if ((selectedUnit != null && selectedUnit.unit.callsign.equals(deployedUnit.unit.callsign))
 					|| selectedUnits.contains(deployedUnit)) {
 
-				if (selectedUnit.unit.side.equals("OPFOR")) {
+				if (deployedUnit.unit.side.equals("OPFOR")) {
+				//if (selectedUnit.unit.side.equals("OPFOR")) {
 
 					Polygon diamond = new Polygon();
 
@@ -1557,6 +1651,9 @@ public class HexGrid implements Serializable {
 
 								if (targetUnit.unit.callsign.equals(unit.callsign)) {
 
+									if(selectedUnits.contains(targetUnit))
+										continue; 
+									
 									hex = hexMap.get(targetUnit.xCord).get(targetUnit.yCord);
 
 									int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;

@@ -22,8 +22,7 @@ public class PCStats implements Serializable {
 	private String path = System.getProperty("user.dir") + "\\";
 
 	public PCStats(Trooper trooper) {
-		// System.out.println("PC Stats: trooper: "+trooper.name+", skill: "+skill+",
-		// Encumberance: "+encumberance+", Wit: "+wit+", Will: "+will);
+		 
 
 		/*
 		 * this.sal = skill + 6; this.isf = sal + wit;
@@ -165,8 +164,8 @@ public class PCStats implements Serializable {
 			}
 
 			for (int x = 1; x < 22; x++) {
-				// System.out.println("Line 187 PC Stats X: "+x);
-				// System.out.println("MS: "+ms+", ISF: "+isf);
+				//System.out.println("Line 187 PC Stats X: "+x);
+				//System.out.println("MS: "+ms+", ISF: "+isf);
 				if (ms == worksheet.getRow(x).getCell(0).getNumericCellValue()) {
 					CA = (int) worksheet.getRow(x).getCell(column).getNumericCellValue();
 					break;

@@ -137,6 +137,11 @@ public class FatigueSystem implements Serializable
         
         public void set(double value)
         {
+        	if(character.entirelyMechanical) {
+        		fatiguePoints = 0; 
+        		return;
+        	}
+        	
             OnFatiguePointsChange(true);
             fatiguePoints = value;
             
@@ -148,6 +153,11 @@ public class FatigueSystem implements Serializable
         
         public void decrement(double value)
         {
+        	if(character.entirelyMechanical) {
+        		fatiguePoints = 0; 
+        		return; 
+        	}
+        	
         	OnFatiguePointsChange(true);
             fatiguePoints -= value;
             
