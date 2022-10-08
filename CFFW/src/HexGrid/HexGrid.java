@@ -1040,6 +1040,46 @@ public class HexGrid implements Serializable {
 				return; 
 			}
 			
+			if(e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1 && Keyboard.isKeyPressed(KeyEvent.VK_SHIFT) ) {
+				//System.out.println("Double clicked select 2");
+				
+				for (int i = 0; i < hexMap.size(); i++) {
+
+					for (int j = 0; j < hexMap.get(0).size(); j++) {
+
+						Polygon hex = hexMap.get(i).get(j);
+
+						if (hex.contains(e.getPoint())) {
+							
+							String typeShown = "None";
+							if(shownType == ShownType.BLUFOR) {
+								typeShown = "BLUFOR";
+							} else if(shownType == ShownType.OPFOR) {
+								typeShown = "OPFOR";
+							} 
+							
+							//System.out.println("Shown Type: "+shownType.toString());
+							ArrayList<Unit> units = GameWindow.gameWindow.getUnitsInHex(typeShown, i, j);
+							//System.out.println("Units Size: "+units.size());
+							for(Unit unit : units) {
+								selectedUnits.add(getDeployedUnit(unit));
+								//System.out.println("Add selected unit");
+							}
+							
+							//System.out.println("Double clicked select, selected Units: "+selectedUnits.size());
+							
+							selectedUnitIndex = 0;
+							return; 
+							
+						}
+					}
+				}
+				
+				
+				
+				
+			} 
+			
 			
 			// System.out.println("Left Clicked");
 
@@ -1130,6 +1170,9 @@ public class HexGrid implements Serializable {
 										selectedUnits.add(deployedUnit);
 									}
 									
+									if(Keyboard.isKeyPressed(KeyEvent.VK_SHIFT) && !selectedUnits.contains(selectedUnit))
+										selectedUnits.add(selectedUnit);
+									
 									return;
 								}
 
@@ -1175,8 +1218,20 @@ public class HexGrid implements Serializable {
 
 						// System.out.println("Hex: "+i+":"+j);
 
+						if((selectedUnit != null || selectedUnits.size() > 0) && Keyboard.isKeyPressed(KeyEvent.VK_SHIFT)) {
+							for(DeployedUnit dp : selectedUnits) {
+								dp.unit.move(GameWindow.gameWindow, i, j, null);								
+							}
+							
+							
+							if(selectedUnit != null)
+								selectedUnit.unit.move(GameWindow.gameWindow, i, j, null);
+							
+							GameWindow.gameWindow.hexGrid.refreshDeployedUnits();
+							selectedUnits.clear();
+						}
 						// If right clicked in the same hex as the selected unit
-						if (selectedUnit != null && (selectedUnit.xCord == i && selectedUnit.yCord == j)) {
+						else if (selectedUnit != null && (selectedUnit.xCord == i && selectedUnit.yCord == j)) {
 							// System.out.println("Pop up menu 1");
 							PanelPopUp menu = new PanelPopUp(i, j, selectedUnit.unit);
 							menu.show(e.getComponent(), e.getX(), e.getY());
@@ -1189,7 +1244,7 @@ public class HexGrid implements Serializable {
 						
 						
 						
-						break;
+						return;
 
 					}
 
@@ -1308,6 +1363,20 @@ public class HexGrid implements Serializable {
 			losThread.reset();
 		}
 		
+		
+		public DeployedUnit getDeployedUnit(Unit unit) {
+			
+			for(DeployedUnit dp : deployedUnits) {
+				
+				if(unit.compareTo(dp.unit)) {
+					return dp;
+				}
+				
+			}
+			
+			return null; 
+			
+		}
 		
 		public int[] getHexFromPoint(int x, int y) {
 			

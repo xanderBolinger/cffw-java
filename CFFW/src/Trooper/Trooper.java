@@ -30,6 +30,9 @@ import Injuries.ManualInjury;
 import Injuries.ResolveHits;
 import Items.Armor;
 import Items.Armor.ArmorType;
+import Items.Container.ContainerType;
+import Items.Inventory;
+import Items.Item.ItemType;
 import Items.PersonalShield.ShieldType;
 import Items.PersonalShield;
 import Items.Weapons;
@@ -253,6 +256,9 @@ public class Trooper implements Serializable {
 	public Trooper closeCombatTarget = null;
 	public int adaptabilityFactor;
 
+	public Inventory inventory = new Inventory(this);
+	public int encumberanceModifier = 0;
+	
 	public class BaseSpeed implements Serializable {
 
 		Trooper trooper;
@@ -316,7 +322,7 @@ public class Trooper implements Serializable {
 	}
 
 	public Trooper(String input, String faction) {
-
+		inventory.addContainer(ContainerType.Belt);
 		// System.out.println("New Trooper, input: "+input+", faction: "+faction);
 
 		if (faction.equals("Clone Trooper Phase 1")) {
@@ -345,6 +351,7 @@ public class Trooper implements Serializable {
 
 		}
 
+		
 		baseSpeed = new BaseSpeed(this);
 		fatigueSystem = new FatigueSystem(this);
 		setCombatStats(this);
@@ -1114,13 +1121,17 @@ public class Trooper implements Serializable {
 			this.wep = "DC15A";
 			this.meleeWep = "Vibroknife";
 			this.ammo = 150;
-			this.eqiupment = "DC-15A+DC40, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\n10 DC40 HE Rounds, 2lbs, Belt Magnitized[0.75x0.75x0.75].\n"
+			this.eqiupment = "DC-15A+DC40, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\n10 DC40 HEAT Rounds, 2lbs, Belt Magnitized[0.75x0.75x0.75].\n"
 					+ "4 DC40 White Smoke Rounds, 0.5lbs, Belt Magnitized[0.75x0.75x0.75].\n1 DC40 Red Smoke Rounds, 2lbs, Belt Magnitized[0.75x0.75x0.75].\n"
 					+ "1 DC40 Blue Smoke Rounds, 0.5lbs, Belt Magnitized[0.75x0.75x0.75].\nNightview Macrobinoculars, 2lbs, Belt Magnitized[1x1x0.3].\nPhase 1 Armor, 35lbs.\n"
 					+ "1 DC40 Yellow Smoke Rounds, 0.5lbs, Belt Magnitized[0.75x0.75x0.75].\n";
 			this.accomodations = "";
 			this.encumberance = 67;
 			this.magnification = 24;
+			
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
+			inventory.addItems(ItemType.DC40, 1);
+			inventory.addItems(ItemType.DC40, ItemType.HEAT, 10);
 
 		} else if (input.equals("Clone Rifleman")) { // Rifleman
 			// Creates attributes
@@ -1142,6 +1153,8 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\nPhase 1 Armor, 35lbs.";
 			this.accomodations = "";
 			this.encumberance = 55;
+			
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone Rifleman++")) { // Rifleman++
 			// Creates attributes
@@ -1162,6 +1175,8 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\nPhase 1 Armor, 35lbs.\n";
 			this.accomodations = "";
 			this.encumberance = 55;
+			
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone Autorifleman")) { // Autorifleman
 			// Creates attributes
@@ -1202,6 +1217,8 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\n2 BlasTech R1, 8lbs, Belt Magnitized[1.5x1.5x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\nPhase 1 Armor, 35lbs.\n";
 			this.accomodations = "";
 			this.encumberance = 63;
+			
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone Ammo Bearer")) { // Ammo Bearer
 			// Creates attributes
@@ -1222,6 +1239,8 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n8 BlasTech DCA1, 16lbs, Belt Magnitized[1x1x0.5].\n4 Class-A Thermal Detonators, 8lbs, Belt Magnitized[0.75x0.75x0.75].\nPhase 1 Armor, 35lbs.\n";
 			this.accomodations = "";
 			this.encumberance = 73;
+			
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone Marksman")) { // Marksman
 
@@ -1244,6 +1263,8 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 60;
 			this.magnification = 24;
+			
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone Combat Life Saver")) { // Combat Life Saver
 			// Creates attributes
@@ -1264,6 +1285,8 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\nPhase 1 Armor, 35lbs.\n";
 			this.accomodations = "";
 			this.encumberance = 55;
+			
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("EOD")) { // EOD
 			// Creates attributes
@@ -1284,6 +1307,8 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\nPhase 1 Armor, 35lbs.\n";
 			this.accomodations = "";
 			this.encumberance = 55;
+			
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone AT Specialist")) { // AT Specialist
 			// Creates attributes
@@ -1305,6 +1330,7 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 85;
 
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 		} else if (input.equals("Clone Assistant AT Specialist")) { // Assistant AT specialist
 			// Creates attributes
 			this.str = attributes.str;
@@ -1324,6 +1350,8 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 HEAA, 10lbs, In Back Pack Main Space[4x0.75x0.75].\n2 HEDP, 10lbs, In Back Pack Second Space[4x0.75x0.75].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\nPhase 1 Armor, 35lbs.\nPhase 1 Clone Trooper Back Pack.";
 			this.accomodations = "";
 			this.encumberance = 75;
+			
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Ranger")) { // Ranger
 
@@ -1345,6 +1373,8 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\n Phase 1 Armor, 35lbs.\n";
 			this.accomodations = "";
 			this.encumberance = 55;
+			
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Platoon Sergeant")) { // Platoon Sergeant
 			// Creates attributes
@@ -1366,6 +1396,8 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 57;
 			this.magnification = 24;
+			
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Captain")) { // Captain
 			// Creates attributes
@@ -1384,13 +1416,17 @@ public class Trooper implements Serializable {
 			this.wep = "DC15A";
 			this.meleeWep = "Vibroknife";
 			this.ammo = 150;
-			this.eqiupment = "DC-15A+DC40, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\n10 DC40 HE Rounds, 2lbs, Belt Magnitized[0.75x0.75x0.75].\n"
+			this.eqiupment = "DC-15A+DC40, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\n10 DC40 HEAT Rounds, 2lbs, Belt Magnitized[0.75x0.75x0.75].\n"
 					+ "4 DC40 White Smoke Rounds, 0.5lbs, Belt Magnitized[0.75x0.75x0.75].\n1 DC40 Red Smoke Rounds, 2lbs, Belt Magnitized[0.75x0.75x0.75].\n"
 					+ "1 DC40 Blue Smoke Rounds, 0.5lbs, Belt Magnitized[0.75x0.75x0.75].\nNightview Macrobinoculars, 2lbs, Belt Magnitized[1x1x0.3].\nPhase 1 Armor, 35lbs.\n"
 					+ "1 DC40 Yellow Smoke Rounds, 0.5lbs, Belt Magnitized[0.75x0.75x0.75].\n";
 			this.accomodations = "";
 			this.encumberance = 67;
 			this.magnification = 24;
+			
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
+			inventory.addItems(ItemType.DC40, 1);
+			inventory.addItems(ItemType.DC40, ItemType.HEAT, 10);
 
 		} else if (input.equals("ARC Trooper")) { // ARC Trooper
 			// Creates attributes
@@ -1414,6 +1450,8 @@ public class Trooper implements Serializable {
 			this.encumberance = 57;
 			this.armor = new Armor();
 			this.armor.Phase1ARC();
+			
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Republic Commando")) { // ARC Trooper
 			// Creates attributes
@@ -1436,6 +1474,8 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 75;
 			this.armor.katarnArmor();
+			
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 		} else {
 			throw new Exception("Invalid Trooper Input.");
 		}

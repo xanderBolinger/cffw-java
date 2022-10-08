@@ -63,6 +63,9 @@ import Items.PersonalShield;
 import Items.PersonalShield.ShieldType;
 import Items.Weapons;
 import Items.Armor.ArmorType;
+import Items.Item.ItemType;
+import Items.Container;
+import Items.Item;
 import Actions.PcGrenadeThrow;
 import Trooper.IndividualStats;
 import Trooper.Skills;
@@ -311,6 +314,9 @@ public class OpenTrooper implements Serializable {
 	private JComboBox comboBoxArmor;
 	private JComboBox comboBoxPersonalShield;
 	private JSpinner spinnerCurrentShieldStrength;
+	private JSpinner spinnerItemCount;
+	private JList listItems;
+	private JList listInventory;
 
 	/**
 	 * Launch the application.
@@ -1133,7 +1139,7 @@ public class OpenTrooper implements Serializable {
 							} else {
 								// refreshTargets();
 							}
-
+							refreshInventory();
 							GameWindow.gameWindow.conflictLog.addQueuedText();
 
 						}
@@ -1487,10 +1493,20 @@ public class OpenTrooper implements Serializable {
 					nade.toss((int) spinnerGrenadeX.getValue(), (int) spinnerGrenadeY.getValue());
 				}
 
+				
+				if(openTrooper.inventory.containsItem((String) comboBoxGrenade.getSelectedItem())) {
+					try {
+						openTrooper.inventory.removeItem((String) comboBoxGrenade.getSelectedItem());
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
 				GameWindow.gameWindow.conflictLog.addQueuedText();
 
 				refreshTargets();
-
+				refreshInventory();
 				if (!chckbxFreeAction.isSelected())
 					actionSpent(window, index);
 
@@ -2255,7 +2271,19 @@ public class OpenTrooper implements Serializable {
 						GameWindow.gameWindow.conflictLog
 								.addNewLineToQueue("Launcher misses. TN: " + TN + ", Roll: " + roll);
 					}
-
+					
+					String name = (String) comboBoxLauncher.getSelectedItem()+": "+comboBoxAmmoTypeLauncher.getSelectedItem().toString()+" round.";
+					//System.out.println("Name: "+name);
+					if(openTrooper.inventory.containsItem(name)) {
+						try {
+							openTrooper.inventory.removeItem(name);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+					
+					refreshInventory();
 					GameWindow.gameWindow.conflictLog.addQueuedText();
 				} catch (Exception exception) {
 					exception.printStackTrace();
@@ -5077,7 +5105,7 @@ public class OpenTrooper implements Serializable {
 		JPanel panel_53 = new JPanel();
 		panel_53.setLayout(null);
 		panel_53.setBackground(Color.DARK_GRAY);
-		tabbedPane.addTab("Inventory", null, panel_53, null);
+		tabbedPane.addTab("Armor", null, panel_53, null);
 
 		JLabel lblArmorPage = new JLabel("Armor Page");
 		lblArmorPage.setHorizontalAlignment(SwingConstants.CENTER);
@@ -5178,6 +5206,105 @@ public class OpenTrooper implements Serializable {
 		}
 
 		listInjuries.setModel(listInjuries2);
+		
+		JPanel panel_53_1 = new JPanel();
+		panel_53_1.setBackground(Color.DARK_GRAY);
+		tabbedPane.addTab("Inventory", null, panel_53_1, null);
+		panel_53_1.setLayout(null);
+		
+		JLabel lblArmorPage_1 = new JLabel("Inventory");
+		lblArmorPage_1.setBounds(10, 31, 433, 16);
+		lblArmorPage_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblArmorPage_1.setForeground(Color.WHITE);
+		lblArmorPage_1.setFont(new Font("Calibri", Font.BOLD, 16));
+		panel_53_1.add(lblArmorPage_1);
+		
+		JScrollPane scrollPane_8 = new JScrollPane();
+		scrollPane_8.setBounds(10, 57, 433, 688);
+		panel_53_1.add(scrollPane_8);
+		
+		listInventory = new JList();
+		listInventory.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				if(listInventory.getSelectedIndex() < 0)
+					return;
+				
+				try {
+					openTrooper.inventory.removeItem(listInventory.getSelectedIndex());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				refreshInventory();
+				
+				
+			}
+		});
+		listInventory.setBackground(Color.DARK_GRAY);
+		listInventory.setForeground(Color.WHITE);
+		listInventory.setFont(new Font("Calibri", Font.PLAIN, 13));
+		scrollPane_8.setViewportView(listInventory);
+		
+		JScrollPane scrollPane_8_1 = new JScrollPane();
+		scrollPane_8_1.setBounds(453, 57, 433, 688);
+		panel_53_1.add(scrollPane_8_1);
+		
+		listItems = new JList();
+		listItems.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				if(listItems.getSelectedIndex() < 0)
+					return;
+				
+				try {
+					Item item = Item.allItems.get(listItems.getSelectedIndex());	
+					
+					if(item.isRound()) {
+						openTrooper.inventory.addItems(item.weaponType, item.ammoType, (int) spinnerItemCount.getValue());
+					} else if(item.isWeapon()){
+						openTrooper.inventory.addItems(item.weaponType, (int) spinnerItemCount.getValue());
+					} else {
+						openTrooper.inventory.addItems(item.ammoType, (int) spinnerItemCount.getValue());
+					}
+					
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				refreshInventory();
+				
+			}
+		});
+		listItems.setForeground(Color.WHITE);
+		listItems.setFont(new Font("Calibri", Font.PLAIN, 13));
+		listItems.setBackground(Color.DARK_GRAY);
+		scrollPane_8_1.setViewportView(listItems);
+		
+		JLabel lblArmorPage_1_1 = new JLabel("Add Items");
+		lblArmorPage_1_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblArmorPage_1_1.setForeground(Color.WHITE);
+		lblArmorPage_1_1.setFont(new Font("Calibri", Font.BOLD, 16));
+		lblArmorPage_1_1.setBounds(453, 30, 433, 16);
+		panel_53_1.add(lblArmorPage_1_1);
+		
+		JLabel lblNewLabel = new JLabel("Count");
+		lblNewLabel.setFont(new Font("Calibri", Font.PLAIN, 13));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setBounds(453, 30, 67, 14);
+		panel_53_1.add(lblNewLabel);
+		
+		spinnerItemCount = new JSpinner();
+		spinnerItemCount.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+		spinnerItemCount.setBounds(503, 27, 60, 20);
+		panel_53_1.add(spinnerItemCount);
+		
+		refreshInventory();
 
 	}
 
@@ -5554,6 +5681,16 @@ public class OpenTrooper implements Serializable {
 
 			shooterTrooper.sl = oldSl;
 			InjuryLog.InjuryLog.printResultsToLog();
+			String name = (String) comboBoxLauncher.getSelectedItem()+": "+comboBoxAmmoTypeLauncher.getSelectedItem().toString()+" round.";
+			System.out.println("Name: "+name);
+			if(openTrooper.inventory.containsItem(name)) {
+				try {
+					openTrooper.inventory.removeItem(name);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
 			return;
 		}
 
@@ -6608,12 +6745,29 @@ public class OpenTrooper implements Serializable {
 		refreshTrooper(spotter);
 
 	}
-
+	
 	public void refreshTrooper(Trooper trooper) {
 
 		setDetails(trooper);
 		setEdit(trooper);
 		setEditSkills(trooper);
+		refreshInventory();
+	}
+	
+	public void refreshInventory() {
+		
+		ArrayList<String> items = openTrooper.inventory.getItems();
+		
+		SwingUtility.setList(listInventory, items);
+		
+		items = new ArrayList<>();
+		
+		for(Item item : Item.allItems) {
+			items.add(item.getItemName());
+		}
+		
+		SwingUtility.setList(listItems, items);
+		setEdit(openTrooper);
 	}
 
 	// Populates the target dropdown menus based off of the list of spotted

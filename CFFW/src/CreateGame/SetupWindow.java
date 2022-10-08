@@ -32,6 +32,7 @@ import Company.EditCompany;
 import Conflict.Game;
 import Conflict.GameWindow;
 import HexGrid.HexGrid;
+import Items.Item;
 import SaveCompanies.GameSave;
 import SaveCompanies.Hexes;
 import SaveCompanies.InitOrder;
@@ -152,7 +153,7 @@ public class SetupWindow implements Serializable {
 				// Writes save files
 				SaveRunner save = null;
 				if(conflict == null) {
-					System.out.println("Conflict Null");
+					//System.out.println("Conflict Null");
 					save = new SaveRunner(saveName, companies, null, null, null, 0);
 				} else {
 					game = conflict.game;
@@ -209,7 +210,7 @@ public class SetupWindow implements Serializable {
 				// Writes save files
 				SaveRunner save = null;
 				if(conflict == null) {
-					System.out.println("Conflict Null");
+					//System.out.println("Conflict Null");
 					save = new SaveRunner(saveName, companies, null, null, null, 0);
 				} else {
 					game = conflict.game;
@@ -366,7 +367,12 @@ public class SetupWindow implements Serializable {
 		}*/
 		
 		refreshCreated();
-		
+		try {
+			new Item();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	public String getSaveName() {

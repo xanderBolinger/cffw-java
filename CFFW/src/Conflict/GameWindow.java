@@ -489,69 +489,23 @@ public class GameWindow implements Serializable {
 
 					@Override
 					protected Void doInBackground() throws Exception {
-						int originalAU = activeUnit;
 						int newActiveUnit = (int) spinnerActiveUnit.getValue();
 						
 						//System.out.println("Original AU: "+originalAU);
 						//System.out.println("Next Active Unit: "+newActiveUnit);
 						
-						if (newActiveUnit <= originalAU) {
+						// If on last unit 
+						while(activeUnit != newActiveUnit) {
+							try {
 
-							// Skips to end of init order
-							for (int i = originalAU; i < initiativeOrder.size(); i++) {
+								safeNextActiveUnit();
 
-								try {
-
-									if(newActiveUnit == 0 
-											&& newActiveUnit != originalAU 
-											&& i == initiativeOrder.size() - 1)
-										return null;
-									
-									safeNextActiveUnit();
-
-								} catch (Exception e2) {
-									e2.printStackTrace();
-								}
-
-							}
-							
-							
-							
-							// skips to active unit
-							for (int i = 0; i < newActiveUnit; i++) {
-
-								try {
-
-									safeNextActiveUnit();
-
-								} catch (Exception e2) {
-									e2.printStackTrace();
-								}
-
-							}
-
-						} else {
-							for (int i = originalAU; i < newActiveUnit; i++) {
-
-								/*
-								 * for(Trooper trooper : initiativeOrder.get(i).individuals) {
-								 * if(game.getPhase() == 1) { trooper.spentPhase1 = game.getCurrentAction(); }
-								 * else { trooper.spentPhase2 = game.getCurrentAction(); } }
-								 */
-
-								try {
-
-									safeNextActiveUnit();
-
-								} catch (Exception e2) {
-									System.out.println("toString(): " + e2.toString());
-									System.out.println("getMessage(): " + e2.getMessage());
-									System.out.println("StackTrace: ");
-									e2.printStackTrace();
-								}
-
+							} catch (Exception e2) {
+								e2.printStackTrace();
 							}
 						}
+						
+						
 						
 						return null;
 					}

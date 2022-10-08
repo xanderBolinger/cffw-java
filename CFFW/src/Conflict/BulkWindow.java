@@ -118,6 +118,9 @@ public class BulkWindow {
 		this.gameWindow = gameWindow; 
 		this.game = gameWindow.game;
 		this.openUnit = openUnit; 
+		
+		
+		
 		initializeWindow();
 		setIndividuals();
 		refreshIndividualList();
@@ -1358,6 +1361,8 @@ public class BulkWindow {
 								//System.out.println("Finished");
 							}
 							
+							
+							
 							//System.out.println("Finished 2");
 
 					      } catch(Exception e) {
@@ -1389,6 +1394,7 @@ public class BulkWindow {
 						}*/
 						
 						//System.out.println("Done");
+						setTargetFocus();
 						gameWindow.conflictLog.addQueuedText();
 						PCFireGuiUpdates();
 						
@@ -1905,6 +1911,12 @@ public class BulkWindow {
 		for(Trooper trooper : unit.individuals) {
 			if(trooper.alive == false || !trooper.conscious || trooperAlreadyAdded(trooper))
 				continue; 
+			
+			for(Unit losUnit : trooper.returnTrooperUnit(GameWindow.gameWindow).lineOfSight) {
+				if(!targetUnits.contains(losUnit))
+					targetUnits.add(losUnit);
+			}
+			
 			bulkTroopers.add(new BulkTrooper(trooper));
 		}
 		
@@ -1924,6 +1936,11 @@ public class BulkWindow {
 			if(trooper.alive == false || !trooper.conscious || trooperAlreadyAdded(trooper))
 				continue; 
 			
+			for(Unit losUnit : trooper.returnTrooperUnit(GameWindow.gameWindow).lineOfSight) {
+				if(!targetUnits.contains(losUnit))
+					targetUnits.add(losUnit);
+			}
+			
 			bulkTroopers.add(new BulkTrooper(trooper));
 		}
 		
@@ -1941,6 +1958,53 @@ public class BulkWindow {
 		// Spotting Combo Boxes 
 		setSpottingUnits(); 
 		
+		// Set focus unit 
+		setTargetFocus();
+		
+	}
+	
+	public void setTargetFocus() {
+		
+		targetedFireFocus.removeAllItems();
+		targetedFireFocus.addItem("None");
+		
+		for(Unit unit : getValidTargetUnits()) {
+			targetedFireFocus.addItem(unit.callsign);
+		}
+		
+	}
+	
+	public ArrayList<Unit> getValidTargetUnits() {
+		ArrayList<Unit> validTargetUnits = new ArrayList<>();
+		
+		for(Unit unit : targetUnits) {
+
+			boolean validTarget = true; 
+			
+			for(BulkTrooper trooper : getSelectedBulkTroopers()) {
+				
+				boolean hasValidTarget = false; 
+				
+				for(Trooper targetTrooper : unit.individuals) {
+					
+					if(trooper.targetTroopers.contains(targetTrooper)) {
+						hasValidTarget = true; 
+					}	
+				}	
+				
+				if(!hasValidTarget) {
+					validTarget = false; 
+				}
+				
+			} 
+
+			if(validTarget && !validTargetUnits.contains(unit)) {
+				validTargetUnits.add(unit);
+			}
+			
+		}
+		
+		return validTargetUnits;
 	}
 	
 	
@@ -1948,7 +2012,7 @@ public class BulkWindow {
 	public void setSpottingUnits() {
 		
 		
-		for(Unit losUnit : unit.lineOfSight) {
+		for(Unit losUnit : targetUnits) {
 			
 			comboBoxSpottingUnits.addItem(losUnit.callsign);
 			
@@ -1962,7 +2026,7 @@ public class BulkWindow {
 		if(unit.lineOfSight.size() < 1)
 			return; 
 		
-		for(Unit unit : unit.lineOfSight) {
+		for(Unit unit : targetUnits) {
 			
 			comboBoxTargetUnits.addItem(unit.callsign);
 		}
@@ -2764,6 +2828,9 @@ public class BulkWindow {
 		Trooper targetTrooper = null; 
 		
 		Unit targetUnit = null; 
+		
+		
+		
 		Unit trooperUnit = GameWindow.gameWindow.findTrooperUnit(bulkTrooper.trooper);
 
 		for(Unit unit : GameWindow.gameWindow.initiativeOrder) {
@@ -2789,6 +2856,11 @@ public class BulkWindow {
 				targetUnit = unit; 
 			} 
 			
+		}
+		
+		if(targetedFireFocus.getSelectedIndex() > 0 && getValidTargetUnits().size() > 0) {
+			targetUnit = getValidTargetUnits().get(targetedFireFocus.getSelectedIndex() - 1);
+			System.out.println("Focus Target Unit: "+targetUnit.callsign);
 		}
 		
 		if(targetUnit == null)

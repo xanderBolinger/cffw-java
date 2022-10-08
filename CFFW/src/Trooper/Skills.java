@@ -232,7 +232,7 @@ public class Skills implements Serializable {
 			
 		} else if (input.equals("Clone Combat Life Saver")) { // Combat Life Saver
 			crack();
-			lineMedic();
+			crackMedic();
 		} else if (input.equals("Clone AT Specialist")) { // AT Specialist
 			crack();
 			crackAtSpecalist();
@@ -1386,13 +1386,13 @@ public class Skills implements Serializable {
 	
 	public void crackAutorifleman() {
 		Skill skill = getSkill("Heavy");
-		skill.newTrainingValue(4);
+		skill.newTrainingValue(5);
 		skill.rankUpTo(4);
 	}
 	
 	public void crackAtSpecalist() {
 		Skill skill = getSkill("Launcher");
-		skill.newTrainingValue(4);
+		skill.newTrainingValue(5);
 		skill.rankUpTo(4);
 	}
 		
@@ -1404,7 +1404,7 @@ public class Skills implements Serializable {
 	
 	public void crackMarksman() {
 		Skill skill = getSkill("Rifle");
-		skill.newTrainingValue(4);
+		skill.newTrainingValue(5);
 		skill.rankUpTo(4);
 	}
 	
@@ -1741,6 +1741,7 @@ public class Skills implements Serializable {
 		getSkill("Rifle").rankUp();
 		getSkill("Rifle").rankUp();
 		getSkill("Rifle").rankUp();
+		getSkill("Rifle").rankUp();
 
 		getSkill("Subgun").supported = true;
 		getSkill("Subgun").trainingValue = 3;
@@ -1770,6 +1771,7 @@ public class Skills implements Serializable {
 
 		getSkill("Fighter").supported = true;
 		getSkill("Fighter").trainingValue = 3;
+		getSkill("Fighter").rankUp();
 		getSkill("Fighter").rankUp();
 		getSkill("Fighter").rankUp();
 		getSkill("Fighter").rankUp();
@@ -1832,45 +1834,45 @@ public class Skills implements Serializable {
 		getSkill("Camouflage").rankUp();
 
 		getSkill("Rifle").supported = true;
-		getSkill("Rifle").trainingValue = 3;
+		getSkill("Rifle").trainingValue = 5;
 		getSkill("Rifle").rankUp();
 		getSkill("Rifle").rankUp();
 		getSkill("Rifle").rankUp();
 		getSkill("Rifle").rankUp();
 
 		getSkill("Subgun").supported = true;
-		getSkill("Subgun").trainingValue = 3;
+		getSkill("Subgun").trainingValue = 4;
 		getSkill("Subgun").rankUp();
 		getSkill("Subgun").rankUp();
 		getSkill("Subgun").rankUp();
 		getSkill("Subgun").rankUp();
 
 		getSkill("Heavy").supported = true;
-		getSkill("Heavy").trainingValue = 3;
+		getSkill("Heavy").trainingValue = 4;
 		getSkill("Heavy").rankUp();
 		getSkill("Heavy").rankUp();
 		getSkill("Heavy").rankUp();
 
 		getSkill("Launcher").supported = true;
-		getSkill("Launcher").trainingValue = 3;
+		getSkill("Launcher").trainingValue = 4;
 		getSkill("Launcher").rankUp();
 		getSkill("Launcher").rankUp();
 		getSkill("Launcher").rankUp();
 
 		getSkill("Pistol").supported = true;
-		getSkill("Pistol").trainingValue = 3;
+		getSkill("Pistol").trainingValue = 4;
 		getSkill("Pistol").rankUp();
 		getSkill("Pistol").rankUp();
 		getSkill("Pistol").rankUp();
 		getSkill("Pistol").rankUp();
 
 		getSkill("Explosives").supported = true;
-		getSkill("Explosives").trainingValue = 3;
+		getSkill("Explosives").trainingValue = 4;
 		getSkill("Explosives").rankUp();
 		getSkill("Explosives").rankUp();
 
 		getSkill("Fighter").supported = true;
-		getSkill("Fighter").trainingValue = 3;
+		getSkill("Fighter").trainingValue = 5;
 		getSkill("Fighter").rankUp();
 		getSkill("Fighter").rankUp();
 		getSkill("Fighter").rankUp();

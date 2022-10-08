@@ -27,6 +27,7 @@ public class Armor implements Serializable {
 	public int actionsToRefresh; 
 	public int refreshProgress;
 	public boolean hardBodyArmor = true;
+	public int armorWeight; 
 	
 	public Armor() {
 		this.bPF = 0; 
@@ -125,7 +126,7 @@ public class Armor implements Serializable {
 		a10.add(84);
 		a10.add(84);
 		excludedZonesOpen.add(a10);
-		
+		armorWeight = 30;
 	}
 	
 	public void mediumDuraSteelMandoArmor() {
@@ -221,12 +222,12 @@ public class Armor implements Serializable {
 		a10.add(84);
 		a10.add(84);
 		excludedZonesOpen.add(a10);
-		
+		armorWeight = 35;
 	}
 	
 	public void katarnArmor() {
 		
-		this.bPF = 30; 
+		this.bPF = 40; 
 		armorName = "Katarn MK1";
 		type = ArmorType.KATARN;
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
@@ -270,11 +271,11 @@ public class Armor implements Serializable {
 		a10.add(84);
 		a10.add(84);
 		excludedZonesOpen.add(a10);
-		
+		armorWeight = 35;
 	}
 	
 	public void b1Armor() {
-		this.bPF = 20; 
+		this.bPF = 15; 
 		armorName = "B1";
 		type = ArmorType.B1;
 	}

@@ -3,6 +3,8 @@ package Items;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Items.Item.ItemType;
+
 public class PCAmmo implements Serializable {
 
 	public String name; 
@@ -16,6 +18,10 @@ public class PCAmmo implements Serializable {
 	//public int ionDamage = 0; 
 	public boolean energyWeapon = false; 
 	public boolean ordnance = false; 
+	
+	public PCAmmo(String name) {
+		this.name = name; 
+	}
 	
 	public PCAmmo(String name, ArrayList<Integer> pen, ArrayList<Integer> dc, ArrayList<String> bshc, ArrayList<Integer> bc, int impactPen, int impactDc) {
 		

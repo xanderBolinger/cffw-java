@@ -12,7 +12,13 @@ import java.awt.Dialog.ModalExclusionType;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
 import CreateGame.SetupWindow;
+import Items.Item;
+import Items.Item.ItemType;
+import testPackage.InventoryTest;
 
 import javax.swing.JButton;
 import java.awt.CardLayout;
@@ -40,17 +46,38 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+//JUnit Suite Test
+@RunWith(Suite.class)
+
+@Suite.SuiteClasses({ InventoryTest.class })
 
 public class Main {
 
 	private JFrame frame;
-
+	
 	/**
 	 * Launch the application.
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {
-		new  SetupWindow();
-	}
+	public static void main(String[] args) throws Exception {
+		Result result = JUnitCore.runClasses(InventoryTest.class);
+
+		for (Failure failure : result.getFailures()) {
+			throw new Exception(failure.toString());
+			//System.out.println(failure.toString());
+		}
+
+		//System.out.println(result.wasSuccessful());
+
 		
-	
+		
+		new SetupWindow();
+	}
+
 }
