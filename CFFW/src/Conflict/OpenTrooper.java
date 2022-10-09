@@ -317,6 +317,7 @@ public class OpenTrooper implements Serializable {
 	private JSpinner spinnerItemCount;
 	private JList listItems;
 	private JList listInventory;
+	private JCheckBox chkbxOverRideInventory;
 
 	/**
 	 * Launch the application.
@@ -1450,6 +1451,11 @@ public class OpenTrooper implements Serializable {
 					return;
 				}
 
+				if(!openTrooper.inventory.containsItem((String) comboBoxGrenade.getSelectedItem()) && !chkbxOverRideInventory.isSelected()) {
+					GameWindow.gameWindow.conflictLog.addNewLine("Could not make attack, trooper does not have item.");
+					return;
+				}
+				
 				Trooper target;
 
 				if (grenadeTargets.size() < 1 || comboBoxGrenadeTargets.getSelectedIndex() < 1) {
@@ -2235,6 +2241,14 @@ public class OpenTrooper implements Serializable {
 		btnShootHex.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
+					
+					String name = (String) comboBoxLauncher.getSelectedItem()+": "+comboBoxAmmoTypeLauncher.getSelectedItem().toString()+" round.";
+					
+					if(!openTrooper.inventory.containsItem(name) && !chkbxOverRideInventory.isSelected()) {
+						GameWindow.gameWindow.conflictLog.addNewLine("Could not make attack, trooper does not have item.");
+						return;
+					}
+					
 					int hexDiff = GameWindow.hexDif((int) spinnerLauncherX.getValue(),
 							(int) spinnerLauncherY.getValue(), unit);
 
@@ -2272,7 +2286,7 @@ public class OpenTrooper implements Serializable {
 								.addNewLineToQueue("Launcher misses. TN: " + TN + ", Roll: " + roll);
 					}
 					
-					String name = (String) comboBoxLauncher.getSelectedItem()+": "+comboBoxAmmoTypeLauncher.getSelectedItem().toString()+" round.";
+					
 					//System.out.println("Name: "+name);
 					if(openTrooper.inventory.containsItem(name)) {
 						try {
@@ -2359,6 +2373,12 @@ public class OpenTrooper implements Serializable {
 		lblFloor.setFont(new Font("Calibri", Font.PLAIN, 15));
 		lblFloor.setBounds(693, 484, 53, 31);
 		panelActions.add(lblFloor);
+		
+		chkbxOverRideInventory = new JCheckBox("Override Inventory");
+		chkbxOverRideInventory.setForeground(Color.WHITE);
+		chkbxOverRideInventory.setBackground(Color.DARK_GRAY);
+		chkbxOverRideInventory.setBounds(113, 182, 165, 23);
+		panelActions.add(chkbxOverRideInventory);
 
 		JPanel panelIndividualEdit = new JPanel();
 		panelIndividualEdit.setBackground(Color.DARK_GRAY);

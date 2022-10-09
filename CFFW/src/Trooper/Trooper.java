@@ -1129,6 +1129,8 @@ public class Trooper implements Serializable {
 			this.encumberance = 67;
 			this.magnification = 24;
 			
+			inventory.addItems(ItemType.DC15A, 1);
+			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 			inventory.addItems(ItemType.DC40, 1);
 			inventory.addItems(ItemType.DC40, ItemType.HEAT, 10);
@@ -1154,6 +1156,8 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 55;
 			
+			inventory.addItems(ItemType.DC15A, 1);
+			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone Rifleman++")) { // Rifleman++
@@ -1176,6 +1180,8 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 55;
 			
+			inventory.addItems(ItemType.DC15A, 1);
+			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone Autorifleman")) { // Autorifleman
@@ -1198,6 +1204,9 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 59;
 
+			inventory.addItems(ItemType.Z6, 1);
+			inventory.addItems(ItemType.Z6, ItemType.SmallArmsAmmo, 1);
+			
 		} else if (input.equals("Clone Assistant Autorifleman")) { // Assistant Autorifleman
 			// Creates attributes
 			this.str = attributes.str;
@@ -1218,6 +1227,9 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 63;
 			
+			inventory.addItems(ItemType.DC15A, 1);
+			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
+			inventory.addItems(ItemType.Z6, ItemType.SmallArmsAmmo, 2);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone Ammo Bearer")) { // Ammo Bearer
@@ -1240,6 +1252,8 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 73;
 			
+			inventory.addItems(ItemType.DC15A, 1);
+			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 9);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone Marksman")) { // Marksman
@@ -1264,6 +1278,8 @@ public class Trooper implements Serializable {
 			this.encumberance = 60;
 			this.magnification = 24;
 			
+			inventory.addItems(ItemType.DC15X, 1);
+			inventory.addItems(ItemType.DC15X, ItemType.SmallArmsAmmo, 4);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone Combat Life Saver")) { // Combat Life Saver
@@ -1286,6 +1302,8 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 55;
 			
+			inventory.addItems(ItemType.DC15A, 1);
+			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("EOD")) { // EOD
@@ -1308,6 +1326,8 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 55;
 			
+			inventory.addItems(ItemType.DC15A, 1);
+			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone AT Specialist")) { // AT Specialist
@@ -1330,7 +1350,12 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 85;
 
+			inventory.addItems(ItemType.DC15A, 1);
+			inventory.addItems(ItemType.RPS6, 1);
+			inventory.addItems(ItemType.RPS6, ItemType.HEAT, 2);
+			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
+			
 		} else if (input.equals("Clone Assistant AT Specialist")) { // Assistant AT specialist
 			// Creates attributes
 			this.str = attributes.str;
@@ -1351,6 +1376,9 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 75;
 			
+			inventory.addItems(ItemType.DC15A, 1);
+			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
+			inventory.addItems(ItemType.RPS6, ItemType.HEAT, 4);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Ranger")) { // Ranger
@@ -1374,6 +1402,8 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 55;
 			
+			inventory.addItems(ItemType.DC15A, 1);
+			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Platoon Sergeant")) { // Platoon Sergeant
@@ -1397,6 +1427,8 @@ public class Trooper implements Serializable {
 			this.encumberance = 57;
 			this.magnification = 24;
 			
+			inventory.addItems(ItemType.DC15A, 1);
+			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Captain")) { // Captain
@@ -1424,6 +1456,8 @@ public class Trooper implements Serializable {
 			this.encumberance = 67;
 			this.magnification = 24;
 			
+			inventory.addItems(ItemType.DC15A, 1);
+			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 			inventory.addItems(ItemType.DC40, 1);
 			inventory.addItems(ItemType.DC40, ItemType.HEAT, 10);
@@ -1451,6 +1485,8 @@ public class Trooper implements Serializable {
 			this.armor = new Armor();
 			this.armor.Phase1ARC();
 			
+			inventory.addItems(ItemType.M5, 1);
+			inventory.addItems(ItemType.M5, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Republic Commando")) { // ARC Trooper
@@ -1475,13 +1511,24 @@ public class Trooper implements Serializable {
 			this.encumberance = 75;
 			this.armor.katarnArmor();
 			
+			inventory.addItems(ItemType.DC17M, 1);
+			inventory.addItems(ItemType.DC17MSniper, 1);
+			inventory.addItems(ItemType.DC17MRocket, 1);
+			inventory.addItems(ItemType.DC17M, ItemType.SmallArmsAmmo, 5);
+			inventory.addItems(ItemType.DC17MRocket, ItemType.SmallArmsAmmo, 1);
+			inventory.addItems(ItemType.DC17MSniper, ItemType.SmallArmsAmmo, 4);
+			inventory.addItems(ItemType.DC17MRocket, ItemType.HEAT, 2);
+			inventory.addItems(ItemType.DC17MRocket, ItemType.HE, 2);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 		} else {
 			throw new Exception("Invalid Trooper Input.");
 		}
 
 		// Pack mule 
-		this.encumberance -= 20; 
+		this.encumberanceModifier -= 20; 
+		
+		inventory.setEncumberance();
+		
 		if(this.encumberance < 0) {
 			this.encumberance = 5; 
 		}
