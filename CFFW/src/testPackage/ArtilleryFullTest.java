@@ -17,7 +17,7 @@ class ArtilleryFullTest {
 		
 		Trooper spotter = new Trooper();
 		spotter.per = 20; 
-		spotter.navigation = 60; 
+		spotter.skills.getSkill("Navigation").value = 60; 
 		spotter.combatActions = 6; 
 		
 		ArrayList<Artillery> batteries = new ArrayList<Artillery>();

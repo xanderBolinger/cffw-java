@@ -6,8 +6,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JTextPane;
 import javax.swing.ListModel;
 
+import Company.Company;
+import CreateGame.SetupWindow;
 import Trooper.Skill;
 import Trooper.Trooper;
+import Unit.Unit;
+import UtilityClasses.DialogBox;
 
 import java.awt.BorderLayout;
 import javax.swing.JTabbedPane;
@@ -61,12 +65,9 @@ public class CharacterBuilderWindow implements Serializable {
 	private JButton btnAdvancePer;
 	private JButton btnAdvanceHtl;
 	private JButton btnAdvanceAgl;
-	private JButton btnSaveChanges;
 	private JTextField textFieldCharacterPoints;
 	private JTextField textFieldSpentCharacterPoints;
 	private JList listCharacters;
-	private JButton btnDeleteCharacter;
-	private JButton btnSaveClose;
 	private JLabel lblCharacterAbilities;
 	private JScrollPane scrollPane_1;
 	private JTextField textFieldAbilityName;
@@ -101,7 +102,6 @@ public class CharacterBuilderWindow implements Serializable {
 	private JButton btnSkillRankUp;
 	private JButton btnRankUp;
 	private JButton btnNewButton;
-	private JSpinner spinnerEncum;
 	private JTextField textFieldWIS;
 	private JPanel panel;
 	private TextArea textAreaCharacterNotes;
@@ -113,6 +113,7 @@ public class CharacterBuilderWindow implements Serializable {
 	ArrayList<Skill> basicSkills = new ArrayList<>();
 	ArrayList<Skill> trainedSkills = new ArrayList<>();
 	ArrayList<Skill> expertSkills = new ArrayList<>();
+	private JButton btnSaveChanges;
 	
 	/**
 	 * Create the application.
@@ -121,8 +122,20 @@ public class CharacterBuilderWindow implements Serializable {
 	 * @throws ClassNotFoundException
 	 * @throws FileNotFoundException
 	 */
-	public CharacterBuilderWindow(Trooper trooper) throws FileNotFoundException, ClassNotFoundException, IOException {
+	/**
+	 * @wbp.parser.constructor
+	 */
+	public CharacterBuilderWindow(Trooper trooper) {
 		this.trooper = trooper;
+		initialize();
+	}
+	
+	public CharacterBuilderWindow(ArrayList<Trooper> troopers)  {
+		if(troopers.size() < 1)
+			return;
+		
+		this.trooper = troopers.get(0);
+		this.troopers= troopers;
 		initialize();
 	}
 
@@ -133,10 +146,10 @@ public class CharacterBuilderWindow implements Serializable {
 	 * @throws ClassNotFoundException
 	 * @throws FileNotFoundException
 	 */
-	private void initialize() throws FileNotFoundException, ClassNotFoundException, IOException {
+	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 909, 800);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
 
@@ -156,6 +169,11 @@ public class CharacterBuilderWindow implements Serializable {
 		panelCharacter.add(lblNewLabel);
 
 		textFieldName = new JTextField();
+		textFieldName.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				trooper.name = textFieldName.getText();
+			}
+		});
 		textFieldName.setFont(new Font("Calibri", Font.PLAIN, 12));
 		textFieldName.setBounds(81, 41, 125, 20);
 		panelCharacter.add(textFieldName);
@@ -165,11 +183,43 @@ public class CharacterBuilderWindow implements Serializable {
 		btnNewCharacter.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				trooper = new Trooper();
-				trooper.setBasicStats();
-				trooper.calculateAttributes();
-				trooper.calculateSkills();
+				
+				Trooper tempTrooper = trooper; 
+				
+				trooper = new Trooper("New Character");
 				setFields();
+				
+				System.out.println("tempTrooper: "+tempTrooper.name);
+				System.out.println("Trooper Name: "+trooper.name);
+				
+				for(Company company : SetupWindow.companies) {
+					
+					for(Unit unit : company.getUnits()) {
+						
+						
+						for(int i = 0; i < unit.individuals.size(); i++) {
+							if(unit.individuals.get(i).compareTo(tempTrooper)) {
+								unit.individuals.set(i, trooper);
+								new UtilityClasses.DialogBox("Created New Character");
+								return;								
+							}
+						}
+						
+						
+						
+					}
+					
+					for(int i = 0; i < company.getRoster().size(); i++) {
+						if(company.getRoster().get(i).compareTo(tempTrooper)) {
+							company.getRoster().set(i, trooper);
+							new UtilityClasses.DialogBox("Created New Character");
+							return;								
+						}
+					}
+					
+				}
+				
+				
 			}
 		});
 		btnNewCharacter.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -205,35 +255,6 @@ public class CharacterBuilderWindow implements Serializable {
 		textFieldSOC.setColumns(10);
 		textFieldSOC.setBounds(81, 170, 60, 20);
 		panelCharacter.add(textFieldSOC);
-
-		btnSaveChanges = new JButton("Add");
-		btnSaveChanges.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				saveChanges();
-
-				boolean found = false;
-
-				for (int i = 0; i < troopers.size(); i++) {
-
-					if (troopers.get(i).name.equals(trooper.name)) {
-						found = true;
-						troopers.set(i, trooper);
-					}
-
-				}
-
-				if (!found) {
-					troopers.add(trooper);
-				}
-
-				setCharacterList();
-			}
-		});
-		btnSaveChanges.setFont(new Font("Calibri", Font.PLAIN, 12));
-		btnSaveChanges.setBounds(351, 40, 66, 23);
-		panelCharacter.add(btnSaveChanges);
 
 		textFieldWIL = new JTextField();
 		textFieldWIL.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -288,55 +309,6 @@ public class CharacterBuilderWindow implements Serializable {
 		lblHtl.setFont(new Font("Calibri", Font.PLAIN, 12));
 		lblHtl.setBounds(35, 265, 46, 14);
 		panelCharacter.add(lblHtl);
-
-		btnDeleteCharacter = new JButton("Delete");
-		btnDeleteCharacter.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				// Removes character from front end
-				if (listCharacters.getSelectedIndex() > -1) {
-					troopers.remove(listCharacters.getSelectedIndex());
-				}
-
-				// Deletes save files
-				int fileNum = 1;
-				boolean multipleCompanies = true;
-				while (multipleCompanies) {
-					File file = new File("Character_" + fileNum);
-					if (file.canRead() && file.isFile()) {
-						fileNum++;
-						file.delete();
-					} else {
-						multipleCompanies = false;
-					}
-				}
-
-				// Remakes save files
-				/*Save save = new Save(troopers);
-				try {
-					save.fileOut();
-				} catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}*/
-
-				// Sets up new characters
-				trooper = new Trooper();
-				trooper.setBasicStats();
-				trooper.calculateAttributes();
-				setFields();
-				setCharacterList();
-			}
-		});
-		btnDeleteCharacter.setBounds(427, 40, 89, 23);
-		panelCharacter.add(btnDeleteCharacter);
 
 		JLabel lblAgl = new JLabel("AGL:");
 		lblAgl.setForeground(Color.WHITE);
@@ -490,12 +462,25 @@ public class CharacterBuilderWindow implements Serializable {
 		panelCharacter.add(lblSpentCharacterPoints);
 
 		textFieldCharacterPoints = new JTextField();
+		textFieldCharacterPoints.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				trooper.characterPointTotal = Integer.parseInt(textFieldCharacterPoints.getText());
+				System.out.println("Set character points");
+			}
+		});
 		textFieldCharacterPoints.setFont(new Font("Calibri", Font.PLAIN, 12));
 		textFieldCharacterPoints.setColumns(10);
 		textFieldCharacterPoints.setBounds(416, 77, 60, 20);
 		panelCharacter.add(textFieldCharacterPoints);
 
 		textFieldSpentCharacterPoints = new JTextField();
+		textFieldSpentCharacterPoints.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				trooper.spentCharacterPoints = Integer.parseInt(textFieldSpentCharacterPoints.getText());
+				System.out.println("Set spent character points");
+			}
+		});
 		textFieldSpentCharacterPoints.setFont(new Font("Calibri", Font.PLAIN, 12));
 		textFieldSpentCharacterPoints.setColumns(10);
 		textFieldSpentCharacterPoints.setBounds(416, 115, 60, 20);
@@ -517,29 +502,6 @@ public class CharacterBuilderWindow implements Serializable {
 		});
 		listCharacters.setFont(new Font("Calibri", Font.PLAIN, 12));
 		scrollPane.setViewportView(listCharacters);
-
-		btnSaveClose = new JButton("Save & Close");
-		btnSaveClose.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				// characters.set(characters.indexOf(character), character);
-
-				// Writes save files
-				/*Save save = new Save(troopers);
-
-				try {
-					save.fileOut();
-					frame.dispose();
-				} catch (ClassNotFoundException | IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}*/
-			}
-		});
-		btnSaveClose.setFont(new Font("Calibri", Font.PLAIN, 12));
-		btnSaveClose.setBounds(528, 40, 125, 23);
-		panelCharacter.add(btnSaveClose);
 
 		btnNewButton = new JButton("Export");
 		btnNewButton.addMouseListener(new MouseAdapter() {
@@ -629,49 +591,11 @@ public class CharacterBuilderWindow implements Serializable {
 
 				System.out.println("");
 				System.out.println("Stats:");
-				System.out.println(trooper.exportStats((int) spinnerEncum.getValue()));
+				System.out.println(trooper.encumberance + trooper.encumberanceModifier);
 			}
 		});
-		btnNewButton.setBounds(528, 107, 125, 23);
+		btnNewButton.setBounds(351, 39, 125, 23);
 		panelCharacter.add(btnNewButton);
-
-		JButton btnSave = new JButton("Save");
-		btnSave.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-
-				//troopers.set(troopers.indexOf(trooper), trooper);
-
-				/*// Writes save files
-				Save save = new Save(troopers);
-				try {
-					save.fileOut();
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}*/
-
-			}
-		});
-		btnSave.setFont(new Font("Calibri", Font.PLAIN, 12));
-		btnSave.setBounds(528, 74, 125, 23);
-		panelCharacter.add(btnSave);
-
-		JLabel lblEncum = new JLabel("Encum: ");
-		lblEncum.setForeground(Color.WHITE);
-		lblEncum.setFont(new Font("Calibri", Font.PLAIN, 12));
-		lblEncum.setBounds(262, 142, 144, 30);
-		panelCharacter.add(lblEncum);
-
-		spinnerEncum = new JSpinner();
-		spinnerEncum.setBounds(416, 146, 60, 20);
-		panelCharacter.add(spinnerEncum);
 
 		JLabel lblWis = new JLabel("WIS:");
 		lblWis.setForeground(Color.WHITE);
@@ -703,6 +627,31 @@ public class CharacterBuilderWindow implements Serializable {
 		button.setFont(new Font("Calibri", Font.PLAIN, 12));
 		button.setBounds(151, 140, 89, 23);
 		panelCharacter.add(button);
+		
+		btnSaveChanges = new JButton("Save Changes");
+		btnSaveChanges.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				trooper.name = textFieldName.getText();
+
+				trooper.characterPointTotal = Integer.parseInt(textFieldCharacterPoints.getText());
+				trooper.spentCharacterPoints = Integer.parseInt(textFieldSpentCharacterPoints.getText());
+
+				trooper.str = Integer.parseInt(textFieldSTR.getText());
+				trooper.wit = Integer.parseInt(textFieldINT.getText());
+				trooper.soc = Integer.parseInt(textFieldSOC.getText());
+				trooper.wil = Integer.parseInt(textFieldWIL.getText());
+				trooper.per = Integer.parseInt(textFieldPER.getText());
+				trooper.hlt = Integer.parseInt(textFieldHTL.getText());
+				trooper.agi = Integer.parseInt(textFieldAGL.getText());
+
+				trooper.notes = textAreaCharacterNotes.getText();
+				
+				new DialogBox("Saved character: "+trooper.name);
+			}
+		});
+		btnSaveChanges.setFont(new Font("Calibri", Font.PLAIN, 12));
+		btnSaveChanges.setBounds(486, 39, 125, 23);
+		panelCharacter.add(btnSaveChanges);
 
 		JPanel panelAbilities = new JPanel();
 		panelAbilities.setBackground(Color.DARK_GRAY);
@@ -1181,27 +1130,15 @@ public class CharacterBuilderWindow implements Serializable {
 					
 					setSkillLists();
 
-					if (tempSkill.type.equals("Basic")) {
-						for (int i = 0; i < basicSkills.size(); i++) {
-							if (basicSkills.get(i).name.equals(tempSkill.name)) {
-								basicSkills.set(i, tempSkill);
-							}
-						}
-					} else if (tempSkill.type.equals("Trained")) {
-						for (int i = 0; i < trainedSkills.size(); i++) {
-							if (trainedSkills.get(i).name.equals(tempSkill.name)) {
-								trainedSkills.set(i, tempSkill);
-							}
-						}
-					} else if (tempSkill.type.equals("Expert")) {
-						for (int i = 0; i < expertSkills.size(); i++) {
-							if (expertSkills.get(i).name.equals(tempSkill.name)) {
-								expertSkills.set(i, tempSkill);
-							}
+					for(Skill skill : trooper.skills.skills) {
+						if(skill.name.equals(tempSkill.name)) {
+							skill = tempSkill; 
+							break; 
 						}
 					}
-
+					
 					setFields();
+					new UtilityClasses.DialogBox("Rank Up Skill: "+tempSkill.name);
 				}
 
 			}
@@ -1237,29 +1174,16 @@ public class CharacterBuilderWindow implements Serializable {
 				tempSkill.increasedValue = advancement;
 
 				setSkillLists();
-				if (tempSkill.type.equals("Basic")) {
-					for (int i = 0; i < basicSkills.size(); i++) {
-						if (basicSkills.get(i).name.equals(tempSkill.name)) {
-							basicSkills.set(i, tempSkill);
-						}
-					}
-				} else if (tempSkill.type.equals("Trained")) {
-					for (int i = 0; i < trainedSkills.size(); i++) {
-						if (trainedSkills.get(i).name.equals(tempSkill.name)) {
-							trainedSkills.set(i, tempSkill);
-						}
-					}
-				} else {
-					for (int i = 0; i < expertSkills.size(); i++) {
-						if (expertSkills.get(i).name.equals(tempSkill.name)) {
-
-						}
-						expertSkills.set(i, tempSkill);
+				
+				for(Skill skill : trooper.skills.skills) {
+					if(skill.name.equals(tempSkill.name)) {
+						skill = tempSkill; 
+						break; 
 					}
 				}
-
+				
 				setFields();
-
+				new UtilityClasses.DialogBox("Saved Skill: "+tempSkill.name);
 			}
 		});
 		btnSaveChanges_1.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -1402,6 +1326,7 @@ public class CharacterBuilderWindow implements Serializable {
 				trooper.recalculateSkills();
 				setSkills();
 				setSkillLists();
+				new UtilityClasses.DialogBox("Refresh Skills.");
 			}
 		});
 		btnResetrefreshSkill.setFont(new Font("Calibri", Font.PLAIN, 12));
@@ -1421,8 +1346,8 @@ public class CharacterBuilderWindow implements Serializable {
 		textAreaCharacterNotes = new TextArea();
 		scrollPane_8.setViewportView(textAreaCharacterNotes);
 
-		// Loads saved characters
-		//load();
+		setCharacterList();
+		setFields();
 	}
 
 	// Takes the active character's content and sets it equal to the fields
@@ -1603,25 +1528,6 @@ public class CharacterBuilderWindow implements Serializable {
 		}
 	}
 	
-	// Saves changes to the currently active character
-	public void saveChanges() {
-
-		trooper.name = textFieldName.getText();
-
-		trooper.characterPointTotal = Integer.parseInt(textFieldCharacterPoints.getText());
-		trooper.spentCharacterPoints = Integer.parseInt(textFieldSpentCharacterPoints.getText());
-
-		trooper.str = Integer.parseInt(textFieldSTR.getText());
-		trooper.wit = Integer.parseInt(textFieldINT.getText());
-		trooper.soc = Integer.parseInt(textFieldSOC.getText());
-		trooper.wil = Integer.parseInt(textFieldWIL.getText());
-		trooper.per = Integer.parseInt(textFieldPER.getText());
-		trooper.hlt = Integer.parseInt(textFieldHTL.getText());
-		trooper.agi = Integer.parseInt(textFieldAGL.getText());
-
-		trooper.notes = textAreaCharacterNotes.getText();
-		
-	}
 
 	// Populates Jlist with characters list
 	public void setCharacterList() {

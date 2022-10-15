@@ -250,9 +250,28 @@ public class Trooper implements Serializable {
 		return baseSpeed;
 
 	}
-
+	
 	public Trooper() {
+		
+	}
 
+	public Trooper(String name) {
+		inventory.addContainer(ContainerType.Belt);
+		
+		this.name = name; 
+		
+		setBasicStats();
+		calculateAttributes();
+		calculateSkills();
+		
+		baseSpeed = new BaseSpeed(this);
+		fatigueSystem = new FatigueSystem(this);
+		setCombatStats(this);
+		
+		designation = "None"; 
+		wep = "None";
+		weaponPercent = "0";
+		
 	}
 
 	public Trooper(String input, String faction) {
@@ -352,7 +371,7 @@ public class Trooper implements Serializable {
 		setPCStats();
 
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill(" Pistol").value, 
+		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value, 
 				skills.getSkill("Rifle").value, 
 				skills.getSkill("Launcher").value, 
 				skills.getSkill("Heavy").value,
@@ -701,7 +720,7 @@ public class Trooper implements Serializable {
 
 		// Create and set individual stats
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill(" Pistol").value, 
+		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value, 
 				skills.getSkill("Rifle").value, 
 				skills.getSkill("Launcher").value, 
 				skills.getSkill("Heavy").value,
@@ -974,7 +993,7 @@ public class Trooper implements Serializable {
 
 		// Create and set individual stats
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill(" Pistol").value, 
+		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value, 
 				skills.getSkill("Rifle").value, 
 				skills.getSkill("Launcher").value, 
 				skills.getSkill("Heavy").value,
@@ -1482,7 +1501,7 @@ public class Trooper implements Serializable {
 		setPCStats();
 
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill(" Pistol").value, 
+		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value, 
 				skills.getSkill("Rifle").value, 
 				skills.getSkill("Launcher").value, 
 				skills.getSkill("Heavy").value,
@@ -1999,7 +2018,7 @@ public class Trooper implements Serializable {
 		setPCStats();
 
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill(" Pistol").value, 
+		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value, 
 				skills.getSkill("Rifle").value, 
 				skills.getSkill("Launcher").value, 
 				skills.getSkill("Heavy").value,
@@ -3031,7 +3050,7 @@ public class Trooper implements Serializable {
 	// Sets the basic stats for a newly created character
 	public void setBasicStats() {
 
-		this.characterPointTotal = 25;
+		this.characterPointTotal = 0;
 		this.spentCharacterPoints = 0;
 
 	}

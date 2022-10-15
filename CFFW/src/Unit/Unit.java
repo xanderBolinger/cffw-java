@@ -110,7 +110,7 @@ public class Unit implements Serializable {
 		if(individuals == null || individuals.size() < 1) {
 			return;
 		}
-		int command = individuals.get(0).command;
+		int command = individuals.get(0).getSkill("Command");
 		this.commandValue = command / 10; 
 	}
 	
@@ -557,7 +557,7 @@ public class Unit implements Serializable {
 		int k = 0; 
 		
 		while( i < L.length && j < R.length ) {
-			if(L[i].fighter < R[j].fighter) {
+			if(L[i].getSkill("Fighter") < R[j].getSkill("Fighter")) {
 				arr[k] = L[i];
 				i++;
 				k++;

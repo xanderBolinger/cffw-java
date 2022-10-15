@@ -50,6 +50,7 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;*/
 
 import Actions.Spot;
+import CharacterBuilder.CharacterBuilderWindow;
 
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
@@ -91,6 +92,7 @@ public class OpenUnit implements Serializable {
 	public final JFrame f; 
 	private JButton btnEmbark;
 	private JLabel lblFatigue;
+	private JButton btnOpenCharacterBuilder;
 	/*
 	 * Launch the application.
 	 */
@@ -1052,6 +1054,15 @@ public class OpenUnit implements Serializable {
 		});
 		btnWait.setBounds(505, 11, 80, 23);
 		f.getContentPane().add(btnWait);
+		
+		btnOpenCharacterBuilder = new JButton("Open Character Builder");
+		btnOpenCharacterBuilder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new CharacterBuilderWindow(unit.getTroopers());
+			}
+		});
+		btnOpenCharacterBuilder.setBounds(201, 201, 208, 23);
+		f.getContentPane().add(btnOpenCharacterBuilder);
 		
 
 		// Sets spinners, must be executed before saveUnit();

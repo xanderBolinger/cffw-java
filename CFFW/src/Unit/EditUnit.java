@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import CharacterBuilder.CharacterBuilderWindow;
 import Company.Company;
 import Company.EditCompany;
 import CreateGame.SetupWindow;
@@ -448,6 +449,15 @@ public class EditUnit implements Serializable {
 		lblCommandsl.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 11));
 		lblCommandsl.setBounds(453, 16, 219, 14);
 		f.getContentPane().add(lblCommandsl);
+		
+		JButton btnOpenCharacterBuilder = new JButton("Open Character Builder");
+		btnOpenCharacterBuilder.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new CharacterBuilderWindow(troopers);
+			}
+		});
+		btnOpenCharacterBuilder.setBounds(403, 121, 281, 25);
+		f.getContentPane().add(btnOpenCharacterBuilder);
 
 		if (unit != null) {
 			// Sets Troopers list

@@ -50,7 +50,7 @@ import javax.swing.JTextField;
 
 public class SetupWindow implements Serializable {
 	// Company global variable
-	public ArrayList<Company> companies = new ArrayList<Company>();
+	public static ArrayList<Company> companies = new ArrayList<Company>();
 	private SetupWindow setupWindow;
 	private Game game = new Game(1,1,1);
 	public GameWindow conflict = null;

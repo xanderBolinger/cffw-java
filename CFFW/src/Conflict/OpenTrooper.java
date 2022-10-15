@@ -48,6 +48,7 @@ import Actions.ReactionToFire;
 import Actions.ReactionToFireWindow;
 import Actions.Spot;
 import Actions.TargetedFire;
+import CharacterBuilder.CharacterBuilderWindow;
 import Company.EditCompany;
 import Hexes.Building;
 import Hexes.Building.Floor;
@@ -365,11 +366,6 @@ public class OpenTrooper implements Serializable {
 		lblP2.setBounds(69, 11, 53, 31);
 		lblP2.setForeground(Color.WHITE);
 		lblP2.setFont(new Font("Calibri", Font.PLAIN, 15));
-
-		lblWep = new JLabel("Weapon:");
-		lblWep.setBounds(128, 11, 146, 31);
-		lblWep.setForeground(Color.WHITE);
-		lblWep.setFont(new Font("Calibri", Font.PLAIN, 15));
 
 		JButton btnPass = new JButton("Pass");
 		btnPass.setBounds(655, 14, 86, 23);
@@ -4921,7 +4917,6 @@ public class OpenTrooper implements Serializable {
 		panelIndividual.add(tabbedPane2);
 		panelIndividual.add(lblP1);
 		panelIndividual.add(lblP2);
-		panelIndividual.add(lblWep);
 		panelIndividual.add(button_1);
 		panelIndividual.add(btnHunkerDown);
 		panelIndividual.add(btnPass);
@@ -5170,6 +5165,23 @@ public class OpenTrooper implements Serializable {
 		}
 
 		listInjuries.setModel(listInjuries2);
+		
+				lblWep = new JLabel("Weapon:");
+				lblWep.setBounds(326, 352, 146, 31);
+				panelStats.add(lblWep);
+				lblWep.setForeground(Color.WHITE);
+				lblWep.setFont(new Font("Calibri", Font.PLAIN, 15));
+				
+				JButton btnCharacterBuilder = new JButton("Character Builder");
+				btnCharacterBuilder.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						
+						new CharacterBuilderWindow(openTrooper);
+						
+					}
+				});
+				btnCharacterBuilder.setBounds(118, 12, 153, 25);
+				panelIndividual.add(btnCharacterBuilder);
 		
 		JPanel panel_53_1 = new JPanel();
 		panel_53_1.setBackground(Color.DARK_GRAY);
@@ -6247,7 +6259,7 @@ public class OpenTrooper implements Serializable {
 		individual.setPCStats();
 
 		// Create and set individual stats
-		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal, individual.skills.getSkill(" Pistol").value, 
+		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal, individual.skills.getSkill("Pistol").value, 
 				individual.skills.getSkill("Rifle").value, 
 				individual.skills.getSkill("Launcher").value, 
 				individual.skills.getSkill("Heavy").value,

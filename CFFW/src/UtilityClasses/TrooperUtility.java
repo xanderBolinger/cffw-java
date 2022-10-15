@@ -47,7 +47,7 @@ public class TrooperUtility {
 
 		trooper.setPCStats();
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(trooper.combatActions, trooper.sal, trooper.skills.getSkill(" Pistol").value, 
+		IndividualStats individual = new IndividualStats(trooper.combatActions, trooper.sal, trooper.skills.getSkill("Pistol").value, 
 				trooper.skills.getSkill("Rifle").value, 
 				trooper.skills.getSkill("Launcher").value, 
 				trooper.skills.getSkill("Heavy").value,

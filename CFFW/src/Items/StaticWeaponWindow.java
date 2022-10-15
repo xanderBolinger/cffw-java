@@ -1443,8 +1443,8 @@ public class StaticWeaponWindow {
 		int RWS = -1;
 
 		for (Trooper trooper : unit.staticWeapons.get(selectedWeaponIndex).equipedTroopers) {
-			if (trooper.heavyRWS > RWS) {
-				RWS = trooper.heavyRWS;
+			if (trooper.getSkill("Heavy") > RWS) {
+				RWS = trooper.getSkill("Heavy");
 				gunner = trooper;
 			}
 
@@ -2042,7 +2042,7 @@ public class StaticWeaponWindow {
 				continue;
 			}
 
-			if (gunner == null || trooper.heavy > gunner.heavy)
+			if (gunner == null || trooper.getSkill("Heavy") > gunner.getSkill("Heavy"))
 				gunner = trooper;
 		}
 		//System.out.println("Returning Gunner3, Gunner Name: "+gunner.name);

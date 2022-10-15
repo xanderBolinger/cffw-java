@@ -36,6 +36,9 @@ import javax.swing.JTextPane;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EtchedBorder;
+
+import CharacterBuilder.CharacterBuilderWindow;
+
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -200,27 +203,46 @@ public class EditIndividual implements Serializable {
 		lblAmmo = new JLabel("Ammo:");
 		lblAmmo.setForeground(Color.WHITE);
 		lblAmmo.setFont(new Font("Calibri", Font.PLAIN, 15));
+		
+		JButton btnNewButton = new JButton("Open Character Builder");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new CharacterBuilderWindow(trooper);
+			}
+		});
 		GroupLayout gl_panelIndividual = new GroupLayout(panelIndividual);
-		gl_panelIndividual.setHorizontalGroup(gl_panelIndividual.createParallelGroup(Alignment.LEADING)
-				.addComponent(tabbedPane2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 729, Short.MAX_VALUE)
-				.addGroup(gl_panelIndividual.createSequentialGroup().addContainerGap()
-						.addComponent(lblP1, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(lblP2, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(lblWep, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(lblAmmo, GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE).addContainerGap()));
-		gl_panelIndividual.setVerticalGroup(gl_panelIndividual.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelIndividual.createSequentialGroup().addContainerGap().addGroup(gl_panelIndividual
-						.createParallelGroup(Alignment.LEADING)
+		gl_panelIndividual.setHorizontalGroup(
+			gl_panelIndividual.createParallelGroup(Alignment.LEADING)
+				.addComponent(tabbedPane2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 936, Short.MAX_VALUE)
+				.addGroup(gl_panelIndividual.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblP1, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblP2, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblWep, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblAmmo, GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		gl_panelIndividual.setVerticalGroup(
+			gl_panelIndividual.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelIndividual.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelIndividual.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblP1, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panelIndividual.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblP2, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblWep, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblAmmo, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(tabbedPane2, GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE).addGap(0)));
+							.addComponent(lblP2, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblWep, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelIndividual.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lblAmmo, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnNewButton)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(tabbedPane2, GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
+					.addGap(0))
+		);
 
 		JPanel panelStats = new JPanel();
 		panelStats.setBackground(Color.DARK_GRAY);
@@ -3247,7 +3269,7 @@ public class EditIndividual implements Serializable {
 		individual.setPCStats();
 		
 		// Create and set individual stats
-		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal, individual.skills.getSkill(" Pistol").value, 
+		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal, individual.skills.getSkill("Pistol").value, 
 				individual.skills.getSkill("Rifle").value, 
 				individual.skills.getSkill("Launcher").value, 
 				individual.skills.getSkill("Heavy").value,
@@ -3405,7 +3427,7 @@ public class EditIndividual implements Serializable {
 		
 		// Create and set individual stats
 		// Create and set individual stats
-		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal, individual.skills.getSkill(" Pistol").value, 
+		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal, individual.skills.getSkill("Pistol").value, 
 				individual.skills.getSkill("Rifle").value, 
 				individual.skills.getSkill("Launcher").value, 
 				individual.skills.getSkill("Heavy").value,

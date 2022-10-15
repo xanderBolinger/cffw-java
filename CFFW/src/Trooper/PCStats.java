@@ -20,7 +20,9 @@ public class PCStats implements Serializable {
 	//Pistol	Rifle	Launcher	Heavy	Subgun	SAL	ISF	IT	A#	DALM	CA	CAPI	KO	Balance	Climb	Composure	Dodge	Endurance	Expression	Grapple	Hold	Jump/Leap	Lift/Pull	Resist Pain	Search	Spot/Listen	Stealth	Calm Other	Diplomacy	Barter	Command	Tactics	Det. Motives	Intimidate	Persuade	Digi. Systems	Long Gun	Pistol	Launcher	Heavy	Subgun	Explosives	First Aid 	Navigation	Swim	Throw
 
 	public PCStats(Trooper trooper) {
-		 
+		if(trooper.wep == null) {
+			return; 
+		}
 
 		/*
 		 * this.sal = skill + 6; this.isf = sal + wit;
@@ -40,6 +42,8 @@ public class PCStats implements Serializable {
 		Weapons wep = new Weapons();
 		wep = wep.findWeapon(trooper.wep);
 
+		
+		
 		trooper.sl = PCUtility.getSL(wep.type, trooper);
 
 		// setSkillLevel(trooper);
