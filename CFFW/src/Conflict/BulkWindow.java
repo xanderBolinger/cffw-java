@@ -2047,16 +2047,16 @@ public class BulkWindow {
 		
 		if (weaponType.equals("Rifle")) {
 			//System.out.println("Match: Trooper rifle rws: " + trooper.rifleRWS);
-			rws = trooper.rifle;
+			rws = trooper.getSkill("Rifle");
 		} else if (weaponType.equals("Heavy")) {
 			//System.out.println("Match: Trooper Heavy rws: " + trooper.heavyRWS);
-			rws = trooper.heavy;
+			rws = trooper.getSkill("Heavy");
 		} else if (weaponType.equals("Subgun")) {
-			rws = trooper.subgun;
+			rws = trooper.getSkill("Subgun");
 		} else if (weaponType.equals("Launcher")) {
-			rws = trooper.launcher;
+			rws = trooper.getSkill("Launcher");
 		} else if (weaponType.equals("Pistol")) {
-			rws = trooper.pistol;
+			rws = trooper.getSkill("Pistol");
 		}
 		
 		// Apply GURPS missing arm penalty 

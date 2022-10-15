@@ -110,7 +110,7 @@ public class FireMission implements Serializable {
 		System.out.println("Fire Mission Speed:"+fireMissionSpeed+", Random Fire Mission Speed: "+randomFireMissionSpeed+", Crew Quality: "+crewQuality);
 		
 		if(spotter != null)
-			spotterSkill = ((spotter.navigation / 5) + ((spotter.per * 3) / 5)) / 2;
+			spotterSkill = ((spotter.getSkill("Navigation") / 5) + ((spotter.per * 3) / 5)) / 2;
 	}
 	
 	public void setFireMissionSpeed() {

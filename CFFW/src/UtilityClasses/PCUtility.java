@@ -111,16 +111,15 @@ public class PCUtility {
 		int sl = 0; 
 		
 		if(skill.equals("Pistol")) {
-			sl += trooper.pistol; 
+			sl += trooper.skills.getSkill("Pistol").value; 
 		} else if(skill.equals("Subgun")) {
-			sl += trooper.subgun; 
+			sl +=  trooper.skills.getSkill("Subgun").value; 
 		} else if(skill.equals("Heavy")) {
-			sl += trooper.heavy; 
+			sl +=  trooper.skills.getSkill("Heavy").value; 
 		} else if(skill.equals("Launcher")) {
-			System.out.println("Launcher Skill: "+trooper.launcher);
-			sl += trooper.launcher; 
+			sl +=  trooper.skills.getSkill("Launcher").value; 
 		} else {
-			sl += trooper.rifle; 
+			sl +=  trooper.skills.getSkill("Rifle").value; 
 		}
 		//System.out.println("Trooper: "+trooper.number+" "+trooper.name);
 		//System.out.println("Weapon Skill: "+sl);

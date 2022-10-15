@@ -7,7 +7,7 @@ import java.util.Random;
 public class Skills implements Serializable {
 
 	// Skills
-	ArrayList<Skill> skills = new ArrayList<Skill>();
+	public ArrayList<Skill> skills = new ArrayList<Skill>();
 
 	// Balance Climb Composure Dodge Endurance Expression Grapple Hold Jump/Leap
 	// Lift/Pull Resist Pain Search Spot/Listen Stealth Calm Other Diplomacy Barter
@@ -88,6 +88,7 @@ public class Skills implements Serializable {
 	// Attributes
 	public int str;
 	public int wit;
+	public int wis;
 	public int soc;
 	public int wil;
 	public int per;
@@ -97,12 +98,133 @@ public class Skills implements Serializable {
 	// Attribute modifiers
 	public int strMod;
 	public int witMod;
+	public int wisMod;
 	public int socMod;
 	public int wilMod;
 	public int perMod;
 	public int htlMod;
 	public int agiMod;
 
+	public Skills(Trooper trooper) {
+		getAttr(trooper);
+		calculateSkills();
+
+		// Add skills to skills array
+		skills.add(new Skill("Ballance", 0, ballance, "AGL", "wil", false, 0, 0, "Basic"));
+		skills.add(new Skill("Camouflage", 0, camouflage, "INT", "per", false, 0, 0, "Basic"));
+		skills.add(new Skill("Climb", 0, climb, "STR", "agl", false, 0, 0, "Basic"));
+		skills.add(new Skill("Composure", 0, composure, "WIL", "htl", false, 0, 0, "Basic"));
+		skills.add(new Skill("Deception", 0, deception, "SOC", "int", false, 0, 0, "Basic"));
+		skills.add(new Skill("Dodge", 0, dodge, "AGL", "str", false, 0, 0, "Basic"));
+		skills.add(new Skill("Endurance", 0, endurance, "STR", "wil", false, 0, 0, "Basic"));
+		skills.add(new Skill("Expression", 0, expression, "HTL", "per", false, 0, 0, "Basic"));
+		skills.add(new Skill("Grapple", 0, grapple, "STR", "agl", false, 0, 0, "Basic"));
+		skills.add(new Skill("Hold", 0, hold, "STR", "agl", false, 0, 0, "Basic"));
+		skills.add(new Skill("Intuition", 0, intuition, "WIL", "per", false, 0, 0, "Basic"));
+		skills.add(new Skill("Jump/Leap", 0, jump, "STR", "per", false, 0, 0, "Basic"));
+		skills.add(new Skill("Lift/Pull", 0, lift, "STR", "int", false, 0, 0, "Basic"));
+		skills.add(new Skill("Resist Pain", 0, resistPain, "HTL", "wil", false, 0, 0, "Basic"));
+		skills.add(new Skill("Search", 0, search, "PER", "int", false, 0, 0, "Basic"));
+		skills.add(new Skill("Spot/Listen", 0, spotListen, "PER", "int", false, 0, 0, "Basic"));
+		skills.add(new Skill("Speed", 0, speed, "AGL", "htl", false, 0, 0, "Basic"));
+		skills.add(new Skill("Stealth", 0, stealth, "AGL", "int", false, 0, 0, "Basic"));
+
+		skills.add(new Skill("Bow", 0, bow, "AGL", "str", false, 0, 0, "Trained"));
+		skills.add(new Skill("Calm Other", 0, calm, "SOC", "int", false, 0, 0, "Trained"));
+		skills.add(new Skill("Diplomacy", 0, diplomacy, "SOC", "int", false, 0, 0, "Trained"));
+		skills.add(new Skill("Explosives", 0, explosives, "INT", "per", false, 0, 0, "Trained"));
+		skills.add(new Skill("Barter", 0, barter, "SOC", "int", false, 0, 0, "Trained"));
+		skills.add(new Skill("Command", 0, command, "INT", "soc", false, 0, 0, "Trained"));
+		skills.add(new Skill("Tactics", 0, tactics, "INT", "per", false, 0, 0, "Trained"));
+		skills.add(new Skill("Determine Motives", 0, detMotives, "SOC", "int", false, 0, 0, "Trained"));
+		skills.add(new Skill("Intimidate", 0, intimidate, "SOC", "str", false, 0, 0, "Trained"));
+		skills.add(new Skill("Investigation", 0, investigation, "INT", "per", false, 0, 0, "Trained"));
+		skills.add(new Skill("Persuade", 0, persuade, "SOC", "int", false, 0, 0, "Trained"));
+		skills.add(new Skill("Performance", 0, 0, soc, per, "SOC", "per", false, 0, 0, "Trained"));
+		skills.add(new Skill("Writing", 0, 0, wit, soc, "INT", "soc", false, 0, 0, "Trained"));
+		skills.add(new Skill("Digi. Systems", 0, digiSystems, "INT", "per", false, 0, 0, "Trained"));
+		skills.add(new Skill("Rifle", 0, rifle, "AGL", "per", false, 0, 0, "Trained"));
+		skills.add(new Skill("Heavy", 0, heavy, "AGL", "per", false, 0, 0, "Trained"));
+		skills.add(new Skill("Subgun", 0, subgun, "AGL", "per", false, 0, 0, "Trained"));
+		skills.add(new Skill("Launcher", 0, launcher, "AGL", "per", false, 0, 0, "Trained"));
+		skills.add(new Skill("Pistol", 0, pistol, "AGL", "per", false, 0, 0, "Trained"));
+		skills.add(new Skill("Cross Bow", 0, 0, agi, per, "AGL", "per", false, 0, 0, "Trained"));
+		skills.add(new Skill("Fighter", 0, fighter, "STR", "wil", false, 0, 0, "Trained"));
+		skills.add(new Skill("First Aid", 0, firstAid, "INT", "per", false, 0, 0, "Trained"));
+		skills.add(new Skill("Navigation", 0, navigation, "INT", "per", false, 0, 0, "Trained"));
+		skills.add(new Skill("Swim", 0, swim, "STR", "htl", false, 0, 0, "Trained"));
+		skills.add(new Skill("Throw", 0, Throw, "AGL", "str", false, 0, 0, "Trained"));
+		
+		skills.add(new Skill("Knowledge Street Wise", 0, 0, wit, wis, "INT", "wis", false, 0, 0, "Trained"));
+		skills.add(new Skill("Knowledge Political", 0, 0, wit, wis, "INT", "wis", false, 0, 0, "Trained"));
+		skills.add(new Skill("Knowledge Nature", 0, 0, wit, wis, "INT", "wis", false, 0, 0, "Trained"));
+		skills.add(new Skill("Knowledge Military", 0, 0, wit, wis, "INT", "wis", false, 0, 0, "Trained"));
+		skills.add(new Skill("Knowledge Historical", 0, 0, wit, wis, "INT", "wis", false, 0, 0, "Trained"));
+		skills.add(new Skill("Knowledge Folklore", 0, 0, wit, wis, "INT", "wis", false, 0, 0, "Trained"));
+		skills.add(new Skill("Knowledge Bestial", 0, 0, wit, wis, "INT", "wis", false, 0, 0, "Trained"));
+		skills.add(new Skill("Knowledge Magical", 0, 0, wit, wis, "INT", "wis", false, 0, 0, "Trained"));
+		skills.add(new Skill("Knowledge Alchemical", 0, 0, wit, wis, "INT", "wis", false, 0, 0, "Trained"));
+		
+
+		skills.add(new Skill("Advanced Medicine", 0, advancedMedicine, "INT", "per", false, 0, 0, "Expert"));
+		skills.add(new Skill("Craft/Construct/Engineer", 0, craft, "INT", "str", false, 0, 0, "Expert"));
+		skills.add(new Skill("Pilot", 0, pilot, "AGL", "per", false, 0, 0, "Expert"));
+		skills.add(new Skill("Animal Handling", 0, animalHandling, "SOC", "wil", false, 0, 0, "Expert"));
+		skills.add(new Skill("Ride", 0, ride, "AGL", "str", false, 0, 0, "Expert"));
+		skills.add(new Skill("Science", 0, science, "INT", "per", false, 0, 0, "Expert"));
+		skills.add(new Skill("Survival", 0, survival, "INT", "wil", false, 0, 0, "Expert"));
+		skills.add(new Skill("Clean Operations", 0, cleanOperations, "AGL", "per", false, 0, 0, "Expert"));
+		skills.add(new Skill("Covert Movement", 0, covertMovement, "AGL", "wil", false, 0, 0, "Expert"));
+		skills.add(new Skill("Recoil Control", 0, recoilControl, "STR", "wil", false, 0, 0, "Expert"));
+		skills.add(new Skill("Reload Drills", 0, reloadDrills, "AGL", "per", false, 0, 0, "Expert"));
+		skills.add(new Skill("Trigger Discipline", 0, silentOperations, "INT", "wil", false, 0, 0, "Expert"));
+		skills.add(new Skill("Silent Operations", 0, akSystems, "AGL", "per", false, 0, 0, "Expert"));
+		skills.add(new Skill("AK Systems", 0, akSystems, "AGL", "str", false, 0, 0, "Expert"));
+		skills.add(new Skill("Assault Operations", 0, assualtOperations, "STR", "wil", false, 0, 0, "Expert"));
+		skills.add(new Skill("Authority", 0, authority, "STR", "soc", false, 0, 0, "Expert"));
+		skills.add(new Skill("Raw Power", 0, rawPower, "STR", "htl", false, 0, 0, "Expert"));
+		skills.add(new Skill("AR Systems", 0, arSystems, "AGL", "per", false, 0, 0, "Expert"));
+		skills.add(new Skill("Long Range Optics", 0, longRangeOptics, "PER", "agl", false, 0, 0, "Expert"));
+		skills.add(new Skill("Negotiations", 0, negotiations, "SOC", "int", false, 0, 0, "Expert"));
+		skills.add(new Skill("Small Unit Tactics", 0, smallUnitTactics, "INT", "per", false, 0, 0, "Expert"));
+		
+		Skill preservation = new Skill("Preservation", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		Skill abjuration = new Skill("Abjuration", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		Skill alteration = new Skill("Alteration", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		Skill conjuration = new Skill("Conjuration", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		Skill divination = new Skill("Divination", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		Skill enchantment = new Skill("Enchantment", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		Skill illusion = new Skill("Illusion", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		Skill invocation = new Skill("Invocation", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		Skill planar = new Skill("Planar", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		Skill necromancy = new Skill("Necromancy", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		Skill wildmagic = new Skill("Wild Magic", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		Skill elemental = new Skill("Elemental", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		Skill enviromental = new Skill("Enviromental", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		Skill psionics = new Skill("Psionics", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		Skill runic = new Skill("Runic", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		Skill alchemical = new Skill("Alchemical", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
+		/* Magic */
+		skills.add(preservation);
+		skills.add(abjuration);
+		skills.add(alteration);
+		skills.add(conjuration);
+		skills.add(divination);
+		skills.add(enchantment);
+		skills.add(illusion);
+		skills.add(invocation);
+		skills.add(planar);
+		skills.add(necromancy);
+		skills.add(wildmagic);
+		skills.add(elemental);
+		skills.add(enviromental);
+		skills.add(psionics);
+		skills.add(runic);
+		skills.add(alchemical);
+	} 
+	
+	
+	
 	public Skills(String input, int attr[]) throws Exception {
 
 		getAttr(attr);
@@ -1906,7 +2028,7 @@ public class Skills implements Serializable {
 				return skill;
 		}
 
-		System.out.println("Skill not found: " + name);
+		System.err.println("SKILL NOT FOUND. Get Skill in skills. String name not valid: ["+name+"]");
 		return null;
 	}
 
@@ -2126,6 +2248,96 @@ public class Skills implements Serializable {
 
 		this.strMod = strMod;
 		this.witMod = witMod;
+		this.socMod = socMod;
+		this.wilMod = wilMod;
+		this.perMod = perMod;
+		this.htlMod = htlMod;
+		this.agiMod = agiMod;
+	}
+	
+	public void getAttr(Trooper trooper) {
+
+		// Attributes
+		int str = trooper.str;
+		int wit = trooper.wit;
+		int wis = trooper.wis;
+		int soc = trooper.soc;
+		int wil = trooper.wil;
+		int per = trooper.per;
+		int htl = trooper.hlt;
+		int agi = trooper.agi;
+
+		// Attribute modifiers
+		int strMod;
+		int witMod;
+		int wisMod;
+		int socMod;
+		int wilMod;
+		int perMod;
+		int htlMod;
+		int agiMod;
+
+		if (str < 10) {
+			strMod = str;
+		} else {
+			strMod = Integer.parseInt(Integer.toString(str).substring(0, 1));
+		}
+
+		if (wit < 10) {
+			witMod = wit;
+		} else {
+			witMod = Integer.parseInt(Integer.toString(wit).substring(0, 1));
+		}
+		
+		if (wis < 10) {
+			wisMod = wis;
+		} else {
+			wisMod = Integer.parseInt(Integer.toString(wis).substring(0, 1));
+		}
+
+		if (soc < 10) {
+			socMod = soc;
+		} else {
+			socMod = Integer.parseInt(Integer.toString(soc).substring(0, 1));
+		}
+
+		if (wil < 10) {
+			wilMod = wil;
+		} else {
+			wilMod = Integer.parseInt(Integer.toString(wil).substring(0, 1));
+		}
+
+		if (per < 10) {
+			perMod = per;
+		} else {
+			perMod = Integer.parseInt(Integer.toString(per).substring(0, 1));
+		}
+
+		if (htl < 10) {
+			htlMod = htl;
+		} else {
+			htlMod = Integer.parseInt(Integer.toString(htl).substring(0, 1));
+		}
+
+		if (agi < 10) {
+			agiMod = agi;
+		} else {
+			agiMod = Integer.parseInt(Integer.toString(agi).substring(0, 1));
+		}
+
+		// Sets class attr vareiables
+		this.str = str;
+		this.wit = wit;
+		this.wis = wis;
+		this.soc = soc;
+		this.wil = wil;
+		this.per = per;
+		this.htl = htl;
+		this.agi = agi;
+
+		this.strMod = strMod;
+		this.witMod = witMod;
+		this.wisMod = wisMod;
 		this.socMod = socMod;
 		this.wilMod = wilMod;
 		this.perMod = perMod;

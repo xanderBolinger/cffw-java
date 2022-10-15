@@ -2962,16 +2962,16 @@ public class EditIndividual implements Serializable {
 		lblCurrentShields_1.setText("Current Shields: "+individual.currentShields);
 		
 		int cffwSkills[] = new int[10];
-		cffwSkills[0] = individual.rifleRWS;
-		cffwSkills[1] = individual.pistolRWS;
-		cffwSkills[2] = individual.subgunRWS;
-		cffwSkills[3] = individual.heavyRWS;
-		cffwSkills[4] = individual.launcherRWS;
-		cffwSkills[5] = individual.spotListen;
-		cffwSkills[6] = individual.camouflage;
-		cffwSkills[7] = individual.stealth;
-		cffwSkills[8] = individual.command;
-		cffwSkills[9] = individual.tactics;
+		cffwSkills[0] = individual.getSkill("Rifle");
+		cffwSkills[1] = individual.getSkill("Pistol");
+		cffwSkills[2] = individual.getSkill("Subgun");
+		cffwSkills[3] = individual.getSkill("Heavy");
+		cffwSkills[4] = individual.getSkill("Launcher");
+		cffwSkills[5] = individual.getSkill("Spot/Listen");
+		cffwSkills[6] = individual.getSkill("Camouflage");
+		cffwSkills[7] = individual.getSkill("Stealth");
+		cffwSkills[8] = individual.getSkill("Command");
+		cffwSkills[9] = individual.getSkill("Tactics");
 
 		DefaultListModel cffwSkillsList = new DefaultListModel();
 
@@ -3037,61 +3037,60 @@ public class EditIndividual implements Serializable {
 
 	// Sets the skills spinners with individual's skills
 	public void setEditSkills(Trooper individual) {
-		spinnerBallance.setValue(individual.ballance);
-		spinnerClimb.setValue(individual.climb);
-		spinnerComposure.setValue(individual.composure);
-		spinnerDodge.setValue(individual.dodge);
-		spinnerEndurance.setValue(individual.endurance);
-		spinnerExpression.setValue(individual.expression);
-		spinnerGrapple.setValue(individual.grapple);
-		spinnerHold.setValue(individual.hold);
-		spinnerJump.setValue(individual.jump);
-		spinnerLift.setValue(individual.lift);
-		spinnerResistPain.setValue(individual.resistPain);
-		spinnerSearch.setValue(individual.search);
-		spinnerSpot.setValue(individual.spotListen);
-		spinnerStealth.setValue(individual.stealth);
-		spinnerCamo.setValue(individual.camouflage);
-		spinnerCalm.setValue(individual.calm);
-		spinnerDiplomacy.setValue(individual.diplomacy);
-		spinnerBarter.setValue(individual.barter);
-		spinnerCommand.setValue(individual.command);
-		spinnerTactics.setValue(individual.tactics);
-		spinnerDetMotives.setValue(individual.detMotives);
-		spinnerIntimidate.setValue(individual.intimidate);
-		spinnerPersuade.setValue(individual.persuade);
-		spinnerComputers.setValue(individual.digiSystems);
-		spinnerPistol.setValue(individual.pistol);
-		spinnerHeavy.setValue(individual.heavy);
-		spinnerSubgun.setValue(individual.subgun);
-		spinnerLauncher.setValue(individual.launcher);
-		spinnerRifle.setValue(individual.rifle);
-		spinnerExplosives.setValue(individual.explosives);
-		spinnerFirstAid.setValue(individual.firstAid);
-		advancedMedicineSpinner.setValue(individual.advancedMedicine);
-		spinnerNavigation.setValue(individual.navigation);
-		spinnerSwim.setValue(individual.swim);
-		spinnerThrow.setValue(individual.Throw);
-		textPaneNotes.setText(individual.notes);
-		textPaneEquipment.setText(individual.eqiupment);
-		
-		cleanOperationsSpinner.setValue(individual.cleanOperations);
-		covertMovementSpinner.setValue(individual.covertMovement);
-		fighterSpinner.setValue(individual.fighter);
+		spinnerBallance.setValue(individual.getSkill("Ballance"));
+		spinnerClimb.setValue(individual.getSkill("Climb"));
+		spinnerComposure.setValue(individual.getSkill("Composure"));
+		spinnerDodge.setValue(individual.getSkill("Dodge"));
+		spinnerEndurance.setValue(individual.getSkill("Endurance"));
+		spinnerExpression.setValue(individual.getSkill("Expression"));
+		spinnerGrapple.setValue(individual.getSkill("Grapple"));
+		spinnerHold.setValue(individual.getSkill("Hold"));
+		spinnerJump.setValue(individual.getSkill("Jump/Leap"));
+		spinnerLift.setValue(individual.getSkill("Lift/Pull"));
+		spinnerResistPain.setValue(individual.getSkill("Resist Pain"));
+		spinnerSearch.setValue(individual.getSkill("Search"));
+		spinnerSpot.setValue(individual.getSkill("Spot/Listen"));
+		spinnerStealth.setValue(individual.getSkill("Stealth"));
+		spinnerCamo.setValue(individual.getSkill("Camouflage"));
+		spinnerCalm.setValue(individual.getSkill("Calm Other"));
+		spinnerDiplomacy.setValue(individual.getSkill("Diplomacy"));
+		spinnerBarter.setValue(individual.getSkill("Barter"));
+		spinnerCommand.setValue(individual.getSkill("Command"));
+		spinnerTactics.setValue(individual.getSkill("Tactics"));
+		spinnerDetMotives.setValue(individual.getSkill("Determine Motives"));
+		spinnerIntimidate.setValue(individual.getSkill("Intimidate"));
+		spinnerPersuade.setValue(individual.getSkill("Persuade"));
+		spinnerComputers.setValue(individual.getSkill("Digi. Systems"));
+		spinnerPistol.setValue(individual.getSkill("Pistol"));
+		spinnerHeavy.setValue(individual.getSkill("Heavy"));
+		spinnerSubgun.setValue(individual.getSkill("Subgun"));
+		spinnerLauncher.setValue(individual.getSkill("Launcher"));
+		spinnerRifle.setValue(individual.getSkill("Rifle"));
+		spinnerExplosives.setValue(individual.getSkill("Explosives"));
+		spinnerFirstAid.setValue(individual.getSkill("First Aid"));
+		advancedMedicineSpinner.setValue(individual.getSkill("Advanced Medicine"));
+		spinnerNavigation.setValue(individual.getSkill("Navigation"));
+		spinnerSwim.setValue(individual.getSkill("Swim"));
+		spinnerThrow.setValue(individual.getSkill("Throw"));
+
+		cleanOperationsSpinner.setValue(individual.getSkill("Clean Operations"));
+		covertMovementSpinner.setValue(individual.getSkill("Covert Movement"));
+		fighterSpinner.setValue(individual.getSkill("Fighter"));
 		spinnerFighterRanks.setValue(individual.skills.getSkill("Fighter").rank);
-		recoilControlSpinner.setValue(individual.recoilControl);
-		reloadDrillsSpinner.setValue(individual.reloadDrills);
-		silentOperationsSpinner.setValue(individual.silentOperations);
-		
-		akSystemsSpinner.setValue(individual.akSystems);
-		assualtOperationsSpinner.setValue(individual.assualtOperations);
-		authoritySpinner.setValue(individual.authority);
-		rawPowerSpinner.setValue(individual.rawPower);
-		
-		arSystemsSpinner.setValue(individual.arSystems);
-		longRangeOpticsSpinner.setValue(individual.longRangeOptics);
-		negotiationsSpinner.setValue(individual.negotiations);
-		smallUnitTacticsSpinner.setValue(individual.smallUnitTactics);
+		recoilControlSpinner.setValue(individual.getSkill("Recoil Control"));
+		reloadDrillsSpinner.setValue(individual.getSkill("Reload Drills"));
+		silentOperationsSpinner.setValue(individual.getSkill("Silent Operations"));
+
+		akSystemsSpinner.setValue(individual.getSkill("AK Systems"));
+		assualtOperationsSpinner.setValue(individual.getSkill("Assault Operations"));
+		authoritySpinner.setValue(individual.getSkill("Authority"));
+		rawPowerSpinner.setValue(individual.getSkill("Raw Power"));
+
+		arSystemsSpinner.setValue(individual.getSkill("AR Systems"));
+		longRangeOpticsSpinner.setValue(individual.getSkill("Long Range Optics"));
+		negotiationsSpinner.setValue(individual.getSkill("Negotiations"));
+		smallUnitTacticsSpinner.setValue(individual.getSkill("Small Unit Tactics"));
+
 
 	}
 
@@ -3141,7 +3140,7 @@ public class EditIndividual implements Serializable {
 
 		// Sets skills equal to spinners
 
-		individual.ballance = (int) spinnerBallance.getValue();
+		/*individual.ballance = (int) spinnerBallance.getValue();
 		individual.climb = (int) spinnerClimb.getValue();
 		individual.composure = (int) spinnerComposure.getValue();
 		individual.dodge = (int) spinnerDodge.getValue();
@@ -3193,7 +3192,7 @@ public class EditIndividual implements Serializable {
 		individual.arSystems = (int) arSystemsSpinner.getValue();
 		//individual.longRangeOptics = (int) longRangeOpticsSpinner.getValue();
 		individual.negotiations = (int) negotiationsSpinner.getValue();
-		individual.smallUnitTactics = (int) smallUnitTacticsSpinner.getValue();
+		individual.smallUnitTactics = (int) smallUnitTacticsSpinner.getValue();*/
 
 
 		// Creates PC stats
@@ -3248,15 +3247,14 @@ public class EditIndividual implements Serializable {
 		individual.setPCStats();
 		
 		// Create and set individual stats
-		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal, individual.pistol,
-				individual.rifle, individual.launcher, individual.heavy, individual.subgun, false);
+		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal, individual.skills.getSkill(" Pistol").value, 
+				individual.skills.getSkill("Rifle").value, 
+				individual.skills.getSkill("Launcher").value, 
+				individual.skills.getSkill("Heavy").value,
+				individual.skills.getSkill("Subgun").value, true);
 		individual.P1 = individualStats.P1;
 		individual.P2 = individualStats.P2;
-		individual.pistolRWS = individualStats.pistolRWS;
-		individual.rifleRWS = individualStats.rifleRWS;
-		individual.launcherRWS = individualStats.launcherRWS;
-		individual.heavyRWS = individualStats.heavyRWS;
-		individual.subgunRWS = individualStats.subgunRWS;
+
 		individual.notes = textPaneNotes.getText();
 
 		individual.KO = (int) spinnerKO.getValue();
@@ -3301,7 +3299,7 @@ public class EditIndividual implements Serializable {
 
 		// Sets skills equal to spinners
 
-		individual.ballance = (int) spinnerBallance.getValue();
+		/*individual.ballance = (int) spinnerBallance.getValue();
 		individual.climb = (int) spinnerClimb.getValue();
 		individual.composure = (int) spinnerComposure.getValue();
 		individual.dodge = (int) spinnerDodge.getValue();
@@ -3353,7 +3351,7 @@ public class EditIndividual implements Serializable {
 		individual.arSystems = (int) arSystemsSpinner.getValue();
 		//individual.longRangeOptics = (int) longRangeOpticsSpinner.getValue();
 		individual.negotiations = (int) negotiationsSpinner.getValue();
-		individual.smallUnitTactics = (int) smallUnitTacticsSpinner.getValue();
+		individual.smallUnitTactics = (int) smallUnitTacticsSpinner.getValue();*/
 
 		// Creates PC stats
 		individual.setPCStats();
@@ -3406,16 +3404,16 @@ public class EditIndividual implements Serializable {
 		individual.setPCStats();
 		
 		// Create and set individual stats
-		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal, individual.pistol,
-				individual.rifle, individual.launcher, individual.heavy, individual.subgun, false);
+		// Create and set individual stats
+		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal, individual.skills.getSkill(" Pistol").value, 
+				individual.skills.getSkill("Rifle").value, 
+				individual.skills.getSkill("Launcher").value, 
+				individual.skills.getSkill("Heavy").value,
+				individual.skills.getSkill("Subgun").value, true);
+		
 		individual.P1 = individualStats.P1;
 		individual.P2 = individualStats.P2;
-		individual.pistolRWS = individualStats.pistolRWS;
-		individual.rifleRWS = individualStats.rifleRWS;
-		individual.launcherRWS = individualStats.launcherRWS;
-		individual.heavyRWS = individualStats.heavyRWS;
-		individual.subgunRWS = individualStats.subgunRWS;
-		
+
 		individual.KO = (int) spinnerKO.getValue();
 
 		window.setIndividual(individual, index);

@@ -678,7 +678,7 @@ public class ArtilleryWindow {
 				continue; 
 			
 			Trooper spotter = trooper; 
-			int spotterSkill = ((spotter.navigation / 5) + ((spotter.per * 3) / 5)) / 2;
+			int spotterSkill = ((spotter.getSkill("Navigation") / 5) + ((spotter.per * 3) / 5)) / 2;
 			
 			if(spotterSkill > highestSkill) {
 				highestSkill = spotterSkill; 

@@ -54,7 +54,7 @@ public class Launcher {
 			modifier += getConcealmentMod(concealment);
 		
 		
-		int RWS = attacker.launcherRWS + modifier + otherBonus - (unit.suppression / 2);
+		int RWS = attacker.getSkill("Launcher") + modifier + otherBonus - (unit.suppression / 2);
 		
 		Weapons wep = new Weapons();
 		wep.getWeapons();

@@ -343,7 +343,7 @@ public class TargetedFire implements Serializable {
 	// Determines time to reaction 
 	public void timeToReaction(Trooper targetTrooper, Unit targetUnit) {
 		
-		int fighterSkill = targetTrooper.fighter;
+		int fighterSkill = targetTrooper.getSkill("Fighter");
 		int supp  = targetUnit.suppression;
 		
 		int TN = fighterSkill + supp; 

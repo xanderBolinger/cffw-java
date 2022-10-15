@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import Actions.Spot;
+import CharacterBuilder.Ability;
 import Conflict.ConflictLog;
 import Conflict.Game;
 import Conflict.GameWindow;
@@ -38,6 +39,7 @@ import Items.PersonalShield;
 import Items.Weapons;
 import Unit.Unit;
 import UtilityClasses.PCUtility;
+import UtilityClasses.TrooperUtility;
 
 public class Trooper implements Serializable {
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -114,11 +116,6 @@ public class Trooper implements Serializable {
 	public int P2;
 	public int spentPhase1;
 	public int spentPhase2;
-	public int pistolRWS;
-	public int rifleRWS;
-	public int launcherRWS;
-	public int heavyRWS;
-	public int subgunRWS;
 	public ArrayList<Spot> spotted = new ArrayList<Spot>();
 	public int number = 0;
 	public boolean HD;
@@ -143,6 +140,7 @@ public class Trooper implements Serializable {
 
 	// Stats
 	public int str;
+	public int wis;
 	public int wit;
 	public int soc;
 	public int wil;
@@ -150,76 +148,12 @@ public class Trooper implements Serializable {
 	public int hlt;
 	public int agi;
 
-	// Skills
-	public int ballance;
-	public int bow;
-	public int climb;
-	public int composure;
-	public int dodge;
-	public int endurance;
-	public int deception;
-	public int expression;
-	public int grapple;
-	public int hold;
-	public int intuition;
-	public int investigation;
-	public int jump;
-	public int lift;
-	public int resistPain;
-	public int search;
-	public int spotListen;
-	public int speed;
-	public int stealth;
-	public int camouflage;
-	public int calm;
-	public int diplomacy;
-	public int barter;
-	public int command;
-	public int tactics;
-	public int detMotives;
-	public int intimidate;
-	public int persuade;
-	public int digiSystems;
-	public int pistol;
-	public int heavy;
-	public int subgun;
-	public int launcher;
-	public int rifle;
-	public int explosives;
-	public int advancedMedicine; // New
-	public int firstAid;
-	public int navigation;
-	public int swim;
-	public int Throw;
-
-	/* Expert skills additional */
-	public int craft;
-	public int pilot;
-	public int animalHandling;
-	public int ride;
-	public int science;
-	public int survival;
-
-	/* CE Skills */
-	public int cleanOperations;
-	public int covertMovement;
-	public int fighter;
-	public int recoilControl;
-	public int triggerDiscipline;
-	public int reloadDrills;
-	public int silentOperations;
-
-	// BEAR
-	public int akSystems;
-	public int assualtOperations;
-	public int authority;
-	public int rawPower;
-
-	// USEC
-	public int arSystems;
-	public int longRangeOptics;
-	public int negotiations;
-	public int smallUnitTactics;
+	// Abilities
+	public ArrayList<Ability> abilities = new ArrayList<Ability>();
+	
+	public int characterPointTotal;
+	public int spentCharacterPoints;
+	
 
 	// PC stats
 
@@ -418,16 +352,15 @@ public class Trooper implements Serializable {
 		setPCStats();
 
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(this.combatActions, sal, pistol, rifle, launcher, heavy,
-				subgun, true);
+		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill(" Pistol").value, 
+				skills.getSkill("Rifle").value, 
+				skills.getSkill("Launcher").value, 
+				skills.getSkill("Heavy").value,
+				skills.getSkill("Subgun").value, true);
 		this.name = individual.name;
 		this.P1 = individual.P1;
 		this.P2 = individual.P2;
-		this.pistolRWS = individual.pistolRWS;
-		this.rifleRWS = individual.rifleRWS;
-		this.launcherRWS = individual.launcherRWS;
-		this.heavyRWS = individual.heavyRWS;
-		this.subgunRWS = individual.subgunRWS;
+
 
 		// Sets identifier
 		this.identifier = identifier();
@@ -767,16 +700,16 @@ public class Trooper implements Serializable {
 		setPCStats();
 
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(this.combatActions, sal, pistol, rifle, launcher, heavy,
-				subgun, false);
+		// Create and set individual stats
+		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill(" Pistol").value, 
+				skills.getSkill("Rifle").value, 
+				skills.getSkill("Launcher").value, 
+				skills.getSkill("Heavy").value,
+				skills.getSkill("Subgun").value, true);
 
 		this.P1 = individual.P1;
 		this.P2 = individual.P2;
-		this.pistolRWS = individual.pistolRWS;
-		this.rifleRWS = individual.rifleRWS;
-		this.launcherRWS = individual.launcherRWS;
-		this.heavyRWS = individual.heavyRWS;
-		this.subgunRWS = individual.subgunRWS;
+
 
 		// Sets identifier
 		this.identifier = identifier();
@@ -1040,16 +973,16 @@ public class Trooper implements Serializable {
 		setPCStats();
 
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(this.combatActions, sal, pistol, rifle, launcher, heavy,
-				subgun, false);
+		// Create and set individual stats
+		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill(" Pistol").value, 
+				skills.getSkill("Rifle").value, 
+				skills.getSkill("Launcher").value, 
+				skills.getSkill("Heavy").value,
+				skills.getSkill("Subgun").value, true);
+		
 		this.name = individual.name;
 		this.P1 = individual.P1;
 		this.P2 = individual.P2;
-		this.pistolRWS = individual.pistolRWS;
-		this.rifleRWS = individual.rifleRWS;
-		this.launcherRWS = individual.launcherRWS;
-		this.heavyRWS = individual.heavyRWS;
-		this.subgunRWS = individual.subgunRWS;
 
 		// Sets identifier
 		this.identifier = identifier();
@@ -1549,16 +1482,16 @@ public class Trooper implements Serializable {
 		setPCStats();
 
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(this.combatActions, sal, pistol, rifle, launcher, heavy,
-				subgun, true);
+		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill(" Pistol").value, 
+				skills.getSkill("Rifle").value, 
+				skills.getSkill("Launcher").value, 
+				skills.getSkill("Heavy").value,
+				skills.getSkill("Subgun").value, true);
+		
 		this.name = individual.name;
 		this.P1 = individual.P1;
 		this.P2 = individual.P2;
-		this.pistolRWS = individual.pistolRWS;
-		this.rifleRWS = individual.rifleRWS;
-		this.launcherRWS = individual.launcherRWS;
-		this.heavyRWS = individual.heavyRWS;
-		this.subgunRWS = individual.subgunRWS;
+
 
 		// Sets identifier
 		this.identifier = identifier();
@@ -2066,15 +1999,14 @@ public class Trooper implements Serializable {
 		setPCStats();
 
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(this.combatActions, sal, pistol, rifle, launcher, heavy,
-				subgun, false);
+		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill(" Pistol").value, 
+				skills.getSkill("Rifle").value, 
+				skills.getSkill("Launcher").value, 
+				skills.getSkill("Heavy").value,
+				skills.getSkill("Subgun").value, true);
+		
 		this.P1 = individual.P1;
 		this.P2 = individual.P2;
-		this.pistolRWS = individual.pistolRWS;
-		this.rifleRWS = individual.rifleRWS;
-		this.launcherRWS = individual.launcherRWS;
-		this.heavyRWS = individual.heavyRWS;
-		this.subgunRWS = individual.subgunRWS;
 
 		// Sets identifier
 		this.identifier = identifier();
@@ -2129,73 +2061,6 @@ public class Trooper implements Serializable {
 		}
 
 		this.skills = skillsList;
-
-		// Sets skill values
-		this.ballance = skills.ballance;
-		this.bow = skills.bow;
-		this.climb = skills.climb;
-		this.composure = skills.composure;
-		this.dodge = skills.dodge;
-		this.endurance = skills.endurance;
-		this.deception = skills.deception;
-		this.expression = skills.expression;
-		this.grapple = skills.grapple;
-		this.hold = skills.hold;
-		this.intuition = skills.intuition;
-		this.investigation = skills.investigation;
-		this.jump = skills.jump;
-		this.lift = skills.lift;
-		this.resistPain = skills.resistPain;
-		this.search = skills.search;
-		this.spotListen = skills.spotListen;
-		this.stealth = skills.stealth;
-		this.camouflage = skills.camouflage;
-		this.calm = skills.calm;
-		this.diplomacy = skills.diplomacy;
-		this.barter = skills.barter;
-		this.command = skills.command;
-		this.tactics = skills.tactics;
-		this.detMotives = skills.detMotives;
-		this.intimidate = skills.intimidate;
-		this.persuade = skills.persuade;
-		this.digiSystems = skills.digiSystems;
-		this.pistol = skills.pistol;
-		this.heavy = skills.heavy;
-		this.subgun = skills.subgun;
-		this.launcher = skills.launcher;
-		this.rifle = skills.rifle;
-		this.explosives = skills.explosives;
-		this.firstAid = skills.firstAid;
-		this.advancedMedicine = skills.advancedMedicine;
-		this.navigation = skills.navigation;
-		this.swim = skills.swim;
-		this.Throw = skills.Throw;
-
-		this.cleanOperations = skills.cleanOperations;
-		this.covertMovement = skills.covertMovement;
-		this.fighter = skills.fighter;
-		this.recoilControl = skills.recoilControl;
-		this.triggerDiscipline = skills.triggerDiscipline;
-		this.reloadDrills = skills.reloadDrills;
-		this.silentOperations = skills.silentOperations;
-
-		this.akSystems = skills.akSystems;
-		this.assualtOperations = skills.assualtOperations;
-		this.authority = skills.authority;
-		this.rawPower = skills.rawPower;
-
-		this.arSystems = skills.arSystems;
-		this.longRangeOptics = skills.longRangeOptics;
-		this.negotiations = skills.negotiations;
-		this.smallUnitTactics = skills.smallUnitTactics;
-
-		this.craft = skills.craft;
-		this.pilot = skills.pilot;
-		this.animalHandling = skills.animalHandling;
-		this.ride = skills.ride;
-		this.science = skills.science;
-		this.survival = skills.survival;
-
 	}
 
 	// Create PC stats
@@ -2219,7 +2084,7 @@ public class Trooper implements Serializable {
 	// Tests if the targetis killed , or if the target is incapacitated
 	public void injuredHp(int damage, String hitLocation, ConflictLog log, Game game) {
 		Random rand = new Random();
-		int TN = endurance;
+		int TN = skills.getSkill("Endurance").value;
 
 		// Perform check for consciousness
 		if (currentHP < hp) {
@@ -2945,7 +2810,7 @@ public class Trooper implements Serializable {
 		trooper += "PD: " + physicalDamage + "; P1: " + spentPhase1 + "/" + P1 + "; P2: " + spentPhase2 + "/" + P2
 				+ "::   " + name + "; Rank: " + rank;
 
-		trooper += "; Role: " + designation + "; Rifle: " + rifleRWS + "; Heavy: " + heavyRWS + "; Command:" + command
+		trooper += "; Role: " + designation + "; Rifle: " + skills.getSkill("Rifle").value + "; Heavy: " + skills.getSkill("Heavy").value + "; Command:" + skills.getSkill("Command").value
 				+ "; Weapon: " + wep + "; Ammo: " + ammo;
 
 		return trooper;
@@ -3163,6 +3028,199 @@ public class Trooper implements Serializable {
 		calculateInjury(gameWindow, gameWindow.conflictLog);
 	}
 
+	// Sets the basic stats for a newly created character
+	public void setBasicStats() {
+
+		this.characterPointTotal = 25;
+		this.spentCharacterPoints = 0;
+
+	}
+
+	// Calculates and sets the value of all attributes
+	public void calculateAttributes() {
+
+		this.str = 3 * rolld3d4DropOne();
+		this.wit = 3 * rolld3d4DropOne();
+		this.wis = 3 * rolld3d4DropOne();
+		this.soc = 3 * rolld3d4DropOne();
+		this.wil = 3 * rolld3d4DropOne();
+		this.per = 3 * rolld3d4DropOne();
+		this.hlt = 3 * rolld3d4DropOne();
+		this.agi = 3 * rolld3d4DropOne();
+
+	}
+	
+	public void calculateSkills() {
+		skills = new Skills(this);
+	}
+	
+	public void recalculateSkills() {
+		
+		ArrayList<Skill> recalculatedSkills = new ArrayList<>();
+		
+		for(Skill skill : skills.skills) {
+			int attr1 = getAttribute(skill.baseAttribute);
+			int attr2 = getAttribute(skill.supportingAttribute);
+
+			Skill newSkill = new Skill(skill.name, skill.rank, skill.value, attr1, attr2, skill.baseAttribute,
+					skill.supportingAttribute, skill.supported, skill.trainingValue, skill.increasedValue, skill.type);
+		
+			recalculatedSkills.add(newSkill);
+		}
+		
+		skills.skills = recalculatedSkills;  
+		
+	}
+	
+	// Returns attribute value from attribute name
+	public int getAttribute(String attr) {
+
+		attr = attr.toLowerCase();
+
+		if (attr.equals("str")) {
+			return str;
+		} else if (attr.equals("int")) {
+			return wit;
+		} else if (attr.equals("wis")) {
+			return wis;
+		} else if (attr.equals("soc")) {
+			return soc;
+		} else if (attr.equals("wil")) {
+			return wil;
+		} else if (attr.equals("per")) {
+			return per;
+		} else if (attr.equals("htl")) {
+			return hlt;
+		} else if (attr.equals("agl")) {
+			return agi;
+		} else {
+			return -1;
+		}
+
+	}
+	
+	public int getSkill(String skillName) {
+		return skills.getSkill(skillName).value;
+	}
+	
+	// Calculates stats and returns a string
+	public String exportStats(int encum) {
+
+		int slPistol = (getSkill("Pistol") / 10) % 10 + (getSkill("Fighter") / 10) % 10;
+		int slRifle = (getSkill("Rifle") / 10) % 10 + (getSkill("Fighter") / 10) % 10;
+		int slBow = (getSkill("Bow") + getSkill("Fighter")) / 12; // 0
+		int slCrossbow = (getSkill("Crossbow") + getSkill("Fighter")) / 12; // 21
+
+		int fighterTensPlace = (getSkill("Fighter") / 10) % 10;
+		int slMelee = fighterTensPlace + (getSkill("Dodge") / 10) % 10;
+
+		int AF = 1 + fighterTensPlace / 2;
+
+		double bSpeed = TrooperUtility.baseSpeed(encum, this);
+		double mSpeed = TrooperUtility.maximumSpeed(encum, this);
+		int meleeISF = slMelee + (wit / 3);
+		int rifleISF = slRifle + (wit / 3);
+		int pistolISF = slPistol + (wit / 3);
+		int bowISF = slBow + (wit / 3);
+		int crossbowISF = slCrossbow + (wit / 3);
+		int dAlmMelee = TrooperUtility.defensiveALM(meleeISF);
+		int dAlmPistol = TrooperUtility.defensiveALM(pistolISF);
+		int dAlmRifle = TrooperUtility.defensiveALM(rifleISF);
+		int dAlmBow = TrooperUtility.defensiveALM(bowISF);
+		int dAlmCrossbow = TrooperUtility.defensiveALM(crossbowISF);
+		int meleeCA = TrooperUtility.calculateCA(mSpeed, meleeISF);
+		int pistolCA = TrooperUtility.calculateCA(mSpeed, pistolISF);
+		int rifleCA = TrooperUtility.calculateCA(mSpeed, rifleISF);
+		int bowCA = TrooperUtility.calculateCA(mSpeed, bowISF);
+		int crossbowCA = TrooperUtility.calculateCA(mSpeed, crossbowISF);
+		int KO = TrooperUtility.getKO(this);
+
+		int leadershipSkillFactor = (getSkill("Command")) / 3 + (getSkill("Tactics") / 3);
+		int stam = (getSkill("Endurance") / 10) % 10 + (wil / 10) % 10;
+		int FPP = (getSkill("Endurance") / 10) % 10 + (hlt / 10) % 10;
+
+		System.out.println("Melee SAL: " + slMelee);
+		System.out.println("Pistol SAL: " + slPistol);
+		System.out.println("Rifle SAL: " + slRifle);
+		System.out.println("Bow SAL: " + slBow);
+		System.out.println("Crossbow SAL: " + slCrossbow);
+		System.out.println("Melee ISF: " + meleeISF);
+		System.out.println("Rifle ISF: " + rifleISF);
+		System.out.println("Pistol ISF: " + pistolISF);
+		System.out.println("Bow ISF: " + bowISF);
+		System.out.println("Crossbow ISF: " + crossbowISF);
+		System.out.println("Base Speed: " + bSpeed);
+		System.out.println("Maximum Speed: " + mSpeed);
+		System.out.println("dAlmMelee: " + dAlmMelee);
+		System.out.println("dAlmPistol: " + dAlmPistol);
+		System.out.println("dAlmRifle: " + dAlmRifle);
+		System.out.println("dAlmBow: " + dAlmBow);
+		System.out.println("dAlmCrossbow: " + dAlmCrossbow);
+		System.out.println("Melee CA: " + meleeCA);
+		System.out.println("Pistol CA: " + pistolCA);
+		System.out.println("Rifle CA: " + rifleCA);
+		System.out.println("Bow CA: " + bowCA);
+		System.out.println("Crossbow CA: " + crossbowCA);
+		System.out.println("KO: " + KO);
+		System.out.println("");
+		System.out.println("AF: " + AF);
+		System.out.println("Melee CoAC: " + AF * meleeCA);
+		System.out.println("Pistol CoAC: " + AF * pistolCA);
+		System.out.println("Rifle CoAC: " + AF * rifleCA);
+		System.out.println("Bow CoAC: " + AF * bowCA);
+		System.out.println("Crossbow CoAC: " + AF * crossbowCA);
+		System.out.println("Coolness Under Fire(CUF): " + (getSkill("Fighter") + getSkill("Composure")) / 2);
+		System.out.println("Leadership Skill Factor(LSF): " + leadershipSkillFactor);
+		System.out.println("Command Time(CT): " + TrooperUtility.calculateCT(leadershipSkillFactor));
+		System.out.println(
+				"AV(Analectic Value): " + (int) ((int) (getSkill("Endurance") / 3 * (wil / 3) / 2) * (bSpeed / 2)));
+		/*
+		 * System.out.println("Stamina(ST): " + stam);
+		 * System.out.println("Fatigue Point Progress(FPP): " + FPP);
+		 */
+
+		System.out.println("");
+		System.out.println("TROS");
+		int x1 = per / 9;
+		int x2 = agi / 9;
+		int x3 = x1 + x2;
+		int x4 = x3 / 2;
+		System.out.println("Reflexes: " + x4);
+		System.out.println("PROF: ");
+
+		return "";
+	}
+
+	// Roll 4d6, pick three
+	public int rolld3d4DropOne() {
+
+		Random rand = new Random();
+		int sum = 0;
+
+		// Rolls 4 dice
+		ArrayList<Integer> rolls = new ArrayList<Integer>();
+		for (int i = 0; i < 3; i++) {
+			int roll = rand.nextInt(4) + 1;
+			rolls.add(roll);
+		}
+
+		// Finds the lowest value
+		/*
+		 * int lowest = rolls.get(0); int lowestIndex = 0; for(int i = 0; i <
+		 * rolls.size(); i++) { if(rolls.get(i) < lowest) { lowest = rolls.get(i);
+		 * lowestIndex = i; } }
+		 * 
+		 * // Removes lowest value rolls.remove(lowestIndex);
+		 */
+
+		// Creates sum out of the remaining three
+		for (int i = 0; i < rolls.size(); i++) {
+			sum += rolls.get(i);
+		}
+
+		return sum + 4;
+	}
+	
 	// Takes parameters from trooper class and returns string
 	@Override
 	public String toString() {
@@ -3195,7 +3253,7 @@ public class Trooper implements Serializable {
 		trooper += "PD: " + physicalDamage + "; P1: " + spentPhase1 + "/" + P1 + "; P2: " + spentPhase2 + "/" + P2
 				+ "::   " + name + "; Rank: " + rank;
 
-		trooper += "; Role: " + designation + "; Rifle: " + rifleRWS + "; Heavy: " + heavyRWS + "; Command:" + command
+		trooper += "; Role: " + designation + "; Rifle: " + skills.getSkill("Rifle").value + "; Heavy: " + skills.getSkill("Heavy").value + "; Command:" + skills.getSkill("Command").value
 				+ "; Weapon: " + wep + "; Ammo: " + ammo;
 
 		return trooper;

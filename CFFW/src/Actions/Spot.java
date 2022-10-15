@@ -765,8 +765,8 @@ public class Spot implements Serializable {
 		
 		int roll3 = new Random().nextInt(100) + 1; 
 		
-		if(roll3 <= spotter.spotListen) {
-			int margin = spotter.spotListen - roll3; 
+		if(roll3 <= spotter.getSkill("Spot/Listen")) {
+			int margin = spotter.getSkill("Spot/Listen") - roll3; 
 			
 			skillTestMod = 1; 
 			
@@ -774,7 +774,7 @@ public class Spot implements Serializable {
 			
 			
 		} else {
-			int margin = spotter.spotListen - roll3; 
+			int margin = spotter.getSkill("Spot/Listen") - roll3; 
 			skillTestMod--; 
 			skillTestMod += margin / 10; 
 		}

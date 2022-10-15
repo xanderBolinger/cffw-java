@@ -4931,63 +4931,7 @@ public class OpenTrooper implements Serializable {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 
-				int slPistol = (trooper.pistol / 10) % 10 + (trooper.fighter / 10) % 10;
-				int slRifle = (trooper.rifle / 10) % 10 + (trooper.fighter / 10) % 10;
-				int fighterTensPlace = (trooper.fighter / 10) % 10;
-				int AF = 1 + fighterTensPlace / 2;
-				int slMelee = fighterTensPlace + (trooper.dodge / 10) % 10;
-				double bSpeed = baseSpeed(trooper.encumberance, trooper);
-				double mSpeed = maximumSpeed(trooper.encumberance, trooper);
-				int meleeISF = slMelee + (trooper.wit);
-				int rifleISF = slRifle + (trooper.wit);
-				int pistolISF = slPistol + (trooper.wit);
-				int dAlmMelee = defensiveALM(meleeISF);
-				int dAlmPistol = defensiveALM(pistolISF);
-				int dAlmRifle = defensiveALM(rifleISF);
-				int meleeCA = calculateCA(mSpeed, meleeISF);
-				int pistolCA = calculateCA(mSpeed, pistolISF);
-				int rifleCA = calculateCA(mSpeed, rifleISF);
-				int KO = TrooperUtility.getKO(trooper);
-
-				int leadershipSkillFactor = (trooper.command) / 3 + (trooper.tactics / 3);
-				int stam = (trooper.endurance / 10) % 10 + (trooper.wil / 10) % 10;
-				int FPP = (trooper.endurance / 10) % 10 + (trooper.hlt / 10) % 10;
-
-				/*
-				 * System.out.println("Melee SAL: "+slMelee);
-				 * System.out.println("Pistol SAL: "+slPistol);
-				 * System.out.println("Rifle SAL: "+slRifle);
-				 * System.out.println("Melee ISF: "+meleeISF);
-				 * System.out.println("Rifle ISF: "+rifleISF);
-				 * System.out.println("Pistol ISF: "+pistolISF);
-				 * System.out.println("Base Speed: "+bSpeed);
-				 * System.out.println("Maximum Speed: "+mSpeed);
-				 * System.out.println("dAlmMelee: "+dAlmMelee);
-				 * System.out.println("dAlmPistol: "+dAlmPistol);
-				 * System.out.println("dAlmRifle: "+dAlmRifle);
-				 * System.out.println("Melee CA: "+meleeCA);
-				 * System.out.println("Pistol CA: "+pistolCA);
-				 * System.out.println("Rifle CA: "+rifleCA); System.out.println("KO: "+KO);
-				 * System.out.println(""); System.out.println("AF: "+AF);
-				 * System.out.println("Melee CoAC: "+AF*meleeCA);
-				 * System.out.println("Pistol CoAC: "+AF*pistolCA);
-				 * System.out.println("Rifle CoAC: "+AF*rifleCA);
-				 * System.out.println("Coolness Under Fire(CUF): "+ (trooper.fighter +
-				 * trooper.composure) / 2);
-				 * System.out.println("Leadership Skill Factor(LSF): "+leadershipSkillFactor);
-				 * System.out.println("Command Time(CT): "+calculateCT(leadershipSkillFactor));
-				 * System.out.println("Stamina(ST): "+stam);
-				 * System.out.println("Fatigue Point Progress(FPP): "+FPP);
-				 */
-
-				// System.out.println("");
-				// System.out.println("TROS");
-				int x1 = trooper.wit / 9;
-				int x2 = trooper.agi / 9;
-				int x3 = x1 + x2;
-				int x4 = x3 / 2;
-				// System.out.println("Reflexes: "+x4);
-				// System.out.println("PROF: ");
+				openTrooper.exportStats((int) spinnerEncumberance.getValue());
 
 			}
 		});
@@ -6170,7 +6114,7 @@ public class OpenTrooper implements Serializable {
 
 		// Sets skills equal to spinners
 
-		individual.ballance = (int) spinnerBallance.getValue();
+		/*individual.ballance = (int) spinnerBallance.getValue();
 		individual.climb = (int) spinnerClimb.getValue();
 		individual.composure = (int) spinnerComposure.getValue();
 		individual.dodge = (int) spinnerDodge.getValue();
@@ -6222,7 +6166,7 @@ public class OpenTrooper implements Serializable {
 		individual.arSystems = (int) arSystemsSpinner.getValue();
 		individual.longRangeOptics = (int) longRangeOpticsSpinner.getValue();
 		individual.negotiations = (int) negotiationsSpinner.getValue();
-		individual.smallUnitTactics = (int) smallUnitTacticsSpinner.getValue();
+		individual.smallUnitTactics = (int) smallUnitTacticsSpinner.getValue();*/
 
 		individual.encumberance = (int) spinnerEncumberance.getValue();
 		individual.carryingCapacity = (int) spinnerCapacity.getValue();
@@ -6303,15 +6247,15 @@ public class OpenTrooper implements Serializable {
 		individual.setPCStats();
 
 		// Create and set individual stats
-		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal,
-				individual.pistol, individual.rifle, individual.launcher, individual.heavy, individual.subgun, false);
+		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal, individual.skills.getSkill(" Pistol").value, 
+				individual.skills.getSkill("Rifle").value, 
+				individual.skills.getSkill("Launcher").value, 
+				individual.skills.getSkill("Heavy").value,
+				individual.skills.getSkill("Subgun").value, true);
+
 		individual.P1 = individualStats.P1;
 		individual.P2 = individualStats.P2;
-		individual.pistolRWS = individualStats.pistolRWS;
-		individual.rifleRWS = individualStats.rifleRWS;
-		individual.launcherRWS = individualStats.launcherRWS;
-		individual.heavyRWS = individualStats.heavyRWS;
-		individual.subgunRWS = individualStats.subgunRWS;
+
 		individual.notes = textPaneNotes.getText();
 
 		int count = 0;
@@ -6621,59 +6565,59 @@ public class OpenTrooper implements Serializable {
 
 	// Sets the skills spinners with individual's skills
 	public void setEditSkills(Trooper individual) {
-		spinnerBallance.setValue(individual.ballance);
-		spinnerClimb.setValue(individual.climb);
-		spinnerComposure.setValue(individual.composure);
-		spinnerDodge.setValue(individual.dodge);
-		spinnerEndurance.setValue(individual.endurance);
-		spinnerExpression.setValue(individual.expression);
-		spinnerGrapple.setValue(individual.grapple);
-		spinnerHold.setValue(individual.hold);
-		spinnerJump.setValue(individual.jump);
-		spinnerLift.setValue(individual.lift);
-		spinnerResistPain.setValue(individual.resistPain);
-		spinnerSearch.setValue(individual.search);
-		spinnerSpot.setValue(individual.spotListen);
-		spinnerStealth.setValue(individual.stealth);
-		spinnerCamo.setValue(individual.camouflage);
-		spinnerCalm.setValue(individual.calm);
-		spinnerDiplomacy.setValue(individual.diplomacy);
-		spinnerBarter.setValue(individual.barter);
-		spinnerCommand.setValue(individual.command);
-		spinnerTactics.setValue(individual.tactics);
-		spinnerDetMotives.setValue(individual.detMotives);
-		spinnerIntimidate.setValue(individual.intimidate);
-		spinnerPersuade.setValue(individual.persuade);
-		spinnerComputers.setValue(individual.digiSystems);
-		spinnerPistol.setValue(individual.pistol);
-		spinnerHeavy.setValue(individual.heavy);
-		spinnerSubgun.setValue(individual.subgun);
-		spinnerLauncher.setValue(individual.launcher);
-		spinnerRifle.setValue(individual.rifle);
-		spinnerExplosives.setValue(individual.explosives);
-		spinnerFirstAid.setValue(individual.firstAid);
-		advancedMedicineSpinner.setValue(individual.advancedMedicine);
-		spinnerNavigation.setValue(individual.navigation);
-		spinnerSwim.setValue(individual.swim);
-		spinnerThrow.setValue(individual.Throw);
+		spinnerBallance.setValue(individual.getSkill("Ballance"));
+		spinnerClimb.setValue(individual.getSkill("Climb"));
+		spinnerComposure.setValue(individual.getSkill("Composure"));
+		spinnerDodge.setValue(individual.getSkill("Dodge"));
+		spinnerEndurance.setValue(individual.getSkill("Endurance"));
+		spinnerExpression.setValue(individual.getSkill("Expression"));
+		spinnerGrapple.setValue(individual.getSkill("Grapple"));
+		spinnerHold.setValue(individual.getSkill("Hold"));
+		spinnerJump.setValue(individual.getSkill("Jump/Leap"));
+		spinnerLift.setValue(individual.getSkill("Lift/Pull"));
+		spinnerResistPain.setValue(individual.getSkill("Resist Pain"));
+		spinnerSearch.setValue(individual.getSkill("Search"));
+		spinnerSpot.setValue(individual.getSkill("Spot/Listen"));
+		spinnerStealth.setValue(individual.getSkill("Stealth"));
+		spinnerCamo.setValue(individual.getSkill("Camouflage"));
+		spinnerCalm.setValue(individual.getSkill("Calm Other"));
+		spinnerDiplomacy.setValue(individual.getSkill("Diplomacy"));
+		spinnerBarter.setValue(individual.getSkill("Barter"));
+		spinnerCommand.setValue(individual.getSkill("Command"));
+		spinnerTactics.setValue(individual.getSkill("Tactics"));
+		spinnerDetMotives.setValue(individual.getSkill("Determine Motives"));
+		spinnerIntimidate.setValue(individual.getSkill("Intimidate"));
+		spinnerPersuade.setValue(individual.getSkill("Persuade"));
+		spinnerComputers.setValue(individual.getSkill("Digi. Systems"));
+		spinnerPistol.setValue(individual.getSkill("Pistol"));
+		spinnerHeavy.setValue(individual.getSkill("Heavy"));
+		spinnerSubgun.setValue(individual.getSkill("Subgun"));
+		spinnerLauncher.setValue(individual.getSkill("Launcher"));
+		spinnerRifle.setValue(individual.getSkill("Rifle"));
+		spinnerExplosives.setValue(individual.getSkill("Explosives"));
+		spinnerFirstAid.setValue(individual.getSkill("First Aid"));
+		advancedMedicineSpinner.setValue(individual.getSkill("Advanced Medicine"));
+		spinnerNavigation.setValue(individual.getSkill("Navigation"));
+		spinnerSwim.setValue(individual.getSkill("Swim"));
+		spinnerThrow.setValue(individual.getSkill("Throw"));
 
-		cleanOperationsSpinner.setValue(individual.cleanOperations);
-		covertMovementSpinner.setValue(individual.covertMovement);
-		fighterSpinner.setValue(individual.fighter);
+		cleanOperationsSpinner.setValue(individual.getSkill("Clean Operations"));
+		covertMovementSpinner.setValue(individual.getSkill("Covert Movement"));
+		fighterSpinner.setValue(individual.getSkill("Fighter"));
 		spinnerFighterRanks.setValue(individual.skills.getSkill("Fighter").rank);
-		recoilControlSpinner.setValue(individual.recoilControl);
-		reloadDrillsSpinner.setValue(individual.reloadDrills);
-		silentOperationsSpinner.setValue(individual.silentOperations);
+		recoilControlSpinner.setValue(individual.getSkill("Recoil Control"));
+		reloadDrillsSpinner.setValue(individual.getSkill("Reload Drills"));
+		silentOperationsSpinner.setValue(individual.getSkill("Silent Operations"));
 
-		akSystemsSpinner.setValue(individual.akSystems);
-		assualtOperationsSpinner.setValue(individual.assualtOperations);
-		authoritySpinner.setValue(individual.authority);
-		rawPowerSpinner.setValue(individual.rawPower);
+		akSystemsSpinner.setValue(individual.getSkill("AK Systems"));
+		assualtOperationsSpinner.setValue(individual.getSkill("Assault Operations"));
+		authoritySpinner.setValue(individual.getSkill("Authority"));
+		rawPowerSpinner.setValue(individual.getSkill("Raw Power"));
 
-		arSystemsSpinner.setValue(individual.arSystems);
-		longRangeOpticsSpinner.setValue(individual.longRangeOptics);
-		negotiationsSpinner.setValue(individual.negotiations);
-		smallUnitTacticsSpinner.setValue(individual.smallUnitTactics);
+		arSystemsSpinner.setValue(individual.getSkill("AR Systems"));
+		longRangeOpticsSpinner.setValue(individual.getSkill("Long Range Optics"));
+		negotiationsSpinner.setValue(individual.getSkill("Negotiations"));
+		smallUnitTacticsSpinner.setValue(individual.getSkill("Small Unit Tactics"));
 
 		textPaneNotes.setText(individual.notes);
 		textPaneEquipment.setText(individual.eqiupment);
@@ -6953,49 +6897,7 @@ public class OpenTrooper implements Serializable {
 
 	}
 
-	// Gets proper rws
-	public int getRWS(Trooper trooper) {
-		// System.out.println("Get rws");
-		int rws = 0;
-		if (trooper == null) {
-			// System.out.println("Trooper is null");
-			return rws;
-		}
-
-		Weapons weapon = new Weapons();
-		weapon.createWeapons();
-		ArrayList<Weapons> weapons = weapon.getWeapons();
-		// System.out.println("Weapons to string: " + weapons.toString());
-		for (int i = 0; i < weapons.size(); i++) {
-			if (comboBoxWeapon.getSelectedItem().toString().equals(weapons.get(i).name)) {
-				// System.out.println("Weapon match");
-
-				String weaponType = weapons.get(i).type;
-
-				if (weaponType.equals("Rifle")) {
-					// System.out.println("Match: Trooper rifle rws: " + trooper.rifleRWS);
-					return rws = trooper.rifleRWS;
-				} else if (weaponType.equals("Heavy")) {
-					// System.out.println("Match: Trooper Heavy rws: " + trooper.heavyRWS);
-					return rws = trooper.heavyRWS;
-				} else if (weaponType.equals("Subgun")) {
-					return rws = trooper.subgunRWS;
-				} else if (weaponType.equals("Launcher")) {
-					return rws = trooper.launcherRWS;
-				} else if (weaponType.equals("Pistol")) {
-					return rws = trooper.pistolRWS;
-				}
-
-			}
-		}
-
-		// Apply GURPS missing arm penalty
-		if (trooper.disabledArms > 0) {
-			rws -= 20;
-		}
-
-		return rws;
-	}
+	
 
 	public int getRWSSuppressive(Trooper trooper) {
 		// System.out.println("Get rws");
@@ -7017,16 +6919,16 @@ public class OpenTrooper implements Serializable {
 
 				if (weaponType.equals("Rifle")) {
 					// System.out.println("Match: Trooper rifle rws: " + trooper.rifleRWS);
-					rws = trooper.rifleRWS;
+					rws = trooper.getSkill("Rifle");
 				} else if (weaponType.equals("Heavy")) {
 					// System.out.println("Match: Trooper Heavy rws: " + trooper.heavyRWS);
-					rws = trooper.heavyRWS;
+					rws = trooper.getSkill("Heavy");
 				} else if (weaponType.equals("Subgun")) {
-					rws = trooper.subgunRWS;
+					rws = trooper.getSkill("Subgun");
 				} else if (weaponType.equals("Launcher")) {
-					rws = trooper.launcherRWS;
+					rws = trooper.getSkill("Launcher");
 				} else if (weaponType.equals("Pistol")) {
-					rws = trooper.pistolRWS;
+					rws = trooper.getSkill("Pistol");
 				}
 
 			}
@@ -7066,196 +6968,7 @@ public class OpenTrooper implements Serializable {
 		return weapon;
 	}
 
-	// Targeted fire action
-	public void fire(OpenUnit window, Unit unit, int index, JFrame f, boolean suppressiveFire) {
-		Trooper trooper = window.openUnit.troopers.get(index);
-
-		// Checks for out of ammo
-		if (trooper.ammo == 0) {
-			textPaneTargetedFire.setText("OUT OF AMMO");
-			return;
-		}
-
-		int RWS = 0;
-
-		RWS = getRWS(trooper);
-
-		int bonus = (int) spinnerEALBonus.getValue();
-		int shots = comboBoxAimTime.getSelectedIndex();
-		// Subtracts ammo
-		if (trooper.ammo < shots) {
-			textPaneTargetedFire.setText("NOT ENOUGH AMMO");
-			return;
-		}
-
-		if (shots == 0) {
-			// System.out.println("Fail 1");
-			return;
-		}
-		Trooper target = findTarget();
-		if (target != null) {
-			// System.out.println("Pass 1");
-			// Sets target unit
-			targetUnit = null;
-
-			// Loops through intiiative order units and then individuals
-			// Finds target's unit
-			for (int i = 0; i < window.gameWindow.initiativeOrder.size(); i++) {
-				Unit tempUnit = window.gameWindow.initiativeOrder.get(i);
-				ArrayList<Trooper> tempTroopers = tempUnit.getTroopers();
-				for (int j = 0; j < tempUnit.getSize(); j++) {
-					if (tempTroopers.get(j).compareTo(target)) {
-						targetUnit = tempUnit;
-					}
-				}
-			}
-
-			if (targetUnit == null) {
-				return;
-			}
-
-			Weapons weapon = getWeapon();
-			if (weapon.tracers) {
-				trooper.firedTracers = true;
-			} else {
-				trooper.firedTracers = false;
-			}
-			firedWeapons = true;
-			// System.out.println("Weapon: "+weapon);
-			// System.out.println("RWS: "+RWS);
-			TargetedFire targetedFire = new TargetedFire(RWS, bonus, weapon, shots, target, trooper, targetUnit, unit,
-					suppressiveFire);
-
-			// Get hits
-			if (targetedFire != null) {
-				int hits = targetedFire.getHits();
-				int TN = targetedFire.getTN();
-				textPaneTargetedFire.setText("Tageted Fire Results:\nHITS: " + hits + "\n" + "TN: " + TN);
-				window.gameWindow.conflictLog.addNewLine("TARGETED FIRE: " + unit.side + "::  " + unit.callsign + " to "
-						+ targetUnit.side + "::  " + targetUnit.callsign + ", " + target.name + ", Number: "
-						+ target.number + "\nTageted Fire Results:\nHITS: " + hits + "\n" + "TN: " + TN);
-				// Subtracts suppression, moral and organization
-				for (int i = 0; i < window.gameWindow.initiativeOrder.size(); i++) {
-					// System.out.println("Looking for unit");
-					if (window.gameWindow.initiativeOrder.get(i).compareTo(targetUnit)) {
-						// System.out.println("Pass suppression");
-						Unit tempUnit = window.gameWindow.initiativeOrder.get(i);
-
-						if (tempUnit.suppression + hits < 100) {
-							tempUnit.suppression += hits;
-						} else {
-							tempUnit.suppression = 100;
-						}
-						if (tempUnit.organization - hits > 0) {
-							tempUnit.organization -= hits;
-						} else {
-							tempUnit.organization = 0;
-						}
-
-						/*
-						 * if (tempUnit.moral - hits > 0) { tempUnit.moral -= hits; } else {
-						 * tempUnit.moral = 0; }
-						 */
-
-						if (hits > 0) {
-							// System.out.println("pass trooper hits");
-							ResolveHits resolveHits = new ResolveHits(target, hits, weapon,
-									window.gameWindow.conflictLog, tempUnit, trooperUnit, gameWindow);
-							resolveHits.performCalculations(window.gameWindow.game, window.gameWindow.conflictLog);
-							// STR for Melee?
-							// resolveHits.performCalculations(window.gameWindow.game, openTrooper.str);
-							target = resolveHits.returnTarget();
-
-							// Reduces morale and organization for death
-							// Else, reduces morale and organization for injury
-
-							int unitSize = tempUnit.getSize();
-							int moraleLoss = 100 / unitSize;
-							if (!target.alive || !target.conscious) {
-
-								if (tempUnit.organization - 5 < 1) {
-									tempUnit.organization = 0;
-								} else {
-									tempUnit.organization -= 5;
-								}
-
-								if (tempUnit.moral - moraleLoss < 1) {
-									tempUnit.moral = 0;
-								} else {
-									tempUnit.moral -= moraleLoss;
-								}
-
-							} else {
-								if (tempUnit.organization - 1 < 1) {
-									tempUnit.organization = 0;
-								} else {
-									tempUnit.organization -= 1;
-								}
-
-								if (tempUnit.moral - moraleLoss / 3 < 1) {
-									tempUnit.moral = 0;
-								} else {
-									tempUnit.moral -= moraleLoss / 3;
-								}
-							}
-
-						}
-
-						/*
-						 * if (hits > 0) { new ManualInjuryWindow(target, hits, tempUnit,
-						 * windowOpenTrooper); } target.injuries = injuries; if(target.physicalDamage >
-						 * 3000) { trooper.kills++; }
-						 */
-
-						tempUnit.setIndividual(target, target.number);
-
-						window.refreshSpinners();
-						window.gameWindow.initiativeOrder.set(i, tempUnit);
-						window.gameWindow.refreshInitiativeOrder();
-
-					}
-				}
-
-			}
-
-			trooper.ammo -= shots;
-
-			Random rand = new Random();
-
-			if (comboBoxAimTime.getSelectedIndex() >= comboBoxAimTime.getItemCount() - 1) {
-				if (shots > 10) {
-					int roll = rand.nextInt(8);
-
-					if (trooper.ammo - roll < 0) {
-						trooper.ammo = 0;
-					} else {
-						trooper.ammo -= roll;
-					}
-
-				} else {
-					int roll = rand.nextInt(6);
-
-					if (trooper.ammo - roll < 0) {
-						trooper.ammo = 0;
-					} else {
-						trooper.ammo -= roll;
-					}
-
-				}
-			}
-
-			window.openUnit.troopers.set(index, trooper);
-			refreshTrooper(trooper);
-			window.openUnit.refreshIndividuals();
-
-			// Adds action point, if it is not a free action
-
-			if (!chckbxFreeAction.isSelected()) {
-				actionSpent(window, index);
-			}
-
-		}
-	}
+	
 
 	// Suppressive fire action
 	public void fireSuppressive(OpenUnit window, Unit unit, int index, JFrame f, boolean suppressiveFire) {
@@ -7513,8 +7226,8 @@ public class OpenTrooper implements Serializable {
 			attackerRoll += 20;
 		}
 
-		int attackerMargin = attacker.fighter - attackerRoll;
-		int targetMargin = target.fighter - targetRoll;
+		int attackerMargin = attacker.getSkill("Fighter") - attackerRoll;
+		int targetMargin = target.getSkill("Fighter") - targetRoll;
 
 		int trooperHits = 0;
 

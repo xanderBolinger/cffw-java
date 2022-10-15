@@ -14,10 +14,26 @@ public class Skill implements Serializable {
 	public int increasedValue;
 	public String type;
 	
+	public Skill() {
+		
+	}
+	
 	public Skill(String name, int rank, int value, String baseAttribute, String supportingAttribute, boolean supported, int trainingValue, int increasedValue, String type) {
 		this.name = name; 
 		this.rank = rank; 
 		this.value = value;
+		this.baseAttribute = baseAttribute; 
+		this.supportingAttribute = supportingAttribute; 
+		this.supported = supported;
+		this.trainingValue = trainingValue;
+		this.increasedValue = increasedValue;
+		this.type = type;
+	}
+	
+	public Skill(String name, int rank, int value, int attr, int mod, String baseAttribute, String supportingAttribute, boolean supported, int trainingValue, int increasedValue, String type) {
+		this.name = name; 
+		this.rank = rank; 
+		this.value = attr + mod;
 		this.baseAttribute = baseAttribute; 
 		this.supportingAttribute = supportingAttribute; 
 		this.supported = supported;
@@ -124,9 +140,9 @@ public class Skill implements Serializable {
 		-	Unsupported: 1d6 
 		Advanced/Trained Skills 
 		-	Supported: 1d6 
-		-	Unsupported: 1d6 – 2, minimum 1 
+		-	Unsupported: 1d6 ï¿½ 2, minimum 1 
 		Expert Skills 
-		-	Supported: 1d6 – 2, minimum 1 
+		-	Supported: 1d6 ï¿½ 2, minimum 1 
 		-	Unsupported: 2d6 lowest */
 		advancement += trainingValue;
 		value += advancement; 

@@ -851,7 +851,7 @@ public class EditCompany implements Serializable {
         		trooperStats.add(trooper.per);
         		trooperStats.add(trooper.hlt);
         		trooperStats.add(trooper.agi);
-        		trooperStats.add(trooper.ballance);
+        		/*trooperStats.add(trooper.ballance);
         		trooperStats.add(trooper.climb);
         		trooperStats.add(trooper.composure);
         		trooperStats.add(trooper.dodge);
@@ -901,7 +901,7 @@ public class EditCompany implements Serializable {
         		trooperStats.add(trooper.rawPower);
         		trooperStats.add(trooper.arSystems);
         		trooperStats.add(trooper.longRangeOptics);
-        		trooperStats.add(trooper.smallUnitTactics);
+        		trooperStats.add(trooper.smallUnitTactics);*/
         		trooperStats.add(trooper.sal);
         		trooperStats.add(trooper.isf);
         		trooperStats.add(trooper.init);
@@ -957,7 +957,7 @@ public class EditCompany implements Serializable {
     		trooperStats.add(trooper.per);
     		trooperStats.add(trooper.hlt);
     		trooperStats.add(trooper.agi);
-    		trooperStats.add(trooper.ballance);
+    		/*trooperStats.add(trooper.ballance);
     		trooperStats.add(trooper.climb);
     		trooperStats.add(trooper.composure);
     		trooperStats.add(trooper.dodge);
@@ -1007,7 +1007,7 @@ public class EditCompany implements Serializable {
     		trooperStats.add(trooper.rawPower);
     		trooperStats.add(trooper.arSystems);
     		trooperStats.add(trooper.longRangeOptics);
-    		trooperStats.add(trooper.smallUnitTactics);
+    		trooperStats.add(trooper.smallUnitTactics);*/
     		trooperStats.add(trooper.sal);
     		trooperStats.add(trooper.isf);
     		trooperStats.add(trooper.init);

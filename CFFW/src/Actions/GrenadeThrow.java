@@ -59,7 +59,7 @@ public class GrenadeThrow {
 			modifier += getConcealmentMod(concealment);
 		
 		// No suppression penalty for throwing grenades
-		int RWS = attacker.Throw + modifier + otherBonus;
+		int RWS = attacker.skills.getSkill("Throw").value + modifier + otherBonus;
 		
 		Weapons wep = new Weapons();
 		wep.getWeapons();
