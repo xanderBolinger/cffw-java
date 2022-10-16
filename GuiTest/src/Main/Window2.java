@@ -220,8 +220,8 @@ public class Window2 extends JFrame {
 
 	class ToolbarButton extends JButton {
 
-        private Color hoverBackgroundColor = Colors.ORANGE;
-        private Color pressedBackgroundColor = Colors.PINK;
+        private Color hoverBackgroundColor = Colors.BRIGHT_RED;
+        private Color pressedBackgroundColor = Colors.BRIGHT_RED;
 
         public ToolbarButton() {
             this(null);
