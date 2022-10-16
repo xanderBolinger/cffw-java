@@ -2,6 +2,7 @@ package Main;
 
 import java.awt.EventQueue;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -39,6 +40,11 @@ public class Window2 extends JFrame {
 		public static Border DIVIDER_COLLAPSED_BORDER = BorderFactory.createLineBorder(Colors.BACKGROUND, 5);
 	}
 	
+	int tx = 0;
+    int ty = 0;
+    boolean fullscreen = false; 
+    ToolbarButton exitButton;
+    JSplitPane splitPane;
 	/**
 	 * Launch the application.
 	 */
@@ -112,19 +118,19 @@ public class Window2 extends JFrame {
         setBackground(Colors.BACKGROUND);
         getContentPane().setBackground(Colors.BACKGROUND);
         
+        
+        
+        
         JPanel window = new JPanel();
-        window.setPreferredSize(new Dimension(1000, 1000));
-        window.setSize(new Dimension(1000, 1000));
         window.setMinimumSize(new Dimension(1000, 1000));
         window.setBackground(Colors.BACKGROUND);
         window.setDoubleBuffered(true);
         getContentPane().add(window, BorderLayout.NORTH);
 
-        JSplitPane splitPane = new JSplitPane();
+        splitPane = new JSplitPane();
         splitPane.setDividerSize(1);
         splitPane.setBackground(Colors.BACKGROUND);
         splitPane.setForeground(Colors.BACKGROUND);
-        splitPane.setSize(new Dimension(1000, 1000));
         splitPane.setMinimumSize(new Dimension(1000, 1000));
         splitPane.setPreferredSize(new Dimension(1000, 1000));
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -140,20 +146,20 @@ public class Window2 extends JFrame {
         		splitPane.setBackground(Colors.SOFT_BLUE);
                 splitPane.setForeground(Colors.SOFT_BLUE);
                 divider.setBorder(Divider.DIVIDER_EXPANDED_BORDER);
-        		System.out.println("Pass over");
+        		//System.out.println("Pass over");
         		//divider.resize(divider.getWidth(), 5);
         		divider.setDividerSize(Divider.DIVIDER_EXPANDED_SIZE);
         	}
         	
         	@Override
         	public void mouseReleased(MouseEvent e) {
-        		System.out.println("Pass exit");
+        		//System.out.println("Pass exit");
         		//divider.resize(divider.getWidth(), 1);
-        		//divider.move(divider.getX(), divider.getY()+4);
         		divider.setBorder(Divider.DIVIDER_COLLAPSED_BORDER);
         		splitPane.setBackground(Colors.BACKGROUND);
                 splitPane.setForeground(Colors.BACKGROUND);
         		divider.setDividerSize(Divider.DIVIDER_COLLAPSED_SIZE);
+
         	}
         });
         
@@ -182,20 +188,20 @@ public class Window2 extends JFrame {
         toolbar.setBackground(Colors.BACKGROUND);
         splitPane.setLeftComponent(toolbar);
         
-        ToolbarButton exitButton = new ToolbarButton("");
+        exitButton = new ToolbarButton("");
         exitButton.setIcon(new ImageIcon(Window2.class.getResource("/images/icons8_Exit_25px.png")));
         GroupLayout gl_toolbar = new GroupLayout(toolbar);
         gl_toolbar.setHorizontalGroup(
         	gl_toolbar.createParallelGroup(Alignment.LEADING)
         		.addGroup(gl_toolbar.createSequentialGroup()
         			.addContainerGap(940, Short.MAX_VALUE)
-        			.addComponent(exitButton, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE))
+        			.addComponent(exitButton, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
         );
         gl_toolbar.setVerticalGroup(
         	gl_toolbar.createParallelGroup(Alignment.LEADING)
-        		.addComponent(exitButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+        		.addComponent(exitButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE, Short.MAX_VALUE)
         );
-        toolbar.setLayout(gl_toolbar);
+        
         exitButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -205,16 +211,76 @@ public class Window2 extends JFrame {
         	
         });
         
-        JPanel panel = new JPanel();
+        toolbar.setLayout(gl_toolbar);
+        toolbar.addMouseListener(new MouseAdapter() {
+        	
+        	@Override
+        	public void mousePressed(MouseEvent m)
+        	{
+        		
+        		System.out.println("Mouse Pressed");
+        		
+        	    tx = m.getX();
+        	    ty = m.getY();
+        	}
+        	
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		if(e.getClickCount() != 2 || e.getButton() != MouseEvent.BUTTON1)
+        			return;
+        		
+        		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        		
+        		if(fullscreen) {
+        			setExtendedState(JFrame.NORMAL); 
+        			fullscreen = false; 
+        			splitPane.setPreferredSize(new Dimension(1000, 1000));
+        		} else {
+        			setExtendedState(JFrame.MAXIMIZED_BOTH); 
+        			fullscreen = true;
+        			splitPane.setPreferredSize(new Dimension(screenSize.width, screenSize.height));
+        			
+        		}
+        			
+        	}
+        	
+
+        });
+        toolbar.addMouseMotionListener(new MouseMotionAdapter() {
+
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				
+				System.out.println("Mouse Dragged");
+				if(!fullscreen)
+					setLocation(e.getXOnScreen() - tx, e.getYOnScreen() -ty);
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				
+				//System.out.println("Moved");
+				
+				
+			}
+
+		});
         
+        JPanel panel = new JPanel();
         panel.setDoubleBuffered(true);
-        panel.setBackground(Colors.GRAY);
+        panel.setBackground(Colors.GRAY);        
         splitPane.setRightComponent(panel);
+        
+        
+        
+        
+        
         
         setResizable(true);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+        
         
 	}
 
@@ -279,5 +345,4 @@ public class Window2 extends JFrame {
 
 
     }
-	
 }
