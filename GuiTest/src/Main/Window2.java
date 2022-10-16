@@ -6,15 +6,19 @@ import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.JSplitPane;
+import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.event.MouseAdapter;
@@ -28,6 +32,10 @@ import java.awt.event.ActionEvent;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import java.awt.Font;
 
 
 public class Window2 extends JFrame {
@@ -35,14 +43,15 @@ public class Window2 extends JFrame {
 	public static class Divider {
 		
 		public static int DIVIDER_EXPANDED_SIZE = 10; 
-		public static int DIVIDER_COLLAPSED_SIZE = 1; 
+		public static int DIVIDER_COLLAPSED_SIZE = 2; 
 		public static Border DIVIDER_EXPANDED_BORDER = BorderFactory.createLineBorder(Colors.SOFT_BLUE, 20);
-		public static Border DIVIDER_COLLAPSED_BORDER = BorderFactory.createLineBorder(Colors.BACKGROUND, 5);
+		public static Border DIVIDER_COLLAPSED_BORDER = BorderFactory.createLineBorder(Colors.BACKGROUND, 2);
 	}
 	
 	int tx = 0;
     int ty = 0;
     boolean fullscreen = false; 
+    boolean clickedDivider = false;
     ToolbarButton exitButton;
     JSplitPane splitPane;
 	/**
@@ -122,65 +131,21 @@ public class Window2 extends JFrame {
         
         
         JPanel window = new JPanel();
-        window.setMinimumSize(new Dimension(1000, 1000));
+        window.setMinimumSize(new Dimension(1000, 990));
         window.setBackground(Colors.BACKGROUND);
         window.setDoubleBuffered(true);
         getContentPane().add(window, BorderLayout.NORTH);
 
         splitPane = new JSplitPane();
-        splitPane.setDividerSize(1);
+        splitPane.setDividerSize(0);
         splitPane.setBackground(Colors.BACKGROUND);
         splitPane.setForeground(Colors.BACKGROUND);
-        splitPane.setMinimumSize(new Dimension(1000, 1000));
+        splitPane.setMinimumSize(new Dimension(1000, 990));
         splitPane.setPreferredSize(new Dimension(1000, 1000));
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
         splitPane.setDoubleBuffered(true);
-        BasicSplitPaneUI basicSplitPaneUI = (BasicSplitPaneUI)splitPane.getUI();
-        BasicSplitPaneDivider divider = basicSplitPaneUI.getDivider();
-        divider.setBorder(BorderFactory.createLineBorder(Colors.BACKGROUND, 5));
-        splitPane.setContinuousLayout(true);
-        divider.addMouseListener(new MouseAdapter() {
-        	
-        	@Override
-        	public void mousePressed(MouseEvent e) {
-        		splitPane.setBackground(Colors.SOFT_BLUE);
-                splitPane.setForeground(Colors.SOFT_BLUE);
-                divider.setBorder(Divider.DIVIDER_EXPANDED_BORDER);
-        		//System.out.println("Pass over");
-        		//divider.resize(divider.getWidth(), 5);
-        		divider.setDividerSize(Divider.DIVIDER_EXPANDED_SIZE);
-        	}
-        	
-        	@Override
-        	public void mouseReleased(MouseEvent e) {
-        		//System.out.println("Pass exit");
-        		//divider.resize(divider.getWidth(), 1);
-        		divider.setBorder(Divider.DIVIDER_COLLAPSED_BORDER);
-        		splitPane.setBackground(Colors.BACKGROUND);
-                splitPane.setForeground(Colors.BACKGROUND);
-        		divider.setDividerSize(Divider.DIVIDER_COLLAPSED_SIZE);
-
-        	}
-        });
         
-        divider.addMouseMotionListener(new MouseMotionAdapter() {
-
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				
-				//System.out.println("Dragged");
-
-			}
-
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				
-				//System.out.println("Moved");
-				
-				
-			}
-
-		});
+        
         
         window.add(splitPane);
         JPanel toolbar = new JPanel();
@@ -210,6 +175,7 @@ public class Window2 extends JFrame {
 			}
         	
         });
+       
         
         toolbar.setLayout(gl_toolbar);
         toolbar.addMouseListener(new MouseAdapter() {
@@ -271,10 +237,129 @@ public class Window2 extends JFrame {
         panel.setBackground(Colors.GRAY);        
         splitPane.setRightComponent(panel);
         
+        JSplitPane splitPane_1 = new JSplitPane();
+        splitPane_1.setDividerSize(2);
+        splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
+        GroupLayout gl_panel = new GroupLayout(panel);
+        gl_panel.setHorizontalGroup(
+        	gl_panel.createParallelGroup(Alignment.LEADING)
+        		.addComponent(splitPane_1)
+        );
+        gl_panel.setVerticalGroup(
+        	gl_panel.createParallelGroup(Alignment.LEADING)
+        		.addComponent(splitPane_1, GroupLayout.DEFAULT_SIZE, 948, Short.MAX_VALUE)
+        );
+        
+        JPanel map = new JPanel();
+        map.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
+        map.setMinimumSize(new Dimension(1000, 700));
+        map.setBackground(Colors.GRAY);
+        splitPane_1.setLeftComponent(map);
+        panel.setLayout(gl_panel);
         
         
         
+        splitPane_1.setContinuousLayout(true);
         
+        JPanel panel_1 = new JPanel();
+        panel_1.setBackground(Colors.GRAY);
+        splitPane_1.setRightComponent(panel_1);
+        
+        JSplitPane splitPane_2 = new JSplitPane();
+        splitPane_2.setDividerSize(2);
+        GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+        gl_panel_1.setHorizontalGroup(
+        	gl_panel_1.createParallelGroup(Alignment.LEADING)
+        		.addComponent(splitPane_2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+        );
+        gl_panel_1.setVerticalGroup(
+        	gl_panel_1.createParallelGroup(Alignment.LEADING)
+        		.addComponent(splitPane_2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+        );
+        
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setMinimumSize(new Dimension(400, 200));
+        splitPane_2.setLeftComponent(scrollPane);
+        
+        splitPane_2.setContinuousLayout(true);
+        JList list = new JList();
+        list.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
+        list.setBackground(Colors.BACKGROUND_2);
+        list.setForeground(Colors.FOREGROUND);
+        list.setSelectionBackground(Colors.PINK);
+        list.setSelectionForeground(Colors.FOREGROUND);
+        list.setFocusable(false);
+        list.setModel(new AbstractListModel() {
+        	String[] values = new String[] {"Element -- Example Character Name : SL 56%", "Element -- Example Character Name : SL 56%", "Element -- Example Character Name : SL 56%", "Element -- Example Character Name : SL 56%"};
+        	public int getSize() {
+        		return values.length;
+        	}
+        	public Object getElementAt(int index) {
+        		return values[index];
+        	}
+        });
+        scrollPane.setViewportView(list);
+        
+        JPanel panel_2 = new JPanel();
+        panel_2.setBackground(Colors.BACKGROUND_3);
+        splitPane_2.setRightComponent(panel_2);
+        splitPane_2.setBorder(BorderFactory.createEmptyBorder());
+        splitPane_2.setBackground(Colors.PURPLE);
+        splitPane_2.setForeground(Colors.PURPLE);
+        splitPane_2.setDoubleBuffered(true);
+        
+        panel_1.setLayout(gl_panel_1);
+        BasicSplitPaneUI basicSplitPaneUI = (BasicSplitPaneUI)splitPane_1.getUI();
+        BasicSplitPaneDivider divider = basicSplitPaneUI.getDivider();
+        BasicSplitPaneUI basicSplitPaneUI2 = (BasicSplitPaneUI)splitPane_2.getUI();
+        BasicSplitPaneDivider divider2 = basicSplitPaneUI2.getDivider();
+        divider.setBorder(Divider.DIVIDER_COLLAPSED_BORDER);
+        divider2.setBorder(Divider.DIVIDER_COLLAPSED_BORDER);
+        divider.addMouseListener(new MouseAdapter() {
+        	
+        	@Override
+        	public void mousePressed(MouseEvent e) {
+
+        		divider.setBorder(Divider.DIVIDER_EXPANDED_BORDER);
+        		//System.out.println("Pass over");
+        		//divider.resize(divider.getWidth(), 5);
+        		splitPane_1.setDividerSize(Divider.DIVIDER_EXPANDED_SIZE);
+        	}
+        	
+        	@Override
+        	public void mouseReleased(MouseEvent e) {
+        		//System.out.println("Pass exit");
+        		divider.setBorder(Divider.DIVIDER_COLLAPSED_BORDER);
+        		splitPane_1.setDividerSize(Divider.DIVIDER_COLLAPSED_SIZE);
+
+        	}
+        	
+        	
+        });
+        divider2.addMouseListener(new MouseAdapter() {
+        	
+        	@Override
+        	public void mousePressed(MouseEvent e) {
+
+        		divider2.setBorder(Divider.DIVIDER_EXPANDED_BORDER);
+        		//System.out.println("Pass over");
+        		//divider.resize(divider.getWidth(), 5);
+        		splitPane_2.setDividerSize(Divider.DIVIDER_EXPANDED_SIZE);
+        	}
+        	
+        	@Override
+        	public void mouseReleased(MouseEvent e) {
+        		//System.out.println("Pass exit");
+        		divider2.setBorder(Divider.DIVIDER_COLLAPSED_BORDER);
+        		splitPane_2.setDividerSize(Divider.DIVIDER_COLLAPSED_SIZE);
+
+        	}
+        	
+        	
+        });
+        
+        list.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         
         setResizable(true);
         pack();
@@ -345,4 +430,33 @@ public class Window2 extends JFrame {
 
 
     }
+	
+	public class MyListCellRenderer implements ListCellRenderer {
+
+	    private final JLabel jlblCell = new JLabel(" ", JLabel.LEFT);
+	    Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
+	    Border emptyBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
+
+	    @Override
+	    public Component getListCellRendererComponent(JList jList, Object value, 
+	            int index, boolean isSelected, boolean cellHasFocus) {
+
+	        jlblCell.setOpaque(true);
+
+	        if (isSelected) {
+	            jlblCell.setForeground(jList.getSelectionForeground());
+	            jlblCell.setBackground(jList.getSelectionBackground());
+	            jlblCell.setBorder(new LineBorder(Colors.PINK));
+	        } else {
+	            jlblCell.setForeground(jList.getForeground());
+	            jlblCell.setBackground(jList.getBackground());
+	        }
+
+	        jlblCell.setBorder(cellHasFocus ? lineBorder : emptyBorder);
+
+	        return jlblCell;
+	    }
+	}
+	
+	
 }

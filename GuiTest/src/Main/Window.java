@@ -110,6 +110,7 @@ public class Window extends JFrame {
 		});
 		list.setBackground(Colors.BACKGROUND);
 		list.setForeground(Colors.ORANGE);
+		
 		scrollPane.setViewportView(list);
 
 		unitCard = new JPanel();
