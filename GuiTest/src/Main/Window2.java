@@ -24,6 +24,8 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JButton;
@@ -54,6 +56,7 @@ public class Window2 extends JFrame {
     boolean clickedDivider = false;
     ToolbarButton exitButton;
     JSplitPane splitPane;
+    private double zoom = 1.0; // zoom factor
 	/**
 	 * Launch the application.
 	 */
@@ -144,10 +147,6 @@ public class Window2 extends JFrame {
         splitPane.setPreferredSize(new Dimension(1000, 1000));
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
         splitPane.setDoubleBuffered(true);
-        
-        
-        
-        window.add(splitPane);
         JPanel toolbar = new JPanel();
         toolbar.setMinimumSize(new Dimension(1000, 50));
         toolbar.setBackground(Colors.BACKGROUND);
@@ -249,12 +248,6 @@ public class Window2 extends JFrame {
         	gl_panel.createParallelGroup(Alignment.LEADING)
         		.addComponent(splitPane_1, GroupLayout.DEFAULT_SIZE, 948, Short.MAX_VALUE)
         );
-        
-        JPanel map = new JPanel();
-        map.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
-        map.setMinimumSize(new Dimension(1000, 700));
-        map.setBackground(Colors.GRAY);
-        splitPane_1.setLeftComponent(map);
         panel.setLayout(gl_panel);
         
         
@@ -360,6 +353,113 @@ public class Window2 extends JFrame {
         
         list.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        
+        JPanel panel_3 = new JPanel();
+        panel_3.setMinimumSize(new Dimension(1000, 700));
+        panel_3.setPreferredSize(new Dimension(1000, 700));
+        splitPane_1.setLeftComponent(panel_3);
+        
+        HexGrid map = new HexGrid(33, 33);
+        map.setPreferredSize(new Dimension(1000, 700));
+        map.setMinimumSize(new Dimension(1000, 700));
+        map.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
+        map.setBackground(new Color(68, 71, 90));
+        GroupLayout gl_map = new GroupLayout(map);
+        gl_map.setHorizontalGroup(
+        	gl_map.createParallelGroup(Alignment.LEADING)
+        		.addGap(0, 1000, Short.MAX_VALUE)
+        );
+        gl_map.setVerticalGroup(
+        	gl_map.createParallelGroup(Alignment.LEADING)
+        		.addGap(0, 700, Short.MAX_VALUE)
+        );
+        map.setLayout(gl_map);
+        GroupLayout gl_panel_3 = new GroupLayout(panel_3);
+        gl_panel_3.setHorizontalGroup(
+        	gl_panel_3.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_panel_3.createSequentialGroup()
+        			.addComponent(map, GroupLayout.DEFAULT_SIZE, 1028, Short.MAX_VALUE)
+        			.addGap(0))
+        );
+        gl_panel_3.setVerticalGroup(
+        	gl_panel_3.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_panel_3.createSequentialGroup()
+        			.addComponent(map, GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE)
+        			.addGap(0))
+        );
+        panel_3.setLayout(gl_panel_3);
+        GroupLayout gl_window = new GroupLayout(window);
+        gl_window.setHorizontalGroup(
+        	gl_window.createParallelGroup(Alignment.LEADING)
+        		.addComponent(splitPane, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        gl_window.setVerticalGroup(
+        	gl_window.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_window.createSequentialGroup()
+        			.addGap(5)
+        			.addComponent(splitPane, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        window.setLayout(gl_window);
+        
+        map.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				map.mouseReleased();
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+
+				map.mousePressed(e);
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				if (e.getButton() == e.BUTTON1) {
+					map.mouseLeftClick(e);
+				} else if (e.getButton() == e.BUTTON3) {
+					map.mouseRightClick(e);
+				}
+			}
+
+		});
+
+        map.addMouseMotionListener(new MouseMotionAdapter() {
+
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				//panelMouseDragged(e);
+				// System.out.println("Dragged");
+				map.mouseDragged(e);
+
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				// System.out.println("Mouse Moved");
+				//panelMouseMoved(e);
+				map.mouseMoved(e);
+			}
+
+		});
+
+        map.addMouseWheelListener(new MouseWheelListener() {
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				int notches = e.getWheelRotation();
+				double temp = zoom - (notches * 0.2);
+				// minimum zoom factor is 1.0
+				temp = Math.max(temp, 1.0);
+				if (temp != zoom) {
+					zoom = temp;
+					map.mouseWheelMoved(zoom);
+					// resizeImage();
+				}
+			}
+		});
+        
+        
         
         setResizable(true);
         pack();
