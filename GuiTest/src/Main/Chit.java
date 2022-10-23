@@ -54,6 +54,14 @@ public class Chit {
 		chitImage = chitImage.getScaledInstance((int)(20.0*zoom), (int)(12.0*zoom), Image.SCALE_SMOOTH);
 	}
 	
+	public int getWidth() {
+		return chitImage.getWidth(null);
+	}
+
+	public int getHeight() {
+		return chitImage.getHeight(null);
+	}
+
 	public void drawChit(double zoom, Graphics2D g2, Polygon hex) {
 		
 		int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
@@ -80,14 +88,33 @@ public class Chit {
 		g2.drawImage(chitImage, xPoint, yPoint, null);
 	}
 	
-	public int getWidth() {
-		return chitImage.getWidth(null);
-	}
+	public static void drawShadow(double zoom, Graphics2D g2, Polygon hex) {
+		
+		Chit chit = selectedChit;
+		
+		int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
+		int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
+		//System.out.println("Zoom: "+zoom);
+		int width = (int) Math.round(chit.chitHeight * zoom); 
+		int height = (int) Math.round(chit.chitHeight * zoom);
+		
+		int chitsInHex = 0;
+		int chitIndexInHex = 0; 
+		
+		if(chit.oldZoom != zoom) {
+			chit.oldZoom = zoom;
+			chit.rescale(zoom);
+		}
+		
 	
-	public int getHeight() {
-		return chitImage.getHeight(null);
+		int xPoint = (hexCenterX - width / 2) - (3 * (chitsInHex - chitIndexInHex));
+		int yPoint = (hexCenterY - height / 2) + (3 * (chitsInHex - chitIndexInHex));
+		
+		
+		
+		g2.drawImage(chit.chitImage, (int)(xPoint-(4.0*zoom)), yPoint, null);
 	}
-	
+
 	public static void setSelectedChit(Chit chit, int x, int y) {
 		selectedChit = chit; 
 		System.out.println("Selected X diff: "+x);

@@ -1,5 +1,6 @@
 package Main;
 
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -77,7 +78,6 @@ public class HexGrid extends JPanel {
 
 	Point pressedCursorPoint;
 	Point currentCursorPoint;
-	Point draggedCursorPoint;
 	boolean dragging = false;
 	double s = 17;
 	//double s = 30;
@@ -95,7 +95,6 @@ public class HexGrid extends JPanel {
 	int backgroundImageHeight;
 	double oldZoom = 1.0;
 	double zoom = 1.0;
-	
 	
 	public HexGrid(int hexRows, int hexCols) {
 		
@@ -128,15 +127,15 @@ public class HexGrid extends JPanel {
 				Image.SCALE_SMOOTH);*/
 
 		
-		chits.add(new Chit());
-		//addTemporaryChits();
+		//chits.add(new Chit());
+		addTemporaryChits();
 		
 		new Timer(20, new TimerListener()).start();
 	
 	}
 
 	public void addTemporaryChits() {
-		for(int i = 0; i < 32; i++) {
+		for(int i = 0; i < 2; i++) {
 			Chit chit = new Chit();
 			chit.xCord = i; 
 			chit.yCord = i;
@@ -158,18 +157,22 @@ public class HexGrid extends JPanel {
 		dragging = false;
 		currentCursorPoint = null;
 		pressedCursorPoint = e.getPoint();
-		draggedCursorPoint = pressedCursorPoint;
+
 		int[] points = getHexFromPoint(e.getPoint());
-		if(points == null)
-			return;
+		
+
+		if(points == null) {
+			Chit.unselectChit();
+			return;			
+		}
 		
 		System.out.println("Mouse Pressed");
 		if(Chit.isAChitSelected()) {
-			int[] newCords = getHexFromPoint(e.getPoint());
-			Chit.moveSelectedChit(newCords[0], newCords[1]);
+			Chit.moveSelectedChit(points[0], points[1]);
 		}
 		
 		Chit.unselectChit();
+		
 		// Check for click on chit
 		
 		
@@ -181,12 +184,7 @@ public class HexGrid extends JPanel {
 		currentCursorPoint = e.getPoint();
 		//System.out.println("dragging");
 		
-		if(Chit.isAChitSelected() && draggedCursorPoint != null) {
-			Chit.translateChit(currentCursorPoint.x - draggedCursorPoint.x, 
-					currentCursorPoint.y - draggedCursorPoint.y);
-		}
 
-		draggedCursorPoint = currentCursorPoint;
 			
 		// System.out.println("Current Cursor Point, X: "+currentCursorPoint.x+", Y:
 		// "+currentCursorPoint.y);
@@ -443,7 +441,36 @@ public class HexGrid extends JPanel {
 	
 		}
 	}
+	
+	public void translateSelectedChit() {
+		if (pressedCursorPoint != null && currentCursorPoint != null && dragging && Chit.isAChitSelected()) {
+			Chit.translateChit(currentCursorPoint.x - pressedCursorPoint.x,
+					currentCursorPoint.y - pressedCursorPoint.y);
+		}
+	}
 
+	public void drawChitShadow(Graphics2D g2) {
+		if(currentCursorPoint == null || !Chit.isAChitSelected())
+			return;
+		
+		setOpacity(0.5f, g2);
+		
+		int[] points = getHexFromPoint(currentCursorPoint);
+		if(points == null)
+			return;
+		
+		Chit.drawShadow(zoom, g2, hexMap.get(points[0]).get(points[1]));
+		
+		setOpacity(1f, g2);
+
+	}
+	
+	public void setOpacity(float alpha, Graphics2D g2) {
+		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+		g2.setComposite(ac);
+	}
+	
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -491,9 +518,11 @@ public class HexGrid extends JPanel {
 		
 		drawHexMap(g2);
 
-		drawChits(g2);
+		translateSelectedChit();
 
-		
+		drawChitShadow(g2);
+
+		drawChits(g2);		
 		
 		pressedCursorPoint = currentCursorPoint;
 		oldZoom = zoom;
