@@ -405,7 +405,7 @@ public class Window2 extends JFrame {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				map.mouseReleased();
+				map.mouseReleased(e);
 			}
 
 			@Override

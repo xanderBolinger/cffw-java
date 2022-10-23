@@ -1816,7 +1816,6 @@ public class HexGrid implements Serializable {
 			
 		}
 		
-		
 		public void drawThread(Graphics2D g2, int x1, int y1, int x2, int y2) {
 			// Draw line between two points 
 			//System.out.println("Draw");
@@ -1833,7 +1832,6 @@ public class HexGrid implements Serializable {
 			g2.setColor(Color.MAGENTA);
 			g2.drawString(rslts, x2 + 5, y2);
 		}
-		
 		
 		private class TimerListener implements ActionListener {
 	        @Override

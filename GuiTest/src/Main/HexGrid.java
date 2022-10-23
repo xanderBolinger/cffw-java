@@ -57,6 +57,7 @@ public class HexGrid extends JPanel {
 	private ArrayList<Polygon> shapeList = new ArrayList<>();
 	private ArrayList<ArrayList<Polygon>> hexMap = new ArrayList<>();
 	private ArrayList<DrawnString> drawnStrings = new ArrayList<>();
+	private ArrayList<Chit> chits = new ArrayList<>();
 	
 	class DrawnString {
 		public String text;
@@ -91,6 +92,9 @@ public class HexGrid extends JPanel {
 	int backgroundImageY = 0;
 	int backgroundImageWidth;
 	int backgroundImageHeight;
+	double oldZoom = 1.0;
+	double zoom = 1.0;
+	
 	
 	public HexGrid(int hexRows, int hexCols) {
 		
@@ -122,22 +126,42 @@ public class HexGrid extends JPanel {
 		backgroundImage = originalImage.getScaledInstance(backgroundImageWidth, backgroundImageHeight,
 				Image.SCALE_SMOOTH);*/
 
-
+		
+		chits.add(new Chit());
+		//addTemporaryChits();
+		
 		new Timer(20, new TimerListener()).start();
 	
 	}
 
-
-	double oldZoom = 1.0;
-	double zoom = 1.0;
+	public void addTemporaryChits() {
+		for(int i = 0; i < 32; i++) {
+			Chit chit = new Chit();
+			chit.xCord = i; 
+			chit.yCord = i;
+			chits.add(chit);
+			chit = new Chit();
+			chit.xCord = i; 
+			chit.yCord = 1;
+			chits.add(chit);
+		}
+		
+	}
+	
 
 	
 	public void mousePressed(MouseEvent e) {
 		dragging = false;
-		pressedCursorPoint = e.getPoint();
-		// System.out.println("Pressed Cursor Point, X: "+pressedCursorPoint.x+", Y:
-		// "+pressedCursorPoint.y);
 		currentCursorPoint = null;
+		pressedCursorPoint = e.getPoint();
+		int[] points = getHexFromPoint(e.getPoint());
+		if(points == null)
+			return;
+		
+		// Check for click on chit
+		
+		
+		//System.out.println("Pressed Cursor Hex, X: "+points[0]+", Y:"+points[1]);
 	}
 
 	public void mouseDragged(MouseEvent e) {
@@ -146,15 +170,14 @@ public class HexGrid extends JPanel {
 		// System.out.println("Current Cursor Point, X: "+currentCursorPoint.x+", Y:
 		// "+currentCursorPoint.y);
 		//repaint();
-		
-		
-		
-		
-		
 	}
 
-	public void mouseReleased() {
+	public void mouseReleased(MouseEvent e) {
 		dragging = false;
+		int[] points = getHexFromPoint(e.getPoint());
+		if(points == null)
+			return;
+		//System.out.println("Released Cursor Hex, X: "+points[0]+", Y:"+points[1]);
 	}
 
 	public void mouseWheelMoved(double zoom) {
@@ -294,23 +317,32 @@ public class HexGrid extends JPanel {
 		return null; 
 	}
 	
+	public int[] getHexFromPoint(Point point) {
+		
+		//System.out.println("Get hex from point");
+		
+		for (int i = 0; i < hexMap.size(); i++) {
+
+			for (int j = 0; j < hexMap.get(0).size(); j++) {
+
+				Polygon hex = hexMap.get(i).get(j);
+
+				if (hex.contains(point)) {
+					int[] arr={i, j};
+					return arr; 
+				}
+			}
+		}
+		
+		return null; 
+	}
+	
 	
 
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		
-		
-		
-		
-		//System.out.println("Paint!");
-		
-		//System.out.println("shapeList: "+shapeList.size()+", Deployed Units: "+deployedUnits.size());
-		
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setStroke(STROKE);
+	public void setRendering(Graphics2D g2) {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = toolkit.getScreenSize();
+		g2.setStroke(STROKE);
 		g2.setClip(0,0,screenSize.width,screenSize.height);
 		/*g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		RenderingHints rh4 = new RenderingHints(RenderingHints.KEY_INTERPOLATION,
@@ -318,6 +350,7 @@ public class HexGrid extends JPanel {
 		//g2.setRenderingHints(rh4);
 		
 		System.setProperty("sun.java2d.opengl", "true");
+		//System.setProperty("sun.java2d.uiScale", "1.0");
 		RenderingHints rh3 = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
 		g2.setRenderingHints(rh3);
 		RenderingHints rh2 = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
@@ -325,8 +358,27 @@ public class HexGrid extends JPanel {
 		RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
 		g2.setRenderingHints(rh);
-
+	}
+	
+	public void drawChits(Graphics2D g2) {
 		
+		for(Chit chit : chits) {
+			chit.drawChit(zoom, g2, hexMap.get(chit.xCord).get(chit.yCord));
+		}
+		
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		//System.out.println("Paint!");
+		
+		//System.out.println("shapeList: "+shapeList.size()+", Deployed Units: "+deployedUnits.size());
+		
+		Graphics2D g2 = (Graphics2D) g;
+		setRendering(g2);
+
 		
 		
 		if (zoom != oldZoom) {
@@ -360,6 +412,8 @@ public class HexGrid extends JPanel {
 			
 			
 		}
+		
+		drawChits(g2);
 
 		for (Polygon shape : shapeList) {
 
