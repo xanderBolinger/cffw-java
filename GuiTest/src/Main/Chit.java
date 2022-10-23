@@ -7,6 +7,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
@@ -17,6 +18,12 @@ import javax.imageio.ImageIO;
 
 public class Chit {
 	public Image chitImage;
+
+	private static Chit selectedChit = null;
+	private static int selectedX; 
+	private static int selectedY;
+	
+	
 	private int chitWidth = 20; 
 	private int chitHeight = 12;
 	private double oldZoom = 1.0; 
@@ -63,8 +70,12 @@ public class Chit {
 			rescale(zoom);
 		}
 		
-		xPoint = (hexCenterX - width / 2) - (3 * (chitsInHex - chitIndexInHex));
-		yPoint = (hexCenterY - height / 2) + (3 * (chitsInHex - chitIndexInHex));
+		
+		if(!Chit.isSelected(this)) {		
+			xPoint = (hexCenterX - width / 2) - (3 * (chitsInHex - chitIndexInHex));
+			yPoint = (hexCenterY - height / 2) + (3 * (chitsInHex - chitIndexInHex));
+		}
+		
 		
 		g2.drawImage(chitImage, xPoint, yPoint, null);
 	}
@@ -75,6 +86,41 @@ public class Chit {
 	
 	public int getHeight() {
 		return chitImage.getHeight(null);
+	}
+	
+	public static void setSelectedChit(Chit chit, int x, int y) {
+		selectedChit = chit; 
+		System.out.println("Selected X diff: "+x);
+		selectedX = x;
+		selectedY = y; 
+	}
+	
+	public static void moveSelectedChit(int x, int y) {
+		selectedChit.xCord = x; 
+		selectedChit.yCord = y; 
+	}
+	
+	public static void translateChit(int x, int y) {
+		selectedChit.xPoint += x;
+		selectedChit.yPoint += y; 
+	}
+	
+	public static void unselectChit() {
+		selectedChit = null; 
+	}
+	
+	public static boolean isAChitSelected() {
+		if(selectedChit != null)
+			return true; 
+		else 
+			return false; 
+	}
+	
+	public static boolean isSelected(Chit chit) {
+		if(chit == selectedChit)
+			return true; 
+		else 
+			return false; 
 	}
 	
 }

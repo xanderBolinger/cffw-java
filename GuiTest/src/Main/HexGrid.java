@@ -77,6 +77,7 @@ public class HexGrid extends JPanel {
 
 	Point pressedCursorPoint;
 	Point currentCursorPoint;
+	Point draggedCursorPoint;
 	boolean dragging = false;
 	double s = 17;
 	//double s = 30;
@@ -151,13 +152,24 @@ public class HexGrid extends JPanel {
 
 	
 	public void mousePressed(MouseEvent e) {
+		if (e.getButton() != MouseEvent.BUTTON1) {
+	        return;
+		}
 		dragging = false;
 		currentCursorPoint = null;
 		pressedCursorPoint = e.getPoint();
+		draggedCursorPoint = pressedCursorPoint;
 		int[] points = getHexFromPoint(e.getPoint());
 		if(points == null)
 			return;
 		
+		System.out.println("Mouse Pressed");
+		if(Chit.isAChitSelected()) {
+			int[] newCords = getHexFromPoint(e.getPoint());
+			Chit.moveSelectedChit(newCords[0], newCords[1]);
+		}
+		
+		Chit.unselectChit();
 		// Check for click on chit
 		
 		
@@ -167,16 +179,31 @@ public class HexGrid extends JPanel {
 	public void mouseDragged(MouseEvent e) {
 		dragging = true;
 		currentCursorPoint = e.getPoint();
+		//System.out.println("dragging");
+		
+		if(Chit.isAChitSelected() && draggedCursorPoint != null) {
+			Chit.translateChit(currentCursorPoint.x - draggedCursorPoint.x, 
+					currentCursorPoint.y - draggedCursorPoint.y);
+		}
+
+		draggedCursorPoint = currentCursorPoint;
+			
 		// System.out.println("Current Cursor Point, X: "+currentCursorPoint.x+", Y:
 		// "+currentCursorPoint.y);
 		//repaint();
 	}
 
 	public void mouseReleased(MouseEvent e) {
+		if (e.getButton() != MouseEvent.BUTTON1) {
+		        return;
+		}
 		dragging = false;
 		int[] points = getHexFromPoint(e.getPoint());
 		if(points == null)
 			return;
+		checkChitClick(e.getPoint());
+		System.out.println("Mouse Released");
+		
 		//System.out.println("Released Cursor Hex, X: "+points[0]+", Y:"+points[1]);
 	}
 
@@ -234,13 +261,19 @@ public class HexGrid extends JPanel {
 
 	}
 	
-	for(Chit chit : HexGrid.chits) {
-		Rectangle imageBounds = new Rectangle(chit.chitImage., chitImage.y,image_width, image_height);
-		if (imageBounds.contains(point)){
-		    //point is inside given image
+	public void checkChitClick(Point point) {
+		for(Chit chit : HexGrid.chits) {
+			Rectangle imageBounds = new Rectangle(chit.xPoint, chit.yPoint, chit.getWidth(), chit.getHeight());
+			if (imageBounds.contains(point)){
+			    System.out.println("Clicked Chit, chit.xPoint: "+chit.xPoint+", clicked x point: "+point.x);
+				
+				Chit.setSelectedChit(chit, point.x-chit.xPoint, point.y-chit.yPoint);
+				return; 
+			}
 		}
-	}
 
+	}
+	
 	public Polygon newHex(int X, int Y, double s) {
 
 		double a = Math.sqrt(3) * (s / 2);
@@ -375,6 +408,42 @@ public class HexGrid extends JPanel {
 		
 	}
 	
+	public void drawHexMap(Graphics2D g2) {
+		for (Polygon shape : shapeList) {
+	
+			g2.setColor(BORDER_COLOR);
+			g2.setStroke(STROKE);
+	
+			if (pressedCursorPoint != null && currentCursorPoint != null && dragging && !Chit.isAChitSelected()) {
+				//System.out.println("dragging move hexes.");
+				shape.translate(currentCursorPoint.x - pressedCursorPoint.x,
+						currentCursorPoint.y - pressedCursorPoint.y);
+				g2.draw(shape);
+				
+			} else if (zoom != oldZoom) {
+	
+				int baseX = shapeList.get(0).getBounds().x;
+				int baseY = shapeList.get(0).getBounds().y;
+	
+				makeHexes(rows, columns);
+	
+				for (Polygon newShape : shapeList) {
+	
+					newShape.translate(baseX - cordX, baseY - cordY);
+					g2.draw(newShape);
+	
+				}
+	
+				break;
+	
+			} else {
+				g2.draw(shape);
+			}
+			
+	
+		}
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -420,40 +489,10 @@ public class HexGrid extends JPanel {
 			
 		}
 		
+		drawHexMap(g2);
+
 		drawChits(g2);
 
-		for (Polygon shape : shapeList) {
-
-			g2.setColor(BORDER_COLOR);
-			g2.setStroke(STROKE);
-
-			if (pressedCursorPoint != null && currentCursorPoint != null && dragging) {
-
-				shape.translate(currentCursorPoint.x - pressedCursorPoint.x,
-						currentCursorPoint.y - pressedCursorPoint.y);
-				g2.draw(shape);
-			} else if (zoom != oldZoom) {
-
-				int baseX = shapeList.get(0).getBounds().x;
-				int baseY = shapeList.get(0).getBounds().y;
-
-				makeHexes(rows, columns);
-
-				for (Polygon newShape : shapeList) {
-
-					newShape.translate(baseX - cordX, baseY - cordY);
-					g2.draw(newShape);
-
-				}
-
-				break;
-
-			} else {
-				g2.draw(shape);
-			}
-			
-
-		}
 		
 		
 		pressedCursorPoint = currentCursorPoint;
@@ -461,7 +500,6 @@ public class HexGrid extends JPanel {
 		
 	}
 	
-		
 	private class TimerListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) { 
