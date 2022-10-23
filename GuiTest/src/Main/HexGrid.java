@@ -57,7 +57,7 @@ public class HexGrid extends JPanel {
 	private ArrayList<Polygon> shapeList = new ArrayList<>();
 	private ArrayList<ArrayList<Polygon>> hexMap = new ArrayList<>();
 	private ArrayList<DrawnString> drawnStrings = new ArrayList<>();
-	private ArrayList<Chit> chits = new ArrayList<>();
+	public static ArrayList<Chit> chits = new ArrayList<>();
 	
 	class DrawnString {
 		public String text;
@@ -232,6 +232,13 @@ public class HexGrid extends JPanel {
 
 		return new Polygon(rx, ry, hex.npoints);
 
+	}
+	
+	for(Chit chit : HexGrid.chits) {
+		Rectangle imageBounds = new Rectangle(chit.chitImage., chitImage.y,image_width, image_height);
+		if (imageBounds.contains(point)){
+		    //point is inside given image
+		}
 	}
 
 	public Polygon newHex(int X, int Y, double s) {

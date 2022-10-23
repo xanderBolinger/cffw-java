@@ -557,6 +557,4 @@ public class Window2 extends JFrame {
 	        return jlblCell;
 	    }
 	}
-	
-	
 }

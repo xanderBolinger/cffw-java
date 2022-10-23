@@ -7,6 +7,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.io.File;
@@ -15,12 +16,14 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Chit {
-	private Image chitImage;
+	public Image chitImage;
 	private int chitWidth = 20; 
 	private int chitHeight = 12;
 	private double oldZoom = 1.0; 
 	public int xCord = 0; 
 	public int yCord = 0;
+	public int xPoint = 0; 
+	public int yPoint = 0;
 	
 	public Chit() {
 		try {
@@ -60,11 +63,18 @@ public class Chit {
 			rescale(zoom);
 		}
 		
+		xPoint = (hexCenterX - width / 2) - (3 * (chitsInHex - chitIndexInHex));
+		yPoint = (hexCenterY - height / 2) + (3 * (chitsInHex - chitIndexInHex));
 		
-		
-		g2.drawImage(chitImage,
-				(hexCenterX - width / 2) - (3 * (chitsInHex - chitIndexInHex)),
-				(hexCenterY - height / 2) + (3 * (chitsInHex - chitIndexInHex)), null);
+		g2.drawImage(chitImage, xPoint, yPoint, null);
+	}
+	
+	public int getWidth() {
+		return chitImage.getWidth(null);
+	}
+	
+	public int getHeight() {
+		return chitImage.getHeight(null);
 	}
 	
 }
