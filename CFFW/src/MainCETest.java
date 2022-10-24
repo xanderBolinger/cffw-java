@@ -21,6 +21,7 @@ import Items.Item;
 import Items.Item.ItemType;
 import JUnitTests.CorditeExpansionTests;
 import JUnitTests.InventoryTest;
+import UtilityClasses.TestUtility;
 
 import javax.swing.JButton;
 import java.awt.CardLayout;
@@ -54,10 +55,7 @@ import java.util.Arrays;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
-//JUnit Suite Test
-@RunWith(Suite.class)
-
-@Suite.SuiteClasses({ InventoryTest.class })
+	
 
 public class MainCETest {
 
@@ -68,15 +66,10 @@ public class MainCETest {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		Result result = JUnitCore.runClasses(CorditeExpansionTests.class);
-
-		for (Failure failure : result.getFailures()) {
-			throw new Exception(failure.toString());
-			//System.out.println(failure.toString());
-		}
-
-		//System.out.println(result.wasSuccessful());
-
+		
+		
+	
+		TestUtility.runTests();
 		
 		
 		new CorditeExpansionWindow();
