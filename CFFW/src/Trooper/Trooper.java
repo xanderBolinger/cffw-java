@@ -24,6 +24,7 @@ import Conflict.Game;
 import Conflict.GameWindow;
 import Injuries.Injuries;
 import Conflict.OpenUnit;
+import CorditeExpansion.CeStatBlock;
 import FatigueSystem.FatigueSystem;
 import Hexes.Building;
 import Hexes.Hex;
@@ -165,6 +166,8 @@ public class Trooper implements Serializable {
 	public int combatActions;
 	public int KO;
 
+	
+	
 	// Simplified damage and wound stats
 	public int hp;
 	public int currentHP;
@@ -180,7 +183,8 @@ public class Trooper implements Serializable {
 	public int veterancy;
 	public FatigueSystem fatigueSystem;
 	public BaseSpeed baseSpeed;
-
+	public MaximumSpeed maximumSpeed;
+	
 	public int magnification = 0;
 
 	// Close combat
@@ -192,6 +196,22 @@ public class Trooper implements Serializable {
 
 	public Inventory inventory = new Inventory(this);
 	public int encumberanceModifier = 0;
+	
+	public CeStatBlock ceStatBlock;
+	
+	public class MaximumSpeed implements Serializable {
+
+		Trooper trooper;
+
+		public MaximumSpeed(Trooper trooper) {
+			this.trooper = trooper;
+		}
+
+		public double get() {
+			return TrooperUtility.maximumSpeed(encumberance, trooper);
+		}
+
+	}
 	
 	public class BaseSpeed implements Serializable {
 

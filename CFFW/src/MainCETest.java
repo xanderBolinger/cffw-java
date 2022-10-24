@@ -15,9 +15,11 @@ import javax.swing.UIManager;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import CorditeExpansion.CorditeExpansionWindow;
 import CreateGame.SetupWindow;
 import Items.Item;
 import Items.Item.ItemType;
+import JUnitTests.CorditeExpansionTests;
 import JUnitTests.InventoryTest;
 
 import javax.swing.JButton;
@@ -57,7 +59,7 @@ import org.junit.runner.notification.Failure;
 
 @Suite.SuiteClasses({ InventoryTest.class })
 
-public class Main {
+public class MainCETest {
 
 	private JFrame frame;
 	
@@ -66,7 +68,7 @@ public class Main {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		Result result = JUnitCore.runClasses(InventoryTest.class);
+		Result result = JUnitCore.runClasses(CorditeExpansionTests.class);
 
 		for (Failure failure : result.getFailures()) {
 			throw new Exception(failure.toString());
@@ -77,7 +79,7 @@ public class Main {
 
 		
 		
-		new SetupWindow();
+		new CorditeExpansionWindow();
 	}
 
 }

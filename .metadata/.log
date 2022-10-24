@@ -3988,3 +3988,6 @@ Binding(ALT+SHIFT+R,
 		,,true),null),
 	org.eclipse.ui.defaultAcceleratorConfiguration,
 	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.eclipse.jdt.junit 4 0 2022-10-23 17:52:25.569
+!MESSAGE No tests found with test runner 'JUnit 5'.
