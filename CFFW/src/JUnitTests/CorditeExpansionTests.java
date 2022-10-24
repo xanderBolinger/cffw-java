@@ -48,10 +48,13 @@ public class CorditeExpansionTests {
 	public void ceStatBlock() {
 		
 		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
-		
-		
-		
-		
+
+		actionOrder.addTrooper(clone);
+
+		assertEquals(clone.maximumSpeed.get(), actionOrder.get(clone).ceStatBlock.quickness, 0);
+				
+		actionOrder.removeTrooper(clone);
+
 	}
 	
 	@Test 

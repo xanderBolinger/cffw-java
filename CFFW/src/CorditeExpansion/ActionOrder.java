@@ -24,14 +24,28 @@ public class ActionOrder {
 		initiativeOrder.remove(trooper);
 	}
 
+	public Trooper get(int index) {
+		return initiativeOrder.get(index);
+	}
+	
+	public Trooper get(Trooper trooper) {
+		
+		for(Trooper otherTrooper : initiativeOrder) {
+			if(trooper.compareTo(otherTrooper)) {
+				return otherTrooper; 
+			}
+		}
+		
+		return null; 
+	}
+	
 	private void sortActionOrder() {
 		
 	}
 	
 	private void setCeStats(Trooper trooper) {
-		
+		trooper.ceStatBlock = new CeStatBlock(trooper);
 	}
-	
 	
 	
 	// Below methods are used for testing 

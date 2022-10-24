@@ -14,7 +14,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ExcelUtility {
 	public static String path = System.getProperty("user.dir");
 
-	public static double getResultsTwoWayFixedValues(double value1, double value2, String fileName) throws Exception {
+	public static double getResultsTwoWayFixedValues(double value1, double value2, 
+			String fileName, boolean assendingRows, boolean assendingColumns) throws Exception {
 
 		double result = -1;
 
@@ -23,30 +24,21 @@ public class ExcelUtility {
 			FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "\\" + fileName));
 			Workbook workbook = new XSSFWorkbook(excelFile);
 			Sheet worksheet = workbook.getSheetAt(0);
-			int rows = countRows(worksheet);
 			int columns = countColumns(worksheet);
+			int rows = countRows(worksheet);
 
-			int targetColumn = getTargetColumn(columns, value1, worksheet);
+			int targetColumn = getTargetColumn(columns, value1, worksheet, assendingRows);
 
 			if (targetColumn < 0) {
 				workbook.close();
-				throw new Exception("Value 1 not found in file: " + fileName);
+				throw new Exception("Value 1: "+value1+", not found in file: " + fileName);
 			}
 
-			int targetRow = -1;
-			for (int i = 0; i < rows; i++) {
-				if (worksheet.getRow(i).getCell(0).getCellType() != CellType.NUMERIC)
-					continue;
-
-				if (value2 == worksheet.getRow(i).getCell(0).getNumericCellValue()) {
-					targetRow = i;
-					break;
-				}
-			}
+			int targetRow = getTargetRow(rows, value2, worksheet, assendingColumns);
 
 			if (targetRow < 0) {
 				workbook.close();
-				throw new Exception("Value 2 not found in file: " + fileName);
+				throw new Exception("Value 2:"+value2+" not found in file: " + fileName);
 			}
 
 			result = worksheet.getRow(targetRow).getCell(targetColumn).getNumericCellValue();
@@ -66,13 +58,29 @@ public class ExcelUtility {
 		return result;
 	}
 
-	public static int getTargetColumn(int columns, double value, Sheet worksheet) {
+	public static int getTargetRow(int rows, double value, Sheet worksheet, boolean assending) throws Exception {
+		int targetRow = -1;
+		for (int i = 0; i < rows; i++) {			
+			if (worksheet.getRow(i).getCell(0).getCellType() != CellType.NUMERIC)
+				continue;
+
+			if (checkTarget(value, worksheet.getRow(i).getCell(0).getNumericCellValue(), assending)) {
+				targetRow = i;
+				break;
+			}
+
+		}
+
+		return targetRow;
+	}
+	
+	public static int getTargetColumn(int columns, double value, Sheet worksheet, boolean assending) {
 		int targetColumn = -1;
 		for (int i = 0; i < columns; i++) {
 			if (worksheet.getRow(0).getCell(i).getCellType() != CellType.NUMERIC)
 				continue;
 
-			if (value == worksheet.getRow(0).getCell(i).getNumericCellValue()) {
+			if (checkTarget(value, worksheet.getRow(0).getCell(i).getNumericCellValue(), assending)) {
 				targetColumn = i;
 				break;
 			}
@@ -80,6 +88,14 @@ public class ExcelUtility {
 		}
 
 		return targetColumn;
+	}
+	
+	public static boolean checkTarget(double value, double cellValue, boolean assending) {
+		if(assending) {
+			return value <= cellValue ? true : false; 
+		} else {
+			return value >= cellValue ? true : false; 
+		}
 	}
 
 	public static int countRows(Sheet worksheet) throws Exception {

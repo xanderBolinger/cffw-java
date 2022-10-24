@@ -222,52 +222,8 @@ public class Trooper implements Serializable {
 		}
 
 		public double get() {
-			return calculateBaseSpeed(encumberance, trooper);
+			return TrooperUtility.baseSpeed(encumberance, trooper);
 		}
-
-	}
-
-	public double calculateBaseSpeed(int encum, Trooper trooper) {
-
-		double baseSpeed = 0;
-		int column = 0;
-		try {
-
-			FileInputStream excelFile = new FileInputStream(new File(path + "BaseSpeed.xlsx"));
-			Workbook workbook = new XSSFWorkbook(excelFile);
-			Sheet worksheet = workbook.getSheetAt(0);
-
-			Row row = worksheet.getRow(0);
-
-			if (encum <= 10) {
-
-				column = 1;
-
-			} else {
-
-				for (int i = 1; i < 19; i++) {
-					if (encum < row.getCell(i + 1).getNumericCellValue()) {
-						column = i;
-						break;
-					}
-				}
-			}
-
-			for (int x = 1; x < 22; x++) {
-
-				if ((int) trooper.str == worksheet.getRow(x).getCell(0).getNumericCellValue()) {
-					baseSpeed = worksheet.getRow(x).getCell(column).getNumericCellValue();
-				}
-			}
-
-			workbook.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return baseSpeed;
 
 	}
 	
@@ -326,6 +282,7 @@ public class Trooper implements Serializable {
 
 		
 		baseSpeed = new BaseSpeed(this);
+		maximumSpeed = new MaximumSpeed(this);
 		fatigueSystem = new FatigueSystem(this);
 		setCombatStats(this);
 	}
@@ -386,9 +343,6 @@ public class Trooper implements Serializable {
 		// Stores attributes in an array for the skill attr parameter
 		int attr[] = { str, wit, soc, wil, per, hlt, agi };
 		skills(input, attr);
-
-		// Creates PC stats
-		setPCStats();
 
 		// Create and set individual stats
 		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value, 
@@ -735,9 +689,6 @@ public class Trooper implements Serializable {
 		int attr[] = { str, wit, soc, wil, per, hlt, agi };
 		skills(input, attr);
 
-		// Creates PC stats
-		setPCStats();
-
 		// Create and set individual stats
 		// Create and set individual stats
 		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value, 
@@ -1007,9 +958,6 @@ public class Trooper implements Serializable {
 		// Stores attributes in an array for the skill attr parameter
 		int attr[] = { str, wit, soc, wil, per, hlt, agi };
 		skills(input, attr);
-
-		// Creates PC stats
-		setPCStats();
 
 		// Create and set individual stats
 		// Create and set individual stats
@@ -1517,9 +1465,6 @@ public class Trooper implements Serializable {
 		int attr[] = { str, wit, soc, wil, per, hlt, agi };
 		skills(input, attr);
 
-		// Creates PC stats
-		setPCStats();
-
 		// Create and set individual stats
 		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value, 
 				skills.getSkill("Rifle").value, 
@@ -1546,8 +1491,6 @@ public class Trooper implements Serializable {
 		this.armorLegacy = 88;
 		// Sets current HP
 		this.currentHP = hp;
-
-		
 
 		if (this.str <= 6) {
 			this.carryingCapacity = 40;
@@ -2028,14 +1971,6 @@ public class Trooper implements Serializable {
 		// Stores attributes in an array for the skill attr parameter
 		int attr[] = { str, wit, soc, wil, per, hlt, agi };
 		skills(input, attr);
-
-		/*
-		 * this.rifle = 60; this.fighter = 30; this.heavy = 60; this.launcher = 60;
-		 * this.command = 50; this.spotListen = 50;
-		 */
-
-		// Creates PC stats
-		setPCStats();
 
 		// Create and set individual stats
 		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value, 

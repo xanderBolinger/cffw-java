@@ -151,83 +151,25 @@ public class TrooperUtility {
 
 	public static double baseSpeed(int encum, Trooper trooper) {
 
-		double baseSpeed = 0;
-		int column = 0;
 		try {
-
-			FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "\\BaseSpeed.xlsx"));
-			// System.out.println("Path: "+path);
-			Workbook workbook = new XSSFWorkbook(excelFile);
-			Sheet worksheet = workbook.getSheetAt(0);
-
-			Row row = worksheet.getRow(0);
-
-			if (encum <= 10) {
-
-				column = 1;
-
-			} else {
-
-				for (int i = 1; i < 19; i++) {
-					if (encum < row.getCell(i + 1).getNumericCellValue()) {
-						column = i;
-						break;
-					}
-				}
-			}
-
-			for (int x = 1; x < 22; x++) {
-
-				if ((int) trooper.str == worksheet.getRow(x).getCell(0).getNumericCellValue()) {
-					baseSpeed = worksheet.getRow(x).getCell(column).getNumericCellValue();
-				}
-			}
-
-			workbook.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+			return ExcelUtility.getResultsTwoWayFixedValues(encum, trooper.str, "BaseSpeed.xlsx", true, false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		return baseSpeed;
-
+		return -1.0;
 	}
 
 	public static double maximumSpeed(int encum, Trooper trooper) {
-		double baseSpeed = baseSpeed(encum, trooper);
 
-		int column = 0;
 		try {
-
-			FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "\\MaximumSpeed.xlsx"));
-			Workbook workbook = new XSSFWorkbook(excelFile);
-			Sheet worksheet = workbook.getSheetAt(0);
-
-			Row row = worksheet.getRow(0);
-
-			for (int i = 1; i < 9; i++) {
-				if (baseSpeed == row.getCell(i).getNumericCellValue()) {
-					column = i;
-					break;
-				}
-			}
-
-			for (int x = 1; x < 22; x++) {
-
-				if ((int) trooper.agi == worksheet.getRow(x).getCell(0).getNumericCellValue()) {
-					baseSpeed = worksheet.getRow(x).getCell(column).getNumericCellValue();
-				}
-			}
-
-			workbook.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+			return ExcelUtility.getResultsTwoWayFixedValues(trooper.baseSpeed.get(), trooper.agi,
+					"MaximumSpeed.xlsx", true, false);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		return baseSpeed;
+		return -1.0;
 
 	}
 

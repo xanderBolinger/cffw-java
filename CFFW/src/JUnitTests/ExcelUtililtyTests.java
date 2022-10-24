@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.poi.ss.usermodel.Sheet;
@@ -13,13 +12,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import CorditeExpansion.ActionOrder;
 import UtilityClasses.ExcelUtility;
 
 public class ExcelUtililtyTests {
 	Sheet worksheet;
 	Workbook workbook;
+	
 	@Before
     public void init() throws IOException {
 		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "\\"+"MaximumSpeed.xlsx"));
@@ -35,13 +33,32 @@ public class ExcelUtililtyTests {
 	
 	@Test
 	public void targetColumnTest() throws Exception {
-		assertEquals(1, ExcelUtility.getTargetColumn(ExcelUtility.countColumns(worksheet), 1, worksheet));
+		assertEquals(1, ExcelUtility.getTargetColumn(ExcelUtility.countColumns(worksheet), 1, worksheet, true));
+		assertEquals(8, ExcelUtility.getTargetColumn(ExcelUtility.countColumns(worksheet), 4.5, worksheet, true));
 	}
 	
-	/*@Test
+	@Test
+	public void targetRowTest() throws Exception {
+		assertEquals(1, ExcelUtility.getTargetRow(ExcelUtility.countRows(worksheet), 21, worksheet, false));
+		assertEquals(21, ExcelUtility.getTargetRow(ExcelUtility.countRows(worksheet), 1, worksheet, false));
+	}
+	
+	@Test
 	public void findMaxSpeed() throws Exception {
-		assertEquals(3.0, ExcelUtility.getResultsTwoWayFixedValues(21, 1, "MaximumSpeed.xlsx"));
-	} */
+		assertEquals(2.0, ExcelUtility.getResultsTwoWayFixedValues(1, 21, "MaximumSpeed.xlsx", true, false), 0);
+		assertEquals(3.0, ExcelUtility.getResultsTwoWayFixedValues(4.5, 1, "MaximumSpeed.xlsx", true, false), 0);
+		assertEquals(1.0, ExcelUtility.getResultsTwoWayFixedValues(1, 1, "MaximumSpeed.xlsx", true, false), 0);
+		assertEquals(13.0, ExcelUtility.getResultsTwoWayFixedValues(4.5, 21, "MaximumSpeed.xlsx", true, false), 0);
+		assertEquals(6.0, ExcelUtility.getResultsTwoWayFixedValues(2.5, 13, "MaximumSpeed.xlsx", true, false), 0);
+	} 
+	
+	@Test
+	public void findBaseSpeed() throws Exception {
+		assertEquals(4.5, ExcelUtility.getResultsTwoWayFixedValues(12, 21, "BaseSpeed.xlsx", true, false), 0);
+		assertEquals(2.5, ExcelUtility.getResultsTwoWayFixedValues(149, 21, "BaseSpeed.xlsx", true, false), 0);
+		assertEquals(1.5, ExcelUtility.getResultsTwoWayFixedValues(1, 1, "BaseSpeed.xlsx", true, false), 0);
+		assertEquals(1.0, ExcelUtility.getResultsTwoWayFixedValues(150, 1, "BaseSpeed.xlsx", true, false), 0);
+	}
 	
 	@Test
 	public void countRowsTest() throws Exception {
