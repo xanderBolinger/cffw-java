@@ -23,7 +23,7 @@ import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 import CeHexGrid.Colors;
-import CeHexGrid.HexGrid;
+import CeHexGrid.CeHexGrid;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -363,7 +363,7 @@ public class CorditeExpansionWindow extends JFrame {
         panel_3.setPreferredSize(new Dimension(1000, 700));
         splitPane_1.setLeftComponent(panel_3);
         
-        HexGrid map = new HexGrid(33, 33);
+        CeHexGrid map = new CeHexGrid(33, 33);
         map.setPreferredSize(new Dimension(1000, 700));
         map.setMinimumSize(new Dimension(1000, 700));
         map.setFont(new Font("Tw Cen MT", Font.BOLD, 13));

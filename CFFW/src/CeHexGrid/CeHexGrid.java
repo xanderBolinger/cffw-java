@@ -53,7 +53,7 @@ import UtilityClasses.Keyboard;
 import UtilityClasses.HexGridUtility.ShownType;
 import UtilityClasses.SwingUtility.FPSCounter;*/
 
-public class HexGrid extends JPanel {
+public class CeHexGrid extends JPanel {
 	private static final Color FILL_COLOR = Color.BLUE;
 	private static final Color BORDER_COLOR = Colors.BRIGHT_RED;
 	public static final Stroke STROKE = new BasicStroke(1.5f);
@@ -98,7 +98,7 @@ public class HexGrid extends JPanel {
 	double oldZoom = 1.0;
 	double zoom = 1.0;
 	
-	public HexGrid(int hexRows, int hexCols) {
+	public CeHexGrid(int hexRows, int hexCols) {
 		
 		this.rows = hexRows+1;
 		this.columns = hexCols;
@@ -262,7 +262,7 @@ public class HexGrid extends JPanel {
 	}
 	
 	public void checkChitClick(Point point) {
-		for(Chit chit : HexGrid.chits) {
+		for(Chit chit : CeHexGrid.chits) {
 			Rectangle imageBounds = new Rectangle(chit.xPoint, chit.yPoint, chit.getWidth(), chit.getHeight());
 			if (imageBounds.contains(point)){
 			    System.out.println("Clicked Chit, chit.xPoint: "+chit.xPoint+", clicked x point: "+point.x);
