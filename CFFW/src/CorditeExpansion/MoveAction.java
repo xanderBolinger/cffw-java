@@ -3,14 +3,17 @@ package CorditeExpansion;
 import java.util.ArrayList;
 
 public class MoveAction implements CeAction {
-	
+
 	MoveType type;
-	CeStatBlock statBlock;
-	ArrayList<Cord> cords = new ArrayList<>();
 	boolean completed = false; 
 	
+	CeStatBlock statBlock;
+	ArrayList<Cord> cords = new ArrayList<>();
+	double movementFraction = 0.0; 
+	
+	
 	public enum MoveType {
-		STEP
+		CRAWL,STEP
 	}
 	
 	public MoveAction(MoveType type, CeStatBlock statBlock, ArrayList<Cord> cords) {
@@ -37,15 +40,26 @@ public class MoveAction implements CeAction {
 	public void moveTrooper() {
 		Cord cord = cords.remove(0);
 		statBlock.moveTrooper(cord);
+		movementFraction = 0.0;
+		statBlock.totalMoved++;
 	}
 
 	@Override
 	public void spendCombatAction() {
 		
+		if(statBlock.totalMoved >= statBlock.quickness) {
+			return; 
+		}
+		
 		switch(type) {
 		
 			case STEP:
 				moveTrooper();
+			case CRAWL:
+				movementFraction += 0.25; 
+				if(movementFraction >= 1) {
+					moveTrooper();
+				}
 
 		}
 		
