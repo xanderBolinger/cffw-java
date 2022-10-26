@@ -1,12 +1,11 @@
-/Conflict/
-/CreateGame/
-/FatigueSystem/
 /HexGrid/
 /Hexes/
 /Individuals/
 /Injuries/
 /Items/
+/JUnitTests/
 /Main.class
+/MainCETest.class
 /SaveCompanies/
 /Trooper/
 /Unit/
@@ -15,7 +14,3 @@
 /test/
 /testPackage/
 /CorditeExpansion/
-/CeHexGrid/
-/MainCETest.class
-/images/
-/JUnitTests/

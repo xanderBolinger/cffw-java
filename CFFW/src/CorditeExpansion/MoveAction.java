@@ -6,21 +6,32 @@ public class MoveAction implements CeAction {
 
 	MoveType type;
 	boolean completed = false; 
+	int coac; 
+	int spentCoac = 0; 
 	
 	CeStatBlock statBlock;
 	ArrayList<Cord> cords = new ArrayList<>();
 	double movementFraction = 0.0; 
 	
-	
 	public enum MoveType {
-		CRAWL,STEP
+		CRAWL,STEP,TURN
 	}
 	
-	public MoveAction(MoveType type, CeStatBlock statBlock, ArrayList<Cord> cords) {
+	
+	public MoveAction(MoveType type, CeStatBlock statBlock, ArrayList<Cord> cords, int coac) {
 		this.type = type; 
 		this.statBlock = statBlock;
-		this.cords = cords; 
+		this.cords = cords;
+		this.coac = coac;
 	}
+	
+	public MoveAction(MoveType type, CeStatBlock statBlock, ) {
+		this.type = type; 
+		this.statBlock = statBlock;
+		this.cords = cords;
+		this.coac = coac;
+	}
+	
 	
 	public void addTargetHex(Cord cord) {
 		cords.add(cord);
@@ -46,6 +57,11 @@ public class MoveAction implements CeAction {
 
 	@Override
 	public void spendCombatAction() {
+
+		if(spentCoac < coac) {
+			spentCoac++;
+			return; 
+		}
 		
 		if(statBlock.totalMoved >= statBlock.quickness) {
 			return; 
@@ -60,6 +76,8 @@ public class MoveAction implements CeAction {
 				if(movementFraction >= 1) {
 					moveTrooper();
 				}
+			case TURN:
+				turn
 
 		}
 		
@@ -72,6 +90,11 @@ public class MoveAction implements CeAction {
 	@Override
 	public boolean completed() {
 		return completed;
+	}
+	
+	@Override
+	public boolean ready() {
+		return spentCoac >= coac ? true : false;
 	}
 	
 }

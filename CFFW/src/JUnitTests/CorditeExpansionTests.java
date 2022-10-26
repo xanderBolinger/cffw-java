@@ -97,7 +97,7 @@ public class CorditeExpansionTests {
 		ArrayList<Cord> cords = new ArrayList<>();
 		cords.add(new Cord(1,1));
 		
-		CeAction.addMoveAction(MoveType.STEP, clone.ceStatBlock, cords);
+		CeAction.addMoveAction(MoveType.STEP, clone.ceStatBlock, cords, 0);
 
 		clone.ceStatBlock.spendCombatAction();
 		
@@ -108,7 +108,7 @@ public class CorditeExpansionTests {
 		cords = new ArrayList<>();
 		cords.add(new Cord(1,2));
 		cords.add(new Cord(1,3));
-		CeAction.addMoveAction(MoveType.STEP, clone.ceStatBlock, cords);
+		CeAction.addMoveAction(MoveType.STEP, clone.ceStatBlock, cords, 0);
 		
 		clone.ceStatBlock.spendCombatAction();
 		
@@ -151,7 +151,7 @@ public class CorditeExpansionTests {
 		ArrayList<Cord> cords = new ArrayList<>();
 		cords.add(new Cord(1,1));
 		
-		CeAction.addMoveAction(MoveType.CRAWL, clone.ceStatBlock, cords);
+		CeAction.addMoveAction(MoveType.CRAWL, clone.ceStatBlock, cords, 0);
 		
 		clone.ceStatBlock.spendCombatAction();
 		assertEquals(false, clone.ceStatBlock.getPosition().compare(new Cord(1,1)));
@@ -161,6 +161,41 @@ public class CorditeExpansionTests {
 		clone.ceStatBlock.spendCombatAction();
 		assertEquals(true, clone.ceStatBlock.getPosition().compare(new Cord(1,1)));
 		
+		actionOrder.clear();
+		
+	}
+	
+	@Test
+	public void coacTest() {
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		actionOrder.addTrooper(clone);
+		
+		ArrayList<Cord> cords = new ArrayList<>();
+		cords.add(new Cord(1,1));
+		
+		CeAction.addMoveAction(MoveType.CRAWL, clone.ceStatBlock, cords, 2);
+		
+		assertEquals(0, clone.ceStatBlock.actionsSize());
+		assertEquals(1, clone.ceStatBlock.coacSize());
+		
+		clone.ceStatBlock.prepareCourseOfAction();
+		clone.ceStatBlock.prepareCourseOfAction();
+		
+		assertEquals(1, clone.ceStatBlock.actionsSize());
+		assertEquals(0, clone.ceStatBlock.coacSize());
+		
+		clone.ceStatBlock.spendCombatAction();
+		clone.ceStatBlock.spendCombatAction();
+		clone.ceStatBlock.spendCombatAction();
+		clone.ceStatBlock.spendCombatAction();
+		
+		assertEquals(true, clone.ceStatBlock.getPosition().compare(new Cord(1,1)));
+		assertEquals(0, clone.ceStatBlock.actionsSize());
+		assertEquals(0, clone.ceStatBlock.coacSize());
+	}
+	
+	@Test
+	public void facingTest() {
 		
 	}
 	
