@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import CorditeExpansion.ActionOrder;
 import CorditeExpansion.CeAction;
+import CorditeExpansion.CeStatBlock.Facing;
 import CorditeExpansion.Cord;
 import CorditeExpansion.MoveAction;
 import CorditeExpansion.MoveAction.MoveType;
@@ -192,10 +193,21 @@ public class CorditeExpansionTests {
 		assertEquals(true, clone.ceStatBlock.getPosition().compare(new Cord(1,1)));
 		assertEquals(0, clone.ceStatBlock.actionsSize());
 		assertEquals(0, clone.ceStatBlock.coacSize());
+		
+		actionOrder.clear();
+		
 	}
 	
 	@Test
 	public void facingTest() {
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		actionOrder.addTrooper(clone);
+		
+		CeAction.addTurnAction(MoveType.CRAWL, clone.ceStatBlock, Facing.AB);
+		
+		clone.ceStatBlock.spendCombatAction();
+		
+		assertEquals(Facing.AB, clone.ceStatBlock.facing);
 		
 	}
 	

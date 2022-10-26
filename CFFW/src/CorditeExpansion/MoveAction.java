@@ -2,6 +2,8 @@ package CorditeExpansion;
 
 import java.util.ArrayList;
 
+import CorditeExpansion.CeStatBlock.Facing;
+
 public class MoveAction implements CeAction {
 
 	MoveType type;
@@ -12,6 +14,8 @@ public class MoveAction implements CeAction {
 	CeStatBlock statBlock;
 	ArrayList<Cord> cords = new ArrayList<>();
 	double movementFraction = 0.0; 
+	
+	Facing turnFacing;
 	
 	public enum MoveType {
 		CRAWL,STEP,TURN
@@ -25,11 +29,10 @@ public class MoveAction implements CeAction {
 		this.coac = coac;
 	}
 	
-	public MoveAction(MoveType type, CeStatBlock statBlock, ) {
+	public MoveAction(MoveType type, CeStatBlock statBlock, Facing facing) {
 		this.type = type; 
 		this.statBlock = statBlock;
-		this.cords = cords;
-		this.coac = coac;
+		this.turnFacing = facing;
 	}
 	
 	
@@ -77,7 +80,7 @@ public class MoveAction implements CeAction {
 					moveTrooper();
 				}
 			case TURN:
-				turn
+				statBlock.facing = turnFacing;
 
 		}
 		

@@ -2,6 +2,7 @@ package CorditeExpansion;
 
 import java.util.ArrayList;
 
+import CorditeExpansion.CeStatBlock.Facing;
 import CorditeExpansion.MoveAction.MoveType;
 
 public interface CeAction {
@@ -22,6 +23,12 @@ public interface CeAction {
 		}
 		
 		
+		
+	}
+	
+	public static void addTurnAction(MoveType type, CeStatBlock statBlock, Facing facing) {
+		
+		statBlock.addAction(new MoveAction(type, statBlock, facing));
 		
 	}
 	
