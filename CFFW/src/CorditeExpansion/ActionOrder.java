@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import CeHexGrid.CeHexGrid;
+import CeHexGrid.Chit;
 import Trooper.Trooper;
 
 public class ActionOrder {
@@ -58,6 +60,10 @@ public class ActionOrder {
 
 	private void setCeStats(Trooper trooper) {
 		trooper.ceStatBlock = new CeStatBlock(trooper);
+	}
+	
+	public ArrayList<Trooper> getOrder() {
+		return initiativeOrder;
 	}
 	
 	// Below methods are used for testing

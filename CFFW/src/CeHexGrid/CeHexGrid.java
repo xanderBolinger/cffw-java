@@ -8,6 +8,9 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -15,12 +18,17 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Stroke;
 import java.awt.Toolkit;
+import java.awt.Transparency;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.RenderedImage;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,6 +39,10 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.Timer;
 
+import CeHexGrid.Chit.Facing;
+import CorditeExpansion.ActionOrder;
+import CorditeExpansion.CorditeExpansionGame;
+import Trooper.Trooper;
 import UtilityClasses.Keyboard;
 
 /*import Conflict.AttackHexWindow;
@@ -60,7 +72,6 @@ public class CeHexGrid extends JPanel {
 	private ArrayList<Polygon> shapeList = new ArrayList<>();
 	private ArrayList<ArrayList<Polygon>> hexMap = new ArrayList<>();
 	private ArrayList<DrawnString> drawnStrings = new ArrayList<>();
-	public static ArrayList<Chit> chits = new ArrayList<>();
 	
 	class DrawnString {
 		public String text;
@@ -130,26 +141,27 @@ public class CeHexGrid extends JPanel {
 
 		
 		//chits.add(new Chit());
-		addTemporaryChits();
+		//addTemporaryChits();
+		
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		Trooper cloneMarksman = new Trooper("Clone Marksman", "Clone Trooper Phase 1");
+		Trooper b1 = new Trooper("B1 Rifleman", "CIS Battle Droid");
+		
+		ActionOrder actionOrder = new ActionOrder();
+		CorditeExpansionGame.actionOrder = actionOrder; 
+		
+		actionOrder.addTrooper(clone);
+		actionOrder.addTrooper(cloneMarksman);
+		actionOrder.addTrooper(b1);
+		
+		clone.ceStatBlock.chit.facing = Facing.A;
+		clone.ceStatBlock.chit.facing = Facing.BC;
+		clone.ceStatBlock.chit.facing = Facing.B;
 		
 		new Timer(20, new TimerListener()).start();
 	
 	}
 
-	public void addTemporaryChits() {
-		for(int i = 0; i < 2; i++) {
-			Chit chit = new Chit();
-			chit.xCord = i; 
-			chit.yCord = i;
-			chits.add(chit);
-			chit = new Chit();
-			chit.xCord = i; 
-			chit.yCord = 1;
-			chits.add(chit);
-		}
-		
-	}
-	
 
 	
 	public void mousePressed(MouseEvent e) {
@@ -262,7 +274,7 @@ public class CeHexGrid extends JPanel {
 	}
 	
 	public void checkChitClick(Point point) {
-		for(Chit chit : CeHexGrid.chits) {
+		for(Chit chit : getChits()) {
 			Rectangle imageBounds = new Rectangle(chit.xPoint, chit.yPoint, chit.getWidth(), chit.getHeight());
 			if (imageBounds.contains(point)){
 			    System.out.println("Clicked Chit, chit.xPoint: "+chit.xPoint+", clicked x point: "+point.x);
@@ -400,9 +412,11 @@ public class CeHexGrid extends JPanel {
 		g2.setRenderingHints(rh);
 	}
 	
+	
+	
 	public void drawChits(Graphics2D g2) {
 		
-		for(Chit chit : chits) {
+		for(Chit chit : getChits()) {
 			chit.drawChit(zoom, g2, hexMap.get(chit.xCord).get(chit.yCord));
 		}
 		
@@ -470,6 +484,20 @@ public class CeHexGrid extends JPanel {
 	public void setOpacity(float alpha, Graphics2D g2) {
 		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
 		g2.setComposite(ac);
+	}
+	
+	public ArrayList<Chit> getChits() {
+		
+		ArrayList<Chit> chits = new ArrayList<>();
+		
+		
+		for(Trooper trooper : CorditeExpansionGame.actionOrder.getOrder()) {
+			chits.add(trooper.ceStatBlock.chit);
+		}
+		
+		
+		return chits; 
+		
 	}
 	
 	

@@ -2,7 +2,7 @@ package CorditeExpansion;
 
 import java.util.ArrayList;
 
-import CorditeExpansion.CeStatBlock.Facing;
+import CeHexGrid.Chit.Facing;
 import CorditeExpansion.MoveAction.MoveType;
 
 public interface CeAction {

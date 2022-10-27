@@ -2,7 +2,7 @@ package CorditeExpansion;
 
 import java.util.ArrayList;
 
-import CorditeExpansion.CeStatBlock.Facing;
+import CeHexGrid.Chit.Facing;
 
 public class MoveAction implements CeAction {
 
@@ -80,7 +80,7 @@ public class MoveAction implements CeAction {
 					moveTrooper();
 				}
 			case TURN:
-				statBlock.facing = turnFacing;
+				statBlock.setFacing(turnFacing);
 
 		}
 		

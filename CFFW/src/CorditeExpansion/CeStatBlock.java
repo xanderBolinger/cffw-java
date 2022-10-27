@@ -2,6 +2,8 @@ package CorditeExpansion;
 
 import java.util.ArrayList;
 
+import CeHexGrid.Chit;
+import CeHexGrid.Chit.Facing;
 import Trooper.Trooper;
 import Trooper.Trooper.MaximumSpeed;
 
@@ -10,7 +12,7 @@ public class CeStatBlock {
 	public double quickness; 
 	public int adaptabilityFactor; 
 	
-	public Facing facing; 
+	
 	
 	public int totalMoved = 0; 
 
@@ -18,13 +20,15 @@ public class CeStatBlock {
 	private ArrayList<CeAction> actions = new ArrayList<>();
 	private ArrayList<CeAction> coac = new ArrayList<>();
 	
-	public enum Facing {
-		A,AB,B,BC
-	}
+	public Chit chit; 
+	
+	
 	
 	
 	public CeStatBlock(Trooper trooper) {
 		quickness = trooper.maximumSpeed.get();
+		
+		chit = new Chit();
 	}
 	
 	public void moveTrooper(Cord cord) {
@@ -58,6 +62,15 @@ public class CeStatBlock {
 	
 	public CeAction getActions(int index) {
 		return actions.get(index);
+	}
+	
+	
+	public Facing getFacing() {
+		return chit.facing;
+	}
+	
+	public void setFacing(Facing facing) {
+		chit.facing = facing;
 	}
 	
 	

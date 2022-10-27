@@ -1,7 +1,3 @@
-/CreateGame/
-/FatigueSystem/
-/HexGrid/
-/Hexes/
 /Individuals/
 /Injuries/
 /Items/
@@ -15,4 +11,5 @@
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
+/CeHexGrid/
 /CorditeExpansion/

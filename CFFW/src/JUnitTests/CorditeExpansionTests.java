@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import CorditeExpansion.ActionOrder;
 import CorditeExpansion.CeAction;
-import CorditeExpansion.CeStatBlock.Facing;
+import CeHexGrid.Chit.Facing;
 import CorditeExpansion.Cord;
 import CorditeExpansion.MoveAction;
 import CorditeExpansion.MoveAction.MoveType;
@@ -207,7 +207,7 @@ public class CorditeExpansionTests {
 		
 		clone.ceStatBlock.spendCombatAction();
 		
-		assertEquals(Facing.AB, clone.ceStatBlock.facing);
+		assertEquals(Facing.AB, clone.ceStatBlock.getFacing());
 		
 	}
 	

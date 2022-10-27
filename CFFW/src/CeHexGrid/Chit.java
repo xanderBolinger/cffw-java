@@ -11,6 +11,11 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 
@@ -20,22 +25,24 @@ public class Chit {
 	public Image chitImage;
 
 	private static Chit selectedChit = null;
-	private static int selectedX; 
-	private static int selectedY;
 	
-	
-	private int chitWidth = 20; 
-	private int chitHeight = 12;
+	private double chitWidth = 15; 
+	private double chitHeight = 15;
 	private double oldZoom = 1.0; 
 	public int xCord = 0; 
 	public int yCord = 0;
 	public int xPoint = 0; 
 	public int yPoint = 0;
 	
+	public Facing facing; 
+	public enum Facing {
+		A,AB,B,BC,C,CD,D,DE,E,EF,F,FA
+	}
+	
 	public Chit() {
 		try {
-			chitImage =  ImageIO.read(new File("Unit Images/BLUFOR_INFANTRY.png"));
-			chitImage =  chitImage.getScaledInstance(chitWidth, chitHeight,
+			chitImage =  ImageIO.read(new File("CeImages/temp.png"));
+			chitImage =  chitImage.getScaledInstance((int) chitWidth, (int) chitHeight,
 					Image.SCALE_DEFAULT);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -45,13 +52,13 @@ public class Chit {
 	
 	public void rescale(double zoom) {
 		try {
-			chitImage =  ImageIO.read(new File("Unit Images/BLUFOR_INFANTRY.png"));
+			chitImage =  ImageIO.read(new File("CeImages/temp.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		chitImage = chitImage.getScaledInstance((int)(20.0*zoom), (int)(12.0*zoom), Image.SCALE_SMOOTH);
+		chitImage = chitImage.getScaledInstance((int)(chitWidth*zoom), (int)(chitHeight*zoom), Image.SCALE_SMOOTH);
 	}
 	
 	public int getWidth() {
@@ -85,7 +92,7 @@ public class Chit {
 		}
 		
 		
-		g2.drawImage(chitImage, xPoint, yPoint, null);
+		g2.drawImage(rotate(getRotationDegrees(), chitImage), xPoint, yPoint, null);
 	}
 	
 	public static void drawShadow(double zoom, Graphics2D g2, Polygon hex) {
@@ -110,16 +117,70 @@ public class Chit {
 		int xPoint = (hexCenterX - width / 2) - (3 * (chitsInHex - chitIndexInHex));
 		int yPoint = (hexCenterY - height / 2) + (3 * (chitsInHex - chitIndexInHex));
 		
-		
-		
-		g2.drawImage(chit.chitImage, (int)(xPoint-(4.0*zoom)), yPoint, null);
+		g2.drawImage(rotate(chit.getRotationDegrees(), chit.chitImage), xPoint, yPoint, null);
 	}
 
+	public int getRotationDegrees() {
+		if(facing == null) {
+			return 0;
+		}
+		
+		switch(facing) {
+			case A:
+				System.out.println("Facing 1");
+				return 0;
+			case AB:
+				System.out.println("Facing 2");
+				return 30;
+			case B:
+				System.out.println("Facing 3");
+				return 60;
+			case BC:
+				System.out.println("Facing 4");
+				return 90;
+			default:
+				return 0;
+		}
+		
+		
+	}
+	
+	public static BufferedImage rotate(double angle, Image image) {
+		final double rads = Math.toRadians(90);
+		final double sin = Math.abs(Math.sin(rads));
+		final double cos = Math.abs(Math.cos(rads));
+		final int w = (int) Math.floor(image.getWidth(null) * cos + image.getHeight(null) * sin);
+		final int h = (int) Math.floor(image.getHeight(null) * cos + image.getWidth(null) * sin);
+		final BufferedImage rotatedImage = toBufferedImage(image);
+		final AffineTransform at = new AffineTransform();
+		at.translate(w / 2, h / 2);
+		at.rotate(rads,0, 0);
+		at.translate(-image.getWidth(null) / 2, -image.getHeight(null) / 2);
+		final AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+		return rotateOp.filter(toBufferedImage(image),rotatedImage);
+	}
+
+	public static BufferedImage toBufferedImage(Image img)
+	{
+	    if (img instanceof BufferedImage)
+	    {
+	        return (BufferedImage) img;
+	    }
+
+	    // Create a buffered image with transparency
+	    BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+	    // Draw the image on to the buffered image
+	    Graphics2D bGr = bimage.createGraphics();
+	    bGr.drawImage(img, 0, 0, null);
+	    bGr.dispose();
+
+	    // Return the buffered image
+	    return bimage;
+	}
+	
 	public static void setSelectedChit(Chit chit, int x, int y) {
 		selectedChit = chit; 
-		System.out.println("Selected X diff: "+x);
-		selectedX = x;
-		selectedY = y; 
 	}
 	
 	public static void moveSelectedChit(int x, int y) {
