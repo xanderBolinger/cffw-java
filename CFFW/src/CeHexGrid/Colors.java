@@ -17,4 +17,5 @@ public class Colors {
 	public static Color BRIGHT_BLUE = Color.decode("#14bfe1");
 	public static Color GREEN = Color.decode("#75e4b3");
 	public static Color PURPLE = Color.decode("#bd93f9");
+	public static Color GOLD = Color.decode("#f1fa8c");
 }

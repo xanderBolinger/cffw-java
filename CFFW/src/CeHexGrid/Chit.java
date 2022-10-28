@@ -23,7 +23,8 @@ import javax.imageio.ImageIO;
 
 public class Chit {
 	public Image chitImage;
-
+	public String imagePath; 
+	
 	private static Chit selectedChit = null;
 	
 	private double chitWidth = 15; 
@@ -39,9 +40,24 @@ public class Chit {
 		A,AB,B,BC,C,CD,D,DE,E,EF,F,FA
 	}
 	
-	public Chit() {
+	public Chit(String path, int width, int height) {
+		this.imagePath = path;
+		chitWidth = width;
+		chitHeight = height;
 		try {
-			chitImage =  ImageIO.read(new File("CeImages/temp.png"));
+			chitImage =  ImageIO.read(new File(path));
+			chitImage =  chitImage.getScaledInstance((int) chitWidth, (int) chitHeight,
+					Image.SCALE_DEFAULT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public Chit() {
+		imagePath = "CeImages/temp.png";
+		try {
+			chitImage =  ImageIO.read(new File(imagePath));
 			chitImage =  chitImage.getScaledInstance((int) chitWidth, (int) chitHeight,
 					Image.SCALE_DEFAULT);
 		} catch (IOException e) {
@@ -52,7 +68,7 @@ public class Chit {
 	
 	public void rescale(double zoom) {
 		try {
-			chitImage =  ImageIO.read(new File("CeImages/temp.png"));
+			chitImage =  ImageIO.read(new File(imagePath));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,12 +101,37 @@ public class Chit {
 			rescale(zoom);
 		}
 		
+		if(!Chit.isSelected(this)) {		
+			xPoint = (hexCenterX - width / 2) - (3 * (chitsInHex - chitIndexInHex));
+			yPoint = (hexCenterY - height / 2) + (3 * (chitsInHex - chitIndexInHex));
+		}
+		
+		g2.drawImage(rotate(getRotationDegrees(), chitImage), xPoint, yPoint, null);
+	}
+	
+	public void drawChit(double zoom, Graphics2D g2, Polygon hex, int shiftX, int shiftY) {
+		
+		int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
+		int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
+		//System.out.println("Zoom: "+zoom);
+		int width = (int) Math.round(chitWidth * zoom); 
+		int height = (int) Math.round(chitHeight * zoom);
+		
+		int chitsInHex = 0;
+		int chitIndexInHex = 0; 
+		
+		if(oldZoom != zoom) {
+			oldZoom = zoom;
+			rescale(zoom);
+		}
 		
 		if(!Chit.isSelected(this)) {		
 			xPoint = (hexCenterX - width / 2) - (3 * (chitsInHex - chitIndexInHex));
 			yPoint = (hexCenterY - height / 2) + (3 * (chitsInHex - chitIndexInHex));
 		}
 		
+		xPoint += shiftX;
+		yPoint += shiftY;
 		
 		g2.drawImage(rotate(getRotationDegrees(), chitImage), xPoint, yPoint, null);
 	}
@@ -127,17 +168,29 @@ public class Chit {
 		
 		switch(facing) {
 			case A:
-				System.out.println("Facing 1");
 				return 0;
 			case AB:
-				System.out.println("Facing 2");
 				return 30;
 			case B:
-				System.out.println("Facing 3");
 				return 60;
 			case BC:
-				System.out.println("Facing 4");
 				return 90;
+			case C:
+				return 120;
+			case CD:
+				return 150;
+			case D:
+				return 180; 
+			case DE:
+				return 210;
+			case E:
+				return 240;
+			case EF:
+				return 270;
+			case F:
+				return 300; 
+			case FA:
+				return 330;
 			default:
 				return 0;
 		}

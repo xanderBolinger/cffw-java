@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
@@ -143,20 +144,10 @@ public class CeHexGrid extends JPanel {
 		//chits.add(new Chit());
 		//addTemporaryChits();
 		
-		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
-		Trooper cloneMarksman = new Trooper("Clone Marksman", "Clone Trooper Phase 1");
-		Trooper b1 = new Trooper("B1 Rifleman", "CIS Battle Droid");
 		
-		ActionOrder actionOrder = new ActionOrder();
-		CorditeExpansionGame.actionOrder = actionOrder; 
+	
 		
-		actionOrder.addTrooper(clone);
-		actionOrder.addTrooper(cloneMarksman);
-		actionOrder.addTrooper(b1);
-		
-		clone.ceStatBlock.chit.facing = Facing.A;
-		clone.ceStatBlock.chit.facing = Facing.BC;
-		clone.ceStatBlock.chit.facing = Facing.B;
+	
 		
 		new Timer(20, new TimerListener()).start();
 	
@@ -249,7 +240,8 @@ public class CeHexGrid extends JPanel {
 
 	public void mouseRightClick(MouseEvent e) {
 		
-
+		selectTrooper(e.getPoint());
+		
 	}
 
 	public Polygon scaleHex(Polygon hex, AffineTransform at) {
@@ -270,6 +262,29 @@ public class CeHexGrid extends JPanel {
 		}
 
 		return new Polygon(rx, ry, hex.npoints);
+
+	}
+	
+	public void selectTrooper(Point point) {
+		
+		
+		
+		for(int i = 0; i < getChits().size(); i++) {
+			
+			Chit chit = getChits().get(i);
+			Rectangle imageBounds = new Rectangle(chit.xPoint, chit.yPoint, chit.getWidth(), chit.getHeight());
+			if (imageBounds.contains(point) &&
+					CorditeExpansionGame.selectedTrooper == CorditeExpansionGame.actionOrder.get(i)) {
+				CorditeExpansionGame.selectedTrooper = null;
+				return; 
+			} else if(imageBounds.contains(point)) {
+				CorditeExpansionGame.selectedTrooper = CorditeExpansionGame.actionOrder.get(i);
+				return;
+			}
+			
+		}
+
+		CorditeExpansionGame.selectedTrooper = null;
 
 	}
 	
@@ -416,8 +431,17 @@ public class CeHexGrid extends JPanel {
 	
 	public void drawChits(Graphics2D g2) {
 		
-		for(Chit chit : getChits()) {
-			chit.drawChit(zoom, g2, hexMap.get(chit.xCord).get(chit.yCord));
+		for(int i = 0; i < getChits().size(); i++) {
+			
+			Chit chit = getChits().get(i);
+			Polygon hex = hexMap.get(chit.xCord).get(chit.yCord);
+			
+			if(CorditeExpansionGame.selectedTrooper != null && 
+					CorditeExpansionGame.actionOrder.get(i).compareTo(CorditeExpansionGame.selectedTrooper)) {
+				shadeHex(g2, hex, Colors.ORANGE);
+			}
+			
+			chit.drawChit(zoom, g2, hex);
 		}
 		
 	}
@@ -501,6 +525,92 @@ public class CeHexGrid extends JPanel {
 	}
 	
 	
+	public void drawChevron(Graphics2D g2, Facing facing, Polygon hex) {
+		String path = "";
+		
+		if(facing == Facing.A) {
+			path = "CeImages/chev_a.png";
+		} else if (facing == Facing.AB) {
+			path = "CeImages/chev_ab.png";
+		} else if(facing == Facing.B) {
+			path = "CeImages/chev_b.png";
+		} 
+		else if(facing == Facing.D) {
+			path = "CeImages/chev_d.png";
+		}
+
+		setOpacity(0.65f, g2);
+		
+		Chit chevron = new Chit(path, 20, 20);
+		chevron.drawChit(zoom, g2, hex);
+		
+		setOpacity(1f, g2);
+		
+	}
+	
+	public void drawChevron(Graphics2D g2, Polygon hex, Facing facing) {
+		String path = "CeImages/chev.png";
+
+		setOpacity(0.65f, g2);
+		
+		Chit chevron = new Chit(path, 15, 15);
+		chevron.facing = facing;
+		int xShift = 0; 
+		int yShift = 0;
+		
+	
+		
+		if(facing == Facing.A) {
+			yShift -= hex.getBounds().height/4;
+		} else if(facing == Facing.AB) {
+			xShift += hex.getBounds().width/10;
+			yShift -= hex.getBounds().height/3;
+		} else if(facing == Facing.B) {
+			xShift += hex.getBounds().width/8;
+			yShift -= hex.getBounds().height/4;
+		} else if(facing == Facing.BC) {
+			xShift += hex.getBounds().width/7;
+		} else if(facing == Facing.C) {
+			xShift += hex.getBounds().width/9;
+			yShift += hex.getBounds().height/10;
+		} else if(facing == Facing.CD) {
+			xShift += hex.getBounds().width/9;
+			yShift += hex.getBounds().height/10;
+		} 
+		
+		else if(facing == Facing.D) {
+			yShift += hex.getBounds().height/4;
+		} else if(facing == Facing.DE) {
+			xShift -= hex.getBounds().width/6;
+			yShift += hex.getBounds().height/8;
+		} else if(facing == Facing.E) {
+			xShift -= hex.getBounds().width/4;
+			yShift += hex.getBounds().height/9;
+		} else if(facing == Facing.EF) {
+			xShift -= hex.getBounds().width/5;
+		} else if(facing == Facing.F) {
+			xShift -= hex.getBounds().width/3;
+			yShift -= hex.getBounds().height/4;
+		} else if(facing == Facing.FA) {
+			xShift -= hex.getBounds().width/5;
+			yShift -= hex.getBounds().height/5;
+		}
+		
+		chevron.drawChit(zoom, g2, hex, xShift, yShift);
+		
+		setOpacity(1f, g2);
+		
+	}
+	
+	public void shadeHex(Graphics2D g2, Polygon hex, Color color) {
+		setOpacity(0.33f, g2);
+		g2.setPaint(color);
+		Area area = new Area(hex);
+		g2.fill(area);
+		setOpacity(1f, g2);
+	}
+	
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -511,7 +621,45 @@ public class CeHexGrid extends JPanel {
 		
 		Graphics2D g2 = (Graphics2D) g;
 		setRendering(g2);
-
+		
+		/*shadeHex(g2, hexMap.get(0).get(1));
+		shadeHex(g2, hexMap.get(0).get(2));
+		shadeHex(g2, hexMap.get(0).get(3));
+		shadeHex(g2, hexMap.get(0).get(4));*/
+		
+		/*shadeHex(g2, hexMap.get(1).get(0));
+		shadeHex(g2, hexMap.get(2).get(0));
+		shadeHex(g2, hexMap.get(3).get(0));
+		shadeHex(g2, hexMap.get(4).get(0));
+		shadeHex(g2, hexMap.get(5).get(0));
+		
+		shadeHex(g2, hexMap.get(6).get(0));
+		shadeHex(g2, hexMap.get(7).get(0));
+		shadeHex(g2, hexMap.get(8).get(0));
+		shadeHex(g2, hexMap.get(9).get(0));
+		shadeHex(g2, hexMap.get(10).get(0));
+		shadeHex(g2, hexMap.get(11).get(0));
+		shadeHex(g2, hexMap.get(12).get(0));*/
+		
+		/*drawChevron(g2, Facing.A, hexMap.get(0).get(1));
+		drawChevron(g2, Facing.D, hexMap.get(0).get(2));
+		drawChevron(g2, Facing.AB, hexMap.get(0).get(3));
+		drawChevron(g2, Facing.B, hexMap.get(0).get(4));*/
+		
+		/*drawChevron(g2, hexMap.get(1).get(0), Facing.A);
+		drawChevron(g2, hexMap.get(2).get(0), Facing.AB);
+		drawChevron(g2, hexMap.get(3).get(0), Facing.B);
+		drawChevron(g2, hexMap.get(4).get(0), Facing.BC);
+		drawChevron(g2, hexMap.get(5).get(0), Facing.C);
+		
+		drawChevron(g2, hexMap.get(6).get(0), Facing.CD);
+		drawChevron(g2, hexMap.get(7).get(0), Facing.D);
+		drawChevron(g2, hexMap.get(8).get(0), Facing.DE);
+		drawChevron(g2, hexMap.get(9).get(0), Facing.E);
+		drawChevron(g2, hexMap.get(10).get(0), Facing.EF);
+		drawChevron(g2, hexMap.get(11).get(0), Facing.F);
+		drawChevron(g2, hexMap.get(12).get(0), Facing.FA);*/
+		
 		
 		
 		if (zoom != oldZoom) {

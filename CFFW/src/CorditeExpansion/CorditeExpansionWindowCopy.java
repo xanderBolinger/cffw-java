@@ -1,4 +1,4 @@
-package Main;
+package CorditeExpansion;
 
 import java.awt.EventQueue;
 import java.awt.Graphics;
@@ -21,6 +21,13 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
+
+import CeHexGrid.Colors;
+import CeHexGrid.Chit.Facing;
+import Trooper.Trooper;
+import UtilityClasses.SwingUtility;
+import CeHexGrid.CeHexGrid;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -28,6 +35,10 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -40,7 +51,7 @@ import javax.swing.AbstractListModel;
 import java.awt.Font;
 
 
-public class Window2 extends JFrame {
+public class CorditeExpansionWindowCopy extends JFrame {
 	
 	public static class Divider {
 		
@@ -57,51 +68,40 @@ public class Window2 extends JFrame {
     ToolbarButton exitButton;
     JSplitPane splitPane;
     private double zoom = 1.0; // zoom factor
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		
-		 /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-       /* try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Window2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Window2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Window2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Window2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }*/
-		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Window2 window = new Window2();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
+
+    JList list;
+    
+    /**
 	 * Create the application.
+	 * 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws FileNotFoundException
 	 */
-	public Window2() {
+	/**
+	 * @wbp.parser.constructor
+	 */
+	public CorditeExpansionWindowCopy() {
 		UIManager.getDefaults().put("SplitPane.border", BorderFactory.createEmptyBorder());
 		SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {
+
+		    	Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+				//Trooper cloneMarksman = new Trooper("Clone Marksman", "Clone Trooper Phase 1");
+				//Trooper b1 = new Trooper("B1 Rifleman", "CIS Battle Droid");
+				
+				ActionOrder actionOrder = new ActionOrder();
+				CorditeExpansionGame.actionOrder = actionOrder; 
+				
+				actionOrder.addTrooper(clone);
+				//actionOrder.addTrooper(cloneMarksman);
+				//actionOrder.addTrooper(b1);
+				
+				clone.ceStatBlock.chit.facing = Facing.D;
+				//clone.ceStatBlock.chit.facing = Facing.BC;
+				//clone.ceStatBlock.chit.facing = Facing.B;
+		    	
 		    	initialize();
 		    }
 		});
@@ -110,6 +110,10 @@ public class Window2 extends JFrame {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws FileNotFoundException
 	 */
 	private void initialize() {
 		new JFrame();
@@ -153,7 +157,7 @@ public class Window2 extends JFrame {
         splitPane.setLeftComponent(toolbar);
         
         exitButton = new ToolbarButton("");
-        exitButton.setIcon(new ImageIcon(Window2.class.getResource("/images/icons8_Exit_25px.png")));
+        exitButton.setIcon(new ImageIcon(CorditeExpansionWindowCopy.class.getResource("/images/icons8_Exit_25px.png")));
         GroupLayout gl_toolbar = new GroupLayout(toolbar);
         gl_toolbar.setHorizontalGroup(
         	gl_toolbar.createParallelGroup(Alignment.LEADING)
@@ -275,7 +279,7 @@ public class Window2 extends JFrame {
         splitPane_2.setLeftComponent(scrollPane);
         
         splitPane_2.setContinuousLayout(true);
-        JList list = new JList();
+        list = new JList();
         list.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
         list.setBackground(Colors.BACKGROUND_2);
         list.setForeground(Colors.FOREGROUND);
@@ -291,7 +295,21 @@ public class Window2 extends JFrame {
         		return values[index];
         	}
         });
+        list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(list.getSelectedIndex() < 0)
+					return; 
+				
+				CorditeExpansionGame.selectedTrooper = CorditeExpansionGame.actionOrder.get(list.getSelectedIndex());
+
+			}
+		});
         scrollPane.setViewportView(list);
+        
+        JPanel panel_2 = new JPanel();
+        panel_2.setBackground(Colors.BACKGROUND_3);
+        splitPane_2.setRightComponent(panel_2);
         splitPane_2.setBorder(BorderFactory.createEmptyBorder());
         splitPane_2.setBackground(Colors.PURPLE);
         splitPane_2.setForeground(Colors.PURPLE);
@@ -347,56 +365,15 @@ public class Window2 extends JFrame {
         	
         });
         
-       
-
         list.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
-        
-        JSplitPane splitPane_2_1 = new JSplitPane();
-        splitPane_2_1.setForeground(new Color(189, 147, 249));
-        splitPane_2_1.setDoubleBuffered(true);
-        splitPane_2_1.setDividerSize(2);
-        splitPane_2_1.setContinuousLayout(true);
-        splitPane_2_1.setBorder(BorderFactory.createEmptyBorder());
-        splitPane_2_1.setBackground(new Color(189, 147, 249));
-        splitPane_2.setRightComponent(splitPane_2_1);
-        
-        JScrollPane scrollPane_1 = new JScrollPane();
-        scrollPane_1.setMinimumSize(new Dimension(400, 200));
-        scrollPane_1.setBorder(BorderFactory.createEmptyBorder());
-        splitPane_2_1.setLeftComponent(scrollPane_1);
-        
-        JList list_1 = new JList();
-        list_1.setSelectionForeground(new Color(248, 248, 242));
-        list_1.setSelectionBackground(new Color(255, 121, 198));
-        list_1.setForeground(new Color(248, 248, 242));
-        list_1.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
-        list_1.setFocusable(false);
-        list_1.setBorder(BorderFactory.createEmptyBorder());
-        list_1.setBackground(new Color(40, 42, 54));
-        scrollPane_1.setViewportView(list_1);
-        
-        JScrollPane scrollPane_1_1 = new JScrollPane();
-        scrollPane_1_1.setMinimumSize(new Dimension(400, 200));
-        scrollPane_1_1.setBorder(BorderFactory.createEmptyBorder());
-        splitPane_2_1.setRightComponent(scrollPane_1_1);
-        
-        JList list_2 = new JList();
-        list_2.setSelectionForeground(new Color(248, 248, 242));
-        list_2.setSelectionBackground(new Color(255, 121, 198));
-        list_2.setForeground(new Color(248, 248, 242));
-        list_2.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
-        list_2.setFocusable(false);
-        list_2.setBorder(BorderFactory.createEmptyBorder());
-        list_2.setBackground(new Color(40, 42, 54));
-        scrollPane_1_1.setViewportView(list_2);
         
         JPanel panel_3 = new JPanel();
         panel_3.setMinimumSize(new Dimension(1000, 700));
         panel_3.setPreferredSize(new Dimension(1000, 700));
         splitPane_1.setLeftComponent(panel_3);
         
-        HexGrid map = new HexGrid(33, 33);
+        CeHexGrid map = new CeHexGrid(33, 33);
         map.setPreferredSize(new Dimension(1000, 700));
         map.setMinimumSize(new Dimension(1000, 700));
         map.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
@@ -438,36 +415,6 @@ public class Window2 extends JFrame {
         );
         window.setLayout(gl_window);
         
-        splitPane_2_1.setBorder(BorderFactory.createEmptyBorder());
-        splitPane_2_1.setBackground(Colors.PURPLE);
-        splitPane_2_1.setForeground(Colors.PURPLE);
-        splitPane_2_1.setDoubleBuffered(true);
-        BasicSplitPaneUI basicSplitPaneUI3 = (BasicSplitPaneUI)splitPane_2_1.getUI();
-        BasicSplitPaneDivider divider3 = basicSplitPaneUI3.getDivider();
-        divider3.addMouseListener(new MouseAdapter() {
-        	
-        	@Override
-        	public void mousePressed(MouseEvent e) {
-
-        		divider3.setBorder(Divider.DIVIDER_EXPANDED_BORDER);
-        		//System.out.println("Pass over");
-        		//divider.resize(divider.getWidth(), 5);
-        		splitPane_2_1.setDividerSize(Divider.DIVIDER_EXPANDED_SIZE);
-        	}
-        	
-        	@Override
-        	public void mouseReleased(MouseEvent e) {
-        		//System.out.println("Pass exit");
-        		divider3.setBorder(Divider.DIVIDER_COLLAPSED_BORDER);
-        		splitPane_2_1.setDividerSize(Divider.DIVIDER_COLLAPSED_SIZE);
-
-        	}
-        	
-        	
-        });
-        divider3.setBorder(Divider.DIVIDER_COLLAPSED_BORDER);
-		splitPane_2_1.setDividerSize(Divider.DIVIDER_COLLAPSED_SIZE);
-		
         map.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -526,16 +473,30 @@ public class Window2 extends JFrame {
 			}
 		});
         
-        
+        refreshTrooperList();
         
         setResizable(true);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
         
-        
 	}
 
+	
+	public void refreshTrooperList() {
+		
+		ArrayList<String> troopers = new ArrayList<>();
+		
+		for(Trooper trooper : CorditeExpansionGame.actionOrder.getOrder()) {
+			troopers.add(trooper.toStringCe());
+		}
+		
+		
+		SwingUtility.setList(list, troopers);
+		
+	}
+	
+	
 	class ToolbarButton extends JButton {
 
         private Color hoverBackgroundColor = Colors.BRIGHT_RED;

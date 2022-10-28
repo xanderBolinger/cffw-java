@@ -23,6 +23,9 @@ import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 import CeHexGrid.Colors;
+import CeHexGrid.Chit.Facing;
+import Trooper.Trooper;
+import UtilityClasses.SwingUtility;
 import CeHexGrid.CeHexGrid;
 
 import java.awt.event.MouseAdapter;
@@ -32,6 +35,10 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -61,51 +68,40 @@ public class CorditeExpansionWindow extends JFrame {
     ToolbarButton exitButton;
     JSplitPane splitPane;
     private double zoom = 1.0; // zoom factor
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		
-		 /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-       /* try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Window2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Window2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Window2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Window2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }*/
-		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CorditeExpansionWindow window = new CorditeExpansionWindow();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
+
+    JList list;
+    
+    /**
 	 * Create the application.
+	 * 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws FileNotFoundException
+	 */
+	/**
+	 * @wbp.parser.constructor
 	 */
 	public CorditeExpansionWindow() {
 		UIManager.getDefaults().put("SplitPane.border", BorderFactory.createEmptyBorder());
 		SwingUtilities.invokeLater(new Runnable() {
 		    public void run() {
+
+		    	Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+				//Trooper cloneMarksman = new Trooper("Clone Marksman", "Clone Trooper Phase 1");
+				//Trooper b1 = new Trooper("B1 Rifleman", "CIS Battle Droid");
+				
+				ActionOrder actionOrder = new ActionOrder();
+				CorditeExpansionGame.actionOrder = actionOrder; 
+				
+				actionOrder.addTrooper(clone);
+				//actionOrder.addTrooper(cloneMarksman);
+				//actionOrder.addTrooper(b1);
+				
+				clone.ceStatBlock.chit.facing = Facing.D;
+				//clone.ceStatBlock.chit.facing = Facing.BC;
+				//clone.ceStatBlock.chit.facing = Facing.B;
+		    	
 		    	initialize();
 		    }
 		});
@@ -114,6 +110,10 @@ public class CorditeExpansionWindow extends JFrame {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * 
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 * @throws FileNotFoundException
 	 */
 	private void initialize() {
 		new JFrame();
@@ -279,7 +279,7 @@ public class CorditeExpansionWindow extends JFrame {
         splitPane_2.setLeftComponent(scrollPane);
         
         splitPane_2.setContinuousLayout(true);
-        JList list = new JList();
+        list = new JList();
         list.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
         list.setBackground(Colors.BACKGROUND_2);
         list.setForeground(Colors.FOREGROUND);
@@ -295,6 +295,16 @@ public class CorditeExpansionWindow extends JFrame {
         		return values[index];
         	}
         });
+        list.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(list.getSelectedIndex() < 0)
+					return; 
+				
+				CorditeExpansionGame.selectedTrooper = CorditeExpansionGame.actionOrder.get(list.getSelectedIndex());
+
+			}
+		});
         scrollPane.setViewportView(list);
         
         JPanel panel_2 = new JPanel();
@@ -463,6 +473,8 @@ public class CorditeExpansionWindow extends JFrame {
 			}
 		});
         
+        refreshTrooperList();
+        
         setResizable(true);
         pack();
         setLocationRelativeTo(null);
@@ -470,6 +482,21 @@ public class CorditeExpansionWindow extends JFrame {
         
 	}
 
+	
+	public void refreshTrooperList() {
+		
+		ArrayList<String> troopers = new ArrayList<>();
+		
+		for(Trooper trooper : CorditeExpansionGame.actionOrder.getOrder()) {
+			troopers.add(trooper.toStringCe());
+		}
+		
+		
+		SwingUtility.setList(list, troopers);
+		
+	}
+	
+	
 	class ToolbarButton extends JButton {
 
         private Color hoverBackgroundColor = Colors.BRIGHT_RED;

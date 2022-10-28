@@ -3195,6 +3195,65 @@ public class Trooper implements Serializable {
 		return sum + 4;
 	}
 	
+	
+	public String toStringCe() {
+		String rslt = name + ": "; 
+		
+		if (!alive) {
+			rslt += "DEAD: ";
+		} else if (!conscious) {
+			rslt += "UNCONSCIOUS: ";
+		}
+		
+		if (HD) {
+			rslt += "HUNKERED DOWN: ";
+		}
+
+		if (inCover) {
+			rslt += "IN COVER: ";
+		}
+		
+		if (disabledLegs > 1) {
+			rslt += "IMOBALIZED: ";
+		} else if (disabledLegs > 0) {
+			rslt += "CRIP-LEG: ";
+		}
+
+		if (personalShield != null)
+			rslt += "CSS: " + personalShield.currentShieldStrength + " ";
+
+		if (physicalDamage > 0)
+			rslt += "PD: " + physicalDamage + ", ";
+
+		if (ionDamage > 0)
+			rslt += "ID: " + ionDamage + ", ";
+		
+		ArrayList<Trooper> spottedTroopers = new ArrayList<>();
+
+		for (Spot spot : spotted) {
+
+			for (Trooper spottedTrooper : spot.spottedIndividuals) {
+				if (!spottedTrooper.HD && spottedTrooper.alive && spottedTrooper.conscious
+						&& !spottedTroopers.contains(spottedTrooper))
+					spottedTroopers.add(spottedTrooper);
+			}
+
+		}
+
+		int spottedCount = spottedTroopers.size();
+
+		rslt += "SC: " + spottedCount + ", ";
+		rslt += weaponPercent + "%, SL: " + sl + ", ";
+		rslt += "Ammo: " + ammo + ", ";
+		rslt += "Weapon: " + wep;
+
+		int average = skills.getSkill("Command").value + skills.getSkill("Fighter").value;
+		
+		rslt += " Command Avg/SL: "+(average/2)+"/"+PCUtility.getSL(average);
+		
+		return rslt; 
+	}
+	
 	// Takes parameters from trooper class and returns string
 	@Override
 	public String toString() {
