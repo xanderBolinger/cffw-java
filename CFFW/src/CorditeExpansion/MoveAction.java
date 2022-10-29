@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import CeHexGrid.Chit.Facing;
 import CorditeExpansion.CeAction.ActionType;
+import CorditeExpansion.CeStatBlock.MoveSpeed;
 
 public class MoveAction implements CeAction {
 
-	MoveType type;
 	public ActionType actionType; 
 	boolean completed = false; 
 	int coac; 
@@ -17,33 +17,15 @@ public class MoveAction implements CeAction {
 	public ArrayList<Cord> cords = new ArrayList<>();
 	double movementFraction = 0.0; 
 	
-	Facing turnFacing;
-	
-	public enum MoveType {
-		CRAWL,STEP,TURN
-	}
-	
-	
-	public MoveAction(MoveType type, CeStatBlock statBlock, ArrayList<Cord> cords, int coac) {
+	public MoveAction(CeStatBlock statBlock, ArrayList<Cord> cords, int coac) {
 		
 		actionType = ActionType.MOVE;
 		
-		this.type = type; 
 		this.statBlock = statBlock;
 		this.cords = cords;
 		this.coac = coac;
 	}
-	
-	public MoveAction(MoveType type, CeStatBlock statBlock, Facing facing) {
 		
-		actionType = ActionType.TURN;
-		
-		this.type = type; 
-		this.statBlock = statBlock;
-		this.turnFacing = facing;
-	}
-	
-	
 	public void addTargetHex(Cord cord) {
 		cords.add(cord);
 	}
@@ -60,6 +42,8 @@ public class MoveAction implements CeAction {
 	}
 	
 	public void moveTrooper() {
+		if(cords.size() < 1)
+			return; 
 		
 		//System.out.println("Move Trooper");
 		
@@ -83,6 +67,7 @@ public class MoveAction implements CeAction {
 	public void spendCombatAction() {
 
 		if(spentCoac < coac) {
+			//System.out.println("Not prepared");
 			spentCoac++;
 			return; 
 		}
@@ -91,23 +76,29 @@ public class MoveAction implements CeAction {
 			return; 
 		}
 		
-		switch(type) {
-		
-			case STEP:
-				System.out.println("Move");
+		if(statBlock.moveSpeed == MoveSpeed.CRAWL) {
+			//System.out.println("Crawl");
+			movementFraction += 0.5; 
+			if(movementFraction >= 1) {
 				moveTrooper();
-			case CRAWL:
-				movementFraction += 0.25; 
-				if(movementFraction >= 1) {
-					moveTrooper();
-				}
-			case TURN:
-				statBlock.setFacing(turnFacing);
-
+			}
+		} else if(statBlock.moveSpeed == MoveSpeed.STEP) {
+			//System.out.println("Move");
+			moveTrooper();
+		} else if(statBlock.moveSpeed == MoveSpeed.RUSH) {
+			//System.out.println("Rush");
+			moveTrooper();
+			moveTrooper();
+		} else if(statBlock.moveSpeed == MoveSpeed.SPRINT) {
+			//System.out.println("Sprint");
+			moveTrooper();
+			moveTrooper();
+			moveTrooper();
+			moveTrooper();
 		}
-		
+				
 		if(cords.size() < 1) {
-			System.out.println("Set completed");
+			//System.out.println("Set completed");
 			completed = true;
 		}
 		
@@ -125,7 +116,23 @@ public class MoveAction implements CeAction {
 	
 	@Override
 	public String toString() {
-		return "Move Action";
+		String rslt = "Move Action: <";
+		
+		for(Cord cord : cords) {
+			rslt += "("+cord.xCord+","+cord.yCord+")";
+			
+			if(cord != cords.get(cords.size()-1)) {
+				rslt += ", ";
+			}
+			
+		}
+		
+		return rslt + ">";
+	}
+
+	@Override
+	public void setPrepared() {
+		spentCoac = coac;
 	}
 	
 }

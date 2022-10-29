@@ -13,7 +13,8 @@ import CeHexGrid.Chit.Facing;
 import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.MoveAction;
-import CorditeExpansion.MoveAction.MoveType;
+import CorditeExpansion.CeStatBlock.MoveSpeed;
+import CorditeExpansion.CeStatBlock.Stance;
 import Trooper.Trooper;
 import UtilityClasses.ExcelUtility;
 
@@ -100,7 +101,7 @@ public class CorditeExpansionTests {
 		ArrayList<Cord> cords = new ArrayList<>();
 		cords.add(new Cord(1,1));
 		
-		CeAction.addMoveAction(MoveType.STEP, clone.ceStatBlock, cords, 0);
+		CeAction.addMoveAction(clone.ceStatBlock, cords, 0);
 
 		clone.ceStatBlock.spendCombatAction();
 		
@@ -111,7 +112,7 @@ public class CorditeExpansionTests {
 		cords = new ArrayList<>();
 		cords.add(new Cord(1,2));
 		cords.add(new Cord(1,3));
-		CeAction.addMoveAction(MoveType.STEP, clone.ceStatBlock, cords, 0);
+		CeAction.addMoveAction(clone.ceStatBlock, cords, 0);
 		
 		clone.ceStatBlock.spendCombatAction();
 		
@@ -151,16 +152,16 @@ public class CorditeExpansionTests {
 		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
 		actionOrder.addTrooper(clone);
 		
+		clone.ceStatBlock.moveSpeed = MoveSpeed.CRAWL;
+		
 		ArrayList<Cord> cords = new ArrayList<>();
 		cords.add(new Cord(1,1));
 		
-		CeAction.addMoveAction(MoveType.CRAWL, clone.ceStatBlock, cords, 0);
+		CeAction.addMoveAction(clone.ceStatBlock, cords, 0);
 		
 		clone.ceStatBlock.spendCombatAction();
 		assertEquals(false, clone.ceStatBlock.getPosition().compare(new Cord(1,1)));
 		
-		clone.ceStatBlock.spendCombatAction();
-		clone.ceStatBlock.spendCombatAction();
 		clone.ceStatBlock.spendCombatAction();
 		assertEquals(true, clone.ceStatBlock.getPosition().compare(new Cord(1,1)));
 		
@@ -176,7 +177,7 @@ public class CorditeExpansionTests {
 		ArrayList<Cord> cords = new ArrayList<>();
 		cords.add(new Cord(1,1));
 		
-		CeAction.addMoveAction(MoveType.CRAWL, clone.ceStatBlock, cords, 2);
+		CeAction.addMoveAction(clone.ceStatBlock, cords, 2);
 		
 		assertEquals(false, clone.ceStatBlock.acting());
 		assertEquals(1, clone.ceStatBlock.coacSize());
@@ -188,9 +189,6 @@ public class CorditeExpansionTests {
 		assertEquals(0, clone.ceStatBlock.coacSize());
 		
 		clone.ceStatBlock.spendCombatAction();
-		clone.ceStatBlock.spendCombatAction();
-		clone.ceStatBlock.spendCombatAction();
-		clone.ceStatBlock.spendCombatAction();
 		
 		assertEquals(true, clone.ceStatBlock.getPosition().compare(new Cord(1,1)));
 		assertEquals(false, clone.ceStatBlock.acting());
@@ -201,11 +199,24 @@ public class CorditeExpansionTests {
 	}
 	
 	@Test
+	public void facingValueTest() {
+		
+
+		Facing facing = Facing.A;
+		
+		assertEquals(Facing.AB, Facing.turnClockwise(facing));
+		
+		assertEquals(Facing.FA, Facing.turnCounterClockwise(facing));
+		
+
+	}
+	
+	@Test
 	public void facingTest() {
 		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
 		actionOrder.addTrooper(clone);
 		
-		CeAction.addTurnAction(MoveType.CRAWL, clone.ceStatBlock, Facing.AB);
+		CeAction.addTurnAction(clone.ceStatBlock, true);
 		
 		clone.ceStatBlock.spendCombatAction();
 		
@@ -214,7 +225,56 @@ public class CorditeExpansionTests {
 		actionOrder.clear();
 	}
 	
+	@Test
+	public void updateTurnActionTest() {
+		
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		actionOrder.addTrooper(clone);
+		
+		CeAction.addTurnAction(clone.ceStatBlock, true);
+		
+		CeAction.updateTurnAction(clone.ceStatBlock, true);
+		
+		clone.ceStatBlock.spendCombatAction();
+		
+		assertEquals(Facing.B, clone.ceStatBlock.getFacing());
+		
+		CeAction.addTurnAction(clone.ceStatBlock, false);
+		
+		clone.ceStatBlock.spendCombatAction();
+		
+		assertEquals(Facing.AB, clone.ceStatBlock.getFacing());
 	
+		actionOrder.clear();
+		
+	}
+	
+	@Test
+	public void setFacingAfterMove() {
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		actionOrder.addTrooper(clone);
+		
+		clone.ceStatBlock.moveSpeed = MoveSpeed.CRAWL;
+		
+		ArrayList<Cord> cords = new ArrayList<>();
+		
+		Cord cord = new Cord(1,1);
+		cord.facing = Facing.B;
+		
+		cords.add(cord);
+		
+		CeAction.addMoveAction(clone.ceStatBlock, cords, 0);
+		
+		clone.ceStatBlock.spendCombatAction();
+		assertEquals(false, clone.ceStatBlock.getPosition().compare(new Cord(1,1)));
+		
+		clone.ceStatBlock.spendCombatAction();
+		assertEquals(true, clone.ceStatBlock.getPosition().compare(new Cord(1,1)));
+		
+		assertEquals(Facing.B, clone.ceStatBlock.getFacing());
+		
+		actionOrder.clear();
+	}
 	
 	@Test 
 	public void corditeGameTimingTest() {
@@ -259,7 +319,7 @@ public class CorditeExpansionTests {
 		
 		ArrayList<Cord> cords = new ArrayList<>();
 		cords.add(new Cord(1,1));
-		CeAction.addMoveAction(MoveType.STEP, clone.ceStatBlock, cords, 2);
+		CeAction.addMoveAction(clone.ceStatBlock, cords, 2);
 		
 		clone.ceStatBlock.combatActions = 5; 
 		
@@ -277,7 +337,70 @@ public class CorditeExpansionTests {
 		CorditeExpansionGame.actionOrder.clear();
 	}
 	
+	@Test 
+	public void stanceEnumTest() {
+		
+		Stance stance = Stance.STANDING;
+		
+		assertEquals(3, stance.getValue());
+		
+		stance = Stance.valueOf(2);
+		
+		assertEquals(Stance.CROUCH, stance);
+	}
 	
+	@Test 
+	public void stanceTest() {
+		
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		actionOrder.addTrooper(clone);
+
+		assertEquals(Stance.STANDING, clone.ceStatBlock.stance);
+		
+		CeAction.addChangeStanceAction(clone.ceStatBlock, Stance.PRONE);
+		
+		clone.ceStatBlock.spendCombatAction();
+		
+		assertEquals(Stance.CROUCH, clone.ceStatBlock.stance);
+		
+		//CeAction.addChangeStanceAction(clone.ceStatBlock, Stance.PRONE);
+		
+		clone.ceStatBlock.spendCombatAction();
+		
+		assertEquals(Stance.PRONE, clone.ceStatBlock.stance);
+
+		CeAction.addChangeStanceAction(clone.ceStatBlock, Stance.STANDING);
+		
+		clone.ceStatBlock.spendCombatAction();
+		
+		assertEquals(Stance.CROUCH, clone.ceStatBlock.stance);
+		
+		clone.ceStatBlock.spendCombatAction();
+		
+		assertEquals(Stance.STANDING, clone.ceStatBlock.stance);
+		
+		actionOrder.clear();
+
+		
+	}
+	
+	@Test 
+	public void adaptabilityFactorTest() {
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		actionOrder.addTrooper(clone);
+		
+		int fighter = 59; 
+		int fighterTens = (fighter/10)%10; 
+		assertEquals(5, fighterTens);
+		
+		assertEquals(3, Math.round(fighterTens/2)+1);
+		
+		fighter = 75; 
+		fighterTens = (fighter/10)%10; 
+		assertEquals(4, Math.round(fighterTens/2)+1);
+		
+		actionOrder.clear();
+	}
 	
 	
 }

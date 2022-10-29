@@ -29,18 +29,20 @@ public class CorditeExpansionGame {
 			
 			
 			int actions =  trooper.ceStatBlock.getActionTiming();
+			
 			for(int i = 0; i < actions; i++) {
 				
+				
 				if(trooper.ceStatBlock.acting()) {
-					System.out.println("Act");
+					//System.out.println("Act");
 					trooper.ceStatBlock.spendCombatAction();		
 				}
 				else if(trooper.ceStatBlock.preparing()) {
-					System.out.println("Prepare");
+					//System.out.println("Prepare");
 					trooper.ceStatBlock.prepareCourseOfAction();
 				}
 				else {
-					System.out.println("Nothing");
+					//System.out.println("Nothing");
 					trooper.ceStatBlock.doNothing();
 				}
 			}

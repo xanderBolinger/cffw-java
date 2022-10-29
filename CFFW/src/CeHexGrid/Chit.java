@@ -18,8 +18,13 @@ import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
+
+import CeHexGrid.Chit.Facing;
+import CorditeExpansion.Cord;
 
 public class Chit {
 	public Image chitImage;
@@ -35,9 +40,53 @@ public class Chit {
 	public int xPoint = 0; 
 	public int yPoint = 0;
 	
-	public Facing facing; 
+	public Facing facing = Facing.A;
+	
 	public enum Facing {
-		A,AB,B,BC,C,CD,D,DE,E,EF,F,FA
+		A(1),AB(2),B(3),BC(4),C(5),CD(6),D(7),DE(8),E(9),EF(10),F(11),FA(12);
+		
+		public int value; 
+		
+		private static Map map = new HashMap<>();
+
+	    private Facing(int value) {
+	        this.value = value;
+	    }
+
+	    static {
+	        for (Facing facingType : Facing.values()) {
+	            map.put(facingType.value, facingType);
+	        }
+	    }
+
+	    public static Facing valueOf(int facingType) {
+	        return (Facing) map.get(facingType);
+	    }
+
+	    public int getValue() {
+	        return value;
+	    }
+	    
+	    public static Facing turnClockwise(Facing facing) {
+			int facingValue = facing.getValue() + 1;
+			
+			if(facingValue > 12)
+				facingValue = 1; 
+			
+			return Facing.valueOf(facingValue);
+			
+			
+		}
+		
+		public static Facing turnCounterClockwise(Facing facing) {
+			int facingValue = facing.getValue() - 1;
+			
+			if(facingValue <= 0)
+				facingValue = 12; 
+			
+			return Facing.valueOf(facingValue);
+		}
+		
 	}
 	
 	public Chit(String path, int width, int height) {
@@ -134,6 +183,10 @@ public class Chit {
 		yPoint += shiftY;
 		
 		g2.drawImage(rotate(getRotationDegrees(), chitImage), xPoint, yPoint, null);
+	}
+	
+	public Cord getCord() {
+		return new Cord(xCord, yCord);
 	}
 	
 	public static void drawShadow(double zoom, Graphics2D g2, Polygon hex) {

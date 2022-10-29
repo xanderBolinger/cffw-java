@@ -1,3 +1,8 @@
+/Hexes/
+/Individuals/
+/Injuries/
+/Items/
+/JUnitTests/
 /Main.class
 /MainCETest.class
 /SaveCompanies/
@@ -8,6 +13,4 @@
 /test/
 /testPackage/
 /CorditeExpansion/
-/JUnitTests/
-/CreateGame/
 /CeHexGrid/

@@ -1,8 +1,12 @@
 package CorditeExpansion;
 
+import CeHexGrid.Chit.Facing;
+
 public class Cord {
 	public int xCord; 
 	public int yCord; 
+	
+	public Facing facing;
 	
 	public Cord(int xCord, int yCord) {
 		this.xCord = xCord;
@@ -16,6 +20,22 @@ public class Cord {
 			return false;
 		}
 	}
+	
+	public void setFacing(boolean clockwise) {
+		
+		if(facing == null)
+			facing = Facing.A;
+		
+		if(clockwise) {
+			facing = Facing.turnClockwise(facing);
+		} else {
+			facing = Facing.turnCounterClockwise(facing);
+		}
+		
+	
+	}
+	
+	
 	
 	@Override
 	public String toString() {

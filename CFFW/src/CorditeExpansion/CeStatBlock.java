@@ -1,6 +1,8 @@
 package CorditeExpansion;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import CeHexGrid.Chit;
 import CeHexGrid.Chit.Facing;
@@ -17,17 +19,54 @@ public class CeStatBlock {
 	public int combatActions; 
 	public int spentCombatActions = 0; 
 	
+	public MoveSpeed moveSpeed = MoveSpeed.STEP;
+	public Stance stance = Stance.STANDING;
+	
 	public int totalMoved = 0; 
 
-	private Cord cord = new Cord(0, 0);
+	public Cord cord = new Cord(0, 0);
 	private CeAction activeAction;
 	private ArrayList<CeAction> coac = new ArrayList<>();
 	
+	public boolean hesitating = false; 
+	
 	public Chit chit; 
+	
+	public enum Stance {
+		PRONE(1),CROUCH(2),STANDING(3);
+		
+		public int value; 
+		
+		private static Map map = new HashMap<>();
+
+	    private Stance(int value) {
+	        this.value = value;
+	    }
+
+	    static {
+	        for (Stance stanceType : Stance.values()) {
+	            map.put(stanceType.value, stanceType);
+	        }
+	    }
+
+	    public static Stance valueOf(int stanceType) {
+	        return (Stance) map.get(stanceType);
+	    }
+
+	    public int getValue() {
+	        return value;
+	    }
+	}
+	
+	public enum MoveSpeed {
+		CRAWL,STEP,RUSH,SPRINT
+	}
 	
 	public CeStatBlock(Trooper trooper) {
 		quickness = trooper.maximumSpeed.get();
 		combatActions = trooper.combatActions;
+		adaptabilityFactor = 1+Math.round(((trooper.getSkill("Fighter")/10)%10)/2);
+		
 		chit = new Chit();
 	}
 	
@@ -35,13 +74,22 @@ public class CeStatBlock {
 		this.cord = cord; 
 		chit.xCord = cord.xCord;
 		chit.yCord = cord.yCord;
+		
+		if(cord.facing != null)
+			setFacing(cord.facing);
+		
 	}
 	
-	public void spendCombatAction() {		
+	public void spendCombatAction() {	
+		if(hesitating) {
+			spendCaPoint();
+			return;
+		}
+		
 		activeAction.spendCombatAction();
 		
 		if(activeAction.completed()) {
-			System.out.println("Action Completed");
+			//System.out.println("Action Completed");
 			activeAction = null;
 		}
 		
@@ -49,6 +97,11 @@ public class CeStatBlock {
 	}
 	
 	public void prepareCourseOfAction() {
+		if(hesitating) {
+			spendCaPoint();
+			return;
+		}
+		
 		coac.get(0).spendCombatAction();
 		if(coac.get(0).ready()) {
 			addAction(coac.remove(0));
@@ -61,11 +114,21 @@ public class CeStatBlock {
 		spendCaPoint();
 	}
 	
+	public void react() {
+		activeAction = coac.remove(0);
+		activeAction.setPrepared();
+	}
+	
+	public void hesitate() {
+		hesitating = true;
+	}
+	
 	public void spendCaPoint() {
 		if(spentCombatActions >= combatActions) 
 			spentCombatActions = 0; 
 		
 		spentCombatActions++;
+		hesitating = false;
 	}
 	
 	public int getActionTiming() {
@@ -120,6 +183,22 @@ public class CeStatBlock {
 		chit.facing = facing;
 	}
 	
+	public CeAction getTurnAction() {
+		
+		if(activeAction != null && activeAction.getActionType() == ActionType.TURN) {
+			return activeAction;
+		}
+		
+		if(CorditeExpansionWindow.actionList.getSelectedIndex() < 0)
+			return null;
+		
+		CeAction action = coac.get(CorditeExpansionWindow.actionList.getSelectedIndex()); 
+		
+		return action; 
+		
+		
+	}
+	
 	
 	public ArrayList<CeAction> getCoac() {
 		return coac;
@@ -146,7 +225,7 @@ public class CeStatBlock {
 		String activeAction = "Currently Executing Action: None."; 
 		
 		if(acting()) {
-			activeAction = "Currently Executing Action: "+ activeAction.toString();
+			activeAction = "Currently Executing Action: "+ this.activeAction.toString();
 		}
 		
 		results.add(activeAction);
@@ -156,7 +235,9 @@ public class CeStatBlock {
 		
 		results.add(spentCombatActions);
 		results.add(combatActions);
-		
+		results.add("AF: "+adaptabilityFactor+", HESITATING: "+hesitating);
+		results.add("Speed: "+moveSpeed.toString());
+		results.add("Stance: "+stance.toString());
 		return results; 
 	}
 	
@@ -167,6 +248,22 @@ public class CeStatBlock {
 	
 	public boolean preparing() {
 		return coacSize() > 0 ? true : false; 
+	}
+	
+	public void setCrawl() {
+		moveSpeed = MoveSpeed.CRAWL;
+	}
+	
+	public void setWalk() {
+		moveSpeed = MoveSpeed.STEP;
+	}
+	
+	public void setRush() {
+		moveSpeed = MoveSpeed.RUSH;
+	}
+	
+	public void setSprint() {
+		moveSpeed = MoveSpeed.SPRINT;
 	}
 	
 	// the below methods are for testing 

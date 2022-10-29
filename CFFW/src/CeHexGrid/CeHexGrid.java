@@ -49,7 +49,9 @@ import CorditeExpansion.CeStatBlock;
 import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.CorditeExpansionWindow;
+import CorditeExpansion.FloatingText;
 import CorditeExpansion.MoveAction;
+import CorditeExpansion.TurnAction;
 import CorditeExpansion.CeAction.ActionType;
 import Trooper.Trooper;
 import UtilityClasses.Keyboard;
@@ -79,7 +81,10 @@ public class CeHexGrid extends JPanel {
 	private static final Color BORDER_COLOR = Colors.BRIGHT_RED;
 	public static final Stroke STROKE = new BasicStroke(1.5f);
 	private ArrayList<Polygon> shapeList = new ArrayList<>();
-	private ArrayList<ArrayList<Polygon>> hexMap = new ArrayList<>();
+	public static ArrayList<ArrayList<Polygon>> hexMap = new ArrayList<>();
+	
+	public static ArrayList<FloatingText> floatingText = new ArrayList<>();
+	
 	private ArrayList<DrawnString> drawnStrings = new ArrayList<>();
 	
 	class DrawnString {
@@ -153,7 +158,7 @@ public class CeHexGrid extends JPanel {
 		//addTemporaryChits();
 		
 		
-	
+		
 		
 	
 		
@@ -480,6 +485,17 @@ public class CeHexGrid extends JPanel {
 			}
 			
 			chit.drawChit(zoom, g2, hex);
+			
+			CeAction action = CorditeExpansionGame.actionOrder.getOrder().get(i).ceStatBlock.getTurnAction();
+			
+			if(action != null && action.getActionType() == ActionType.TURN) {
+				
+				TurnAction turnAction = (TurnAction) action; 
+				
+				drawChevron(g2, hex, turnAction.getTargetFacing());
+				
+			}
+			
 		}
 		
 	}
@@ -562,29 +578,6 @@ public class CeHexGrid extends JPanel {
 		
 	}
 	
-	
-	public void drawChevron(Graphics2D g2, Facing facing, Polygon hex) {
-		String path = "";
-		
-		if(facing == Facing.A) {
-			path = "CeImages/chev_a.png";
-		} else if (facing == Facing.AB) {
-			path = "CeImages/chev_ab.png";
-		} else if(facing == Facing.B) {
-			path = "CeImages/chev_b.png";
-		} 
-		else if(facing == Facing.D) {
-			path = "CeImages/chev_d.png";
-		}
-
-		setOpacity(0.65f, g2);
-		
-		Chit chevron = new Chit(path, 20, 20);
-		chevron.drawChit(zoom, g2, hex);
-		
-		setOpacity(1f, g2);
-		
-	}
 	
 	public void drawChevron(Graphics2D g2, Polygon hex, Facing facing) {
 		String path = "CeImages/chev.png";
@@ -674,12 +667,28 @@ public class CeHexGrid extends JPanel {
 		
 		for(Cord cord : moveAction.cords) {
 			
-			shadeHex(g2, hexMap.get(cord.xCord).get(cord.yCord), Colors.GREEN);
+			Polygon hex = hexMap.get(cord.xCord).get(cord.yCord);
+			
+			shadeHex(g2, hex, Colors.GREEN);
+			
+			if(cord.facing != null) {
+				drawChevron(g2, hex, cord.facing);
+			}
 			
 		}
 		
 	}
 	
+	
+	public boolean zoomChanged() {
+		return zoom != oldZoom ? true : false;
+	}
+	
+	public void drawFloatingText(Graphics2D g2) {
+		for(FloatingText text : floatingText) {
+			text.draw(g2);
+		}
+	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
@@ -773,6 +782,8 @@ public class CeHexGrid extends JPanel {
 		drawChitShadow(g2);
 
 		drawChits(g2);		
+		
+		drawFloatingText(g2);
 		
 		pressedCursorPoint = currentCursorPoint;
 		oldZoom = zoom;

@@ -28,7 +28,6 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 import CeHexGrid.CeHexGrid;
 import CeHexGrid.Colors;
 import CeHexGrid.Chit.Facing;
-import CorditeExpansion.MoveAction.MoveType;
 import Trooper.Trooper;
 import UtilityClasses.SwingUtility;
 
@@ -144,7 +143,7 @@ public class CorditeExpansionWindow extends JFrame {
 				cords.add(new Cord(2, 0));
 				cords.add(new Cord(3, 0));
 
-				CeAction.addMoveAction(MoveType.STEP, clone.ceStatBlock, cords, 2);
+				CeAction.addMoveAction(clone.ceStatBlock, cords, 2);
 
 				// clone.ceStatBlock.chit.facing = Facing.BC;
 				// clone.ceStatBlock.chit.facing = Facing.B;
@@ -611,6 +610,9 @@ public class CorditeExpansionWindow extends JFrame {
 	}
 
 	public static void refreshCoacList(Trooper trooper) {
+		
+		int selectedIndex = actionList.getSelectedIndex();
+		
 		ArrayList<String> actions = new ArrayList<>();
 
 		if (trooper != null) {
@@ -621,6 +623,10 @@ public class CorditeExpansionWindow extends JFrame {
 		}
 
 		SwingUtility.setList(actionList, actions);
+		
+		if(selectedIndex < actionList.getModel().getSize())
+			actionList.setSelectedIndex(selectedIndex);
+		
 	}
 
 	public static void refreshCeDetailsList(Trooper trooper) {
