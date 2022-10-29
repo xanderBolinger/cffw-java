@@ -1,5 +1,3 @@
-/Items/
-/JUnitTests/
 /Main.class
 /MainCETest.class
 /SaveCompanies/
@@ -9,5 +7,7 @@
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
-/CeHexGrid/
 /CorditeExpansion/
+/JUnitTests/
+/CreateGame/
+/CeHexGrid/

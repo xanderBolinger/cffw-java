@@ -70,4 +70,34 @@ public class ExcelUtililtyTests {
 		assertEquals(9, ExcelUtility.countColumns(worksheet));
 	}
 	
+	
+	@Test
+	public void testCeSpreadSheet() {
+		int actions = -1;
+		int impulse = 1; 
+		int combatActions = 5; 
+		
+		
+		//System.out.println("Spreadsheet Test");
+		try {
+			actions = (int) ExcelUtility.getResultsTwoWayFixedValues(impulse, combatActions, "caperimpulse.xlsx", true, true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertEquals(2, actions);
+		
+		impulse = 2; 
+		
+		//System.out.println("Spreadsheet Test 2");
+		try {
+			actions = (int) ExcelUtility.getResultsTwoWayFixedValues(impulse, combatActions, "caperimpulse.xlsx", true, true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		assertEquals(1, actions);
+	}
+	
 }

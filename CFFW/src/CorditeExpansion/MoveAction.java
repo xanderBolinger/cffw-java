@@ -3,16 +3,18 @@ package CorditeExpansion;
 import java.util.ArrayList;
 
 import CeHexGrid.Chit.Facing;
+import CorditeExpansion.CeAction.ActionType;
 
 public class MoveAction implements CeAction {
 
 	MoveType type;
+	public ActionType actionType; 
 	boolean completed = false; 
 	int coac; 
 	int spentCoac = 0; 
 	
 	CeStatBlock statBlock;
-	ArrayList<Cord> cords = new ArrayList<>();
+	public ArrayList<Cord> cords = new ArrayList<>();
 	double movementFraction = 0.0; 
 	
 	Facing turnFacing;
@@ -23,6 +25,9 @@ public class MoveAction implements CeAction {
 	
 	
 	public MoveAction(MoveType type, CeStatBlock statBlock, ArrayList<Cord> cords, int coac) {
+		
+		actionType = ActionType.MOVE;
+		
 		this.type = type; 
 		this.statBlock = statBlock;
 		this.cords = cords;
@@ -30,6 +35,9 @@ public class MoveAction implements CeAction {
 	}
 	
 	public MoveAction(MoveType type, CeStatBlock statBlock, Facing facing) {
+		
+		actionType = ActionType.TURN;
+		
 		this.type = type; 
 		this.statBlock = statBlock;
 		this.turnFacing = facing;
@@ -52,10 +60,23 @@ public class MoveAction implements CeAction {
 	}
 	
 	public void moveTrooper() {
+		
+		//System.out.println("Move Trooper");
+		
 		Cord cord = cords.remove(0);
 		statBlock.moveTrooper(cord);
 		movementFraction = 0.0;
 		statBlock.totalMoved++;
+	}
+	
+	public Cord lastCord() {
+		return cords.get(cords.size()-1);
+	}
+	
+	
+	@Override
+	public ActionType getActionType() {
+		return actionType;
 	}
 
 	@Override
@@ -73,6 +94,7 @@ public class MoveAction implements CeAction {
 		switch(type) {
 		
 			case STEP:
+				System.out.println("Move");
 				moveTrooper();
 			case CRAWL:
 				movementFraction += 0.25; 
@@ -85,6 +107,7 @@ public class MoveAction implements CeAction {
 		}
 		
 		if(cords.size() < 1) {
+			System.out.println("Set completed");
 			completed = true;
 		}
 		
@@ -98,6 +121,11 @@ public class MoveAction implements CeAction {
 	@Override
 	public boolean ready() {
 		return spentCoac >= coac ? true : false;
+	}
+	
+	@Override
+	public String toString() {
+		return "Move Action";
 	}
 	
 }

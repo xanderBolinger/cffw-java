@@ -275,14 +275,14 @@ public class Window2 extends JFrame {
         splitPane_2.setLeftComponent(scrollPane);
         
         splitPane_2.setContinuousLayout(true);
-        JList list = new JList();
-        list.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
-        list.setBackground(Colors.BACKGROUND_2);
-        list.setForeground(Colors.FOREGROUND);
-        list.setSelectionBackground(Colors.PINK);
-        list.setSelectionForeground(Colors.FOREGROUND);
-        list.setFocusable(false);
-        list.setModel(new AbstractListModel() {
+        JList trooperList = new JList();
+        trooperList.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
+        trooperList.setBackground(Colors.BACKGROUND_2);
+        trooperList.setForeground(Colors.FOREGROUND);
+        trooperList.setSelectionBackground(Colors.PINK);
+        trooperList.setSelectionForeground(Colors.FOREGROUND);
+        trooperList.setFocusable(false);
+        trooperList.setModel(new AbstractListModel() {
         	String[] values = new String[] {"Element -- Example Character Name : SL 56%", "Element -- Example Character Name : SL 56%", "Element -- Example Character Name : SL 56%", "Element -- Example Character Name : SL 56%"};
         	public int getSize() {
         		return values.length;
@@ -291,7 +291,7 @@ public class Window2 extends JFrame {
         		return values[index];
         	}
         });
-        scrollPane.setViewportView(list);
+        scrollPane.setViewportView(trooperList);
         splitPane_2.setBorder(BorderFactory.createEmptyBorder());
         splitPane_2.setBackground(Colors.PURPLE);
         splitPane_2.setForeground(Colors.PURPLE);
@@ -349,7 +349,7 @@ public class Window2 extends JFrame {
         
        
 
-        list.setBorder(BorderFactory.createEmptyBorder());
+        trooperList.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         
         JSplitPane splitPane_2_1 = new JSplitPane();
@@ -366,30 +366,30 @@ public class Window2 extends JFrame {
         scrollPane_1.setBorder(BorderFactory.createEmptyBorder());
         splitPane_2_1.setLeftComponent(scrollPane_1);
         
-        JList list_1 = new JList();
-        list_1.setSelectionForeground(new Color(248, 248, 242));
-        list_1.setSelectionBackground(new Color(255, 121, 198));
-        list_1.setForeground(new Color(248, 248, 242));
-        list_1.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
-        list_1.setFocusable(false);
-        list_1.setBorder(BorderFactory.createEmptyBorder());
-        list_1.setBackground(new Color(40, 42, 54));
-        scrollPane_1.setViewportView(list_1);
+        JList actionList = new JList();
+        actionList.setSelectionForeground(new Color(248, 248, 242));
+        actionList.setSelectionBackground(new Color(255, 121, 198));
+        actionList.setForeground(new Color(248, 248, 242));
+        actionList.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
+        actionList.setFocusable(false);
+        actionList.setBorder(BorderFactory.createEmptyBorder());
+        actionList.setBackground(new Color(40, 42, 54));
+        scrollPane_1.setViewportView(actionList);
         
         JScrollPane scrollPane_1_1 = new JScrollPane();
         scrollPane_1_1.setMinimumSize(new Dimension(400, 200));
         scrollPane_1_1.setBorder(BorderFactory.createEmptyBorder());
         splitPane_2_1.setRightComponent(scrollPane_1_1);
         
-        JList list_2 = new JList();
-        list_2.setSelectionForeground(new Color(248, 248, 242));
-        list_2.setSelectionBackground(new Color(255, 121, 198));
-        list_2.setForeground(new Color(248, 248, 242));
-        list_2.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
-        list_2.setFocusable(false);
-        list_2.setBorder(BorderFactory.createEmptyBorder());
-        list_2.setBackground(new Color(40, 42, 54));
-        scrollPane_1_1.setViewportView(list_2);
+        JList detailsList = new JList();
+        detailsList.setSelectionForeground(new Color(248, 248, 242));
+        detailsList.setSelectionBackground(new Color(255, 121, 198));
+        detailsList.setForeground(new Color(248, 248, 242));
+        detailsList.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
+        detailsList.setFocusable(false);
+        detailsList.setBorder(BorderFactory.createEmptyBorder());
+        detailsList.setBackground(new Color(40, 42, 54));
+        scrollPane_1_1.setViewportView(detailsList);
         
         JPanel panel_3 = new JPanel();
         panel_3.setMinimumSize(new Dimension(1000, 700));

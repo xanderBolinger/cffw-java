@@ -41,8 +41,16 @@ import javax.swing.JPopupMenu;
 import javax.swing.Timer;
 
 import CeHexGrid.Chit.Facing;
+import Conflict.GameWindow;
 import CorditeExpansion.ActionOrder;
+import CorditeExpansion.CeAction;
+import CorditeExpansion.CeClickEvents;
+import CorditeExpansion.CeStatBlock;
+import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
+import CorditeExpansion.CorditeExpansionWindow;
+import CorditeExpansion.MoveAction;
+import CorditeExpansion.CeAction.ActionType;
 import Trooper.Trooper;
 import UtilityClasses.Keyboard;
 
@@ -171,12 +179,14 @@ public class CeHexGrid extends JPanel {
 			return;			
 		}
 		
-		System.out.println("Mouse Pressed");
+		//System.out.println("Mouse Pressed");
 		if(Chit.isAChitSelected()) {
 			Chit.moveSelectedChit(points[0], points[1]);
 		}
 		
 		Chit.unselectChit();
+		
+		
 		
 		// Check for click on chit
 		
@@ -205,7 +215,7 @@ public class CeHexGrid extends JPanel {
 		if(points == null)
 			return;
 		checkChitClick(e.getPoint());
-		System.out.println("Mouse Released");
+		//System.out.println("Mouse Released");
 		
 		//System.out.println("Released Cursor Hex, X: "+points[0]+", Y:"+points[1]);
 	}
@@ -240,9 +250,37 @@ public class CeHexGrid extends JPanel {
 
 	public void mouseRightClick(MouseEvent e) {
 		
+		int[] points = getHexFromPoint(e.getPoint());
+		
+		if(points == null) {
+			return;			
+		}
+		
+		if(CorditeExpansionGame.selectedTrooper != null && legalMoveClick(points[0], points[1])) {
+			CeClickEvents.addMoveAction(points[0], points[1]);
+		}
+		
 		selectTrooper(e.getPoint());
 		
 	}
+	
+	public boolean legalMoveClick(int x, int y) {
+		
+		int xCord = CorditeExpansionGame.selectedTrooper.ceStatBlock.chit.xCord;
+		int yCord = CorditeExpansionGame.selectedTrooper.ceStatBlock.chit.yCord;
+		
+		if(CorditeExpansionGame.selectedTrooper.ceStatBlock.getLastMoveAction() != null) {
+			xCord = CorditeExpansionGame.selectedTrooper.ceStatBlock.getLastMoveAction().lastCord().xCord;
+			yCord = CorditeExpansionGame.selectedTrooper.ceStatBlock.getLastMoveAction().lastCord().yCord;
+		}
+		
+		if(GameWindow.hexDif(x, y, xCord, yCord) > 1 || GameWindow.hexDif(x, y, xCord, yCord) == 0)
+			return false; 
+		else 
+			return true; 
+		
+	}
+	
 
 	public Polygon scaleHex(Polygon hex, AffineTransform at) {
 
@@ -266,9 +304,7 @@ public class CeHexGrid extends JPanel {
 	}
 	
 	public void selectTrooper(Point point) {
-		
-		
-		
+				
 		for(int i = 0; i < getChits().size(); i++) {
 			
 			Chit chit = getChits().get(i);
@@ -276,15 +312,17 @@ public class CeHexGrid extends JPanel {
 			if (imageBounds.contains(point) &&
 					CorditeExpansionGame.selectedTrooper == CorditeExpansionGame.actionOrder.get(i)) {
 				CorditeExpansionGame.selectedTrooper = null;
+				CorditeExpansionWindow.trooperList.clearSelection();
+				CorditeExpansionWindow.refreshCeLists();
 				return; 
 			} else if(imageBounds.contains(point)) {
 				CorditeExpansionGame.selectedTrooper = CorditeExpansionGame.actionOrder.get(i);
+				CorditeExpansionWindow.trooperList.setSelectedIndex(i);
+				CorditeExpansionWindow.refreshCeLists();
 				return;
 			}
 			
 		}
-
-		CorditeExpansionGame.selectedTrooper = null;
 
 	}
 	
@@ -610,6 +648,38 @@ public class CeHexGrid extends JPanel {
 		setOpacity(1f, g2);
 	}
 	
+	public void shadeHexes(Graphics2D g2) {
+		
+		if(CorditeExpansionGame.selectedTrooper != null) {
+			
+			CeStatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
+			
+			if(stat.acting() && stat.getAction().getActionType() == ActionType.MOVE) {
+				shadeMoveAction(g2, (MoveAction) stat.getAction());
+			}
+			
+			for(CeAction ceAction : stat.getCoac()) {
+				if(ceAction.getActionType() != ActionType.MOVE)
+					continue; 
+				
+				shadeMoveAction(g2, (MoveAction) ceAction);
+				
+			}
+			
+		}
+		
+	}
+	
+	public void shadeMoveAction(Graphics2D g2, MoveAction moveAction) {
+		
+		for(Cord cord : moveAction.cords) {
+			
+			shadeHex(g2, hexMap.get(cord.xCord).get(cord.yCord), Colors.GREEN);
+			
+		}
+		
+	}
+	
 	
 	@Override
 	public void paintComponent(Graphics g) {
@@ -693,6 +763,8 @@ public class CeHexGrid extends JPanel {
 			
 			
 		}
+		
+		shadeHexes(g2);
 		
 		drawHexMap(g2);
 

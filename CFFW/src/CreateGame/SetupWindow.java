@@ -158,7 +158,7 @@ public class SetupWindow implements Serializable {
 				} else {
 					game = conflict.game;
 					int activeUnit = conflict.activeUnit;
-					System.out.println(GameWindow.gameWindow.hexCols+","+GameWindow.gameWindow.hexRows);
+					//System.out.println(GameWindow.gameWindow.hexCols+","+GameWindow.gameWindow.hexRows);
 					Hexes hexes = new Hexes(conflict.hexes, GameWindow.gameWindow.hexCols, GameWindow.gameWindow.hexRows);
 					InitOrder initOrder = new InitOrder(conflict.initiativeOrder);
 					save = new SaveRunner(saveName, companies, game, hexes, initOrder, activeUnit);
@@ -214,7 +214,7 @@ public class SetupWindow implements Serializable {
 					save = new SaveRunner(saveName, companies, null, null, null, 0);
 				} else {
 					game = conflict.game;
-					System.out.println(GameWindow.gameWindow.hexCols+","+GameWindow.gameWindow.hexRows);
+					//System.out.println(GameWindow.gameWindow.hexCols+","+GameWindow.gameWindow.hexRows);
 					Hexes hexes = new Hexes(conflict.hexes, GameWindow.gameWindow.hexCols, GameWindow.gameWindow.hexRows);
 					InitOrder initOrder = new InitOrder(conflict.initiativeOrder);
 					save = new SaveRunner(saveName, companies, game, hexes, initOrder, conflict.activeUnit);

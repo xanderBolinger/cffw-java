@@ -14,11 +14,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ExcelUtility {
 	public static String path = System.getProperty("user.dir");
 
-	public static double getResultsTwoWayFixedValues(double value1, double value2, 
-			String fileName, boolean assendingRows, boolean assendingColumns) throws Exception {
+	public static double getResultsTwoWayFixedValues(double matchColumn, double matchRow, 
+			String fileName, boolean assendingColumns, boolean dessendingRows) throws Exception {
 
 		double result = -1;
 
+		//System.out.println("match column: "+matchColumn+", match row: "+matchRow);
+		
 		try {
 
 			FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "\\" + fileName));
@@ -27,18 +29,20 @@ public class ExcelUtility {
 			int columns = countColumns(worksheet);
 			int rows = countRows(worksheet);
 
-			int targetColumn = getTargetColumn(columns, value1, worksheet, assendingRows);
-
+			int targetColumn = getTargetColumn(columns, matchColumn, worksheet, assendingColumns);
+			//System.out.println("Target Column: "+targetColumn);
+			
 			if (targetColumn < 0) {
 				workbook.close();
-				throw new Exception("Value 1: "+value1+", not found in file: " + fileName);
+				throw new Exception("Value 1: "+matchColumn+", not found in file: " + fileName);
 			}
 
-			int targetRow = getTargetRow(rows, value2, worksheet, assendingColumns);
-
+			int targetRow = getTargetRow(rows, matchRow, worksheet, dessendingRows);
+			//System.out.println("Target Row: "+targetRow);
+			
 			if (targetRow < 0) {
 				workbook.close();
-				throw new Exception("Value 2:"+value2+" not found in file: " + fileName);
+				throw new Exception("Value 2:"+matchRow+" not found in file: " + fileName);
 			}
 
 			result = worksheet.getRow(targetRow).getCell(targetColumn).getNumericCellValue();
@@ -52,9 +56,10 @@ public class ExcelUtility {
 
 		if (result == -1) {
 			throw new Exception(
-					"Result for Value 1: " + value1 + ", Value 2: " + value2 + ", File: " + fileName + " not found.");
+					"Result for Value 1: " + matchColumn + ", Value 2: " + matchRow + ", File: " + fileName + " not found.");
 		}
 
+		//System.out.println("Result: "+result);
 		return result;
 	}
 

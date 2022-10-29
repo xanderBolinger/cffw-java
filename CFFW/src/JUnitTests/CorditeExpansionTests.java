@@ -11,9 +11,11 @@ import CorditeExpansion.ActionOrder;
 import CorditeExpansion.CeAction;
 import CeHexGrid.Chit.Facing;
 import CorditeExpansion.Cord;
+import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.MoveAction;
 import CorditeExpansion.MoveAction.MoveType;
 import Trooper.Trooper;
+import UtilityClasses.ExcelUtility;
 
 public class CorditeExpansionTests {
 	
@@ -104,7 +106,7 @@ public class CorditeExpansionTests {
 		
 		assertEquals(true, clone.ceStatBlock.getPosition().compare(new Cord(1,1)));
 		assertEquals(false, clone.ceStatBlock.getPosition().compare(new Cord(1,0)));
-		assertEquals(0, clone.ceStatBlock.actionsSize());
+		assertEquals(false, clone.ceStatBlock.acting());
 		
 		cords = new ArrayList<>();
 		cords.add(new Cord(1,2));
@@ -115,7 +117,7 @@ public class CorditeExpansionTests {
 		
 		assertEquals(true, clone.ceStatBlock.getPosition().compare(new Cord(1,2)));
 		
-		MoveAction moveAction = (MoveAction) clone.ceStatBlock.getActions(0);
+		MoveAction moveAction = (MoveAction) clone.ceStatBlock.getAction();
 		moveAction.addTargetHex(new Cord(1,4));
 		
 		clone.ceStatBlock.spendCombatAction();
@@ -125,7 +127,7 @@ public class CorditeExpansionTests {
 		cords.add(new Cord(1,5));
 		cords.add(new Cord(1,6));
 		cords.add(new Cord(1,7));
-		moveAction = (MoveAction) clone.ceStatBlock.getActions(0);
+		moveAction = (MoveAction) clone.ceStatBlock.getAction();
 		moveAction.addTargetHexes(cords);
 		
 		clone.ceStatBlock.spendCombatAction();
@@ -176,13 +178,13 @@ public class CorditeExpansionTests {
 		
 		CeAction.addMoveAction(MoveType.CRAWL, clone.ceStatBlock, cords, 2);
 		
-		assertEquals(0, clone.ceStatBlock.actionsSize());
+		assertEquals(false, clone.ceStatBlock.acting());
 		assertEquals(1, clone.ceStatBlock.coacSize());
 		
 		clone.ceStatBlock.prepareCourseOfAction();
 		clone.ceStatBlock.prepareCourseOfAction();
 		
-		assertEquals(1, clone.ceStatBlock.actionsSize());
+		assertEquals(true, clone.ceStatBlock.acting());
 		assertEquals(0, clone.ceStatBlock.coacSize());
 		
 		clone.ceStatBlock.spendCombatAction();
@@ -191,7 +193,7 @@ public class CorditeExpansionTests {
 		clone.ceStatBlock.spendCombatAction();
 		
 		assertEquals(true, clone.ceStatBlock.getPosition().compare(new Cord(1,1)));
-		assertEquals(0, clone.ceStatBlock.actionsSize());
+		assertEquals(false, clone.ceStatBlock.acting());
 		assertEquals(0, clone.ceStatBlock.coacSize());
 		
 		actionOrder.clear();
@@ -208,7 +210,74 @@ public class CorditeExpansionTests {
 		clone.ceStatBlock.spendCombatAction();
 		
 		assertEquals(Facing.AB, clone.ceStatBlock.getFacing());
-		
+	
+		actionOrder.clear();
 	}
+	
+	
+	
+	@Test 
+	public void corditeGameTimingTest() {
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		actionOrder.addTrooper(clone);
+		CorditeExpansionGame.actionOrder = actionOrder;
+		
+		clone.ceStatBlock.combatActions = 5; 
+		
+		assertEquals(1, CorditeExpansionGame.impulse.getValue());
+		assertEquals(2, clone.ceStatBlock.getActionTiming());
+		CorditeExpansionGame.action();
+		assertEquals(2, CorditeExpansionGame.impulse.getValue());
+		
+		//System.out.println("Test 2");
+		assertEquals(1, clone.ceStatBlock.getActionTiming());
+		CorditeExpansionGame.action();
+		assertEquals(3, CorditeExpansionGame.impulse.getValue());
+		
+		assertEquals(1, clone.ceStatBlock.getActionTiming());
+		CorditeExpansionGame.action();
+		assertEquals(4, CorditeExpansionGame.impulse.getValue());
+		
+		assertEquals(1, clone.ceStatBlock.getActionTiming());
+		CorditeExpansionGame.action();
+		assertEquals(1, CorditeExpansionGame.impulse.getValue());
+		
+		assertEquals(2, CorditeExpansionGame.round);
+		
+		actionOrder.clear();
+		CorditeExpansionGame.actionOrder.clear();
+	}
+	
+	@Test
+	public void corditeGameActionTest() {
+		actionOrder.clear();
+		CorditeExpansionGame.actionOrder.clear();
+		
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		actionOrder.addTrooper(clone);
+		CorditeExpansionGame.actionOrder = actionOrder;
+		
+		ArrayList<Cord> cords = new ArrayList<>();
+		cords.add(new Cord(1,1));
+		CeAction.addMoveAction(MoveType.STEP, clone.ceStatBlock, cords, 2);
+		
+		clone.ceStatBlock.combatActions = 5; 
+		
+		CorditeExpansionGame.action();
+		
+		assertEquals(true, clone.ceStatBlock.acting());
+		assertEquals(false, clone.ceStatBlock.getPosition().compare(new Cord(1,1)));
+		
+		CorditeExpansionGame.action();
+			
+		assertEquals(true, clone.ceStatBlock.getPosition().compare(new Cord(1,1)));	
+		assertEquals(3, clone.ceStatBlock.spentCombatActions);
+		
+		actionOrder.clear();
+		CorditeExpansionGame.actionOrder.clear();
+	}
+	
+	
+	
 	
 }
