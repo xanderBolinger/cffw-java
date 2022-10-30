@@ -13,6 +13,8 @@ import CeHexGrid.Colors;
 
 public class FloatingText {
 
+	
+	
 	private final String FONTNAME = "Tw Cen MT";
 	private final int FONTSIZE = 14;
 	private final int STYLE = Font.BOLD;
@@ -20,7 +22,7 @@ public class FloatingText {
 	private final Color BACKGROUND = Colors.GRAY;
 	private final int FLOATDISTANCE = 15;
 	private final float FLOATDURATION = 2;
-	private Cord cord;
+	public Cord cord;
 	private String content;
 
 	private Point drawPoint;
@@ -68,8 +70,13 @@ public class FloatingText {
 
 		g2.setColor(FOREGROUND);
 		g2.setFont(new Font(FONTNAME, STYLE, FONTSIZE)); 
-		g2.drawString(content, drawX, drawY);
-
+		//g2.drawString(content, drawX, drawY);
+		
+		for (String line : content.split("\n"))
+	        g2.drawString(line, drawX, drawY += g2.getFontMetrics().getHeight());
+		
 	}
 
+	 
+	
 }

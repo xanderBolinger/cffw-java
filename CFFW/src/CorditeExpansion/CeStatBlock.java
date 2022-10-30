@@ -3,11 +3,14 @@ package CorditeExpansion;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import CeHexGrid.Chit;
 import CeHexGrid.Chit.Facing;
 import CorditeExpansion.CeAction.ActionType;
 import CorditeExpansion.CorditeExpansionGame.Impulse;
+import Items.Weapons;
 import Trooper.Trooper;
 import Trooper.Trooper.MaximumSpeed;
 import UtilityClasses.ExcelUtility;
@@ -29,6 +32,11 @@ public class CeStatBlock {
 	private ArrayList<CeAction> coac = new ArrayList<>();
 	
 	public boolean hesitating = false; 
+	public boolean inCover = false;
+	public boolean stabalized = false;
+	
+	public Weapons weapon;
+	public int weaponPercent;
 	
 	public Chit chit; 
 	
@@ -66,6 +74,16 @@ public class CeStatBlock {
 		quickness = trooper.maximumSpeed.get();
 		combatActions = trooper.combatActions;
 		adaptabilityFactor = 1+Math.round(((trooper.getSkill("Fighter")/10)%10)/2);
+		weapon = new Weapons().findWeapon(trooper.wep);
+		
+		//System.out.println("str: "+trooper.weaponPercent);
+		Matcher match = Pattern.compile("[0-9]+").matcher(trooper.weaponPercent);
+		
+		if(match.find()) {
+			weaponPercent = Integer.parseInt(match.group(0));			
+		}
+		
+		//System.out.println("Weapon Percent: "+weaponPercent+", Ergo: "+weapon.ceStats.baseErgonomics);
 		
 		chit = new Chit();
 	}
@@ -78,6 +96,10 @@ public class CeStatBlock {
 		if(cord.facing != null)
 			setFacing(cord.facing);
 		
+		if(moveSpeed != MoveSpeed.CRAWL || moveSpeed != MoveSpeed.STEP) 
+			stabalized = false;
+		
+		
 	}
 	
 	public void spendCombatAction() {	
@@ -86,6 +108,7 @@ public class CeStatBlock {
 			return;
 		}
 		
+		System.out.println("spend spend");
 		activeAction.spendCombatAction();
 		
 		if(activeAction.completed()) {
@@ -102,8 +125,10 @@ public class CeStatBlock {
 			return;
 		}
 		
+		System.out.println("prepare spend");
 		coac.get(0).spendCombatAction();
 		if(coac.get(0).ready()) {
+			System.out.println("ready");
 			addAction(coac.remove(0));
 		}
 
@@ -151,6 +176,7 @@ public class CeStatBlock {
 	}
 	
 	public void addAction(CeAction action) {
+		System.out.println("set action");
 		activeAction = action;
 	}
 	
@@ -238,6 +264,9 @@ public class CeStatBlock {
 		results.add("AF: "+adaptabilityFactor+", HESITATING: "+hesitating);
 		results.add("Speed: "+moveSpeed.toString());
 		results.add("Stance: "+stance.toString());
+		results.add("In Cover: "+inCover);
+		results.add("Stabalized: "+stabalized);
+		
 		return results; 
 	}
 	
@@ -264,6 +293,13 @@ public class CeStatBlock {
 	
 	public void setSprint() {
 		moveSpeed = MoveSpeed.SPRINT;
+	}
+	
+	public void toggleCover() {
+		if(inCover)
+			inCover = false; 
+		else 
+			inCover = true;
 	}
 	
 	// the below methods are for testing 

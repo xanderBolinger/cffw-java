@@ -448,6 +448,12 @@ public class CorditeExpansionWindow extends JFrame {
 				actionList.clearSelection();
 				actionList.setSelectedIndex(-1);
 
+				if(detailsList.getSelectedIndex() == 6) {
+					CorditeExpansionGame.selectedTrooper.ceStatBlock.toggleCover();
+				}
+				
+				refreshCeDetailsList(CorditeExpansionGame.selectedTrooper);
+				
 			}
 		});
 		scrollPane_1_1.setViewportView(detailsList);
@@ -630,6 +636,7 @@ public class CorditeExpansionWindow extends JFrame {
 	}
 
 	public static void refreshCeDetailsList(Trooper trooper) {
+		
 		ArrayList<String> ceStats = new ArrayList<>();
 
 		if (trooper != null) {

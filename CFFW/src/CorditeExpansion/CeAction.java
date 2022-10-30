@@ -10,7 +10,7 @@ import UtilityClasses.Keyboard;
 public interface CeAction {
 	
 	public enum ActionType {
-		MOVE,TURN,CHANGESTANCE
+		MOVE,TURN,CHANGESTANCE,STABALIZE
 	}
 	
 	@Override
@@ -72,6 +72,11 @@ public interface CeAction {
 	
 	public static void addChangeStanceAction(CeStatBlock statBlock, Stance targetStance) {
 		statBlock.addAction(new ChangeStanceAction(statBlock, targetStance));
+	}
+	
+	public static void addStabalizeAction(CeStatBlock statBlock) {
+		System.out.println("add action");
+		statBlock.addActionCoac(new StabalizeAction(statBlock));
 	}
 	
 }

@@ -50,6 +50,7 @@ import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.CorditeExpansionWindow;
 import CorditeExpansion.FloatingText;
+import CorditeExpansion.FloatingTextManager;
 import CorditeExpansion.MoveAction;
 import CorditeExpansion.TurnAction;
 import CorditeExpansion.CeAction.ActionType;
@@ -83,7 +84,7 @@ public class CeHexGrid extends JPanel {
 	private ArrayList<Polygon> shapeList = new ArrayList<>();
 	public static ArrayList<ArrayList<Polygon>> hexMap = new ArrayList<>();
 	
-	public static ArrayList<FloatingText> floatingText = new ArrayList<>();
+	
 	
 	private ArrayList<DrawnString> drawnStrings = new ArrayList<>();
 	
@@ -685,7 +686,7 @@ public class CeHexGrid extends JPanel {
 	}
 	
 	public void drawFloatingText(Graphics2D g2) {
-		for(FloatingText text : floatingText) {
+		for(FloatingText text : FloatingTextManager.getFloatingText()) {
 			text.draw(g2);
 		}
 	}
