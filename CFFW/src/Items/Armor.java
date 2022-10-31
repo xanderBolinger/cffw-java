@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
+import UtilityClasses.ExcelUtility;
 import UtilityClasses.Location;
 import UtilityClasses.PCUtility;
 
@@ -757,6 +758,16 @@ public class Armor implements Serializable {
 	}
 	
 	
+	public boolean isZoneProtected(int roll, boolean open) {
+		
+		if(open) {
+			return getProtectedOpen(roll);
+		} else {
+			return getProtected(roll);
+		}
+ 		
+	}
+	
 	public boolean getProtectedOpen(int roll) {
 		
 		boolean protectedZone = true;
@@ -826,6 +837,19 @@ public class Armor implements Serializable {
 		
 		return pf;
 	
+	}
+	
+	public int getModifiedProtectionFactor(int hitLocation, boolean open) throws Exception {
+		
+		int bPF = getBPF(hitLocation, open);
+		
+		try {
+			return (int) ExcelUtility.getResultsTwoWayFixedValues(hitLocation, bPF, "protectionfactortable.xlsx", true, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		throw new Exception("Modified protection factor not found");
 	}
 	
 	public ArrayList<String> getLocations() {

@@ -3,6 +3,7 @@ package Items;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Conflict.GameWindow;
 import UtilityClasses.Location;
 import UtilityClasses.PCUtility;
 
@@ -102,6 +103,53 @@ public class PersonalShield implements Serializable {
 		protectedZones.add(zone1);
 	}
 
+	public boolean isZoneProtected(int roll, boolean open) {
+		
+		if(open) {
+			return getProtectedOpen(roll);
+		} else {
+			return getProtected(roll);
+		}
+		
+	}
+	
+	private boolean getProtectedOpen(int roll) {
+		
+		boolean protectedZone = false;
+		
+		for(int i = 0; i < protectedZonesOpen.size(); i++) {
+			//System.out.println("Excluded Zone: "+excludedZonesOpen.get(i).get(0)+", "+excludedZonesOpen.get(i).get(1));
+			if(roll >= protectedZonesOpen.get(i).get(0) && roll <= protectedZonesOpen.get(i).get(1)) {
+				protectedZone = true; 
+				break; 
+			}
+		}
+
+		if(GameWindow.gameWindow != null && GameWindow.gameWindow.conflictLog != null) {
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shield Wearer Hit Open, Location Roll: "+roll+", Protected: "+protectedZone);
+		}
+		
+		return protectedZone; 
+	}
+	
+	private boolean getProtected(int roll) {
+		
+		boolean protectedZone = false; 
+		
+		for(int i = 0; i < protectedZones.size(); i++) {
+			//System.out.println("Excluded Zone: "+excludedZones.get(i).get(0)+", "+excludedZones.get(i).get(1));
+			if(roll >= protectedZones.get(i).get(0) && roll <= protectedZones.get(i).get(1)) {
+				protectedZone = true; 
+				break; 
+			}
+		}
+		
+		if(GameWindow.gameWindow != null && GameWindow.gameWindow.conflictLog != null) {
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shield Wearer Hit Fire Position, Location Roll: "+roll+", Protected: "+protectedZone);
+		}
+		
+		return protectedZone; 
+	}
 	
 	public ArrayList<String> getLocations() {
 		ArrayList<String> rslts = new ArrayList<>();

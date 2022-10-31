@@ -10,6 +10,7 @@ import org.junit.Test;
 import CorditeExpansion.ActionOrder;
 import CorditeExpansion.AimAction;
 import CorditeExpansion.CeAction;
+import CorditeExpansion.CeDamage;
 import CorditeExpansion.CeStatBlock;
 import CeHexGrid.Chit.Facing;
 import CorditeExpansion.Cord;
