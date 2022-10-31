@@ -84,21 +84,6 @@ public class CeHexGrid extends JPanel {
 	private ArrayList<Polygon> shapeList = new ArrayList<>();
 	public static ArrayList<ArrayList<Polygon>> hexMap = new ArrayList<>();
 	
-	
-	
-	private ArrayList<DrawnString> drawnStrings = new ArrayList<>();
-	
-	class DrawnString {
-		public String text;
-		public Point position;
-
-		// Insert constructor and getter methods here
-		public DrawnString(String text, Point position) {
-			this.text = text;
-			this.position = position;
-		}
-
-	}
 	//public ArrayList<DeployedUnit> selectedUnits = new ArrayList<>();
 	//public DeployedUnit selectedUnit = null;
 	public int selectedUnitIndex = 0;
@@ -157,11 +142,6 @@ public class CeHexGrid extends JPanel {
 		
 		//chits.add(new Chit());
 		//addTemporaryChits();
-		
-		
-		
-		
-	
 		
 		new Timer(20, new TimerListener()).start();
 	
@@ -262,6 +242,14 @@ public class CeHexGrid extends JPanel {
 			return;			
 		}
 		
+		if(CorditeExpansionGame.selectedTrooper != null && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL) && CorditeExpansionGame.selectedTrooper.ceStatBlock.aiming) {
+			checkAimClick(e.getPoint());
+			return;
+		} else if(CorditeExpansionGame.selectedTrooper != null && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL) && !CorditeExpansionGame.selectedTrooper.ceStatBlock.aiming) {
+			checkFireClick(e.getPoint());
+			return;
+		}
+		
 		if(CorditeExpansionGame.selectedTrooper != null && legalMoveClick(points[0], points[1])) {
 			CeClickEvents.addMoveAction(points[0], points[1]);
 		}
@@ -269,6 +257,34 @@ public class CeHexGrid extends JPanel {
 		selectTrooper(e.getPoint());
 		
 	}
+	
+	public void checkFireClick(Point point) {
+		
+	}
+	
+	public void checkAimClick(Point point) {
+		
+		//System.out.println("Chits size: "+getChits().size());
+		for(int i = 0; i < getChits().size(); i++) {
+			
+			Chit chit = getChits().get(i);
+			Rectangle imageBounds = new Rectangle(chit.xPoint, chit.yPoint, chit.getWidth(), chit.getHeight());
+			
+			if (imageBounds.contains(point)) {
+				//System.out.println("pass set target");
+				CeClickEvents.setAimTarget(CorditeExpansionGame.actionOrder.get(i));
+				return;
+			}  
+			
+		}
+		
+		if(getHexFromPoint(point) != null) {
+			//System.out.println("set hex");
+			int[] cords = getHexFromPoint(point);
+			CeClickEvents.addAimHex(new Cord(cords[0], cords[1]));
+		} 
+	}
+	
 	
 	public boolean legalMoveClick(int x, int y) {
 		
@@ -398,8 +414,8 @@ public class CeHexGrid extends JPanel {
 
 				shapeList.add(hex);
 
-				drawnStrings.add(new DrawnString(i + ":" + j,
-						new Point((int) (cordX + j * ((3 * s) / 2)), (int) (cordY + (j % 2) * a + 2 * i * a))));
+				/*drawnStrings.add(new DrawnString(i + ":" + j,
+						new Point((int) (cordX + j * ((3 * s) / 2)), (int) (cordY + (j % 2) * a + 2 * i * a))));*/
 			}
 
 			hexMap.add(row);

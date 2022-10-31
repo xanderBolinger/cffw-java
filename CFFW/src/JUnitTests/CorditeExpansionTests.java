@@ -8,7 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import CorditeExpansion.ActionOrder;
+import CorditeExpansion.AimAction;
 import CorditeExpansion.CeAction;
+import CorditeExpansion.CeStatBlock;
 import CeHexGrid.Chit.Facing;
 import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
@@ -398,6 +400,50 @@ public class CorditeExpansionTests {
 		fighter = 75; 
 		fighterTens = (fighter/10)%10; 
 		assertEquals(4, Math.round(fighterTens/2)+1);
+		
+		actionOrder.clear();
+	}
+	
+	@Test
+	public void aimTest() {
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		actionOrder.addTrooper(clone);
+		
+		
+		CeStatBlock stat = clone.ceStatBlock;
+		stat.combatActions = 4;
+		
+		Cord cord1 = new Cord(1,1);
+		Cord cord2 = new Cord(1,2);
+		Cord cord3 = new Cord(1,3);
+		Cord cord4 = new Cord(1,4);
+		
+		CeAction.addAimAciton(clone.ceStatBlock,cord1);
+		
+		//AimAction aimAction = (AimAction) stat.getAimAction();
+		AimAction aimAction = (AimAction) stat.getCoac().get(0);
+				
+		aimAction.addTargetHex(cord2);
+		aimAction.addTargetHex(cord3);
+		
+		assertEquals(true, clone.ceStatBlock.aimHexes.contains(cord1));
+		assertEquals(true, clone.ceStatBlock.aimHexes.contains(cord2));
+		assertEquals(true, clone.ceStatBlock.aimHexes.contains(cord3));
+		
+		aimAction.addTargetHex(cord4);
+		
+		assertEquals(false, clone.ceStatBlock.aimHexes.contains(cord1));
+		assertEquals(true, clone.ceStatBlock.aimHexes.contains(cord2));
+		assertEquals(true, clone.ceStatBlock.aimHexes.contains(cord3));
+		assertEquals(true, clone.ceStatBlock.aimHexes.contains(cord4));
+		
+		stat.prepareCourseOfAction();
+		stat.prepareCourseOfAction();
+		stat.spendCombatAction();
+		stat.spendCombatAction();
+		stat.spendCombatAction();
+		
+		assertEquals(3, stat.aimTime);
 		
 		actionOrder.clear();
 	}

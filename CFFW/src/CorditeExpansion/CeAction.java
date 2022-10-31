@@ -5,12 +5,13 @@ import java.util.ArrayList;
 
 import CeHexGrid.Chit.Facing;
 import CorditeExpansion.CeStatBlock.Stance;
+import Trooper.Trooper;
 import UtilityClasses.Keyboard;
 
 public interface CeAction {
 	
 	public enum ActionType {
-		MOVE,TURN,CHANGESTANCE,STABALIZE
+		MOVE,TURN,CHANGESTANCE,STABALIZE,AIM,FIRE
 	}
 	
 	@Override
@@ -77,6 +78,28 @@ public interface CeAction {
 	public static void addStabalizeAction(CeStatBlock statBlock) {
 		System.out.println("add action");
 		statBlock.addActionCoac(new StabalizeAction(statBlock));
+	}
+	
+	public static void addAimAciton(CeStatBlock statBlock, Cord cord) {
+		
+		statBlock.aimHexes.clear();
+		statBlock.aimTarget = null; 
+		statBlock.aimTime = 0;
+		
+		AimAction action = new AimAction(statBlock);
+		action.addTargetHex(cord);
+		statBlock.addActionCoac(action);
+	}
+	
+	public static void addAimAciton(CeStatBlock statBlock, Trooper target) {
+		
+		statBlock.aimHexes.clear();
+		statBlock.aimTarget = null; 
+		statBlock.aimTime = 0;
+		
+		AimAction action = new AimAction(statBlock);
+		action.setTargetTrooper(target);
+		statBlock.addActionCoac(action);
 	}
 	
 }

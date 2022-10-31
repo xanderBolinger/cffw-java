@@ -151,7 +151,7 @@ public class TargetedFire implements Serializable {
 		targetUnit.setStance(targetTrooper, game);
 		String stance = targetTrooper.stance;
 	
-		sizeALM = findSizeALM(stance, targetTrooper.PCSize);
+		sizeALM = PCUtility.findSizeALM(stance, targetTrooper.PCSize);
 		
 		if(weapon.type.equals("Launcher")) {
 			sizeALM = 12; 
@@ -1153,59 +1153,7 @@ public class TargetedFire implements Serializable {
 	}
 	
 	
-	// Takes trooper PC size in yards 
-	// Modifies trooper size from stance 
-	// Finds size ALM 
-	// Returns size ALM 
-	public int findSizeALM(String stance, double size) {
-		
-		if(stance.equals("Standing")) {
-			//System.out.println("Standing");
-			size = size / 1; 
-		} else if(stance.equals("Crouching")) {
-			//System.out.println("Crouching");
-			size = size / 1.25;
-		} else {
-			//System.out.println("Prone");
-			size = size / 2; 
-		}
-		
-		int sizeALM = 0;
-		
-		// Finds range ALM 
-		FileInputStream excelFile;
-		try {
-			excelFile = new FileInputStream(new File(path+"\\PC Hit Calc Xlsxs\\"
-					+ "size.xlsx"));
-			Workbook workbook = new XSSFWorkbook(excelFile);
-		    Sheet worksheet = workbook.getSheetAt(0);
-				
-		    int row = 0; 
-		    
-		    for(int i = 1; i <53; i++) {
-		    	
-		    	if(size <= worksheet.getRow(i).getCell(0).getNumericCellValue()) {
-		    		row = i; 
-		    		break; 
-		    	}
-		    	
-		    }
-		    
-		    sizeALM = (int) worksheet.getRow(row).getCell(1).getNumericCellValue();
-		    workbook.close();
-		    excelFile.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		//System.out.println("Range ALM: "+sizeALM);
-		return sizeALM;
-		
-	}
+	
 	
 	
 	

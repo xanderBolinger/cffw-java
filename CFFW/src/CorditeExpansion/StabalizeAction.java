@@ -21,12 +21,10 @@ public class StabalizeAction implements CeAction {
 	public void spendCombatAction() {
 		
 		if(!ready()) {
-			System.out.println("ready 2");
 			spentCoac++;
 			return; 
 		}
 		
-		System.out.println("Spend");
 		
 		// stabalize check
 		int roll = DiceRoller.randInt(1, 100);

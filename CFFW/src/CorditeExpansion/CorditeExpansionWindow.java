@@ -145,6 +145,16 @@ public class CorditeExpansionWindow extends JFrame {
 
 				CeAction.addMoveAction(clone.ceStatBlock, cords, 2);
 
+				
+				Trooper b1 = new Trooper("B1 Rifleman", "CIS Battle Droid");
+				actionOrder.addTrooper(b1);
+				b1.ceStatBlock.chit.xCord = 4;
+				b1.ceStatBlock.chit.facing = Facing.A;
+
+				// actionOrder.addTrooper(cloneMarksman);
+				// actionOrder.addTrooper(b1);
+
+				
 				// clone.ceStatBlock.chit.facing = Facing.BC;
 				// clone.ceStatBlock.chit.facing = Facing.B;
 
@@ -219,7 +229,7 @@ public class CorditeExpansionWindow extends JFrame {
 			@Override
 			public void mousePressed(MouseEvent m) {
 
-				System.out.println("Mouse Pressed");
+				//System.out.println("Mouse Pressed");
 
 				tx = m.getX();
 				ty = m.getY();
@@ -445,14 +455,24 @@ public class CorditeExpansionWindow extends JFrame {
 				if (detailsList.getSelectedIndex() < 0)
 					return;
 
+				int index = detailsList.getSelectedIndex();
+				
 				actionList.clearSelection();
 				actionList.setSelectedIndex(-1);
 
 				if(detailsList.getSelectedIndex() == 6) {
 					CorditeExpansionGame.selectedTrooper.ceStatBlock.toggleCover();
+				} else if(detailsList.getSelectedIndex() == 8) {
+					CorditeExpansionGame.selectedTrooper.ceStatBlock.toggleAiming();
+				} else if(detailsList.getSelectedIndex() == 9) {
+					CorditeExpansionGame.selectedTrooper.ceStatBlock.toggleFullauto();
 				}
 				
 				refreshCeDetailsList(CorditeExpansionGame.selectedTrooper);
+				
+				if(index != 6 && index != 8 && index != 9 &&  index < detailsList.getModel().getSize() - 1 ) {
+					detailsList.setSelectedIndex(index);
+				}
 				
 			}
 		});

@@ -23,7 +23,7 @@ public class FloatingText {
 	private final int FLOATDISTANCE = 15;
 	private final float FLOATDURATION = 2;
 	public Cord cord;
-	private String content;
+	public String content;
 
 	private Point drawPoint;
 	private float floatTime;
@@ -66,7 +66,7 @@ public class FloatingText {
 			drawY = hex.getBounds().y + hex.getBounds().height / 5 - (int) (FLOATDISTANCE * floatTime / FLOATDURATION);*/
 
 		g2.setColor(BACKGROUND);
-		g2.fillRect(drawX, drawY - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
+		//g2.fillRect(drawX, drawY - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
 
 		g2.setColor(FOREGROUND);
 		g2.setFont(new Font(FONTNAME, STYLE, FONTSIZE)); 

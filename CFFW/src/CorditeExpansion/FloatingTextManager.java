@@ -9,12 +9,14 @@ public class FloatingTextManager {
 		
 		for(FloatingText text : floatingText) {
 			
-			if(text.cord == cord) {
-				//text.
+			if(text.cord.compare(cord)) {
+				text.content += "\n" + content;
 				return;
 			}
 			
 		}
+		
+		floatingText.add(new FloatingText(cord, content));
 		
 	}
 	

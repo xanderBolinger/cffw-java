@@ -225,7 +225,7 @@ public class ReactionToFireWindow {
 				}
 				
 				openTrooper.targetedFire.EAL -= openTrooper.targetedFire.sizeALM;
-				openTrooper.targetedFire.EAL += openTrooper.targetedFire.findSizeALM("Prone", reactingTrooper.PCSize);
+				//openTrooper.targetedFire.EAL += openTrooper.targetedFire.findSizeALM("Prone", reactingTrooper.PCSize);
 				openTrooper.windowOpenTrooper.PCShots();
 				openTrooper.windowOpenTrooper.PCFireGuiUpdates();
 				frame.dispose();

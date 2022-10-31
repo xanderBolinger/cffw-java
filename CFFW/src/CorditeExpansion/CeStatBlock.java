@@ -38,6 +38,13 @@ public class CeStatBlock {
 	public Weapons weapon;
 	public int weaponPercent;
 	
+	public int aimTime = 0;
+	public Trooper aimTarget; 
+	public ArrayList<Cord> aimHexes = new ArrayList<>();
+	
+	public boolean aiming = true;
+	public boolean fullAuto = false;
+	
 	public Chit chit; 
 	
 	public enum Stance {
@@ -96,8 +103,12 @@ public class CeStatBlock {
 		if(cord.facing != null)
 			setFacing(cord.facing);
 		
-		if(moveSpeed != MoveSpeed.CRAWL || moveSpeed != MoveSpeed.STEP) 
+		if(moveSpeed != MoveSpeed.CRAWL && moveSpeed != MoveSpeed.STEP) {
 			stabalized = false;
+			aimTime = 0;
+			aimHexes.clear();
+			aimTarget = null;
+		}
 		
 		
 	}
@@ -108,7 +119,7 @@ public class CeStatBlock {
 			return;
 		}
 		
-		System.out.println("spend spend");
+		//System.out.println("spend spend");
 		activeAction.spendCombatAction();
 		
 		if(activeAction.completed()) {
@@ -125,7 +136,7 @@ public class CeStatBlock {
 			return;
 		}
 		
-		System.out.println("prepare spend");
+		//System.out.println("prepare spend");
 		coac.get(0).spendCombatAction();
 		if(coac.get(0).ready()) {
 			System.out.println("ready");
@@ -176,7 +187,7 @@ public class CeStatBlock {
 	}
 	
 	public void addAction(CeAction action) {
-		System.out.println("set action");
+		//System.out.println("set action");
 		activeAction = action;
 	}
 	
@@ -215,6 +226,16 @@ public class CeStatBlock {
 			return activeAction;
 		}
 		
+		if(coac.size() < 1)
+			return null;
+		
+		if(CorditeExpansionWindow.actionList.getSelectedIndex() < 0 || coac.get(CorditeExpansionWindow.actionList.getSelectedIndex()).getActionType() != ActionType.TURN) {
+			for(CeAction action : coac) {
+				if(action.getActionType() == ActionType.TURN)
+					return action;
+			}
+		}
+		
 		if(CorditeExpansionWindow.actionList.getSelectedIndex() < 0)
 			return null;
 		
@@ -225,6 +246,36 @@ public class CeStatBlock {
 		
 	}
 	
+	public AimAction getAimAction() {
+		
+		// Active Aim Action 
+		if(activeAction != null && activeAction.getActionType() == ActionType.AIM) {
+			return (AimAction) activeAction;
+		}
+		
+		// Selected aim action 
+		int selectedIndex = CorditeExpansionWindow.actionList.getSelectedIndex();
+		
+		if(selectedIndex < 0)
+			return null;
+		
+		// If selected action not an aim action, search for one
+		// Otherwise, return selected aim action
+		if(coac.get(CorditeExpansionWindow.actionList.getSelectedIndex()).getActionType() != ActionType.AIM) {
+			
+			for(CeAction action : coac) {
+				if(action.getActionType() == ActionType.AIM)
+					return (AimAction) action;
+			}
+			
+		} else {
+			return (AimAction) coac.get(CorditeExpansionWindow.actionList.getSelectedIndex());
+		}
+		
+		return null; 
+		
+		
+	}
 	
 	public ArrayList<CeAction> getCoac() {
 		return coac;
@@ -267,9 +318,17 @@ public class CeStatBlock {
 		results.add("In Cover: "+inCover);
 		results.add("Stabalized: "+stabalized);
 		
+		String aimingFiring = "aiming";
+		
+		if(!aiming)
+			aimingFiring = "firing";
+		
+		results.add("aiming/firing: "+aimingFiring);
+		results.add("Fullatuo: "+fullAuto);
+		
+		
 		return results; 
 	}
-	
 	
 	public boolean acting() {
 		return activeAction != null ? true : false; 
@@ -302,8 +361,21 @@ public class CeStatBlock {
 			inCover = true;
 	}
 	
-	// the below methods are for testing 
+	public void toggleAiming() {
+		if(aiming)
+			aiming = false;
+		else
+			aiming = true;
+	}
 	
+	public void toggleFullauto() {
+		if(fullAuto)
+			fullAuto = false;
+		else
+			fullAuto = true;
+	}
+	
+	// the below methods are for testing 
 	public int coacSize() {
 		return coac.size();
 	}
