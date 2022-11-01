@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
+import UtilityClasses.DiceRoller;
 import UtilityClasses.ExcelUtility;
 import UtilityClasses.Location;
 import UtilityClasses.PCUtility;
@@ -806,6 +807,41 @@ public class Armor implements Serializable {
 		return protectedZone; 
 	}
 	
+	public int getPF(int hitLocation, boolean open) {
+		
+		if(open) {
+			return getProtectionFactorOpen(hitLocation, open);
+		} else {
+			return getProtectionFactor(hitLocation, open);
+		}
+		
+	}
+	
+	private int getProtectionFactor(int roll, boolean open) {
+
+		int PF = 0;
+
+		if (getProtected(roll))
+			PF = getBPF(roll, open);
+
+		// System.out.println("PF: "+PF);
+		return PF;
+
+	}
+
+	private int getProtectionFactorOpen(int roll, boolean open) {
+
+		int PF = 0;
+		// System.out.println("Roll: "+roll);
+		if (getProtectedOpen(roll)) {
+			PF = getBPF(roll, open);
+		}
+
+		// System.out.println("PF1: "+PF);
+		return PF;
+
+	}
+	
 	public int getBPF(int roll, boolean open) {
 		
 		//System.out.println("getBPF: "+roll);
@@ -824,7 +860,7 @@ public class Armor implements Serializable {
 		//System.out.println("Zone Values: "+zonesValues.size());
 		//System.out.println("Zone PF: "+zonePF.size());
 		for(int i = 0; i < zonesValues.size(); i++) {
-			System.out.println("zonesValues: "+zonesValues.get(i).get(0)+", "+zonesValues.get(i).get(1));
+			//System.out.println("zonesValues: "+zonesValues.get(i).get(0)+", "+zonesValues.get(i).get(1));
 			if(roll >= zonesValues.get(i).get(0) && roll <= zonesValues.get(i).get(1)) {
 				pf = zonePF.get(i); 
 				break; 
@@ -839,12 +875,12 @@ public class Armor implements Serializable {
 	
 	}
 	
-	public int getModifiedProtectionFactor(int hitLocation, boolean open) throws Exception {
+	public int getModifiedProtectionFactor(int hitLocation, int bPF, boolean open) throws Exception {
 		
-		int bPF = getBPF(hitLocation, open);
-		
+		int glanceRoll = DiceRoller.randInt(0, 9);
+		//System.out.println("glance roll: "+glanceRoll);
 		try {
-			return (int) ExcelUtility.getResultsTwoWayFixedValues(hitLocation, bPF, "protectionfactortable.xlsx", true, true);
+			return (int) ExcelUtility.getResultsTwoWayFixedValues(glanceRoll, bPF, "protectionfactortable.xlsx", true, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
