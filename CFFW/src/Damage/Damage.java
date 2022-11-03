@@ -1,7 +1,20 @@
 package Damage;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
+import UtilityClasses.ExcelUtility;
 
 public class Damage {
 
@@ -22,6 +35,20 @@ public class Damage {
 		
 		
 	}
+	
+	public String getDamageString(int epen, int dc, boolean open, int roll) throws IOException {
+		
+		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "hittable.xlsx"));
+		Workbook workbook = new XSSFWorkbook(excelFile);
+		Sheet worksheet = workbook.getSheetAt(0);
+		
+		
+		workbook.close();
+		
+		return ""; 
+		
+	}
+	
 	
 	public int getPen(int pen, int hitLocation, boolean open, Trooper trooper) {
 		pen = Damage.shieldEpen(hitLocation, pen, open, trooper);
