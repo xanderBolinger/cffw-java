@@ -880,7 +880,7 @@ public class Armor implements Serializable {
 		int glanceRoll = DiceRoller.randInt(0, 9);
 		//System.out.println("glance roll: "+glanceRoll);
 		try {
-			return (int) ExcelUtility.getResultsTwoWayFixedValues(glanceRoll, bPF, "protectionfactortable.xlsx", true, true);
+			return (int) ExcelUtility.getNumberFromSheet(glanceRoll, bPF, "Formatted Excel Files\\protectionfactortable.xlsx", true, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

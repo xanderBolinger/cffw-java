@@ -210,7 +210,7 @@ public class StatBlock {
 		//System.out.println("impulse: "+impulse);
 		//System.out.println("combatActions: "+combatActions);
 		try {
-			actions = (int) ExcelUtility.getResultsTwoWayFixedValues(impulse, combatActions, "caperimpulse.xlsx", true, true);
+			actions = (int) ExcelUtility.getNumberFromSheet(impulse, combatActions, "caperimpulse.xlsx", true, true);
 			//System.out.println("Actions: "+ExcelUtility.getResultsTwoWayFixedValues(impulse, combatActions, "caperimpulse.xlsx", false, true));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

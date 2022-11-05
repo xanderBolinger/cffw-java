@@ -1,5 +1,6 @@
 package CorditeExpansionStatBlock;
 
+import CorditeExpansionDamage.Damage;
 import UtilityClasses.TrooperUtility;
 
 public class MedicalStatBlock {
@@ -8,12 +9,38 @@ public class MedicalStatBlock {
 	public Status status = Status.NORMAL;
 	public int spentCa = 0;
 	public int statusDuration = 0;
-	
+	public int incapTime = 0; 
+	public int timeSpentIncapacitated = 0;
+	private boolean conscious = true;
+	private boolean alive = true;
 	
 	
 	public enum Status {
 		NORMAL,DAZED,DISORIENTED,STUNNED
 	}
+	
+	public boolean conscious() {
+		return conscious;
+	}
+	
+	public void setConscious(int pd, StatBlock statBlock) {
+		conscious = true;
+		incapTime = 0; 
+		timeSpentIncapacitated = 0;
+		setDisoriented(pd, statBlock);
+	}
+	
+	public void setUnconscious(int pd) {
+		conscious = false;
+		setNormal();
+		
+		try {
+			incapTime = Damage.incapacitationImpulses(pd);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	public void setStunned(int pd, StatBlock statBlock) {
 		
@@ -54,12 +81,16 @@ public class MedicalStatBlock {
 		spentCheck(statBlock);
 	}
 	
+	public void setNormal() {
+		statusDuration = 0; 
+		spentCa = 0;
+		status = Status.NORMAL;
+	}
+	
 	public void recoverCheck(StatBlock statBlock) {
 		
 		if(spentCa >= statusDuration) {
-			statusDuration = 0; 
-			spentCa = 0;
-			status = Status.NORMAL;
+			setNormal();
 		}
 		
 		statBlock.combatActions = TrooperUtility.calculateCA(statBlock.trooper.maximumSpeed.get(), 

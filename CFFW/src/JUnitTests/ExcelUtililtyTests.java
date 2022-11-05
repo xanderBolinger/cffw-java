@@ -45,19 +45,19 @@ public class ExcelUtililtyTests {
 	
 	@Test
 	public void findMaxSpeed() throws Exception {
-		assertEquals(2.0, ExcelUtility.getResultsTwoWayFixedValues(1, 21, "MaximumSpeed.xlsx", true, false), 0);
-		assertEquals(3.0, ExcelUtility.getResultsTwoWayFixedValues(4.5, 1, "MaximumSpeed.xlsx", true, false), 0);
-		assertEquals(1.0, ExcelUtility.getResultsTwoWayFixedValues(1, 1, "MaximumSpeed.xlsx", true, false), 0);
-		assertEquals(13.0, ExcelUtility.getResultsTwoWayFixedValues(4.5, 21, "MaximumSpeed.xlsx", true, false), 0);
-		assertEquals(6.0, ExcelUtility.getResultsTwoWayFixedValues(2.5, 13, "MaximumSpeed.xlsx", true, false), 0);
+		assertEquals(2.0, ExcelUtility.getNumberFromSheet(1, 21, "MaximumSpeed.xlsx", true, false), 0);
+		assertEquals(3.0, ExcelUtility.getNumberFromSheet(4.5, 1, "MaximumSpeed.xlsx", true, false), 0);
+		assertEquals(1.0, ExcelUtility.getNumberFromSheet(1, 1, "MaximumSpeed.xlsx", true, false), 0);
+		assertEquals(13.0, ExcelUtility.getNumberFromSheet(4.5, 21, "MaximumSpeed.xlsx", true, false), 0);
+		assertEquals(6.0, ExcelUtility.getNumberFromSheet(2.5, 13, "MaximumSpeed.xlsx", true, false), 0);
 	} 
 	
 	@Test
 	public void findBaseSpeed() throws Exception {
-		assertEquals(4.5, ExcelUtility.getResultsTwoWayFixedValues(12, 21, "BaseSpeed.xlsx", true, false), 0);
-		assertEquals(2.5, ExcelUtility.getResultsTwoWayFixedValues(149, 21, "BaseSpeed.xlsx", true, false), 0);
-		assertEquals(1.5, ExcelUtility.getResultsTwoWayFixedValues(1, 1, "BaseSpeed.xlsx", true, false), 0);
-		assertEquals(1.0, ExcelUtility.getResultsTwoWayFixedValues(150, 1, "BaseSpeed.xlsx", true, false), 0);
+		assertEquals(4.5, ExcelUtility.getNumberFromSheet(12, 21, "BaseSpeed.xlsx", true, false), 0);
+		assertEquals(2.5, ExcelUtility.getNumberFromSheet(149, 21, "BaseSpeed.xlsx", true, false), 0);
+		assertEquals(1.5, ExcelUtility.getNumberFromSheet(1, 1, "BaseSpeed.xlsx", true, false), 0);
+		assertEquals(1.0, ExcelUtility.getNumberFromSheet(150, 1, "BaseSpeed.xlsx", true, false), 0);
 	}
 	
 	@Test
@@ -80,7 +80,7 @@ public class ExcelUtililtyTests {
 		
 		//System.out.println("Spreadsheet Test");
 		try {
-			actions = (int) ExcelUtility.getResultsTwoWayFixedValues(impulse, combatActions, "caperimpulse.xlsx", true, true);
+			actions = (int) ExcelUtility.getNumberFromSheet(impulse, combatActions, "caperimpulse.xlsx", true, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -91,7 +91,7 @@ public class ExcelUtililtyTests {
 		
 		//System.out.println("Spreadsheet Test 2");
 		try {
-			actions = (int) ExcelUtility.getResultsTwoWayFixedValues(impulse, combatActions, "caperimpulse.xlsx", true, true);
+			actions = (int) ExcelUtility.getNumberFromSheet(impulse, combatActions, "caperimpulse.xlsx", true, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

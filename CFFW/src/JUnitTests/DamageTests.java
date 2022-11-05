@@ -11,16 +11,15 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
 import CorditeExpansion.ActionOrder;
+import CorditeExpansionDamage.Damage;
 import CorditeExpansionStatBlock.MedicalStatBlock.Status;
 import Items.PersonalShield;
 import Items.PersonalShield.ShieldType;
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
-import Damage.Damage;
+import UtilityClasses.ExcelUtility;
 
 public class DamageTests {
-	
-	
 	
 	private ActionOrder actionOrder; 
 	
@@ -38,6 +37,19 @@ public class DamageTests {
 	@Test
 	public void testUnitTest() {
 		assertEquals(1, 1);
+	}
+	
+	@Test
+	public void incapTimeTest() throws Exception {
+		
+		// 2 0 6
+		assertEquals("1p", ExcelUtility.getStringFromSheet(0, 0, "Formatted Excel Files\\incapacitationtime.xlsx",
+				true, true));
+		DiceRoller.randInt(0, 0);
+		assertEquals(2, Damage.incapacitationImpulses(0));
+		assertEquals(47 * 2, Damage.incapacitationImpulses(50));
+		
+		assertEquals(6 * 120 * 60 * 24, Damage.incapacitationImpulses(1200));
 	}
 	
 	@Test

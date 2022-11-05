@@ -152,7 +152,7 @@ public class TrooperUtility {
 	public static double baseSpeed(int encum, Trooper trooper) {
 
 		try {
-			return ExcelUtility.getResultsTwoWayFixedValues(encum, trooper.str, "BaseSpeed.xlsx", true, false);
+			return ExcelUtility.getNumberFromSheet(encum, trooper.str, "BaseSpeed.xlsx", true, false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -163,7 +163,7 @@ public class TrooperUtility {
 	public static double maximumSpeed(int encum, Trooper trooper) {
 
 		try {
-			return ExcelUtility.getResultsTwoWayFixedValues(trooper.baseSpeed.get(), trooper.agi,
+			return ExcelUtility.getNumberFromSheet(trooper.baseSpeed.get(), trooper.agi,
 					"MaximumSpeed.xlsx", true, false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

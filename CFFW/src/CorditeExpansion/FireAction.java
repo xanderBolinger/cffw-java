@@ -137,7 +137,7 @@ public class FireAction implements CeAction {
 		int value = -1; 
 		
 		try {
-			value = (int) ExcelUtility.getResultsTwoWayFixedValues(distance, Math.round(actions * modifier), "speed.xlsx", true, true);
+			value = (int) ExcelUtility.getNumberFromSheet(distance, Math.round(actions * modifier), "speed.xlsx", true, true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
