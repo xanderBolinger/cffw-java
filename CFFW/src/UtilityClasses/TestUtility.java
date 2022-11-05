@@ -9,12 +9,15 @@ import org.junit.runner.notification.Failure;
 import org.junit.runners.Suite;
 
 import JUnitTests.CorditeExpansionTests;
+import JUnitTests.DamageTests;
 import JUnitTests.ExcelUtililtyTests;
 import JUnitTests.InventoryTest;
+import JUnitTests.PcDamageUtilityTests;
 
 @RunWith(Suite.class)
 
-@Suite.SuiteClasses({ InventoryTest.class, ExcelUtililtyTests.class, CorditeExpansionTests.class })
+@Suite.SuiteClasses({ InventoryTest.class, ExcelUtililtyTests.class, CorditeExpansionTests.class,
+	DamageTests.class, PcDamageUtilityTests.class})
 
 public class TestUtility {
 
@@ -24,6 +27,8 @@ public class TestUtility {
 		results.add(JUnitCore.runClasses(CorditeExpansionTests.class));
 		results.add(JUnitCore.runClasses(ExcelUtililtyTests.class));
 		results.add(JUnitCore.runClasses(InventoryTest.class));
+		results.add(JUnitCore.runClasses(DamageTests.class));
+		results.add(JUnitCore.runClasses(PcDamageUtilityTests.class));
 		
 		for(Result result : results) {
 			for (Failure failure : result.getFailures()) {

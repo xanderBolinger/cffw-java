@@ -24,7 +24,13 @@ public interface CeAction {
 	boolean completed();
 	boolean ready();
 	ActionType getActionType();
+	
+	public static void addShootAction(StatBlock statBlock, Trooper target) {
 		
+		statBlock.addActionCoac(new FireAction(statBlock, target));
+		
+	}
+	
 	public static void addMoveAction(StatBlock statBlock, ArrayList<Cord> cords, int coac) {
 		
 		if(coac == 0) {

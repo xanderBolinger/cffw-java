@@ -358,7 +358,7 @@ public class PcDamageUtility {
 					} else if (ctp.charAt(2) == 'd') {
 						value = value * 60 * 120 * 24;
 					}
-					System.out.println("CTP Value: "+value);
+					//System.out.println("CTP Value: "+value);
 					criticalTime = value;
 				}
 
@@ -373,7 +373,7 @@ public class PcDamageUtility {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Recovery Chance: "+recoveryRoll+", Critical Time: "+criticalTime);
+		//System.out.println("Recovery Chance: "+recoveryRoll+", Critical Time: "+criticalTime);
 		medicalStatBlock.recoveryChance = recoveryRoll;
 		medicalStatBlock.criticalTime = criticalTime;
 		

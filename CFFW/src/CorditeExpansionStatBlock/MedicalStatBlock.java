@@ -42,7 +42,7 @@ public class MedicalStatBlock {
 			return;
 		
 		int roll = DiceRoller.randInt(0, 99);
-		System.out.println("Roll: "+roll+", recovery: "+recoveryChance);
+		//System.out.println("Roll: "+roll+", recovery: "+recoveryChance);
 		if(roll <= recoveryChance) {
 			
 			stabalized = true; 

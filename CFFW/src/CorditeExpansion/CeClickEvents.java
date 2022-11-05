@@ -65,9 +65,18 @@ public class CeClickEvents {
 			return;
 		}
 		
-		System.out.println("coac size: "+stat.coacSize());
+		//System.out.println("coac size: "+stat.coacSize());
 		
 		action.setTargetTrooper(target);
+	}
+	
+	public static void setShootTarget(Trooper target) {
+		
+		StatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
+		
+		CeAction.addShootAction(stat, target);
+		
+		
 	}
 	
 }

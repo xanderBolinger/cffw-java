@@ -76,6 +76,9 @@ public class Damage {
 	public static int incapacitationImpulses(int physicalDamage) throws Exception {
 		int roll = DiceRoller.randInt(0, 9);
 
+		if(physicalDamage > 1000)
+			physicalDamage = 1000;
+		
 		String incapStr = ExcelUtility.getStringFromSheet(roll, physicalDamage,
 				"Formatted Excel Files\\incapacitationtime.xlsx", true, true);
 

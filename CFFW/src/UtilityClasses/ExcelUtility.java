@@ -59,7 +59,6 @@ public class ExcelUtility {
 					"Result for Value 1: " + matchColumn + ", Value 2: " + matchRow + ", File: " + fileName + " not found.");
 		}
 
-		//System.out.println("Result: "+result);
 		return result;
 	}
 	
@@ -67,8 +66,6 @@ public class ExcelUtility {
 			String fileName, boolean assendingColumns, boolean dessendingRows) throws Exception {
 
 		double result = -1;
-
-		//System.out.println("match column: "+matchColumn+", match row: "+matchRow);
 		
 		try {
 
@@ -123,10 +120,6 @@ public class ExcelUtility {
 				break;
 			}
 
-		}
-		
-		if(value >= worksheet.getRow(rows-1).getCell(0).getNumericCellValue()) {
-			return rows-1;
 		}
 
 		return targetRow;

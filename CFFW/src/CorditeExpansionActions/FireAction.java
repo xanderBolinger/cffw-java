@@ -24,8 +24,9 @@ public class FireAction implements CeAction {
 	int coac = 2;
 	int spentCoac = 0;
 
-	public FireAction(StatBlock statBlock) {
+	public FireAction(StatBlock statBlock, Trooper target) {
 		this.statBlock = statBlock;
+		this.target = target;
 	}
 	
 	@Override
@@ -83,6 +84,7 @@ public class FireAction implements CeAction {
 		int rangeALM; 
 		int speedALM = 0; 
 		int visibilityALM = 0;
+		int aimALM = statBlock.weapon.aimTime.get(statBlock.aimTime);
 		
 		rangeALM = getDistanceAlm();
 		
@@ -93,7 +95,7 @@ public class FireAction implements CeAction {
 			e.printStackTrace();
 		}
 		
-		return rangeALM + speedALM + visibilityALM; 
+		return rangeALM + speedALM + visibilityALM + aimALM; 
 	
 	}
 
