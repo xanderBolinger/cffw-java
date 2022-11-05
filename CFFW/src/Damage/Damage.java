@@ -15,6 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.ExcelUtility;
+import UtilityClasses.PcDamageUtility;
 
 public class Damage {
 
@@ -33,11 +34,50 @@ public class Damage {
 		}
 		
 		// DC 10 check 
+		
 		// Weapon hit check
+		
 		// Regular damage 
+		try {
+			trooper.physicalDamage += PcDamageUtility.getDamageValue(PcDamageUtility.getDamageString(pen, dc, open, hitLocation));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	public static void trooperDamageCheck(Trooper trooper) {
+		// Rolls incapacitation test
+		int physicalDamage = trooper.physicalDamage;
+		
+		KoTest(physicalDamage, trooper);
+		
 		
 		
 	}
+	
+	public static void KoTest(int physicalDamage, Trooper trooper) {
+		int TN = 0, KO = trooper.KO, roll = DiceRoller.randInt(0, 99);
+		
+		
+		if (physicalDamage >= KO * 5) {
+			TN = 60;
+		} else if (physicalDamage >= KO * 4) {
+			TN = 26;
+		} else if (physicalDamage >= KO * 3) {
+			TN = 13;
+		} else if (physicalDamage >= KO * 2) {
+			TN = 12;
+		} 
+		
+		//System.out.println("KO: "+KO+", Roll: "+roll+", TN: "+TN);
+		if(roll < TN) {
+			trooper.conscious = false;
+		}
+	}
+	
 	
 	public String getDamageString(int epen, int dc, boolean open, int roll) throws IOException {
 		

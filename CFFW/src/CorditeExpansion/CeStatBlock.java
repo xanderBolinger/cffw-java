@@ -19,6 +19,8 @@ public class CeStatBlock {
 
 	public double quickness; 
 	public int adaptabilityFactor; 
+	public int pain = 0;
+	
 	public int combatActions; 
 	public int spentCombatActions = 0; 
 	

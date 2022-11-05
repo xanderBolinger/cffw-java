@@ -34,6 +34,33 @@ public class DamageTests {
 	}
 	
 	@Test
+	public void KoTest() {
+		
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		clone.KO = 50; 
+		clone.physicalDamage = 100; 
+		
+		Damage.KoTest(100, clone);
+		
+		assertEquals(true, clone.conscious);
+		
+		Damage.KoTest(250, clone);
+		
+		
+		assertEquals(false, clone.conscious);
+		
+		clone.conscious = true;
+		
+		Damage.KoTest(200, clone);
+		Damage.KoTest(200, clone);
+		Damage.KoTest(200, clone);
+		
+		Damage.KoTest(250, clone);
+		
+		assertEquals(false, clone.conscious);
+	}
+	
+	@Test
 	public void shieldTest() {
 		
 		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");

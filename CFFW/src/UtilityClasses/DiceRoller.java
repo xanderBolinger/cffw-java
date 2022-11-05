@@ -54,43 +54,33 @@ public class DiceRoller {
 	3
 	
 	d99, 0,99
-	39
-	26
-	72
-	65
+	82
+	50
+	76
+	89
+	95
+	57
+	34
 	37
-	49
-	20
 	85
-	54
-	16
+	53
+	82
+	50
 	
-	d100, 1,100
-	23
-	38
-	37
-	51
-	79
-	54
-	9
-	93
-	22
-	45
 	*/
-	
 	public static void initTesting() {
 		
 		rand = new Random(123);
 		
 		/*for(int i = 0; i < 10; i++) {
 			System.out.println(DiceRoller.randInt(0, 9));
-		}
+		}*/
 		
-		for(int i = 0; i < 10; i++) {
+		/*for(int i = 0; i < 10; i++) {
 			System.out.println(DiceRoller.randInt(0, 99));
-		}
+		}*/
 		
-		for(int i = 0; i < 10; i++) {
+		/*for(int i = 0; i < 10; i++) {
 			System.out.println(DiceRoller.randInt(1, 100));
 		}*/
 		

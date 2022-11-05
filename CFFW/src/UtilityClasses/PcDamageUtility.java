@@ -12,6 +12,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import Trooper.Trooper;
+
 public class PcDamageUtility {
 
 	
@@ -28,6 +30,72 @@ public class PcDamageUtility {
 		
 		return -1;
 	}
+	
+	public static double getBloodLossPD(double epen, int dc, String locationName, Trooper trooper) {
+		if (trooper.entirelyMechanical) {
+			return 0;
+		} else {
+
+			for (int i = 0; i < trooper.mechanicalZones.size(); i++) {
+				if (trooper.mechanicalZones.get(i).equals(locationName))
+					return 0;
+			}
+
+		}
+
+		double bloodLossPD = 0;
+
+		if (locationName.equals("Neck Flesh") || locationName.equals("Neck Spine")
+				|| locationName.equals("Base of Neck")) {
+			bloodLossPD += 800;
+		} else if (locationName.equals("Arm Flesh") || locationName.equals("Arm Bone")) {
+			bloodLossPD += 600;
+		} else if (locationName.equals("Shoulder")) {
+			bloodLossPD += 400;
+		} else if (locationName.equals("Stomach") || locationName.equals("Stomach - Rib")
+				|| locationName.equals("Stomach Spleen") || locationName.equals("Stomach-Kidney")
+				|| locationName.equals("Intestines")) {
+			if (epen <= 1) {
+				bloodLossPD += 300;
+			} else if (epen == 2) {
+				bloodLossPD += 600;
+			} else {
+				bloodLossPD += 900;
+			}
+		} else if (locationName.equals("Thigh Flesh")) {
+			if (epen <= 1) {
+				bloodLossPD += 400;
+			} else {
+				bloodLossPD += 600;
+			}
+		} else if (locationName.equals("Thigh Bone")) {
+			if (epen <= 1) {
+				bloodLossPD += 600;
+			} else if (epen == 2) {
+				bloodLossPD += 800;
+			} else if (epen == 3) {
+				bloodLossPD += 1000;
+			} else {
+				bloodLossPD += 1200;
+			}
+		}
+
+		if (dc <= 2) {
+			bloodLossPD = bloodLossPD * 0.5;
+		} else if (dc <= 4) {
+			bloodLossPD = bloodLossPD * 1;
+		} else if (dc <= 5) {
+			bloodLossPD = bloodLossPD * 1.2;
+		} else if (dc <= 8) {
+			bloodLossPD = bloodLossPD * 1.5;
+		} else if (dc <= 10) {
+			bloodLossPD = bloodLossPD * 2;
+		}
+
+		return bloodLossPD;
+
+	}
+	
 	
 	// H : 100, K : 1000, T : 10000, X : 100000, M : 1000000, D : disabled  
 	public static int getMultiplier(String damageString) {
