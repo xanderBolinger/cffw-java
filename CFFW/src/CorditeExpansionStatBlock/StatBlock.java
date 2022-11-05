@@ -355,6 +355,12 @@ public class StatBlock {
 		results.add("aiming/firing: "+aimingFiring);
 		results.add("Fullatuo: "+fullAuto);
 		
+		results.add("Alive: "+medicalStatBlock.alive);
+		results.add("Conscoius: "+medicalStatBlock.conscious());
+		results.add("Physical Damage Total: "+medicalStatBlock.getPdTotal());
+		results.add("Physical Damage From Blood Loss: "+medicalStatBlock.getBloodLossPd());
+		
+		
 		
 		return results; 
 	}

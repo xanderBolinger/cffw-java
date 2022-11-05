@@ -392,13 +392,13 @@ public class Window2 extends JFrame {
         scrollPane_1_1.setViewportView(detailsList);
         
         JPanel panel_3 = new JPanel();
-        panel_3.setMinimumSize(new Dimension(1000, 700));
+        panel_3.setMinimumSize(new Dimension(1000, 400));
         panel_3.setPreferredSize(new Dimension(1000, 700));
         splitPane_1.setLeftComponent(panel_3);
         
         HexGrid map = new HexGrid(33, 33);
-        map.setPreferredSize(new Dimension(1000, 700));
-        map.setMinimumSize(new Dimension(1000, 700));
+        map.setPreferredSize(new Dimension(1000, 650));
+        map.setMinimumSize(new Dimension(1000, 400));
         map.setFont(new Font("Tw Cen MT", Font.BOLD, 13));
         map.setBackground(new Color(68, 71, 90));
         GroupLayout gl_map = new GroupLayout(map);

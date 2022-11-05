@@ -35,6 +35,13 @@ public class FireAction implements CeAction {
 			spentCoac++;
 			return;
 		}
+		
+		try {
+			shot();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void shot() throws Exception {
