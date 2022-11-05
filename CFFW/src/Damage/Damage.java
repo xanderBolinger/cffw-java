@@ -32,6 +32,9 @@ public class Damage {
 			return;
 		}
 		
+		// DC 10 check 
+		// Weapon hit check
+		// Regular damage 
 		
 		
 	}
