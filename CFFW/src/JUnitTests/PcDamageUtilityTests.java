@@ -40,7 +40,6 @@ public class PcDamageUtilityTests {
 		actionOrder = new ActionOrder();
 	}
 	
-	
 	@After
 	public void finishTesting() {
 		try {

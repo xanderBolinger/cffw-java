@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import CeHexGrid.Chit;
 import CeHexGrid.Chit.Facing;
+import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.CorditeExpansionWindow;
@@ -401,6 +402,10 @@ public class StatBlock {
 			fullAuto = false;
 		else
 			fullAuto = true;
+	}
+	
+	public int getDistance(StatBlock targetStatBlock) {
+		return GameWindow.dist(chit.xCord, chit.yCord, targetStatBlock.chit.xCord, targetStatBlock.chit.yCord);
 	}
 	
 	// the below methods are for testing 

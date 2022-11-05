@@ -36,7 +36,7 @@ public class FireAction implements CeAction {
 		}
 	}
 
-	public void shot() {
+	public void shot() throws Exception {
 		if(statBlock.weapon.ceStats.criticalHit) {
 			return;
 		}
@@ -49,7 +49,10 @@ public class FireAction implements CeAction {
 			return;
 		}
 		
+		int range = statBlock.getDistance(target.ceStatBlock);
 		
+		Damage.applyHit(statBlock.weapon.getPen(range), statBlock.weapon.getDc(range), 
+				target.ceStatBlock.inCover, target);
 		
 	}
 	

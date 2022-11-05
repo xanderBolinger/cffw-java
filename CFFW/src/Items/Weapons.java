@@ -3297,6 +3297,51 @@ public class Weapons implements Serializable {
 		return weapon;
 	}
 
+	public int getPen(int rangeInPcHexes) {
+		// 10 20 40 70 100 200 300 400
+
+		if (rangeInPcHexes <= 10) {
+			return pen.get(0);
+		} else if (rangeInPcHexes <= 20) {
+			return pen.get(1);
+		} else if (rangeInPcHexes <= 20) {
+			return pen.get(2);
+		} else if (rangeInPcHexes <= 20) {
+			return pen.get(3);
+		} else if (rangeInPcHexes <= 20) {
+			return pen.get(4);
+		} else if (rangeInPcHexes <= 20) {
+			return pen.get(5);
+		} else if (rangeInPcHexes <= 20) {
+			return pen.get(6);
+		} else {
+			return pen.get(7);
+		}
+
+	}
+
+	public int getDc(int rangeInPcHexes) {
+		// 10 20 40 70 100 200 300 400
+
+		if (rangeInPcHexes <= 10) {
+			return dc.get(0);
+		} else if (rangeInPcHexes <= 20) {
+			return dc.get(1);
+		} else if (rangeInPcHexes <= 20) {
+			return dc.get(2);
+		} else if (rangeInPcHexes <= 20) {
+			return dc.get(3);
+		} else if (rangeInPcHexes <= 20) {
+			return dc.get(4);
+		} else if (rangeInPcHexes <= 20) {
+			return dc.get(5);
+		} else if (rangeInPcHexes <= 20) {
+			return dc.get(6);
+		} else {
+			return dc.get(7);
+		}
+	}
+
 	public int getBA(int rangeInPCHexes) {
 
 		if (ba.isEmpty())
