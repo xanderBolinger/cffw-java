@@ -190,14 +190,7 @@ public class StatBlock {
 	public void spendCaPoint() {
 		if(spentCombatActions >= combatActions) 
 			spentCombatActions = 0; 
-		
-		if(medicalStatBlock.status != Status.NORMAL) {
-			medicalStatBlock.spentCa++;
-			medicalStatBlock.recoverCheck(this);
-		}
-		
-		
-		
+				
 		spentCombatActions++;
 		hesitating = false;
 	}

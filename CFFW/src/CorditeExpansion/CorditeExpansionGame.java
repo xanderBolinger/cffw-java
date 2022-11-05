@@ -1,5 +1,8 @@
 package CorditeExpansion;
 
+import CorditeExpansionDamage.Damage;
+import CorditeExpansionStatBlock.MedicalStatBlock;
+import CorditeExpansionStatBlock.MedicalStatBlock.Status;
 import Trooper.Trooper;
 
 public class CorditeExpansionGame {
@@ -59,14 +62,16 @@ public class CorditeExpansionGame {
 			impulse = Impulse.SECOND;
 		} else if(impulse == Impulse.SECOND) {
 			impulse = Impulse.THIRD;
+			bleedOutCheck();
 		} else if(impulse == Impulse.THIRD) {
 			impulse = Impulse.FOURTH;
 		} else if(impulse == Impulse.FOURTH) {
 			impulse = Impulse.FIRST;
 			completeRound();
-			
+			bleedOutCheck();
 		}
 		
+		incapacitationCheck();
 	}
 	
 	public static void completeRound() {
@@ -75,7 +80,30 @@ public class CorditeExpansionGame {
 		for(Trooper trooper : actionOrder.getOrder()) {
 			trooper.ceStatBlock.totalMoved = 0;
 		}
-		
 	}
 	
+	public static void bleedOutCheck() {
+		for(Trooper trooper : actionOrder.getOrder()) {
+			if(trooper.ceStatBlock.medicalStatBlock.getBloodLossPd() > 100) {
+				Damage.statusCheck(trooper.ceStatBlock.medicalStatBlock.getBloodLossPd(), trooper);
+			}
+			trooper.ceStatBlock.medicalStatBlock.bleedPerPhase();
+		}
+	}
+	
+	public static void incapacitationCheck() {
+		for(Trooper trooper : actionOrder.getOrder()) {
+			MedicalStatBlock medicalStatBlock = trooper.ceStatBlock.medicalStatBlock;
+			if(medicalStatBlock.status != Status.NORMAL) {
+				medicalStatBlock.spentCa++;
+				medicalStatBlock.recoverCheck(trooper.ceStatBlock);
+			}
+			
+			if(!medicalStatBlock.conscious()) {
+				medicalStatBlock.unconsciousCheck(medicalStatBlock.getPdTotal(), trooper.ceStatBlock);
+			}
+		}
+		
+		
+	}
 }

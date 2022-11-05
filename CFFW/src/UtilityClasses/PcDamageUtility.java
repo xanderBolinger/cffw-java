@@ -12,6 +12,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import CorditeExpansionDamage.BloodLossLocation;
 import Trooper.Trooper;
 
 public class PcDamageUtility {
@@ -31,14 +32,14 @@ public class PcDamageUtility {
 		return -1;
 	}
 	
-	public static int getBloodLossPD(double epen, int dc, String locationName, Trooper trooper) {
+	public static BloodLossLocation getBloodLossPD(double epen, int dc, String locationName, Trooper trooper) {
 		if (trooper.entirelyMechanical) {
-			return 0;
+			return null;
 		} else {
 
 			for (int i = 0; i < trooper.mechanicalZones.size(); i++) {
 				if (trooper.mechanicalZones.get(i).equals(locationName))
-					return 0;
+					return null;
 			}
 
 		}
@@ -93,7 +94,10 @@ public class PcDamageUtility {
 			bloodLossPD = bloodLossPD * 2;
 		}
 
-		return (int) bloodLossPD;
+		if(bloodLossPD <= 0)
+			return null;
+		
+		return new BloodLossLocation((int) bloodLossPD, locationName);
 
 	}
 	

@@ -1,5 +1,8 @@
 package CorditeExpansionStatBlock;
 
+import java.util.ArrayList;
+
+import CorditeExpansionDamage.BloodLossLocation;
 import CorditeExpansionDamage.Damage;
 import UtilityClasses.TrooperUtility;
 
@@ -11,16 +14,56 @@ public class MedicalStatBlock {
 	public int statusDuration = 0;
 	public int incapTime = 0; 
 	public int timeSpentIncapacitated = 0;
+	
 	private boolean conscious = true;
 	private boolean alive = true;
 	
+	private int physicalDamage = 0;
+
+	private ArrayList<BloodLossLocation> bloodLossLocations = new ArrayList<>();
 	
 	public enum Status {
 		NORMAL,DAZED,DISORIENTED,STUNNED
 	}
 	
+	public void bleedPerPhase() {
+		for(BloodLossLocation lc : bloodLossLocations) {
+			lc.blpd += lc.blpd / 100;
+		}
+	}
+	
+	public void addBleed(BloodLossLocation location) {
+		bloodLossLocations.add(location);
+	}
+	
+	public int getBloodLossPd() {
+		int bloodLossPd = 0; 
+		
+		for(BloodLossLocation location : bloodLossLocations) {
+			bloodLossPd += location.blpd;
+		}
+		
+		return bloodLossPd;
+	}
+	
+	public int getPdTotal() {
+		return physicalDamage + getBloodLossPd();
+	}
+	
+	public void increasePd(int pd) {
+		physicalDamage += pd;
+	}
+	
 	public boolean conscious() {
 		return conscious;
+	}
+	
+	public void unconsciousCheck(int pd, StatBlock statBlock) {
+		timeSpentIncapacitated++;
+		
+		if(timeSpentIncapacitated >= incapTime) {
+			setConscious(pd, statBlock);
+		}
 	}
 	
 	public void setConscious(int pd, StatBlock statBlock) {

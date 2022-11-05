@@ -14,6 +14,7 @@ import CeHexGrid.Chit.Facing;
 import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.MoveAction;
+import CorditeExpansionStatBlock.MedicalStatBlock.Status;
 import CorditeExpansionStatBlock.StatBlock;
 import CorditeExpansionStatBlock.StatBlock.MoveSpeed;
 import CorditeExpansionStatBlock.StatBlock.Stance;
@@ -283,6 +284,7 @@ public class CorditeExpansionTests {
 		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
 		actionOrder.addTrooper(clone);
 		CorditeExpansionGame.actionOrder = actionOrder;
+		CorditeExpansionGame.round = 1;
 		
 		clone.ceStatBlock.combatActions = 5; 
 		
@@ -448,5 +450,24 @@ public class CorditeExpansionTests {
 		actionOrder.clear();
 	}
 	
-	
+	@Test
+	public void statusCheck() {
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		actionOrder.addTrooper(clone);
+		CorditeExpansionGame.actionOrder = actionOrder;
+		
+		clone.ceStatBlock.medicalStatBlock.setDazed(100, clone.ceStatBlock);
+		
+		assertEquals(Status.DAZED, clone.ceStatBlock.medicalStatBlock.status);
+		
+		CorditeExpansionGame.nextImpulse();
+		CorditeExpansionGame.nextImpulse();
+		CorditeExpansionGame.nextImpulse();
+		CorditeExpansionGame.nextImpulse();
+		
+		assertEquals(Status.NORMAL, clone.ceStatBlock.medicalStatBlock.status);
+
+		CorditeExpansionGame.actionOrder.clear();
+		
+	}
 }

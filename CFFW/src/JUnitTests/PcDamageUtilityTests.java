@@ -53,22 +53,22 @@ public class PcDamageUtilityTests {
 		
 		
 		Trooper b1 = new Trooper("B1 Rifleman", "CIS Battle Droid");
-		assertEquals(0, PcDamageUtility.getBloodLossPD(0, 0, null, b1));
+		assertEquals(null, PcDamageUtility.getBloodLossPD(0, 0, null, b1));
 		
 		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
 		clone.mechanicalZones.add("Shoulder");
-		assertEquals(0, PcDamageUtility.getBloodLossPD(0, 0, "Shoulder", clone));
+		assertEquals(null, PcDamageUtility.getBloodLossPD(0, 0, "Shoulder", clone));
 		//int blpd = PcDamageUtility.getBloodLossPD(0, 0, null, null);
 		
 		clone.mechanicalZones.clear();
 		
-		assertEquals(400, PcDamageUtility.getBloodLossPD(0, 2, "Neck Flesh", clone));
-		assertEquals(400, PcDamageUtility.getBloodLossPD(0, 2, "Neck Spine", clone));
-		assertEquals(400, PcDamageUtility.getBloodLossPD(0, 2, "Base of Neck", clone));
+		assertEquals(400, PcDamageUtility.getBloodLossPD(0, 2, "Neck Flesh", clone).blpd);
+		assertEquals(400, PcDamageUtility.getBloodLossPD(0, 2, "Neck Spine", clone).blpd);
+		assertEquals(400, PcDamageUtility.getBloodLossPD(0, 2, "Base of Neck", clone).blpd);
 		
-		assertEquals(300, PcDamageUtility.getBloodLossPD(0, 2, "Arm Flesh", clone));
-		assertEquals(300, PcDamageUtility.getBloodLossPD(0, 2, "Arm Bone", clone));
-		assertEquals(200, PcDamageUtility.getBloodLossPD(0, 2, "Shoulder", clone));
+		assertEquals(300, PcDamageUtility.getBloodLossPD(0, 2, "Arm Flesh", clone).blpd);
+		assertEquals(300, PcDamageUtility.getBloodLossPD(0, 2, "Arm Bone", clone).blpd);
+		assertEquals(200, PcDamageUtility.getBloodLossPD(0, 2, "Shoulder", clone).blpd);
 	}
 	
 	@Test 

@@ -47,13 +47,14 @@ public class Damage {
 
 		// Regular damage
 		int pd = PcDamageUtility.getDamageValue(PcDamageUtility.getDamageString(pen, dc, open, hitLocation, worksheet));
+		trooper.ceStatBlock.medicalStatBlock.increasePd(pd);
 
 		// Blood loss pd
-		pd += PcDamageUtility.getBloodLossPD((double) pen, dc, hitLocationName, trooper);
-
+		BloodLossLocation location = PcDamageUtility.getBloodLossPD((double) pen, dc, hitLocationName, trooper);
+		if(location != null)
+			trooper.ceStatBlock.medicalStatBlock.addBleed(location);
+		
 		// Status Check
-		trooper.physicalDamage += pd;
-
 		statusCheck(pd, trooper);
 
 		// Apply Pain
