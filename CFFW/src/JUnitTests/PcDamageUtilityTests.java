@@ -14,6 +14,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.ExcelUtility;
 import UtilityClasses.PcDamageUtility;
@@ -48,6 +49,29 @@ public class PcDamageUtilityTests {
 	}
 	
 	@Test 
+	public void bloodLossPdTest() {
+		
+		
+		Trooper b1 = new Trooper("B1 Rifleman", "CIS Battle Droid");
+		assertEquals(0, PcDamageUtility.getBloodLossPD(0, 0, null, b1));
+		
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		clone.mechanicalZones.add("Shoulder");
+		assertEquals(0, PcDamageUtility.getBloodLossPD(0, 0, "Shoulder", clone));
+		//int blpd = PcDamageUtility.getBloodLossPD(0, 0, null, null);
+		
+		clone.mechanicalZones.clear();
+		
+		assertEquals(400, PcDamageUtility.getBloodLossPD(0, 2, "Neck Flesh", clone));
+		assertEquals(400, PcDamageUtility.getBloodLossPD(0, 2, "Neck Spine", clone));
+		assertEquals(400, PcDamageUtility.getBloodLossPD(0, 2, "Base of Neck", clone));
+		
+		assertEquals(300, PcDamageUtility.getBloodLossPD(0, 2, "Arm Flesh", clone));
+		assertEquals(300, PcDamageUtility.getBloodLossPD(0, 2, "Arm Bone", clone));
+		assertEquals(200, PcDamageUtility.getBloodLossPD(0, 2, "Shoulder", clone));
+	}
+	
+	@Test 
 	public void damageStringTest() {
 		
 		String damageString = "10TD";
@@ -65,10 +89,10 @@ public class PcDamageUtilityTests {
 	
 	@Test
 	public void hitTableTest() throws IOException {
-		assertEquals("5", PcDamageUtility.getDamageString(1, 1, true, 0));
-		assertEquals("95D", PcDamageUtility.getDamageString(10, 10, true, 99));
-		assertEquals("8K", PcDamageUtility.getDamageString(10, 10, false, 0));
-		assertEquals("0", PcDamageUtility.getDamageString(1, 1, false, 99));
+		assertEquals("5", PcDamageUtility.getDamageString(1, 1, true, 0, worksheet));
+		assertEquals("95D", PcDamageUtility.getDamageString(10, 10, true, 99, worksheet));
+		assertEquals("8K", PcDamageUtility.getDamageString(10, 10, false, 0, worksheet));
+		assertEquals("0", PcDamageUtility.getDamageString(1, 1, false, 99, worksheet));
 	}
 	
 	@Test
@@ -83,6 +107,17 @@ public class PcDamageUtilityTests {
 		assertEquals(42, PcDamageUtility.getHitLocationRow(true, 99, worksheet));
 	}
 	
+	@Test
+	public void hitLocationNameTest() {
+		
+		assertEquals("Head Glance", PcDamageUtility.getHitLocationName(false, 0, worksheet));
+		assertEquals("Arm Glance", PcDamageUtility.getHitLocationName(false, 55, worksheet));
+		assertEquals("Weapon Critical", PcDamageUtility.getHitLocationName(false, 99, worksheet));
+		
+		assertEquals("Head Glance", PcDamageUtility.getHitLocationName(true, 0, worksheet));
+		assertEquals("Pelvis", PcDamageUtility.getHitLocationName(true, 55, worksheet));
+		assertEquals("Ankle - Foot", PcDamageUtility.getHitLocationName(true, 99, worksheet));
+	}
 	
 	@Test
 	public void dcColumnTest () {

@@ -11,7 +11,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.ExcelUtility;
@@ -23,13 +22,20 @@ public class Damage {
 		
 	}
 	
-	public void applyHit(int pen, int dc, boolean open, Trooper trooper) {
+	public void applyHit(int pen, int dc, boolean open, Trooper trooper) throws Exception {
+		
+		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "\\hittable.xlsx"));
+		Workbook workbook = new XSSFWorkbook(excelFile);
+		Sheet worksheet = workbook.getSheetAt(0);
 		
 		int hitLocation = getHitLocation();
+		
+		String hitLocationName = PcDamageUtility.getHitLocationName(open, hitLocation, worksheet);
 		
 		pen = getPen(pen, hitLocation, open, trooper);
 		
 		if(pen < 1) {
+			workbook.close();
 			return;
 		}
 		
@@ -38,13 +44,20 @@ public class Damage {
 		// Weapon hit check
 		
 		// Regular damage 
-		try {
-			trooper.physicalDamage += PcDamageUtility.getDamageValue(PcDamageUtility.getDamageString(pen, dc, open, hitLocation));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		int pd = PcDamageUtility.getDamageValue(PcDamageUtility.getDamageString(pen, dc, open, hitLocation, worksheet));
+				
+		// Blood loss pd 
+		pd += PcDamageUtility.getBloodLossPD((double) pen, dc, hitLocationName, trooper);
 		
+		
+		// Status Check 
+		trooper.physicalDamage += pd;
+
+		KoTest(pd, trooper);
+		
+		// Apply Pain 
+		
+		workbook.close();
 	}
 	
 	
@@ -77,22 +90,8 @@ public class Damage {
 			trooper.conscious = false;
 		}
 	}
-	
-	
-	public String getDamageString(int epen, int dc, boolean open, int roll) throws IOException {
+
 		
-		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "hittable.xlsx"));
-		Workbook workbook = new XSSFWorkbook(excelFile);
-		Sheet worksheet = workbook.getSheetAt(0);
-		
-		
-		workbook.close();
-		
-		return ""; 
-		
-	}
-	
-	
 	public int getPen(int pen, int hitLocation, boolean open, Trooper trooper) {
 		pen = Damage.shieldEpen(hitLocation, pen, open, trooper);
 		
@@ -153,10 +152,6 @@ public class Damage {
 		throw new Exception("Failed to get armor epen, hitLocation: "+hitLocation
 				+", pen: "+pen+", open: "+open+", trooper: "
 				+trooper.number+" "+trooper.name);
-	}
-	
-	public int getPhyisicalDamage() {
-		return -1;
 	}
 	
 }

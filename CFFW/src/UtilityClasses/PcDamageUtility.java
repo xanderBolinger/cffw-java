@@ -31,7 +31,7 @@ public class PcDamageUtility {
 		return -1;
 	}
 	
-	public static double getBloodLossPD(double epen, int dc, String locationName, Trooper trooper) {
+	public static int getBloodLossPD(double epen, int dc, String locationName, Trooper trooper) {
 		if (trooper.entirelyMechanical) {
 			return 0;
 		} else {
@@ -92,7 +92,7 @@ public class PcDamageUtility {
 			bloodLossPD = bloodLossPD * 2;
 		}
 
-		return bloodLossPD;
+		return (int) bloodLossPD;
 
 	}
 	
@@ -147,11 +147,8 @@ public class PcDamageUtility {
 		return false; 
 	}
 	
-	public static String getDamageString(int epen, int dc, boolean open, int hitRoll) throws IOException {
+	public static String getDamageString(int epen, int dc, boolean open, int hitRoll, Sheet worksheet) throws IOException {
 		
-		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "\\hittable.xlsx"));
-		Workbook workbook = new XSSFWorkbook(excelFile);
-		Sheet worksheet = workbook.getSheetAt(0);
 		
 		// get location 
 		int row = getHitLocationRow(open, hitRoll, worksheet);
@@ -171,7 +168,6 @@ public class PcDamageUtility {
 			results = cell.getStringCellValue();
 		}
 		
-		workbook.close();
 		
 		return results; 
 		
@@ -232,6 +228,28 @@ public class PcDamageUtility {
 		}
 		
 		return -1; 
+	}
+	
+	public static String getHitLocationName(boolean open, int hitRoll, Sheet worksheet) {
+		
+		int column = open ? 1 : 0;
+		
+		int i = 4;
+		Cell cell = worksheet.getRow(i).getCell(column);
+		
+		while(cell != null && cell.getCellType() != CellType.BLANK) {
+			
+			if(cell.getCellType() == CellType.NUMERIC && hitRoll <= cell.getNumericCellValue()) {
+				return worksheet.getRow(i).getCell(2).getStringCellValue();
+			}
+			
+			i++; 
+			
+			cell = worksheet.getRow(i).getCell(column);
+			
+		}
+		
+		return "None"; 
 	}
 	
 }
