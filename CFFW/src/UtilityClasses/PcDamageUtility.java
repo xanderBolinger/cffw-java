@@ -80,6 +80,7 @@ public class PcDamageUtility {
 			}
 		}
 
+		
 		if (dc <= 2) {
 			bloodLossPD = bloodLossPD * 0.5;
 		} else if (dc <= 4) {

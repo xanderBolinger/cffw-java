@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
+import CorditeExpansion.ActionOrder;
+import CorditeExpansionStatBlock.MedicalStatBlock.Status;
 import Items.PersonalShield;
 import Items.PersonalShield.ShieldType;
 import Trooper.Trooper;
@@ -18,8 +20,13 @@ import Damage.Damage;
 
 public class DamageTests {
 	
+	
+	
+	private ActionOrder actionOrder; 
+	
 	@Before
 	public void initTesting() {
+		actionOrder = new ActionOrder();
 		DiceRoller.initTesting();
 	}
 	
@@ -37,27 +44,45 @@ public class DamageTests {
 	public void KoTest() {
 		
 		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		actionOrder.addTrooper(clone);
 		clone.KO = 50; 
 		clone.physicalDamage = 100; 
 		
-		Damage.KoTest(100, clone);
+		Damage.statusCheck(100, clone);
 		
 		assertEquals(true, clone.conscious);
 		
-		Damage.KoTest(250, clone);
+		Damage.statusCheck(250, clone);
 		
 		
 		assertEquals(false, clone.conscious);
 		
 		clone.conscious = true;
 		
-		Damage.KoTest(200, clone);
-		Damage.KoTest(200, clone);
-		Damage.KoTest(200, clone);
+		Damage.statusCheck(200, clone);
+		Damage.statusCheck(200, clone);
+		Damage.statusCheck(200, clone);
 		
-		Damage.KoTest(250, clone);
+		Damage.statusCheck(250, clone);
 		
 		assertEquals(false, clone.conscious);
+	}
+	
+	@Test
+	public void statusTest() {
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		actionOrder.addTrooper(clone);
+		clone.KO = 50; 
+		clone.physicalDamage = 100; 
+		
+		Damage.statusCheck(250, clone);
+		
+		assertEquals(Status.STUNNED, clone.ceStatBlock.medicalStatBlock.status);
+		
+		Damage.statusCheck(150, clone);
+		
+		assertEquals(Status.STUNNED, clone.ceStatBlock.medicalStatBlock.status);
+		
 	}
 	
 	@Test

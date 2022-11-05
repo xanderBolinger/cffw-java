@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import CeHexGrid.Chit.Facing;
 import CorditeExpansion.CeAction.ActionType;
-import CorditeExpansion.CeStatBlock.MoveSpeed;
+import CorditeExpansionStatBlock.StatBlock;
+import CorditeExpansionStatBlock.StatBlock.MoveSpeed;
 
 public class MoveAction implements CeAction {
 
@@ -13,11 +14,11 @@ public class MoveAction implements CeAction {
 	int coac; 
 	int spentCoac = 0; 
 	
-	CeStatBlock statBlock;
+	StatBlock statBlock;
 	public ArrayList<Cord> cords = new ArrayList<>();
 	double movementFraction = 0.0; 
 	
-	public MoveAction(CeStatBlock statBlock, ArrayList<Cord> cords, int coac) {
+	public MoveAction(StatBlock statBlock, ArrayList<Cord> cords, int coac) {
 		
 		actionType = ActionType.MOVE;
 		

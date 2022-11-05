@@ -10,13 +10,13 @@ import org.junit.Test;
 import CorditeExpansion.ActionOrder;
 import CorditeExpansion.AimAction;
 import CorditeExpansion.CeAction;
-import CorditeExpansion.CeStatBlock;
 import CeHexGrid.Chit.Facing;
 import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.MoveAction;
-import CorditeExpansion.CeStatBlock.MoveSpeed;
-import CorditeExpansion.CeStatBlock.Stance;
+import CorditeExpansionStatBlock.StatBlock;
+import CorditeExpansionStatBlock.StatBlock.MoveSpeed;
+import CorditeExpansionStatBlock.StatBlock.Stance;
 import Trooper.Trooper;
 import UtilityClasses.ExcelUtility;
 
@@ -410,7 +410,7 @@ public class CorditeExpansionTests {
 		actionOrder.addTrooper(clone);
 		
 		
-		CeStatBlock stat = clone.ceStatBlock;
+		StatBlock stat = clone.ceStatBlock;
 		stat.combatActions = 4;
 		
 		Cord cord1 = new Cord(1,1);

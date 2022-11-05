@@ -1,5 +1,6 @@
 package CorditeExpansion;
 
+import CorditeExpansionStatBlock.StatBlock;
 import Trooper.Trooper;
 
 public class AimAction implements CeAction {
@@ -7,9 +8,9 @@ public class AimAction implements CeAction {
 	int coac = 2; 
 	int spentCoac = 0;
 	
-	CeStatBlock statBlock;
+	StatBlock statBlock;
 	
-	public AimAction(CeStatBlock statBlock) {
+	public AimAction(StatBlock statBlock) {
 		this.statBlock = statBlock;
 	}
 	

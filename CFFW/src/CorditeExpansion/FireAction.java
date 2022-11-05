@@ -3,8 +3,9 @@ package CorditeExpansion;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
-import CorditeExpansion.CeStatBlock.MoveSpeed;
-import CorditeExpansion.CeStatBlock.Stance;
+import CorditeExpansionStatBlock.StatBlock;
+import CorditeExpansionStatBlock.StatBlock.MoveSpeed;
+import CorditeExpansionStatBlock.StatBlock.Stance;
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.ExcelUtility;
@@ -15,12 +16,12 @@ public class FireAction implements CeAction {
 	public Trooper target;
 	public ArrayList<Cord> suppressHexes;
 
-	public CeStatBlock statBlock;
+	public StatBlock statBlock;
 
 	int coac = 2;
 	int spentCoac = 0;
 
-	public FireAction(CeStatBlock statBlock) {
+	public FireAction(StatBlock statBlock) {
 		this.statBlock = statBlock;
 	}
 
@@ -50,7 +51,7 @@ public class FireAction implements CeAction {
 		
 		int alm = calcualteALM();
 		
-		CeStatBlock targetStatBlock = target.ceStatBlock;
+		StatBlock targetStatBlock = target.ceStatBlock;
 		
 		int distance = GameWindow.dist(statBlock.cord.xCord, statBlock.cord.yCord, targetStatBlock.cord.xCord,
 				targetStatBlock.cord.yCord);
@@ -85,7 +86,7 @@ public class FireAction implements CeAction {
 	}
 
 	public int getDistanceAlm() {
-		CeStatBlock targetStatBlock = target.ceStatBlock;
+		StatBlock targetStatBlock = target.ceStatBlock;
 
 		int distance = GameWindow.dist(statBlock.cord.xCord, statBlock.cord.yCord, targetStatBlock.cord.xCord,
 				targetStatBlock.cord.yCord);
@@ -110,7 +111,7 @@ public class FireAction implements CeAction {
 		return PCUtility.findSizeALM(stance, target.PCSize);
 	}
 
-	public int getSpeedAlm(CeStatBlock movingBlock, CeStatBlock targetStatBlock) throws Exception {
+	public int getSpeedAlm(StatBlock movingBlock, StatBlock targetStatBlock) throws Exception {
 		
 		if(!movingBlock.acting() || movingBlock.getAction().getActionType() != ActionType.MOVE)
 			return 0; 

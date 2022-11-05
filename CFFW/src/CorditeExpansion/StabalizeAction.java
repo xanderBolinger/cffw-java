@@ -1,17 +1,18 @@
 package CorditeExpansion;
 
+import CorditeExpansionStatBlock.StatBlock;
 import UtilityClasses.DiceRoller;
 
 public class StabalizeAction implements CeAction {
 
-	CeStatBlock statBlock;
+	StatBlock statBlock;
 	int ergo; 
 	int firearms;
 	
 	int coac = 2; 
 	int spentCoac = 0; 
 	
-	public StabalizeAction(CeStatBlock statBlock) {
+	public StabalizeAction(StatBlock statBlock) {
 		this.statBlock = statBlock; 
 		this.ergo = statBlock.weapon.ceStats.baseErgonomics; 
 		this.firearms = statBlock.weaponPercent;

@@ -45,7 +45,6 @@ import Conflict.GameWindow;
 import CorditeExpansion.ActionOrder;
 import CorditeExpansion.CeAction;
 import CorditeExpansion.CeClickEvents;
-import CorditeExpansion.CeStatBlock;
 import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.CorditeExpansionWindow;
@@ -54,6 +53,7 @@ import CorditeExpansion.FloatingTextManager;
 import CorditeExpansion.MoveAction;
 import CorditeExpansion.TurnAction;
 import CorditeExpansion.CeAction.ActionType;
+import CorditeExpansionStatBlock.StatBlock;
 import Trooper.Trooper;
 import UtilityClasses.Keyboard;
 
@@ -662,7 +662,7 @@ public class CeHexGrid extends JPanel {
 		
 		if(CorditeExpansionGame.selectedTrooper != null) {
 			
-			CeStatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
+			StatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
 			
 			if(stat.acting() && stat.getAction().getActionType() == ActionType.MOVE) {
 				shadeMoveAction(g2, (MoveAction) stat.getAction());

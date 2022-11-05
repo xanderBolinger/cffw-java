@@ -1,4 +1,4 @@
-package CorditeExpansion;
+package CorditeExpansionStatBlock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +8,13 @@ import java.util.regex.Pattern;
 
 import CeHexGrid.Chit;
 import CeHexGrid.Chit.Facing;
+import CorditeExpansion.AimAction;
+import CorditeExpansion.CeAction;
+import CorditeExpansion.Cord;
+import CorditeExpansion.CorditeExpansionGame;
+import CorditeExpansion.CorditeExpansionWindow;
+import CorditeExpansion.MoveAction;
+import CorditeExpansionStatBlock.MedicalStatBlock.Status;
 import CorditeExpansion.CeAction.ActionType;
 import CorditeExpansion.CorditeExpansionGame.Impulse;
 import Items.Weapons;
@@ -15,11 +22,10 @@ import Trooper.Trooper;
 import Trooper.Trooper.MaximumSpeed;
 import UtilityClasses.ExcelUtility;
 
-public class CeStatBlock {
+public class StatBlock {
 
 	public double quickness; 
 	public int adaptabilityFactor; 
-	public int pain = 0;
 	
 	public int combatActions; 
 	public int spentCombatActions = 0; 
@@ -48,6 +54,12 @@ public class CeStatBlock {
 	public boolean fullAuto = false;
 	
 	public Chit chit; 
+	
+	public Trooper trooper;
+	
+	public MedicalStatBlock medicalStatBlock = new MedicalStatBlock();
+	
+	
 	
 	public enum Stance {
 		PRONE(1),CROUCH(2),STANDING(3);
@@ -79,7 +91,7 @@ public class CeStatBlock {
 		CRAWL,STEP,RUSH,SPRINT
 	}
 	
-	public CeStatBlock(Trooper trooper) {
+	public StatBlock(Trooper trooper) {
 		quickness = trooper.maximumSpeed.get();
 		combatActions = trooper.combatActions;
 		adaptabilityFactor = 1+Math.round(((trooper.getSkill("Fighter")/10)%10)/2);
@@ -91,6 +103,8 @@ public class CeStatBlock {
 		if(match.find()) {
 			weaponPercent = Integer.parseInt(match.group(0));			
 		}
+		
+		this.trooper = trooper;
 		
 		//System.out.println("Weapon Percent: "+weaponPercent+", Ergo: "+weapon.ceStats.baseErgonomics);
 		
@@ -157,6 +171,18 @@ public class CeStatBlock {
 		activeAction.setPrepared();
 	}
 	
+	public int getDifficultyDice() {
+		
+		int diffDice = 0; 
+		
+		diffDice += medicalStatBlock.getDifficultyDice();		
+		
+		diffDice += trooper.physicalDamage / 100;
+		
+		return diffDice; 
+		
+	}
+	
 	public void hesitate() {
 		hesitating = true;
 	}
@@ -164,6 +190,13 @@ public class CeStatBlock {
 	public void spendCaPoint() {
 		if(spentCombatActions >= combatActions) 
 			spentCombatActions = 0; 
+		
+		if(medicalStatBlock.status != Status.NORMAL) {
+			medicalStatBlock.spentCa++;
+			medicalStatBlock.recoverCheck(this);
+		}
+		
+		
 		
 		spentCombatActions++;
 		hesitating = false;

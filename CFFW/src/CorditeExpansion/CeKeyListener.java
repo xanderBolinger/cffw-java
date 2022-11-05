@@ -6,8 +6,9 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 
 import CeHexGrid.Chit.Facing;
-import CorditeExpansion.CeStatBlock.MoveSpeed;
-import CorditeExpansion.CeStatBlock.Stance;
+import CorditeExpansionStatBlock.StatBlock;
+import CorditeExpansionStatBlock.StatBlock.MoveSpeed;
+import CorditeExpansionStatBlock.StatBlock.Stance;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.Keyboard;
 
@@ -76,7 +77,7 @@ public class CeKeyListener {
 		if (CorditeExpansionGame.selectedTrooper == null)
 			return;
 
-		CeStatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
+		StatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
 
 		if (Keyboard.isKeyPressed(KeyEvent.VK_1)) {
 			stat.moveSpeed = MoveSpeed.STEP;
@@ -108,7 +109,7 @@ public class CeKeyListener {
 				|| (!Keyboard.isKeyPressed(KeyEvent.VK_Z) && !Keyboard.isKeyPressed(KeyEvent.VK_C)))
 			return;
 
-		CeStatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
+		StatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
 
 		if (stat.stance == Stance.STANDING) {
 			if (Keyboard.isKeyPressed(KeyEvent.VK_Z)) {
@@ -152,7 +153,7 @@ public class CeKeyListener {
 			return;
 
 		int roll = DiceRoller.randInt(1, 6);
-		CeStatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
+		StatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
 
 		if (roll <= stat.adaptabilityFactor) {
 

@@ -53,7 +53,7 @@ public class Damage {
 		// Status Check 
 		trooper.physicalDamage += pd;
 
-		KoTest(pd, trooper);
+		statusCheck(pd, trooper);
 		
 		// Apply Pain 
 		
@@ -65,30 +65,71 @@ public class Damage {
 		// Rolls incapacitation test
 		int physicalDamage = trooper.physicalDamage;
 		
-		KoTest(physicalDamage, trooper);
+		statusCheck(physicalDamage, trooper);
 		
 		
 		
 	}
 	
-	public static void KoTest(int physicalDamage, Trooper trooper) {
-		int TN = 0, KO = trooper.KO, roll = DiceRoller.randInt(0, 99);
+	public static void statusCheck(int physicalDamage, Trooper trooper) {
+		int KO = trooper.KO, roll = DiceRoller.randInt(0, 99);
 		
+		//System.out.println("Roll: "+roll);
 		
 		if (physicalDamage >= KO * 5) {
-			TN = 60;
+			if(roll <= 60) {
+				trooper.conscious = false;
+			} else if(roll <= 94) {
+				trooper.ceStatBlock.medicalStatBlock.setStunned(physicalDamage, trooper.ceStatBlock);
+			} else if(roll <= 96) {
+				trooper.ceStatBlock.medicalStatBlock.setDazed(physicalDamage, trooper.ceStatBlock);
+			} else if(roll <= 97) {
+				trooper.ceStatBlock.medicalStatBlock.setDisoriented(physicalDamage, trooper.ceStatBlock);
+			}
 		} else if (physicalDamage >= KO * 4) {
-			TN = 26;
+			if(roll <= 26) {
+				trooper.conscious = false;
+			} else if(roll <= 53) {
+				trooper.ceStatBlock.medicalStatBlock.setStunned(physicalDamage, trooper.ceStatBlock);
+			} else if(roll <= 82) {
+				trooper.ceStatBlock.medicalStatBlock.setDazed(physicalDamage, trooper.ceStatBlock);
+			} else if(roll <= 97) {
+				trooper.ceStatBlock.medicalStatBlock.setDisoriented(physicalDamage, trooper.ceStatBlock);
+			}
 		} else if (physicalDamage >= KO * 3) {
-			TN = 13;
+			if(roll <= 13) {
+				trooper.conscious = false;
+			} else if(roll <= 31) {
+				trooper.ceStatBlock.medicalStatBlock.setStunned(physicalDamage, trooper.ceStatBlock);
+			} else if(roll <= 52) {
+				trooper.ceStatBlock.medicalStatBlock.setDazed(physicalDamage, trooper.ceStatBlock);
+			} else if(roll <= 74) {
+				trooper.ceStatBlock.medicalStatBlock.setDisoriented(physicalDamage, trooper.ceStatBlock);
+			}
 		} else if (physicalDamage >= KO * 2) {
-			TN = 12;
+			if(roll <= 2) {
+				trooper.conscious = false;
+			} else if(roll <= 8) {
+				trooper.ceStatBlock.medicalStatBlock.setStunned(physicalDamage, trooper.ceStatBlock);
+			} else if(roll <= 16) {
+				trooper.ceStatBlock.medicalStatBlock.setDazed(physicalDamage, trooper.ceStatBlock);
+			} else if(roll <= 24) {
+				trooper.ceStatBlock.medicalStatBlock.setDisoriented(physicalDamage, trooper.ceStatBlock);
+			}
+		} else if(physicalDamage >= KO) {
+			if(roll <= 0) {
+				trooper.conscious = false;
+			} else if(roll <= 2) {
+				trooper.ceStatBlock.medicalStatBlock.setStunned(physicalDamage, trooper.ceStatBlock);
+			} else if(roll <= 5) {
+				trooper.ceStatBlock.medicalStatBlock.setDazed(physicalDamage, trooper.ceStatBlock);
+			} else if(roll <= 9) {
+				trooper.ceStatBlock.medicalStatBlock.setDisoriented(physicalDamage, trooper.ceStatBlock);
+			}
 		} 
 		
 		//System.out.println("KO: "+KO+", Roll: "+roll+", TN: "+TN);
-		if(roll < TN) {
-			trooper.conscious = false;
-		}
+		
 	}
 
 		

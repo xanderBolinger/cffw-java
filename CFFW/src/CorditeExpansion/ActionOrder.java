@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 import CeHexGrid.CeHexGrid;
 import CeHexGrid.Chit;
+import CorditeExpansionStatBlock.StatBlock;
 import Trooper.Trooper;
 
 public class ActionOrder {
@@ -59,7 +60,7 @@ public class ActionOrder {
 	}
 
 	private void setCeStats(Trooper trooper) {
-		trooper.ceStatBlock = new CeStatBlock(trooper);
+		trooper.ceStatBlock = new StatBlock(trooper);
 	}
 	
 	public ArrayList<Trooper> getOrder() {

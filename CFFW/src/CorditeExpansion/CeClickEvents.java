@@ -3,6 +3,7 @@ package CorditeExpansion;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import CorditeExpansionStatBlock.StatBlock;
 import Trooper.Trooper;
 import UtilityClasses.Keyboard;
 
@@ -38,7 +39,7 @@ public class CeClickEvents {
 	
 	public static void addAimHex(Cord cord) {
 		
-		CeStatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
+		StatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
 		AimAction action = stat.getAimAction();
 		
 		if(action == null) {
@@ -53,7 +54,7 @@ public class CeClickEvents {
 	
 	public static void setAimTarget(Trooper target) {
 		
-		CeStatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
+		StatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
 		AimAction action = stat.getAimAction();
 		
 		if(action == null) {

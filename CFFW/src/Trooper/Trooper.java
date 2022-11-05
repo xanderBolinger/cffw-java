@@ -24,7 +24,7 @@ import Conflict.Game;
 import Conflict.GameWindow;
 import Injuries.Injuries;
 import Conflict.OpenUnit;
-import CorditeExpansion.CeStatBlock;
+import CorditeExpansionStatBlock.StatBlock;
 import FatigueSystem.FatigueSystem;
 import Hexes.Building;
 import Hexes.Hex;
@@ -197,7 +197,7 @@ public class Trooper implements Serializable {
 	public Inventory inventory = new Inventory(this);
 	public int encumberanceModifier = 0;
 	
-	public CeStatBlock ceStatBlock;
+	public StatBlock ceStatBlock;
 	
 	public class MaximumSpeed implements Serializable {
 

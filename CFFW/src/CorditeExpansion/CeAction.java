@@ -4,7 +4,8 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import CeHexGrid.Chit.Facing;
-import CorditeExpansion.CeStatBlock.Stance;
+import CorditeExpansionStatBlock.StatBlock;
+import CorditeExpansionStatBlock.StatBlock.Stance;
 import Trooper.Trooper;
 import UtilityClasses.Keyboard;
 
@@ -23,7 +24,7 @@ public interface CeAction {
 	boolean ready();
 	ActionType getActionType();
 		
-	public static void addMoveAction(CeStatBlock statBlock, ArrayList<Cord> cords, int coac) {
+	public static void addMoveAction(StatBlock statBlock, ArrayList<Cord> cords, int coac) {
 		
 		if(coac == 0) {
 			statBlock.addAction(new MoveAction(statBlock, cords, coac)); 			
@@ -33,7 +34,7 @@ public interface CeAction {
 				
 	}
 	
-	public static void addTurnAction(CeStatBlock statBlock, boolean clockwise) {
+	public static void addTurnAction(StatBlock statBlock, boolean clockwise) {
 
 		
 		Facing facing = statBlock.getFacing();
@@ -48,7 +49,7 @@ public interface CeAction {
 		
 	}
 	
-	public static void updateTurnAction(CeStatBlock statBlock, boolean clockwise) {
+	public static void updateTurnAction(StatBlock statBlock, boolean clockwise) {
 		
 		CeAction action = statBlock.getTurnAction();
 		
@@ -71,16 +72,16 @@ public interface CeAction {
 		
 	}
 	
-	public static void addChangeStanceAction(CeStatBlock statBlock, Stance targetStance) {
+	public static void addChangeStanceAction(StatBlock statBlock, Stance targetStance) {
 		statBlock.addAction(new ChangeStanceAction(statBlock, targetStance));
 	}
 	
-	public static void addStabalizeAction(CeStatBlock statBlock) {
+	public static void addStabalizeAction(StatBlock statBlock) {
 		System.out.println("add action");
 		statBlock.addActionCoac(new StabalizeAction(statBlock));
 	}
 	
-	public static void addAimAciton(CeStatBlock statBlock, Cord cord) {
+	public static void addAimAciton(StatBlock statBlock, Cord cord) {
 		
 		statBlock.aimHexes.clear();
 		statBlock.aimTarget = null; 
@@ -91,7 +92,7 @@ public interface CeAction {
 		statBlock.addActionCoac(action);
 	}
 	
-	public static void addAimAciton(CeStatBlock statBlock, Trooper target) {
+	public static void addAimAciton(StatBlock statBlock, Trooper target) {
 		
 		statBlock.aimHexes.clear();
 		statBlock.aimTarget = null; 

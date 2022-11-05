@@ -1,13 +1,14 @@
 package CorditeExpansion;
 
-import CorditeExpansion.CeStatBlock.Stance;
+import CorditeExpansionStatBlock.StatBlock;
+import CorditeExpansionStatBlock.StatBlock.Stance;
 
 public class ChangeStanceAction implements CeAction {
 
 	Stance targetStance; 
-	CeStatBlock statBlock; 
+	StatBlock statBlock; 
 	
-	public ChangeStanceAction(CeStatBlock statBlock, Stance targetStance) {
+	public ChangeStanceAction(StatBlock statBlock, Stance targetStance) {
 		this.statBlock = statBlock;
 		this.targetStance = targetStance;
 	}

@@ -75,7 +75,7 @@ public class CorditeExpansionWindow extends JFrame {
 	 */
 
 	public static JList trooperList;
-	static JList actionList;
+	public static JList actionList;
 	static JList detailsList;
 
 	public static void main(String[] args) {
