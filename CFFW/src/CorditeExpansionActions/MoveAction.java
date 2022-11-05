@@ -1,9 +1,10 @@
-package CorditeExpansion;
+package CorditeExpansionActions;
 
 import java.util.ArrayList;
 
 import CeHexGrid.Chit.Facing;
-import CorditeExpansion.CeAction.ActionType;
+import CorditeExpansion.Cord;
+import CorditeExpansionActions.CeAction.ActionType;
 import CorditeExpansionStatBlock.StatBlock;
 import CorditeExpansionStatBlock.StatBlock.MoveSpeed;
 

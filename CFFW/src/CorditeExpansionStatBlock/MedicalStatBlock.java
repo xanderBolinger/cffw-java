@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import CorditeExpansionDamage.BloodLossLocation;
 import CorditeExpansionDamage.Damage;
+import UtilityClasses.DiceRoller;
 import UtilityClasses.TrooperUtility;
 
 public class MedicalStatBlock {
@@ -16,20 +17,45 @@ public class MedicalStatBlock {
 	public int timeSpentIncapacitated = 0;
 	
 	private boolean conscious = true;
-	private boolean alive = true;
+	public boolean alive = true;
 	
 	private int physicalDamage = 0;
 
 	private ArrayList<BloodLossLocation> bloodLossLocations = new ArrayList<>();
 	
+	public int recoveryChance = 0; 
+	public int criticalTime = 0;
+	public int timeSpentInjured = 0;
+	public boolean stabalized = false;
+	
 	public enum Status {
 		NORMAL,DAZED,DISORIENTED,STUNNED
+	}
+	
+	public void deathCheck() {
+		if(getPdTotal() <= 0 || stabalized)
+			return;
+		
+		timeSpentInjured++; 
+		
+		if(timeSpentInjured < criticalTime)
+			return;
+		
+		int roll = DiceRoller.randInt(0, 99);
+		System.out.println("Roll: "+roll+", recovery: "+recoveryChance);
+		if(roll <= recoveryChance) {
+			
+			stabalized = true; 
+		} else {
+			alive = false;
+		}
 	}
 	
 	public void bleedPerPhase() {
 		for(BloodLossLocation lc : bloodLossLocations) {
 			lc.blpd += lc.blpd / 100;
 		}
+		stabalized = false;
 	}
 	
 	public void addBleed(BloodLossLocation location) {
@@ -52,6 +78,7 @@ public class MedicalStatBlock {
 	
 	public void increasePd(int pd) {
 		physicalDamage += pd;
+		stabalized = false;
 	}
 	
 	public boolean conscious() {

@@ -1,8 +1,10 @@
-package CorditeExpansion;
+package CorditeExpansionActions;
 
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
+import CorditeExpansion.Cord;
+import CorditeExpansionDamage.Damage;
 import CorditeExpansionStatBlock.StatBlock;
 import CorditeExpansionStatBlock.StatBlock.MoveSpeed;
 import CorditeExpansionStatBlock.StatBlock.Stance;
@@ -10,6 +12,7 @@ import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.ExcelUtility;
 import UtilityClasses.PCUtility;
+import UtilityClasses.PcDamageUtility;
 
 public class FireAction implements CeAction {
 
@@ -24,20 +27,27 @@ public class FireAction implements CeAction {
 	public FireAction(StatBlock statBlock) {
 		this.statBlock = statBlock;
 	}
-
+	
 	@Override
 	public void spendCombatAction() {
 		if (!ready()) {
 			spentCoac++;
 			return;
 		}
-
 	}
 
 	public void shot() {
+		if(statBlock.weapon.ceStats.criticalHit) {
+			return;
+		}
+		
 		int eal = calculateEAL();
 		int odds = PCUtility.getOddsOfHitting(statBlock.fullAuto, eal);
 		int roll = DiceRoller.randInt(0, 99);
+		
+		if(roll > odds) {
+			return;
+		}
 		
 		
 		
@@ -70,7 +80,6 @@ public class FireAction implements CeAction {
 		int rangeALM; 
 		int speedALM = 0; 
 		int visibilityALM = 0;
-		
 		
 		rangeALM = getDistanceAlm();
 		

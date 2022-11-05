@@ -8,12 +8,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import CorditeExpansion.ActionOrder;
-import CorditeExpansion.AimAction;
-import CorditeExpansion.CeAction;
 import CeHexGrid.Chit.Facing;
 import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
-import CorditeExpansion.MoveAction;
+import CorditeExpansionActions.AimAction;
+import CorditeExpansionActions.CeAction;
+import CorditeExpansionActions.MoveAction;
 import CorditeExpansionStatBlock.MedicalStatBlock.Status;
 import CorditeExpansionStatBlock.StatBlock;
 import CorditeExpansionStatBlock.StatBlock.MoveSpeed;

@@ -1,6 +1,7 @@
-package CorditeExpansion;
+package CorditeExpansionActions;
 
 import CeHexGrid.Chit.Facing;
+import CorditeExpansionActions.CeAction.ActionType;
 import CorditeExpansionStatBlock.StatBlock;
 
 public class TurnAction implements CeAction {

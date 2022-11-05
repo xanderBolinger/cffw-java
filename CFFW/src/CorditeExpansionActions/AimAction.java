@@ -1,5 +1,7 @@
-package CorditeExpansion;
+package CorditeExpansionActions;
 
+import CorditeExpansion.Cord;
+import CorditeExpansionActions.CeAction.ActionType;
 import CorditeExpansionStatBlock.StatBlock;
 import Trooper.Trooper;
 

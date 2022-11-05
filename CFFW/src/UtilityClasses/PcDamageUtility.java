@@ -2,6 +2,7 @@ package UtilityClasses;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,6 +14,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import CorditeExpansionDamage.BloodLossLocation;
+import CorditeExpansionStatBlock.MedicalStatBlock;
 import Trooper.Trooper;
 
 public class PcDamageUtility {
@@ -257,4 +259,123 @@ public class PcDamageUtility {
 		return "None"; 
 	}
 	
+	public static void setRecovery(int aidMod, int recoveryRollMod, 
+			int physicalDamage, boolean recivingFirstAid, MedicalStatBlock medicalStatBlock) {
+		
+		int recoveryRoll = -1, criticalTime = -1;
+		
+		try {
+			// System.out.println("Path: "+path);
+			FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "\\aid.xlsx"));
+			Workbook workbook = new XSSFWorkbook(excelFile);
+			org.apache.poi.ss.usermodel.Sheet worksheet = workbook.getSheetAt(0);
+
+			int woundRow = 0;
+			woundRow -= aidMod;
+			for (int i = 2; i < 41; i++) {
+				if (physicalDamage <= worksheet.getRow(i).getCell(0).getNumericCellValue()) {
+					woundRow += i;
+					break;
+				}
+			}
+
+			if (woundRow < 2) {
+				woundRow = 2;
+			}
+
+			// System.out.println("WR: "+woundRow+" PD: "+physicalDamage);
+			if (recivingFirstAid) {
+				recoveryRoll = (int) worksheet.getRow(woundRow).getCell(4).getNumericCellValue() + recoveryRollMod;
+
+				String ctp = worksheet.getRow(woundRow).getCell(3).getStringCellValue();
+				// System.out.println("CTP: "+ctp);
+
+				if (ctp.length() == 2) {
+
+					int value = Character.getNumericValue(ctp.charAt(0));
+
+					if (ctp.charAt(1) == 'h') {
+						value = value * 60 * 120;
+					} else if (ctp.charAt(1) == 'm') {
+						value = value * 120;
+					} else if (ctp.charAt(1) == 'p') {
+						value = value * 2;
+					} else if (ctp.charAt(1) == 'd') {
+						value = value * 60 * 120 * 24;
+					}
+
+					// System.out.println("CTP Value: "+value);
+					criticalTime = value;
+
+				} else {
+					int value = Integer.parseInt(ctp.substring(0, 2));
+
+					if (ctp.charAt(2) == 'h') {
+						value = value * 60 * 120;
+					} else if (ctp.charAt(2) == 'm') {
+						value = value * 120;
+					} else if (ctp.charAt(2) == 'p') {
+						value = value * 2;
+					} else if (ctp.charAt(2) == 'd') {
+						value = value * 60 * 120 * 24;
+					}
+					// System.out.println("CTP Value: "+value);
+					criticalTime = value;
+				}
+
+			} else {
+
+				recoveryRoll = (int) worksheet.getRow(woundRow).getCell(2).getNumericCellValue() + recoveryRollMod;
+
+				String ctp = worksheet.getRow(woundRow).getCell(1).getStringCellValue();
+				// System.out.println("CTP No First Aid: "+ctp);
+
+				if (ctp.length() == 2) {
+
+					int value = Character.getNumericValue(ctp.charAt(0));
+
+					if (ctp.charAt(1) == 'h') {
+						value = value * 60 * 120;
+					} else if (ctp.charAt(1) == 'm') {
+						value = value * 120;
+					} else if (ctp.charAt(1) == 'p') {
+						value = value * 2;
+					} else if (ctp.charAt(1) == 'd') {
+						value = value * 60 * 120 * 24;
+					}
+					// System.out.println("CTP Value: "+value);
+					criticalTime = value;
+
+				} else {
+					int value = Integer.parseInt(ctp.substring(0, 2));
+
+					if (ctp.charAt(2) == 'h') {
+						value = value * 60 * 120;
+					} else if (ctp.charAt(2) == 'm') {
+						value = value * 120;
+					} else if (ctp.charAt(2) == 'p') {
+						value = value * 2;
+					} else if (ctp.charAt(2) == 'd') {
+						value = value * 60 * 120 * 24;
+					}
+					System.out.println("CTP Value: "+value);
+					criticalTime = value;
+				}
+
+			}
+
+			excelFile.close();
+			workbook.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("Recovery Chance: "+recoveryRoll+", Critical Time: "+criticalTime);
+		medicalStatBlock.recoveryChance = recoveryRoll;
+		medicalStatBlock.criticalTime = criticalTime;
+		
+	}
 }

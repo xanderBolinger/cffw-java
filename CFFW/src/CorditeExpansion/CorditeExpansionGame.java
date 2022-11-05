@@ -82,6 +82,14 @@ public class CorditeExpansionGame {
 		}
 	}
 	
+	public static void deathCheck() {
+		for(Trooper trooper : actionOrder.getOrder()) {
+			
+			trooper.ceStatBlock.medicalStatBlock.deathCheck();
+			
+		}
+	}
+	
 	public static void bleedOutCheck() {
 		for(Trooper trooper : actionOrder.getOrder()) {
 			if(trooper.ceStatBlock.medicalStatBlock.getBloodLossPd() > 100) {

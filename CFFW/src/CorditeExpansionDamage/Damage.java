@@ -24,7 +24,7 @@ public class Damage {
 
 	}
 
-	public void applyHit(int pen, int dc, boolean open, Trooper trooper) throws Exception {
+	public static void applyHit(int pen, int dc, boolean open, Trooper trooper) throws Exception {
 
 		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "\\hittable.xlsx"));
 		Workbook workbook = new XSSFWorkbook(excelFile);
@@ -42,11 +42,22 @@ public class Damage {
 		}
 
 		// DC 10 check
-
+		if(dc == 10) {
+			Damage.statusCheck(5 * trooper.KO, trooper);
+		}
+		
 		// Weapon hit check
-
+		if(hitLocationName.equals("Weapon Critical")) {
+			trooper.ceStatBlock.weapon.ceStats.criticalHit = true;
+			workbook.close();
+			return;
+		}
+		
 		// Regular damage
-		int pd = PcDamageUtility.getDamageValue(PcDamageUtility.getDamageString(pen, dc, open, hitLocation, worksheet));
+		String damageString = PcDamageUtility.getDamageString(pen, dc, open, hitLocation, worksheet);
+		int pd = PcDamageUtility.getDamageValue(damageString);
+		pd *= PcDamageUtility.getMultiplier(damageString);
+		
 		trooper.ceStatBlock.medicalStatBlock.increasePd(pd);
 
 		// Blood loss pd
@@ -129,7 +140,7 @@ public class Damage {
 	public static void statusCheck(int physicalDamage, Trooper trooper) {
 		int KO = trooper.KO, roll = DiceRoller.randInt(0, 99);
 
-		// System.out.println("Roll: "+roll);
+		//System.out.println("Roll: "+roll);
 
 		if (physicalDamage >= KO * 5) {
 			if (roll <= 60) {
@@ -187,7 +198,7 @@ public class Damage {
 
 	}
 
-	public int getPen(int pen, int hitLocation, boolean open, Trooper trooper) {
+	public static int getPen(int pen, int hitLocation, boolean open, Trooper trooper) {
 		pen = Damage.shieldEpen(hitLocation, pen, open, trooper);
 
 		try {
@@ -199,7 +210,7 @@ public class Damage {
 		return pen;
 	}
 
-	public int getHitLocation() {
+	public static int getHitLocation() {
 		return DiceRoller.randInt(0, 99);
 	}
 

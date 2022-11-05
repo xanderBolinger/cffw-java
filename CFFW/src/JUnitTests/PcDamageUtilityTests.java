@@ -14,6 +14,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import CorditeExpansion.ActionOrder;
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.ExcelUtility;
@@ -21,9 +22,10 @@ import UtilityClasses.PcDamageUtility;
 
 public class PcDamageUtilityTests {
 
-	
 	Sheet worksheet;
 	Workbook workbook;
+	
+	ActionOrder actionOrder;
 	
 	@Before
 	public void initTesting() {
@@ -35,7 +37,7 @@ public class PcDamageUtilityTests {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		actionOrder = new ActionOrder();
 	}
 	
 	
@@ -46,6 +48,28 @@ public class PcDamageUtilityTests {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	public void setRecoveryTest() {
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		actionOrder.addTrooper(clone);
+		clone.ceStatBlock.medicalStatBlock.increasePd(1);
+		
+		PcDamageUtility.setRecovery(0, 0, 5, false, clone.ceStatBlock.medicalStatBlock);
+		assertEquals(94, clone.ceStatBlock.medicalStatBlock.recoveryChance);
+		assertEquals(568800, clone.ceStatBlock.medicalStatBlock.criticalTime);
+		
+		PcDamageUtility.setRecovery(0, 0, 100000, false, clone.ceStatBlock.medicalStatBlock);
+		assertEquals(-1, clone.ceStatBlock.medicalStatBlock.recoveryChance);
+		assertEquals(2, clone.ceStatBlock.medicalStatBlock.criticalTime);
+		
+		clone.ceStatBlock.medicalStatBlock.deathCheck();
+		clone.ceStatBlock.medicalStatBlock.deathCheck();
+		
+		assertEquals(false, clone.ceStatBlock.medicalStatBlock.alive);
+		
+		actionOrder.clear();
 	}
 	
 	@Test 

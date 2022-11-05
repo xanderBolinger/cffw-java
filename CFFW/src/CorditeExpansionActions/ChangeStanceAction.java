@@ -1,4 +1,4 @@
-package CorditeExpansion;
+package CorditeExpansionActions;
 
 import CorditeExpansionStatBlock.StatBlock;
 import CorditeExpansionStatBlock.StatBlock.Stance;

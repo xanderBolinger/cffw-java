@@ -3,6 +3,9 @@ package CorditeExpansion;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import CorditeExpansionActions.AimAction;
+import CorditeExpansionActions.CeAction;
+import CorditeExpansionActions.MoveAction;
 import CorditeExpansionStatBlock.StatBlock;
 import Trooper.Trooper;
 import UtilityClasses.Keyboard;

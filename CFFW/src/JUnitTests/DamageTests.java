@@ -39,6 +39,17 @@ public class DamageTests {
 		assertEquals(1, 1);
 	}
 	
+	
+	@Test
+	public void applyHit() throws Exception {
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		actionOrder.addTrooper(clone);
+		Damage.applyHit(100, 10, true, clone);
+		
+		assertEquals(200, clone.ceStatBlock.medicalStatBlock.getPdTotal());
+		actionOrder.clear();
+	}
+	
 	@Test
 	public void incapTimeTest() throws Exception {
 		
@@ -62,14 +73,13 @@ public class DamageTests {
 		
 		Damage.statusCheck(100, clone);
 		
-		assertEquals(true, clone.conscious);
+		assertEquals(true, clone.ceStatBlock.medicalStatBlock.conscious());
 		
 		Damage.statusCheck(250, clone);
 		
+		assertEquals(false, clone.ceStatBlock.medicalStatBlock.conscious());
 		
-		assertEquals(false, clone.conscious);
-		
-		clone.conscious = true;
+		clone.ceStatBlock.medicalStatBlock.setConscious(0, clone.ceStatBlock);
 		
 		Damage.statusCheck(200, clone);
 		Damage.statusCheck(200, clone);
@@ -77,7 +87,7 @@ public class DamageTests {
 		
 		Damage.statusCheck(250, clone);
 		
-		assertEquals(false, clone.conscious);
+		assertEquals(false, clone.ceStatBlock.medicalStatBlock.conscious());
 	}
 	
 	@Test

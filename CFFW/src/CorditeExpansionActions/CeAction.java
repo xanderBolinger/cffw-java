@@ -1,9 +1,10 @@
-package CorditeExpansion;
+package CorditeExpansionActions;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import CeHexGrid.Chit.Facing;
+import CorditeExpansion.Cord;
 import CorditeExpansionStatBlock.StatBlock;
 import CorditeExpansionStatBlock.StatBlock.Stance;
 import Trooper.Trooper;
