@@ -19,3 +19,6 @@
 *.log
 *.dat
 *.ini
+*.prefs
+*.index
+*.resources
