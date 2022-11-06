@@ -13,3 +13,9 @@
 *.log
 *.xml
 *.ini
+.metadata/.plugins/org.eclipse.core.resources/.projects/.org.eclipse.egit.core.cmp/.location
+*.resources
+*.prefs
+*.log
+*.dat
+*.ini
