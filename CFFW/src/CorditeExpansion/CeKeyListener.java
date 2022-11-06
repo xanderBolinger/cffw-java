@@ -14,6 +14,7 @@ import UtilityClasses.DiceRoller;
 import UtilityClasses.Keyboard;
 
 import CeHexGrid.CeHexGrid;
+import CeHexGrid.FloatingTextManager;
 
 public class CeKeyListener {
 

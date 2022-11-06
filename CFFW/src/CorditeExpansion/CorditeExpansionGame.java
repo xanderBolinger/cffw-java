@@ -72,6 +72,7 @@ public class CorditeExpansionGame {
 		}
 		
 		incapacitationCheck();
+		deathCheck();
 	}
 	
 	public static void completeRound() {

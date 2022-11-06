@@ -1,6 +1,6 @@
 package CorditeExpansionActions;
 
-import CorditeExpansion.FloatingTextManager;
+import CeHexGrid.FloatingTextManager;
 import CorditeExpansionActions.CeAction.ActionType;
 import CorditeExpansionStatBlock.StatBlock;
 import UtilityClasses.DiceRoller;

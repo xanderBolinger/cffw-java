@@ -17,6 +17,7 @@ import CorditeExpansion.CorditeExpansionGame.Impulse;
 import CorditeExpansionActions.AimAction;
 import CorditeExpansionActions.CeAction;
 import CorditeExpansionActions.MoveAction;
+import CorditeExpansionFirearms.CalledShots.ShotTarget;
 import CorditeExpansionActions.CeAction.ActionType;
 import Items.Weapons;
 import Trooper.Trooper;
@@ -47,9 +48,12 @@ public class StatBlock {
 	public Weapons weapon;
 	public int weaponPercent;
 	
-	public int aimTime = 0;
+	public int suppression = 0;
+	private int aimTime = 0;
+	public int maxAim;
 	public Trooper aimTarget; 
 	public ArrayList<Cord> aimHexes = new ArrayList<>();
+	public ShotTarget shotTarget = ShotTarget.NONE;
 	
 	public boolean aiming = true;
 	public boolean fullAuto = false;
@@ -97,7 +101,7 @@ public class StatBlock {
 		combatActions = trooper.combatActions;
 		adaptabilityFactor = 1+Math.round(((trooper.getSkill("Fighter")/10)%10)/2);
 		weapon = new Weapons().findWeapon(trooper.wep);
-		
+		maxAim = weapon.aimTime.size() - 1;
 		//System.out.println("str: "+trooper.weaponPercent);
 		Matcher match = Pattern.compile("[0-9]+").matcher(trooper.weaponPercent);
 		
@@ -128,6 +132,27 @@ public class StatBlock {
 		}
 		
 		
+	}
+	
+	public void clearAim() {
+		aimHexes.clear();
+		aimTarget = null; 
+		aimTime = 0;
+	}
+	
+	public void setAimTarget(Trooper target) {
+		aimTarget = target;
+		aimTime = 0;
+	}
+	
+	public int getAimTime() {
+		return aimTime;
+	}
+	
+	public void aim() {
+		aimTime++;
+		if(aimTime > maxAim)
+			aimTime = maxAim;
 	}
 	
 	public void spendCombatAction() {	
@@ -354,6 +379,7 @@ public class StatBlock {
 		
 		results.add("aiming/firing: "+aimingFiring);
 		results.add("Fullatuo: "+fullAuto);
+		results.add("Shot Target: "+shotTarget.toString());
 		
 		results.add("Alive: "+medicalStatBlock.alive);
 		results.add("Conscoius: "+medicalStatBlock.conscious());
@@ -412,6 +438,25 @@ public class StatBlock {
 	
 	public int getDistance(StatBlock targetStatBlock) {
 		return GameWindow.dist(chit.xCord, chit.yCord, targetStatBlock.chit.xCord, targetStatBlock.chit.yCord);
+	}
+	
+	public void cycleShotTarget() {
+		
+		switch(shotTarget) {
+			case NONE:
+				shotTarget = ShotTarget.HEAD;
+				break;
+			case HEAD:
+				shotTarget = ShotTarget.BODY;
+				break;
+			case BODY: 
+				shotTarget = ShotTarget.LEGS;
+				break;
+			case LEGS:
+				shotTarget = ShotTarget.NONE;
+				break;
+		}
+		
 	}
 	
 	// the below methods are for testing 

@@ -11,6 +11,8 @@ import CorditeExpansion.ActionOrder;
 import CeHexGrid.Chit.Facing;
 import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
+import CorditeExpansion.FullAuto;
+import CorditeExpansion.FullAuto.FullAutoResults;
 import CorditeExpansionActions.AimAction;
 import CorditeExpansionActions.CeAction;
 import CorditeExpansionActions.MoveAction;
@@ -445,7 +447,7 @@ public class CorditeExpansionTests {
 		stat.spendCombatAction();
 		stat.spendCombatAction();
 		
-		assertEquals(3, stat.aimTime);
+		assertEquals(3, stat.getAimTime());
 		
 		actionOrder.clear();
 	}
@@ -469,5 +471,18 @@ public class CorditeExpansionTests {
 
 		CorditeExpansionGame.actionOrder.clear();
 		
+		actionOrder.clear();
+	}
+
+	@Test
+	public void fullAutoTest() throws Exception {
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		actionOrder.addTrooper(clone);
+		
+		FullAutoResults rslts = FullAuto.burst(20, 0.3, 10, clone.ceStatBlock);
+		
+		assertEquals(5, rslts.hits);
+		
+		actionOrder.clear();
 	}
 }

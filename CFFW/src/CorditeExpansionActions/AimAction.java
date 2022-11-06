@@ -23,14 +23,11 @@ public class AimAction implements CeAction {
 			return; 
 		}
 	
-		
-		statBlock.aimTime++; 
-		
+		statBlock.aim();
 	}
 	
 	public void setTargetTrooper(Trooper target) {
-		statBlock.aimTarget = target;
-		statBlock.aimTime = 0;
+		statBlock.setAimTarget(target);
 	}
 	
 	public void addTargetHex(Cord cord) {
@@ -50,7 +47,7 @@ public class AimAction implements CeAction {
 
 	@Override
 	public boolean completed() {
-		return statBlock.aimTime >= statBlock.weapon.aimTime.size() - 1;
+		return statBlock.getAimTime() >= statBlock.weapon.aimTime.size() - 1;
 	}
 
 	@Override
@@ -80,7 +77,7 @@ public class AimAction implements CeAction {
 			}
 		}
 		
-		return rslts+" ["+statBlock.aimTime+"]"; 
+		return rslts+" ["+statBlock.getAimTime()+"]"; 
 	}
 	
 }

@@ -47,8 +47,6 @@ import CorditeExpansion.CeClickEvents;
 import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.CorditeExpansionWindow;
-import CorditeExpansion.FloatingText;
-import CorditeExpansion.FloatingTextManager;
 import CorditeExpansionActions.CeAction;
 import CorditeExpansionActions.MoveAction;
 import CorditeExpansionActions.TurnAction;
@@ -111,6 +109,8 @@ public class CeHexGrid extends JPanel {
 
 	public CeHexGrid(int hexRows, int hexCols) {
 
+		FloatingTextManager.clearFloatingText();
+		
 		this.rows = hexRows + 1;
 		this.columns = hexCols;
 
@@ -143,7 +143,7 @@ public class CeHexGrid extends JPanel {
 
 		// chits.add(new Chit());
 		// addTemporaryChits();
-
+		
 		new Timer(20, new TimerListener()).start();
 
 	}

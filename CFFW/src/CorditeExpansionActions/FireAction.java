@@ -2,9 +2,14 @@ package CorditeExpansionActions;
 
 import java.util.ArrayList;
 
+import CeHexGrid.FloatingTextManager;
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
+import CorditeExpansion.FullAuto;
+import CorditeExpansion.FullAuto.FullAutoResults;
 import CorditeExpansionDamage.Damage;
+import CorditeExpansionFirearms.CalledShots;
+import CorditeExpansionFirearms.CalledShots.ShotTarget;
 import CorditeExpansionStatBlock.StatBlock;
 import CorditeExpansionStatBlock.StatBlock.MoveSpeed;
 import CorditeExpansionStatBlock.StatBlock.Stance;
@@ -23,11 +28,15 @@ public class FireAction implements CeAction {
 
 	int coac = 2;
 	int spentCoac = 0;
+	
+	int sustainedBurst = 0;
 
 	public FireAction(StatBlock statBlock, Trooper target) {
 		this.statBlock = statBlock;
 		this.target = target;
 	}
+	
+	public boolean followUpAim = false;
 	
 	@Override
 	public void spendCombatAction() {
@@ -37,21 +46,89 @@ public class FireAction implements CeAction {
 		}
 		
 		try {
-			shot();
+			if(statBlock.fullAuto)
+				fullAutoBurst();
+			else
+				shot();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	public void fullAutoBurst() throws Exception {
+		if(statBlock.weapon.ceStats.criticalHit) {
+			return;
+		}
+		
+		if(statBlock.aimTarget == null)
+			statBlock.setAimTarget(target);
+		
+		int range = statBlock.getDistance(target.ceStatBlock);
+		int eal = calculateEAL();
+		
+		CalledShots calledShots;
+		if(statBlock.shotTarget == ShotTarget.HEAD) {
+			calledShots = new CalledShots(calcualteALM(), getSizeAlm());
+			calledShots.setCalledShotBounds(statBlock.shotTarget);
+			eal = calledShots.getEal();
+		} else if(!target.ceStatBlock.inCover && 
+				(statBlock.shotTarget == ShotTarget.LEGS || statBlock.shotTarget == ShotTarget.BODY)) {
+			calledShots = new CalledShots(calcualteALM(), getSizeAlm());
+			calledShots.setCalledShotBounds(statBlock.shotTarget);
+			eal = calledShots.getEal();
+		}
+		eal -= statBlock.weapon.sab * sustainedBurst;
+		
+		double ma = statBlock.weapon.getMA(range);
+		int rof = statBlock.weapon.fullAutoROF;
+		
+		FullAutoResults far = FullAuto.burst(eal, ma, rof, statBlock);
+		
+		for(int i = 0; i < far.hits; i++) {
+			applyHit(range);
+		}
+		
+		FloatingTextManager.addFloatingText(statBlock.cord, far.rslts);
+		sustainedBurst++;
+	}
+	
 	public void shot() throws Exception {
 		if(statBlock.weapon.ceStats.criticalHit) {
 			return;
 		}
 		
+		if(statBlock.aimTarget == null)
+			statBlock.setAimTarget(target);
+		
 		int eal = calculateEAL();
-		int odds = PCUtility.getOddsOfHitting(statBlock.fullAuto, eal);
+		CalledShots calledShots;
+		if(statBlock.shotTarget == ShotTarget.HEAD) {
+			calledShots = new CalledShots(calcualteALM(), getSizeAlm());
+			calledShots.setCalledShotBounds(statBlock.shotTarget);
+			eal = calledShots.getEal();
+		} else if(!target.ceStatBlock.inCover && 
+				(statBlock.shotTarget == ShotTarget.LEGS || statBlock.shotTarget == ShotTarget.BODY)) {
+			calledShots = new CalledShots(calcualteALM(), getSizeAlm());
+			calledShots.setCalledShotBounds(statBlock.shotTarget);
+			eal = calledShots.getEal();
+		}
+		
+		int odds = PCUtility.getOddsOfHitting(true, eal);
+		int penalty = shotPenalty(statBlock);
 		int roll = DiceRoller.randInt(0, 99);
+		
+		FloatingTextManager.addFloatingText(statBlock.cord, "Shot, Roll: "+roll
+				+", TN: "+odds+", Penalty: "+penalty);
+		
+		/*System.out.println("Shooter Cord: "+statBlock.cord.toString()+" Target Cord: "+target.ceStatBlock.cord.toString());
+		System.out.println("Shooter Chit Cord: "+statBlock.chit.getCord().toString()+
+				" Target Chit Cord: "+target.ceStatBlock.chit.getCord().toString());*/
+		
+		if(statBlock.stabalized && !followUpAim) {
+			statBlock.aim();
+			followUpAim = true;
+		}
 		
 		if(roll > odds) {
 			return;
@@ -59,9 +136,13 @@ public class FireAction implements CeAction {
 		
 		int range = statBlock.getDistance(target.ceStatBlock);
 		
+		applyHit(range);
+	}
+	
+	public void applyHit(int range) throws Exception {
+		
 		Damage.applyHit(statBlock.weapon.getPen(range), statBlock.weapon.getDc(range), 
 				target.ceStatBlock.inCover, target);
-		
 	}
 	
 	public int calculateEAL() {
@@ -91,7 +172,8 @@ public class FireAction implements CeAction {
 		int rangeALM; 
 		int speedALM = 0; 
 		int visibilityALM = 0;
-		int aimALM = statBlock.weapon.aimTime.get(statBlock.aimTime);
+		int aimALM = statBlock.weapon.aimTime.get(statBlock.getAimTime());
+		int stanceAlm = getStanceAlm(); 
 		
 		rangeALM = getDistanceAlm();
 		
@@ -102,8 +184,20 @@ public class FireAction implements CeAction {
 			e.printStackTrace();
 		}
 		
-		return rangeALM + speedALM + visibilityALM + aimALM; 
+		return rangeALM + speedALM + visibilityALM + aimALM + stanceAlm; 
 	
+	}
+	
+	public int getStanceAlm() {
+		
+		if(statBlock.stance == Stance.CROUCH) {
+			return 3;
+		} else if(statBlock.stance == Stance.PRONE) {
+			return 6;
+		} else {
+			return 0;
+		}
+		
 	}
 
 	public int getDistanceAlm() {
@@ -170,6 +264,20 @@ public class FireAction implements CeAction {
 		return value;
 	}
 
+	public static int shotPenalty(StatBlock statBlock) {
+		int penalty = 0; 
+		
+		for(int i = 0; i < statBlock.medicalStatBlock.pain; i++) {
+			penalty += DiceRoller.d6_exploding();
+		}
+		
+		for(int i = 0; i < statBlock.suppression; i++) {
+			penalty += DiceRoller.d6_exploding();
+		}
+		
+		return penalty;
+	}
+	
 	@Override
 	public void setPrepared() {
 		spentCoac = coac;
@@ -208,7 +316,7 @@ public class FireAction implements CeAction {
 			}
 		}
 
-		return rslts + " [" + statBlock.aimTime + "]";
+		return rslts + " [" + statBlock.getAimTime() + "], EAL: "+calculateEAL();
 	}
 
 }

@@ -1,4 +1,4 @@
-package CorditeExpansion;
+package CeHexGrid;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -8,15 +8,14 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.geom.Rectangle2D;
 
-import CeHexGrid.CeHexGrid;
-import CeHexGrid.Colors;
+import CorditeExpansion.Cord;
 
 public class FloatingText {
 
 	
 	
 	private final String FONTNAME = "Tw Cen MT";
-	private final int FONTSIZE = 14;
+	private final int FONTSIZE = 11;
 	private final int STYLE = Font.BOLD;
 	private final Color FOREGROUND = Colors.FOREGROUND;
 	private final Color BACKGROUND = Colors.GRAY;

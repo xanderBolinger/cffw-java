@@ -1,6 +1,8 @@
-package CorditeExpansion;
+package CeHexGrid;
 
 import java.util.ArrayList;
+
+import CorditeExpansion.Cord;
 
 public class FloatingTextManager {
 	private static ArrayList<FloatingText> floatingText = new ArrayList<>();

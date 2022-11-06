@@ -90,9 +90,7 @@ public interface CeAction {
 	
 	public static void addAimAciton(StatBlock statBlock, Cord cord) {
 		
-		statBlock.aimHexes.clear();
-		statBlock.aimTarget = null; 
-		statBlock.aimTime = 0;
+		statBlock.clearAim();
 		
 		AimAction action = new AimAction(statBlock);
 		action.addTargetHex(cord);
@@ -101,9 +99,7 @@ public interface CeAction {
 	
 	public static void addAimAciton(StatBlock statBlock, Trooper target) {
 		
-		statBlock.aimHexes.clear();
-		statBlock.aimTarget = null; 
-		statBlock.aimTime = 0;
+		statBlock.clearAim();
 		
 		AimAction action = new AimAction(statBlock);
 		action.setTargetTrooper(target);

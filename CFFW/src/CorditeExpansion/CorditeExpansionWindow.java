@@ -149,6 +149,7 @@ public class CorditeExpansionWindow extends JFrame {
 				
 				Trooper b1 = new Trooper("B1 Rifleman", "CIS Battle Droid");
 				actionOrder.addTrooper(b1);
+				b1.ceStatBlock.cord = new Cord(4, 0);
 				b1.ceStatBlock.chit.xCord = 4;
 				b1.ceStatBlock.chit.facing = Facing.A;
 
@@ -467,11 +468,14 @@ public class CorditeExpansionWindow extends JFrame {
 					CorditeExpansionGame.selectedTrooper.ceStatBlock.toggleAiming();
 				} else if(detailsList.getSelectedIndex() == 9) {
 					CorditeExpansionGame.selectedTrooper.ceStatBlock.toggleFullauto();
+				} else if(detailsList.getSelectedIndex() == 10) {
+					CorditeExpansionGame.selectedTrooper.ceStatBlock.cycleShotTarget();
 				}
 				
 				refreshCeDetailsList(CorditeExpansionGame.selectedTrooper);
 				
-				if(index != 6 && index != 8 && index != 9 &&  index < detailsList.getModel().getSize() - 1 ) {
+				if(index != 6 && index != 8 && index != 9 && index != 10 &&
+						index < detailsList.getModel().getSize() - 1 ) {
 					detailsList.setSelectedIndex(index);
 				}
 				
@@ -610,8 +614,13 @@ public class CorditeExpansionWindow extends JFrame {
 	}
 
 	public void hideScrollBars(JScrollPane scrollPane) {
-		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		//scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		//scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+		scrollPane.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
+		scrollPane.getViewport().setBorder(null);
+		scrollPane.setViewportBorder(null);
+		scrollPane.setBorder(null);
 	}
 	
 

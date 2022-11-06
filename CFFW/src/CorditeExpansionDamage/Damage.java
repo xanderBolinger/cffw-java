@@ -13,6 +13,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import CeHexGrid.FloatingTextManager;
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.ExcelUtility;
@@ -24,6 +26,74 @@ public class Damage {
 
 	}
 
+	public static void applyHit(int pen, int dc, boolean open, Trooper trooper, int hitLocation) throws Exception {
+
+		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "\\hittable.xlsx"));
+		Workbook workbook = new XSSFWorkbook(excelFile);
+		Sheet worksheet = workbook.getSheetAt(0);
+
+		String hitLocationName = PcDamageUtility.getHitLocationName(open, hitLocation, worksheet);
+
+		pen = getPen(pen, hitLocation, open, trooper);
+
+		if (pen < 1) {
+			workbook.close();
+			return;
+		}
+
+		// DC 10 check
+		if (dc == 10) {
+			Damage.statusCheck(5 * trooper.KO, trooper);
+		}
+
+		// Weapon hit check
+		if (hitLocationName.equals("Weapon Critical")) {
+			trooper.ceStatBlock.weapon.ceStats.criticalHit = true;
+			workbook.close();
+			return;
+		}
+
+		// Regular damage
+		String damageString = PcDamageUtility.getDamageString(pen, dc, open, hitLocation, worksheet);
+		int pd = PcDamageUtility.getDamageValue(damageString);
+		pd *= PcDamageUtility.getMultiplier(damageString);
+
+		trooper.ceStatBlock.medicalStatBlock.increasePd(pd);
+
+		String rslts = "Hit: " + hitLocationName + ", PD: " + pd;
+
+		// Blood loss pd
+		BloodLossLocation location = PcDamageUtility.getBloodLossPD((double) pen, dc, hitLocationName, trooper);
+		if (location != null) {
+			trooper.ceStatBlock.medicalStatBlock.addBleed(location);
+			rslts += ", Blood Loss: " + location.blpd;
+		}
+
+		// Disabled
+		boolean disabled = PcDamageUtility.getDisabled(damageString);
+
+		if (disabled) {
+			addDisabledLimb(trooper, hitLocationName, pd);
+			rslts += ", Disabled: " + disabled;
+		}
+
+		FloatingTextManager.addFloatingText(trooper.ceStatBlock.cord, rslts);
+
+		// Status Check
+		statusCheck(pd, trooper);
+
+		// Apply Pain
+		trooper.ceStatBlock.medicalStatBlock.pain = trooper.ceStatBlock.medicalStatBlock.getPdTotal() / 100;
+
+		// Flinch 
+		if(pd > 2 * trooper.KO) {
+			trooper.ceStatBlock.clearAim();
+			trooper.ceStatBlock.stabalized = false;
+		}
+		
+		workbook.close();
+	}
+	
 	public static void applyHit(int pen, int dc, boolean open, Trooper trooper) throws Exception {
 
 		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "\\hittable.xlsx"));
@@ -42,61 +112,124 @@ public class Damage {
 		}
 
 		// DC 10 check
-		if(dc == 10) {
+		if (dc == 10) {
 			Damage.statusCheck(5 * trooper.KO, trooper);
 		}
-		
+
 		// Weapon hit check
-		if(hitLocationName.equals("Weapon Critical")) {
+		if (hitLocationName.equals("Weapon Critical")) {
 			trooper.ceStatBlock.weapon.ceStats.criticalHit = true;
 			workbook.close();
 			return;
 		}
-		
+
 		// Regular damage
 		String damageString = PcDamageUtility.getDamageString(pen, dc, open, hitLocation, worksheet);
 		int pd = PcDamageUtility.getDamageValue(damageString);
 		pd *= PcDamageUtility.getMultiplier(damageString);
-		
+
 		trooper.ceStatBlock.medicalStatBlock.increasePd(pd);
+
+		String rslts = "Hit: " + hitLocationName + ", PD: " + pd;
 
 		// Blood loss pd
 		BloodLossLocation location = PcDamageUtility.getBloodLossPD((double) pen, dc, hitLocationName, trooper);
-		if(location != null)
+		if (location != null) {
 			trooper.ceStatBlock.medicalStatBlock.addBleed(location);
-		
+			rslts += ", Blood Loss: " + location.blpd;
+		}
+
+		// Disabled
+		boolean disabled = PcDamageUtility.getDisabled(damageString);
+
+		if (disabled) {
+			addDisabledLimb(trooper, hitLocationName, pd);
+			rslts += ", Disabled: " + disabled;
+		}
+
+		FloatingTextManager.addFloatingText(trooper.ceStatBlock.cord, rslts);
+
 		// Status Check
 		statusCheck(pd, trooper);
 
 		// Apply Pain
+		trooper.ceStatBlock.medicalStatBlock.pain = trooper.ceStatBlock.medicalStatBlock.getPdTotal() / 100;
 
+		// Flinch 
+		if(pd > 2 * trooper.KO) {
+			trooper.ceStatBlock.clearAim();
+			trooper.ceStatBlock.stabalized = false;
+		}
+		
 		workbook.close();
+	}
+
+	public static void addDisabledLimb(Trooper trooper, String location, int pd) {
+		if (location.equals("Neck Spine") || location.equals("Liver - Spine")
+				|| location.equals("Spine")) {
+			trooper.disabledArms = trooper.arms;
+			trooper.disabledLegs = trooper.legs;
+			trooper.ceStatBlock.medicalStatBlock.setUnconscious(pd);
+		} else if (location.equals("Heart")) {
+			trooper.ceStatBlock.medicalStatBlock.setUnconscious(pd);
+			trooper.ceStatBlock.medicalStatBlock.alive = false;
+		} else if (location.equals("Shoulder") || location.equals("Arm Flesh")
+				|| location.equals("Arm Bone") || location.equals("Elbow")
+				|| location.equals("Forearm Flesh") || location.equals("Forearm Bone")
+				|| location.equals("Hand")) {
+			trooper.disabledArms++;
+		} else if (location.equals("Thigh Flesh") || location.equals("Thigh Bone")
+				|| location.equals("Knee") || location.equals("Shin Flesh")
+				|| location.equals("Shin Bone") || location.equals("Ankle - Foot")) {
+			trooper.disabledLegs++;
+		}
+		
+		setDisabledLimbPenalty(trooper);
+		
+	}
+	
+	public static void setDisabledLimbPenalty(Trooper trooper) {
+		
+		if(trooper.disabledArms == 1) {
+			trooper.ceStatBlock.maxAim = trooper.ceStatBlock.weapon.aimTime.size() - 2;
+			trooper.ceStatBlock.clearAim();
+		} else if(trooper.disabledArms > 1) {
+			trooper.ceStatBlock.maxAim = 2;
+			trooper.ceStatBlock.clearAim();
+		}
+		
+		if(trooper.disabledLegs == 1) {
+			trooper.ceStatBlock.quickness = trooper.maximumSpeed.get() - 3;
+		} else if(trooper.disabledLegs > 1) {
+			trooper.ceStatBlock.quickness = trooper.maximumSpeed.get() - 5;
+		} 
+		
 	}
 
 	public static int incapacitationImpulses(int physicalDamage) throws Exception {
 		int roll = DiceRoller.randInt(0, 9);
 
-		if(physicalDamage > 1000)
+		if (physicalDamage > 1000)
 			physicalDamage = 1000;
-		
+
 		String incapStr = ExcelUtility.getStringFromSheet(roll, physicalDamage,
 				"Formatted Excel Files\\incapacitationtime.xlsx", true, true);
 
 		int multiplier = getIncapMultiplier(incapStr);
 		int value = getIncapTimeValue(incapStr);
-		
+
 		return value * multiplier;
 	}
-	
+
 	public static int getIncapTimeValue(String incapStr) throws Exception {
 		Pattern pattern = Pattern.compile("[0-9]+", Pattern.CASE_INSENSITIVE);
-	    Matcher matcher = pattern.matcher(incapStr);
-	    boolean matchFound = matcher.find();
-	    if(matchFound) {
-	    	return Integer.parseInt(matcher.group());
-	    }
-		
-		throw new Exception("incapStr: "+incapStr+", has no numeric value.");
+		Matcher matcher = pattern.matcher(incapStr);
+		boolean matchFound = matcher.find();
+		if (matchFound) {
+			return Integer.parseInt(matcher.group());
+		}
+
+		throw new Exception("incapStr: " + incapStr + ", has no numeric value.");
 	}
 
 	public static int getIncapMultiplier(String incapStr) throws Exception {
@@ -113,25 +246,25 @@ public class Damage {
 		int multiplier;
 
 		switch (incapCharacter) {
-			case 'p':
-				multiplier = 2;
-				break;
-			case 'm':
-				multiplier = 120;
-				break;
-			case 'h':
-				multiplier = 120*60;
-				break;
-			case 'd':
-				multiplier = 120*60*24;
-				break;
-			default:
-				throw new Exception("Incap Character: "+incapCharacter+" not valid.");
+		case 'p':
+			multiplier = 2;
+			break;
+		case 'm':
+			multiplier = 120;
+			break;
+		case 'h':
+			multiplier = 120 * 60;
+			break;
+		case 'd':
+			multiplier = 120 * 60 * 24;
+			break;
+		default:
+			throw new Exception("Incap Character: " + incapCharacter + " not valid.");
 		}
-		
+
 		return multiplier;
 	}
-	
+
 	public static void trooperDamageCheck(Trooper trooper) {
 		// Rolls incapacitation test
 		int physicalDamage = trooper.physicalDamage;
@@ -143,7 +276,7 @@ public class Damage {
 	public static void statusCheck(int physicalDamage, Trooper trooper) {
 		int KO = trooper.KO, roll = DiceRoller.randInt(0, 99);
 
-		//System.out.println("Roll: "+roll);
+		// System.out.println("Roll: "+roll);
 
 		if (physicalDamage >= KO * 5) {
 			if (roll <= 60) {
