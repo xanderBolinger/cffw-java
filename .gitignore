@@ -22,3 +22,7 @@
 *.prefs
 *.index
 *.resources
+*.ini
+*.log
+*.prefs
+*.resources

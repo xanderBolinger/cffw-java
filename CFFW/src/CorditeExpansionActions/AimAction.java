@@ -32,10 +32,10 @@ public class AimAction implements CeAction {
 	
 	public void addTargetHex(Cord cord) {
 		
-		statBlock.aimHexes.add(cord);
+		statBlock.rangedStatBlock.aimHexes.add(cord);
 		
-		if(statBlock.aimHexes.size() > 3)
-			statBlock.aimHexes.remove(0);
+		if(statBlock.rangedStatBlock.aimHexes.size() > 3)
+			statBlock.rangedStatBlock.aimHexes.remove(0);
 		
 	}
 
@@ -47,7 +47,7 @@ public class AimAction implements CeAction {
 
 	@Override
 	public boolean completed() {
-		return statBlock.getAimTime() >= statBlock.weapon.aimTime.size() - 1;
+		return statBlock.getAimTime() >= statBlock.rangedStatBlock.weapon.aimTime.size() - 1;
 	}
 
 	@Override
@@ -64,13 +64,13 @@ public class AimAction implements CeAction {
 	public String toString() {
 		String rslts = "Aim: "; 
 		
-		if(statBlock.aimTarget != null) {
-			rslts += statBlock.aimTarget.name;
+		if(statBlock.rangedStatBlock.aimTarget != null) {
+			rslts += statBlock.rangedStatBlock.aimTarget.name;
 		} else {
-			for(Cord cord : statBlock.aimHexes) {
+			for(Cord cord : statBlock.rangedStatBlock.aimHexes) {
 				rslts += "("+cord.xCord+","+cord.yCord+")";
 				
-				if(cord != statBlock.aimHexes.get(statBlock.aimHexes.size()-1)) {
+				if(cord != statBlock.rangedStatBlock.aimHexes.get(statBlock.rangedStatBlock.aimHexes.size()-1)) {
 					rslts += ", ";
 				}
 				

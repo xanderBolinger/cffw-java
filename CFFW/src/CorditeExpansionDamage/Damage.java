@@ -48,7 +48,7 @@ public class Damage {
 
 		// Weapon hit check
 		if (hitLocationName.equals("Weapon Critical")) {
-			trooper.ceStatBlock.weapon.ceStats.criticalHit = true;
+			trooper.ceStatBlock.rangedStatBlock.weapon.ceStats.criticalHit = true;
 			workbook.close();
 			return;
 		}
@@ -88,7 +88,7 @@ public class Damage {
 		// Flinch 
 		if(pd > 2 * trooper.KO) {
 			trooper.ceStatBlock.clearAim();
-			trooper.ceStatBlock.stabalized = false;
+			trooper.ceStatBlock.rangedStatBlock.stabalized = false;
 		}
 		
 		workbook.close();
@@ -118,7 +118,7 @@ public class Damage {
 
 		// Weapon hit check
 		if (hitLocationName.equals("Weapon Critical")) {
-			trooper.ceStatBlock.weapon.ceStats.criticalHit = true;
+			trooper.ceStatBlock.rangedStatBlock.weapon.ceStats.criticalHit = true;
 			workbook.close();
 			return;
 		}
@@ -158,7 +158,7 @@ public class Damage {
 		// Flinch 
 		if(pd > 2 * trooper.KO) {
 			trooper.ceStatBlock.clearAim();
-			trooper.ceStatBlock.stabalized = false;
+			trooper.ceStatBlock.rangedStatBlock.stabalized = false;
 		}
 		
 		workbook.close();
@@ -191,10 +191,10 @@ public class Damage {
 	public static void setDisabledLimbPenalty(Trooper trooper) {
 		
 		if(trooper.disabledArms == 1) {
-			trooper.ceStatBlock.maxAim = trooper.ceStatBlock.weapon.aimTime.size() - 2;
+			trooper.ceStatBlock.rangedStatBlock.maxAim = trooper.ceStatBlock.rangedStatBlock.weapon.aimTime.size() - 2;
 			trooper.ceStatBlock.clearAim();
 		} else if(trooper.disabledArms > 1) {
-			trooper.ceStatBlock.maxAim = 2;
+			trooper.ceStatBlock.rangedStatBlock.maxAim = 2;
 			trooper.ceStatBlock.clearAim();
 		}
 		

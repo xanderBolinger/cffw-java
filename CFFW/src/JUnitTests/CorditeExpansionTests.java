@@ -17,10 +17,13 @@ import CorditeExpansionActions.AimAction;
 import CorditeExpansionActions.CeAction;
 import CorditeExpansionActions.MoveAction;
 import CorditeExpansionStatBlock.MedicalStatBlock.Status;
+import CorditeExpansionStatBlock.SkillStatBlock;
+import CorditeExpansionStatBlock.SkillStatBlock.SkillCheck;
 import CorditeExpansionStatBlock.StatBlock;
 import CorditeExpansionStatBlock.StatBlock.MoveSpeed;
 import CorditeExpansionStatBlock.StatBlock.Stance;
 import Trooper.Trooper;
+import UtilityClasses.DiceRoller;
 import UtilityClasses.ExcelUtility;
 
 public class CorditeExpansionTests {
@@ -430,16 +433,16 @@ public class CorditeExpansionTests {
 		aimAction.addTargetHex(cord2);
 		aimAction.addTargetHex(cord3);
 		
-		assertEquals(true, clone.ceStatBlock.aimHexes.contains(cord1));
-		assertEquals(true, clone.ceStatBlock.aimHexes.contains(cord2));
-		assertEquals(true, clone.ceStatBlock.aimHexes.contains(cord3));
+		assertEquals(true, clone.ceStatBlock.rangedStatBlock.aimHexes.contains(cord1));
+		assertEquals(true, clone.ceStatBlock.rangedStatBlock.aimHexes.contains(cord2));
+		assertEquals(true, clone.ceStatBlock.rangedStatBlock.aimHexes.contains(cord3));
 		
 		aimAction.addTargetHex(cord4);
 		
-		assertEquals(false, clone.ceStatBlock.aimHexes.contains(cord1));
-		assertEquals(true, clone.ceStatBlock.aimHexes.contains(cord2));
-		assertEquals(true, clone.ceStatBlock.aimHexes.contains(cord3));
-		assertEquals(true, clone.ceStatBlock.aimHexes.contains(cord4));
+		assertEquals(false, clone.ceStatBlock.rangedStatBlock.aimHexes.contains(cord1));
+		assertEquals(true, clone.ceStatBlock.rangedStatBlock.aimHexes.contains(cord2));
+		assertEquals(true, clone.ceStatBlock.rangedStatBlock.aimHexes.contains(cord3));
+		assertEquals(true, clone.ceStatBlock.rangedStatBlock.aimHexes.contains(cord4));
 		
 		stat.prepareCourseOfAction();
 		stat.prepareCourseOfAction();
@@ -485,4 +488,44 @@ public class CorditeExpansionTests {
 		
 		actionOrder.clear();
 	}
+	
+	@Test 
+	public void skillCheckTest() {
+		
+		DiceRoller.initTesting();
+		
+		// Rolls 
+		// 82 50 76 89
+		SkillStatBlock stat = new SkillStatBlock(); 
+		
+		SkillCheck skillCheck = new SkillStatBlock.SkillCheck(stat, 90, 0, 0);
+		
+		// 82
+		assertEquals(true, skillCheck.performSkillCheck(true));
+		assertEquals(1, stat.success);
+		
+		skillCheck = new SkillStatBlock.SkillCheck(stat, 90, 0, 0);
+		
+		// 50
+		assertEquals(true, skillCheck.performSkillCheck(true));
+		assertEquals(5, stat.success);
+		
+		// 76
+		skillCheck = new SkillStatBlock.SkillCheck(stat, 90, 0, 30);
+		
+		assertEquals(false, skillCheck.performSkillCheck(false));
+		assertEquals(5, stat.success);
+		assertEquals(0, stat.failure);
+		
+		// 89
+		skillCheck = new SkillStatBlock.SkillCheck(stat, 90, 0, 300);
+		assertEquals(false, skillCheck.performSkillCheck(true));
+		assertEquals(0, stat.success);
+		assertEquals(5, stat.failure);
+		
+		DiceRoller.finishTesting();
+	}
+
+	
+	
 }

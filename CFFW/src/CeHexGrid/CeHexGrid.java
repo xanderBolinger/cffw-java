@@ -226,11 +226,11 @@ public class CeHexGrid extends JPanel {
 		}
 
 		if (CorditeExpansionGame.selectedTrooper != null && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)
-				&& CorditeExpansionGame.selectedTrooper.ceStatBlock.aiming) {
+				&& CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.aiming) {
 			checkAimClick(e.getPoint());
 			return;
 		} else if (CorditeExpansionGame.selectedTrooper != null && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)
-				&& !CorditeExpansionGame.selectedTrooper.ceStatBlock.aiming) {
+				&& !CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.aiming) {
 			checkFireClick(e.getPoint());
 			return;
 		}

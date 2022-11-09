@@ -8,8 +8,8 @@ import CorditeExpansion.Cord;
 import CorditeExpansion.FullAuto;
 import CorditeExpansion.FullAuto.FullAutoResults;
 import CorditeExpansionDamage.Damage;
-import CorditeExpansionFirearms.CalledShots;
-import CorditeExpansionFirearms.CalledShots.ShotTarget;
+import CorditeExpansionRangedCombat.CalledShots;
+import CorditeExpansionRangedCombat.CalledShots.ShotTarget;
 import CorditeExpansionStatBlock.StatBlock;
 import CorditeExpansionStatBlock.StatBlock.MoveSpeed;
 import CorditeExpansionStatBlock.StatBlock.Stance;
@@ -25,7 +25,6 @@ public class FireAction implements CeAction {
 	public ArrayList<Cord> suppressHexes;
 
 	public StatBlock statBlock;
-
 	int coac = 2;
 	int spentCoac = 0;
 	
@@ -46,7 +45,7 @@ public class FireAction implements CeAction {
 		}
 		
 		try {
-			if(statBlock.fullAuto)
+			if(statBlock.rangedStatBlock.fullAuto)
 				fullAutoBurst();
 			else
 				shot();
@@ -57,31 +56,31 @@ public class FireAction implements CeAction {
 	}
 
 	public void fullAutoBurst() throws Exception {
-		if(statBlock.weapon.ceStats.criticalHit) {
+		if(statBlock.rangedStatBlock.weapon.ceStats.criticalHit) {
 			return;
 		}
 		
-		if(statBlock.aimTarget == null)
+		if(statBlock.rangedStatBlock.aimTarget == null)
 			statBlock.setAimTarget(target);
 		
 		int range = statBlock.getDistance(target.ceStatBlock);
 		int eal = calculateEAL();
 		
 		CalledShots calledShots;
-		if(statBlock.shotTarget == ShotTarget.HEAD) {
+		if(statBlock.rangedStatBlock.shotTarget == ShotTarget.HEAD) {
 			calledShots = new CalledShots(calcualteALM(), getSizeAlm());
-			calledShots.setCalledShotBounds(statBlock.shotTarget);
+			calledShots.setCalledShotBounds(statBlock.rangedStatBlock.shotTarget);
 			eal = calledShots.getEal();
 		} else if(!target.ceStatBlock.inCover && 
-				(statBlock.shotTarget == ShotTarget.LEGS || statBlock.shotTarget == ShotTarget.BODY)) {
+				(statBlock.rangedStatBlock.shotTarget == ShotTarget.LEGS || statBlock.rangedStatBlock.shotTarget == ShotTarget.BODY)) {
 			calledShots = new CalledShots(calcualteALM(), getSizeAlm());
-			calledShots.setCalledShotBounds(statBlock.shotTarget);
+			calledShots.setCalledShotBounds(statBlock.rangedStatBlock.shotTarget);
 			eal = calledShots.getEal();
 		}
-		eal -= statBlock.weapon.sab * sustainedBurst;
+		eal -= statBlock.rangedStatBlock.weapon.sab * sustainedBurst;
 		
-		double ma = statBlock.weapon.getMA(range);
-		int rof = statBlock.weapon.fullAutoROF;
+		double ma = statBlock.rangedStatBlock.weapon.getMA(range);
+		int rof = statBlock.rangedStatBlock.weapon.fullAutoROF;
 		
 		FullAutoResults far = FullAuto.burst(eal, ma, rof, statBlock);
 		
@@ -94,23 +93,23 @@ public class FireAction implements CeAction {
 	}
 	
 	public void shot() throws Exception {
-		if(statBlock.weapon.ceStats.criticalHit) {
+		if(statBlock.rangedStatBlock.weapon.ceStats.criticalHit) {
 			return;
 		}
 		
-		if(statBlock.aimTarget == null)
+		if(statBlock.rangedStatBlock.aimTarget == null)
 			statBlock.setAimTarget(target);
 		
 		int eal = calculateEAL();
 		CalledShots calledShots;
-		if(statBlock.shotTarget == ShotTarget.HEAD) {
+		if(statBlock.rangedStatBlock.shotTarget == ShotTarget.HEAD) {
 			calledShots = new CalledShots(calcualteALM(), getSizeAlm());
-			calledShots.setCalledShotBounds(statBlock.shotTarget);
+			calledShots.setCalledShotBounds(statBlock.rangedStatBlock.shotTarget);
 			eal = calledShots.getEal();
 		} else if(!target.ceStatBlock.inCover && 
-				(statBlock.shotTarget == ShotTarget.LEGS || statBlock.shotTarget == ShotTarget.BODY)) {
+				(statBlock.rangedStatBlock.shotTarget == ShotTarget.LEGS || statBlock.rangedStatBlock.shotTarget == ShotTarget.BODY)) {
 			calledShots = new CalledShots(calcualteALM(), getSizeAlm());
-			calledShots.setCalledShotBounds(statBlock.shotTarget);
+			calledShots.setCalledShotBounds(statBlock.rangedStatBlock.shotTarget);
 			eal = calledShots.getEal();
 		}
 		
@@ -125,7 +124,7 @@ public class FireAction implements CeAction {
 		System.out.println("Shooter Chit Cord: "+statBlock.chit.getCord().toString()+
 				" Target Chit Cord: "+target.ceStatBlock.chit.getCord().toString());*/
 		
-		if(statBlock.stabalized && !followUpAim) {
+		if(statBlock.rangedStatBlock.stabalized && !followUpAim) {
 			statBlock.aim();
 			followUpAim = true;
 		}
@@ -141,7 +140,7 @@ public class FireAction implements CeAction {
 	
 	public void applyHit(int range) throws Exception {
 		
-		Damage.applyHit(statBlock.weapon.getPen(range), statBlock.weapon.getDc(range), 
+		Damage.applyHit(statBlock.rangedStatBlock.weapon.getPen(range), statBlock.rangedStatBlock.weapon.getDc(range), 
 				target.ceStatBlock.inCover, target);
 	}
 	
@@ -158,8 +157,8 @@ public class FireAction implements CeAction {
 		int distance = GameWindow.dist(statBlock.cord.xCord, statBlock.cord.yCord, targetStatBlock.cord.xCord,
 				targetStatBlock.cord.yCord);
 		
-		if(statBlock.weapon.getBA(distance) < alm) {
-			return statBlock.weapon.getBA(distance) + sizeALM;
+		if(statBlock.rangedStatBlock.weapon.getBA(distance) < alm) {
+			return statBlock.rangedStatBlock.weapon.getBA(distance) + sizeALM;
 		} else {
 			return alm + sizeALM;			
 		}
@@ -172,7 +171,7 @@ public class FireAction implements CeAction {
 		int rangeALM; 
 		int speedALM = 0; 
 		int visibilityALM = 0;
-		int aimALM = statBlock.weapon.aimTime.get(statBlock.getAimTime());
+		int aimALM = statBlock.rangedStatBlock.weapon.aimTime.get(statBlock.getAimTime());
 		int stanceAlm = getStanceAlm(); 
 		
 		rangeALM = getDistanceAlm();
@@ -271,7 +270,7 @@ public class FireAction implements CeAction {
 			penalty += DiceRoller.d6_exploding();
 		}
 		
-		for(int i = 0; i < statBlock.suppression; i++) {
+		for(int i = 0; i < statBlock.rangedStatBlock.getSuppression(); i++) {
 			penalty += DiceRoller.d6_exploding();
 		}
 		
@@ -303,13 +302,13 @@ public class FireAction implements CeAction {
 	public String toString() {
 		String rslts = "Fire: ";
 
-		if (statBlock.aimTarget != null) {
-			rslts += statBlock.aimTarget.name;
+		if (statBlock.rangedStatBlock.aimTarget != null) {
+			rslts += statBlock.rangedStatBlock.aimTarget.name;
 		} else {
-			for (Cord cord : statBlock.aimHexes) {
+			for (Cord cord : statBlock.rangedStatBlock.aimHexes) {
 				rslts += "(" + cord.xCord + "," + cord.yCord + ")";
 
-				if (cord != statBlock.aimHexes.get(statBlock.aimHexes.size() - 1)) {
+				if (cord != statBlock.rangedStatBlock.aimHexes.get(statBlock.rangedStatBlock.aimHexes.size() - 1)) {
 					rslts += ", ";
 				}
 

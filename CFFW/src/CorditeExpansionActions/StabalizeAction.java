@@ -16,8 +16,8 @@ public class StabalizeAction implements CeAction {
 	
 	public StabalizeAction(StatBlock statBlock) {
 		this.statBlock = statBlock; 
-		this.ergo = statBlock.weapon.ceStats.baseErgonomics; 
-		this.firearms = statBlock.weaponPercent;
+		this.ergo = statBlock.rangedStatBlock.weapon.ceStats.baseErgonomics; 
+		this.firearms = statBlock.rangedStatBlock.weaponPercent;
 	}
 	
 	@Override
@@ -28,14 +28,13 @@ public class StabalizeAction implements CeAction {
 			return; 
 		}
 		
-		
 		// stabalize check
 		int roll = DiceRoller.randInt(1, 100);
 		int tn = (ergo + firearms) / 2;
 		String results = ", Roll: "+roll+", TN: "+tn;
 		
 		if(roll < tn) {
-			statBlock.stabalized = true;
+			statBlock.rangedStatBlock.stabalized = true;
 			results = "Stabalized"+results;
 		}
 		else
@@ -52,7 +51,7 @@ public class StabalizeAction implements CeAction {
 
 	@Override
 	public boolean completed() {
-		return statBlock.stabalized;
+		return statBlock.rangedStatBlock.stabalized;
 	}
 
 	@Override

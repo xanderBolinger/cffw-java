@@ -21,7 +21,7 @@ public class DiceRoller {
 		
 	}
 	
-	public static int d6_exploding(int value) {
+	private static int d6_exploding(int value) {
 		
 		value += randInt(1,6);
 		

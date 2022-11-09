@@ -17,8 +17,8 @@ import CorditeExpansion.CorditeExpansionGame.Impulse;
 import CorditeExpansionActions.AimAction;
 import CorditeExpansionActions.CeAction;
 import CorditeExpansionActions.MoveAction;
-import CorditeExpansionFirearms.CalledShots.ShotTarget;
 import CorditeExpansionActions.CeAction.ActionType;
+import CorditeExpansionRangedCombat.CalledShots.ShotTarget;
 import Items.Weapons;
 import Trooper.Trooper;
 import Trooper.Trooper.MaximumSpeed;
@@ -43,28 +43,15 @@ public class StatBlock {
 	
 	public boolean hesitating = false; 
 	public boolean inCover = false;
-	public boolean stabalized = false;
 	
-	public Weapons weapon;
-	public int weaponPercent;
-	
-	public int suppression = 0;
-	private int aimTime = 0;
-	public int maxAim;
-	public Trooper aimTarget; 
-	public ArrayList<Cord> aimHexes = new ArrayList<>();
-	public ShotTarget shotTarget = ShotTarget.NONE;
-	
-	public boolean aiming = true;
-	public boolean fullAuto = false;
 	
 	public Chit chit; 
 	
 	public Trooper trooper;
 	
 	public MedicalStatBlock medicalStatBlock = new MedicalStatBlock();
-	
-	
+	public SkillStatBlock skilStatBlock = new SkillStatBlock();
+	public RangedStatBlock rangedStatBlock;
 	
 	public enum Stance {
 		PRONE(1),CROUCH(2),STANDING(3);
@@ -97,16 +84,17 @@ public class StatBlock {
 	}
 	
 	public StatBlock(Trooper trooper) {
+		this.rangedStatBlock = new RangedStatBlock(trooper);
 		quickness = trooper.maximumSpeed.get();
 		combatActions = trooper.combatActions;
 		adaptabilityFactor = 1+Math.round(((trooper.getSkill("Fighter")/10)%10)/2);
-		weapon = new Weapons().findWeapon(trooper.wep);
-		maxAim = weapon.aimTime.size() - 1;
+		rangedStatBlock.weapon = new Weapons().findWeapon(trooper.wep);
+		rangedStatBlock.maxAim = rangedStatBlock.weapon.aimTime.size() - 1;
 		//System.out.println("str: "+trooper.weaponPercent);
 		Matcher match = Pattern.compile("[0-9]+").matcher(trooper.weaponPercent);
 		
 		if(match.find()) {
-			weaponPercent = Integer.parseInt(match.group(0));			
+			rangedStatBlock.weaponPercent = Integer.parseInt(match.group(0));			
 		}
 		
 		this.trooper = trooper;
@@ -125,39 +113,39 @@ public class StatBlock {
 			setFacing(cord.facing);
 		
 		if(moveSpeed != MoveSpeed.CRAWL && moveSpeed != MoveSpeed.STEP) {
-			stabalized = false;
-			aimTime = 0;
-			aimHexes.clear();
-			aimTarget = null;
+			rangedStatBlock.stabalized = false;
+			rangedStatBlock.aimTime = 0;
+			rangedStatBlock.aimHexes.clear();
+			rangedStatBlock.aimTarget = null;
 		}
 		
 		
 	}
 	
 	public void clearAim() {
-		aimHexes.clear();
-		aimTarget = null; 
-		aimTime = 0;
+		rangedStatBlock.aimHexes.clear();
+		rangedStatBlock.aimTarget = null; 
+		rangedStatBlock.aimTime = 0;
 	}
 	
 	public void setAimTarget(Trooper target) {
-		aimTarget = target;
-		aimTime = 0;
+		rangedStatBlock.aimTarget = target;
+		rangedStatBlock.aimTime = 0;
 	}
 	
 	public int getAimTime() {
-		return aimTime;
+		return rangedStatBlock.aimTime;
 	}
 	
 	public void aim() {
-		aimTime++;
-		if(aimTime > maxAim)
-			aimTime = maxAim;
+		rangedStatBlock.aimTime++;
+		if(rangedStatBlock.aimTime > rangedStatBlock.maxAim)
+			rangedStatBlock.aimTime = rangedStatBlock.maxAim;
 	}
 	
 	public void spendCombatAction() {	
 		if(hesitating) {
-			spendCaPoint();
+			doNothing();
 			return;
 		}
 		
@@ -174,7 +162,7 @@ public class StatBlock {
 	
 	public void prepareCourseOfAction() {
 		if(hesitating) {
-			spendCaPoint();
+			doNothing();
 			return;
 		}
 		
@@ -370,16 +358,16 @@ public class StatBlock {
 		results.add("Speed: "+moveSpeed.toString());
 		results.add("Stance: "+stance.toString());
 		results.add("In Cover: "+inCover);
-		results.add("Stabalized: "+stabalized);
+		results.add("Stabalized: "+rangedStatBlock.stabalized);
 		
 		String aimingFiring = "aiming";
 		
-		if(!aiming)
+		if(!rangedStatBlock.aiming)
 			aimingFiring = "firing";
 		
 		results.add("aiming/firing: "+aimingFiring);
-		results.add("Fullatuo: "+fullAuto);
-		results.add("Shot Target: "+shotTarget.toString());
+		results.add("Fullatuo: "+rangedStatBlock.fullAuto);
+		results.add("Shot Target: "+rangedStatBlock.shotTarget.toString());
 		
 		results.add("Alive: "+medicalStatBlock.alive);
 		results.add("Conscoius: "+medicalStatBlock.conscious());
@@ -423,17 +411,17 @@ public class StatBlock {
 	}
 	
 	public void toggleAiming() {
-		if(aiming)
-			aiming = false;
+		if(rangedStatBlock.aiming)
+			rangedStatBlock.aiming = false;
 		else
-			aiming = true;
+			rangedStatBlock.aiming = true;
 	}
 	
 	public void toggleFullauto() {
-		if(fullAuto)
-			fullAuto = false;
+		if(rangedStatBlock.fullAuto)
+			rangedStatBlock.fullAuto = false;
 		else
-			fullAuto = true;
+			rangedStatBlock.fullAuto = true;
 	}
 	
 	public int getDistance(StatBlock targetStatBlock) {
@@ -442,18 +430,18 @@ public class StatBlock {
 	
 	public void cycleShotTarget() {
 		
-		switch(shotTarget) {
+		switch(rangedStatBlock.shotTarget) {
 			case NONE:
-				shotTarget = ShotTarget.HEAD;
+				rangedStatBlock.shotTarget = ShotTarget.HEAD;
 				break;
 			case HEAD:
-				shotTarget = ShotTarget.BODY;
+				rangedStatBlock.shotTarget = ShotTarget.BODY;
 				break;
 			case BODY: 
-				shotTarget = ShotTarget.LEGS;
+				rangedStatBlock.shotTarget = ShotTarget.LEGS;
 				break;
 			case LEGS:
-				shotTarget = ShotTarget.NONE;
+				rangedStatBlock.shotTarget = ShotTarget.NONE;
 				break;
 		}
 		

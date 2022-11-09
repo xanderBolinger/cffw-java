@@ -1,4 +1,4 @@
-package CorditeExpansionFirearms;
+package CorditeExpansionRangedCombat;
 
 import java.io.File;
 import java.io.FileInputStream;

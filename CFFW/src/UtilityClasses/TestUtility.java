@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.junit.runner.notification.Failure;
 import org.junit.runners.Suite;
 
+import JUnitTests.CeSuppressionTests;
 import JUnitTests.CorditeExpansionTests;
 import JUnitTests.DamageTests;
 import JUnitTests.ExcelUtililtyTests;
@@ -17,7 +18,7 @@ import JUnitTests.PcDamageUtilityTests;
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({ InventoryTest.class, ExcelUtililtyTests.class, CorditeExpansionTests.class,
-	DamageTests.class, PcDamageUtilityTests.class})
+	DamageTests.class, PcDamageUtilityTests.class, CeSuppressionTests.class})
 
 public class TestUtility {
 
@@ -29,6 +30,7 @@ public class TestUtility {
 		results.add(JUnitCore.runClasses(InventoryTest.class));
 		results.add(JUnitCore.runClasses(DamageTests.class));
 		results.add(JUnitCore.runClasses(PcDamageUtilityTests.class));
+		results.add(JUnitCore.runClasses(CeSuppressionTests.class));
 		
 		for(Result result : results) {
 			for (Failure failure : result.getFailures()) {
