@@ -2,11 +2,13 @@ package CorditeExpansionRangedCombat;
 
 import java.util.function.Function;
 
+import CorditeExpansionStatBlock.SkillStatBlock.SkillCheck;
 import CorditeExpansionStatBlock.StatBlock;
+import UtilityClasses.DiceRoller;
 
 public class Suppression {
 
-	StatBlock statBlock;
+	public StatBlock statBlock;
 
 	private int suppression = 0;
 	private SuppressionStatus suppresionStatus = SuppressionStatus.NONE;
@@ -40,15 +42,40 @@ public class Suppression {
 	}
 	
 	public void spend() {
-		suppression -= 2;
+		decreaseSuppression(2);
+		
+		if(suppression * 2 > (statBlock.rangedStatBlock.coolnessUnderFire/10) % 10) {
+			statBlock.skilStatBlock.failure += 2;
+		} else {
+			statBlock.skilStatBlock.failure++; 			
+		}
+		
 	}
 	
 	public void coolnessTest() {
+		int diff = suppression / 5;
+		
+		SkillCheck coolnessTest = new SkillCheck(statBlock.skilStatBlock, statBlock.rangedStatBlock.coolnessUnderFire, 0, diff);
+		
+		if(coolnessTest.performSkillCheck(statBlock.skilStatBlock.spendSuccess)) {
+			int removed = 0; 
+			
+			for(int i = 0; i < statBlock.skilStatBlock.success; i++) {
+				int roll = DiceRoller.randInt(1, 3);
+				removed += roll;
+			}
+			
+			decreaseSuppression(removed);
+		} else {
+			statBlock.hesitating = true;
+		}
+
 		
 	}
 	
 	public void hesitate() {
 		statBlock.hesitating = true;
+		decreaseSuppression((statBlock.rangedStatBlock.coolnessUnderFire/10) % 10);
 	}
 	
 	public int getSuppression() {

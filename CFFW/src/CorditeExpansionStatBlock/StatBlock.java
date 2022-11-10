@@ -84,18 +84,10 @@ public class StatBlock {
 	}
 	
 	public StatBlock(Trooper trooper) {
-		this.rangedStatBlock = new RangedStatBlock(trooper);
 		quickness = trooper.maximumSpeed.get();
 		combatActions = trooper.combatActions;
 		adaptabilityFactor = 1+Math.round(((trooper.getSkill("Fighter")/10)%10)/2);
-		rangedStatBlock.weapon = new Weapons().findWeapon(trooper.wep);
-		rangedStatBlock.maxAim = rangedStatBlock.weapon.aimTime.size() - 1;
-		//System.out.println("str: "+trooper.weaponPercent);
-		Matcher match = Pattern.compile("[0-9]+").matcher(trooper.weaponPercent);
 		
-		if(match.find()) {
-			rangedStatBlock.weaponPercent = Integer.parseInt(match.group(0));			
-		}
 		
 		this.trooper = trooper;
 		

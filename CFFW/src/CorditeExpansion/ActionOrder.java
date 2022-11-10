@@ -3,10 +3,14 @@ package CorditeExpansion;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import CeHexGrid.CeHexGrid;
 import CeHexGrid.Chit;
+import CorditeExpansionStatBlock.RangedStatBlock;
 import CorditeExpansionStatBlock.StatBlock;
+import Items.Weapons;
 import Trooper.Trooper;
 
 public class ActionOrder {
@@ -61,7 +65,14 @@ public class ActionOrder {
 
 	private void setCeStats(Trooper trooper) {
 		trooper.ceStatBlock = new StatBlock(trooper);
+		trooper.ceStatBlock.rangedStatBlock = new RangedStatBlock(trooper);
+		
 	}
+	
+	public void setRangedStatBlock() {
+		
+	}
+	
 	
 	public ArrayList<Trooper> getOrder() {
 		return initiativeOrder;

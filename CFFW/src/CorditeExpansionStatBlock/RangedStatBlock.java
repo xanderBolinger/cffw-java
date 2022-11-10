@@ -1,6 +1,8 @@
 package CorditeExpansionStatBlock;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import CorditeExpansion.Cord;
 import CorditeExpansionRangedCombat.CalledShots.ShotTarget;
@@ -27,14 +29,19 @@ public class RangedStatBlock {
 	public Suppression suppression; 
 	
 	public RangedStatBlock(Trooper trooper) {	
-		coolnessUnderFire = (trooper.getSkill("Fighter") + trooper.getSkill("Composure")) / 2;
 		statBlock = trooper.ceStatBlock;
+		coolnessUnderFire = (trooper.getSkill("Fighter") + trooper.getSkill("Composure")) / 2;
+		weapon = new Weapons().findWeapon(trooper.wep);
+		maxAim = weapon.aimTime.size() - 1;
 		suppression = new Suppression(statBlock);
+		Matcher match = Pattern.compile("[0-9]+").matcher(trooper.weaponPercent);
+		if(match.find()) {
+			weaponPercent = Integer.parseInt(match.group(0));			
+		}
 	}
 	
 	public int getSuppression() {
 		return suppression.getSuppression();
 	}
-	
 	
 }

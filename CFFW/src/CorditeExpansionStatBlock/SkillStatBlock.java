@@ -63,6 +63,7 @@ public class SkillStatBlock {
 		public int getMargin(int tn, boolean spendSuccess) {
 			
 			roll = DiceRoller.randInt(0, 99);
+			System.out.println("Roll: "+roll+", tn: "+tn);
 			
 			for(int i = 0; i < bonus; i++)
 				roll -= DiceRoller.d6_exploding();
