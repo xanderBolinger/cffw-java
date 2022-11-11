@@ -112,18 +112,23 @@ public class CeSuppressionTests {
 		assertEquals(SuppressionStatus.HESITATE,rangedStats.suppression.getStatus());
 		suppression.resolve();
 		assertEquals(2, suppression.getSuppression());
-		suppression.increaseSuppression(10);
+		//suppression.increaseSuppression(10);
 		
 		// 82 89 37
 		rangedStats.suppression.cycleSuppressionStatus();
 		assertEquals(SuppressionStatus.COOLNESS_TEST,rangedStats.suppression.getStatus());
 		suppression.resolve();
-		assertEquals(12, suppression.getSuppression());
+		assertEquals(2, suppression.getSuppression());
 		assertEquals(true, statBlock.hesitating);
 		
-		suppression.resolve();
+		assertEquals(1, skillStats.failure);
+		skillStats.spendSuccess = true; 
+		
 		suppression.resolve();
 		
+		assertEquals(0, suppression.getSuppression());
+		assertEquals(SuppressionStatus.NONE,rangedStats.suppression.getStatus());
+		assertEquals(3, skillStats.success);
 		//System.out.println("After: "+suppression.statBlock);
 	}
 	

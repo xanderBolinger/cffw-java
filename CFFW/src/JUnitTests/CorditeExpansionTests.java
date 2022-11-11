@@ -18,7 +18,8 @@ import CorditeExpansionActions.CeAction;
 import CorditeExpansionActions.MoveAction;
 import CorditeExpansionStatBlock.MedicalStatBlock.Status;
 import CorditeExpansionStatBlock.SkillStatBlock;
-import CorditeExpansionStatBlock.SkillStatBlock.SkillCheck;
+import CorditeExpansion.SkillCheck;
+import CorditeExpansion.SkillCheck.Flags;
 import CorditeExpansionStatBlock.StatBlock;
 import CorditeExpansionStatBlock.StatBlock.MoveSpeed;
 import CorditeExpansionStatBlock.StatBlock.Stance;
@@ -498,28 +499,31 @@ public class CorditeExpansionTests {
 		// 82 50 76 89
 		SkillStatBlock stat = new SkillStatBlock(); 
 		
-		SkillCheck skillCheck = new SkillStatBlock.SkillCheck(stat, 90, 0, 0);
+		SkillCheck skillCheck = new SkillCheck(stat, 90, 0, 0);
 		
 		// 82
-		assertEquals(true, skillCheck.performSkillCheck(true));
+		assertEquals(true, skillCheck.performSkillCheck(Flags.skillCheck()));
 		assertEquals(1, stat.success);
 		
-		skillCheck = new SkillStatBlock.SkillCheck(stat, 90, 0, 0);
+		skillCheck = new SkillCheck(stat, 90, 0, 0);
 		
 		// 50
-		assertEquals(true, skillCheck.performSkillCheck(true));
+		assertEquals(true, skillCheck.performSkillCheck(Flags.skillCheck()));
 		assertEquals(5, stat.success);
 		
 		// 76
-		skillCheck = new SkillStatBlock.SkillCheck(stat, 90, 0, 30);
+		skillCheck = new SkillCheck(stat, 90, 0, 30);
 		
-		assertEquals(false, skillCheck.performSkillCheck(false));
+		Flags flags = Flags.skillCheck();
+		flags.spendSuccess = false;
+		flags.gainFailure = false;
+		assertEquals(false, skillCheck.performSkillCheck(flags));
 		assertEquals(5, stat.success);
 		assertEquals(0, stat.failure);
 		
 		// 89
-		skillCheck = new SkillStatBlock.SkillCheck(stat, 90, 0, 300);
-		assertEquals(false, skillCheck.performSkillCheck(true));
+		skillCheck = new SkillCheck(stat, 90, 0, 300);
+		assertEquals(false, skillCheck.performSkillCheck(Flags.skillCheck()));
 		assertEquals(0, stat.success);
 		assertEquals(5, stat.failure);
 		

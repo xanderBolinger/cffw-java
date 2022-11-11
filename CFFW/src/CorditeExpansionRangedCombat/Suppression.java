@@ -2,7 +2,8 @@ package CorditeExpansionRangedCombat;
 
 import java.util.function.Function;
 
-import CorditeExpansionStatBlock.SkillStatBlock.SkillCheck;
+import CorditeExpansion.SkillCheck;
+import CorditeExpansion.SkillCheck.Flags;
 import CorditeExpansionStatBlock.StatBlock;
 import UtilityClasses.DiceRoller;
 
@@ -57,7 +58,7 @@ public class Suppression {
 		
 		SkillCheck coolnessTest = new SkillCheck(statBlock.skilStatBlock, statBlock.rangedStatBlock.coolnessUnderFire, 0, diff);
 		
-		if(coolnessTest.performSkillCheck(statBlock.skilStatBlock.spendSuccess)) {
+		if(coolnessTest.performSkillCheck(Flags.coolnessTest(statBlock.skilStatBlock.spendSuccess))) {
 			int removed = 0; 
 			
 			for(int i = 0; i < statBlock.skilStatBlock.success; i++) {
