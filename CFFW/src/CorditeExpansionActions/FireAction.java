@@ -88,6 +88,11 @@ public class FireAction implements CeAction {
 			applyHit(range);
 		}
 		
+		int suppression = DiceRoller.d6_exploding() + DiceRoller.d6_exploding();
+		
+		target.ceStatBlock.rangedStatBlock.suppression.increaseSuppression(suppression);
+		FloatingTextManager.addFloatingText(target.ceStatBlock.cord, "Suppression: "+suppression);
+		
 		FloatingTextManager.addFloatingText(statBlock.cord, far.rslts);
 		sustainedBurst++;
 	}
@@ -116,6 +121,11 @@ public class FireAction implements CeAction {
 		int odds = PCUtility.getOddsOfHitting(true, eal);
 		int penalty = shotPenalty(statBlock);
 		int roll = DiceRoller.randInt(0, 99);
+		
+		int suppression = DiceRoller.d6_exploding();
+		
+		target.ceStatBlock.rangedStatBlock.suppression.increaseSuppression(suppression);
+		FloatingTextManager.addFloatingText(target.ceStatBlock.cord, "Suppression: "+suppression);
 		
 		FloatingTextManager.addFloatingText(statBlock.cord, "Shot, Roll: "+roll
 				+", TN: "+odds+", Penalty: "+penalty);

@@ -136,13 +136,18 @@ public class CeKeyListener {
 	}
 
 	public static void cancelAction() {
-		if (CorditeExpansionGame.selectedTrooper == null || !Keyboard.isKeyPressed(KeyEvent.VK_X))
+		System.out.println("Cancel Action");
+		if (CorditeExpansionGame.selectedTrooper == null || !Keyboard.isKeyPressed(KeyEvent.VK_X)) {
+			System.out.println("Cancel Action Return");
 			return;
+		}
 
 		if (CorditeExpansionWindow.actionList.getSelectedIndex() > -1) {
+			System.out.println("Cancel Action 1");
 			CorditeExpansionGame.selectedTrooper.ceStatBlock
 					.removeCoac(CorditeExpansionWindow.actionList.getSelectedIndex());
 		} else if (CorditeExpansionWindow.detailsList.getSelectedIndex() == 0) {
+			System.out.println("Cancel Action 2");
 			CorditeExpansionGame.selectedTrooper.ceStatBlock.cancelAction();
 		}
 
@@ -180,7 +185,7 @@ public class CeKeyListener {
 				|| CorditeExpansionGame.selectedTrooper.ceStatBlock.hesitating)
 			return;
 		
-		System.out.println("Stabalize init");
+		//System.out.println("Stabalize init");
 		CeAction.addStabalizeAction(CorditeExpansionGame.selectedTrooper.ceStatBlock);
 
 	}

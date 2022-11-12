@@ -50,7 +50,7 @@ public class StatBlock {
 	public Trooper trooper;
 	
 	public MedicalStatBlock medicalStatBlock = new MedicalStatBlock();
-	public SkillStatBlock skilStatBlock = new SkillStatBlock();
+	public SkillStatBlock skillStatBlock = new SkillStatBlock();
 	public RangedStatBlock rangedStatBlock;
 	
 	public enum Stance {
@@ -329,48 +329,6 @@ public class StatBlock {
 		
 	}
 	
-	public ArrayList<String> getCeStatList() {
-		
-		ArrayList<String> results = new ArrayList<>();
-		
-		String activeAction = "Currently Executing Action: None."; 
-		
-		if(acting()) {
-			activeAction = "Currently Executing Action: "+ this.activeAction.toString();
-		}
-		
-		results.add(activeAction);
-		
-		String spentCombatActions = "Spent Combat Actions: "+this.spentCombatActions;
-		String combatActions = "Combat Actions: "+this.combatActions;
-		
-		results.add(spentCombatActions);
-		results.add(combatActions);
-		results.add("AF: "+adaptabilityFactor+", HESITATING: "+hesitating);
-		results.add("Speed: "+moveSpeed.toString());
-		results.add("Stance: "+stance.toString());
-		results.add("In Cover: "+inCover);
-		results.add("Stabalized: "+rangedStatBlock.stabalized);
-		
-		String aimingFiring = "aiming";
-		
-		if(!rangedStatBlock.aiming)
-			aimingFiring = "firing";
-		
-		results.add("aiming/firing: "+aimingFiring);
-		results.add("Fullatuo: "+rangedStatBlock.fullAuto);
-		results.add("Shot Target: "+rangedStatBlock.shotTarget.toString());
-		
-		results.add("Alive: "+medicalStatBlock.alive);
-		results.add("Conscoius: "+medicalStatBlock.conscious());
-		results.add("Physical Damage Total: "+medicalStatBlock.getPdTotal());
-		results.add("Physical Damage From Blood Loss: "+medicalStatBlock.getBloodLossPd());
-		
-		
-		
-		return results; 
-	}
-	
 	public boolean acting() {
 		return activeAction != null ? true : false; 
 	}
@@ -439,9 +397,83 @@ public class StatBlock {
 		
 	}
 	
-	// the below methods are for testing 
-	public int coacSize() {
-		return coac.size();
+	public void toggleSpendSuccess() {
+		skillStatBlock.spendSuccess = !skillStatBlock.spendSuccess;
 	}
+	
+	public void cycleSpendSuccessNumber() {
+		
+		switch(skillStatBlock.spendSuccessNumber) {
+			case 1:
+				skillStatBlock.spendSuccessNumber = 2; 
+				break;
+			case 2:
+				skillStatBlock.spendSuccessNumber = 3; 
+				break;
+			case 3:
+				skillStatBlock.spendSuccessNumber = 4; 
+				break;
+			case 4:
+				skillStatBlock.spendSuccessNumber = 5; 
+				break;
+			case 5:
+				skillStatBlock.spendSuccessNumber = 1; 
+				break;
+		}
+		
+	}
+	
+	
+
+	public ArrayList<String> getCeStatList() {
+		
+		ArrayList<String> results = new ArrayList<>();
+		
+		String activeAction = "Currently Executing Action: None."; 
+		
+		if(acting()) {
+			activeAction = "Currently Executing Action: "+ this.activeAction.toString();
+		}
+		
+		results.add(activeAction);
+		
+		String spentCombatActions = "Spent Combat Actions: "+this.spentCombatActions;
+		String combatActions = "Combat Actions: "+this.combatActions;
+		
+		results.add(spentCombatActions);
+		results.add(combatActions);
+		results.add("AF: "+adaptabilityFactor+", HESITATING: "+hesitating);
+		results.add("Speed: "+moveSpeed.toString());
+		results.add("Stance: "+stance.toString());
+		results.add("In Cover: "+inCover);
+		results.add("Stabalized: "+rangedStatBlock.stabalized);
+		
+		String aimingFiring = "aiming";
+		
+		if(!rangedStatBlock.aiming)
+			aimingFiring = "firing";
+		
+		results.add("aiming/firing: "+aimingFiring);
+		results.add("Fullatuo: "+rangedStatBlock.fullAuto);
+		results.add("Shot Target: "+rangedStatBlock.shotTarget.toString());
+		
+		results.add("Spend Success: "+skillStatBlock.spendSuccess);
+		results.add("Spend Success Number: "+skillStatBlock.spendSuccessNumber);
+		results.add("Suppresion Reaction: "+rangedStatBlock.suppression.getDisplayStatus());
+		results.add("Suppression: "+rangedStatBlock.suppression.getSuppression());
+		results.add("Alive: "+medicalStatBlock.alive);
+		results.add("Conscoius: "+medicalStatBlock.conscious());
+		results.add("Physical Damage Total: "+medicalStatBlock.getPdTotal());
+		results.add("Physical Damage From Blood Loss: "+medicalStatBlock.getBloodLossPd());
+		
+		
+		
+		return results; 
+	}
+	
+	// the below methods are for testing 
+		public int coacSize() {
+			return coac.size();
+		}
 	
 }

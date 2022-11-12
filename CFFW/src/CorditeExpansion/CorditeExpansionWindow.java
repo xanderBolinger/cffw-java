@@ -470,11 +470,17 @@ public class CorditeExpansionWindow extends JFrame {
 					CorditeExpansionGame.selectedTrooper.ceStatBlock.toggleFullauto();
 				} else if(detailsList.getSelectedIndex() == 10) {
 					CorditeExpansionGame.selectedTrooper.ceStatBlock.cycleShotTarget();
+				}  else if(detailsList.getSelectedIndex() == 11) {
+					CorditeExpansionGame.selectedTrooper.ceStatBlock.toggleSpendSuccess();;
+				}  else if(detailsList.getSelectedIndex() == 12) {
+					CorditeExpansionGame.selectedTrooper.ceStatBlock.cycleSpendSuccessNumber();
+				} else if(detailsList.getSelectedIndex() == 13) {
+					CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.suppression.cycleSuppressionStatus();
 				}
 				
 				refreshCeDetailsList(CorditeExpansionGame.selectedTrooper);
 				
-				if(index != 6 && index != 8 && index != 9 && index != 10 &&
+				if(index != 6 && index != 8 && index != 9 && index != 10 && index != 11 &&  index != 12 &&  index != 13 && 
 						index < detailsList.getModel().getSize() - 1 ) {
 					detailsList.setSelectedIndex(index);
 				}

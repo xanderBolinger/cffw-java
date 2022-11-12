@@ -35,6 +35,7 @@ public class CorditeExpansionGame {
 			
 			for(int i = 0; i < actions; i++) {
 				
+				trooper.ceStatBlock.rangedStatBlock.suppression.resolve();
 				
 				if(trooper.ceStatBlock.acting()) {
 					//System.out.println("Act");

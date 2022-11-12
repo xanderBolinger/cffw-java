@@ -33,7 +33,7 @@ public class CeSuppressionTests {
 		statBlock = clone.ceStatBlock;
 		rangedStats = clone.ceStatBlock.rangedStatBlock;
 		//System.out.println("Init: "+rangedStats.suppression.statBlock);
-		skillStats = clone.ceStatBlock.skilStatBlock;
+		skillStats = clone.ceStatBlock.skillStatBlock;
 		//System.out.println("Init 2: "+rangedStats.suppression.statBlock);
 		suppression = rangedStats.suppression;
 		//System.out.println(clone.ceStatBlock);
