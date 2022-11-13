@@ -37,6 +37,15 @@ public class Inventory implements Serializable {
 		containers.add(new Container(type));
 	}
 
+	public void addItem(Item item) throws Exception {
+		if (containers.size() < 1) {
+			throw new Exception("Failed to add item. No container.");
+		}
+
+		containers.get(0).addItem(item);
+		setEncumberance();
+	}
+	
 	public void addItem(ItemType itemType) throws Exception {
 
 		if (containers.size() < 1) {
@@ -218,6 +227,7 @@ public class Inventory implements Serializable {
 		if (removalItem == null) {
 			throw new Exception("Item of name: " + itemName + ", does not exist in the inventory.");
 		} else {
+			//System.out.println("Remove: "+itemName);
 			removalContainer.items.remove(removalItem);
 		}
 		setEncumberance();
@@ -234,6 +244,20 @@ public class Inventory implements Serializable {
 		}
 
 		return itemStrings;
+
+	}
+	
+	public ArrayList<Item> getItemsArray() {
+
+		ArrayList<Item> items = new ArrayList<>();
+
+		for (Container container : containers) {
+			for (Item item : container.items) {
+				items.add(item);
+			}
+		}
+
+		return items;
 
 	}
 

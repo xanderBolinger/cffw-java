@@ -25,6 +25,10 @@ public class Container implements Serializable {
 		
 	}
 	
+	public void addItem(Item item) {
+		items.add(item);
+	}
+	
 	public void addItem(ItemType weaponType, ItemType ammoType) throws Exception {
 		items.add(new Item(weaponType, ammoType));
 	}

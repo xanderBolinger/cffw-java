@@ -44,7 +44,7 @@ public class DamageTests {
 	public void applyHit() throws Exception {
 		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
 		actionOrder.addTrooper(clone);
-		Damage.applyHit(100, 10, true, clone);
+		Damage.applyHit("Test", 100, 10, true, clone);
 		
 		assertEquals(200, clone.ceStatBlock.medicalStatBlock.getPdTotal());
 		actionOrder.clear();

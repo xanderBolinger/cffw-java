@@ -31,6 +31,10 @@ public interface CeAction {
 		
 	}
 	
+	public static void addReloadAction(Trooper trooper) {
+		trooper.ceStatBlock.addActionCoac(new ReloadAction(trooper));
+	}
+	
 	public static void addMoveAction(StatBlock statBlock, ArrayList<Cord> cords, int coac) {
 		
 		if(coac == 0) {

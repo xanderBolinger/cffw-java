@@ -461,6 +461,13 @@ public class StatBlock {
 		results.add("Spend Success Number: "+skillStatBlock.spendSuccessNumber);
 		results.add("Suppresion Reaction: "+rangedStatBlock.suppression.getDisplayStatus());
 		results.add("Suppression: "+rangedStatBlock.suppression.getSuppression());
+		
+		String magazineStatus = rangedStatBlock.weapon.ceStats.magazine != null ? (rangedStatBlock.weapon.ceStats.magazine.ammo.name 
+				+ ", DP: " + rangedStatBlock.weapon.ceStats.magazine.ammo.depletionPoints) + ", ["+rangedStatBlock.magazines(trooper)+"]" : "["+rangedStatBlock.magazines(trooper)+"]";
+		results.add("Magazine(s): "+ magazineStatus);
+		
+		
+		
 		results.add("Alive: "+medicalStatBlock.alive);
 		results.add("Conscoius: "+medicalStatBlock.conscious());
 		results.add("Physical Damage Total: "+medicalStatBlock.getPdTotal());

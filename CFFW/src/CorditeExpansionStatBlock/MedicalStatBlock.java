@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import CorditeExpansionDamage.BloodLossLocation;
 import CorditeExpansionDamage.Damage;
+import CorditeExpansionDamage.Injury;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.TrooperUtility;
 
@@ -22,6 +23,8 @@ public class MedicalStatBlock {
 	private int physicalDamage = 0;
 
 	private ArrayList<BloodLossLocation> bloodLossLocations = new ArrayList<>();
+	
+	private ArrayList<Injury> injuries = new ArrayList<>();
 	
 	public int recoveryChance = 0; 
 	public int criticalTime = 0;
@@ -197,6 +200,24 @@ public class MedicalStatBlock {
 		return pain + statusDice; 
 		
 		
+	}
+	
+	public void addInjury(Injury injury) {
+		injuries.add(injury);
+	}
+	
+	public void removeInjury(int index) {
+		injuries.remove(index);
+	}
+	
+	public ArrayList<String> getInjuries() {
+		ArrayList<String> injuries = new ArrayList<String>();
+		
+		for(Injury injury : this.injuries) {
+			injuries.add(injury.toString());
+		}
+		
+		return injuries;
 	}
 	
 }

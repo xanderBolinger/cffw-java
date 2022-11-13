@@ -15,6 +15,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import CeHexGrid.FloatingTextManager;
+import CorditeExpansionStatBlock.StatBlock.Stance;
+import Injuries.Explosion;
+import Items.Weapons;
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.ExcelUtility;
@@ -26,8 +29,7 @@ public class Damage {
 
 	}
 
-	public static void applyHit(int pen, int dc, boolean open, Trooper trooper, int hitLocation) throws Exception {
-
+	public static void applyHit(String weaponName, int pen, int dc, boolean open, Trooper trooper, int hitLocation) throws Exception {
 		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "\\hittable.xlsx"));
 		Workbook workbook = new XSSFWorkbook(excelFile);
 		Sheet worksheet = workbook.getSheetAt(0);
@@ -37,6 +39,7 @@ public class Damage {
 		pen = getPen(pen, hitLocation, open, trooper);
 
 		if (pen < 1) {
+			FloatingTextManager.addFloatingText(trooper.ceStatBlock.cord, "Pen < 1, Stopped by armor");
 			workbook.close();
 			return;
 		}
@@ -60,7 +63,7 @@ public class Damage {
 
 		trooper.ceStatBlock.medicalStatBlock.increasePd(pd);
 
-		String rslts = "Hit: " + hitLocationName + ", PD: " + pd;
+		String rslts = "Hit from " +weaponName+": "+ hitLocationName + ", PD: " + pd;
 
 		// Blood loss pd
 		BloodLossLocation location = PcDamageUtility.getBloodLossPD((double) pen, dc, hitLocationName, trooper);
@@ -91,10 +94,12 @@ public class Damage {
 			trooper.ceStatBlock.rangedStatBlock.stabalized = false;
 		}
 		
+		trooper.ceStatBlock.medicalStatBlock.addInjury(new Injury(weaponName, hitLocationName, pd, disabled));
+		
 		workbook.close();
 	}
 	
-	public static void applyHit(int pen, int dc, boolean open, Trooper trooper) throws Exception {
+	public static void applyHit(String weaponName, int pen, int dc, boolean open, Trooper trooper) throws Exception {
 
 		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "\\hittable.xlsx"));
 		Workbook workbook = new XSSFWorkbook(excelFile);
@@ -130,7 +135,7 @@ public class Damage {
 
 		trooper.ceStatBlock.medicalStatBlock.increasePd(pd);
 
-		String rslts = "Hit: " + hitLocationName + ", PD: " + pd;
+		String rslts = "Hit from " +weaponName+": "+ hitLocationName + ", PD: " + pd;
 
 		// Blood loss pd
 		BloodLossLocation location = PcDamageUtility.getBloodLossPD((double) pen, dc, hitLocationName, trooper);
@@ -160,6 +165,8 @@ public class Damage {
 			trooper.ceStatBlock.clearAim();
 			trooper.ceStatBlock.rangedStatBlock.stabalized = false;
 		}
+		
+		trooper.ceStatBlock.medicalStatBlock.addInjury(new Injury(weaponName, hitLocationName, pd, disabled));
 		
 		workbook.close();
 	}
@@ -391,5 +398,48 @@ public class Damage {
 		throw new Exception("Failed to get armor epen, hitLocation: " + hitLocation + ", pen: " + pen + ", open: "
 				+ open + ", trooper: " + trooper.number + " " + trooper.name);
 	}
+	
+	
+	public static void explode(Weapons explosive, int rangePCHexes, Trooper trooper) {
+		int column = Explosion.getExplsoionRangeColumn(rangePCHexes);
+		String bshc = explosive.bshc.get(column); 
+		int bc = explosive.bc.get(column);
+		
+		if(trooper.ceStatBlock.stance == Stance.PRONE) {
+			bc = (int) ((double)(bc) * 0.75);
+		}
+		
+		//System.out.println("BC: "+bc);
+		
+		trooper.ceStatBlock.medicalStatBlock.increasePd(bc);
+		
+		int shrapHits = 0; 
+		
+		try {
+	        int hitChance = Integer.parseInt(bshc);
+	        int hitRoll = DiceRoller.randInt(0, 99);
+	        if(hitRoll <= hitChance)
+	        	shrapHits++;
+	        else {
+	        	FloatingTextManager.addFloatingText(trooper.ceStatBlock.cord, "Shrapnell Missed, Roll: "+hitChance+", TN: "+hitChance);
+	        	return; 
+	        }
+	        
+	    } catch (NumberFormatException nfe) {
+	    	shrapHits = PcDamageUtility.getDamageValue(bshc);
+	    }
+		
+		//System.out.println("Shrap Hits: "+shrapHits);
+		
+		for(int i = 0; i < shrapHits; i++) {
+			try {
+				applyHit(explosive.name, explosive.pen.get(column), explosive.dc.get(column), !trooper.ceStatBlock.inCover, trooper);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
 
 }

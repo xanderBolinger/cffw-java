@@ -49,6 +49,8 @@ public class CeKeyListener {
 
 				rotation();
 
+				reload();
+				
 				stanceChange();
 
 				cancelAction();
@@ -74,6 +76,19 @@ public class CeKeyListener {
 		return Keyboard.isKeyPressed(KeyEvent.VK_SPACE);
 	}
 
+	public static void reload() {
+		if (CorditeExpansionGame.selectedTrooper == null || !Keyboard.isKeyPressed(KeyEvent.VK_R))
+			return;
+		
+		if(!CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.hasAmmo(CorditeExpansionGame.selectedTrooper)) {
+			FloatingTextManager.addFloatingText(CorditeExpansionGame.selectedTrooper.ceStatBlock.cord, "Out of ammo!");
+		}
+		
+		CeAction.addReloadAction(CorditeExpansionGame.selectedTrooper);
+		
+		
+	}
+	
 	public static void numberPress() {
 
 		if (CorditeExpansionGame.selectedTrooper == null)
@@ -136,18 +151,18 @@ public class CeKeyListener {
 	}
 
 	public static void cancelAction() {
-		System.out.println("Cancel Action");
+		//System.out.println("Cancel Action");
 		if (CorditeExpansionGame.selectedTrooper == null || !Keyboard.isKeyPressed(KeyEvent.VK_X)) {
-			System.out.println("Cancel Action Return");
+			//System.out.println("Cancel Action Return");
 			return;
 		}
 
 		if (CorditeExpansionWindow.actionList.getSelectedIndex() > -1) {
-			System.out.println("Cancel Action 1");
+			//System.out.println("Cancel Action 1");
 			CorditeExpansionGame.selectedTrooper.ceStatBlock
 					.removeCoac(CorditeExpansionWindow.actionList.getSelectedIndex());
 		} else if (CorditeExpansionWindow.detailsList.getSelectedIndex() == 0) {
-			System.out.println("Cancel Action 2");
+			//System.out.println("Cancel Action 2");
 			CorditeExpansionGame.selectedTrooper.ceStatBlock.cancelAction();
 		}
 

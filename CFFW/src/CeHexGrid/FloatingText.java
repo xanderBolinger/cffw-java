@@ -54,7 +54,9 @@ public class FloatingText {
 		FontMetrics fm = g2.getFontMetrics();
 		Rectangle2D rect = fm.getStringBounds(content, g2);
 
-		int drawX = hexCenterX - (int) (rect.getWidth() / 2);
+		//int drawX = hexCenterX - (int) (rect.getWidth() / 2);
+		
+		int drawX = hexCenterX - (int) (hex.getBounds().width / 2);
 		int drawY;
 		
 		drawY = hex.getBounds().y + hex.getBounds().height / 5;

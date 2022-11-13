@@ -39,6 +39,9 @@ public class DiceRoller {
 	    return randomNum;
 	}
 	
+	public static boolean plusMinus() {
+		return DiceRoller.randInt(1, 2) == 1 ? true : false;
+	}
 	
 	/*
 	d10, 0,9

@@ -29,6 +29,8 @@ import CeHexGrid.CeHexGrid;
 import CeHexGrid.Colors;
 import CeHexGrid.Chit.Facing;
 import CorditeExpansionActions.CeAction;
+import Items.Armor;
+import Items.Item.ItemType;
 import Trooper.Trooper;
 import UtilityClasses.SwingUtility;
 
@@ -126,6 +128,15 @@ public class CorditeExpansionWindow extends JFrame {
 			public void run() {
 
 				Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+				clone.wep = "M870";
+				try {
+					clone.inventory.addItem(ItemType.M870);
+					clone.inventory.addItem(ItemType.M870, ItemType.SmallArmsAmmo);
+					clone.inventory.addItem(ItemType.M870, ItemType.SmallArmsAmmo);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				// Trooper cloneMarksman = new Trooper("Clone Marksman", "Clone Trooper Phase
 				// 1");
 				// Trooper b1 = new Trooper("B1 Rifleman", "CIS Battle Droid");
@@ -145,9 +156,9 @@ public class CorditeExpansionWindow extends JFrame {
 				cords.add(new Cord(3, 0));
 
 				CeAction.addMoveAction(clone.ceStatBlock, cords, 2);
-
 				
 				Trooper b1 = new Trooper("B1 Rifleman", "CIS Battle Droid");
+				b1.armor = new Armor();
 				actionOrder.addTrooper(b1);
 				b1.ceStatBlock.cord = new Cord(4, 0);
 				b1.ceStatBlock.chit.xCord = 4;
@@ -155,7 +166,6 @@ public class CorditeExpansionWindow extends JFrame {
 
 				// actionOrder.addTrooper(cloneMarksman);
 				// actionOrder.addTrooper(b1);
-
 				
 				// clone.ceStatBlock.chit.facing = Facing.BC;
 				// clone.ceStatBlock.chit.facing = Facing.B;

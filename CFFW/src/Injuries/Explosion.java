@@ -234,7 +234,7 @@ public class Explosion {
 	// Explosion ranges 
 	// 0 1 2 3 5 10 
 	// Returns col for pc explosive weapon based on passed range in pc hexes 
-	public int getExplsoionRangeColumn(int rangePCHexes) {
+	public static int getExplsoionRangeColumn(int rangePCHexes) {
 		if(rangePCHexes <= 0)
 			return 0;
 		else if(rangePCHexes <= 1)

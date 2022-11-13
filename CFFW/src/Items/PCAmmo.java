@@ -19,8 +19,16 @@ public class PCAmmo implements Serializable {
 	public boolean energyWeapon = false; 
 	public boolean ordnance = false; 
 	
+	public int depletionPoints = 0; 
+	public int shots = 0;
+	
 	public PCAmmo(String name) {
 		this.name = name; 
+	}
+	
+	public PCAmmo(String name, int shots) {
+		this.name = name; 
+		this.shots = shots;
 	}
 	
 	public PCAmmo(String name, ArrayList<Integer> pen, ArrayList<Integer> dc, ArrayList<String> bshc, ArrayList<Integer> bc, int impactPen, int impactDc) {

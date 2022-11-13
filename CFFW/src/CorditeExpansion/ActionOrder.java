@@ -66,7 +66,6 @@ public class ActionOrder {
 	private void setCeStats(Trooper trooper) {
 		trooper.ceStatBlock = new StatBlock(trooper);
 		trooper.ceStatBlock.rangedStatBlock = new RangedStatBlock(trooper);
-		
 	}
 	
 	public void setRangedStatBlock() {

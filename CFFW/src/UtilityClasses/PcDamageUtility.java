@@ -20,6 +20,19 @@ import Trooper.Trooper;
 public class PcDamageUtility {
 
 	
+	public static int getHitsFromString(String damageString) {
+		Pattern pattern = Pattern.compile("[0-9]+", Pattern.CASE_INSENSITIVE);
+	    Matcher matcher = pattern.matcher(damageString);
+	    boolean matchFound = matcher.find();
+	    if(matchFound) {
+	      
+	    	return Integer.parseInt(matcher.group());
+	    	
+	    }
+		
+		return -1;
+	}
+	
 	public static int getDamageValue(String damageString) {
 		
 		Pattern pattern = Pattern.compile("[0-9]+", Pattern.CASE_INSENSITIVE);
