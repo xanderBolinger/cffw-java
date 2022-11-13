@@ -251,7 +251,8 @@ public class FireAction implements CeAction {
 		int rangeALM; 
 		int speedALM = 0; 
 		int visibilityALM = 0;
-		int aimALM = statBlock.rangedStatBlock.weapon.aimTime.get(statBlock.getAimTime());
+		System.out.println("Shot SL: "+statBlock.trooper.sl);
+		int aimALM = statBlock.trooper.sl +statBlock.rangedStatBlock.weapon.aimTime.get(statBlock.getAimTime());
 		int stanceAlm = getStanceAlm(); 
 		
 		rangeALM = getDistanceAlm();
@@ -282,8 +283,9 @@ public class FireAction implements CeAction {
 	public int getDistanceAlm() {
 		StatBlock targetStatBlock = target.ceStatBlock;
 
-		int distance = GameWindow.dist(statBlock.cord.xCord, statBlock.cord.yCord, targetStatBlock.cord.xCord,
+		int distance = GameWindow.hexDif(statBlock.cord.xCord, statBlock.cord.yCord, targetStatBlock.cord.xCord,
 				targetStatBlock.cord.yCord);
+		System.out.println("Shot distance: "+distance);
 		return PCUtility.findRangeALM(distance);
 	}
 

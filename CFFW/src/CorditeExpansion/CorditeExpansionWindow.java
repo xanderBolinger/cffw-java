@@ -128,7 +128,7 @@ public class CorditeExpansionWindow extends JFrame {
 			public void run() {
 
 				Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
-				clone.wep = "M870";
+				clone.wep = "RGD-5";
 				try {
 					clone.inventory.addItem(ItemType.M870);
 					clone.inventory.addItem(ItemType.M870, ItemType.SmallArmsAmmo);

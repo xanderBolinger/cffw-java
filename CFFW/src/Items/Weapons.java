@@ -2284,6 +2284,14 @@ public class Weapons implements Serializable {
 		this.fuze = 2; 
 		this.armTime = 3; 
 		
+		aimTime.add(-26);
+		aimTime.add(-18);
+		aimTime.add(-14);
+		aimTime.add(-12);
+		aimTime.add(-11);
+		aimTime.add(-11);
+		aimTime.add(-10);
+		aimTime.add(-10);
 		// Starts from 0, no C
 		this.pen.add(3);
 		this.pen.add(3);

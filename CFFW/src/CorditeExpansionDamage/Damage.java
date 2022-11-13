@@ -439,6 +439,8 @@ public class Damage {
 			}
 		}
 		
+		FloatingTextManager.addFloatingText(trooper.ceStatBlock.cord, "BC: "+bc+", Shrap Hits: "+shrapHits);
+		
 	}
 	
 

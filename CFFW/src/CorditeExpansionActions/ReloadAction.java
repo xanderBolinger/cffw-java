@@ -50,7 +50,7 @@ public class ReloadAction implements CeAction {
 
 	@Override
 	public ActionType getActionType() {
-		return null;
+		return ActionType.RELOAD;
 	}
 	
 	@Override

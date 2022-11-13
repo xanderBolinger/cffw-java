@@ -7,13 +7,14 @@ import CeHexGrid.Chit.Facing;
 import CorditeExpansion.Cord;
 import CorditeExpansionStatBlock.StatBlock;
 import CorditeExpansionStatBlock.StatBlock.Stance;
+import Items.Weapons;
 import Trooper.Trooper;
 import UtilityClasses.Keyboard;
 
 public interface CeAction {
 	
 	public enum ActionType {
-		MOVE,TURN,CHANGESTANCE,STABALIZE,AIM,FIRE
+		MOVE,TURN,CHANGESTANCE,STABALIZE,AIM,FIRE,THROW,RELOAD
 	}
 	
 	@Override
@@ -26,13 +27,15 @@ public interface CeAction {
 	ActionType getActionType();
 	
 	public static void addShootAction(StatBlock statBlock, Trooper target) {
-		
 		statBlock.addActionCoac(new FireAction(statBlock, target));
-		
 	}
 	
 	public static void addReloadAction(Trooper trooper) {
 		trooper.ceStatBlock.addActionCoac(new ReloadAction(trooper));
+	}
+	
+	public static void addThrowAction(Trooper trooper, Weapons throwAble, Cord cord) {
+		trooper.ceStatBlock.addActionCoac(new ThrowAction(trooper.ceStatBlock, throwAble, cord));
 	}
 	
 	public static void addMoveAction(StatBlock statBlock, ArrayList<Cord> cords, int coac) {

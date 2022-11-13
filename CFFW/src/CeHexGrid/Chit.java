@@ -115,11 +115,27 @@ public class Chit {
 		}
 	}
 	
+	public Chit(String imagePath) {
+		this.imagePath = imagePath;
+		try {
+			chitImage =  ImageIO.read(new File(imagePath));
+			chitImage =  chitImage.getScaledInstance((int) chitWidth, (int) chitHeight,
+					Image.SCALE_DEFAULT);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setDimensions(int width, int height, double zoom) {
+		chitWidth = width; 
+		chitHeight = height;
+		rescale(zoom);
+	}
+	
 	public void rescale(double zoom) {
 		try {
 			chitImage =  ImageIO.read(new File(imagePath));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

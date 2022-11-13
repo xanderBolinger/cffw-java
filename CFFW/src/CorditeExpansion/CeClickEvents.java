@@ -79,4 +79,11 @@ public class CeClickEvents {
 		
 	}
 	
+	public static void setGrenadeTarget(Cord cord) {
+		
+		CeAction.addThrowAction(CorditeExpansionGame.selectedTrooper, CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.weapon, cord);
+		
+	}
+	
+	
 }

@@ -1,5 +1,7 @@
 package CorditeExpansion;
 
+import java.util.ArrayList;
+
 import CorditeExpansionDamage.Damage;
 import CorditeExpansionStatBlock.MedicalStatBlock;
 import CorditeExpansionStatBlock.MedicalStatBlock.Status;
@@ -8,6 +10,7 @@ import Trooper.Trooper;
 public class CorditeExpansionGame {
 
 	public static ActionOrder actionOrder; 
+	public static ArrayList<ThrowAble> throwAbles = new ArrayList<>();
 	public static Trooper selectedTrooper;
 	
 	public static Impulse impulse = Impulse.FIRST;
@@ -53,7 +56,26 @@ public class CorditeExpansionGame {
 			
 		}
 		
+		
+		throwAbleCheck();
+		
 		nextImpulse();
+		
+	}
+	
+	public static void throwAbleCheck() {
+
+		for(ThrowAble throwAble : CorditeExpansionGame.throwAbles) {
+			throwAble.advanceTime();
+		}
+		
+		ArrayList<ThrowAble> throwAbles = (ArrayList<ThrowAble>) CorditeExpansionGame.throwAbles.clone();
+		
+		for(ThrowAble throwAble : throwAbles) {
+			if(throwAble.detonated) {
+				CorditeExpansionGame.throwAbles.remove(throwAble);
+			}
+		}
 		
 	}
 	

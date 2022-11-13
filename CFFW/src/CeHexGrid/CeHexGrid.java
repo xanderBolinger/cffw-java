@@ -47,6 +47,7 @@ import CorditeExpansion.CeClickEvents;
 import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.CorditeExpansionWindow;
+import CorditeExpansion.ThrowAble;
 import CorditeExpansionActions.CeAction;
 import CorditeExpansionActions.MoveAction;
 import CorditeExpansionActions.TurnAction;
@@ -105,7 +106,7 @@ public class CeHexGrid extends JPanel {
 	int backgroundImageWidth;
 	int backgroundImageHeight;
 	double oldZoom = 1.0;
-	double zoom = 1.0;
+	public static double zoom = 1.0;
 
 	public CeHexGrid(int hexRows, int hexCols) {
 
@@ -231,7 +232,13 @@ public class CeHexGrid extends JPanel {
 			return;
 		} else if (CorditeExpansionGame.selectedTrooper != null && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)
 				&& !CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.aiming) {
-			checkFireClick(e.getPoint());
+			
+			if(CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.weapon.type.equals("Grenade")) {
+				CeClickEvents.setGrenadeTarget(new Cord(points[0], points[1]));
+			} else {
+				checkFireClick(e.getPoint());				
+			}
+			
 			return;
 		}
 
@@ -508,15 +515,17 @@ public class CeHexGrid extends JPanel {
 			CeAction action = CorditeExpansionGame.actionOrder.getOrder().get(i).ceStatBlock.getTurnAction();
 
 			if (action != null && action.getActionType() == ActionType.TURN) {
-
 				TurnAction turnAction = (TurnAction) action;
-
 				drawChevron(g2, hex, turnAction.getTargetFacing());
-
 			}
-
 		}
-
+	}
+	
+	public void drawThrowAbles(Graphics2D g2) {
+		for(ThrowAble throwAble : CorditeExpansionGame.throwAbles) {
+			Polygon hex = hexMap.get(throwAble.chit.xCord).get(throwAble.chit.yCord);
+			throwAble.chit.drawChit(oldZoom, g2, hex);
+		}
 	}
 
 	public void drawHexMap(Graphics2D g2) {
@@ -790,9 +799,11 @@ public class CeHexGrid extends JPanel {
 		translateSelectedChit();
 
 		drawChitShadow(g2);
-
+		
 		drawChits(g2);
 
+		drawThrowAbles(g2);
+		
 		drawFloatingText(g2);
 
 		pressedCursorPoint = currentCursorPoint;
