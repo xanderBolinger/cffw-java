@@ -1,10 +1,3 @@
-/CorditeExpansionDamage/
-/CorditeExpansionRangedCombat/
-/CorditeExpansionStatBlock/
-/CreateGame/
-/FatigueSystem/
-/HexGrid/
-/Hexes/
 /Individuals/
 /Injuries/
 /Items/
@@ -18,6 +11,10 @@
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
+/CeHexGrid/
+/CorditeExpansionStatBlock/
 /CorditeExpansion/
 /CorditeExpansionActions/
-/CeHexGrid/
+/HexGrid/
+/CorditeExpansionCharacters/
+/CorditeExpansionDamage/

@@ -223,8 +223,6 @@ public class FireAction implements CeAction {
 		
 		sizeALM = getSizeAlm();
 		
-		
-		
 		int alm = calcualteALM();
 		
 		StatBlock targetStatBlock = target.ceStatBlock;
@@ -254,18 +252,38 @@ public class FireAction implements CeAction {
 		System.out.println("Shot SL: "+statBlock.trooper.sl);
 		int aimALM = statBlock.trooper.sl +statBlock.rangedStatBlock.weapon.aimTime.get(statBlock.getAimTime());
 		int stanceAlm = getStanceAlm(); 
+	
+		int laserAlm = getLaserAlm();
 		
 		rangeALM = getDistanceAlm();
 		
 		try {
 			speedALM = getSpeedAlm(statBlock, target.ceStatBlock) + getSpeedAlm(target.ceStatBlock, statBlock);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return rangeALM + speedALM + visibilityALM + aimALM + stanceAlm; 
 	
+	}
+	
+	public int getLaserAlm() {
+		
+		if(!statBlock.rangedStatBlock.weapon.laser)
+			return 0;
+		
+		StatBlock targetStatBlock = target.ceStatBlock;
+
+		int range = GameWindow.hexDif(statBlock.cord.xCord, statBlock.cord.yCord, targetStatBlock.cord.xCord,
+				targetStatBlock.cord.yCord);
+		if(range < 5)
+			return 10; 
+		else if(range < 10)
+			return 6; 
+		else if(range < 20)
+			return 3; 
+		
+		return 0;
 	}
 	
 	public int getStanceAlm() {

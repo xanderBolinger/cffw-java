@@ -176,6 +176,28 @@ public class CorditeExpansionWindow extends JFrame {
 
 	}
 
+	public CorditeExpansionWindow(ArrayList<Trooper> troopers) {
+		UIManager.getDefaults().put("SplitPane.border", BorderFactory.createEmptyBorder());
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				ActionOrder actionOrder = new ActionOrder();
+				CorditeExpansionGame.actionOrder = actionOrder;
+				
+				for(int i = 0; i < troopers.size(); i++) {
+					Trooper trooper = troopers.get(i);
+					actionOrder.addTrooper(trooper);
+					trooper.ceStatBlock.cord = new Cord(0, i);
+					trooper.ceStatBlock.chit.xCord = 0;
+					trooper.ceStatBlock.chit.yCord = i; 
+					trooper.ceStatBlock.chit.facing = Facing.A;
+				}
+
+				initialize();
+			}
+		});
+
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -473,24 +495,26 @@ public class CorditeExpansionWindow extends JFrame {
 				actionList.setSelectedIndex(-1);
 
 				if(detailsList.getSelectedIndex() == 6) {
+					CorditeExpansionGame.selectedTrooper.ceStatBlock.cycleActingStatu();
+				} else if(detailsList.getSelectedIndex() == 7) {
 					CorditeExpansionGame.selectedTrooper.ceStatBlock.toggleCover();
-				} else if(detailsList.getSelectedIndex() == 8) {
-					CorditeExpansionGame.selectedTrooper.ceStatBlock.toggleAiming();
 				} else if(detailsList.getSelectedIndex() == 9) {
-					CorditeExpansionGame.selectedTrooper.ceStatBlock.toggleFullauto();
+					CorditeExpansionGame.selectedTrooper.ceStatBlock.toggleAiming();
 				} else if(detailsList.getSelectedIndex() == 10) {
+					CorditeExpansionGame.selectedTrooper.ceStatBlock.toggleFullauto();
+				} else if(detailsList.getSelectedIndex() == 11) {
 					CorditeExpansionGame.selectedTrooper.ceStatBlock.cycleShotTarget();
-				}  else if(detailsList.getSelectedIndex() == 11) {
-					CorditeExpansionGame.selectedTrooper.ceStatBlock.toggleSpendSuccess();;
 				}  else if(detailsList.getSelectedIndex() == 12) {
+					CorditeExpansionGame.selectedTrooper.ceStatBlock.toggleSpendSuccess();;
+				}  else if(detailsList.getSelectedIndex() == 13) {
 					CorditeExpansionGame.selectedTrooper.ceStatBlock.cycleSpendSuccessNumber();
-				} else if(detailsList.getSelectedIndex() == 13) {
+				} else if(detailsList.getSelectedIndex() == 14) {
 					CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.suppression.cycleSuppressionStatus();
 				}
 				
 				refreshCeDetailsList(CorditeExpansionGame.selectedTrooper);
 				
-				if(index != 6 && index != 8 && index != 9 && index != 10 && index != 11 &&  index != 12 &&  index != 13 && 
+				if(index != 6 && index != 7 && index != 9 && index != 10 && index != 11 &&  index != 12 &&  index != 13 && 
 						index < detailsList.getModel().getSize() - 1 ) {
 					detailsList.setSelectedIndex(index);
 				}
@@ -669,7 +693,7 @@ public class CorditeExpansionWindow extends JFrame {
 
 		if (trooper != null) {
 			for (CeAction action : trooper.ceStatBlock.getCoac()) {
-				actions.add(action.toString());
+				actions.add(action.toString() + " PREPARED: "+action.ready());
 			}
 
 		}

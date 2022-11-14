@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import CorditeExpansionDamage.Damage;
 import CorditeExpansionStatBlock.MedicalStatBlock;
 import CorditeExpansionStatBlock.MedicalStatBlock.Status;
+import CorditeExpansionStatBlock.StatBlock.ActingStatus;
 import Trooper.Trooper;
 
 public class CorditeExpansionGame {
@@ -40,11 +41,13 @@ public class CorditeExpansionGame {
 				
 				trooper.ceStatBlock.rangedStatBlock.suppression.resolve();
 				
-				if(trooper.ceStatBlock.acting()) {
+				if(trooper.ceStatBlock.acting() && trooper.ceStatBlock.actingStatus != ActingStatus.PLANNING
+						&& trooper.ceStatBlock.actingStatus != ActingStatus.NOTHING) {
 					//System.out.println("Act");
 					trooper.ceStatBlock.spendCombatAction();		
 				}
-				else if(trooper.ceStatBlock.preparing()) {
+				else if(trooper.ceStatBlock.preparing()
+						&& trooper.ceStatBlock.actingStatus != ActingStatus.NOTHING) {
 					//System.out.println("Prepare");
 					trooper.ceStatBlock.prepareCourseOfAction();
 				}
@@ -55,7 +58,6 @@ public class CorditeExpansionGame {
 			}
 			
 		}
-		
 		
 		throwAbleCheck();
 		

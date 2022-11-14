@@ -78,6 +78,7 @@ public class Trooper implements Serializable {
 	public boolean alive;
 	public int physicalDamage;
 	public int ionDamage;
+	public boolean zombie = false;
 	public boolean entirelyMechanical = false;
 	public ArrayList<String> mechanicalZones = new ArrayList<String>();
 	public int criticalTime = 0;

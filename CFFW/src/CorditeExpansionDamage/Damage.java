@@ -15,6 +15,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import CeHexGrid.FloatingTextManager;
+import CorditeExpansionCharacters.Zombie;
 import CorditeExpansionStatBlock.StatBlock.Stance;
 import Injuries.Explosion;
 import Items.Weapons;
@@ -30,14 +31,22 @@ public class Damage {
 	}
 
 	public static void applyHit(String weaponName, int pen, int dc, boolean open, Trooper trooper, int hitLocation) throws Exception {
+		
 		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "\\hittable.xlsx"));
 		Workbook workbook = new XSSFWorkbook(excelFile);
 		Sheet worksheet = workbook.getSheetAt(0);
 
 		String hitLocationName = PcDamageUtility.getHitLocationName(open, hitLocation, worksheet);
-
+		
 		pen = getPen(pen, hitLocation, open, trooper);
 
+		if(trooper.zombie) {
+			Zombie zombie = (Zombie) trooper;
+			zombie.hitLocationCheck(hitLocationName, pen);
+			workbook.close();
+			return;
+		}
+		
 		if (pen < 1) {
 			FloatingTextManager.addFloatingText(trooper.ceStatBlock.cord, "Pen < 1, Stopped by armor");
 			workbook.close();
@@ -111,6 +120,13 @@ public class Damage {
 
 		pen = getPen(pen, hitLocation, open, trooper);
 
+		if(trooper.zombie) {
+			Zombie zombie = (Zombie) trooper;
+			zombie.hitLocationCheck(hitLocationName, pen);
+			workbook.close();
+			return;
+		}
+		
 		if (pen < 1) {
 			workbook.close();
 			return;

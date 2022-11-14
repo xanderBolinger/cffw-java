@@ -312,7 +312,6 @@ public class HexGrid implements Serializable {
 	}
 
 	public void losThread() {
-		
 		if(losThreadShowing) {
 			losThreadShowing = false;
 			panel.hideLOSThread();
@@ -320,7 +319,6 @@ public class HexGrid implements Serializable {
 			losThreadShowing = true;
 			panel.showLOSThread();
 		}
-		
 	}
 	
 	class DrawnString {
@@ -332,11 +330,9 @@ public class HexGrid implements Serializable {
 			this.text = text;
 			this.position = position;
 		}
-
 	}
 
 	public class DeployedUnit {
-
 		private Image unitImage;
 		public Unit unit;
 		//String callsign;
@@ -360,9 +356,6 @@ public class HexGrid implements Serializable {
 		}
 
 		public String getCallsign() {
-			
-			//System.out.println("Get Call Sign");
-			
 			String results = unit.callsign;
 			
 			if(GameWindow.exhaustedUnit(unit) && moved) {

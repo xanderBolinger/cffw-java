@@ -41,6 +41,10 @@ public class StatBlock {
 	private CeAction activeAction;
 	private ArrayList<CeAction> coac = new ArrayList<>();
 	
+	public enum ActingStatus {
+		ACTING,PLANNING,NOTHING
+	}
+	public ActingStatus actingStatus = ActingStatus.ACTING; 
 	public boolean hesitating = false; 
 	public boolean inCover = false;
 	
@@ -144,6 +148,9 @@ public class StatBlock {
 		//System.out.println("spend spend");
 		activeAction.spendCombatAction();
 		
+		if(activeAction.getActionType() != ActionType.AIM || activeAction.getActionType() != ActionType.FIRE)
+			clearAim();
+		
 		if(activeAction.completed()) {
 			//System.out.println("Action Completed");
 			activeAction = null;
@@ -159,9 +166,16 @@ public class StatBlock {
 		}
 		
 		//System.out.println("prepare spend");
-		coac.get(0).spendCombatAction();
-		if(coac.get(0).ready()) {
-			System.out.println("ready");
+		
+		for(CeAction action : coac) {
+			if(!action.ready()) {
+				action.spendCombatAction();
+				break; 
+			}
+		}
+		
+		if(coac.get(0).ready() && activeAction == null) {
+			//System.out.println("ready");
 			addAction(coac.remove(0));
 		}
 
@@ -397,6 +411,22 @@ public class StatBlock {
 		
 	}
 	
+	public void cycleActingStatu() {
+		
+		switch(actingStatus) {
+			case ACTING:
+				actingStatus = ActingStatus.PLANNING;
+				break;
+			case PLANNING:
+				actingStatus = ActingStatus.NOTHING;
+				break;
+			case NOTHING: 
+				actingStatus =ActingStatus.ACTING;
+				break;
+		}
+		
+	}
+	
 	public void toggleSpendSuccess() {
 		skillStatBlock.spendSuccess = !skillStatBlock.spendSuccess;
 	}
@@ -445,6 +475,7 @@ public class StatBlock {
 		results.add("AF: "+adaptabilityFactor+", HESITATING: "+hesitating);
 		results.add("Speed: "+moveSpeed.toString());
 		results.add("Stance: "+stance.toString());
+		results.add("Acting Status: "+actingStatus.toString());
 		results.add("In Cover: "+inCover);
 		results.add("Stabalized: "+rangedStatBlock.stabalized);
 		
@@ -466,14 +497,10 @@ public class StatBlock {
 				+ ", DP: " + rangedStatBlock.weapon.ceStats.magazine.ammo.depletionPoints) + ", ["+rangedStatBlock.magazines(trooper)+"]" : "["+rangedStatBlock.magazines(trooper)+"]";
 		results.add("Magazine(s): "+ magazineStatus);
 		
-		
-		
 		results.add("Alive: "+medicalStatBlock.alive);
 		results.add("Conscoius: "+medicalStatBlock.conscious());
 		results.add("Physical Damage Total: "+medicalStatBlock.getPdTotal());
 		results.add("Physical Damage From Blood Loss: "+medicalStatBlock.getBloodLossPd());
-		
-		
 		
 		return results; 
 	}

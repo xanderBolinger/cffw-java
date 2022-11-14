@@ -25,6 +25,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import CharacterBuilder.CharacterBuilderWindow;
 import Company.Company;
 import Company.EditCompany;
+import CorditeExpansion.CorditeExpansionWindow;
 import CreateGame.SetupWindow;
 import Individuals.EditIndividual;
 import Trooper.Trooper;
@@ -458,6 +459,15 @@ public class EditUnit implements Serializable {
 		});
 		btnOpenCharacterBuilder.setBounds(403, 121, 281, 25);
 		f.getContentPane().add(btnOpenCharacterBuilder);
+		
+		JButton btnCreateCeWindow = new JButton("Create CE Window");
+		btnCreateCeWindow.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new CorditeExpansionWindow(troopers);
+			}
+		});
+		btnCreateCeWindow.setBounds(404, 86, 281, 25);
+		f.getContentPane().add(btnCreateCeWindow);
 
 		if (unit != null) {
 			// Sets Troopers list

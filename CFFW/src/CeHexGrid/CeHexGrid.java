@@ -103,8 +103,8 @@ public class CeHexGrid extends JPanel {
 
 	int backgroundImageX = 0;
 	int backgroundImageY = 0;
-	int backgroundImageWidth;
-	int backgroundImageHeight;
+	int backgroundImageWidth = 900;
+	int backgroundImageHeight = 1000;
 	double oldZoom = 1.0;
 	public static double zoom = 1.0;
 
@@ -130,6 +130,14 @@ public class CeHexGrid extends JPanel {
 
 		makeHexes(rows, columns);
 
+		try {
+			originalImage = ImageIO.read(new File("CeImages/Maps/ceGameWindowMaps.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		backgroundImage = originalImage.getScaledInstance(backgroundImageWidth, backgroundImageHeight,
+				Image.SCALE_SMOOTH);
+		
 		// originalImage = ImageIO.read(new File("Map Images/CondorValley.png"));
 		// originalImage = ImageIO.read(new File("Map Images/refuge.png"));
 		// originalImage = ImageIO.read(new File("Map
@@ -359,6 +367,19 @@ public class CeHexGrid extends JPanel {
 	}
 
 	public void checkChitClick(Point point) {
+		
+		for (ThrowAble throwAble : CorditeExpansionGame.throwAbles) {
+			Chit chit = throwAble.chit;
+			
+			Rectangle imageBounds = new Rectangle(chit.xPoint, chit.yPoint, chit.getWidth(), chit.getHeight());
+			if (imageBounds.contains(point)) {
+				System.out.println("Clicked Chit, chit.xPoint: " + chit.xPoint + ", clicked x point: " + point.x);
+
+				Chit.setSelectedChit(chit, point.x - chit.xPoint, point.y - chit.yPoint);
+				return;
+			}
+		}
+		
 		for (Chit chit : getChits()) {
 			Rectangle imageBounds = new Rectangle(chit.xPoint, chit.yPoint, chit.getWidth(), chit.getHeight());
 			if (imageBounds.contains(point)) {
@@ -711,6 +732,34 @@ public class CeHexGrid extends JPanel {
 		}
 	}
 
+	public void drawBackground(Graphics2D g2) {
+		if (zoom != oldZoom) {
+			//s = Math.round(s / oldZoom * zoom);
+			// System.out.println("S: "+s+", Zoom: "+zoom);
+			backgroundImageWidth = (int) Math.round(s * (columns / 2 * 3));
+			backgroundImageHeight = (int) Math.round(s * 1.7175 * rows);
+			backgroundImageHeight -= backgroundImageHeight / rows / 2;
+		}
+		if (pressedCursorPoint != null && currentCursorPoint != null && dragging && 
+				!Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)) {
+			backgroundImageX = shapeList.get(0).getBounds().x + 11;
+			backgroundImageY = shapeList.get(0).getBounds().y;
+			g2.drawImage(backgroundImage, backgroundImageX, backgroundImageY, null);
+		} else if (zoom != oldZoom) {
+			backgroundImage = originalImage.getScaledInstance(backgroundImageWidth, 
+					backgroundImageHeight, 1);
+			backgroundImageX = shapeList.get(0).getBounds().x + 11;
+			backgroundImageY = shapeList.get(0).getBounds().y;
+
+			g2.drawImage(backgroundImage, backgroundImageX, backgroundImageY, null);
+		} else {
+			//makeHexes(rows, columns);
+			backgroundImageX = shapeList.get(0).getBounds().x + 11;
+			backgroundImageY = shapeList.get(0).getBounds().y;
+			g2.drawImage(backgroundImage, backgroundImageX, backgroundImageY, null);
+		}
+	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -792,6 +841,8 @@ public class CeHexGrid extends JPanel {
 
 		}
 
+		drawBackground(g2);
+		
 		shadeHexes(g2);
 
 		drawHexMap(g2);
