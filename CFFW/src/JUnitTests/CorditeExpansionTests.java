@@ -209,7 +209,6 @@ public class CorditeExpansionTests {
 	
 	@Test
 	public void facingValueTest() {
-		
 
 		Facing facing = Facing.A;
 		
@@ -217,7 +216,6 @@ public class CorditeExpansionTests {
 		
 		assertEquals(Facing.FA, Facing.turnCounterClockwise(facing));
 		
-
 	}
 	
 	@Test

@@ -119,6 +119,7 @@ public class StatBlock {
 	}
 	
 	public void clearAim() {
+		//System.out.println("Clear aim");
 		rangedStatBlock.aimHexes.clear();
 		rangedStatBlock.aimTarget = null; 
 		rangedStatBlock.aimTime = 0;
@@ -134,9 +135,12 @@ public class StatBlock {
 	}
 	
 	public void aim() {
+		//System.out.println("Aim");
 		rangedStatBlock.aimTime++;
-		if(rangedStatBlock.aimTime > rangedStatBlock.maxAim)
+		if(rangedStatBlock.aimTime > rangedStatBlock.maxAim) {
+			//System.out.println("Set Max Aim: "+rangedStatBlock.maxAim);
 			rangedStatBlock.aimTime = rangedStatBlock.maxAim;
+		}
 	}
 	
 	public void spendCombatAction() {	
@@ -148,7 +152,7 @@ public class StatBlock {
 		//System.out.println("spend spend");
 		activeAction.spendCombatAction();
 		
-		if(activeAction.getActionType() != ActionType.AIM || activeAction.getActionType() != ActionType.FIRE)
+		if(activeAction.getActionType() != ActionType.AIM && activeAction.getActionType() != ActionType.FIRE)
 			clearAim();
 		
 		if(activeAction.completed()) {

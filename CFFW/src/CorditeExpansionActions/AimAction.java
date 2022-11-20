@@ -19,6 +19,7 @@ public class AimAction implements CeAction {
 	@Override
 	public void spendCombatAction() {
 		if(!ready()) {
+			//System.out.println("Not ready");
 			spentCoac++;
 			return; 
 		}
