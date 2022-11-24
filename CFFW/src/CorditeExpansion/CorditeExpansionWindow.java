@@ -207,11 +207,11 @@ public class CorditeExpansionWindow extends JFrame {
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		getContentPane().setSize(new Dimension(1000, 1000));
-		getContentPane().setPreferredSize(new Dimension(1000, 1000));
+		getContentPane().setSize(new Dimension(1005, 1005));
+		getContentPane().setPreferredSize(new Dimension(1005, 1005));
 		getContentPane().setMinimumSize(new Dimension(1000, 1000));
 		setMinimumSize(new Dimension(1000, 1000));
-		setSize(new Dimension(1000, 1000));
+		setSize(new Dimension(1005, 1005));
 
 		setUndecorated(true);// vanishing the default title bar
 		// setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -221,6 +221,7 @@ public class CorditeExpansionWindow extends JFrame {
 		CeKeyListener.addKeyListeners(this);
 
 		JPanel window = new JPanel();
+		window.setPreferredSize(new Dimension(1005, 1005));
 		window.setMinimumSize(new Dimension(1000, 990));
 		window.setBackground(Colors.BACKGROUND);
 		window.setDoubleBuffered(true);
@@ -231,7 +232,7 @@ public class CorditeExpansionWindow extends JFrame {
 		splitPane.setBackground(Colors.BACKGROUND);
 		splitPane.setForeground(Colors.BACKGROUND);
 		splitPane.setMinimumSize(new Dimension(1000, 990));
-		splitPane.setPreferredSize(new Dimension(1000, 1000));
+		splitPane.setPreferredSize(new Dimension(1005, 1005));
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setDoubleBuffered(true);
 		JPanel toolbar = new JPanel();
@@ -434,6 +435,8 @@ public class CorditeExpansionWindow extends JFrame {
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
 		JSplitPane splitPane_2_1 = new JSplitPane();
+		splitPane_2_1.setPreferredSize(new Dimension(0, 0));
+        splitPane_2_1.setMinimumSize(new Dimension(0, 0));
 		splitPane_2_1.setForeground(new Color(189, 147, 249));
 		splitPane_2_1.setDoubleBuffered(true);
 		splitPane_2_1.setDividerSize(2);
@@ -470,7 +473,8 @@ public class CorditeExpansionWindow extends JFrame {
 		scrollPane_1.setViewportView(actionList);
 
 		JScrollPane scrollPane_1_1 = new JScrollPane();
-		scrollPane_1_1.setMinimumSize(new Dimension(400, 200));
+		scrollPane_1_1.setPreferredSize(new Dimension(0, 0));
+		scrollPane_1_1.setMinimumSize(new Dimension(0, 0));
 		scrollPane_1_1.setBorder(BorderFactory.createEmptyBorder());
 		splitPane_2_1.setRightComponent(scrollPane_1_1);
 
@@ -710,9 +714,12 @@ public class CorditeExpansionWindow extends JFrame {
 		ArrayList<String> ceStats = new ArrayList<>();
 
 		if (trooper != null) {
+			
 			ceStats = trooper.ceStatBlock.getCeStatList();
 		}
-
+		for(int i = 0; i < 15; i++) {
+			ceStats.add(" ");
+		}
 		SwingUtility.setList(detailsList, ceStats);
 	}
 

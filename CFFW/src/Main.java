@@ -19,6 +19,7 @@ import CreateGame.SetupWindow;
 import Items.Item;
 import Items.Item.ItemType;
 import JUnitTests.InventoryTest;
+import UtilityClasses.TestUtility;
 
 import javax.swing.JButton;
 import java.awt.CardLayout;
@@ -66,16 +67,8 @@ public class Main {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		Result result = JUnitCore.runClasses(InventoryTest.class);
-
-		for (Failure failure : result.getFailures()) {
-			throw new Exception(failure.toString());
-			//System.out.println(failure.toString());
-		}
-
-		//System.out.println(result.wasSuccessful());
-
 		
+		TestUtility.runTests();
 		
 		new SetupWindow();
 	}

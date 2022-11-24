@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Toolkit;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,6 +29,8 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -114,16 +117,44 @@ public class Window2 extends JFrame {
 	private void initialize() {
 		new JFrame();
 		
+		String[][] data = {
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"},
+	            {"sdvjdnvdfjvnsdvsdjvs", "sdvjdnvdfjvnsdvsdjvsdvkdsjvnbdvlkjvnbdkvdvkdjvvsnvlkdnv"}};
+		
+		ArrayList<String> strings = new ArrayList<>();
+		
+		for(String[] list : data) {
+			for(String str : list) {
+				strings.add(str);
+			}
+		}
+		strings.add("second to last row");
+		strings.add("last row");
 		
 		
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		getContentPane().setSize(new Dimension(1000, 1000));
-		getContentPane().setPreferredSize(new Dimension(1000, 1000));
-		getContentPane().setMinimumSize(new Dimension(1000, 1000));
-		setMinimumSize(new Dimension(1000, 1000));
-		setSize(new Dimension(1000, 1000));
+		getContentPane().setPreferredSize(new Dimension(900, 1050));
+		setMinimumSize(new Dimension(900, 1050));
 		
 		setUndecorated(true);// vanishing the default title bar
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -134,21 +165,24 @@ public class Window2 extends JFrame {
         
         
         JPanel window = new JPanel();
-        window.setMinimumSize(new Dimension(1000, 990));
+        window.setPreferredSize(new Dimension(900, 1050));
+        window.setMinimumSize(new Dimension(900, 1050));
         window.setBackground(Colors.BACKGROUND);
         window.setDoubleBuffered(true);
         getContentPane().add(window, BorderLayout.NORTH);
 
         splitPane = new JSplitPane();
+        splitPane.setMaximumSize(new Dimension(900, 900));
         splitPane.setDividerSize(0);
         splitPane.setBackground(Colors.BACKGROUND);
         splitPane.setForeground(Colors.BACKGROUND);
-        splitPane.setMinimumSize(new Dimension(1000, 990));
-        splitPane.setPreferredSize(new Dimension(1000, 1000));
+        splitPane.setMinimumSize(new Dimension(850, 850));
+        splitPane.setPreferredSize(new Dimension(900, 900));
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
         splitPane.setDoubleBuffered(true);
         JPanel toolbar = new JPanel();
-        toolbar.setMinimumSize(new Dimension(1000, 50));
+        toolbar.setPreferredSize(new Dimension(10, 7));
+        toolbar.setMinimumSize(new Dimension(1000, 35));
         toolbar.setBackground(Colors.BACKGROUND);
         splitPane.setLeftComponent(toolbar);
         
@@ -174,7 +208,7 @@ public class Window2 extends JFrame {
 			}
         	
         });
-       
+        
         
         toolbar.setLayout(gl_toolbar);
         toolbar.addMouseListener(new MouseAdapter() {
@@ -232,11 +266,14 @@ public class Window2 extends JFrame {
 		});
         
         JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(0, 0));
+        panel.setMinimumSize(new Dimension(850, 850));
         panel.setDoubleBuffered(true);
         panel.setBackground(Colors.GRAY);        
         splitPane.setRightComponent(panel);
         
         JSplitPane splitPane_1 = new JSplitPane();
+        splitPane_1.setPreferredSize(new Dimension(0, 0));
         splitPane_1.setDividerSize(2);
         splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
         GroupLayout gl_panel = new GroupLayout(panel);
@@ -255,10 +292,14 @@ public class Window2 extends JFrame {
         splitPane_1.setContinuousLayout(true);
         
         JPanel panel_1 = new JPanel();
+        panel_1.setPreferredSize(new Dimension(0, 0));
+        panel_1.setMinimumSize(new Dimension(0, 0));
         panel_1.setBackground(Colors.GRAY);
         splitPane_1.setRightComponent(panel_1);
         
         JSplitPane splitPane_2 = new JSplitPane();
+        splitPane_2.setPreferredSize(new Dimension(0, 0));
+        splitPane_2.setMinimumSize(new Dimension(0, 0));
         splitPane_2.setDividerSize(2);
         GroupLayout gl_panel_1 = new GroupLayout(panel_1);
         gl_panel_1.setHorizontalGroup(
@@ -267,11 +308,13 @@ public class Window2 extends JFrame {
         );
         gl_panel_1.setVerticalGroup(
         	gl_panel_1.createParallelGroup(Alignment.LEADING)
-        		.addComponent(splitPane_2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+        		.addGroup(gl_panel_1.createSequentialGroup()
+        			.addComponent(splitPane_2, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(185, Short.MAX_VALUE))
         );
         
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setMinimumSize(new Dimension(400, 200));
+        scrollPane.setMinimumSize(new Dimension(0, 0));
         splitPane_2.setLeftComponent(scrollPane);
         
         splitPane_2.setContinuousLayout(true);
@@ -377,11 +420,11 @@ public class Window2 extends JFrame {
         scrollPane_1.setViewportView(actionList);
         
         JScrollPane scrollPane_1_1 = new JScrollPane();
-        scrollPane_1_1.setMinimumSize(new Dimension(400, 200));
         scrollPane_1_1.setBorder(BorderFactory.createEmptyBorder());
         splitPane_2_1.setRightComponent(scrollPane_1_1);
         
         JList detailsList = new JList();
+        setList(detailsList, strings);
         detailsList.setSelectionForeground(new Color(248, 248, 242));
         detailsList.setSelectionBackground(new Color(255, 121, 198));
         detailsList.setForeground(new Color(248, 248, 242));
@@ -623,5 +666,17 @@ public class Window2 extends JFrame {
 
 	        return jlblCell;
 	    }
+	}
+	
+	public static void setList(JList list, ArrayList<String> content) {
+		DefaultListModel model = new DefaultListModel();
+
+		for (String str : content) {
+
+			model.addElement(str);
+
+		}
+		
+		list.setModel(model);
 	}
 }

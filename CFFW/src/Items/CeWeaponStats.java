@@ -1,8 +1,10 @@
 package Items;
 
+import java.io.Serializable;
+
 import UtilityClasses.DiceRoller;
 
-public class CeWeaponStats {
+public class CeWeaponStats implements Serializable {
 
 	public int baseErgonomics;
 	public boolean criticalHit = false;
