@@ -38,6 +38,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import CeHexGrid.Chit.Facing;
@@ -175,6 +176,9 @@ public class CeHexGrid extends JPanel {
 		// System.out.println("Mouse Pressed");
 		if (Chit.isAChitSelected()) {
 			Chit.moveSelectedChit(points[0], points[1]);
+			if(CorditeExpansionGame.selectedTrooper != null) {
+				CorditeExpansionGame.selectedTrooper.ceStatBlock.cord = new Cord(points[0], points[1]);
+			}
 		}
 
 		Chit.unselectChit();
@@ -185,6 +189,10 @@ public class CeHexGrid extends JPanel {
 	}
 
 	public void mouseDragged(MouseEvent e) {
+		if(SwingUtilities.isRightMouseButton(e)) {
+			return;
+		}
+		
 		dragging = true;
 		currentCursorPoint = e.getPoint();
 		// System.out.println("dragging");

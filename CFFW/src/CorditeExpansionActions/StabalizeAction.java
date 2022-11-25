@@ -13,6 +13,7 @@ public class StabalizeAction implements CeAction {
 	
 	int coac = 2; 
 	int spentCoac = 0; 
+	int attempts = 0; 
 	
 	public StabalizeAction(StatBlock statBlock) {
 		this.statBlock = statBlock; 
@@ -30,10 +31,17 @@ public class StabalizeAction implements CeAction {
 		
 		// stabalize check
 		int roll = DiceRoller.randInt(1, 100);
-		int tn = (ergo + firearms) / 2;
-		String results = ", Roll: "+roll+", TN: "+tn;
 		
-		if(roll < tn) {
+		int bonus = 0; 
+		
+		for(int i = 0; i < attempts; i++) {
+			bonus += DiceRoller.d6_exploding();
+		}
+		
+		int tn = (ergo + firearms) / 2;
+		String results = ", Roll: "+roll+", TN: "+tn+", Bonus: "+bonus;
+		
+		if(roll - bonus < tn) {
 			statBlock.rangedStatBlock.stabalized = true;
 			results = "Stabalized"+results;
 		}
@@ -42,6 +50,7 @@ public class StabalizeAction implements CeAction {
 			
 		FloatingTextManager.addFloatingText(statBlock.cord, results);
 		
+		attempts++; 
 	}
 
 	@Override

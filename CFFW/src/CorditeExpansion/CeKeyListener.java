@@ -53,6 +53,8 @@ public class CeKeyListener {
 				
 				stanceChange();
 
+				prepare();
+				
 				cancelAction();
 
 				reaction();
@@ -77,7 +79,8 @@ public class CeKeyListener {
 	}
 
 	public static void reload() {
-		if (CorditeExpansionGame.selectedTrooper == null || !Keyboard.isKeyPressed(KeyEvent.VK_R))
+		if (CorditeExpansionGame.selectedTrooper == null || !Keyboard.isKeyPressed(KeyEvent.VK_R)
+				|| Keyboard.isKeyPressed(KeyEvent.VK_CONTROL))
 			return;
 		
 		if(!CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.hasAmmo(CorditeExpansionGame.selectedTrooper)) {
@@ -168,6 +171,18 @@ public class CeKeyListener {
 
 	}
 
+	public static void prepare() {
+		if (CorditeExpansionGame.selectedTrooper == null
+				|| !(Keyboard.isKeyPressed(KeyEvent.VK_P))
+				|| CorditeExpansionWindow.actionList.getSelectedIndex() 
+				>= CorditeExpansionGame.selectedTrooper.ceStatBlock.coacSize())
+			return;
+	
+		
+		CorditeExpansionGame.selectedTrooper.ceStatBlock
+		.setPrepared(CorditeExpansionWindow.actionList.getSelectedIndex());
+	}
+	
 	public static void reaction() {
 		if (CorditeExpansionGame.selectedTrooper == null
 				|| !(Keyboard.isKeyPressed(KeyEvent.VK_R) && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL))

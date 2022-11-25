@@ -32,6 +32,8 @@ public class CorditeExpansionGame {
 	public static void action() {
 		//System.out.println("Action");
 		//System.out.println("Action Order Size: "+actionOrder.getOrder().size());
+		
+		
 		for(Trooper trooper : actionOrder.getOrder()) {
 			
 			

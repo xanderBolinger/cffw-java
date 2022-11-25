@@ -260,13 +260,16 @@ public class Trooper implements Serializable {
 			try {
 				cloneTrooperPhase1(input);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 		} else if (faction.equals("CIS Battle Droid")) {
 			// Should I add faction here, like above?
-			cisBattleDroid(input);
+			try {
+				cisBattleDroid(input);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 		} else if (faction.equals("UNSC")) {
 			this.faction = "UNSC";
@@ -1512,7 +1515,7 @@ public class Trooper implements Serializable {
 	 * B1 Seargeant B1 Rifleman B1 Marksman B1 Autorifleman B1 Assistant
 	 * Autorifleman B1 AT B1 Assistant AT B2 Wristlaser
 	 */
-	public void cisBattleDroid(String input) {
+	public void cisBattleDroid(String input) throws Exception {
 		this.kills = 0;
 		this.veterancy = 0;
 		this.physicalDamage = 0;
@@ -1553,6 +1556,10 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 36;
 			this.magnification = 24;
+			
+			inventory.addItems(ItemType.E5, 1);
+			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 3);
+			
 			// B1 Rifleman
 		} else if (input.equals("B1 Rifleman")) {
 			// Sets name
@@ -1577,6 +1584,9 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 34;
 
+			inventory.addItems(ItemType.E5, 1);
+			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 3);
+			
 			// B1 Marksman
 		} else if (input.equals("B1 Ammo Bearer")) {
 			// Sets name
@@ -1601,6 +1611,9 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 34;
 
+			inventory.addItems(ItemType.E5, 1);
+			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 9);
+			
 			// B1 Marksman
 		} else if (input.equals("B1 Marksman")) {
 			// Sets name
@@ -1625,7 +1638,7 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 46;
 			this.magnification = 24;
-
+			
 			// Autorifleman
 		} else if (input.equals("B1 Autorifleman")) {
 			// Sets name

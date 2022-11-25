@@ -281,7 +281,9 @@ public class StatBlock {
 		if(coac.size() < 1)
 			return null;
 		
-		if(CorditeExpansionWindow.actionList.getSelectedIndex() < 0 || coac.get(CorditeExpansionWindow.actionList.getSelectedIndex()).getActionType() != ActionType.TURN) {
+		if(CorditeExpansionWindow.actionList.getSelectedIndex() < coac.size() || 
+				CorditeExpansionWindow.actionList.getSelectedIndex() < 0 || 
+				coac.get(CorditeExpansionWindow.actionList.getSelectedIndex()).getActionType() != ActionType.TURN) {
 			for(CeAction action : coac) {
 				if(action.getActionType() == ActionType.TURN)
 					return action;
@@ -508,10 +510,15 @@ public class StatBlock {
 		
 		return results; 
 	}
-	
-	// the below methods are for testing 
 		public int coacSize() {
 			return coac.size();
 		}
-	
+
+	public void setPrepared(int index) {
+		coac.get(index).setPrepared();
+		
+		if(!acting())
+			activeAction = coac.remove(index);
+		
+	}
 }
