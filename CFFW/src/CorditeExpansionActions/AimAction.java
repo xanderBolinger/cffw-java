@@ -1,6 +1,7 @@
 package CorditeExpansionActions;
 
 import CorditeExpansion.Cord;
+import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansionActions.CeAction.ActionType;
 import CorditeExpansionStatBlock.StatBlock;
 import Trooper.Trooper;
@@ -24,7 +25,63 @@ public class AimAction implements CeAction {
 			return; 
 		}
 	
-		statBlock.aim();
+		if(!overwatching() || (overwatching() && !doneOverwatching())) {
+			//System.out.println("Aim");
+			statBlock.aim();
+		} else if(overwatching() && doneOverwatching() && getOverwatchTarget() == null) {
+			for(CeAction action : statBlock.getCoac()) {
+				if(!action.ready()) {
+					action.spendCombatAction();
+					break; 
+				}
+			}
+		}
+		
+	}
+	
+	public void overwatchCheck() {
+		try {
+			performOverwatch(getOverwatchTarget());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public Trooper getOverwatchTarget() {
+		
+		for(Trooper trooper : CorditeExpansionGame.actionOrder.getOrder()) {
+			
+			for(Cord cord : statBlock.rangedStatBlock.aimHexes) {
+				if(cord.compare(trooper.ceStatBlock.cord)) {
+					System.out.println("Perform overwatch true");
+					return trooper;
+				}
+			}
+		}
+		
+		System.out.println("Perform overwatch false");
+		return null;
+	}
+	
+	public void performOverwatch(Trooper target) throws Exception {
+		if(target == null)
+			return;
+		
+		FireAction fireAction = new FireAction(statBlock, target);
+		
+		if(statBlock.rangedStatBlock.fullAuto)
+			fireAction.fullAutoBurst();
+		else
+			fireAction.shot();
+		
+	}
+	
+	public boolean doneOverwatching() {
+		return statBlock.rangedStatBlock.aimTime >= 3;
+	}
+	
+	public boolean overwatching() {
+		return statBlock.rangedStatBlock.aimHexes.size() > 0; 
 	}
 	
 	public void setTargetTrooper(Trooper target) {
@@ -48,6 +105,9 @@ public class AimAction implements CeAction {
 
 	@Override
 	public boolean completed() {
+		if(overwatching())
+			return false;
+		
 		return statBlock.getAimTime() >= statBlock.rangedStatBlock.weapon.aimTime.size() - 1;
 	}
 
@@ -65,7 +125,11 @@ public class AimAction implements CeAction {
 	public String toString() {
 		String rslts = "Aim: "; 
 		
-		if(statBlock.rangedStatBlock.aimTarget != null) {
+		if(overwatching()) {
+			rslts = "Overwatching: ";
+		}
+		
+		if(statBlock.rangedStatBlock.aimTarget != null && !overwatching()) {
 			rslts += statBlock.rangedStatBlock.aimTarget.name;
 		} else {
 			for(Cord cord : statBlock.rangedStatBlock.aimHexes) {

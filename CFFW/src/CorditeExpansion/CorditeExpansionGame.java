@@ -2,6 +2,9 @@ package CorditeExpansion;
 
 import java.util.ArrayList;
 
+import CorditeExpansionActions.AimAction;
+import CorditeExpansionActions.CeAction;
+import CorditeExpansionActions.CeAction.ActionType;
 import CorditeExpansionDamage.Damage;
 import CorditeExpansionStatBlock.MedicalStatBlock;
 import CorditeExpansionStatBlock.MedicalStatBlock.Status;
@@ -61,9 +64,24 @@ public class CorditeExpansionGame {
 			
 		}
 		
+		overwatchCheck();
+		
 		throwAbleCheck();
 		
 		nextImpulse();
+		
+	}
+	
+	public static void overwatchCheck() {
+		
+		for(CeAction action : actionOrder.getActions()) {
+			if(action.getActionType() != ActionType.AIM || !((AimAction) action).overwatching()) {
+				continue; 
+			}
+			
+			((AimAction) action).overwatchCheck();
+			
+		}
 		
 	}
 	

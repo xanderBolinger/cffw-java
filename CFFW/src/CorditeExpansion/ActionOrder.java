@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 import CeHexGrid.CeHexGrid;
 import CeHexGrid.Chit;
+import CorditeExpansionActions.CeAction;
 import CorditeExpansionStatBlock.RangedStatBlock;
 import CorditeExpansionStatBlock.StatBlock;
 import Items.Weapons;
@@ -72,6 +73,19 @@ public class ActionOrder {
 		
 	}
 	
+	
+	public ArrayList<CeAction> getActions() {
+		ArrayList<CeAction> actions = new ArrayList<>();
+		
+		for(Trooper trooper : getOrder()) {
+			
+			if(trooper.ceStatBlock.acting()) 
+				actions.add(trooper.ceStatBlock.getAction());
+			
+		}
+		
+		return actions; 
+	}
 	
 	public ArrayList<Trooper> getOrder() {
 		return initiativeOrder;

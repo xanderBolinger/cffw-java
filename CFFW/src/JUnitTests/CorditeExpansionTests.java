@@ -435,6 +435,7 @@ public class CorditeExpansionTests {
 		assertEquals(true, clone.ceStatBlock.rangedStatBlock.aimHexes.contains(cord1));
 		assertEquals(true, clone.ceStatBlock.rangedStatBlock.aimHexes.contains(cord2));
 		assertEquals(true, clone.ceStatBlock.rangedStatBlock.aimHexes.contains(cord3));
+		assertEquals(true, aimAction.overwatching());
 		
 		aimAction.addTargetHex(cord4);
 		
