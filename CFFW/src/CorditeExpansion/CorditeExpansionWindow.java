@@ -225,7 +225,7 @@ public class CorditeExpansionWindow extends JFrame {
 		window.setMinimumSize(new Dimension(1000, 990));
 		window.setBackground(Colors.BACKGROUND);
 		window.setDoubleBuffered(true);
-		getContentPane().add(window, BorderLayout.NORTH);
+		getContentPane().add(window, BorderLayout.CENTER);
 
 		splitPane = new JSplitPane();
 		splitPane.setDividerSize(0);

@@ -18,6 +18,7 @@ import CorditeExpansionActions.AimAction;
 import CorditeExpansionActions.CeAction;
 import CorditeExpansionActions.MoveAction;
 import CorditeExpansionActions.CeAction.ActionType;
+import CorditeExpansionActions.FireAction;
 import CorditeExpansionRangedCombat.CalledShots.ShotTarget;
 import Items.Weapons;
 import Trooper.Trooper;
@@ -330,6 +331,38 @@ public class StatBlock {
 		
 		
 	}
+	
+	public FireAction getFireAction() {
+		
+		// Active Aim Action 
+		if(activeAction != null && activeAction.getActionType() == ActionType.FIRE) {
+			return (FireAction) activeAction;
+		}
+		
+		// Selected aim action 
+		int selectedIndex = CorditeExpansionWindow.actionList.getSelectedIndex();
+		
+		if(selectedIndex < 0)
+			return null;
+		
+		// If selected action not an aim action, search for one
+		// Otherwise, return selected aim action
+		if(coac.get(CorditeExpansionWindow.actionList.getSelectedIndex()).getActionType() != ActionType.FIRE) {
+			
+			for(CeAction action : coac) {
+				if(action.getActionType() == ActionType.FIRE)
+					return (FireAction) action;
+			}
+			
+		} else {
+			return (FireAction) coac.get(CorditeExpansionWindow.actionList.getSelectedIndex());
+		}
+		
+		return null; 
+		
+		
+	}
+	
 	
 	public ArrayList<CeAction> getCoac() {
 		return coac;

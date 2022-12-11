@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import CorditeExpansionActions.AimAction;
 import CorditeExpansionActions.CeAction;
+import CorditeExpansionActions.FireAction;
 import CorditeExpansionActions.MoveAction;
 import CorditeExpansionStatBlock.StatBlock;
 import Trooper.Trooper;
@@ -53,6 +54,21 @@ public class CeClickEvents {
 		System.out.println("coac size: "+stat.coacSize());
 		
 		action.addTargetHex(cord);
+	}
+	
+	public static void addSuppressionHex(Cord cord) {
+		
+		StatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
+		FireAction action = stat.getFireAction();
+		
+		if(action == null) {
+			CeAction.addShootAction(stat, cord);
+			return;
+		}
+		
+		System.out.println("coac size: "+stat.coacSize());
+		
+		action.addSuppresionHex(cord);
 	}
 	
 	public static void setAimTarget(Trooper target) {

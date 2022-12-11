@@ -23,7 +23,7 @@ import UtilityClasses.PcDamageUtility;
 public class FireAction implements CeAction {
 
 	public Trooper target;
-	public ArrayList<Cord> suppressHexes;
+	public ArrayList<Cord> suppressHexes = new ArrayList<Cord>();
 
 	public StatBlock statBlock;
 	int coac = 2;
@@ -36,6 +36,11 @@ public class FireAction implements CeAction {
 		this.target = target;
 	}
 	
+	public FireAction(StatBlock statBlock, Cord cord) {
+		this.statBlock = statBlock;
+		suppressHexes.add(cord);
+	}
+	
 	public boolean followUpAim = false;
 	
 	@Override
@@ -43,6 +48,14 @@ public class FireAction implements CeAction {
 		if (!ready()) {
 			spentCoac++;
 			return;
+		}
+		
+		if(suppressHexes.size() > 0) {
+			
+			for(Cord cord : suppressHexes)
+				FloatingTextManager.addFloatingText(cord, "Suppress Hex: "+cord.toString());
+			
+			return; 
 		}
 		
 		try {
@@ -308,6 +321,9 @@ public class FireAction implements CeAction {
 	}
 
 	public int getSizeAlm() {
+		if(target == null) {
+			return 12;
+		}
 		
 		if(target.ceStatBlock.inCover)
 			return 0;
@@ -375,6 +391,15 @@ public class FireAction implements CeAction {
 		}
 		
 		return penalty;
+	}
+	
+	public void addSuppresionHex(Cord cord) {
+		
+		suppressHexes.add(cord);
+		
+		if(suppressHexes.size() > 3)
+			suppressHexes.remove(0);
+		
 	}
 	
 	@Override

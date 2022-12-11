@@ -30,6 +30,10 @@ public interface CeAction {
 		statBlock.addActionCoac(new FireAction(statBlock, target));
 	}
 	
+	public static void addShootAction(StatBlock statBlock, Cord cord) {
+		statBlock.addActionCoac(new FireAction(statBlock, cord));
+	}
+	
 	public static void addReloadAction(Trooper trooper) {
 		trooper.ceStatBlock.addActionCoac(new ReloadAction(trooper));
 	}

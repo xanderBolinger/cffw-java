@@ -169,7 +169,7 @@ public class Window2 extends JFrame {
         window.setMinimumSize(new Dimension(900, 1050));
         window.setBackground(Colors.BACKGROUND);
         window.setDoubleBuffered(true);
-        getContentPane().add(window, BorderLayout.NORTH);
+        getContentPane().add(window, BorderLayout.CENTER);
 
         splitPane = new JSplitPane();
         splitPane.setMaximumSize(new Dimension(900, 900));
@@ -266,7 +266,8 @@ public class Window2 extends JFrame {
 		});
         
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(0, 0));
+        panel.setMaximumSize(new Dimension(0, 0));
+        panel.setPreferredSize(new Dimension(10000, 10000));
         panel.setMinimumSize(new Dimension(850, 850));
         panel.setDoubleBuffered(true);
         panel.setBackground(Colors.GRAY);        
@@ -279,11 +280,13 @@ public class Window2 extends JFrame {
         GroupLayout gl_panel = new GroupLayout(panel);
         gl_panel.setHorizontalGroup(
         	gl_panel.createParallelGroup(Alignment.LEADING)
-        		.addComponent(splitPane_1)
+        		.addGroup(gl_panel.createSequentialGroup()
+        			.addComponent(splitPane_1, GroupLayout.DEFAULT_SIZE, 1002, Short.MAX_VALUE)
+        			.addGap(0))
         );
         gl_panel.setVerticalGroup(
         	gl_panel.createParallelGroup(Alignment.LEADING)
-        		.addComponent(splitPane_1, GroupLayout.DEFAULT_SIZE, 948, Short.MAX_VALUE)
+        		.addComponent(splitPane_1, GroupLayout.DEFAULT_SIZE, 1008, Short.MAX_VALUE)
         );
         panel.setLayout(gl_panel);
         
@@ -293,7 +296,7 @@ public class Window2 extends JFrame {
         
         JPanel panel_1 = new JPanel();
         panel_1.setPreferredSize(new Dimension(0, 0));
-        panel_1.setMinimumSize(new Dimension(0, 0));
+        panel_1.setMinimumSize(new Dimension(400, 400));
         panel_1.setBackground(Colors.GRAY);
         splitPane_1.setRightComponent(panel_1);
         
@@ -308,9 +311,7 @@ public class Window2 extends JFrame {
         );
         gl_panel_1.setVerticalGroup(
         	gl_panel_1.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_panel_1.createSequentialGroup()
-        			.addComponent(splitPane_2, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(185, Short.MAX_VALUE))
+        		.addComponent(splitPane_2, GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
         );
         
         JScrollPane scrollPane = new JScrollPane();

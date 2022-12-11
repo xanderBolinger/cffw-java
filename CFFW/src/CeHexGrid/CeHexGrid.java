@@ -284,7 +284,14 @@ public class CeHexGrid extends JPanel {
 		if (getHexFromPoint(point) != null) {
 			// System.out.println("set hex");
 			int[] cords = getHexFromPoint(point);
-			CeClickEvents.addAimHex(new Cord(cords[0], cords[1]));
+			if(CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.aiming) {
+				System.out.println("Add aim hex");
+				CeClickEvents.addAimHex(new Cord(cords[0], cords[1]));
+			}
+			else {
+				System.out.println("Add suppresion hex");
+				CeClickEvents.addSuppressionHex(new Cord(cords[0], cords[1]));
+			}
 		}
 	}
 
@@ -309,7 +316,15 @@ public class CeHexGrid extends JPanel {
 		if (getHexFromPoint(point) != null) {
 			// System.out.println("set hex");
 			int[] cords = getHexFromPoint(point);
-			CeClickEvents.addAimHex(new Cord(cords[0], cords[1]));
+			
+			if(CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.aiming) {
+				System.out.println("Add aim hex");
+				CeClickEvents.addAimHex(new Cord(cords[0], cords[1]));
+			}
+			else {
+				System.out.println("Add suppresion hex");
+				CeClickEvents.addSuppressionHex(new Cord(cords[0], cords[1]));
+			}
 		}
 	}
 
