@@ -238,10 +238,16 @@ public class FireAction implements CeAction {
 		
 		int alm = calcualteALM();
 		
-		StatBlock targetStatBlock = target.ceStatBlock;
+		Cord cord; 
 		
-		int distance = GameWindow.dist(statBlock.cord.xCord, statBlock.cord.yCord, targetStatBlock.cord.xCord,
-				targetStatBlock.cord.yCord);
+		if(target == null) {
+			cord = suppressHexes.get(0);
+		} else {
+			cord = target.ceStatBlock.cord;
+		}
+		
+		int distance = GameWindow.dist(statBlock.cord.xCord, statBlock.cord.yCord, cord.xCord,
+				cord.yCord);
 		
 		if(statBlock.rangedStatBlock.weapon.shotgun) {
 			int salm = Weapons.getShotgunTableInteger(statBlock.rangedStatBlock.weapon.salm, distance);
@@ -271,12 +277,18 @@ public class FireAction implements CeAction {
 		rangeALM = getDistanceAlm();
 		
 		try {
-			speedALM = getSpeedAlm(statBlock, target.ceStatBlock) + getSpeedAlm(target.ceStatBlock, statBlock);
+			
+			if(target != null) {
+				speedALM = getSpeedAlm(statBlock, target.ceStatBlock.cord);
+				speedALM += getSpeedAlm(target.ceStatBlock, statBlock.cord);				
+			} else {
+				speedALM = getSpeedAlm(statBlock, suppressHexes.get(0));
+			}	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return rangeALM + speedALM + visibilityALM + aimALM + stanceAlm; 
+		return rangeALM + speedALM + visibilityALM + aimALM + stanceAlm + laserAlm; 
 	
 	}
 	
@@ -285,10 +297,17 @@ public class FireAction implements CeAction {
 		if(!statBlock.rangedStatBlock.weapon.laser)
 			return 0;
 		
-		StatBlock targetStatBlock = target.ceStatBlock;
+		
+		Cord cord; 
+		
+		if(target == null) {
+			cord = suppressHexes.get(0);
+		} else {
+			cord = target.ceStatBlock.cord;
+		}
 
-		int range = GameWindow.hexDif(statBlock.cord.xCord, statBlock.cord.yCord, targetStatBlock.cord.xCord,
-				targetStatBlock.cord.yCord);
+		int range = GameWindow.hexDif(statBlock.cord.xCord, statBlock.cord.yCord, cord.xCord,
+				cord.yCord);
 		if(range < 5)
 			return 10; 
 		else if(range < 10)
@@ -312,11 +331,17 @@ public class FireAction implements CeAction {
 	}
 
 	public int getDistanceAlm() {
-		StatBlock targetStatBlock = target.ceStatBlock;
+		Cord cord; 
+		
+		if(target == null) {
+			cord = suppressHexes.get(0);
+		} else {
+			cord = target.ceStatBlock.cord;
+		}
 
-		int distance = GameWindow.hexDif(statBlock.cord.xCord, statBlock.cord.yCord, targetStatBlock.cord.xCord,
-				targetStatBlock.cord.yCord);
-		System.out.println("Shot distance: "+distance);
+		int distance = GameWindow.hexDif(statBlock.cord.xCord, statBlock.cord.yCord, cord.xCord,
+				cord.yCord);
+		//System.out.println("Shot distance: "+distance);
 		return PCUtility.findRangeALM(distance);
 	}
 
@@ -341,14 +366,14 @@ public class FireAction implements CeAction {
 		return PCUtility.findSizeALM(stance, target.PCSize);
 	}
 
-	public int getSpeedAlm(StatBlock movingBlock, StatBlock targetStatBlock) throws Exception {
+	public int getSpeedAlm(StatBlock movingBlock, Cord cord) throws Exception {
 		
 		if(!movingBlock.acting() || movingBlock.getAction().getActionType() != ActionType.MOVE)
 			return 0; 
 		
 		
-		int distance = GameWindow.dist(statBlock.cord.xCord, statBlock.cord.yCord, targetStatBlock.cord.xCord,
-				targetStatBlock.cord.yCord);
+		int distance = GameWindow.dist(statBlock.cord.xCord, statBlock.cord.yCord, cord.xCord,
+				cord.yCord);
 		
 		double actions = (double) movingBlock.getActionTiming();
 		
