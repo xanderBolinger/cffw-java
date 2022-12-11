@@ -427,6 +427,11 @@ public class StatBlock {
 			rangedStatBlock.fullAuto = true;
 	}
 	
+	
+	public int getDistance(Cord cord) {
+		return GameWindow.dist(chit.xCord, chit.yCord, cord.xCord, cord.yCord);
+	}
+	
 	public int getDistance(StatBlock targetStatBlock) {
 		return GameWindow.dist(chit.xCord, chit.yCord, targetStatBlock.chit.xCord, targetStatBlock.chit.yCord);
 	}

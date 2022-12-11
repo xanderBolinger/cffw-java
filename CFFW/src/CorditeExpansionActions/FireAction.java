@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import CeHexGrid.FloatingTextManager;
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
+import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.FullAuto;
 import CorditeExpansion.FullAuto.FullAutoResults;
 import CorditeExpansionDamage.Damage;
@@ -51,10 +52,13 @@ public class FireAction implements CeAction {
 		}
 		
 		if(suppressHexes.size() > 0) {
-			
-			for(Cord cord : suppressHexes)
-				FloatingTextManager.addFloatingText(cord, "Suppress Hex: "+cord.toString());
-			
+			for(Cord cord : suppressHexes) {
+				try {
+					suppress(cord);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 			return; 
 		}
 		
@@ -67,6 +71,103 @@ public class FireAction implements CeAction {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void suppress(Cord cord) throws Exception {
+		FloatingTextManager.addFloatingText(cord, "Suppress Hex: "+cord.toString());
+		
+		if(statBlock.rangedStatBlock.fullAuto) 
+			suppressFullAuto(cord);
+		else
+			suppressSingle(cord);
+		
+	}
+	
+	public void suppressSingle(Cord cord) throws Exception {
+		if(statBlock.rangedStatBlock.weapon.ceStats.criticalHit) {
+			FloatingTextManager.addFloatingText(statBlock.cord, "Weapon destroyed via critical hit.");
+			return;
+		}
+		
+		if(statBlock.rangedStatBlock.weapon.ceStats.magazine == null || !statBlock.rangedStatBlock.weapon.ceStats.ammoCheck()) {
+			FloatingTextManager.addFloatingText(statBlock.cord, "Weapon out of ammo, DP: "+ 
+		(statBlock.rangedStatBlock.weapon.ceStats.magazine != null ? statBlock.rangedStatBlock.weapon.ceStats.magazine.ammo.depletionPoints : "No Magazine"));
+			return;
+		}
+		
+		int eal = calculateEAL(cord);
+		int range = statBlock.getDistance(cord);
+		int odds = PCUtility.getOddsOfHitting(true, eal);
+		int penalty = shotPenalty(statBlock);
+		int roll = DiceRoller.randInt(0, 99);
+		int hits = 0; 
+		
+		if(roll + penalty < odds) {
+			hits = 1; 
+		}
+		statBlock.rangedStatBlock.weapon.ceStats.singleFire();
+		applySuppressHits(hits, cord, false, range);
+	}
+	
+	public void suppressFullAuto(Cord cord) throws Exception {
+		if(statBlock.rangedStatBlock.weapon.ceStats.criticalHit) {
+			FloatingTextManager.addFloatingText(statBlock.cord, "Weapon destroyed via critical hit.");
+			return;
+		}
+		
+		if(statBlock.rangedStatBlock.weapon.ceStats.magazine == null || !statBlock.rangedStatBlock.weapon.ceStats.ammoCheck()) {
+			FloatingTextManager.addFloatingText(statBlock.cord, "Weapon out of ammo, DP: "+ 
+		(statBlock.rangedStatBlock.weapon.ceStats.magazine != null ? statBlock.rangedStatBlock.weapon.ceStats.magazine.ammo.depletionPoints : "No Magazine"));
+			return;
+		}
+		
+		int range = statBlock.getDistance(cord);
+		int eal = calculateEAL(cord);
+		
+		eal -= statBlock.rangedStatBlock.weapon.sab * sustainedBurst;
+		
+		double ma = statBlock.rangedStatBlock.weapon.getMA(range);
+		int rof = statBlock.rangedStatBlock.weapon.fullAutoROF;
+		
+		FullAutoResults far = FullAuto.burst(eal, ma, rof, statBlock);
+		
+		applySuppressHits(far.hits, cord, true, range);
+		
+		statBlock.rangedStatBlock.weapon.ceStats.burst(statBlock.rangedStatBlock.weapon);
+	}
+	
+	public void applySuppressHits(int hits, Cord cord, boolean fullauto, int range) throws Exception {
+		
+		if(hits < 1)
+			return;
+		
+		for(int i = 0; i < hits; i++) {
+			
+			for(Trooper trooper : CorditeExpansionGame.actionOrder.getOrder()) {
+				if(!trooper.ceStatBlock.cord.compare(cord))
+					continue; 
+				
+				int suppression = DiceRoller.d6_exploding();
+				
+				if(fullauto && hits < 9) 
+					suppression += DiceRoller.d6_exploding();
+				else if(fullauto && hits >= 9) {
+					suppression += DiceRoller.d6_exploding() + DiceRoller.d6_exploding();
+				}
+				
+				trooper.ceStatBlock.rangedStatBlock.suppression.increaseSuppression(suppression);
+				FloatingTextManager.addFloatingText(trooper.ceStatBlock.cord, "Suppression: "+suppression);
+				
+				if(DiceRoller.randInt(0, 99) <= 11) {
+					Damage.applyHit(statBlock.rangedStatBlock.weapon.name, statBlock.rangedStatBlock.weapon.getPen(range), 
+							statBlock.rangedStatBlock.weapon.getDc(range), 
+							!target.ceStatBlock.inCover, target, DiceRoller.randInt(0, 99));
+				}
+				
+			}
+			
+		}
+		
 	}
 
 	public void fullAutoBurst() throws Exception {
@@ -85,16 +186,16 @@ public class FireAction implements CeAction {
 			statBlock.setAimTarget(target);
 		
 		int range = statBlock.getDistance(target.ceStatBlock);
-		int eal = calculateEAL();
+		int eal = calculateEAL(target.ceStatBlock.cord);
 		
 		CalledShots calledShots = null;
 		if(statBlock.rangedStatBlock.shotTarget == ShotTarget.HEAD) {
-			calledShots = new CalledShots(calcualteALM(), getSizeAlm());
+			calledShots = new CalledShots(calcualteALM(null), getSizeAlm());
 			calledShots.setCalledShotBounds(statBlock.rangedStatBlock.shotTarget);
 			eal = calledShots.getEal();
 		} else if(!target.ceStatBlock.inCover && 
 				(statBlock.rangedStatBlock.shotTarget == ShotTarget.LEGS || statBlock.rangedStatBlock.shotTarget == ShotTarget.BODY)) {
-			calledShots = new CalledShots(calcualteALM(), getSizeAlm());
+			calledShots = new CalledShots(calcualteALM(null), getSizeAlm());
 			calledShots.setCalledShotBounds(statBlock.rangedStatBlock.shotTarget);
 			eal = calledShots.getEal();
 		}
@@ -139,16 +240,16 @@ public class FireAction implements CeAction {
 		if(statBlock.rangedStatBlock.aimTarget == null)
 			statBlock.setAimTarget(target);
 		
-		int eal = calculateEAL();
+		int eal = calculateEAL(target.ceStatBlock.cord);
 		
 		CalledShots calledShots = null;
 		if(statBlock.rangedStatBlock.shotTarget == ShotTarget.HEAD) {
-			calledShots = new CalledShots(calcualteALM(), getSizeAlm());
+			calledShots = new CalledShots(calcualteALM(null), getSizeAlm());
 			calledShots.setCalledShotBounds(statBlock.rangedStatBlock.shotTarget);
 			eal = calledShots.getEal();
 		} else if(!target.ceStatBlock.inCover && 
 				(statBlock.rangedStatBlock.shotTarget == ShotTarget.LEGS || statBlock.rangedStatBlock.shotTarget == ShotTarget.BODY)) {
-			calledShots = new CalledShots(calcualteALM(), getSizeAlm());
+			calledShots = new CalledShots(calcualteALM(null), getSizeAlm());
 			calledShots.setCalledShotBounds(statBlock.rangedStatBlock.shotTarget);
 			eal = calledShots.getEal();
 		}
@@ -230,21 +331,13 @@ public class FireAction implements CeAction {
 				!target.ceStatBlock.inCover, target, hitLocation);
 	}
 	
-	public int calculateEAL() {
+	public int calculateEAL(Cord cord) {
 		
 		int sizeALM;
 		
 		sizeALM = getSizeAlm();
 		
-		int alm = calcualteALM();
-		
-		Cord cord; 
-		
-		if(target == null) {
-			cord = suppressHexes.get(0);
-		} else {
-			cord = target.ceStatBlock.cord;
-		}
+		int alm = calcualteALM(cord);
 		
 		int distance = GameWindow.dist(statBlock.cord.xCord, statBlock.cord.yCord, cord.xCord,
 				cord.yCord);
@@ -263,7 +356,7 @@ public class FireAction implements CeAction {
 		
 	}
 	
-	public int calcualteALM() {
+	public int calcualteALM(Cord cord) {
 		
 		int rangeALM; 
 		int speedALM = 0; 
@@ -282,7 +375,7 @@ public class FireAction implements CeAction {
 				speedALM = getSpeedAlm(statBlock, target.ceStatBlock.cord);
 				speedALM += getSpeedAlm(target.ceStatBlock, statBlock.cord);				
 			} else {
-				speedALM = getSpeedAlm(statBlock, suppressHexes.get(0));
+				speedALM = getSpeedAlm(statBlock, cord);
 			}	
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -466,7 +559,7 @@ public class FireAction implements CeAction {
 			}
 		}
 
-		return rslts + " [" + statBlock.getAimTime() + "], EAL: "+calculateEAL();
+		return rslts + " [" + statBlock.getAimTime() + "], EAL: "+calculateEAL(target != null ? target.ceStatBlock.cord : suppressHexes.get(0));
 	}
 
 }
