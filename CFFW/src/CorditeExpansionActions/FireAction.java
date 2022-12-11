@@ -405,10 +405,11 @@ public class FireAction implements CeAction {
 		if (statBlock.rangedStatBlock.aimTarget != null) {
 			rslts += statBlock.rangedStatBlock.aimTarget.name;
 		} else {
-			for (Cord cord : statBlock.rangedStatBlock.aimHexes) {
+			rslts = "Suppresion: ";
+			for (Cord cord : suppressHexes) {
 				rslts += "(" + cord.xCord + "," + cord.yCord + ")";
 
-				if (cord != statBlock.rangedStatBlock.aimHexes.get(statBlock.rangedStatBlock.aimHexes.size() - 1)) {
+				if (cord != suppressHexes.get(suppressHexes.size() - 1)) {
 					rslts += ", ";
 				}
 
