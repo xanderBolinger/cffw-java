@@ -68,7 +68,6 @@ public class FireAction implements CeAction {
 			else
 				shot();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

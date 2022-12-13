@@ -18,6 +18,8 @@ public class Item implements Serializable {
 	public enum ItemType {
 		NONE,ClassAThermalDetonator,DC15A,M5,DC15X,Z6,DC17M,DC17MRocket,DC17MSniper,DC40,RPS6,HEAT,HE,SmallArmsAmmo,
 		
+		A310,EE3,
+		
 		E5,
 		
 		M870
@@ -33,6 +35,8 @@ public class Item implements Serializable {
 				new Item(ItemType.ClassAThermalDetonator),
 				new Item(ItemType.RPS6),
 				new Item(ItemType.DC40),
+				new Item(ItemType.A310),
+				new Item(ItemType.EE3),
 				new Item(ItemType.DC40, ItemType.HE),
 				new Item(ItemType.DC40, ItemType.HEAT),
 				new Item(ItemType.RPS6, ItemType.HE),
@@ -54,7 +58,11 @@ public class Item implements Serializable {
 		
 		setWeapon(weaponType);
 		
-		if((ItemType.DC15A == weaponType || 
+		if((ItemType.EE3 == weaponType || 
+				ItemType.A310 == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("Power Cell", 50);
+			itemWeight = 2;
+		} else if((ItemType.DC15A == weaponType || 
 				ItemType.M5 == weaponType || 
 				ItemType.DC17M == weaponType || 
 				ItemType.DC15X == weaponType) 
@@ -158,6 +166,16 @@ public class Item implements Serializable {
 		else if(ItemType.E5 == itemType) {
 			weapon = new Weapons().findWeapon("E5");
 			itemWeight = 10; 
+		} 
+		
+		else if(ItemType.A310 == itemType) {
+			weapon = new Weapons().findWeapon("EE3");
+			itemWeight = 8; 
+		} 
+		
+		else if(ItemType.EE3 == itemType) {
+			weapon = new Weapons().findWeapon("A310");
+			itemWeight = 8; 
 		} 
 		
 		

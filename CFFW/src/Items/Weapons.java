@@ -169,8 +169,16 @@ public class Weapons implements Serializable {
 		weapons.add(weapon23);
 		
 		Weapons weapon24 = new Weapons();
-		weapon24.M870();
+		weapon24.A310();
 		weapons.add(weapon24);
+		
+		Weapons weapon25 = new Weapons();
+		weapon25.EE3();
+		weapons.add(weapon25);
+		
+		Weapons shotgun = new Weapons();
+		shotgun.M870();
+		weapons.add(shotgun);
 
 		Weapons weaponMelee1 = new Weapons();
 		weaponMelee1.vibroKnife();
@@ -1569,6 +1577,150 @@ public class Weapons implements Serializable {
 
 		// Ce stats
 		ceStats.baseErgonomics = 75;
+	}
+	
+	public void A310() {
+		this.name = "A310";
+		this.targetROF = 6;
+		this.suppressiveROF = 12;
+		this.type = "Rifle";
+		this.weaponBonus = 0;
+		this.damage = 3;
+		this.damageBonus = -2;
+		this.damageMultiplier = 5;
+		this.armorPiercing = 2;
+		this.tracers = true;
+		this.sab = 3;
+		this.fullAutoROF = 7;
+		this.light = true;
+		this.laser = true;
+		this.irLaser = true;
+		
+		// PEN
+		this.pen.add(42);
+		this.pen.add(36);
+		this.pen.add(31);
+		this.pen.add(27);
+		this.pen.add(25);
+		this.pen.add(20);
+		this.pen.add(17);
+		this.pen.add(15);
+		// DC
+		this.dc.add(7);
+		this.dc.add(7);
+		this.dc.add(6);
+		this.dc.add(6);
+		this.dc.add(5);
+		this.dc.add(5);
+		this.dc.add(4);
+		this.dc.add(4);
+
+		this.aimTime.add(-19);
+		this.aimTime.add(-11);
+		this.aimTime.add(-9);
+		this.aimTime.add(-7);
+		this.aimTime.add(-6);
+		this.aimTime.add(-5);
+		this.aimTime.add(-4);
+		this.aimTime.add(-3);
+		this.aimTime.add(-2);
+		this.aimTime.add(-1);
+		this.aimTime.add(0);
+
+		// BC
+		this.ba.add(70);
+		this.ba.add(62);
+		this.ba.add(53);
+		this.ba.add(46);
+		this.ba.add(41);
+		this.ba.add(32);
+		this.ba.add(26);
+		this.ba.add(22);
+
+		// Minimum Arc
+		this.ma.add(.2);
+		this.ma.add(.5);
+		this.ma.add(1.0);
+		this.ma.add(2.0);
+		this.ma.add(5.0);
+		this.ma.add(5.0);
+		this.ma.add(7.0);
+		this.ma.add(10.0);
+
+		// Ce stats
+		ceStats.baseErgonomics = 65;
+	}
+	
+	public void EE3() {
+		this.name = "EE3";
+		this.targetROF = 6;
+		this.suppressiveROF = 12;
+		this.type = "Rifle";
+		this.weaponBonus = 0;
+		this.damage = 3;
+		this.damageBonus = -2;
+		this.damageMultiplier = 5;
+		this.armorPiercing = 2;
+		this.tracers = true;
+		this.sab = 4;
+		this.fullAutoROF = 5;
+		this.light = true;
+		this.laser = true;
+		this.irLaser = true;
+		
+		// PEN
+		this.pen.add(42);
+		this.pen.add(36);
+		this.pen.add(31);
+		this.pen.add(27);
+		this.pen.add(25);
+		this.pen.add(20);
+		this.pen.add(17);
+		this.pen.add(15);
+		// DC
+		this.dc.add(7);
+		this.dc.add(7);
+		this.dc.add(6);
+		this.dc.add(6);
+		this.dc.add(5);
+		this.dc.add(5);
+		this.dc.add(4);
+		this.dc.add(4);
+
+		this.aimTime.add(-19);
+		this.aimTime.add(-11);
+		this.aimTime.add(-9);
+		this.aimTime.add(-7);
+		this.aimTime.add(-6);
+		this.aimTime.add(-5);
+		this.aimTime.add(-4);
+		this.aimTime.add(-3);
+		this.aimTime.add(-2);
+		this.aimTime.add(-1);
+		this.aimTime.add(0);
+
+		// BC
+		this.ba.add(70);
+		this.ba.add(62);
+		this.ba.add(53);
+		this.ba.add(46);
+		this.ba.add(41);
+		this.ba.add(32);
+		this.ba.add(26);
+		this.ba.add(22);
+
+		// Minimum Arc
+		this.ma.add(.2);
+		this.ma.add(.5);
+		this.ma.add(1.0);
+		this.ma.add(2.0);
+		this.ma.add(5.0);
+		this.ma.add(5.0);
+		this.ma.add(7.0);
+		this.ma.add(10.0);
+
+		// Ce stats
+		ceStats.baseErgonomics = 65;
 	}
 
 	public void M7() {

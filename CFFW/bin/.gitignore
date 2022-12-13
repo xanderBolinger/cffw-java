@@ -1,3 +1,16 @@
+/Conflict/
+/CorditeExpansion/
+/CorditeExpansionActions/
+/CorditeExpansionCharacters/
+/CorditeExpansionDamage/
+/CorditeExpansionRangedCombat/
+/CorditeExpansionStatBlock/
+/CreateGame/
+/FatigueSystem/
+/HexGrid/
+/Hexes/
+/Individuals/
+/Injuries/
 /Items/
 /JUnitTests/
 /Main.class
@@ -9,5 +22,3 @@
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
-/CorditeExpansionActions/
-/CorditeExpansionStatBlock/
