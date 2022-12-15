@@ -24,7 +24,7 @@ public class CeWeaponStats implements Serializable {
 		if(magazine == null)
 			return; 
 		
-		magazine.ammo.depletionPoints += weapon.fullAutoROF; 
+		magazine.ammo.depletionPoints += 2; 
 	}
 	
 	public boolean ammoCheck() {

@@ -253,7 +253,7 @@ public class Trooper implements Serializable {
 
 	public Trooper(String input, String faction) {
 		inventory.addContainer(ContainerType.Belt);
-		// System.out.println("New Trooper, input: "+input+", faction: "+faction);
+		System.out.println("New Trooper, input: "+input+", faction: "+faction);
 
 		if (faction.equals("Clone Trooper Phase 1")) {
 			this.faction = "Clone Trooper Phase 1";
@@ -279,6 +279,7 @@ public class Trooper implements Serializable {
 			this.faction = "Covenant";
 			covenant(input);
 		} else if (faction.equals("Cordite Expansion")) {
+			System.out.println("Pass Cordite Expansion");
 			this.faction = "Cordite Expansion";
 			corditeExpansion(input);
 
@@ -319,6 +320,7 @@ public class Trooper implements Serializable {
 			this.rank = "Untrained";
 			this.designation = "Untrained";
 		} else if (input.equals("Militia")) {
+			System.out.println("Pass Militia 1");
 			this.rank = "Militia";
 			this.designation = "Militia";
 		} else if (input.equals("Green")) {

@@ -30,6 +30,8 @@ import CeHexGrid.Colors;
 import CeHexGrid.Chit.Facing;
 import CorditeExpansionActions.CeAction;
 import Items.Armor;
+import Items.Armor.ArmorType;
+import Items.Container.ContainerType;
 import Items.Item.ItemType;
 import Trooper.Trooper;
 import UtilityClasses.SwingUtility;
@@ -127,7 +129,17 @@ public class CorditeExpansionWindow extends JFrame {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 
-				Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+				
+				ActionOrder actionOrder = new ActionOrder();
+				CorditeExpansionGame.actionOrder = actionOrder;
+				
+				try {
+					mandoTest();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				/*Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
 				clone.wep = "RGD-5";
 				try {
 					clone.inventory.addItem(ItemType.M870);
@@ -141,8 +153,7 @@ public class CorditeExpansionWindow extends JFrame {
 				// 1");
 				// Trooper b1 = new Trooper("B1 Rifleman", "CIS Battle Droid");
 
-				ActionOrder actionOrder = new ActionOrder();
-				CorditeExpansionGame.actionOrder = actionOrder;
+				
 
 				actionOrder.addTrooper(clone);
 				// actionOrder.addTrooper(cloneMarksman);
@@ -162,7 +173,7 @@ public class CorditeExpansionWindow extends JFrame {
 				actionOrder.addTrooper(b1);
 				b1.ceStatBlock.cord = new Cord(4, 0);
 				b1.ceStatBlock.chit.xCord = 4;
-				b1.ceStatBlock.chit.facing = Facing.A;
+				b1.ceStatBlock.chit.facing = Facing.A;*/
 
 				// actionOrder.addTrooper(cloneMarksman);
 				// actionOrder.addTrooper(b1);
@@ -174,6 +185,77 @@ public class CorditeExpansionWindow extends JFrame {
 			}
 		});
 
+	}
+	
+	public void mandoTest() throws Exception {
+		
+		ActionOrder ao = CorditeExpansionGame.actionOrder;
+		
+		Trooper m1 = new Trooper("Militia", "Cordite Expansion");
+		m1.wep = "DC15A";
+		m1.inventory.addItem(ItemType.DC15A);
+		m1.inventory.addItem(ItemType.DC15A, ItemType.SmallArmsAmmo);
+		m1.name = "M1";
+		
+		Trooper m2 = new Trooper("Militia", "Cordite Expansion");
+		m2.wep = "A310";
+		m2.inventory.addItem(ItemType.A310);
+		m2.inventory.addItem(ItemType.A310, ItemType.SmallArmsAmmo);
+		m2.name = "M2";
+		
+		Trooper m3 = new Trooper("Militia", "Cordite Expansion");
+		m3.wep = "EE3";
+		m3.inventory.addItem(ItemType.EE3);
+		m3.inventory.addItem(ItemType.EE3, ItemType.SmallArmsAmmo);
+		m3.name = "M3";
+		
+		Trooper m4 = new Trooper("Militia", "Cordite Expansion");
+		m4.inventory.addItem(ItemType.A310);
+		m4.wep = "A310";
+		m4.inventory.addItem(ItemType.A310, ItemType.SmallArmsAmmo);
+		m4.name = "M4";
+		
+		ao.addTrooper(m1);
+		ao.addTrooper(m2);
+		ao.addTrooper(m3);
+		ao.addTrooper(m4);
+		
+		Trooper e1 = new Trooper("Elite", "Cordite Expansion");
+		e1.wep = "DC17m";
+		e1.inventory.addItem(ItemType.DC17M);
+		e1.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
+		e1.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
+		e1.name = "Darman";
+		e1.armor = new Armor(ArmorType.KATARN);
+		
+		Trooper e2 = new Trooper("Elite", "Cordite Expansion");
+		e2.wep = "DC17m";
+		e2.inventory.addItem(ItemType.DC17M);
+		e2.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
+		e2.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
+		e2.name = "Fi";
+		e2.armor = new Armor(ArmorType.KATARN);
+		
+		Trooper e3 = new Trooper("Elite", "Cordite Expansion");
+		e3.wep = "DC17m";
+		e3.inventory.addItem(ItemType.DC17M);
+		e3.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
+		e3.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
+		e3.name = "Niner";
+		e3.armor = new Armor(ArmorType.KATARN);
+		
+		Trooper e4 = new Trooper("Elite", "Cordite Expansion");
+		e4.wep = "DC17m";
+		e4.inventory.addItem(ItemType.DC17M);
+		e4.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
+		e4.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
+		e4.name = "Atin";
+		e4.armor = new Armor(ArmorType.KATARN);
+		
+		ao.addTrooper(e1);
+		ao.addTrooper(e2);
+		ao.addTrooper(e3);
+		ao.addTrooper(e4);
 	}
 
 	public CorditeExpansionWindow(ArrayList<Trooper> troopers) {

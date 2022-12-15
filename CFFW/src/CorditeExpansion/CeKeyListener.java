@@ -175,7 +175,8 @@ public class CeKeyListener {
 		if (CorditeExpansionGame.selectedTrooper == null
 				|| !(Keyboard.isKeyPressed(KeyEvent.VK_P))
 				|| CorditeExpansionWindow.actionList.getSelectedIndex() 
-				>= CorditeExpansionGame.selectedTrooper.ceStatBlock.coacSize())
+				>= CorditeExpansionGame.selectedTrooper.ceStatBlock.coacSize()
+				|| CorditeExpansionWindow.actionList.getSelectedIndex()  < 0)
 			return;
 	
 		

@@ -35,6 +35,8 @@ public class FireAction implements CeAction {
 	public FireAction(StatBlock statBlock, Trooper target) {
 		this.statBlock = statBlock;
 		this.target = target;
+		if(statBlock.rangedStatBlock.aimTarget == null)
+			statBlock.rangedStatBlock.aimTarget = target;
 	}
 	
 	public FireAction(StatBlock statBlock, Cord cord) {

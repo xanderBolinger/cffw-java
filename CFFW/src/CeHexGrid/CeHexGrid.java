@@ -267,14 +267,14 @@ public class CeHexGrid extends JPanel {
 	}
 
 	public void checkFireClick(Point point) {
-		// System.out.println("Chits size: "+getChits().size());
+		System.out.println("Chits size: "+getChits().size());
 		for (int i = 0; i < getChits().size(); i++) {
 
 			Chit chit = getChits().get(i);
 			Rectangle imageBounds = new Rectangle(chit.xPoint, chit.yPoint, chit.getWidth(), chit.getHeight());
 
 			if (imageBounds.contains(point)) {
-				// System.out.println("pass set target");
+				System.out.println("pass set target");
 				CeClickEvents.setShootTarget(CorditeExpansionGame.actionOrder.get(i));
 				return;
 			}

@@ -1425,6 +1425,7 @@ public class Skills implements Serializable {
 		} else if (input.equals("Untrained")) {
 			untrained();
 		} else if (input.equals("Militia")) {
+			System.out.println("Pass Militia 2");
 			militia();
 		} else if (input.equals("Green")) {
 			green();
