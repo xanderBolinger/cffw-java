@@ -282,7 +282,7 @@ public class StatBlock {
 		if(coac.size() < 1)
 			return null;
 		
-		if(CorditeExpansionWindow.actionList.getSelectedIndex() < coac.size() || 
+		if(CorditeExpansionWindow.actionList.getSelectedIndex() <= coac.size() || 
 				CorditeExpansionWindow.actionList.getSelectedIndex() < 0 || 
 				coac.get(CorditeExpansionWindow.actionList.getSelectedIndex()).getActionType() != ActionType.TURN) {
 			for(CeAction action : coac) {

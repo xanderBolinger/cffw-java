@@ -61,6 +61,7 @@ public class Item implements Serializable {
 		if((ItemType.EE3 == weaponType || 
 				ItemType.A310 == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
 			ammo = new PCAmmo("Power Cell", 50);
+			System.out.println("Add power cell");
 			itemWeight = 2;
 		} else if((ItemType.DC15A == weaponType || 
 				ItemType.M5 == weaponType || 
@@ -169,12 +170,12 @@ public class Item implements Serializable {
 		} 
 		
 		else if(ItemType.A310 == itemType) {
-			weapon = new Weapons().findWeapon("EE3");
+			weapon = new Weapons().findWeapon("A310");
 			itemWeight = 8; 
 		} 
 		
 		else if(ItemType.EE3 == itemType) {
-			weapon = new Weapons().findWeapon("A310");
+			weapon = new Weapons().findWeapon("EE3");
 			itemWeight = 8; 
 		} 
 		

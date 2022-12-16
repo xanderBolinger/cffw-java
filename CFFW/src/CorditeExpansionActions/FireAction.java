@@ -207,9 +207,10 @@ public class FireAction implements CeAction {
 		
 		FullAutoResults far = FullAuto.burst(eal, ma, rof, statBlock);
 		
-		int hitLocation = calledShots != null ? calledShots.getHitLocation() : DiceRoller.randInt(0, 99);
+		
 		
 		for(int i = 0; i < far.hits; i++) {
+			int hitLocation = calledShots != null ? calledShots.getHitLocation() : DiceRoller.randInt(0, 99);
 			applyHit(range, hitLocation);
 		}
 		

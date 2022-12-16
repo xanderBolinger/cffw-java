@@ -513,14 +513,14 @@ public class CharacterBuilderWindow implements Serializable {
 				System.out.println("");
 				System.out.println(trooper.name);
 				System.out.println("");
-				System.out.println("STR: " + trooper.str + "%");
-				System.out.println("INT: " + trooper.wit + "%");
-				System.out.println("WIS: " + trooper.wis + "%");
-				System.out.println("SOC: " + trooper.soc + "%");
-				System.out.println("WIL: " + trooper.wil + "%");
-				System.out.println("PER: " + trooper.per + "%");
-				System.out.println("HTL: " + trooper.hlt + "%");
-				System.out.println("AGL: " + trooper.agi + "%");
+				System.out.println("STR: " + trooper.str * 3 + "%");
+				System.out.println("INT: " + trooper.wit * 3  + "%");
+				System.out.println("WIS: " + trooper.wis * 3  + "%");
+				System.out.println("SOC: " + trooper.soc * 3  + "%");
+				System.out.println("WIL: " + trooper.wil * 3  + "%");
+				System.out.println("PER: " + trooper.per * 3  + "%");
+				System.out.println("HTL: " + trooper.hlt * 3  + "%");
+				System.out.println("AGL: " + trooper.agi * 3  + "%");
 
 				System.out.println("");
 				System.out.println("Abilities:");
@@ -638,6 +638,7 @@ public class CharacterBuilderWindow implements Serializable {
 
 				trooper.str = Integer.parseInt(textFieldSTR.getText());
 				trooper.wit = Integer.parseInt(textFieldINT.getText());
+				trooper.wis = Integer.parseInt(textFieldWIS.getText());
 				trooper.soc = Integer.parseInt(textFieldSOC.getText());
 				trooper.wil = Integer.parseInt(textFieldWIL.getText());
 				trooper.per = Integer.parseInt(textFieldPER.getText());
@@ -1322,16 +1323,49 @@ public class CharacterBuilderWindow implements Serializable {
 		JButton btnResetrefreshSkill = new JButton("Reset/Refresh Skills");
 		btnResetrefreshSkill.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				
+				trooper.skills.skills.clear();
+				
+				trooper.skills.skills.addAll(basicSkills);
+				trooper.skills.skills.addAll(trainedSkills);
+				trooper.skills.skills.addAll(expertSkills);
+				
 				trooper.recalculateSkills();
+				
 				setSkills();
-				setSkillLists();
 				new UtilityClasses.DialogBox("Refresh Skills.");
 			}
 		});
 		btnResetrefreshSkill.setFont(new Font("Calibri", Font.PLAIN, 12));
 		btnResetrefreshSkill.setBounds(643, 30, 180, 23);
 		panelSkills.add(btnResetrefreshSkill);
+		
+		JButton btnClearAdvancement = new JButton("Clear Advancement");
+		btnClearAdvancement.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				for(Skill skill : trooper.skills.skills) {
+					skill.value -= skill.increasedValue;
+					skill.increasedValue = 0; 
+					skill.supported = false; 
+					skill.trainingValue = 0; 
+					skill.rank = 0; 
+				}
+								
+				trooper.recalculateSkills();
+				
+				trooper.skills.skills.clear();
+				
+				trooper.skills.skills.addAll(basicSkills);
+				trooper.skills.skills.addAll(trainedSkills);
+				trooper.skills.skills.addAll(expertSkills);
+				setSkills();
+				new UtilityClasses.DialogBox("Cleared Advancement.");
+			}
+		});
+		btnClearAdvancement.setFont(new Font("Calibri", Font.PLAIN, 12));
+		btnClearAdvancement.setBounds(643, 64, 180, 23);
+		panelSkills.add(btnClearAdvancement);
 
 		panel = new JPanel();
 		panel.setLayout(null);
@@ -1514,8 +1548,11 @@ public class CharacterBuilderWindow implements Serializable {
 	}
 
 	
-	public void setSkillLists() {
+	public void setSkillLists() {		
 		
+		basicSkills.clear();
+		trainedSkills.clear();
+		expertSkills.clear();
 		
 		for(Skill skill : trooper.skills.skills) {
 			if(skill.type.equals("Basic")) {
@@ -1542,26 +1579,4 @@ public class CharacterBuilderWindow implements Serializable {
 		listCharacters.setModel(charactersList);
 
 	}
-
-	// Loop active while opening companies
-	// Adds companies to company array
-	// Deletes company file
-	/*public void load() throws FileNotFoundException, IOException, ClassNotFoundException {
-		int fileNum = 1;
-		boolean multipleCompanies = true;
-		while (multipleCompanies) {
-			File file = new File("Character_" + fileNum);
-			if (file.canRead() && file.isFile()) {
-				ObjectInputStream in = new ObjectInputStream(new FileInputStream("Character_" + fileNum));
-				Character character = (Character) in.readObject();
-				troopers.add(character);
-				in.close();
-				fileNum++;
-			} else {
-				multipleCompanies = false;
-			}
-		}
-		setCharacterList();
-
-	}*/
 }

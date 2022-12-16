@@ -134,7 +134,8 @@ public class CorditeExpansionWindow extends JFrame {
 				CorditeExpansionGame.actionOrder = actionOrder;
 				
 				try {
-					mandoTest();
+					fourSwMilitia();
+					//omegaSquad();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -187,9 +188,8 @@ public class CorditeExpansionWindow extends JFrame {
 
 	}
 	
-	public void mandoTest() throws Exception {
-		
-		ActionOrder ao = CorditeExpansionGame.actionOrder;
+	public void fourSwMilitia() throws Exception {
+ActionOrder ao = CorditeExpansionGame.actionOrder;
 		
 		Trooper m1 = new Trooper("Militia", "Cordite Expansion");
 		m1.wep = "DC15A";
@@ -202,6 +202,8 @@ public class CorditeExpansionWindow extends JFrame {
 		m2.inventory.addItem(ItemType.A310);
 		m2.inventory.addItem(ItemType.A310, ItemType.SmallArmsAmmo);
 		m2.name = "M2";
+		System.out.println("Items: "+m2.inventory.getItems());
+		
 		
 		Trooper m3 = new Trooper("Militia", "Cordite Expansion");
 		m3.wep = "EE3";
@@ -219,14 +221,20 @@ public class CorditeExpansionWindow extends JFrame {
 		ao.addTrooper(m2);
 		ao.addTrooper(m3);
 		ao.addTrooper(m4);
+	}
+	
+	public void omegaSquad() throws Exception {
+		
+		ActionOrder ao = CorditeExpansionGame.actionOrder;
 		
 		Trooper e1 = new Trooper("Elite", "Cordite Expansion");
 		e1.wep = "DC17m";
 		e1.inventory.addItem(ItemType.DC17M);
 		e1.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
-		e1.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
+		//e1.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
 		e1.name = "Darman";
 		e1.armor = new Armor(ArmorType.KATARN);
+		
 		
 		Trooper e2 = new Trooper("Elite", "Cordite Expansion");
 		e2.wep = "DC17m";
@@ -264,6 +272,13 @@ public class CorditeExpansionWindow extends JFrame {
 			public void run() {
 				ActionOrder actionOrder = new ActionOrder();
 				CorditeExpansionGame.actionOrder = actionOrder;
+				
+				try {
+					fourSwMilitia();
+					//omegaSquad();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				
 				for(int i = 0; i < troopers.size(); i++) {
 					Trooper trooper = troopers.get(i);

@@ -236,6 +236,7 @@ public class Trooper implements Serializable {
 		inventory.addContainer(ContainerType.Belt);
 		
 		this.name = name; 
+		this.identifier = identifier();
 		
 		setBasicStats();
 		calculateAttributes();
@@ -3029,14 +3030,14 @@ public class Trooper implements Serializable {
 	// Calculates and sets the value of all attributes
 	public void calculateAttributes() {
 
-		this.str = 3 * rolld3d4DropOne();
-		this.wit = 3 * rolld3d4DropOne();
-		this.wis = 3 * rolld3d4DropOne();
-		this.soc = 3 * rolld3d4DropOne();
-		this.wil = 3 * rolld3d4DropOne();
-		this.per = 3 * rolld3d4DropOne();
-		this.hlt = 3 * rolld3d4DropOne();
-		this.agi = 3 * rolld3d4DropOne();
+		this.str = rolld3d4DropOne();
+		this.wit = rolld3d4DropOne();
+		this.wis = rolld3d4DropOne();
+		this.soc = rolld3d4DropOne();
+		this.wil = rolld3d4DropOne();
+		this.per = rolld3d4DropOne();
+		this.hlt = rolld3d4DropOne();
+		this.agi = rolld3d4DropOne();
 
 	}
 	

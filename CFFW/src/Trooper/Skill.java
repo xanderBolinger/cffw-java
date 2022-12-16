@@ -33,7 +33,15 @@ public class Skill implements Serializable {
 	public Skill(String name, int rank, int value, int attr, int mod, String baseAttribute, String supportingAttribute, boolean supported, int trainingValue, int increasedValue, String type) {
 		this.name = name; 
 		this.rank = rank; 
-		this.value = attr + mod;
+		
+		this.value = attr * 3 + ((mod*3/10)%10);
+		if(name.equals("First Aid")) {
+			System.out.println("First Aid");
+			System.out.println("Attr: "+attr);
+			System.out.println("Mod: "+mod);
+			System.out.println("Value: "+this.value);
+		}
+		
 		this.baseAttribute = baseAttribute; 
 		this.supportingAttribute = supportingAttribute; 
 		this.supported = supported;
