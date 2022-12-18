@@ -291,7 +291,7 @@ public class StatBlock {
 			}
 		}
 		
-		if(CorditeExpansionWindow.actionList.getSelectedIndex() < 0)
+		if(CorditeExpansionWindow.actionList.getSelectedIndex() < 0 || CorditeExpansionWindow.actionList.getSelectedIndex() >= coac.size())
 			return null;
 		
 		CeAction action = coac.get(CorditeExpansionWindow.actionList.getSelectedIndex()); 

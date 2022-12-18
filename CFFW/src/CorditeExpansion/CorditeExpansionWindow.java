@@ -220,7 +220,7 @@ ActionOrder ao = CorditeExpansionGame.actionOrder;
 		ao.addTrooper(m1);
 		ao.addTrooper(m2);
 		ao.addTrooper(m3);
-		ao.addTrooper(m4);
+		//ao.addTrooper(m4);
 	}
 	
 	public void omegaSquad() throws Exception {
