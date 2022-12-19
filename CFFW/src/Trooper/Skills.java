@@ -763,6 +763,7 @@ public class Skills implements Serializable {
 			getSkill("Throw").rankUp();
 			getSkill("Throw").rankUp();
 		} else if (input.equals("Republic Commando") || input.equals("ARC Trooper")) { // RC or Arc
+			System.out.println("Commando pass");
 			elite();
 		} else if (input.equals("Jackal Minor - Marksman")) {
 			line();

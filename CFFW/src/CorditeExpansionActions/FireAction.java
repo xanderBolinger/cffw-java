@@ -148,12 +148,12 @@ public class FireAction implements CeAction {
 				if(!trooper.ceStatBlock.cord.compare(cord))
 					continue; 
 				
-				int suppression = DiceRoller.d6_exploding();
+				int suppression = 1;
 				
 				if(fullauto && hits < 9) 
-					suppression += DiceRoller.d6_exploding();
+					suppression += 1;
 				else if(fullauto && hits >= 9) {
-					suppression += DiceRoller.d6_exploding() + DiceRoller.d6_exploding();
+					suppression += 2;
 				}
 				
 				trooper.ceStatBlock.rangedStatBlock.suppression.increaseSuppression(suppression);
@@ -214,7 +214,7 @@ public class FireAction implements CeAction {
 			applyHit(range, hitLocation);
 		}
 		
-		int suppression = DiceRoller.d6_exploding() + DiceRoller.d6_exploding();
+		int suppression = 2;
 		
 		target.ceStatBlock.rangedStatBlock.suppression.increaseSuppression(suppression);
 		FloatingTextManager.addFloatingText(target.ceStatBlock.cord, "Suppression: "+suppression);
@@ -260,10 +260,10 @@ public class FireAction implements CeAction {
 		int penalty = shotPenalty(statBlock);
 		int roll = DiceRoller.randInt(0, 99);
 		
-		int suppression = DiceRoller.d6_exploding();
+		int suppression = 1;
 		
 		if(statBlock.rangedStatBlock.weapon.shotgun)
-			suppression += DiceRoller.d6_exploding();
+			suppression++;
 		
 		target.ceStatBlock.rangedStatBlock.suppression.increaseSuppression(suppression);
 		FloatingTextManager.addFloatingText(target.ceStatBlock.cord, "Suppression: "+suppression);

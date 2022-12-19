@@ -140,6 +140,8 @@ public class CorditeExpansionWindow extends JFrame {
 					e.printStackTrace();
 				}
 				
+				
+				
 				/*Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
 				clone.wep = "RGD-5";
 				try {
@@ -189,7 +191,7 @@ public class CorditeExpansionWindow extends JFrame {
 	}
 	
 	public void fourSwMilitia() throws Exception {
-ActionOrder ao = CorditeExpansionGame.actionOrder;
+		ActionOrder ao = CorditeExpansionGame.actionOrder;
 		
 		Trooper m1 = new Trooper("Militia", "Cordite Expansion");
 		m1.wep = "DC15A";
@@ -282,11 +284,25 @@ ActionOrder ao = CorditeExpansionGame.actionOrder;
 				
 				for(int i = 0; i < troopers.size(); i++) {
 					Trooper trooper = troopers.get(i);
+					
+					
+					if(trooper.name.equals("Cage Kristanto")) {
+						trooper.wep = "M870";
+						try {
+							trooper.inventory.addItem(ItemType.M870);
+							trooper.inventory.addItem(ItemType.M870, ItemType.SmallArmsAmmo);
+							trooper.inventory.addItem(ItemType.M870, ItemType.SmallArmsAmmo);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					
 					actionOrder.addTrooper(trooper);
 					trooper.ceStatBlock.cord = new Cord(0, i);
 					trooper.ceStatBlock.chit.xCord = 0;
 					trooper.ceStatBlock.chit.yCord = i; 
 					trooper.ceStatBlock.chit.facing = Facing.A;
+					
 				}
 
 				initialize();

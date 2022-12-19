@@ -1442,7 +1442,7 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.DC17MSniper, 1);
 			inventory.addItems(ItemType.DC17MRocket, 1);
 			inventory.addItems(ItemType.DC17M, ItemType.SmallArmsAmmo, 5);
-			inventory.addItems(ItemType.DC17MRocket, ItemType.SmallArmsAmmo, 1);
+			//inventory.addItems(ItemType.DC17MRocket, ItemType.SmallArmsAmmo, 1);
 			inventory.addItems(ItemType.DC17MSniper, ItemType.SmallArmsAmmo, 4);
 			inventory.addItems(ItemType.DC17MRocket, ItemType.HEAT, 2);
 			inventory.addItems(ItemType.DC17MRocket, ItemType.HE, 2);
