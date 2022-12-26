@@ -166,7 +166,6 @@ public class TrooperUtility {
 			return ExcelUtility.getNumberFromSheet(trooper.baseSpeed.get(), trooper.agi,
 					"MaximumSpeed.xlsx", true, false);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return -1.0;

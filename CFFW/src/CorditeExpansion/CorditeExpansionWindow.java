@@ -35,6 +35,7 @@ import Items.Container.ContainerType;
 import Items.Item.ItemType;
 import Trooper.Trooper;
 import UtilityClasses.SwingUtility;
+import UtilityClasses.TrooperUtility;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -134,7 +135,7 @@ public class CorditeExpansionWindow extends JFrame {
 				CorditeExpansionGame.actionOrder = actionOrder;
 				
 				try {
-					fourSwMilitia();
+					//fourSwMilitia();
 					//omegaSquad();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -222,7 +223,7 @@ public class CorditeExpansionWindow extends JFrame {
 		ao.addTrooper(m1);
 		ao.addTrooper(m2);
 		ao.addTrooper(m3);
-		//ao.addTrooper(m4);
+		ao.addTrooper(m4);
 	}
 	
 	public void omegaSquad() throws Exception {
@@ -286,7 +287,7 @@ public class CorditeExpansionWindow extends JFrame {
 					Trooper trooper = troopers.get(i);
 					
 					
-					if(trooper.name.equals("Cage Kristanto")) {
+					/*if(trooper.name.equals("Cage Kristanto")) {
 						trooper.wep = "M870";
 						try {
 							trooper.inventory.addItem(ItemType.M870);
@@ -295,7 +296,10 @@ public class CorditeExpansionWindow extends JFrame {
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-					}
+					}*/
+					trooper.encumberance = 10;
+					trooper.setCombatStats(trooper);
+					trooper.setCombatActions(TrooperUtility.calculateCA(11, trooper.isf));
 					
 					actionOrder.addTrooper(trooper);
 					trooper.ceStatBlock.cord = new Cord(0, i);
