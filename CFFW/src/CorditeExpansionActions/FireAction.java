@@ -368,6 +368,7 @@ public class FireAction implements CeAction {
 		int stanceAlm = getStanceAlm(); 
 		int dodgeAlm = 0;
 		int defensiveAlm = 0;
+		int stabalized = statBlock.rangedStatBlock.stabalized ? 0 : -6; 
 		
 		int laserAlm = getLaserAlm();
 		
@@ -379,7 +380,8 @@ public class FireAction implements CeAction {
 				speedALM = getSpeedAlm(statBlock, target.ceStatBlock.cord);
 				speedALM += getSpeedAlm(target.ceStatBlock, statBlock.cord);			
 				
-				if(target.ceStatBlock.getAction().getActionType() == ActionType.DODGE) {
+				if(target.ceStatBlock.getAction() != null && 
+						target.ceStatBlock.getAction().getActionType() == ActionType.DODGE) {
 					dodgeAlm = -6; 
 				}
 				
@@ -392,7 +394,19 @@ public class FireAction implements CeAction {
 			e.printStackTrace();
 		}
 		
-		return rangeALM + speedALM + visibilityALM + aimALM + stanceAlm + laserAlm + dodgeAlm + defensiveAlm; 
+		System.out.println("Dodge ALM: "+dodgeAlm);
+		
+		System.out.println("Range ALM: "+rangeALM);
+		System.out.println("Speed ALM: "+speedALM);
+		System.out.println("Visibility ALM: "+visibilityALM);
+		System.out.println("aimALM: "+aimALM);
+		System.out.println("Stand ALM: "+stanceAlm);
+		System.out.println("Laser ALM: "+laserAlm);
+		System.out.println("Dodge ALM: "+dodgeAlm);
+		System.out.println("Defensive ALM: "+defensiveAlm);
+		System.out.println("Stabalized: "+stabalized);
+		return rangeALM + speedALM + visibilityALM + aimALM + stanceAlm + 
+				laserAlm + dodgeAlm + defensiveAlm + stabalized; 
 	
 	}
 	
@@ -498,7 +512,6 @@ public class FireAction implements CeAction {
 		try {
 			value = (int) ExcelUtility.getNumberFromSheet(distance, Math.round(actions * modifier), "speed.xlsx", true, true);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

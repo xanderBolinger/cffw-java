@@ -40,7 +40,8 @@ public class MedicalStatBlock {
 			return;
 		
 		timeSpentInjured++; 
-		
+		System.out.println("Time Spent Injured: "+timeSpentInjured);
+		System.out.println("Criticl Time: "+criticalTime);
 		if(timeSpentInjured < criticalTime)
 			return;
 		

@@ -178,6 +178,8 @@ public class CeHexGrid extends JPanel {
 			Chit.moveSelectedChit(points[0], points[1]);
 			if(CorditeExpansionGame.selectedTrooper != null) {
 				CorditeExpansionGame.selectedTrooper.ceStatBlock.cord = new Cord(points[0], points[1]);
+				CorditeExpansionGame.selectedTrooper.ceStatBlock.chit.xCord = points[0];
+				CorditeExpansionGame.selectedTrooper.ceStatBlock.chit.yCord = points[1];
 			}
 		}
 

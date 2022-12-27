@@ -61,6 +61,8 @@ public class CeKeyListener {
 
 				stabalize();
 
+				dodge();
+				
 				CorditeExpansionWindow.refreshCeLists();
 			}
 
@@ -78,6 +80,13 @@ public class CeKeyListener {
 		return Keyboard.isKeyPressed(KeyEvent.VK_SPACE);
 	}
 
+	public static void dodge() {
+		if (CorditeExpansionGame.selectedTrooper == null || !Keyboard.isKeyPressed(KeyEvent.VK_D))
+			return;
+		
+		CorditeExpansionGame.selectedTrooper.ceStatBlock.dodge();
+	}
+	
 	public static void reload() {
 		if (CorditeExpansionGame.selectedTrooper == null || !Keyboard.isKeyPressed(KeyEvent.VK_R)
 				|| Keyboard.isKeyPressed(KeyEvent.VK_CONTROL))

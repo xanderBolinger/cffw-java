@@ -18,6 +18,7 @@ import CorditeExpansionActions.AimAction;
 import CorditeExpansionActions.CeAction;
 import CorditeExpansionActions.MoveAction;
 import CorditeExpansionActions.CeAction.ActionType;
+import CorditeExpansionActions.DodgeAction;
 import CorditeExpansionActions.FireAction;
 import CorditeExpansionRangedCombat.CalledShots.ShotTarget;
 import Items.Weapons;
@@ -427,6 +428,9 @@ public class StatBlock {
 			rangedStatBlock.fullAuto = true;
 	}
 	
+	public void dodge() {
+		activeAction = new DodgeAction(trooper);
+	}
 	
 	public int getDistance(Cord cord) {
 		return GameWindow.dist(chit.xCord, chit.yCord, cord.xCord, cord.yCord);
