@@ -14,7 +14,7 @@ import UtilityClasses.Keyboard;
 public interface CeAction {
 	
 	public enum ActionType {
-		MOVE,TURN,CHANGESTANCE,STABALIZE,AIM,FIRE,THROW,RELOAD,DODGE
+		MOVE,TURN,CHANGESTANCE,STABALIZE,AIM,FIRE,THROW,RELOAD,DODGE,CUSTOM
 	}
 	
 	@Override
@@ -25,6 +25,10 @@ public interface CeAction {
 	boolean completed();
 	boolean ready();
 	ActionType getActionType();
+	
+	public static void addCustomAction(Trooper trooper, CustomAction customAction) {
+		trooper.ceStatBlock.addActionCoac(customAction);
+	}
 	
 	public static void addShootAction(StatBlock statBlock, Trooper target) {
 		statBlock.addActionCoac(new FireAction(statBlock, target));

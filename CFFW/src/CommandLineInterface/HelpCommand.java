@@ -9,7 +9,7 @@ public class HelpCommand implements Command {
 		CommandLineInterface.cli.print("Base CLI Commands: ");
 		CommandLineInterface.cli.print("help - lists possible commands");
 		CommandLineInterface.cli.print("exit - closes out of the cli");
-		
+		CommandLineInterface.cli.print("custom - [actionNumber, ationCost{int}, coacCost{int}] adds custom action to selected trooper.");
 	}
 
 	@Override
