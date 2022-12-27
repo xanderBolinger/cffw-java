@@ -366,7 +366,9 @@ public class FireAction implements CeAction {
 		System.out.println("Shot SL: "+statBlock.trooper.sl);
 		int aimALM = statBlock.trooper.sl +statBlock.rangedStatBlock.weapon.aimTime.get(statBlock.getAimTime());
 		int stanceAlm = getStanceAlm(); 
-	
+		int dodgeAlm = 0;
+		int defensiveAlm = 0;
+		
 		int laserAlm = getLaserAlm();
 		
 		rangeALM = getDistanceAlm();
@@ -375,7 +377,14 @@ public class FireAction implements CeAction {
 			
 			if(target != null) {
 				speedALM = getSpeedAlm(statBlock, target.ceStatBlock.cord);
-				speedALM += getSpeedAlm(target.ceStatBlock, statBlock.cord);				
+				speedALM += getSpeedAlm(target.ceStatBlock, statBlock.cord);			
+				
+				if(target.ceStatBlock.getAction().getActionType() == ActionType.DODGE) {
+					dodgeAlm = -6; 
+				}
+				
+				defensiveAlm = PCUtility.defensiveALM(target.sl + (target.wit));
+				
 			} else {
 				speedALM = getSpeedAlm(statBlock, cord);
 			}	
@@ -383,7 +392,7 @@ public class FireAction implements CeAction {
 			e.printStackTrace();
 		}
 		
-		return rangeALM + speedALM + visibilityALM + aimALM + stanceAlm + laserAlm; 
+		return rangeALM + speedALM + visibilityALM + aimALM + stanceAlm + laserAlm + dodgeAlm + defensiveAlm; 
 	
 	}
 	

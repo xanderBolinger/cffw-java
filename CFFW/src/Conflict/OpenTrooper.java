@@ -5838,36 +5838,7 @@ public class OpenTrooper implements Serializable {
 
 	}
 
-	public int defensiveALM(int isf) {
-
-		int dAlm = 0;
-
-		try {
-			String path = System.getProperty("user.dir");
-			FileInputStream excelFile = new FileInputStream(new File(path + "\\DefensiveALM.xlsx"));
-			Workbook workbook = new XSSFWorkbook(excelFile);
-			Sheet worksheet = workbook.getSheetAt(0);
-
-			for (int i = 1; i < 41; i++) {
-
-				if (isf == (int) worksheet.getRow(i).getCell(0).getNumericCellValue()) {
-					dAlm = (int) worksheet.getRow(i).getCell(1).getNumericCellValue();
-
-				}
-
-			}
-
-			excelFile.close();
-			workbook.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return dAlm;
-
-	}
+	
 
 	public double maximumSpeed(int encum, Trooper trooper) {
 		double baseSpeed = baseSpeed(encum, trooper);

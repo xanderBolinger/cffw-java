@@ -240,7 +240,9 @@ public class CeHexGrid extends JPanel {
 
 		if (points == null) {
 			return;
-		}
+		} 
+		
+		System.out.println("Cord Clicked: ["+points[0]+","+points[1]+"]");
 
 		if (CorditeExpansionGame.selectedTrooper != null && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)
 				&& CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.aiming) {

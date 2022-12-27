@@ -502,4 +502,55 @@ public class PCUtility {
 		return sizeALM;
 
 	}
+	
+	public static int defensiveALM(int isf) {
+
+		if(isf <= 3) {
+			return 16;
+		} else if(isf <= 4) {
+			return 13;
+		} else if(isf <= 5) {
+			return 11;
+		} else if(isf <= 6) {
+			return 10;
+		} else if(isf <= 7) {
+			return 8;
+		} else if(isf <= 8) {
+			return 7;
+		} else if(isf <= 9) {
+			return 6;
+		} else if(isf <= 10) {
+			return 5;
+		} else if(isf <= 11) {
+			return 4;
+		} else if(isf <= 12) {
+			return 3;
+		} else if(isf <= 14) {
+			return 2;
+		} else if(isf <= 16) {
+			return 1;
+		} else if(isf <= 17) {
+			return 0;
+		} else if(isf <= 19) {
+			return -1;
+		} else if(isf <= 22) {
+			return -2;
+		} else if(isf <= 24) {
+			return -3;
+		} else if(isf <= 27) {
+			return -4;
+		} else if(isf <= 30) {
+			return -5;
+		} else if(isf <= 34) {
+			return -6;
+		} else if(isf <= 38) {
+			return -7;
+		} else if(isf <= 40) {
+			return -8;
+		} else {
+			System.out.println("ISF not found for defensive ALM");
+			return 0;
+		}
+
+	}
 }

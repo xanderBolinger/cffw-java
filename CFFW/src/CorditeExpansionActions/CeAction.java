@@ -14,7 +14,7 @@ import UtilityClasses.Keyboard;
 public interface CeAction {
 	
 	public enum ActionType {
-		MOVE,TURN,CHANGESTANCE,STABALIZE,AIM,FIRE,THROW,RELOAD
+		MOVE,TURN,CHANGESTANCE,STABALIZE,AIM,FIRE,THROW,RELOAD,DODGE
 	}
 	
 	@Override
