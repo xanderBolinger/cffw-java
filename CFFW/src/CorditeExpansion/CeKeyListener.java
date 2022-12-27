@@ -1,7 +1,9 @@
 package CorditeExpansion;
 
+import java.awt.AWTException;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 
@@ -15,6 +17,7 @@ import UtilityClasses.Keyboard;
 
 import CeHexGrid.CeHexGrid;
 import CeHexGrid.FloatingTextManager;
+import CommandLineInterface.CommandLineInterface;
 
 public class CeKeyListener {
 
@@ -63,6 +66,8 @@ public class CeKeyListener {
 
 				dodge();
 				
+				cli();
+				
 				CorditeExpansionWindow.refreshCeLists();
 			}
 
@@ -72,6 +77,19 @@ public class CeKeyListener {
 		});
 	}
 
+	public static void cli() {
+		if (!Keyboard.isKeyPressed(KeyEvent.VK_SLASH))
+			return;
+
+		try {
+			new CommandLineInterface();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (AWTException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static boolean textDisplayed() {
 		return FloatingTextManager.size() > 0 ? true : false;
 	}

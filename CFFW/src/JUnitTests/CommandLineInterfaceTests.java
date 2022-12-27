@@ -130,22 +130,39 @@ public class CommandLineInterfaceTests {
 	
 	@Test
 	public void applyHit() {
-		setCli("applyhit testweapon 100 5");
+		setCli("hit testweapon 100 5");
 		assertEquals(true, cli.printedLines.contains("Applied hit"));
 	}
 	
 	@Test 
 	public void addInjury() {
+		setCli("injury injuryname Shoulder 500 yes");
+		
+		assertEquals(500, clone.ceStatBlock.medicalStatBlock.getPdTotal());
 		
 	}
 	
 	@Test
 	public void bonuses() {
 		
+		// AF 
+		// Defensive ALM 
+		// Combat Actions 
+		// Stabilize bonuses 
+		// Hit bonuses 
+		// Reaction roll bonus 
+		// to hit difficulty dice
+		// Reload time bonus
+		
+		
 	}
 	
 	@Test
 	public void inventory() {
+		
+		setCli("wep none");
+		
+		assertEquals("none", clone.wep);
 		
 	}
 	
@@ -153,6 +170,12 @@ public class CommandLineInterfaceTests {
 	public void encum() {
 		// manual / auto 
 		
+		setCli("encum 15");
+		
+		assertEquals(15, clone.encumberance);
+		
+		setCli("encum auto");
+		assertEquals(true, clone.encumberance > 15);
 		
 	}
 	

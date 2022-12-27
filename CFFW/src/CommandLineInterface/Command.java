@@ -7,7 +7,7 @@ import CorditeExpansion.CorditeExpansionGame;
 public interface Command {
 
 	public enum CommandType {
-		HELP,EXIT,CUSTOM,MEDICAL
+		HELP,EXIT,CUSTOM,MEDICAL,INJURY,WEP,ENCUM
 	}
 
 	void resolve();

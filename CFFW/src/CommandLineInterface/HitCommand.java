@@ -6,14 +6,14 @@ import java.util.Arrays;
 import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansionDamage.Damage;
 
-public class ApplyHitCommand implements Command{
+public class HitCommand implements Command{
 
 	
 	int pen; 
 	int dc; 
 	String weaponName;
 	
-	public ApplyHitCommand(ArrayList<String> parameters) {
+	public HitCommand(ArrayList<String> parameters) {
 		
 		if(!Command.selectedTrooper() || 
 				!Command.checkParameters(parameters, 4) ||
