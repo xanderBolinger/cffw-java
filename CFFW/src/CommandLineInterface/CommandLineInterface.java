@@ -65,6 +65,10 @@ public class CommandLineInterface {
 			return;
 		} else if (command.equals("custom")) {
 			new CustomCommand(parameters);
+		} else if (command.equals("med")) {
+			new MedicalCommand();
+		} else if(command.equals("applyhit")) {
+			new ApplyHitCommand(parameters);
 		} else {
 			print("Command not found");
 		}

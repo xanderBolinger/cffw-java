@@ -10,4 +10,8 @@ public class BloodLossLocation {
 		this.location = location;
 	}
 	
+	@Override
+	public String toString() {
+		return location + ", BLPD: " + blpd;
+	}
 }

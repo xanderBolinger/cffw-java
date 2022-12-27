@@ -16,6 +16,7 @@ import CommandLineInterface.Command;
 import CommandLineInterface.CommandLineInterface;
 import CorditeExpansion.ActionOrder;
 import CorditeExpansion.CorditeExpansionGame;
+import CorditeExpansionDamage.Damage;
 import Trooper.Trooper;
 
 public class CommandLineInterfaceTests {
@@ -84,7 +85,8 @@ public class CommandLineInterfaceTests {
 			assertEquals(true, cli.printedLines.contains("exit - closes out of the cli"));
 			assertEquals(true, cli.printedLines.contains("custom - [actionNumber, "
 					+ "ationCost{int}, coacCost{int}] adds custom action to selected trooper."));
-		
+			assertEquals(true, cli.printedLines.contains("med - lists selected trooper medical stat block."));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -109,6 +111,48 @@ public class CommandLineInterfaceTests {
 		CorditeExpansionGame.action();
 		
 		assertEquals(true, cli.printedLines.contains("customAction: Finished"));
+		
+	}
+	
+	@Test
+	public void medicalStatBlock() {
+		
+		try {
+			Damage.applyHit("Test Weapon", 100, 5, true, clone);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		setCli("med");
+		
+		assertEquals(true, cli.printedLines.contains("Medical Stat Block"));
+	}
+	
+	@Test
+	public void applyHit() {
+		setCli("applyhit testweapon 100 5");
+		assertEquals(true, cli.printedLines.contains("Applied hit"));
+	}
+	
+	@Test 
+	public void addInjury() {
+		
+	}
+	
+	@Test
+	public void bonuses() {
+		
+	}
+	
+	@Test
+	public void inventory() {
+		
+	}
+	
+	@Test
+	public void encum() {
+		// manual / auto 
+		
 		
 	}
 	

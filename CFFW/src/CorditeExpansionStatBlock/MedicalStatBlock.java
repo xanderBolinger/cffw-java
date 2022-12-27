@@ -222,4 +222,13 @@ public class MedicalStatBlock {
 		return injuries;
 	}
 	
+	public ArrayList<String> getblLocations() {
+		ArrayList<String> locations = new ArrayList<String>();
+		
+		for(BloodLossLocation location: this.bloodLossLocations) {
+			locations.add(location.toString());
+		}
+		
+		return locations;
+	}
 }

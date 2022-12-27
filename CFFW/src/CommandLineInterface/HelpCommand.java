@@ -10,6 +10,8 @@ public class HelpCommand implements Command {
 		CommandLineInterface.cli.print("help - lists possible commands");
 		CommandLineInterface.cli.print("exit - closes out of the cli");
 		CommandLineInterface.cli.print("custom - [actionNumber, ationCost{int}, coacCost{int}] adds custom action to selected trooper.");
+		CommandLineInterface.cli.print("med - lists selected trooper medical stat block.");
+		CommandLineInterface.cli.print("applyhit - [weaponName{no spaces}, pen{int}, dc{int}]");
 	}
 
 	@Override
