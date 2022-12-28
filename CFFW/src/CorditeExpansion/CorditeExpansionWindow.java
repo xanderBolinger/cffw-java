@@ -135,7 +135,7 @@ public class CorditeExpansionWindow extends JFrame {
 				CorditeExpansionGame.actionOrder = actionOrder;
 				
 				try {
-					//fourSwMilitia();
+					fourSwMilitia();
 					//omegaSquad();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -237,6 +237,10 @@ public class CorditeExpansionWindow extends JFrame {
 		//e1.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
 		e1.name = "Darman";
 		e1.armor = new Armor(ArmorType.KATARN);
+		e1.inventory.setEncumberance();
+		e1.setCombatStats(e1);
+		
+		
 		
 		
 		Trooper e2 = new Trooper("Elite", "Cordite Expansion");
@@ -246,6 +250,8 @@ public class CorditeExpansionWindow extends JFrame {
 		e2.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
 		e2.name = "Fi";
 		e2.armor = new Armor(ArmorType.KATARN);
+		e2.inventory.setEncumberance();
+		e2.setCombatStats(e2);
 		
 		Trooper e3 = new Trooper("Elite", "Cordite Expansion");
 		e3.wep = "DC17m";
@@ -254,6 +260,8 @@ public class CorditeExpansionWindow extends JFrame {
 		e3.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
 		e3.name = "Niner";
 		e3.armor = new Armor(ArmorType.KATARN);
+		e3.inventory.setEncumberance();
+		e3.setCombatStats(e3);
 		
 		Trooper e4 = new Trooper("Elite", "Cordite Expansion");
 		e4.wep = "DC17m";
@@ -262,6 +270,8 @@ public class CorditeExpansionWindow extends JFrame {
 		e4.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
 		e4.name = "Atin";
 		e4.armor = new Armor(ArmorType.KATARN);
+		e4.inventory.setEncumberance();
+		e4.setCombatStats(e4);
 		
 		ao.addTrooper(e1);
 		ao.addTrooper(e2);
@@ -631,11 +641,14 @@ public class CorditeExpansionWindow extends JFrame {
 					CorditeExpansionGame.selectedTrooper.ceStatBlock.cycleSpendSuccessNumber();
 				} else if(detailsList.getSelectedIndex() == 14) {
 					CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.suppression.cycleSuppressionStatus();
+				} else if(detailsList.getSelectedIndex() == 16) {
+					CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.toggleBlindFiring();
 				}
 				
 				refreshCeDetailsList(CorditeExpansionGame.selectedTrooper);
 				
-				if(index != 6 && index != 7 && index != 9 && index != 10 && index != 11 &&  index != 12 &&  index != 13 && 
+				if(index != 6 && index != 7 && index != 9 && index != 10 && index != 11 &&  index != 12 &&  index != 13 
+						&& index != 15 && 
 						index < detailsList.getModel().getSize() - 1 ) {
 					detailsList.setSelectedIndex(index);
 				}

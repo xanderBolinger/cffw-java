@@ -153,7 +153,7 @@ public class CommandLineInterfaceTests {
 		// Reaction roll bonus 
 		// to hit difficulty dice
 		// Reload time bonus
-		
+		// EAL 
 		
 	}
 	

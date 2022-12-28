@@ -22,6 +22,8 @@ public class RangedStatBlock {
 	public ShotTarget shotTarget = ShotTarget.NONE;
 	public boolean aiming = true;
 	public boolean fullAuto = false;
+	public boolean blindFiring = false;
+	
 	
 	// Fighter + composure / 2
 	public int coolnessUnderFire;
@@ -43,6 +45,13 @@ public class RangedStatBlock {
 		reload(trooper);
 		
 		
+	}
+	
+	public void toggleBlindFiring() {
+		if(blindFiring)
+			blindFiring = false; 
+		else 
+			blindFiring = true;
 	}
 	
 	public int getSuppression() {

@@ -400,11 +400,12 @@ public class FireAction implements CeAction {
 		System.out.println("Speed ALM: "+speedALM);
 		System.out.println("Visibility ALM: "+visibilityALM);
 		System.out.println("aimALM: "+aimALM);
-		System.out.println("Stand ALM: "+stanceAlm);
+		System.out.println("Stance ALM: "+stanceAlm);
 		System.out.println("Laser ALM: "+laserAlm);
 		System.out.println("Dodge ALM: "+dodgeAlm);
 		System.out.println("Defensive ALM: "+defensiveAlm);
 		System.out.println("Stabalized: "+stabalized);
+		
 		return rangeALM + speedALM + visibilityALM + aimALM + stanceAlm + 
 				laserAlm + dodgeAlm + defensiveAlm + stabalized; 
 	
@@ -412,7 +413,7 @@ public class FireAction implements CeAction {
 	
 	public int getLaserAlm() {
 		
-		if(!statBlock.rangedStatBlock.weapon.laser)
+		if(!statBlock.rangedStatBlock.weapon.laser || statBlock.getAimTime() > 3)
 			return 0;
 		
 		
@@ -426,12 +427,12 @@ public class FireAction implements CeAction {
 
 		int range = GameWindow.hexDif(statBlock.cord.xCord, statBlock.cord.yCord, cord.xCord,
 				cord.yCord);
+		
 		if(range < 5)
-			return 10; 
-		else if(range < 10)
 			return 6; 
-		else if(range < 20)
+		else if(range < 10)
 			return 3; 
+		 
 		
 		return 0;
 	}

@@ -176,10 +176,11 @@ public class CeHexGrid extends JPanel {
 		// System.out.println("Mouse Pressed");
 		if (Chit.isAChitSelected()) {
 			Chit.moveSelectedChit(points[0], points[1]);
-			if(CorditeExpansionGame.selectedTrooper != null) {
-				CorditeExpansionGame.selectedTrooper.ceStatBlock.cord = new Cord(points[0], points[1]);
-				CorditeExpansionGame.selectedTrooper.ceStatBlock.chit.xCord = points[0];
-				CorditeExpansionGame.selectedTrooper.ceStatBlock.chit.yCord = points[1];
+			for(Trooper trooper : CorditeExpansionGame.actionOrder.getOrder()) {
+				if(trooper.ceStatBlock.chit == Chit.getSelectedChit()) {
+					trooper.ceStatBlock.moveTrooper(new Cord(points[0], points[1]));
+					break;
+				}
 			}
 		}
 
@@ -215,7 +216,7 @@ public class CeHexGrid extends JPanel {
 		checkChitClick(e.getPoint());
 		// System.out.println("Mouse Released");
 
-		// System.out.println("Released Cursor Hex, X: "+points[0]+", Y:"+points[1]);
+		System.out.println("Released Cursor Hex, X: "+points[0]+", Y:"+points[1]);
 	}
 
 	public void mouseWheelMoved(double zoom) {

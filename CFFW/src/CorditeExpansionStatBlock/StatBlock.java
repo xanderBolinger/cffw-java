@@ -540,6 +540,7 @@ public class StatBlock {
 		results.add("Spend Success Number: "+skillStatBlock.spendSuccessNumber);
 		results.add("Suppresion Reaction: "+rangedStatBlock.suppression.getDisplayStatus());
 		results.add("Suppression: "+rangedStatBlock.suppression.getSuppression());
+		results.add("Blind Firing: "+rangedStatBlock.blindFiring);
 		
 		String magazineStatus = rangedStatBlock.weapon.ceStats.magazine != null ? (rangedStatBlock.weapon.ceStats.magazine.ammo.name 
 				+ ", DP: " + rangedStatBlock.weapon.ceStats.magazine.ammo.depletionPoints) + ", ["+rangedStatBlock.magazines(trooper)+"]" : "["+rangedStatBlock.magazines(trooper)+"]";

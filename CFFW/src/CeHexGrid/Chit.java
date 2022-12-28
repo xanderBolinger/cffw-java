@@ -205,6 +205,10 @@ public class Chit {
 		return new Cord(xCord, yCord);
 	}
 	
+	public static Chit getSelectedChit() {
+		return selectedChit;
+	}
+	
 	public static void drawShadow(double zoom, Graphics2D g2, Polygon hex) {
 		
 		Chit chit = selectedChit;

@@ -29,6 +29,9 @@ public class EncumCommand implements Command {
 	
 	@Override
 	public void resolve() {
+		
+		int before = trooper.encumberance;
+		
 		if(auto) {
 			trooper.inventory.setEncumberance();
 		} else {
@@ -36,6 +39,8 @@ public class EncumCommand implements Command {
 		}
 		
 		trooper.setCombatStats(trooper);
+		
+		CommandLineInterface.cli.print("Encumberance, before: "+before+", after: "+trooper.encumberance);
 	}
 
 	@Override

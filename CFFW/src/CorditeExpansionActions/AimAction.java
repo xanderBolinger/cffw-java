@@ -108,6 +108,13 @@ public class AimAction implements CeAction {
 		if(overwatching())
 			return false;
 		
+		
+		System.out.println("Aim Time Size: "
+				+ statBlock.rangedStatBlock.weapon.aimTime.size() + 
+				", Aim Bonus: "+statBlock.rangedStatBlock.weapon.aimTime.get(statBlock.getAimTime()));
+		
+		
+		
 		return statBlock.getAimTime() >= statBlock.rangedStatBlock.weapon.aimTime.size() - 1;
 	}
 
