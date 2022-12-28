@@ -643,12 +643,14 @@ public class CorditeExpansionWindow extends JFrame {
 					CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.suppression.cycleSuppressionStatus();
 				} else if(detailsList.getSelectedIndex() == 16) {
 					CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.toggleBlindFiring();
+				} else if(detailsList.getSelectedIndex() == 17) {
+					CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.toggleLookingIntoLight();
 				}
 				
 				refreshCeDetailsList(CorditeExpansionGame.selectedTrooper);
 				
 				if(index != 6 && index != 7 && index != 9 && index != 10 && index != 11 &&  index != 12 &&  index != 13 
-						&& index != 15 && 
+						&& index != 15 && index != 16 && 
 						index < detailsList.getModel().getSize() - 1 ) {
 					detailsList.setSelectedIndex(index);
 				}

@@ -207,9 +207,11 @@ public class FireAction implements CeAction {
 		
 		FullAutoResults far = FullAuto.burst(eal, ma, rof, statBlock);
 		
-		
-		
 		for(int i = 0; i < far.hits; i++) {
+			if(!blindFireCheck()) {
+				continue;
+			}
+			
 			int hitLocation = calledShots != null ? calledShots.getHitLocation() : DiceRoller.randInt(0, 99);
 			applyHit(range, hitLocation);
 		}
@@ -284,7 +286,11 @@ public class FireAction implements CeAction {
 		
 		if(roll > odds) {
 			return;
-		}
+		} 
+		
+		if(!blindFireCheck()) {
+			return;
+		}	
 		
 		int range = statBlock.getDistance(target.ceStatBlock);
 		int hitLocation = calledShots != null ? calledShots.getHitLocation() : DiceRoller.randInt(0, 99);
@@ -296,6 +302,28 @@ public class FireAction implements CeAction {
 		}
 	
 	
+	}
+	
+	public boolean blindFireCheck() {
+		if(!statBlock.rangedStatBlock.blindFiring)
+			return true;
+		
+		int blindRoll = DiceRoller.randInt(0, 99);
+		int tn = 1; 
+		
+		if(target.ceStatBlock.stance == Stance.STANDING) {
+			tn = 12; 
+		} else if(target.ceStatBlock.stance == Stance.CROUCH) {
+			tn = 3; 
+		} 
+		
+		FloatingTextManager.addFloatingText(target.ceStatBlock.cord, "Bind Fire Check: "+blindRoll+", TN: "+tn);
+		
+		if(blindRoll <= tn)
+			return true; 
+		else 
+			return false; 
+		
 	}
 	
 	public void applyShotgunHits(int range, int salm, int hitLocation) throws Exception {
@@ -369,7 +397,7 @@ public class FireAction implements CeAction {
 		int dodgeAlm = 0;
 		int defensiveAlm = 0;
 		int stabalized = statBlock.rangedStatBlock.stabalized ? 0 : -6; 
-		
+		int lookingIntoLight = !statBlock.rangedStatBlock.lookingIntoLight ? 0 : -12; 
 		int laserAlm = getLaserAlm();
 		
 		rangeALM = getDistanceAlm();
@@ -405,9 +433,10 @@ public class FireAction implements CeAction {
 		System.out.println("Dodge ALM: "+dodgeAlm);
 		System.out.println("Defensive ALM: "+defensiveAlm);
 		System.out.println("Stabalized: "+stabalized);
+		System.out.println("Looking Into Light: "+lookingIntoLight);
 		
 		return rangeALM + speedALM + visibilityALM + aimALM + stanceAlm + 
-				laserAlm + dodgeAlm + defensiveAlm + stabalized; 
+				laserAlm + dodgeAlm + defensiveAlm + stabalized + lookingIntoLight; 
 	
 	}
 	
@@ -426,7 +455,7 @@ public class FireAction implements CeAction {
 		}
 
 		int range = GameWindow.hexDif(statBlock.cord.xCord, statBlock.cord.yCord, cord.xCord,
-				cord.yCord);
+				cord.yCord) * CorditeExpansionGame.distanceMultiplier;
 		
 		if(range < 5)
 			return 6; 
@@ -459,13 +488,13 @@ public class FireAction implements CeAction {
 		}
 
 		int distance = GameWindow.hexDif(statBlock.cord.xCord, statBlock.cord.yCord, cord.xCord,
-				cord.yCord);
+				cord.yCord) * CorditeExpansionGame.distanceMultiplier;
 		//System.out.println("Shot distance: "+distance);
 		return PCUtility.findRangeALM(distance);
 	}
 
 	public int getSizeAlm() {
-		if(target == null) {
+		if(target == null || statBlock.rangedStatBlock.blindFiring) {
 			return 12;
 		}
 		

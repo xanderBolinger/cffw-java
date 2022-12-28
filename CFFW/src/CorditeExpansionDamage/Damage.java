@@ -92,7 +92,7 @@ public class Damage {
 		FloatingTextManager.addFloatingText(trooper.ceStatBlock.cord, rslts);
 
 		// Status Check
-		statusCheck(pd, trooper);
+		statusCheck(trooper.ceStatBlock.medicalStatBlock.getPdTotal(), trooper);
 
 		// Apply Pain
 		trooper.ceStatBlock.medicalStatBlock.pain = trooper.ceStatBlock.medicalStatBlock.getPdTotal() / 100;
@@ -171,7 +171,7 @@ public class Damage {
 		FloatingTextManager.addFloatingText(trooper.ceStatBlock.cord, rslts);
 
 		// Status Check
-		statusCheck(pd, trooper);
+		statusCheck(trooper.ceStatBlock.medicalStatBlock.getPdTotal(), trooper);
 
 		// Apply Pain
 		trooper.ceStatBlock.medicalStatBlock.pain = trooper.ceStatBlock.medicalStatBlock.getPdTotal() / 100;
@@ -234,6 +234,19 @@ public class Damage {
 
 		if (physicalDamage > 1000)
 			physicalDamage = 1000;
+
+		String incapStr = ExcelUtility.getStringFromSheet(roll, physicalDamage,
+				"Formatted Excel Files\\incapacitationtime.xlsx", true, true);
+
+		int multiplier = getIncapMultiplier(incapStr);
+		int value = getIncapTimeValue(incapStr);
+
+		return value * multiplier;
+	}
+	
+	public static int incapacitationImpulsesFlashbang() throws Exception {
+		int roll = DiceRoller.randInt(0, 9);
+		int physicalDamage = 0;
 
 		String incapStr = ExcelUtility.getStringFromSheet(roll, physicalDamage,
 				"Formatted Excel Files\\incapacitationtime.xlsx", true, true);

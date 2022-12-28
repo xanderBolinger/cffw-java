@@ -34,7 +34,8 @@ public class ThrowAble {
 		
 		// Iterate over all troopers in Ce action 
 		for(Trooper trooper : CorditeExpansionGame.actionOrder.getOrder()) {
-			int range = GameWindow.hexDif( chit.xCord, chit.yCord, trooper.ceStatBlock.cord.xCord,trooper.ceStatBlock.cord.yCord);
+			int range = GameWindow.hexDif( chit.xCord, chit.yCord, trooper.ceStatBlock.cord.xCord,trooper.ceStatBlock.cord.yCord)
+					* CorditeExpansionGame.distanceMultiplier;
 			System.out.println("Throwable Range: "+range);
 			if(range <= 10) {
 				Damage.explode(weapon, range, trooper);

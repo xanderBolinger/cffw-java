@@ -23,7 +23,7 @@ public class RangedStatBlock {
 	public boolean aiming = true;
 	public boolean fullAuto = false;
 	public boolean blindFiring = false;
-	
+	public boolean lookingIntoLight = false; 
 	
 	// Fighter + composure / 2
 	public int coolnessUnderFire;
@@ -52,6 +52,13 @@ public class RangedStatBlock {
 			blindFiring = false; 
 		else 
 			blindFiring = true;
+	}
+	
+	public void toggleLookingIntoLight() {
+		if(lookingIntoLight)
+			lookingIntoLight = false; 
+		else 
+			lookingIntoLight = true;
 	}
 	
 	public int getSuppression() {

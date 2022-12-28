@@ -75,6 +75,10 @@ public class CommandLineInterface {
 			new WepCommand(parameters);
 		} else if(command.equals("encum")) {
 			new EncumCommand(parameters);
+		} else if(command.equals("stun")) {
+			new StunCommand(parameters);
+		} else if(command.equals("dist")) {
+			new DistanceCommand(parameters);
 		} else {
 			print("Command not found");
 		}
@@ -86,7 +90,7 @@ public class CommandLineInterface {
 	public static ArrayList<String> parameters(String input) {
 		ArrayList<String> list = new ArrayList<>();
 
-		Pattern pattern = Pattern.compile("[\\w]+");
+		Pattern pattern = Pattern.compile("[\\w^-]+");
 		Matcher matcher = pattern.matcher(input);
 		while (matcher.find()) {
 			list.add(matcher.group());

@@ -154,8 +154,8 @@ public class StatBlock {
 		//System.out.println("spend spend");
 		activeAction.spendCombatAction();
 		
-		if(activeAction.getActionType() != ActionType.AIM && activeAction.getActionType() != ActionType.FIRE)
-			clearAim();
+		/*if(activeAction.getActionType() != ActionType.AIM && activeAction.getActionType() != ActionType.FIRE)
+			clearAim();*/
 		
 		if(activeAction.completed()) {
 			//System.out.println("Action Completed");
@@ -541,6 +541,7 @@ public class StatBlock {
 		results.add("Suppresion Reaction: "+rangedStatBlock.suppression.getDisplayStatus());
 		results.add("Suppression: "+rangedStatBlock.suppression.getSuppression());
 		results.add("Blind Firing: "+rangedStatBlock.blindFiring);
+		results.add("Looking Into Light: "+rangedStatBlock.lookingIntoLight);
 		
 		String magazineStatus = rangedStatBlock.weapon.ceStats.magazine != null ? (rangedStatBlock.weapon.ceStats.magazine.ammo.name 
 				+ ", DP: " + rangedStatBlock.weapon.ceStats.magazine.ammo.depletionPoints) + ", ["+rangedStatBlock.magazines(trooper)+"]" : "["+rangedStatBlock.magazines(trooper)+"]";

@@ -19,6 +19,8 @@ public class CorditeExpansionGame {
 	
 	public static Impulse impulse = Impulse.FIRST;
 	public static int round = 1; 
+	public static int action = 1;
+	public static int distanceMultiplier = 1;
 	
 	public enum Impulse {
 		FIRST(1), SECOND(2), THIRD(3), FOURTH(4);
@@ -64,7 +66,11 @@ public class CorditeExpansionGame {
 			
 		}
 		
+		// Each action
+		
 		overwatchCheck();
+		
+		// Next Impulse 
 		
 		throwAbleCheck();
 		
@@ -115,6 +121,8 @@ public class CorditeExpansionGame {
 			completeRound();
 			bleedOutCheck();
 		}
+		
+		action = 1;
 		
 		incapacitationCheck();
 		deathCheck();

@@ -24,6 +24,9 @@ public class WepCommand implements Command {
 	public void resolve() {
 		CorditeExpansionGame.selectedTrooper.wep = wepName; 
 		CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.weapon = new Weapons().findWeapon(wepName);
+		
+		if(!CorditeExpansionGame.selectedTrooper.ceStatBlock.rangedStatBlock.weapon.name.equals(wepName))
+			CommandLineInterface.cli.print("Weapon not found - setting to DC15A");
 	}
 
 	@Override

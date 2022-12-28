@@ -158,6 +158,27 @@ public class CommandLineInterfaceTests {
 	}
 	
 	@Test
+	public void shockPointsTest() {
+		
+		setCli("stun 500 no");
+		setCli("stun 85 yes");
+		
+	}
+	
+	@Test
+	public void distTest() {
+		
+		setCli("dist 25");
+		
+		assertEquals(25, CorditeExpansionGame.distanceMultiplier);
+		
+		setCli("dist 1");
+		
+		assertEquals(1, CorditeExpansionGame.distanceMultiplier);
+		
+	}
+	
+	@Test
 	public void inventory() {
 		
 		setCli("wep none");

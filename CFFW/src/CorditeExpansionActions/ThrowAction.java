@@ -70,7 +70,7 @@ public class ThrowAction implements CeAction {
 	}
 	public int getDistanceAlm() {
 		int distance = GameWindow.hexDif(statBlock.cord.xCord, statBlock.cord.yCord, targetCord.xCord,
-				targetCord.yCord);
+				targetCord.yCord) * CorditeExpansionGame.distanceMultiplier;
 		return PCUtility.findRangeALM(distance);
 	}
 	
