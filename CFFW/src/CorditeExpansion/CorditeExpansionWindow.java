@@ -199,7 +199,7 @@ public class CorditeExpansionWindow extends JFrame {
 	public void cage(Trooper trooper) throws Exception {
 
 		trooper.wep = "DC17m";
-		trooper.ceStatBlock.rangedStatBlock.weapon = new Weapons().findWeapon("DC17m");
+		//trooper.ceStatBlock.rangedStatBlock.weapon = new Weapons().findWeapon("DC17m");
 		trooper.inventory.addItem(ItemType.DC17M);
 		trooper.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
 		trooper.personalShield = new PersonalShield(ShieldType.MKIIBubbleShield);
@@ -344,6 +344,11 @@ public class CorditeExpansionWindow extends JFrame {
 						}
 					}*/
 					
+					try {
+						cage(trooper);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					
 					actionOrder.addTrooper(trooper);
 					trooper.ceStatBlock.cord = new Cord(0, i);
@@ -351,11 +356,7 @@ public class CorditeExpansionWindow extends JFrame {
 					trooper.ceStatBlock.chit.yCord = i; 
 					trooper.ceStatBlock.chit.facing = Facing.A;
 					
-					try {
-						cage(trooper);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
+					
 					
 				}
 

@@ -44,12 +44,14 @@ public class MedicalCommand implements Command {
 		int i = 0;
 		for(String injury : stat.getInjuries()) {
 			cli.print(i + ": "+ injury);
+			i++; 
 		}
 		
 		i = 0;
 		cli.print("Blood Loss Locations: ");
 		for(String injury : stat.getblLocations()) {
 			cli.print(i + ": "+ injury);
+			i++; 
 		}
 		
 	}
