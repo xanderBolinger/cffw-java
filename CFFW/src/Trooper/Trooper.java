@@ -3100,7 +3100,7 @@ public class Trooper implements Serializable {
 		int slPistol = (getSkill("Pistol") / 10) % 10 + (getSkill("Fighter") / 10) % 10;
 		int slRifle = (getSkill("Rifle") / 10) % 10 + (getSkill("Fighter") / 10) % 10;
 		int slBow = (getSkill("Bow") + getSkill("Fighter")) / 12; // 0
-		int slCrossbow = (getSkill("Crossbow") + getSkill("Fighter")) / 12; // 21
+		//int slCrossbow = (getSkill("Crossbow") + getSkill("Fighter")) / 12; // 21
 
 		int fighterTensPlace = (getSkill("Fighter") / 10) % 10;
 		int slMelee = fighterTensPlace + (getSkill("Dodge") / 10) % 10;
@@ -3113,17 +3113,17 @@ public class Trooper implements Serializable {
 		int rifleISF = slRifle + (wit / 3);
 		int pistolISF = slPistol + (wit / 3);
 		int bowISF = slBow + (wit / 3);
-		int crossbowISF = slCrossbow + (wit / 3);
+		//int crossbowISF = slCrossbow + (wit / 3);
 		int dAlmMelee = TrooperUtility.defensiveALM(meleeISF);
 		int dAlmPistol = TrooperUtility.defensiveALM(pistolISF);
 		int dAlmRifle = TrooperUtility.defensiveALM(rifleISF);
 		int dAlmBow = TrooperUtility.defensiveALM(bowISF);
-		int dAlmCrossbow = TrooperUtility.defensiveALM(crossbowISF);
+		//int dAlmCrossbow = TrooperUtility.defensiveALM(crossbowISF);
 		int meleeCA = TrooperUtility.calculateCA(mSpeed, meleeISF);
 		int pistolCA = TrooperUtility.calculateCA(mSpeed, pistolISF);
 		int rifleCA = TrooperUtility.calculateCA(mSpeed, rifleISF);
 		int bowCA = TrooperUtility.calculateCA(mSpeed, bowISF);
-		int crossbowCA = TrooperUtility.calculateCA(mSpeed, crossbowISF);
+		//int crossbowCA = TrooperUtility.calculateCA(mSpeed, crossbowISF);
 		int KO = TrooperUtility.getKO(this);
 
 		int leadershipSkillFactor = (getSkill("Command")) / 3 + (getSkill("Tactics") / 3);
@@ -3134,24 +3134,24 @@ public class Trooper implements Serializable {
 		System.out.println("Pistol SAL: " + slPistol);
 		System.out.println("Rifle SAL: " + slRifle);
 		System.out.println("Bow SAL: " + slBow);
-		System.out.println("Crossbow SAL: " + slCrossbow);
+		//System.out.println("Crossbow SAL: " + slCrossbow);
 		System.out.println("Melee ISF: " + meleeISF);
 		System.out.println("Rifle ISF: " + rifleISF);
 		System.out.println("Pistol ISF: " + pistolISF);
 		System.out.println("Bow ISF: " + bowISF);
-		System.out.println("Crossbow ISF: " + crossbowISF);
+		//System.out.println("Crossbow ISF: " + crossbowISF);
 		System.out.println("Base Speed: " + bSpeed);
 		System.out.println("Maximum Speed: " + mSpeed);
 		System.out.println("dAlmMelee: " + dAlmMelee);
 		System.out.println("dAlmPistol: " + dAlmPistol);
 		System.out.println("dAlmRifle: " + dAlmRifle);
 		System.out.println("dAlmBow: " + dAlmBow);
-		System.out.println("dAlmCrossbow: " + dAlmCrossbow);
+		//System.out.println("dAlmCrossbow: " + dAlmCrossbow);
 		System.out.println("Melee CA: " + meleeCA);
 		System.out.println("Pistol CA: " + pistolCA);
 		System.out.println("Rifle CA: " + rifleCA);
 		System.out.println("Bow CA: " + bowCA);
-		System.out.println("Crossbow CA: " + crossbowCA);
+		//System.out.println("Crossbow CA: " + crossbowCA);
 		System.out.println("KO: " + KO);
 		System.out.println("");
 		System.out.println("AF: " + AF);
@@ -3159,7 +3159,7 @@ public class Trooper implements Serializable {
 		System.out.println("Pistol CoAC: " + AF * pistolCA);
 		System.out.println("Rifle CoAC: " + AF * rifleCA);
 		System.out.println("Bow CoAC: " + AF * bowCA);
-		System.out.println("Crossbow CoAC: " + AF * crossbowCA);
+		//System.out.println("Crossbow CoAC: " + AF * crossbowCA);
 		System.out.println("Coolness Under Fire(CUF): " + (getSkill("Fighter") + getSkill("Composure")) / 2);
 		System.out.println("Leadership Skill Factor(LSF): " + leadershipSkillFactor);
 		System.out.println("Command Time(CT): " + TrooperUtility.calculateCT(leadershipSkillFactor));

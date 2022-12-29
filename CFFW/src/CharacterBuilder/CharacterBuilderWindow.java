@@ -114,6 +114,7 @@ public class CharacterBuilderWindow implements Serializable {
 	ArrayList<Skill> trainedSkills = new ArrayList<>();
 	ArrayList<Skill> expertSkills = new ArrayList<>();
 	private JButton btnSaveChanges;
+	private JTextField textFieldEncumberance;
 	
 	/**
 	 * Create the application.
@@ -591,7 +592,8 @@ public class CharacterBuilderWindow implements Serializable {
 
 				System.out.println("");
 				System.out.println("Stats:");
-				System.out.println(trooper.encumberance + trooper.encumberanceModifier);
+				System.out.println("Encumberance: "+ Integer.parseInt(textFieldEncumberance.getText()));
+				trooper.exportStats(Integer.parseInt(textFieldEncumberance.getText()));
 			}
 		});
 		btnNewButton.setBounds(351, 39, 125, 23);
@@ -653,6 +655,19 @@ public class CharacterBuilderWindow implements Serializable {
 		btnSaveChanges.setFont(new Font("Calibri", Font.PLAIN, 12));
 		btnSaveChanges.setBounds(486, 39, 125, 23);
 		panelCharacter.add(btnSaveChanges);
+		
+		JLabel lblEncumberance = new JLabel("Spent Character Points");
+		lblEncumberance.setForeground(Color.WHITE);
+		lblEncumberance.setFont(new Font("Calibri", Font.PLAIN, 12));
+		lblEncumberance.setBounds(262, 151, 144, 30);
+		panelCharacter.add(lblEncumberance);
+		
+		textFieldEncumberance = new JTextField();
+		textFieldEncumberance.setText("0");
+		textFieldEncumberance.setFont(new Font("Calibri", Font.PLAIN, 12));
+		textFieldEncumberance.setColumns(10);
+		textFieldEncumberance.setBounds(416, 155, 60, 20);
+		panelCharacter.add(textFieldEncumberance);
 
 		JPanel panelAbilities = new JPanel();
 		panelAbilities.setBackground(Color.DARK_GRAY);
