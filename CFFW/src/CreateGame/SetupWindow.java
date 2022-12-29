@@ -329,6 +329,17 @@ public class SetupWindow implements Serializable {
 				
 				
 				refreshCreated();
+				
+				/*for(Company company : companies) {
+					
+					for(Trooper trooper : company.getRoster()) {
+						
+						trooper.armor = null;
+						
+					}
+					
+				}*/
+				
 			}
 		});
 		btnLoad.setBounds(10, 202, 150, 23);

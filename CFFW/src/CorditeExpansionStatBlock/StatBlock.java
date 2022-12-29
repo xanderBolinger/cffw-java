@@ -13,6 +13,7 @@ import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.CorditeExpansionWindow;
 import CorditeExpansionStatBlock.MedicalStatBlock.Status;
+import FatigueSystem.FatigueSystem;
 import CorditeExpansion.CorditeExpansionGame.Impulse;
 import CorditeExpansionActions.AimAction;
 import CorditeExpansionActions.CeAction;
@@ -23,6 +24,7 @@ import CorditeExpansionActions.FireAction;
 import CorditeExpansionRangedCombat.CalledShots.ShotTarget;
 import Items.Weapons;
 import Trooper.Trooper;
+import Trooper.Trooper.BaseSpeed;
 import Trooper.Trooper.MaximumSpeed;
 import UtilityClasses.ExcelUtility;
 
@@ -90,6 +92,10 @@ public class StatBlock {
 	}
 	
 	public StatBlock(Trooper trooper) {
+		if(trooper.maximumSpeed == null) {
+			trooper.setCombatStats(trooper);
+		}
+		
 		quickness = trooper.maximumSpeed.get();
 		combatActions = trooper.combatActions;
 		adaptabilityFactor = 1+Math.round(((trooper.getSkill("Fighter")/10)%10)/2);

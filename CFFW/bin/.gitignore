@@ -1,11 +1,11 @@
+/CorditeExpansionStatBlock/
+/Unit/
 /UtilityClasses/
-/Conflict/
 /CorditeExpansion/
 /CorditeExpansionActions/
 /CorditeExpansionCharacters/
 /CorditeExpansionDamage/
 /CorditeExpansionRangedCombat/
-/CorditeExpansionStatBlock/
 /CreateGame/
 /FatigueSystem/
 /HexGrid/
@@ -18,9 +18,6 @@
 /MainCETest.class
 /SaveCompanies/
 /Trooper/
-/Unit/
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
-/CommandLineInterface/
-/CharacterBuilder/

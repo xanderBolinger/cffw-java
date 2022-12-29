@@ -36,6 +36,8 @@ import Items.Container.ContainerType;
 import Items.Inventory;
 import Items.Item.ItemType;
 import Items.PersonalShield.ShieldType;
+import Trooper.Trooper.BaseSpeed;
+import Trooper.Trooper.MaximumSpeed;
 import Items.PersonalShield;
 import Items.Weapons;
 import Unit.Unit;
@@ -2808,6 +2810,12 @@ public class Trooper implements Serializable {
 	}
 
 	public void setCombatStats(Trooper individual) {
+		if(maximumSpeed == null) {
+			baseSpeed = new BaseSpeed(this);
+			maximumSpeed = new MaximumSpeed(this);
+			fatigueSystem = new FatigueSystem(this);
+		}
+ 		
 		new PCStats(individual);
 		individual.setCombatActions(combatActions);
 

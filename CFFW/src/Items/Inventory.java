@@ -27,7 +27,8 @@ public class Inventory implements Serializable {
 			}
 		}
 		
-		trooper.encumberance += trooper.armor.armorWeight;
+		if(trooper.armor != null)
+			trooper.encumberance += trooper.armor.armorWeight;
 		trooper.encumberance += Math.round(weight) + trooper.encumberanceModifier;
 		
 		

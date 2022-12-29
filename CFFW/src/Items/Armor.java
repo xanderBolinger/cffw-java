@@ -11,15 +11,15 @@ import UtilityClasses.PCUtility;
 
 public class Armor implements Serializable {
 
-	private int bPF; 
-	private ArrayList<ArrayList<Integer>> excludedZones;
-	private ArrayList<ArrayList<Integer>> excludedZonesOpen;
-	private ArrayList<ArrayList<Integer>> differingZoneValues = new ArrayList<ArrayList<Integer>>();
-	private ArrayList<ArrayList<Integer>> differingZoneValuesOpen = new ArrayList<ArrayList<Integer>>();
-	private ArrayList<Integer> differingZonePF = new ArrayList<Integer>();
-	private ArrayList<Integer> differingZonePFOpen = new ArrayList<Integer>();
-	private ArrayList<Boolean> differingHardnessZone = new ArrayList<>();
-	private ArrayList<Boolean> differingHardnessZoneOpen = new ArrayList<>();
+	public int bPF; 
+	public ArrayList<ArrayList<Integer>> excludedZones;
+	public ArrayList<ArrayList<Integer>> excludedZonesOpen;
+	public ArrayList<ArrayList<Integer>> differingZoneValues = new ArrayList<ArrayList<Integer>>();
+	public ArrayList<ArrayList<Integer>> differingZoneValuesOpen = new ArrayList<ArrayList<Integer>>();
+	public ArrayList<Integer> differingZonePF = new ArrayList<Integer>();
+	public ArrayList<Integer> differingZonePFOpen = new ArrayList<Integer>();
+	public ArrayList<Boolean> differingHardnessZone = new ArrayList<>();
+	public ArrayList<Boolean> differingHardnessZoneOpen = new ArrayList<>();
 	
 	public String armorName; 
 	public ArmorType type; 
@@ -65,7 +65,7 @@ public class Armor implements Serializable {
 		} else if(type == ArmorType.DURASTEELHELEMT) {
 			duraSteelHelmet();
 		} else if(type == ArmorType.DURASTEELVEST) {
-			duraSteelVest();
+			NewArmor.duraSteelVest(this);
 		} else if(type == ArmorType.UNSCMARINE) { 
 			//System.out.println("Creating UNSC Marine");
 			unscMarine();
@@ -319,7 +319,7 @@ public class Armor implements Serializable {
 		excludedZonesOpen.add(a0);
 	}
 	
-	public void duraSteelVest() {
+	/*public void duraSteelVest() {
 		this.bPF = 25; 
 		armorName = "Durasteel Vest";
 		type = ArmorType.DURASTEELVEST;
@@ -336,7 +336,7 @@ public class Armor implements Serializable {
 		a0.add(1);
 		a0.add(100);
 		excludedZonesOpen.add(a0);
-	}
+	}*/
 	
 	public void odst() {
 		this.armorName = "ODST";

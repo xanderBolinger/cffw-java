@@ -33,6 +33,11 @@ import Items.Armor;
 import Items.Armor.ArmorType;
 import Items.Container.ContainerType;
 import Items.Item.ItemType;
+import Items.Optic;
+import Items.Optic.OpticType;
+import Items.PersonalShield;
+import Items.PersonalShield.ShieldType;
+import Items.Weapons;
 import Trooper.Trooper;
 import UtilityClasses.SwingUtility;
 import UtilityClasses.TrooperUtility;
@@ -191,7 +196,23 @@ public class CorditeExpansionWindow extends JFrame {
 
 	}
 	
+	public void cage(Trooper trooper) throws Exception {
+
+		trooper.wep = "DC17m";
+		trooper.ceStatBlock.rangedStatBlock.weapon = new Weapons().findWeapon("DC17m");
+		trooper.inventory.addItem(ItemType.DC17M);
+		trooper.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
+		trooper.personalShield = new PersonalShield(ShieldType.MKIIBubbleShield);
+		
+		/* power armor 
+		trooper.encumberance = 10;
+		trooper.setCombatStats(trooper);
+		trooper.setCombatActions(TrooperUtility.calculateCA(11, trooper.isf));
+		 */
+	}
+	
 	public void fourSwMilitia() throws Exception {
+		System.out.println("Militia Added");
 		ActionOrder ao = CorditeExpansionGame.actionOrder;
 		
 		Trooper m1 = new Trooper("Militia", "Cordite Expansion");
@@ -223,10 +244,19 @@ public class CorditeExpansionWindow extends JFrame {
 		ao.addTrooper(m1);
 		ao.addTrooper(m2);
 		ao.addTrooper(m3);
-		ao.addTrooper(m4);
+		//ao.addTrooper(m4);
 		
 		// Add optics and armor 
+		Optic optic = new Optic(OpticType.REDDOT);
+		optic.applyOptic(m1.ceStatBlock.rangedStatBlock.weapon);
+		optic.applyOptic(m2.ceStatBlock.rangedStatBlock.weapon);
+		optic.applyOptic(m3.ceStatBlock.rangedStatBlock.weapon);
+		//optic.applyOptic(m4.ceStatBlock.rangedStatBlock.weapon);
 		
+		m1.armor = new Armor(ArmorType.DURASTEELVEST);
+		m2.armor = new Armor(ArmorType.DURASTEELVEST);
+		m3.armor = new Armor(ArmorType.DURASTEELVEST);
+		m4.armor = new Armor(ArmorType.DURASTEELVEST);
 		
 	}
 	
@@ -291,7 +321,7 @@ public class CorditeExpansionWindow extends JFrame {
 				CorditeExpansionGame.actionOrder = actionOrder;
 				
 				try {
-					//fourSwMilitia();
+					fourSwMilitia();
 					//omegaSquad();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -299,6 +329,8 @@ public class CorditeExpansionWindow extends JFrame {
 				
 				for(int i = 0; i < troopers.size(); i++) {
 					Trooper trooper = troopers.get(i);
+					
+					
 					
 					
 					/*if(trooper.name.equals("Cage Kristanto")) {
@@ -311,15 +343,19 @@ public class CorditeExpansionWindow extends JFrame {
 							e.printStackTrace();
 						}
 					}*/
-					trooper.encumberance = 10;
-					trooper.setCombatStats(trooper);
-					trooper.setCombatActions(TrooperUtility.calculateCA(11, trooper.isf));
+					
 					
 					actionOrder.addTrooper(trooper);
 					trooper.ceStatBlock.cord = new Cord(0, i);
 					trooper.ceStatBlock.chit.xCord = 0;
 					trooper.ceStatBlock.chit.yCord = i; 
 					trooper.ceStatBlock.chit.facing = Facing.A;
+					
+					try {
+						cage(trooper);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					
 				}
 
