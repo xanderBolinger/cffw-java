@@ -224,6 +224,10 @@ public class CorditeExpansionWindow extends JFrame {
 		ao.addTrooper(m2);
 		ao.addTrooper(m3);
 		ao.addTrooper(m4);
+		
+		// Add optics and armor 
+		
+		
 	}
 	
 	public void omegaSquad() throws Exception {

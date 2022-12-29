@@ -38,7 +38,7 @@ public class Armor implements Serializable {
 	}
 	
 	public enum ArmorType {
-		NONE,PHASEONE,PHASEONEARC,KATARN,B1,B2,COMMANDODROID,MAGMAGUARD,DURASTEELMEDIUMMANDO,DURASTEELHELEMT,UNSCMARINE,ODST,GRUNT,ELITE,JACKAL
+		NONE,PHASEONE,PHASEONEARC,KATARN,B1,B2,COMMANDODROID,MAGMAGUARD,DURASTEELMEDIUMMANDO,DURASTEELHELEMT,DURASTEELVEST, UNSCMARINE,ODST,GRUNT,ELITE,JACKAL
 	}
 	
 	public Armor(ArmorType type) {
@@ -64,6 +64,8 @@ public class Armor implements Serializable {
 			mediumDuraSteelMandoArmor();
 		} else if(type == ArmorType.DURASTEELHELEMT) {
 			duraSteelHelmet();
+		} else if(type == ArmorType.DURASTEELVEST) {
+			duraSteelVest();
 		} else if(type == ArmorType.UNSCMARINE) { 
 			//System.out.println("Creating UNSC Marine");
 			unscMarine();
@@ -313,6 +315,25 @@ public class Armor implements Serializable {
 		
 		ArrayList<Integer> a0 = new ArrayList<Integer>();
 		a0.add(8);
+		a0.add(100);
+		excludedZonesOpen.add(a0);
+	}
+	
+	public void duraSteelVest() {
+		this.bPF = 25; 
+		armorName = "Durasteel Vest";
+		type = ArmorType.DURASTEELVEST;
+		
+		
+		ArrayList<Integer> a1 = new ArrayList<Integer>();
+		a1.add(0);
+		a1.add(21);
+		a1.add(43);
+		a1.add(100);
+		excludedZones.add(a1);
+		
+		ArrayList<Integer> a0 = new ArrayList<Integer>();
+		a0.add(1);
 		a0.add(100);
 		excludedZonesOpen.add(a0);
 	}
