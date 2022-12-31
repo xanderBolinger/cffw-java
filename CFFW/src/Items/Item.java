@@ -32,6 +32,8 @@ public class Item implements Serializable {
 				new Item(ItemType.Z6),
 				new Item(ItemType.M5),
 				new Item(ItemType.DC17M),
+				new Item(ItemType.DC17MSniper),
+				new Item(ItemType.DC17MRocket),
 				new Item(ItemType.ClassAThermalDetonator),
 				new Item(ItemType.RPS6),
 				new Item(ItemType.DC40),

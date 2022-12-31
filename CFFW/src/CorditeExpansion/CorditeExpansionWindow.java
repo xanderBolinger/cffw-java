@@ -196,19 +196,49 @@ public class CorditeExpansionWindow extends JFrame {
 
 	}
 	
-	public void cage(Trooper trooper) throws Exception {
-
-		trooper.wep = "DC17m";
+	public void ariana(Trooper trooper) throws Exception {
+		if(!trooper.name.equals("Ariana"))
+			return;
+		
+		trooper.wep = "E5";
 		//trooper.ceStatBlock.rangedStatBlock.weapon = new Weapons().findWeapon("DC17m");
-		trooper.inventory.addItem(ItemType.DC17M);
-		trooper.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
-		trooper.personalShield = new PersonalShield(ShieldType.MKIIBubbleShield);
+		trooper.inventory.addItem(ItemType.E5);
+		trooper.inventory.addItem(ItemType.E5, ItemType.SmallArmsAmmo);
 		
 		/* power armor 
 		trooper.encumberance = 10;
 		trooper.setCombatStats(trooper);
 		trooper.setCombatActions(TrooperUtility.calculateCA(11, trooper.isf));
 		 */
+	}
+	
+	public void cage(Trooper trooper) throws Exception {
+		if(!trooper.name.equals("Cage"))
+			return;
+		
+		
+		trooper.wep = "DC17m";
+		//trooper.ceStatBlock.rangedStatBlock.weapon = new Weapons().findWeapon("DC17m");
+		trooper.inventory.addItem(ItemType.DC17M);
+		trooper.inventory.addItem(ItemType.DC17M, ItemType.SmallArmsAmmo);
+		trooper.inventory.addItem(ItemType.DC17MSniper);
+		trooper.inventory.addItem(ItemType.DC17MSniper, ItemType.SmallArmsAmmo);
+		trooper.inventory.addItem(ItemType.DC17MSniper, ItemType.SmallArmsAmmo);
+		trooper.inventory.addItem(ItemType.DC17MSniper, ItemType.SmallArmsAmmo);
+		trooper.inventory.addItem(ItemType.M870);
+		trooper.inventory.addItem(ItemType.M870, ItemType.SmallArmsAmmo);
+		trooper.inventory.addItem(ItemType.M870, ItemType.SmallArmsAmmo);
+		//trooper.personalShield = new PersonalShield(ShieldType.MKIIBubbleShield);
+		
+		/* power armor */
+		trooper.armor = new Armor(ArmorType.KATARN);
+		trooper.armor.armorWeight = 0; 
+		trooper.armor.excludedZones.clear();
+		trooper.armor.excludedZonesOpen.clear();
+		
+		trooper.encumberance = 10;
+		trooper.setCombatStats(trooper);
+		trooper.setCombatActions(TrooperUtility.calculateCA(11, trooper.isf));
 	}
 	
 	public void fourSwMilitia() throws Exception {
@@ -241,9 +271,67 @@ public class CorditeExpansionWindow extends JFrame {
 		m4.inventory.addItem(ItemType.A310, ItemType.SmallArmsAmmo);
 		m4.name = "M4";
 		
+		Trooper m5 = new Trooper("Militia", "Cordite Expansion");
+		m5.inventory.addItem(ItemType.A310);
+		m5.wep = "A310";
+		m5.inventory.addItem(ItemType.A310, ItemType.SmallArmsAmmo);
+		m5.name = "M5";
+		
 		ao.addTrooper(m1);
 		ao.addTrooper(m2);
 		ao.addTrooper(m3);
+		ao.addTrooper(m4);
+		ao.addTrooper(m5);
+		
+		// Add optics and armor 
+		Optic optic = new Optic(OpticType.REDDOT);
+		optic.applyOptic(m1.ceStatBlock.rangedStatBlock.weapon);
+		optic.applyOptic(m2.ceStatBlock.rangedStatBlock.weapon);
+		optic.applyOptic(m3.ceStatBlock.rangedStatBlock.weapon);
+		optic.applyOptic(m4.ceStatBlock.rangedStatBlock.weapon);
+		optic.applyOptic(m5.ceStatBlock.rangedStatBlock.weapon);
+		
+		m1.armor = new Armor(ArmorType.DURASTEELVEST);
+		m2.armor = new Armor(ArmorType.DURASTEELVEST);
+		m3.armor = new Armor(ArmorType.DURASTEELVEST);
+		m4.armor = new Armor(ArmorType.DURASTEELVEST);
+		m5.armor = new Armor(ArmorType.DURASTEELVEST);
+		
+	}
+	
+	public void fourSwLine() throws Exception {
+		System.out.println("Line Added");
+		ActionOrder ao = CorditeExpansionGame.actionOrder;
+		
+		Trooper m1 = new Trooper("Line", "Cordite Expansion");
+		m1.wep = "DC15A";
+		m1.inventory.addItem(ItemType.DC15A);
+		m1.inventory.addItem(ItemType.DC15A, ItemType.SmallArmsAmmo);
+		m1.name = "M1";
+		
+		Trooper m2 = new Trooper("Line", "Cordite Expansion");
+		m2.wep = "A310";
+		m2.inventory.addItem(ItemType.A310);
+		m2.inventory.addItem(ItemType.A310, ItemType.SmallArmsAmmo);
+		m2.name = "M2";
+		System.out.println("Items: "+m2.inventory.getItems());
+		
+		
+		Trooper m3 = new Trooper("Line", "Cordite Expansion");
+		m3.wep = "EE3";
+		m3.inventory.addItem(ItemType.EE3);
+		m3.inventory.addItem(ItemType.EE3, ItemType.SmallArmsAmmo);
+		m3.name = "M3";
+		
+		Trooper m4 = new Trooper("Line", "Cordite Expansion");
+		m4.inventory.addItem(ItemType.A310);
+		m4.wep = "A310";
+		m4.inventory.addItem(ItemType.A310, ItemType.SmallArmsAmmo);
+		m4.name = "M4";
+		
+		ao.addTrooper(m1);
+		ao.addTrooper(m2);
+		//ao.addTrooper(m3);
 		//ao.addTrooper(m4);
 		
 		// Add optics and armor 
@@ -346,6 +434,7 @@ public class CorditeExpansionWindow extends JFrame {
 					
 					try {
 						cage(trooper);
+						ariana(trooper);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
