@@ -25,6 +25,7 @@ import Conflict.AttackHexWindow;
 import Conflict.GameWindow;
 import Conflict.OpenUnit;
 import Conflict.SelectedUnitsWindow;
+import CorditeExpansion.CeKeyListener;
 import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.ThrowAble;
@@ -117,6 +118,7 @@ public class HexGrid implements Serializable {
 	 */
 	private void initialize(int hexRows, int hexCols) {
 		frame = new JFrame();
+		HexKeyListener.addKeyListeners();
 		frame.setBounds(100, 100, 701, 701);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
@@ -455,6 +457,7 @@ public class HexGrid implements Serializable {
 		public ArrayList<Chit> chits = new ArrayList<>();
 		
 		Point pressedCursorPoint;
+		Point selectedPoint;
 		Point currentCursorPoint;
 		boolean dragging = false;
 		double s = 17;
@@ -540,6 +543,7 @@ public class HexGrid implements Serializable {
 				Chit chit = new Chit(ExcelUtility.path+"\\Icons\\unknown_icon.png", 20, 20);
 				chit.facing = Facing.B;
 				chits.add(chit);
+				
 				
 				new Timer(20, new TimerListener()).start();
 				
@@ -982,14 +986,31 @@ public class HexGrid implements Serializable {
 
 			if (points == null) {
 				Chit.unselectChit();
+				selectedPoint = null;
 				return;
 			}
 
 			// System.out.println("Mouse Pressed");
-			if (Chit.isAChitSelected()) 
-				Chit.moveSelectedChit(points[0], points[1]);
 			
-			System.out.println("Chit unselected");
+			if(Keyboard.isKeyPressed(KeyEvent.VK_SHIFT) && Chit.isAChitSelected()) {
+				//System.out.println("Chit unselected,  Released Point: ("+e.getX()+", "+e.getY()+")"
+				//		+", Selected Point: ("+selectedPoint.getX()+", "+selectedPoint.getY()+")");
+				Chit.getSelectedChit().shifted = true;
+				Polygon hex = hexMap.get(Chit.getSelectedChit().xCord).get(Chit.getSelectedChit().yCord);
+				int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
+				int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
+				
+				Chit.getSelectedChit().shiftX = (int) (e.getX() - hexCenterX);
+				Chit.getSelectedChit().shiftY = (int) (e.getY() - hexCenterY);
+				//Chit.getSelectedChit().shiftX = (int) (e.getX() - selectedPoint.getX());
+				//Chit.getSelectedChit().shiftY = (int) (e.getY() - selectedPoint.getY());
+				//System.out.println("Chit Shifted");
+			} else if (Chit.isAChitSelected()) {
+				//System.out.println("Chit Moved");
+				Chit.moveSelectedChit(points[0], points[1]);
+			}
+			
+			selectedPoint = null;
 			Chit.unselectChit();
 		}
 
@@ -1019,8 +1040,11 @@ public class HexGrid implements Serializable {
 				Rectangle imageBounds = new Rectangle(chit.xPoint, chit.yPoint, chit.getWidth(), chit.getHeight());
 				if (imageBounds.contains(point)) {
 					System.out.println("Clicked Chit, chit.xPoint: " + chit.xPoint + ", clicked x point: " + point.x);
-
+					selectedPoint = point;
 					Chit.setSelectedChit(chit, point.x - chit.xPoint, point.y - chit.yPoint);
+					chit.shifted = false;
+					chit.shiftX = 0;
+					chit.shiftY = 0;
 					return;
 				}
 			}
@@ -1491,8 +1515,10 @@ public class HexGrid implements Serializable {
 				Chit chit = chits.get(i);
 				Polygon hex = hexMap.get(chit.xCord).get(chit.yCord);
 
-				chit.drawChit(zoom, g2, hex);
-
+				if(chit.shifted)
+					chit.drawChit(zoom, g2, hex, chit.shiftX, chit.shiftY);
+				else
+					chit.drawChit(zoom, g2, hex);
 
 			}
 		}
