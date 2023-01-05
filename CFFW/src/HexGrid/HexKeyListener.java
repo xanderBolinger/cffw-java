@@ -40,6 +40,9 @@ public class HexKeyListener {
                                 && Chit.isAChitSelected()) {
                         	 Chit.getSelectedChit().facing = 
                              		Facing.turnClockwise(Chit.getSelectedChit().facing);
+                        } else if(e.getKeyCode() == KeyEvent.VK_DELETE && Chit.isAChitSelected()) {
+                        	HexGrid.chits.remove(Chit.getSelectedChit());
+                        	Chit.unselectChit();
                         }
                         break;
                        

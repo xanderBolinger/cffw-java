@@ -35,6 +35,7 @@ public class Chit {
 	private double chitWidth = 15; 
 	private double chitHeight = 15;
 	private double oldZoom = 1.0; 
+	public int number;
 	public int shiftX = 0; 
 	public int shiftY = 0; 
 	public boolean shifted = false;

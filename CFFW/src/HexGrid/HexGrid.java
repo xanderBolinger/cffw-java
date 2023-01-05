@@ -98,6 +98,11 @@ public class HexGrid implements Serializable {
 	private JLayeredPane layeredPane;
 	private JButton btnNewButton;
 	public static boolean losThreadShowing = false; 
+	public static ArrayList<Chit> chits = new ArrayList<>();
+	public static int chitCounter = 1;
+	public static boolean deployBluforUnknown = false; 
+	public static boolean deployOpforUnknown = false; 
+	public static boolean deployUnknown = false; 
 	private JMenuItem mntmHideU;
 	private JMenuItem mntmInitEmptyHexes;
 	private JButton btnNewButton_1;
@@ -235,18 +240,33 @@ public class HexGrid implements Serializable {
 		layeredPane.add(btnNewButton);
 		
 		btnNewButton_1 = new JButton("");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				deployBluforUnknown();
+			}
+		});
 		btnNewButton_1.setBackground(SystemColor.text);
 		btnNewButton_1.setIcon(new ImageIcon(ExcelUtility.path+"\\Icons\\unknown_blufor_icon.png"));
 		btnNewButton_1.setBounds(55, 0, 45, 45);
 		layeredPane.add(btnNewButton_1);
 		
 		btnNewButton_2 = new JButton("");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				deployOpforUnknown();
+			}
+		});
 		btnNewButton_2.setBackground(SystemColor.text);
 		btnNewButton_2.setIcon(new ImageIcon(ExcelUtility.path+"\\Icons\\unknown_opfor_icon.png"));
 		btnNewButton_2.setBounds(110, 0, 45, 45);
 		layeredPane.add(btnNewButton_2);
 		
 		btnNewButton_3 = new JButton("");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				deployUnknown();
+			}
+		});
 		btnNewButton_3.setBackground(SystemColor.text);
 		btnNewButton_3.setIcon(new ImageIcon(ExcelUtility.path+"\\Icons\\unknown_icon.png"));
 		btnNewButton_3.setBounds(165, 0, 45, 45);
@@ -358,6 +378,25 @@ public class HexGrid implements Serializable {
 		}
 	}
 	
+	public void deployBluforUnknown() {
+		deployBluforUnknown = !deployBluforUnknown;
+		System.out.println("set deploy blufor: "+deployBluforUnknown);
+		deployUnknown = false; 
+		deployOpforUnknown = false;
+	}
+	
+	public void deployUnknown() {
+		deployUnknown = !deployUnknown;
+		deployBluforUnknown = false; 
+		deployOpforUnknown = false;
+	}
+	
+	public void deployOpforUnknown() {
+		deployOpforUnknown = !deployOpforUnknown;
+		deployBluforUnknown = false; 
+		deployUnknown = false;
+	}
+	
 	class DrawnString {
 		public String text;
 		public Point position;
@@ -454,7 +493,7 @@ public class HexGrid implements Serializable {
 		public DeployedUnit selectedUnit = null;
 		public int selectedUnitIndex = 0;
 		public ArrayList<DeployedUnit> deployedUnits = new ArrayList<>();
-		public ArrayList<Chit> chits = new ArrayList<>();
+		
 		
 		Point pressedCursorPoint;
 		Point selectedPoint;
@@ -539,10 +578,6 @@ public class HexGrid implements Serializable {
 						Image.SCALE_SMOOTH);
 		
 				refreshDeployedUnits();
-				
-				Chit chit = new Chit(ExcelUtility.path+"\\Icons\\unknown_icon.png", 20, 20);
-				chit.facing = Facing.B;
-				chits.add(chit);
 				
 				
 				new Timer(20, new TimerListener()).start();
@@ -911,13 +946,39 @@ public class HexGrid implements Serializable {
 		public void mousePressed(MouseEvent e) {
 			dragging = false;
 			pressedCursorPoint = e.getPoint();
-			// System.out.println("Pressed Cursor Point, X: "+pressedCursorPoint.x+", Y:
-			// "+pressedCursorPoint.y);
+			//System.out.println("Pressed Cursor Point, X: "+pressedCursorPoint.x+", Y:"+pressedCursorPoint.y);
 			currentCursorPoint = null;
+			
+			
 			
 			int[] points = getHexFromPoint(e.getPoint());
 			if (points == null)
 				return;
+			
+			if(deployBluforUnknown) {
+				//System.out.println("deploy blufor");
+				Chit chit = new Chit(ExcelUtility.path+"\\Icons\\unknown_blufor_icon.png", 20, 20);
+				chit.xCord = points[0];
+				chit.yCord = points[1];
+				chits.add(chit);
+				chit.number = chitCounter;
+				chitCounter++;
+			} else if(deployOpforUnknown) {
+				Chit chit = new Chit(ExcelUtility.path+"\\Icons\\unknown_opfor_icon.png", 20, 20);
+				chit.xCord = points[0];
+				chit.yCord = points[1];
+				chits.add(chit);
+				chit.number = chitCounter;
+				chitCounter++;
+			} else if(deployUnknown) {
+				Chit chit = new Chit(ExcelUtility.path+"\\Icons\\unknown_icon.png", 20, 20);
+				chit.xCord = points[0];
+				chit.yCord = points[1];
+				chits.add(chit);
+				chit.number = chitCounter;
+				chitCounter++;
+			}
+			
 			checkChitClick(e.getPoint());
 			
 		}
@@ -1039,7 +1100,7 @@ public class HexGrid implements Serializable {
 			for (Chit chit : chits) {
 				Rectangle imageBounds = new Rectangle(chit.xPoint, chit.yPoint, chit.getWidth(), chit.getHeight());
 				if (imageBounds.contains(point)) {
-					System.out.println("Clicked Chit, chit.xPoint: " + chit.xPoint + ", clicked x point: " + point.x);
+					//System.out.println("Clicked Chit, chit.xPoint: " + chit.xPoint + ", clicked x point: " + point.x);
 					selectedPoint = point;
 					Chit.setSelectedChit(chit, point.x - chit.xPoint, point.y - chit.yPoint);
 					chit.shifted = false;
@@ -1520,6 +1581,27 @@ public class HexGrid implements Serializable {
 				else
 					chit.drawChit(zoom, g2, hex);
 
+				
+				String s = "Unit #"+chit.number;
+				int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
+				int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
+				
+				Font currentFont = g2.getFont();
+
+				Font newFont = currentFont.deriveFont((float) (currentFont.getSize()));
+				g2.setFont(newFont);
+				FontMetrics metrics = g2.getFontMetrics(newFont);
+
+				// Determine the X coordinate for the text
+				int x = (hexCenterX - chit.getWidth() / 2)
+						+ (chit.getWidth() - metrics.stringWidth(s)) / 2;
+				// Determine the Y coordinate for the text (note we add the ascent, as in java
+				// 2d 0 is top of the screen)
+				int y = (int) ((hexCenterY - chit.getHeight() / 1.5) + -metrics.getHeight() / 2
+						+ metrics.getAscent()) - (int) (3 * zoom);
+				g2.setColor(Color.YELLOW);
+				g2.drawString(s, x, y);
+				g2.setColor(Color.RED);
 			}
 		}
 		
