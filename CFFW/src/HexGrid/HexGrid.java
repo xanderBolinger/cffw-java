@@ -25,21 +25,29 @@ import Conflict.AttackHexWindow;
 import Conflict.GameWindow;
 import Conflict.OpenUnit;
 import Conflict.SelectedUnitsWindow;
+import CorditeExpansion.Cord;
+import CorditeExpansion.CorditeExpansionGame;
+import CorditeExpansion.ThrowAble;
+import CorditeExpansionActions.CeAction;
+import CorditeExpansionActions.TurnAction;
+import CorditeExpansionActions.CeAction.ActionType;
 import Hexes.Building;
 import Hexes.Feature;
 import Hexes.Hex;
 import Hexes.HexWindow;
+import Trooper.Trooper;
 import Unit.Unit;
 import Unit.Unit.UnitType;
 import UtilityClasses.Keyboard;
 import UtilityClasses.SwingUtility.FPSCounter;
+import UtilityClasses.ExcelUtility;
 import UtilityClasses.HexGridUtility;
 import UtilityClasses.HexGridUtility.ShownType;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -63,6 +71,11 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.print.DocFlavor.URL;
 import javax.swing.*;
+
+import CeHexGrid.Chit;
+import CeHexGrid.Colors;
+import CeHexGrid.Chit.Facing;
+
 import java.awt.Component;
 import java.awt.SystemColor;
 
@@ -86,6 +99,9 @@ public class HexGrid implements Serializable {
 	public static boolean losThreadShowing = false; 
 	private JMenuItem mntmHideU;
 	private JMenuItem mntmInitEmptyHexes;
+	private JButton btnNewButton_1;
+	private JButton btnNewButton_2;
+	private JButton btnNewButton_3;
 	/**
 	 * Create the application.
 	 */
@@ -210,10 +226,29 @@ public class HexGrid implements Serializable {
 				losThread();
 			}
 		});
+		System.out.println("Path: "+ExcelUtility.path);
 		btnNewButton.setBackground(SystemColor.text);
-		btnNewButton.setIcon(new ImageIcon("X:\\OneDrive\\OneDrive - Colostate\\Xander Personal\\Code\\eclipse-workspace\\CFFW\\Icons\\threadIcon.png"));
-		btnNewButton.setBounds(10, 0, 45, 45);
+		btnNewButton.setIcon(new ImageIcon(ExcelUtility.path+"\\Icons\\threadIcon.png"));
+		btnNewButton.setBounds(0, 0, 45, 45);
 		layeredPane.add(btnNewButton);
+		
+		btnNewButton_1 = new JButton("");
+		btnNewButton_1.setBackground(SystemColor.text);
+		btnNewButton_1.setIcon(new ImageIcon(ExcelUtility.path+"\\Icons\\unknown_blufor_icon.png"));
+		btnNewButton_1.setBounds(55, 0, 45, 45);
+		layeredPane.add(btnNewButton_1);
+		
+		btnNewButton_2 = new JButton("");
+		btnNewButton_2.setBackground(SystemColor.text);
+		btnNewButton_2.setIcon(new ImageIcon(ExcelUtility.path+"\\Icons\\unknown_opfor_icon.png"));
+		btnNewButton_2.setBounds(110, 0, 45, 45);
+		layeredPane.add(btnNewButton_2);
+		
+		btnNewButton_3 = new JButton("");
+		btnNewButton_3.setBackground(SystemColor.text);
+		btnNewButton_3.setIcon(new ImageIcon(ExcelUtility.path+"\\Icons\\unknown_icon.png"));
+		btnNewButton_3.setBounds(165, 0, 45, 45);
+		layeredPane.add(btnNewButton_3);
 
 		panel.addMouseListener(new MouseAdapter() {
 
@@ -291,7 +326,7 @@ public class HexGrid implements Serializable {
 	}
 
 	public void panelGetXY(MouseEvent e) {
-		panel.mouseReleased();
+		panel.mouseReleased(e);
 	}
 
 	public void zoomChanged() {
@@ -417,7 +452,8 @@ public class HexGrid implements Serializable {
 		public DeployedUnit selectedUnit = null;
 		public int selectedUnitIndex = 0;
 		public ArrayList<DeployedUnit> deployedUnits = new ArrayList<>();
-
+		public ArrayList<Chit> chits = new ArrayList<>();
+		
 		Point pressedCursorPoint;
 		Point currentCursorPoint;
 		boolean dragging = false;
@@ -501,7 +537,9 @@ public class HexGrid implements Serializable {
 		
 				refreshDeployedUnits();
 				
-				
+				Chit chit = new Chit(ExcelUtility.path+"\\Icons\\unknown_icon.png", 20, 20);
+				chit.facing = Facing.B;
+				chits.add(chit);
 				
 				new Timer(20, new TimerListener()).start();
 				
@@ -872,6 +910,12 @@ public class HexGrid implements Serializable {
 			// System.out.println("Pressed Cursor Point, X: "+pressedCursorPoint.x+", Y:
 			// "+pressedCursorPoint.y);
 			currentCursorPoint = null;
+			
+			int[] points = getHexFromPoint(e.getPoint());
+			if (points == null)
+				return;
+			checkChitClick(e.getPoint());
+			
 		}
 
 		public void mouseDragged(MouseEvent e) {
@@ -930,10 +974,59 @@ public class HexGrid implements Serializable {
 			
 		}
 
-		public void mouseReleased() {
+		public void mouseReleased(MouseEvent e) {
 			dragging = false;
+			
+			
+			int[] points = getHexFromPoint(e.getPoint());
+
+			if (points == null) {
+				Chit.unselectChit();
+				return;
+			}
+
+			// System.out.println("Mouse Pressed");
+			if (Chit.isAChitSelected()) 
+				Chit.moveSelectedChit(points[0], points[1]);
+			
+			System.out.println("Chit unselected");
+			Chit.unselectChit();
 		}
 
+		public int[] getHexFromPoint(Point point) {
+
+			// System.out.println("Get hex from point");
+
+			for (int i = 0; i < hexMap.size(); i++) {
+
+				for (int j = 0; j < hexMap.get(0).size(); j++) {
+
+					Polygon hex = hexMap.get(i).get(j);
+
+					if (hex.contains(point)) {
+						int[] arr = { i, j };
+						return arr;
+					}
+				}
+			}
+
+			return null;
+		}
+		
+		public void checkChitClick(Point point) {
+			
+			for (Chit chit : chits) {
+				Rectangle imageBounds = new Rectangle(chit.xPoint, chit.yPoint, chit.getWidth(), chit.getHeight());
+				if (imageBounds.contains(point)) {
+					System.out.println("Clicked Chit, chit.xPoint: " + chit.xPoint + ", clicked x point: " + point.x);
+
+					Chit.setSelectedChit(chit, point.x - chit.xPoint, point.y - chit.yPoint);
+					return;
+				}
+			}
+
+		}
+		
 		public void mouseWheelMoved(double zoom) {
 			this.zoom = zoom;
 			//repaint();
@@ -1391,6 +1484,19 @@ public class HexGrid implements Serializable {
 			return null; 
 		}
 		
+		public void drawChits(Graphics2D g2) {
+
+			for (int i = 0; i < chits.size(); i++) {
+
+				Chit chit = chits.get(i);
+				Polygon hex = hexMap.get(chit.xCord).get(chit.yCord);
+
+				chit.drawChit(zoom, g2, hex);
+
+
+			}
+		}
+		
 		public void drawUnit(DeployedUnit deployedUnit, Graphics g, Graphics2D g2, int count) {
 			// Displays unit card
 
@@ -1628,7 +1734,7 @@ public class HexGrid implements Serializable {
 				g2.setColor(BORDER_COLOR);
 				g2.setStroke(STROKE);
 
-				if (pressedCursorPoint != null && currentCursorPoint != null && dragging) {
+				if (pressedCursorPoint != null && currentCursorPoint != null && dragging && !Chit.isAChitSelected()) {
 
 					shape.translate(currentCursorPoint.x - pressedCursorPoint.x,
 							currentCursorPoint.y - pressedCursorPoint.y);
@@ -1787,6 +1893,12 @@ public class HexGrid implements Serializable {
 			}
 			
 			
+			translateSelectedChit();
+
+			drawChitShadow(g2);
+			
+			drawChits(g2);
+			
 			if(HexGrid.losThreadShowing && losThread.npoints > 1) {
 				
 				//System.out.println("Thread: ("+losThread.xpoints[0]+", "+losThread.ypoints[0]+"), "+"( "+losThread.xpoints[1]+", "+losThread.ypoints[1]+")");
@@ -1807,6 +1919,34 @@ public class HexGrid implements Serializable {
 			pressedCursorPoint = currentCursorPoint;
 			oldZoom = zoom;
 			
+		}
+		
+		public void translateSelectedChit() {
+			if (pressedCursorPoint != null && currentCursorPoint != null && dragging && Chit.isAChitSelected()) {
+				Chit.translateChit(currentCursorPoint.x - pressedCursorPoint.x,
+						currentCursorPoint.y - pressedCursorPoint.y);
+			}
+		}
+		
+		public void drawChitShadow(Graphics2D g2) {
+			if (currentCursorPoint == null || !Chit.isAChitSelected())
+				return;
+
+			setOpacity(0.5f, g2);
+
+			int[] points = getHexFromPoint(currentCursorPoint);
+			if (points == null)
+				return;
+
+			Chit.drawShadow(zoom, g2, hexMap.get(points[0]).get(points[1]));
+
+			setOpacity(1f, g2);
+
+		}
+		
+		public void setOpacity(float alpha, Graphics2D g2) {
+			AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
+			g2.setComposite(ac);
 		}
 		
 		public void drawThread(Graphics2D g2, int x1, int y1, int x2, int y2) {

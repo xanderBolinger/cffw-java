@@ -171,7 +171,16 @@ public class Chit {
 			yPoint = (hexCenterY - height / 2) + (3 * (chitsInHex - chitIndexInHex));
 		}
 		
-		g2.drawImage(rotate(getRotationDegrees(), chitImage), xPoint, yPoint, null);
+		int tempXPoint = xPoint;
+		int tempYPoint = yPoint;
+		
+		if(facing != Facing.A && facing != facing.BC && facing != Facing.D
+				&& facing != Facing.EF) {
+			tempXPoint -= getWidth() / 8;
+			tempYPoint -= getHeight() / 8;
+		}
+		
+		g2.drawImage(rotate(getRotationDegrees(), chitImage), tempXPoint, tempYPoint, null);
 	}
 	
 	public void drawChit(double zoom, Graphics2D g2, Polygon hex, int shiftX, int shiftY) {
@@ -197,6 +206,7 @@ public class Chit {
 		
 		xPoint += shiftX;
 		yPoint += shiftY;
+		
 		
 		g2.drawImage(rotate(getRotationDegrees(), chitImage), xPoint, yPoint, null);
 	}
@@ -283,7 +293,7 @@ public class Chit {
 		at.rotate(rads,0, 0);
 		at.translate(-image.getWidth(null) / 2, -image.getHeight(null) / 2);
 		final AffineTransformOp rotateOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-		return rotateOp.filter(toBufferedImage(image),rotatedImage);
+		return rotateOp.filter(toBufferedImage(image),null);
 	}
 
 	public static BufferedImage toBufferedImage(Image img)

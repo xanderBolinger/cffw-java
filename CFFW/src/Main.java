@@ -68,7 +68,7 @@ public class Main {
 	 */
 	public static void main(String[] args) throws Exception {
 		
-		TestUtility.runTests();
+		//TestUtility.runTests();
 		
 		new SetupWindow();
 	}
