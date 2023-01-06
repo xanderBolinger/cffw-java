@@ -1,6 +1,9 @@
 package Conflict;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import CeHexGrid.Chit;
 
 public class Game implements Serializable {
 	private int phase;
@@ -8,13 +11,16 @@ public class Game implements Serializable {
 	private int currentAction;
 	private String daylightCondition = ""; 
 	public String mapImageFileName = "refuge_33x33.png"; 
+	public ArrayList<Chit> chits;
+	public int chitCounter;
 	// public timne object 
 
 	public Game(int phase, int round, int currentAction) {
 		this.phase = phase; 
 		this.round = round; 
 		this.currentAction = currentAction;
-		
+		chits = new ArrayList<>();
+		chitCounter = 1;
 	} 
 	
 	// SETTERS 

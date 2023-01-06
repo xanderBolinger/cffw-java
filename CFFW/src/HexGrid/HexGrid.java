@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import Conflict.AttackHexWindow;
+import Conflict.Game;
 import Conflict.GameWindow;
 import Conflict.OpenUnit;
 import Conflict.SelectedUnitsWindow;
@@ -98,8 +99,6 @@ public class HexGrid implements Serializable {
 	private JLayeredPane layeredPane;
 	private JButton btnNewButton;
 	public static boolean losThreadShowing = false; 
-	public static ArrayList<Chit> chits = new ArrayList<>();
-	public static int chitCounter = 1;
 	public static boolean deployBluforUnknown = false; 
 	public static boolean deployOpforUnknown = false; 
 	public static boolean deployUnknown = false; 
@@ -960,23 +959,23 @@ public class HexGrid implements Serializable {
 				Chit chit = new Chit(ExcelUtility.path+"\\Icons\\unknown_blufor_icon.png", 20, 20);
 				chit.xCord = points[0];
 				chit.yCord = points[1];
-				chits.add(chit);
-				chit.number = chitCounter;
-				chitCounter++;
+				GameWindow.gameWindow.game.chits.add(chit);
+				chit.number = GameWindow.gameWindow.game.chitCounter;
+				GameWindow.gameWindow.game.chitCounter++;
 			} else if(deployOpforUnknown) {
 				Chit chit = new Chit(ExcelUtility.path+"\\Icons\\unknown_opfor_icon.png", 20, 20);
 				chit.xCord = points[0];
 				chit.yCord = points[1];
-				chits.add(chit);
-				chit.number = chitCounter;
-				chitCounter++;
+				GameWindow.gameWindow.game.chits.add(chit);
+				chit.number = GameWindow.gameWindow.game.chitCounter;
+				GameWindow.gameWindow.game.chitCounter++;
 			} else if(deployUnknown) {
 				Chit chit = new Chit(ExcelUtility.path+"\\Icons\\unknown_icon.png", 20, 20);
 				chit.xCord = points[0];
 				chit.yCord = points[1];
-				chits.add(chit);
-				chit.number = chitCounter;
-				chitCounter++;
+				GameWindow.gameWindow.game.chits.add(chit);
+				chit.number = GameWindow.gameWindow.game.chitCounter;
+				GameWindow.gameWindow.game.chitCounter++;
 			}
 			
 			checkChitClick(e.getPoint());
@@ -1097,7 +1096,7 @@ public class HexGrid implements Serializable {
 		
 		public void checkChitClick(Point point) {
 			
-			for (Chit chit : chits) {
+			for (Chit chit : GameWindow.gameWindow.game.chits) {
 				Rectangle imageBounds = new Rectangle(chit.xPoint, chit.yPoint, chit.getWidth(), chit.getHeight());
 				if (imageBounds.contains(point)) {
 					//System.out.println("Clicked Chit, chit.xPoint: " + chit.xPoint + ", clicked x point: " + point.x);
@@ -1571,9 +1570,9 @@ public class HexGrid implements Serializable {
 		
 		public void drawChits(Graphics2D g2) {
 
-			for (int i = 0; i < chits.size(); i++) {
+			for (int i = 0; i < GameWindow.gameWindow.game.chits.size(); i++) {
 
-				Chit chit = chits.get(i);
+				Chit chit = GameWindow.gameWindow.game.chits.get(i);
 				Polygon hex = hexMap.get(chit.xCord).get(chit.yCord);
 
 				if(chit.shifted)
@@ -1583,8 +1582,8 @@ public class HexGrid implements Serializable {
 
 				
 				String s = "Unit #"+chit.number;
-				int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
-				int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
+				int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2 + chit.shiftX;
+				int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2 + chit.shiftY;
 				
 				Font currentFont = g2.getFont();
 

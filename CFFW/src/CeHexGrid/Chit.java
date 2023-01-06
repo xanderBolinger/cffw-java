@@ -18,6 +18,7 @@ import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,8 +27,8 @@ import javax.imageio.ImageIO;
 import CeHexGrid.Chit.Facing;
 import CorditeExpansion.Cord;
 
-public class Chit {
-	public Image chitImage;
+public class Chit implements Serializable {
+	public transient Image chitImage;
 	public String imagePath; 
 	
 	private static Chit selectedChit = null;
@@ -46,7 +47,7 @@ public class Chit {
 	
 	public Facing facing = Facing.A;
 	
-	public enum Facing {
+	public enum Facing implements Serializable {
 		A(1),AB(2),B(3),BC(4),C(5),CD(6),D(7),DE(8),E(9),EF(10),F(11),FA(12);
 		
 		public int value; 
@@ -154,7 +155,20 @@ public class Chit {
 		return chitImage.getHeight(null);
 	}
 
+	public void loadImage() {
+		if(chitImage == null) {
+			try {
+				chitImage =  ImageIO.read(new File(imagePath));
+				chitImage =  chitImage.getScaledInstance((int) chitWidth, (int) chitHeight,
+						Image.SCALE_DEFAULT);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public void drawChit(double zoom, Graphics2D g2, Polygon hex) {
+		 loadImage();
 		
 		int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
 		int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
@@ -188,6 +202,7 @@ public class Chit {
 	}
 	
 	public void drawChit(double zoom, Graphics2D g2, Polygon hex, int shiftX, int shiftY) {
+		 loadImage();
 		
 		int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
 		int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
@@ -226,6 +241,7 @@ public class Chit {
 	public static void drawShadow(double zoom, Graphics2D g2, Polygon hex) {
 		
 		Chit chit = selectedChit;
+		chit.loadImage();
 		
 		int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
 		int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;

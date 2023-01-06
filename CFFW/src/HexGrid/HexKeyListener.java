@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import CeHexGrid.Chit;
 import CeHexGrid.Chit.Facing;
 import CeHexGrid.FloatingTextManager;
+import Conflict.Game;
+import Conflict.GameWindow;
 import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.CorditeExpansionWindow;
 import HexGrid.HexGrid.Panel;
@@ -41,7 +43,7 @@ public class HexKeyListener {
                         	 Chit.getSelectedChit().facing = 
                              		Facing.turnClockwise(Chit.getSelectedChit().facing);
                         } else if(e.getKeyCode() == KeyEvent.VK_DELETE && Chit.isAChitSelected()) {
-                        	HexGrid.chits.remove(Chit.getSelectedChit());
+                        	GameWindow.gameWindow.game.chits.remove(Chit.getSelectedChit());
                         	Chit.unselectChit();
                         }
                         break;
