@@ -17,6 +17,7 @@ import Items.PCAmmo;
 import Items.Weapons;
 import Trooper.Trooper;
 import Unit.Unit;
+import UtilityClasses.DiceRoller;
 import UtilityClasses.SwingUtility;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -239,7 +240,7 @@ public class AttackHexWindow {
 		spinnerNumberOfAttacks.setBounds(713, 111, 51, 20);
 		frame.getContentPane().add(spinnerNumberOfAttacks);
 
-		JLabel lblDistanceToTarget = new JLabel("Distance to Target:");
+		JLabel lblDistanceToTarget = new JLabel("2yd Hexes to Target:");
 		lblDistanceToTarget.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblDistanceToTarget.setBounds(366, 107, 147, 28);
 		frame.getContentPane().add(lblDistanceToTarget);
@@ -332,14 +333,13 @@ public class AttackHexWindow {
 	}
 	
 	public void applyHit(Weapons weapon) {
-		
-		
+		int index = DiceRoller.randInt(0, getTargets().size() - 1);
+		System.out.println("Random Index: "+index);
+		Trooper target = getTargets().get(index);
 		
 		if(weapon.ballisticWeapon() && !weapon.type.equals("Grenade") && weapon.pcAmmoTypes.size() < 1) {
-			for(Trooper target :  getTargets()) {
-				GameWindow.gameWindow.conflictLog.addNewLine("Ballistic Hit In Hex: "+hex.xCord+", "+hex.yCord+", "+target.number+" "+target.name+", Distance: "+(int) spinnerDistanceToTarget.getValue());
-				target.applyHit(weapon, (int) spinnerDistanceToTarget.getValue()); 
-			}
+			GameWindow.gameWindow.conflictLog.addNewLine("Ballistic Hit In Hex: "+hex.xCord+", "+hex.yCord+", "+target.number+" "+target.name+", Distance: "+(int) spinnerDistanceToTarget.getValue());
+			target.applyHit(weapon, (int) spinnerDistanceToTarget.getValue()); 
 		}
 		
 		if(weapon.explosiveWeapon() || weapon.pcAmmoTypes.size() > 0) {
@@ -359,21 +359,18 @@ public class AttackHexWindow {
 			
 			
 			
-			for(Trooper target :  getTargets()) {
-				
-				GameWindow.gameWindow.conflictLog.addNewLine("EXPLOSIVE TARGET HIT: "+target.number+" "+target.name+", Distance: "+(int) spinnerDistanceToTarget.getValue());
-				
-				
-				
-				if((int) spinnerDistanceToTarget.getValue() == 0 && weapon.pcAmmoTypes.size() > 0) {
-					GameWindow.gameWindow.conflictLog.addNewLine("TARGET IMPACTED: "+target.number+", by "+target.name+weapon.pcAmmoTypes.get(comboBoxPCAmmo.getSelectedIndex()).name);
-					explosion.explosiveImpact(target, weapon.pcAmmoTypes.get(comboBoxPCAmmo.getSelectedIndex()), weapon);
-				} 
-				
-				explosion.explodeTrooper(target, (int) spinnerDistanceToTarget.getValue());
-				
-				explosion.excludeTroopers.add(target);
-			}
+			
+			
+			GameWindow.gameWindow.conflictLog.addNewLine("EXPLOSIVE TARGET HIT: "+target.number+" "+target.name+", Distance: "+(int) spinnerDistanceToTarget.getValue());
+			
+			if((int) spinnerDistanceToTarget.getValue() == 0 && weapon.pcAmmoTypes.size() > 0) {
+				GameWindow.gameWindow.conflictLog.addNewLine("TARGET IMPACTED: "+target.number+", by "+target.name+weapon.pcAmmoTypes.get(comboBoxPCAmmo.getSelectedIndex()).name);
+				explosion.explosiveImpact(target, weapon.pcAmmoTypes.get(comboBoxPCAmmo.getSelectedIndex()), weapon);
+			} 
+			
+			explosion.explodeTrooper(target, (int) spinnerDistanceToTarget.getValue());
+			
+			explosion.excludeTroopers.add(target);
 			
 			explosion.explodeHex(hex.xCord, hex.yCord, "None");
 		}
@@ -389,6 +386,9 @@ public class AttackHexWindow {
 			targets.add(individuals.get(listIndividuals.getSelectedIndices()[i]));
 			
 		}
+		
+		if(listIndividuals.getSelectedIndices().length < 1)
+			targets = individuals;
 		
 		return targets; 
 	}

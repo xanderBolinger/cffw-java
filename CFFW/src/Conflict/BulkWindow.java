@@ -2648,7 +2648,7 @@ public class BulkWindow {
 			}
 			
 			bulkTrooper.trooper.storedAimTime.clear();
-			if (!freeAction() && (bulkTrooper.spentCA >= bulkTrooper.CA || bulkTrooper.possibleShots == false)) {	
+			if (!freeAction() && (bulkTrooper.spentCA >= bulkTrooper.CA && bulkTrooper.possibleShots == false)) {	
 				bulkTrooper.trooper.storedAimTime.clear();
 				actionSpent(bulkTrooper.trooper);
 
@@ -2659,7 +2659,7 @@ public class BulkWindow {
 		}
 				
 
-		if (!freeAction() && (bulkTrooper.spentCA >= bulkTrooper.CA || bulkTrooper.possibleShots == false)) {	
+		if (!freeAction() && (bulkTrooper.spentCA >= bulkTrooper.CA && bulkTrooper.possibleShots == false)) {	
 			bulkTrooper.trooper.storedAimTime.clear();
 			actionSpent(bulkTrooper.trooper);
 
