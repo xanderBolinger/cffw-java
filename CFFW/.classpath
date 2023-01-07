@@ -27,5 +27,6 @@
 	<classpathentry kind="lib" path="C:/apache/lib/junit-4.12.jar"/>
 	<classpathentry kind="lib" path="C:/apache/lib/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="C:/apache/lib/SparseBitSet-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/xande/Documents/GitHub/cffw-java/CFFW/gson-2.10.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

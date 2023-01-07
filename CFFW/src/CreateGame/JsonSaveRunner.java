@@ -1,0 +1,83 @@
+package CreateGame;
+
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import com.google.gson.Gson;
+
+import Company.Company;
+import UtilityClasses.ExcelUtility;
+
+public class JsonSaveRunner {
+
+	public static void main(String[] args) {
+		System.out.println("JSON: "+
+	saveCompany(new Company(null, null, 0, 0, 0, 0, 0, 0, null, null)));
+		/*try {
+			saveFile("company", "");
+			//loadFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
+	}
+	
+	public static Company loadCompany(String json) {
+		return new Gson().fromJson(json, Company.class);
+	}
+	
+	public static String saveCompany(Company company) {
+		return new Gson().toJson(company);
+	}
+	
+	
+	public static void saveFile(String companyName, String json) throws IOException {
+		// parent component of the dialog
+		JFrame parentFrame = new JFrame();
+		 
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Specify a file to save");   
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON FILES", "json", "json");
+		fileChooser.setFileFilter(filter);
+		fileChooser.setSelectedFile(new File(companyName+".json"));
+		int userSelection = fileChooser.showSaveDialog(parentFrame);
+		if (userSelection == JFileChooser.APPROVE_OPTION) {
+		    File fileToSave = fileChooser.getSelectedFile();
+		    FileWriter fw = new FileWriter(fileToSave);
+		    fw.write(json);
+		    System.out.println("Save as file: " + fileToSave.getAbsolutePath());
+		    fw.close();
+		}
+	}
+	
+	public static String loadFile() throws IOException {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File(ExcelUtility.path));
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON FILES", "json", "json");
+		fileChooser.setFileFilter(filter);
+		int result = fileChooser.showOpenDialog(new JPanel());
+		if (result == JFileChooser.APPROVE_OPTION) {
+		    File selectedFile = fileChooser.getSelectedFile();
+		    Path path = Path.of(selectedFile.getAbsolutePath());
+		    return Files.readString(path);
+		    //System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+		    //Path path = Path.of(selectedFile.getAbsolutePath());
+		    //System.out.println("Content: "+Files.readString(path));
+		}
+	
+		throw new IOException("Load File not found");
+	}
+	
+	
+	
+}
