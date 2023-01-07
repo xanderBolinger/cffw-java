@@ -58,7 +58,7 @@ public class FireMission implements Serializable {
 	
 	public List<Shot> airborneShots = new ArrayList<Shot>();
 	
-	public GameWindow window; 
+	public transient GameWindow window; 
 	
 	public FireMission(Trooper spotter, ArrayList<Artillery> batteries, boolean LOSToTarget, int targetX, int targetY, boolean companyLevelSupport, GameWindow window) {
 		this.window = window; 

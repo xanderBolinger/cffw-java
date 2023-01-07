@@ -44,6 +44,10 @@ public class Company implements Serializable {
 		this.units = units;
 	}
 
+	public Company() {
+		
+	}
+	
 	// SETTERS
 	// Sets the values to equal the parameter
 	public void setSide(String side) {

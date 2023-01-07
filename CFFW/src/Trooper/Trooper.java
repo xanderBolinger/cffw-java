@@ -169,7 +169,7 @@ public class Trooper implements Serializable {
 	public int combatActions;
 	public int KO;
 
-	
+	public String input;
 	
 	// Simplified damage and wound stats
 	public int hp;
@@ -231,7 +231,7 @@ public class Trooper implements Serializable {
 	}
 	
 	public Trooper() {
-		
+		inventory = new Inventory(this);
 	}
 
 	public Trooper(String name) {
@@ -288,7 +288,7 @@ public class Trooper implements Serializable {
 
 		}
 
-		
+		this.input = input;
 		baseSpeed = new BaseSpeed(this);
 		maximumSpeed = new MaximumSpeed(this);
 		fatigueSystem = new FatigueSystem(this);

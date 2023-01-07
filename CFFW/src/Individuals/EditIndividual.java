@@ -4,6 +4,8 @@ import Trooper.IndividualStats;
 import Trooper.Skills;
 import Trooper.Trooper;
 import Company.EditCompany;
+import CreateGame.JsonSaveRunner;
+import CreateGame.TrooperJson;
 import Injuries.Injuries;
 import Unit.EditUnit;
 import Unit.Unit;
@@ -17,6 +19,7 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -155,11 +158,12 @@ public class EditIndividual implements Serializable {
 	private JLabel lblCTP;
 	private JSpinner spinnerKO;
 	private JSpinner spinnerFighterRanks;
-
+	public Trooper trooper;
 	/**
 	 * Launch the application.
 	 */
 	public EditIndividual(Trooper trooper, EditCompany editCompany, EditUnit editUnit, int index) {
+		this.trooper = trooper;
 		final JFrame f = new JFrame("Edit Individual");
 		f.setSize(957, 778);
 		f.getContentPane().setLayout(null);
@@ -210,10 +214,38 @@ public class EditIndividual implements Serializable {
 				new CharacterBuilderWindow(trooper);
 			}
 		});
+		
+		JButton btnNewButton_1 = new JButton("Load JSON");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					loadTrooper();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				
+			}
+		});
+		
+		JButton btnNewButton_1_1 = new JButton("Save JSON");
+		btnNewButton_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String json = JsonSaveRunner.saveTrooper(new TrooperJson(trooper));
+				
+				try {
+					JsonSaveRunner.saveFile(trooper.name, json);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		GroupLayout gl_panelIndividual = new GroupLayout(panelIndividual);
 		gl_panelIndividual.setHorizontalGroup(
 			gl_panelIndividual.createParallelGroup(Alignment.LEADING)
-				.addComponent(tabbedPane2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 936, Short.MAX_VALUE)
+				.addComponent(tabbedPane2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 938, Short.MAX_VALUE)
 				.addGroup(gl_panelIndividual.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblP1, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
@@ -222,7 +254,11 @@ public class EditIndividual implements Serializable {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblWep, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblAmmo, GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
+					.addComponent(lblAmmo, GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
@@ -238,9 +274,11 @@ public class EditIndividual implements Serializable {
 							.addComponent(lblWep, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panelIndividual.createParallelGroup(Alignment.BASELINE)
 							.addComponent(lblAmmo, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-							.addComponent(btnNewButton)))
+							.addComponent(btnNewButton)
+							.addComponent(btnNewButton_1)
+							.addComponent(btnNewButton_1_1)))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(tabbedPane2, GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
+					.addComponent(tabbedPane2, GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
 					.addGap(0))
 		);
 
@@ -2965,6 +3003,16 @@ public class EditIndividual implements Serializable {
 		refreshInjuries(trooper);
 	}
 
+	public void loadTrooper() throws IOException {
+		this.trooper = JsonSaveRunner.loadTrooper(JsonSaveRunner.loadFile());
+		// Calls methods
+		// Sets all fields on both pages
+		setDetails(trooper);
+		setEdit(trooper);
+		setEditSkills(trooper);
+		refreshInjuries(trooper);
+	}
+	
 	// Sets all of the fields and lists on the first details page
 	public void setDetails(Trooper individual) {
 		lblName.setText("Name: " + individual.name);

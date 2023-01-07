@@ -10,6 +10,7 @@ import java.awt.Toolkit;
 
 import javax.swing.SwingConstants;
 
+import CreateGame.JsonSaveRunner;
 import CreateGame.SetupWindow;
 import Individuals.AddIndividual;
 import Individuals.EditIndividual;
@@ -52,6 +53,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -70,9 +75,13 @@ public class EditCompany implements Serializable {
 	private JLabel lblFracturedUnits;
 	private JLabel lblRoutedUnits;
 	private JLabel lblTroopers;
-
+	private JTextField textFieldName;
+	Company company; 
+	private JSpinner spinnerPlatoon;
+	private JSpinner spinnerSquad;
 	public EditCompany(Company company, SetupWindow setupWindow, int index) {
 		EditCompany window = this;
+		this.company = company;
 		f = new JFrame("Edit Comapny");
 		f.setSize(800, 599);
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -101,14 +110,14 @@ public class EditCompany implements Serializable {
 		label.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 11));
 		panel.add(label);
 
-		JTextField textFieldName = new JTextField();
+		textFieldName = new JTextField();
 		textFieldName.setColumns(10);
 		panel.add(textFieldName);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(140, 11, 120, 50);
 
-		JSpinner spinnerPlatoon = new JSpinner();
+		spinnerPlatoon = new JSpinner();
 
 		JLabel label_1 = new JLabel("Platoons");
 		label_1.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 11));
@@ -128,7 +137,7 @@ public class EditCompany implements Serializable {
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(270, 11, 135, 50);
 
-		JSpinner spinnerSquad = new JSpinner();
+		spinnerSquad = new JSpinner();
 
 		JLabel label_2 = new JLabel("Squads");
 		label_2.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 11));
@@ -494,6 +503,7 @@ public class EditCompany implements Serializable {
 
 	// Sets units
 	public void setUnits(ArrayList<Unit> units) {
+		company.setUnits(units);
 		if (units == null) {
 			return;
 		} else if (units.size() == 0) {
@@ -512,6 +522,7 @@ public class EditCompany implements Serializable {
 
 	// Sets troopers
 	public void setTroopers(ArrayList<Trooper> roster) {
+		company.setRoster(roster);
 		// If company null or if company roster size null or less than 1
 		if (roster == null) {
 			return;
