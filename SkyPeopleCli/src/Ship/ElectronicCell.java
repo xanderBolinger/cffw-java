@@ -10,4 +10,12 @@ public class ElectronicCell {
 	public enum ElectronicType {
 		SENSORS,COMMUNICATIONS,NAVCOMPUTER
 	}
+	
+	public ElectronicCell(int ZD, int ecm, int eccm, ElectronicType electronicType) {
+		this.ZD = ZD;
+		this.ecm = ecm;
+		this.eccm = eccm;
+		this.electronicType = electronicType;
+	}
+	
 }

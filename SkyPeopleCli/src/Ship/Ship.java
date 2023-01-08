@@ -13,8 +13,8 @@ public class Ship {
 	public HitTable hitTable;
 	public Electronics electronics;
 	public Fuel fuel;
-	public Pivot pivot;
-	public Roll roll;
+	public char pivotChart;
+	public char rollChart;
 	
 	public Compliment complement;
 	public Ammunition ammunition;

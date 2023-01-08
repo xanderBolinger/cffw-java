@@ -7,8 +7,14 @@ import Ship.Cell.CellType;
 import Ship.Component;
 import Ship.Component.ComponentType;
 import Ship.Description;
+import Ship.ElectronicCell;
+import Ship.ElectronicCell.ElectronicType;
+import Ship.Electronics;
 import Ship.Fuel;
 import Ship.HardPoint;
+import Ship.HitLocation;
+import Ship.HitLocation.LocationType;
+import Ship.HitTable;
 import Ship.Ship;
 import Ship.Weapon.FireType;
 import Ship.Weapon.WeaponType;
@@ -28,6 +34,7 @@ public class Venator implements ShipTemplate {
 		components();
 		hardPoints();
 		fuel();
+		hitTable();
 		
 	}
 
@@ -212,7 +219,7 @@ public class Venator implements ShipTemplate {
 		
 		components.add(hangar);
 		
-		Component bay = new Component(ComponentType.VEHIClEBAY);
+		Component bay = new Component(ComponentType.VEHICLEBAY);
 		
 		for(int i = 0; i < 24; i++) {
 			bay.cells.add(new Cell(CellType.BLANK));
@@ -244,77 +251,157 @@ public class Venator implements ShipTemplate {
 		
 		HardPoint turboLaserPort1 = new HardPoint(6,1);
 		turboLaserPort1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
+		turboLaserPort1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
 		hardPoints.add(turboLaserPort1);
-		
-		HardPoint turboLaserPort2 = new HardPoint(6,1);
-		turboLaserPort2.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
-		hardPoints.add(turboLaserPort2);
 		
 		HardPoint turboLaserStarboard1 = new HardPoint(6,2);
 		turboLaserStarboard1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
+		turboLaserStarboard1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
 		hardPoints.add(turboLaserStarboard1);
-		
-		HardPoint turboLaserStarboard2 = new HardPoint(6,2);
-		turboLaserStarboard2.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
-		hardPoints.add(turboLaserStarboard2);
 		
 		HardPoint heavyProtonTorpedoLauncher = new HardPoint(10,3);
 		heavyProtonTorpedoLauncher.addWeapon(WeaponType.HEAVY_PROTON_TORPEDO, FireType.SINGLE);
+		heavyProtonTorpedoLauncher.addWeapon(WeaponType.HEAVY_PROTON_TORPEDO, FireType.SINGLE);
+		heavyProtonTorpedoLauncher.addWeapon(WeaponType.HEAVY_PROTON_TORPEDO, FireType.SINGLE);
+		heavyProtonTorpedoLauncher.addWeapon(WeaponType.HEAVY_PROTON_TORPEDO, FireType.SINGLE);
 		hardPoints.add(heavyProtonTorpedoLauncher);
-		
-		HardPoint heavyProtonTorpedoLauncher2 = new HardPoint(10,3);
-		heavyProtonTorpedoLauncher2.addWeapon(WeaponType.HEAVY_PROTON_TORPEDO, FireType.SINGLE);
-		hardPoints.add(heavyProtonTorpedoLauncher2);
-		
-		HardPoint heavyProtonTorpedoLauncher3 = new HardPoint(10,3);
-		heavyProtonTorpedoLauncher3.addWeapon(WeaponType.HEAVY_PROTON_TORPEDO, FireType.SINGLE);
-		hardPoints.add(heavyProtonTorpedoLauncher3);
-		
-		HardPoint heavyProtonTorpedoLauncher4 = new HardPoint(10,3);
-		heavyProtonTorpedoLauncher4.addWeapon(WeaponType.HEAVY_PROTON_TORPEDO, FireType.SINGLE);
-		hardPoints.add(heavyProtonTorpedoLauncher4);
 		
 		HardPoint portDeckGuns = new HardPoint(8,4);
 		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
 		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
 		hardPoints.add(portDeckGuns);
 		
-		HardPoint portDeckGuns2 = new HardPoint(8,4);
-		portDeckGuns2.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		portDeckGuns2.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		hardPoints.add(portDeckGuns2);
-		
-		HardPoint portDeckGuns3 = new HardPoint(8,4);
-		portDeckGuns3.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		portDeckGuns3.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		hardPoints.add(portDeckGuns3);
 		
 		HardPoint starboardDeckGuns = new HardPoint(8,5);
 		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
 		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
+		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
 		hardPoints.add(starboardDeckGuns);
-		
-		HardPoint starboardDeckGuns1 = new HardPoint(8,5);
-		starboardDeckGuns1.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		starboardDeckGuns1.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		hardPoints.add(starboardDeckGuns1);
-		
-		HardPoint starboardDeckGuns2 = new HardPoint(8,5);
-		starboardDeckGuns2.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		starboardDeckGuns2.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		hardPoints.add(starboardDeckGuns2);
 		
 		ship.hardPoints = hardPoints;
 	}
 
 	@Override
 	public void hitTable() {
+		ArrayList<HitLocation> nose = new ArrayList<HitLocation>();
+		nose.add(new HitLocation(ComponentType.BRIDGE, 8));
+		nose.add(new HitLocation(ComponentType.QUARTERS, 12));
+		nose.add(new HitLocation(ComponentType.CARGO, 12));
+		nose.add(new HitLocation(ComponentType.HANGARBAY, 12));
+		nose.add(new HitLocation(0, 6));
+		nose.add(new HitLocation(1, 6));
+		nose.add(new HitLocation(2, 6));
+		nose.add(new HitLocation(ComponentType.BATTERY, 12));
+		nose.add(new HitLocation(ComponentType.BATTERY, 12));
+		nose.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
+		
+		ArrayList<HitLocation> aft = new ArrayList<HitLocation>();
+		aft.add(new HitLocation(ComponentType.HYPERDRIVE, 6));
+		aft.add(new HitLocation(ComponentType.HYPERDRIVE, 6));
+		aft.add(new HitLocation(ComponentType.THRUST, 6));
+		aft.add(new HitLocation(ComponentType.THRUST, 6));
+		aft.add(new HitLocation(ComponentType.THRUST, 6));
+		aft.add(new HitLocation(ComponentType.HEATSINKS, 6));
+		aft.add(new HitLocation(ComponentType.HEATSINKS, 6));
+		aft.add(new HitLocation(LocationType.FUEL, 6));
+		aft.add(new HitLocation(LocationType.FUEL, 6));
+		aft.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
+		
+		ArrayList<HitLocation> port = new ArrayList<HitLocation>();
+		port.add(new HitLocation(3, 6));
+		port.add(new HitLocation(ComponentType.QUARTERS, 8));
+		port.add(new HitLocation(ComponentType.CARGO, 8));
+		port.add(new HitLocation(ComponentType.CARGO, 8));
+		port.add(new HitLocation(ComponentType.REACTORS, 8));
+		port.add(new HitLocation(ComponentType.BATTERY, 8));
+		port.add(new HitLocation(ComponentType.BATTERY, 8));
+		port.add(new HitLocation(ComponentType.BATTERY, 8));
+		port.add(new HitLocation(LocationType.FUEL, 8));
+		port.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
+		
+		ArrayList<HitLocation> starboard = new ArrayList<HitLocation>();
+		starboard.add(new HitLocation(4, 6));
+		starboard.add(new HitLocation(ComponentType.QUARTERS, 8));
+		starboard.add(new HitLocation(ComponentType.CARGO, 8));
+		starboard.add(new HitLocation(ComponentType.CARGO, 8));
+		starboard.add(new HitLocation(ComponentType.REACTORS, 8));
+		starboard.add(new HitLocation(ComponentType.BATTERY, 8));
+		starboard.add(new HitLocation(ComponentType.BATTERY, 8));
+		starboard.add(new HitLocation(ComponentType.BATTERY, 8));
+		starboard.add(new HitLocation(LocationType.FUEL, 8));
+		starboard.add(new HitLocation(ComponentType.POINTDEFENSE, 8));
+		
+		
+		ArrayList<HitLocation> top = new ArrayList<HitLocation>();
+		top.add(new HitLocation(0, 6));
+		top.add(new HitLocation(1, 6));
+		top.add(new HitLocation(ComponentType.BRIDGE, 8));
+		top.add(new HitLocation(ComponentType.HEATSINKS, 12));
+		top.add(new HitLocation(ComponentType.HANGARBAY, 12));
+		top.add(new HitLocation(ComponentType.HANGARBAY, 12));
+		top.add(new HitLocation(ComponentType.SHIELD, 6));
+		top.add(new HitLocation(ComponentType.RADIATORS, 12));
+		top.add(new HitLocation(LocationType.FUEL, 12));
+		top.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
+		
+		ArrayList<HitLocation> bottom = new ArrayList<HitLocation>();
+		bottom.add(new HitLocation(ComponentType.HYPERDRIVE, 6));
+		bottom.add(new HitLocation(ComponentType.THRUST, 6));
+		bottom.add(new HitLocation(ComponentType.BRIDGE, 6));
+		bottom.add(new HitLocation(ComponentType.HEATSINKS, 6));
+		bottom.add(new HitLocation(ComponentType.REACTORS, 6));
+		bottom.add(new HitLocation(LocationType.FUEL, 6));
+		bottom.add(new HitLocation(LocationType.FUEL, 6));
+		bottom.add(new HitLocation(LocationType.FUEL, 6));
+		bottom.add(new HitLocation(LocationType.FUEL, 6));
+		bottom.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
+		
+		ArrayList<HitLocation> core = new ArrayList<HitLocation>();
+		core.add(new HitLocation(ComponentType.HYPERDRIVE, 6));
+		core.add(new HitLocation(ComponentType.REACTORS, 6));
+		core.add(new HitLocation(ComponentType.LIFESUPPORT, 6));
+		core.add(new HitLocation(ComponentType.BRIDGE, 6));
+		core.add(new HitLocation(ComponentType.QUARTERS, 6));
+		core.add(new HitLocation(ComponentType.HYPERDRIVE, 6));
+		core.add(new HitLocation(ComponentType.VEHICLEBAY, 6));
+		core.add(new HitLocation(ComponentType.BATTERY, 6));
+		core.add(new HitLocation(LocationType.ELECTRONICS, 6));
+		core.add(new HitLocation(ComponentType.SI, 6));
+		
+		ship.hitTable = new HitTable(nose, aft, port, starboard, top, bottom, core);
 		
 	}
 
 	@Override
 	public void electronics() {
+		ArrayList<ElectronicCell> cells = new ArrayList<>();
 		
+		cells.add(new ElectronicCell(0, 0, 0, ElectronicType.COMMUNICATIONS));
+		cells.add(new ElectronicCell(0, 0, 0, ElectronicType.NAVCOMPUTER));
+		cells.add(new ElectronicCell(50, 1, 1, ElectronicType.SENSORS));
+		cells.add(new ElectronicCell(200, 4, 4, ElectronicType.SENSORS));
+		cells.add(new ElectronicCell(0, 9, 9, ElectronicType.SENSORS));
+		
+		ship.electronics = new Electronics(cells);
 	}
 
 	@Override
@@ -326,11 +413,13 @@ public class Venator implements ShipTemplate {
 	@Override
 	public void pivot() {
 		
+		ship.pivotChart = 'M';
+		
 	}
 
 	@Override
 	public void roll() {
-		
+		ship.rollChart = 'K';
 	}
 
 }
