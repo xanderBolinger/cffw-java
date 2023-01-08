@@ -6,7 +6,7 @@ public interface ShipTemplate {
 
 	public void createShip();
 	public void description();
-	public void componens();
+	public void components();
 	public void hardPoints();
 	public void hitTable();
 	public void electronics();

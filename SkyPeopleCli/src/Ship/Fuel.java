@@ -1,27 +1,69 @@
 package Ship;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Fuel {
 
-	public int rows;
-	public int spaces;
-	public int fusion;
-	public int spentFuel;
+	private int fusion;
+	public ArrayList<ArrayList<Integer>> fuelRows;
 	
 	public Fuel(int rows, int spaces, int fusion) {
-		this.rows = rows; 
-		this.spaces = spaces; 
+		fuelRows = new ArrayList<>();
+		int columns = spaces / rows;
+		
+		for(int i = 0; i < columns; i++) {
+			ArrayList<Integer> row = new ArrayList<>();
+			for(int j = 0; j < rows; j++)
+				row.add(1);
+			
+			fuelRows.add(row);
+		}
+		
 		this.fusion = fusion;
-		spentFuel = 0;
 	}
 	
 	public void destroyFuel() {
-		int lostSpent = 0; 
-		int columns = spaces / rows;
+
+		for(ArrayList<Integer> row : fuelRows) {
+			if(row.get(0) != -1) {
+				for(int i = 0; i < row.size(); i++) {
+					row.set(i, -1);
+				}
+				break;
+			}
+		}
 		
-		spentFuel -= lostSpent;
-		spaces -= rows;
+		
 	}
+	
+	public void spendFuel(int spentFuel) {
+		for(ArrayList<Integer> row : fuelRows) {
+			for(int i = 0; i < row.size(); i++) {
+				if(spentFuel == 0)
+					return;
+				
+				if(row.get(i) == 1) {
+					row.set(i, 0);
+					spentFuel--;
+				}
+				
+			}
+		}
+	}
+	
+	public int remainingFuel() {
+		int remainingFuel = 0;
+		
+		for(ArrayList<Integer> row : fuelRows) {
+			for(int i : row)
+				if(i == 1)
+					remainingFuel++;
+		}
+		
+		return remainingFuel;
+	}
+	
+	
 	
 }

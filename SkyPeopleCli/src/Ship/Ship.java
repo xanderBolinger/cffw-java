@@ -19,13 +19,20 @@ public class Ship {
 	public Compliment complement;
 	public Ammunition ammunition;
 	
+	public double power;
+	
 	public enum ShipType {
 		VENATOR
 	}
 	
 	public Ship(ShipType shipType) {
-		if(shipType == ShipType.VENATOR)
-			new Venator(this);
+		
+		switch(shipType) {
+			case VENATOR:
+				new Venator(this);
+				break;
+		}
+		
 	}
 	
 }

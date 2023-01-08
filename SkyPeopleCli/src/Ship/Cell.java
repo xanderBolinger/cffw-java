@@ -7,15 +7,21 @@ public class Cell {
 	}
 	
 	public CellType cellType;
-	public int number;
+	public double number;
+	public char character = ' ';
+	
 	
 	public Cell(CellType cellType) {
 		this.cellType = cellType;
 	}
 	
-	public Cell(int number) {
+	public Cell(double number) {
 		cellType = CellType.NUMBER;
 		this.number = number;
+	}
+	
+	public Cell(char character) {
+		this.character = character;
 	}
 	
 }
