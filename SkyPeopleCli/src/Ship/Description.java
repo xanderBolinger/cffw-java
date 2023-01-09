@@ -20,4 +20,19 @@ public class Description {
 	}
 
 	
+	@Override 
+	public String toString() {
+		String rslts = "";
+		
+		rslts += "Manufacturer: "+manufacturer + "\n";
+		rslts += "Model: "+model+"\n";
+		rslts += "Length Meters: "+lengthMeters + "\n";
+		rslts += "Width Meters: "+widthMeters + "\n";
+		rslts += "Height Meters: "+heightMeters + "\n";
+		rslts += "Description: "+description + "\n";
+		
+		return rslts; 
+	}
+	
+	
 }

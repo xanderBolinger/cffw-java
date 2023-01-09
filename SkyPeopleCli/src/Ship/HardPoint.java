@@ -22,4 +22,30 @@ public class HardPoint {
 	}
 	
 	
+	public void destroyWeapon() {
+		
+		for(Weapon weapon : weapons) {
+			if(!weapon.destroyed) {
+				weapon.destroyed = true; 
+				return;
+			}
+		}
+		
+		
+	}
+	
+	public String toString(int hardPointIndex) {
+		String rslts = "";
+		
+		rslts += "Hard Point " + hardPointIndex + "\n";
+		rslts += "Armor: " + armor + "\n";
+		rslts += "Fire Arc Index: "+ fireArcIndex +"\n";
+		
+		for(Weapon wep : weapons) {
+			rslts += wep.toString() + "\n";
+		}
+		
+		return rslts;
+	}
+	
 }

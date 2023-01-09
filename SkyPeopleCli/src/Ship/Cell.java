@@ -3,13 +3,13 @@ package Ship;
 public class Cell {
 
 	public enum CellType {
-		NUMBER,WRENCH,BLANK,CIRCLE,VEHICLE,PASSENGER,CREW
+		NUMBER,WRENCH,BLANK,CHARACTER,CREW
 	}
 	
 	public CellType cellType;
 	public double number;
 	public char character = ' ';
-	
+	public boolean destroyed = false;; 
 	
 	public Cell(CellType cellType) {
 		this.cellType = cellType;
@@ -21,7 +21,36 @@ public class Cell {
 	}
 	
 	public Cell(char character) {
+		cellType = CellType.CHARACTER;
 		this.character = character;
+	}
+	
+	@Override
+	public String toString() {
+		String rslts = "";
+		
+		if(destroyed)
+			return "X";
+		
+		switch(cellType) {
+		case NUMBER:
+			rslts = Double.toString(number);
+			break;
+		case CHARACTER:
+			rslts += character;
+			break;
+		case CREW:
+			rslts = "C";
+			break;
+		case WRENCH:
+			rslts = "W";
+			break;
+		case BLANK:
+			rslts = "O";
+			break;
+		}
+		
+		return rslts; 
 	}
 	
 }

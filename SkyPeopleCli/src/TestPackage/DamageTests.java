@@ -7,8 +7,11 @@ import org.junit.Test;
 
 import Mechanics.DamageAllocation;
 import Mechanics.DamageAllocation.HitSide;
+import Ship.HardPoint;
 import Ship.Ship;
 import Ship.Ship.ShipType;
+import Ship.Weapon.FireType;
+import Ship.Weapon.WeaponType;
 
 public class DamageTests {
 
@@ -58,6 +61,9 @@ public class DamageTests {
 		assertEquals(1, DamageAllocation.applyHit(8, 1, venator, venator.hitTable.aft.get(8)));
 		
 		assertEquals(136, venator.fuel.remainingFuel());
+		
+		
+		System.out.println(venator.toString());
 	}
 	
 	@Test
@@ -108,5 +114,28 @@ public class DamageTests {
 		assertEquals(HitSide.NONE, DamageAllocation.cycleHitSide(HitSide.BOTTOM, HitSide.TOP));
 	}
 	
+	@Test
+	public void allocateDamage() throws Exception {
+		DamageAllocation.allocateDamage(1000, venator, HitSide.TOP);
+	}
+	
+	@Test
+	public void destroyHardPoint() {
+		
+		HardPoint hardpoint = new HardPoint(6,1);
+		hardpoint.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
+		hardpoint.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
+
+		
+		hardpoint.destroyWeapon();
+		
+		assertEquals(true, hardpoint.weapons.get(0).destroyed);
+		assertEquals(false, hardpoint.weapons.get(1).destroyed);
+		
+		hardpoint.destroyWeapon();
+		
+		assertEquals(true, hardpoint.weapons.get(1).destroyed);
+		
+	}
 	
 }

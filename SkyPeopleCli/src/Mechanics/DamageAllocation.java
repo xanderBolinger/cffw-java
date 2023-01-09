@@ -17,7 +17,8 @@ public class DamageAllocation {
 	public static void allocateDamage(int damage, Ship ship, HitSide hitSide) throws Exception {
 
 		appliedDamage = 0;
-
+		initialHitSide = hitSide; 
+		
 		int skinArmor = ship.hitTable.getSkinArmor(hitSide);
 
 		HitLocation initialLocation = getHitLocation(DiceRoller.d10(), ship, hitSide);
@@ -47,27 +48,50 @@ public class DamageAllocation {
 
 	}
 
-	public static HitSide depthCheck(Ship ship, HitSide currentHitSide) {
+	public static HitSide depthCheck(Ship ship, HitSide currentHitSide) throws Exception {
 
-		int depth;
 
+		int depth = 0;
+		
 		switch (initialHitSide) {
 
 		case NOSE:
+			depth = ship.hitTable.noseAftDepth;
 			break;
 		case AFT:
+			depth = ship.hitTable.noseAftDepth;
 			break;
 		case PORT:
+			depth = ship.hitTable.portStarboardDepth;
 			break;
 		case STARBOARD:
+			depth = ship.hitTable.portStarboardDepth;
 			break;
 		case TOP:
+			depth = ship.hitTable.topBottomDepth;
 			break;
 		case BOTTOM:
+			depth = ship.hitTable.topBottomDepth;
 			break;
+			
 		}
 
-		return currentHitSide;
+		
+		//System.out.println("Hit Side: "+currentHitSide);
+		//System.out.println("depth: "+depth);
+		//System.out.println("Damage: "+appliedDamage);
+		
+		if(depth == 0)
+			throw new Exception("depth = 0, for "+ship.shipName+", InitialSide: "+initialHitSide+", Current Side: "+currentHitSide);
+		
+		if(appliedDamage >= depth) {
+			appliedDamage = 0;
+			return cycleHitSide(initialHitSide, currentHitSide);
+			
+		} else {
+			return currentHitSide;
+		} 
+		
 	}
 
 	public static HitSide cycleHitSide(HitSide initialHitSide, HitSide currentSide) {
@@ -125,11 +149,12 @@ public class DamageAllocation {
 	}
 
 	public static int applyHit(int damage, int soak, Ship ship, HitLocation hitLocation) {
-		appliedDamage += soak - hitLocation.armor;
+		appliedDamage += soak + hitLocation.armor;
 
 		if (damage - soak - hitLocation.armor > 0) {
 			destroyLocation(ship, hitLocation);
 		}
+		
 		return damage - soak - hitLocation.armor;
 	}
 
@@ -137,6 +162,7 @@ public class DamageAllocation {
 		switch (hitLocation.locationType) {
 
 		case COMPONENT:
+			ship.destroyComponent(hitLocation.componentType);
 			break;
 		case ELECTRONICS:
 			ship.electronics.destroyElectronics();
@@ -145,6 +171,7 @@ public class DamageAllocation {
 			ship.fuel.destroyFuel();
 			break;
 		case HARDPOINT:
+			ship.hardPoints.get(hitLocation.hardPointIndex).destroyWeapon();
 			break;
 
 		}

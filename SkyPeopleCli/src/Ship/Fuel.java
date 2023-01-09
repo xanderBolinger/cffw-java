@@ -7,9 +7,13 @@ public class Fuel {
 
 	private int fusion;
 	public ArrayList<ArrayList<Integer>> fuelRows;
+	public int spaces;
+	public int rows; 
 	
 	public Fuel(int rows, int spaces, int fusion) {
 		fuelRows = new ArrayList<>();
+		this.spaces = spaces;
+		this.rows = rows;
 		int columns = spaces / rows;
 		
 		for(int i = 0; i < columns; i++) {
@@ -65,5 +69,26 @@ public class Fuel {
 	}
 	
 	
+	@Override
+	public String toString() {
+		String rslts = "Fusion: "+fusion+", Rows: "+rows+", Spaces: "+spaces+"\n";
+		
+		for(ArrayList<Integer> row : fuelRows) {
+			for(int i : row) {
+				if(i == 1) {
+					rslts += "1,";
+				} else if(i == 0) {
+					rslts += "0,";
+				} else if(i == -1) {
+					rslts += "X,";
+				}
+			}
+			
+			rslts += "\n";
+			
+		}
+		
+		return rslts; 
+	}
 	
 }

@@ -42,7 +42,9 @@ public class Venator implements ShipTemplate {
 
 	@Override
 	public void description() {
-		ship.description = new Description("Kuat Drive Yards, Allanteen Six Shipyards", "Venator-class Star Destroyer", 1137, 558, 268, "he Venator-class Star Destroyer,[1] also known as the Venator-class Destroyer,[20] Republic attack cruiser,[3] and later Imperial attack cruiser,[21] was one of the capital ships used extensively by the Galactic Republic during the later parts of the Clone Wars, as well as by the Galactic Empire. It was designed and constructed by Kuat Drive Yards and Allanteen Six shipyards.");
+		ship.description = new Description("Kuat Drive Yards, Allanteen Six Shipyards", "Venator-class Star Destroyer", 1137, 558, 268, "The Venator-class Star Destroyer, also known as the Venator-class Destroyer,"
+				+ " Republic attack cruiser,[3] and later Imperial attack cruiser,\n was one of the capital ships used extensively by the Galactic Republic during the later parts of the Clone Wars, as well as\n"
+				+ " by the Galactic Empire. It was designed and constructed by Kuat Drive Yards and Allanteen Six shipyards.");
 	}
 
 	@Override
@@ -436,6 +438,6 @@ public class Venator implements ShipTemplate {
 	@Override
 	public void roll() {
 		ship.rollChart = 'K';
-	}
+	}	
 
 }

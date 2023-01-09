@@ -58,4 +58,55 @@ public class HitTable {
 		}
 	}
 
+	@Override
+	public String toString() {
+		
+		String rslts = "";
+		
+		rslts += "Nose["+noseSkinArmor+"]:\n";
+		
+		for(int i = 1; i <= nose.size(); i++) {
+			rslts += " " + nose.get(i-1).toString(i) + "\n";
+		}
+		
+		rslts += "\nAft["+aftSkinArmor+"]:\n";
+		
+		for(int i = 1; i <= aft.size(); i++) {
+			rslts += " " + aft.get(i-1).toString(i) + "\n";
+		}
+		
+		rslts += "\nPort["+portSkinArmor+"]:\n";
+		
+		for(int i = 1; i <= port.size(); i++) {
+			rslts += " " + port.get(i-1).toString(i) + "\n";
+		}
+		
+		rslts += "\nStarboard["+starboardSkinArmor+"]:\n";
+		
+		for(int i = 1; i <= starboard.size(); i++) {
+			rslts += " " + starboard.get(i-1).toString(i) + "\n";
+		}
+		
+		rslts += "\nTop["+topSkinArmor+"]:\n";
+		
+		for(int i = 1; i <= top.size(); i++) {
+			rslts += " " + top.get(i-1).toString(i) + "\n";
+		}
+		
+		rslts += "\nBottom["+bottomSkinArmor+"]:\n";
+		
+		for(int i = 1; i <= bottom.size(); i++) {
+			rslts += " " + bottom.get(i-1).toString(i) + "\n";
+		}
+		
+		rslts += "\nCore:\n";
+		
+		for(int i = 1; i <= core.size(); i++) {
+			rslts += " " + core.get(i-1).toString(i) + "\n";
+		}
+		
+		return rslts; 
+	}
+	
+	
 }
