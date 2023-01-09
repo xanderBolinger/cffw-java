@@ -33,9 +33,11 @@ public class Venator implements ShipTemplate {
 		description();
 		components();
 		hardPoints();
-		fuel();
 		hitTable();
-		
+		electronics();
+		fuel();
+		pivot();
+		roll();
 	}
 
 	@Override
@@ -303,15 +305,15 @@ public class Venator implements ShipTemplate {
 	@Override
 	public void hitTable() {
 		ArrayList<HitLocation> nose = new ArrayList<HitLocation>();
-		nose.add(new HitLocation(ComponentType.BRIDGE, 8));
-		nose.add(new HitLocation(ComponentType.QUARTERS, 12));
-		nose.add(new HitLocation(ComponentType.CARGO, 12));
-		nose.add(new HitLocation(ComponentType.HANGARBAY, 12));
+		nose.add(new HitLocation(ComponentType.BRIDGE, 6));
+		nose.add(new HitLocation(ComponentType.QUARTERS, 8));
+		nose.add(new HitLocation(ComponentType.CARGO, 8));
+		nose.add(new HitLocation(ComponentType.HANGARBAY, 8));
 		nose.add(new HitLocation(0, 6));
 		nose.add(new HitLocation(1, 6));
 		nose.add(new HitLocation(2, 6));
-		nose.add(new HitLocation(ComponentType.BATTERY, 12));
-		nose.add(new HitLocation(ComponentType.BATTERY, 12));
+		nose.add(new HitLocation(ComponentType.BATTERY, 8));
+		nose.add(new HitLocation(ComponentType.BATTERY, 8));
 		nose.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
 		
 		ArrayList<HitLocation> aft = new ArrayList<HitLocation>();
@@ -355,12 +357,12 @@ public class Venator implements ShipTemplate {
 		top.add(new HitLocation(0, 6));
 		top.add(new HitLocation(1, 6));
 		top.add(new HitLocation(ComponentType.BRIDGE, 8));
-		top.add(new HitLocation(ComponentType.HEATSINKS, 12));
+		top.add(new HitLocation(ComponentType.HEATSINKS, 8));
 		top.add(new HitLocation(ComponentType.HANGARBAY, 12));
 		top.add(new HitLocation(ComponentType.HANGARBAY, 12));
 		top.add(new HitLocation(ComponentType.SHIELD, 6));
-		top.add(new HitLocation(ComponentType.RADIATORS, 12));
-		top.add(new HitLocation(LocationType.FUEL, 12));
+		top.add(new HitLocation(ComponentType.RADIATORS, 8));
+		top.add(new HitLocation(LocationType.FUEL, 8));
 		top.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
 		
 		ArrayList<HitLocation> bottom = new ArrayList<HitLocation>();
@@ -387,7 +389,21 @@ public class Venator implements ShipTemplate {
 		core.add(new HitLocation(LocationType.ELECTRONICS, 6));
 		core.add(new HitLocation(ComponentType.SI, 6));
 		
-		ship.hitTable = new HitTable(nose, aft, port, starboard, top, bottom, core);
+		
+		HitTable hitTable =  new HitTable(nose, aft, port, starboard, top, bottom, core);
+		
+		hitTable.noseSkinArmor = 12;
+		hitTable.aftSkinArmor = 6;
+		hitTable.portSkinArmor = 8; 
+		hitTable.starboardSkinArmor = 8;
+		hitTable.topSkinArmor = 8;
+		hitTable.bottomSkinArmor = 6; 
+		
+		hitTable.noseAftDepth = ship.description.lengthMeters;
+		hitTable.portStarboardDepth = ship.description.widthMeters;
+		hitTable.topBottomDepth = ship.description.heightMeters;
+		
+		ship.hitTable = hitTable;
 		
 	}
 

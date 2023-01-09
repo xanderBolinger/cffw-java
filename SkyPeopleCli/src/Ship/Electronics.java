@@ -10,5 +10,21 @@ public class Electronics {
 		this.cells = cells;
 	}
 	
+	public void destroyElectronics() {
+		
+		ElectronicCell destroy = null; 
+		
+		for(ElectronicCell cell : cells) {
+			if(!cell.destroyed) {
+				destroy = cell; 
+				break;
+			}
+		}
+		
+		if(destroy != null)
+			destroy.destroyed = true;
+		
+	}
+	
 	
 }

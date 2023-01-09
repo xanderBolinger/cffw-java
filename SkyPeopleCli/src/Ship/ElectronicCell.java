@@ -6,6 +6,7 @@ public class ElectronicCell {
 	public int ecm;
 	public int eccm;
 	public ElectronicType electronicType;
+	public boolean destroyed;
 	
 	public enum ElectronicType {
 		SENSORS,COMMUNICATIONS,NAVCOMPUTER
@@ -16,6 +17,7 @@ public class ElectronicCell {
 		this.ecm = ecm;
 		this.eccm = eccm;
 		this.electronicType = electronicType;
+		destroyed = false;
 	}
 	
 }
