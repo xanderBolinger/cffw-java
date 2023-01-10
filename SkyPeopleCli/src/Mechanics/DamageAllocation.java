@@ -16,13 +16,26 @@ public class DamageAllocation {
 
 	public static void allocateDamage(int damage, Ship ship, HitSide hitSide) throws Exception {
 
+		ship.shieldStrength -= (double) damage;
+		
+		if(ship.shieldStrength < 0) {
+			damage = (int) (ship.shieldStrength * -1.0);
+		} else {
+			return;
+		}
+		
+		System.out.println(damage);
+		
 		appliedDamage = 0;
 		initialHitSide = hitSide; 
 		
 		int skinArmor = ship.hitTable.getSkinArmor(hitSide);
+		System.out.println("Skin Armor: "+skinArmor);
+		int roll = DiceRoller.d10();
+		HitLocation initialLocation = getHitLocation(roll, ship, hitSide);
 
-		HitLocation initialLocation = getHitLocation(DiceRoller.d10(), ship, hitSide);
-
+		System.out.println("Initial Hit Location: "+initialLocation.toString(roll));
+		
 		if (initialLocation.locationType != LocationType.HARDPOINT
 				|| initialLocation.componentType != ComponentType.POINTDEFENSE
 				|| initialLocation.componentType != ComponentType.BRIDGE) {
@@ -33,20 +46,38 @@ public class DamageAllocation {
 		}
 
 		if (damage > 0) {
-			damage = applyHit(damage, DiceRoller.twoD10Minus(), ship, initialLocation);
+			damage = applyHit(damage, soak(ship), ship, initialLocation);
 			hitSide = depthCheck(ship, hitSide);
 			if (hitSide == HitSide.NONE)
 				return;
 		}
 
 		while (damage > 0) {
-			damage = applyHit(damage, DiceRoller.twoD10Minus(), ship, getHitLocation(DiceRoller.d10(), ship, hitSide));
+			int roll2 = DiceRoller.d10();
+			
+			HitLocation location = getHitLocation(roll2, ship, hitSide);
+			System.out.println("Location: "+location.toString(roll2)+", Damage: "+damage);
+			
+			
+			damage = applyHit(damage, soak(ship), ship, location);
 			hitSide = depthCheck(ship, hitSide);
 			if (hitSide == HitSide.NONE)
 				return;
 		}
 
 	}
+	
+	public static int soak(Ship ship) {
+		int soak = DiceRoller.twoD10Minus();
+		
+		if(soak == 0) {
+			System.out.println("Soak Zero: SI Loss");
+			ship.destroyComponent(ComponentType.SI);
+		}
+		
+		return soak; 
+	} 
+	
 
 	public static HitSide depthCheck(Ship ship, HitSide currentHitSide) throws Exception {
 
@@ -91,6 +122,28 @@ public class DamageAllocation {
 		} else {
 			return currentHitSide;
 		} 
+		
+	}
+	
+	public static HitSide getHitSide(String hitSide) {
+		hitSide = hitSide.toLowerCase();
+		
+		if(hitSide.equals("nose")) {
+			return HitSide.NOSE;
+		} else if(hitSide.equals("aft")) {
+			return HitSide.AFT;
+		} else if(hitSide.equals("port")) {
+			return HitSide.PORT;
+		} else if(hitSide.equals("starboard")) {
+			return HitSide.STARBOARD;
+		} else if(hitSide.equals("top")) {
+			return HitSide.TOP;
+		} else if(hitSide.equals("bottom")) {
+			return HitSide.BOTTOM;
+		} 
+			
+		
+		return null; 
 		
 	}
 
@@ -159,6 +212,9 @@ public class DamageAllocation {
 	}
 
 	public static void destroyLocation(Ship ship, HitLocation hitLocation) {
+		
+		System.out.println("Destroyed Location: "+hitLocation.toString());
+		
 		switch (hitLocation.locationType) {
 
 		case COMPONENT:

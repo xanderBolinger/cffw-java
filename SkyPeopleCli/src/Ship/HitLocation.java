@@ -30,6 +30,24 @@ public class HitLocation {
 		locationType = LocationType.HARDPOINT;
 	}
 
+	
+	@Override
+	public String toString() {
+
+		switch (locationType) {
+		case HARDPOINT:
+			return "HARDPOINT Index: "+hardPointIndex + " [" + armor + "]";
+		case COMPONENT:
+			return  "" + componentType + " [" + armor + "]";
+		case ELECTRONICS:
+			return "ELECTRONICS" + " [" + armor + "]";
+		case FUEL:
+			return "FUEL" + " [" + armor + "]";
+		}
+
+		return "EMPTY HIT LOCATION";
+	}
+	
 	public String toString(int hitLocationNumber) {
 
 		switch (locationType) {

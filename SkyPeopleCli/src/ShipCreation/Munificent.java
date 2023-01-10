@@ -19,11 +19,11 @@ import Ship.Ship;
 import Ship.Weapon.FireType;
 import Ship.Weapon.WeaponType;
 
-public class Venator implements ShipTemplate {
+public class Munificent implements ShipTemplate {
 
 	public Ship ship; 
 	
-	public Venator(Ship ship) {
+	public Munificent(Ship ship) {
 		this.ship = ship;
 		createShip();
 	}
@@ -42,9 +42,12 @@ public class Venator implements ShipTemplate {
 
 	@Override
 	public void description() {
-		ship.description = new Description("Kuat Drive Yards, Allanteen Six Shipyards", "Venator-class Star Destroyer", 1137, 558, 268, "The Venator-class Star Destroyer, also known as the Venator-class Destroyer,"
-				+ " Republic attack cruiser,[3] and later Imperial attack cruiser,\n was one of the capital ships used extensively by the Galactic Republic during the later parts of the Clone Wars, as well as\n"
-				+ " by the Galactic Empire. It was designed and constructed by Kuat Drive Yards and Allanteen Six shipyards.");
+		ship.description = new Description(""
+				+ "Hoersch-Kessel Drive inc. Gwori Revolutionary Industries.", 
+				"Munificent-class star frigate", 
+				825, 426, 243, 
+				"Light warship armed for heavy combat with oversized guns, a massive twin turbolaser cannon, and two long-range ion cannons for use against capital ships\n, "
+				+ "these long-range ion cannons demonstrating the capability to shoot across a star system in some instances.");
 	}
 
 	@Override

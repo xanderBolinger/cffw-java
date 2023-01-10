@@ -9,7 +9,7 @@ public class Cell {
 	public CellType cellType;
 	public double number;
 	public char character = ' ';
-	public boolean destroyed = false;; 
+	public boolean destroyed = false;
 	
 	public Cell(CellType cellType) {
 		this.cellType = cellType;
@@ -34,7 +34,7 @@ public class Cell {
 		
 		switch(cellType) {
 		case NUMBER:
-			rslts = Double.toString(number);
+			rslts = Double.toString(Math.round(number * 100.0) / 100.0); 
 			break;
 		case CHARACTER:
 			rslts += character;

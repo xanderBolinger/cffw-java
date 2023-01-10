@@ -22,6 +22,11 @@ public class ComponentTests {
 	}
 	
 	@Test
+	public void shieldTest() {
+		assertEquals(true, venator.shieldStrength == 500.0);
+	}
+	
+	@Test
 	public void thrustTest() {
 		
 		Component thrust = venator.components.get(0);
@@ -138,6 +143,16 @@ public class ComponentTests {
 	public void testShield() {
 		Component comp = venator.components.get(14);
 		assertEquals(5, comp.cells.size());
+	}
+	
+	@Test
+	public void getEcm() {
+		assertEquals(6, venator.getEcm());
+	}
+	
+	@Test
+	public void getEccm() {
+		assertEquals(6, venator.getEccm());
 	}
 	
 }

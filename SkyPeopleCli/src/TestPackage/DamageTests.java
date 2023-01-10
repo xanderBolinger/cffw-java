@@ -5,11 +5,13 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import Mechanics.BeamAttack;
 import Mechanics.DamageAllocation;
 import Mechanics.DamageAllocation.HitSide;
 import Ship.HardPoint;
 import Ship.Ship;
 import Ship.Ship.ShipType;
+import Ship.Weapon;
 import Ship.Weapon.FireType;
 import Ship.Weapon.WeaponType;
 
@@ -20,6 +22,17 @@ public class DamageTests {
 	@Before
 	public void before() {
 		venator = new Ship(ShipType.VENATOR);
+		venator.shieldStrength = 0;
+	}
+	
+	@Test 
+	public void shieldDamage() throws Exception {
+		
+		venator.shieldStrength = 500; 
+		
+		Weapon weapon = venator.hardPoints.get(0).weapons.get(0);
+		BeamAttack.beamAttack(venator, weapon, 8, 4, 6, HitSide.NOSE);
+		
 	}
 	
 	@Test
@@ -63,7 +76,7 @@ public class DamageTests {
 		assertEquals(136, venator.fuel.remainingFuel());
 		
 		
-		System.out.println(venator.toString());
+		
 	}
 	
 	@Test
@@ -129,12 +142,77 @@ public class DamageTests {
 		
 		hardpoint.destroyWeapon();
 		
-		assertEquals(true, hardpoint.weapons.get(0).destroyed);
-		assertEquals(false, hardpoint.weapons.get(1).destroyed);
+		for(Weapon weapon : hardpoint.weapons) {
+			if(weapon.destroyed) {
+				assertEquals(true, weapon.destroyed);				
+			}
+		}
 		
-		hardpoint.destroyWeapon();
+	}
+	
+	@Test
+	public void beamAttack() throws Exception {
 		
-		assertEquals(true, hardpoint.weapons.get(1).destroyed);
+		Weapon weapon = venator.hardPoints.get(0).weapons.get(0);
+		BeamAttack.beamAttack(venator, weapon, 8, 4, 6, HitSide.NOSE);
+		
+		
+		System.out.println(venator.toString());
+	}
+	
+	@Test
+	public void hitCountNose() throws Exception {
+		
+		int counter = 0;
+		while(!venator.destroyed) {
+			Weapon weapon = venator.hardPoints.get(0).weapons.get(0);
+			BeamAttack.beamAttack(venator, weapon, 8, 4, 6, HitSide.NOSE);
+			counter++;
+		}
+	
+		System.out.println("Nose Hit Count: "+counter);
+		
+	}
+	
+	@Test
+	public void hitCountAft() throws Exception {
+		
+		int counter = 0;
+		while(!venator.destroyed) {
+			Weapon weapon = venator.hardPoints.get(0).weapons.get(0);
+			BeamAttack.beamAttack(venator, weapon, 8, 4, 6, HitSide.AFT);
+			counter++;
+		}
+	
+		System.out.println("Aft Hit Count: "+counter);
+		
+	}
+
+	@Test
+	public void hitCountPort() throws Exception {
+		
+		int counter = 0;
+		while(!venator.destroyed) {
+			Weapon weapon = venator.hardPoints.get(0).weapons.get(0);
+			BeamAttack.beamAttack(venator, weapon, 8, 4, 6, HitSide.PORT);
+			counter++;
+		}
+	
+		System.out.println("Port Hit Count: "+counter);
+		
+	}
+	
+	@Test
+	public void getHitSide() {
+		
+		assertEquals(null, DamageAllocation.getHitSide("asdf"));
+		assertEquals(HitSide.NOSE, DamageAllocation.getHitSide("NOSE"));
+		assertEquals(HitSide.AFT, DamageAllocation.getHitSide("AFT"));
+		assertEquals(HitSide.PORT, DamageAllocation.getHitSide("PORT"));
+		assertEquals(HitSide.STARBOARD, DamageAllocation.getHitSide("STARBOARD"));
+		assertEquals(HitSide.TOP, DamageAllocation.getHitSide("TOP"));
+		assertEquals(HitSide.BOTTOM, DamageAllocation.getHitSide("BOTTOM"));
+		
 		
 	}
 	

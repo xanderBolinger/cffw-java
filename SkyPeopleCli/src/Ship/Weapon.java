@@ -20,6 +20,37 @@ public class Weapon {
 		MEDIUM_TURBO_LASER, MEDIUM_LASER_CANNON, HEAVY_PROTON_TORPEDO, DECK_GUN
 	}
 
+	public Weapon(String weaponName) {
+		weaponName = weaponName.toUpperCase();
+		for(WeaponType weaponType : WeaponType.values()) {
+			if(weaponName.equals(weaponType.toString())) {
+				this.fireType = FireType.SINGLE;
+				this.weaponType = weaponType;
+				destroyed = false;
+
+				switch (weaponType) {
+				case MEDIUM_TURBO_LASER:
+					mediumTurboLaser();
+					break;
+				case MEDIUM_LASER_CANNON:
+					mediumLaserCannon();
+					break;
+				case HEAVY_PROTON_TORPEDO:
+					heavyProtonTorpedo();
+					break;
+				case DECK_GUN:
+					deckGun();
+					break;
+
+				}
+				
+				return;
+			}
+		}
+		
+		weaponType = null;
+	}
+	
 	public Weapon(WeaponType wepType, FireType fireType) {
 		this.fireType = fireType;
 		this.weaponType = wepType;
@@ -77,11 +108,27 @@ public class Weapon {
 		columns.add(new WeaponColumn(52, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 1, 2))));
 	}
 
+	public int getDamage(int roll, int range) throws Exception {
+		
+		for(WeaponColumn col : columns) {
+			if(range <= col.range) {
+				return col.damage.get(roll-1);
+			}
+		}
+		
+		throw new Exception("Damage not found, roll: "+roll+", range: "+range);
+	}
+	
+	
 	@Override
 	public String toString() {
 
 		String weaponCode = powerCost + "(+" + cooldown + ") " + fireType + " ";
 
+		if(destroyed) {
+			weaponCode = "DESTROYED: " + weaponCode;
+		}
+		
 		switch (weaponType) {
 		case MEDIUM_TURBO_LASER:
 			return weaponCode + "Medium Turbo Laser Battery";

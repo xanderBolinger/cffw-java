@@ -2,6 +2,7 @@ package Ship;
 
 import java.util.ArrayList;
 
+import Mechanics.DiceRoller;
 import Ship.Weapon.FireType;
 import Ship.Weapon.WeaponType;
 
@@ -24,13 +25,11 @@ public class HardPoint {
 	
 	public void destroyWeapon() {
 		
-		for(Weapon weapon : weapons) {
-			if(!weapon.destroyed) {
-				weapon.destroyed = true; 
-				return;
-			}
+		Weapon weapon = weapons.get(DiceRoller.randum_number(0, weapons.size() - 1));
+		if(!weapon.destroyed) {
+			weapon.destroyed = true; 
+			return;
 		}
-		
 		
 	}
 	

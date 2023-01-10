@@ -20,6 +20,17 @@ public class Description {
 	}
 
 	
+	public Description(Description other) {
+		  this.manufacturer = other.manufacturer;
+		  this.model = other.model;
+		  this.lengthMeters = other.lengthMeters;
+		  this.widthMeters = other.widthMeters;
+		  this.heightMeters = other.heightMeters;
+		  this.description = other.description;
+		}
+
+
+
 	@Override 
 	public String toString() {
 		String rslts = "";
