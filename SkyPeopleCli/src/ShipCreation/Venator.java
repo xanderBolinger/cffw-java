@@ -254,17 +254,17 @@ public class Venator implements ShipTemplate {
 		ArrayList<HardPoint> hardPoints = new ArrayList<>();
 		
 		HardPoint turboLaserPort1 = new HardPoint(6,1);
-		turboLaserPort1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
-		turboLaserPort1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
-		turboLaserPort1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
-		turboLaserPort1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
+		turboLaserPort1.addWeapon(WeaponType.HEAVY_TURBO_LASER, FireType.TWIN);
+		turboLaserPort1.addWeapon(WeaponType.HEAVY_TURBO_LASER, FireType.TWIN);
+		turboLaserPort1.addWeapon(WeaponType.HEAVY_TURBO_LASER, FireType.TWIN);
+		turboLaserPort1.addWeapon(WeaponType.HEAVY_TURBO_LASER, FireType.TWIN);
 		hardPoints.add(turboLaserPort1);
 		
 		HardPoint turboLaserStarboard1 = new HardPoint(6,2);
-		turboLaserStarboard1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
-		turboLaserStarboard1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
-		turboLaserStarboard1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
-		turboLaserStarboard1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
+		turboLaserStarboard1.addWeapon(WeaponType.HEAVY_TURBO_LASER, FireType.TWIN);
+		turboLaserStarboard1.addWeapon(WeaponType.HEAVY_TURBO_LASER, FireType.TWIN);
+		turboLaserStarboard1.addWeapon(WeaponType.HEAVY_TURBO_LASER, FireType.TWIN);
+		turboLaserStarboard1.addWeapon(WeaponType.HEAVY_TURBO_LASER, FireType.TWIN);
 		hardPoints.add(turboLaserStarboard1);
 		
 		HardPoint heavyProtonTorpedoLauncher = new HardPoint(10,3);
@@ -335,6 +335,7 @@ public class Venator implements ShipTemplate {
 		aft.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
 		
 		ArrayList<HitLocation> port = new ArrayList<HitLocation>();
+		port.add(new HitLocation(0, 6));
 		port.add(new HitLocation(3, 6));
 		port.add(new HitLocation(ComponentType.QUARTERS, 8));
 		port.add(new HitLocation(ComponentType.CARGO, 8));
@@ -342,17 +343,16 @@ public class Venator implements ShipTemplate {
 		port.add(new HitLocation(ComponentType.REACTORS, 8));
 		port.add(new HitLocation(ComponentType.BATTERY, 8));
 		port.add(new HitLocation(ComponentType.BATTERY, 8));
-		port.add(new HitLocation(ComponentType.BATTERY, 8));
 		port.add(new HitLocation(LocationType.FUEL, 8));
 		port.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
 		
 		ArrayList<HitLocation> starboard = new ArrayList<HitLocation>();
+		starboard.add(new HitLocation(1, 6));
 		starboard.add(new HitLocation(4, 6));
 		starboard.add(new HitLocation(ComponentType.QUARTERS, 8));
 		starboard.add(new HitLocation(ComponentType.CARGO, 8));
 		starboard.add(new HitLocation(ComponentType.CARGO, 8));
 		starboard.add(new HitLocation(ComponentType.REACTORS, 8));
-		starboard.add(new HitLocation(ComponentType.BATTERY, 8));
 		starboard.add(new HitLocation(ComponentType.BATTERY, 8));
 		starboard.add(new HitLocation(ComponentType.BATTERY, 8));
 		starboard.add(new HitLocation(LocationType.FUEL, 8));

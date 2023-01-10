@@ -17,7 +17,7 @@ public class Weapon {
 	}
 
 	public enum WeaponType {
-		MEDIUM_TURBO_LASER, MEDIUM_LASER_CANNON, HEAVY_PROTON_TORPEDO, DECK_GUN
+		LIGHT_TURBO_LASER,HEAVY_TURBO_LASER, MEDIUM_LASER_CANNON, HEAVY_PROTON_TORPEDO, DECK_GUN
 	}
 
 	public Weapon(String weaponName) {
@@ -29,8 +29,11 @@ public class Weapon {
 				destroyed = false;
 
 				switch (weaponType) {
-				case MEDIUM_TURBO_LASER:
-					mediumTurboLaser();
+				case LIGHT_TURBO_LASER:
+					lightTurboLaser();
+					break;
+				case HEAVY_TURBO_LASER:
+					heavyTurboLaser();
 					break;
 				case MEDIUM_LASER_CANNON:
 					mediumLaserCannon();
@@ -57,8 +60,8 @@ public class Weapon {
 		destroyed = false;
 
 		switch (wepType) {
-		case MEDIUM_TURBO_LASER:
-			mediumTurboLaser();
+		case HEAVY_TURBO_LASER:
+			heavyTurboLaser();
 			break;
 		case MEDIUM_LASER_CANNON:
 			mediumLaserCannon();
@@ -94,7 +97,21 @@ public class Weapon {
 		columns.add(new WeaponColumn(20, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 2, 2, 3, 3, 3, 3))));
 	}
 
-	public void mediumTurboLaser() {
+	
+	public void lightTurboLaser() {
+		cooldown = 2;
+		powerCost = 3;
+		columns = new ArrayList<WeaponColumn>();
+		columns.add(new WeaponColumn(7, new ArrayList<Integer>(Arrays.asList(21, 22, 22, 23, 24, 25, 26, 28, 29, 30))));
+		columns.add(new WeaponColumn(8, new ArrayList<Integer>(Arrays.asList(1, 14, 15, 16, 16, 17, 18, 18, 19, 20))));
+		columns.add(new WeaponColumn(11, new ArrayList<Integer>(Arrays.asList(1, 6, 6, 8, 9, 9, 10, 10, 12, 12))));
+		columns.add(new WeaponColumn(14, new ArrayList<Integer>(Arrays.asList(1, 1, 2, 3, 4, 4, 5, 6, 7, 8))));
+		columns.add(new WeaponColumn(18, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 2, 2, 3, 3, 4, 5))));
+		columns.add(new WeaponColumn(24, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 2, 3))));
+		columns.add(new WeaponColumn(37, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 1, 2))));
+	}
+	
+	public void heavyTurboLaser() {
 		cooldown = 3;
 		powerCost = 5;
 		columns = new ArrayList<WeaponColumn>();
@@ -130,7 +147,9 @@ public class Weapon {
 		}
 		
 		switch (weaponType) {
-		case MEDIUM_TURBO_LASER:
+		case LIGHT_TURBO_LASER:
+			return weaponCode + "Light Turbo Laser Battery";
+		case HEAVY_TURBO_LASER:
 			return weaponCode + "Medium Turbo Laser Battery";
 		case MEDIUM_LASER_CANNON:
 			return weaponCode + "Medium Laser Cannon";

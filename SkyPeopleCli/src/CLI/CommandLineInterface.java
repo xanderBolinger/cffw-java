@@ -36,7 +36,7 @@ public class CommandLineInterface {
 				read(input);
 			} catch(Exception e) {
 				e.printStackTrace();
-				//exit();
+				exit();
 			}
 			
 			
@@ -71,6 +71,8 @@ public class CommandLineInterface {
 			new ApplyLaserCommand(parameters);
 		} else if (command.equals("applydamage")) {
 			new ApplyDamageCommand(parameters);
+		} else if (command.equals("fire")) {
+			new FireHardPointsCommand(parameters);
 		} else if (command.equals("addship")) {
 			new AddShipCommand(parameters);
 		} else if (command.equals("showship")) {
@@ -107,6 +109,18 @@ public class CommandLineInterface {
 		return list;
 	}
 
+	public static ArrayList<String> parametersInt(String input) {
+		ArrayList<String> list = new ArrayList<>();
+
+		Pattern pattern = Pattern.compile("[\\d]");
+		Matcher matcher = pattern.matcher(input);
+		while (matcher.find()) {
+			list.add(matcher.group());
+		}
+		
+		return list;
+	}
+	
 	public void print(String input) {
 		printedLines.add(input);
 		System.out.println(input);

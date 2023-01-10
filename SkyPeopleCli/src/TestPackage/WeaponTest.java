@@ -13,7 +13,7 @@ public class WeaponTest {
 	@Test
 	public void mediumTurboLaserTest() {
 		
-		Weapon weapon = new Weapon(WeaponType.MEDIUM_TURBO_LASER, FireType.SINGLE);
+		Weapon weapon = new Weapon(WeaponType.HEAVY_TURBO_LASER, FireType.SINGLE);
 		
 		for(int i = 0; i < 8; i++) {
 			assertEquals(10, weapon.columns.get(i).damage.size());

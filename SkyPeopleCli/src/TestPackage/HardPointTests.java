@@ -21,9 +21,9 @@ public class HardPointTests {
 	@Test
 	public void venatorHardPointTests() {
 		
-		assertEquals(WeaponType.MEDIUM_TURBO_LASER, venator.hardPoints.get(0).weapons.get(0).weaponType);
+		assertEquals(WeaponType.HEAVY_TURBO_LASER, venator.hardPoints.get(0).weapons.get(0).weaponType);
 		assertEquals(1, venator.hardPoints.get(0).fireArcIndex);
-		assertEquals(WeaponType.MEDIUM_TURBO_LASER, venator.hardPoints.get(1).weapons.get(0).weaponType);
+		assertEquals(WeaponType.HEAVY_TURBO_LASER, venator.hardPoints.get(1).weapons.get(0).weaponType);
 		assertEquals(2, venator.hardPoints.get(1).fireArcIndex);
 		assertEquals(WeaponType.HEAVY_PROTON_TORPEDO, venator.hardPoints.get(2).weapons.get(0).weaponType);
 		assertEquals(3, venator.hardPoints.get(2).fireArcIndex);

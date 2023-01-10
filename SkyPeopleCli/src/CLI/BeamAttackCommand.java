@@ -73,9 +73,16 @@ public class BeamAttackCommand implements Command {
 	public void resolve() {
 		
 		try {
-			for(int i = 0; i < shots; i++)
+			for(int i = 0; i < shots; i++) {
 				BeamAttack.beamAttack(target, weapon, range, target.getEcm(), 
 						shooter.getEccm(), hitSide);
+				shooter.power -= weapon.powerCost;
+				if(shooter.power < 0) {
+					System.out.println("Ship out of power.");
+					shooter.power = 0;
+					return;
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -16,6 +16,8 @@ public class BeamAttack {
 		if(damage > 0)
 			DamageAllocation.allocateDamage(damage, target, hitSide);
 		
+		
+		
 	}
 	
 	public static int getBeamDamage(Weapon weapon, int range, int ecm, int eccm) throws Exception {

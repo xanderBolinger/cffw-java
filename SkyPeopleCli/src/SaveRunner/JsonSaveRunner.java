@@ -25,6 +25,7 @@ public class JsonSaveRunner {
 	public static String path = System.getProperty("user.dir");
 	
 	public static String saveGame(Game game) {
+		//System.out.println("Save game");
 		return new Gson().toJson(game);
 	}
 
@@ -34,6 +35,9 @@ public class JsonSaveRunner {
 	}
 	
 	public static void saveFile(String companyName, String json) throws IOException {
+		
+		//System.out.println("Save file");
+		
 		// parent component of the dialog
 		JFrame parentFrame = new JFrame();
 

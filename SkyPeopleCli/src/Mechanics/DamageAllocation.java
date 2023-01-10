@@ -20,11 +20,12 @@ public class DamageAllocation {
 		
 		if(ship.shieldStrength < 0) {
 			damage = (int) (ship.shieldStrength * -1.0);
+			ship.shieldStrength = 0;
 		} else {
 			return;
 		}
 		
-		System.out.println(damage);
+		System.out.println("Allocating Damage: "+damage);
 		
 		appliedDamage = 0;
 		initialHitSide = hitSide; 

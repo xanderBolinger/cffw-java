@@ -14,12 +14,13 @@ import Ship.Weapon;
 public class ApplyLaserCommand implements Command {
 
 	String targetName;
+	String shooterName;
 	String weaponName;
 	int shots; 
 	int range;
 	int modifier;
-	int eccm;
 	Weapon weapon; 
+	Ship shooter;
 	Ship target;
 	HitSide hitSide; 
 	
@@ -27,23 +28,26 @@ public class ApplyLaserCommand implements Command {
 		
 		if(!Command.checkParameters(parameters, 8) ||
 				!Command.verifyParameters(parameters, new ArrayList<Integer>(
-					    Arrays.asList(3,4,5,6)))) {
+					    Arrays.asList(4,5,6)))) {
 			System.out.println("Invalid Parameter Types");
 			return;
 		}
 		
-		targetName = parameters.get(1);
-		weaponName = parameters.get(2);
-		shots = Integer.parseInt(parameters.get(3));
-		range = Integer.parseInt(parameters.get(4));
-		eccm = Integer.parseInt(parameters.get(5));
+		shooterName = parameters.get(1);
+		targetName = parameters.get(2);
+		weaponName = parameters.get(3);
+		shots = Integer.parseInt(parameters.get(4));
+		range = Integer.parseInt(parameters.get(5));
 		modifier = Integer.parseInt(parameters.get(6));
 		hitSide = DamageAllocation.getHitSide(parameters.get(7));
 		
 		target = GameMaster.game.findShip(targetName);
-		
+		shooter = GameMaster.game.findShip(shooterName);
 		if(target == null) {
 			System.out.println("Target Not Found");
+			return; 
+		} else if(shooter == null) {
+			System.out.println("Shooter Not Found");
 			return; 
 		} else if(hitSide == null) {
 			System.out.println("Hit Side Not Found");
@@ -67,7 +71,13 @@ public class ApplyLaserCommand implements Command {
 			
 			for(int i = 0; i < shots; i++) {
 				BeamAttack.beamAttack(target, weapon, range, target.getEcm(), 
-						eccm, hitSide);
+						shooter.getEccm(), hitSide);
+				shooter.power -= weapon.powerCost;
+				if(shooter.power < 0) {
+					System.out.println("Ship out of power.");
+					shooter.power = 0;
+					return;
+				}
 			}
 			
 			

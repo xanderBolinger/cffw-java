@@ -136,8 +136,8 @@ public class DamageTests {
 	public void destroyHardPoint() {
 		
 		HardPoint hardpoint = new HardPoint(6,1);
-		hardpoint.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
-		hardpoint.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
+		hardpoint.addWeapon(WeaponType.HEAVY_TURBO_LASER, FireType.TWIN);
+		hardpoint.addWeapon(WeaponType.HEAVY_TURBO_LASER, FireType.TWIN);
 
 		
 		hardpoint.destroyWeapon();
