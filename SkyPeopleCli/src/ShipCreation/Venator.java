@@ -256,9 +256,13 @@ public class Venator implements ShipTemplate {
 		HardPoint turboLaserPort1 = new HardPoint(6,1);
 		turboLaserPort1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
 		turboLaserPort1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
+		turboLaserPort1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
+		turboLaserPort1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
 		hardPoints.add(turboLaserPort1);
 		
 		HardPoint turboLaserStarboard1 = new HardPoint(6,2);
+		turboLaserStarboard1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
+		turboLaserStarboard1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
 		turboLaserStarboard1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
 		turboLaserStarboard1.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.TWIN);
 		hardPoints.add(turboLaserStarboard1);
