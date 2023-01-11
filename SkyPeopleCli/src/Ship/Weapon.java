@@ -17,7 +17,7 @@ public class Weapon {
 	}
 
 	public enum WeaponType {
-		LIGHT_TURBO_LASER,HEAVY_TURBO_LASER, MEDIUM_LASER_CANNON, HEAVY_PROTON_TORPEDO, DECK_GUN
+		LIGHT_TURBO_LASER,HEAVY_TURBO_LASER, MEDIUM_LASER_CANNON, HEAVY_PROTON_TORPEDO, DECK_GUN, MEDIUM_TURBO_LASER,HEAVY_LASER_CANNON
 	}
 
 	public Weapon(String weaponName) {
@@ -32,11 +32,17 @@ public class Weapon {
 				case LIGHT_TURBO_LASER:
 					lightTurboLaser();
 					break;
+				case MEDIUM_TURBO_LASER:
+					mediumTurboLaser();
+					break;
 				case HEAVY_TURBO_LASER:
 					heavyTurboLaser();
 					break;
 				case MEDIUM_LASER_CANNON:
 					mediumLaserCannon();
+					break;
+				case HEAVY_LASER_CANNON:
+					heavyLaserCannon();
 					break;
 				case HEAVY_PROTON_TORPEDO:
 					heavyProtonTorpedo();
@@ -72,6 +78,12 @@ public class Weapon {
 		case DECK_GUN:
 			deckGun();
 			break;
+		case HEAVY_LASER_CANNON:
+			heavyLaserCannon();
+			break;
+		case MEDIUM_TURBO_LASER:
+			mediumTurboLaser();
+			break;
 
 		}
 
@@ -92,11 +104,20 @@ public class Weapon {
 		powerCost = 1;
 		columns = new ArrayList<WeaponColumn>();
 		columns.add(new WeaponColumn(10, new ArrayList<Integer>(Arrays.asList(5, 6, 6, 7, 7, 7, 7, 7, 7, 7))));
-		columns.add(new WeaponColumn(12, new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 4, 5, 5, 6, 6, 6))));
-		columns.add(new WeaponColumn(15, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 2, 3, 3, 4, 4, 4, 4))));
-		columns.add(new WeaponColumn(20, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 2, 2, 3, 3, 3, 3))));
+		columns.add(new WeaponColumn(12, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 2, 3, 4, 5, 6, 6, 6))));
+		columns.add(new WeaponColumn(15, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 2, 3))));
+		columns.add(new WeaponColumn(20, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 1, 1))));
 	}
 
+	public void heavyLaserCannon() {
+		cooldown = 1;
+		powerCost = 1.5;
+		columns = new ArrayList<WeaponColumn>();
+		columns.add(new WeaponColumn(10, new ArrayList<Integer>(Arrays.asList(7, 8, 8, 9, 9, 10, 10, 10, 10, 10))));
+		columns.add(new WeaponColumn(12, new ArrayList<Integer>(Arrays.asList(1, 3, 4, 4, 5, 5, 6, 7, 7, 7))));
+		columns.add(new WeaponColumn(15, new ArrayList<Integer>(Arrays.asList(1, 1, 2, 2, 3, 3, 3, 4, 4, 4))));
+		columns.add(new WeaponColumn(20, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 1, 1))));
+	}
 	
 	public void lightTurboLaser() {
 		cooldown = 2;
@@ -109,6 +130,19 @@ public class Weapon {
 		columns.add(new WeaponColumn(18, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 2, 2, 3, 3, 4, 5))));
 		columns.add(new WeaponColumn(24, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 2, 3))));
 		columns.add(new WeaponColumn(37, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 1, 2))));
+	}
+	
+	public void mediumTurboLaser() {
+		cooldown = 2;
+		powerCost = 4;
+		columns = new ArrayList<WeaponColumn>();
+		columns.add(new WeaponColumn(8, new ArrayList<Integer>(Arrays.asList(27, 28, 28, 29, 30, 31, 32, 34, 35, 36))));
+		columns.add(new WeaponColumn(9, new ArrayList<Integer>(Arrays.asList(1, 18, 19, 19, 20, 20, 21, 22, 23, 25))));
+		columns.add(new WeaponColumn(11, new ArrayList<Integer>(Arrays.asList(1, 10, 11, 12, 13, 14, 15, 16, 17, 17))));
+		columns.add(new WeaponColumn(14, new ArrayList<Integer>(Arrays.asList(1, 1, 2, 4, 5, 6, 7, 9, 10, 11))));
+		columns.add(new WeaponColumn(19, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 2, 3, 4, 5, 6, 7))));
+		columns.add(new WeaponColumn(25, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 2, 2, 3, 3, 4))));
+		columns.add(new WeaponColumn(45, new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 2, 3))));
 	}
 	
 	public void heavyTurboLaser() {

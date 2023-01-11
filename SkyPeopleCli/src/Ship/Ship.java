@@ -7,7 +7,9 @@ import javax.swing.RowFilter.ComparisonType;
 import Mechanics.DiceRoller;
 import Ship.Cell.CellType;
 import Ship.Component.ComponentType;
+import ShipCreation.Dreadnaught;
 import ShipCreation.Munificent;
+import ShipCreation.Recusant;
 import ShipCreation.Venator;
 
 public class Ship {
@@ -35,7 +37,7 @@ public class Ship {
 	public double shieldGenerationValue;
 
 	public enum ShipType {
-		VENATOR,MUNIFICENT
+		VENATOR,MUNIFICENT,DREADNAUGHT,RECUSANT
 	}
 
 	public Ship(ShipType shipType) {
@@ -48,6 +50,12 @@ public class Ship {
 			break;
 		case MUNIFICENT:
 			new Munificent(this);
+			break;
+		case DREADNAUGHT:
+			new Dreadnaught(this);
+			break;
+		case RECUSANT:
+			new Recusant(this);
 			break;
 		}
 
@@ -244,7 +252,11 @@ public class Ship {
 			return ShipType.VENATOR;
 		} else if (shipType.equals("MUNIFICENT")) {
 			return ShipType.MUNIFICENT;
-		}  else {
+		} else if (shipType.equals("DREADNAUGHT")) {
+			return ShipType.DREADNAUGHT;
+		} else if (shipType.equals("RECUSANT")) {
+			return ShipType.RECUSANT;
+		} else {
 			return null;
 		}
 	}

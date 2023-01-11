@@ -49,5 +49,18 @@ public class HitTableTests {
 		assertEquals(10, ship.hitTable.bottom.size());
 		assertEquals(10, ship.hitTable.core.size());
 	}
+	
+	@Test
+	public void dreadnaughtTest() {
+		Ship ship = new Ship(ShipType.DREADNAUGHT);
+
+		assertEquals(10, ship.hitTable.nose.size());
+		assertEquals(10, ship.hitTable.aft.size());
+		assertEquals(10, ship.hitTable.port.size());
+		assertEquals(10, ship.hitTable.starboard.size());
+		assertEquals(10, ship.hitTable.top.size());
+		assertEquals(10, ship.hitTable.bottom.size());
+		assertEquals(10, ship.hitTable.core.size());
+	}
 
 }

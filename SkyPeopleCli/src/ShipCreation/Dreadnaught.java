@@ -19,11 +19,11 @@ import Ship.Ship;
 import Ship.Weapon.FireType;
 import Ship.Weapon.WeaponType;
 
-public class Munificent implements ShipTemplate {
+public class Dreadnaught implements ShipTemplate {
 
 	public Ship ship; 
 	
-	public Munificent(Ship ship) {
+	public Dreadnaught(Ship ship) {
 		this.ship = ship;
 		createShip();
 	}
@@ -44,10 +44,11 @@ public class Munificent implements ShipTemplate {
 	public void description() {
 		ship.description = new Description(""
 				+ "Hoersch-Kessel Drive inc. Gwori Revolutionary Industries.", 
-				"Munificent-class star frigate", 
-				825, 426, 243, 
-				"Light warship armed for heavy combat with oversized guns, a massive twin turbolaser cannon, and two long-range ion cannons for use against capital ships\n, "
-				+ "these long-range ion cannons demonstrating the capability to shoot across a star system in some instances.");
+				"Deadnuaght-class heavy cruiser", 
+				600, 116, 123, 
+				"The Dreadnaught-class heavy cruiser, or simply the Dreadnaught, was a type of capital ship built for planetary occupation and space combat used by the Galactic Republic, \n"
+				+ "Galactic Empire, New Republic, local governments, and various other organizations. In use for over a century, \n"
+				+ "they were one of the most ubiquitous ship designs in all of the galaxy.");
 	}
 
 	@Override
@@ -56,9 +57,8 @@ public class Munificent implements ShipTemplate {
 		
 		Component thrust = new Component(ComponentType.THRUST);
 		
+		thrust.cells.add(new Cell(4.5));
 		thrust.cells.add(new Cell(4));
-		thrust.cells.add(new Cell(4));
-		thrust.cells.add(new Cell(3.5));
 		thrust.cells.add(new Cell(3.5));
 		thrust.cells.add(new Cell(3));
 		thrust.cells.add(new Cell(3));
@@ -78,7 +78,7 @@ public class Munificent implements ShipTemplate {
 		
 		Component reactor = new Component(ComponentType.REACTORS);
 		
-		for(double i = 11; i >= 0; i -= 0.5) {
+		for(double i = 8; i >= 0; i -= 0.5) {
 			reactor.cells.add(new Cell(i));
 		}
 		
@@ -86,19 +86,19 @@ public class Munificent implements ShipTemplate {
 		
 		Component si = new Component(ComponentType.SI);
 		
-		for(int i = 0; i < 10; i++) {
+		for(int i = 0; i < 8; i++) {
 			si.cells.add(new Cell(0));
 		}
 		
 		si.cells.add(new Cell(4));
 		
-		for(int i = 0; i < 6; i++) {
+		for(int i = 0; i < 4; i++) {
 			si.cells.add(new Cell(0));
 		}
 		
 		si.cells.add(new Cell(5));
 		
-		for(int i = 0; i < 6; i++) {
+		for(int i = 0; i < 4; i++) {
 			si.cells.add(new Cell(0));
 		}
 		
@@ -120,9 +120,6 @@ public class Munificent implements ShipTemplate {
 		
 		Component bridge = new Component(ComponentType.BRIDGE);
 		
-		bridge.cells.add(new Cell(CellType.BLANK));
-		bridge.cells.add(new Cell(4));
-		bridge.cells.add(new Cell(CellType.BLANK));
 		bridge.cells.add(new Cell(3));
 		bridge.cells.add(new Cell(CellType.BLANK));
 		bridge.cells.add(new Cell(CellType.BLANK));
@@ -139,33 +136,31 @@ public class Munificent implements ShipTemplate {
 		lifeSupport.cells.add(new Cell(CellType.BLANK));
 		lifeSupport.cells.add(new Cell(CellType.BLANK));
 		lifeSupport.cells.add(new Cell(CellType.BLANK));
-		lifeSupport.cells.add(new Cell(CellType.BLANK));
-		lifeSupport.cells.add(new Cell(CellType.BLANK));
 		
 		components.add(lifeSupport);
 		
 		Component hyperDrive = new Component(ComponentType.HYPERDRIVE);
 		hyperDrive.cells.add(new Cell(CellType.BLANK));
 		hyperDrive.cells.add(new Cell(CellType.BLANK));
-		hyperDrive.cells.add(new Cell(1));
-		hyperDrive.cells.add(new Cell(1));
+		hyperDrive.cells.add(new Cell(2));
+		hyperDrive.cells.add(new Cell(2));
 		hyperDrive.cells.add(new Cell(CellType.BLANK));
 		hyperDrive.cells.add(new Cell(CellType.BLANK));
-		hyperDrive.cells.add(new Cell(12));
-		hyperDrive.cells.add(new Cell(12));
+		hyperDrive.cells.add(new Cell(16));
+		hyperDrive.cells.add(new Cell(16));
 		
 		components.add(hyperDrive);
 		
 		Component radiators = new Component(ComponentType.RADIATORS);
 		
-		for(double i = 12; i > 0; i -= 1.2)
+		for(double i = 9; i > 0; i -= 1.2)
 			radiators.cells.add(new Cell(i));
 		
 		components.add(radiators);
 		
 		Component battery = new Component(ComponentType.BATTERY);
 		
-		for(int i = 232; i > 0; i -= 8) {
+		for(int i = 200; i > 0; i -= 8) {
 			battery.cells.add(new Cell(i));
 		}
 		
@@ -173,7 +168,7 @@ public class Munificent implements ShipTemplate {
 		
 		Component heatSink = new Component(ComponentType.HEATSINKS);
 		
-		for(int i = 150; i > 0; i -= 5) {
+		for(int i = 100; i > 0; i -= 5) {
 			heatSink.cells.add(new Cell(i));
 		}
 		
@@ -181,14 +176,14 @@ public class Munificent implements ShipTemplate {
 		
 		Component cargo = new Component(ComponentType.CARGO);
 		
-		for(int i = 25; i > 0; i -=2) {
+		for(int i = 18; i > 0; i -=2) {
 			cargo.cells.add(new Cell(i));
 			
-			if(i == 15 || i == 5 ) {
+			if(i == 15 || i == 8 ) {
 				cargo.cells.add(new Cell('R'));
 			}
 			
-			if(i == 18 || i == 10) {
+			if(i == 12 || i == 3) {
 				cargo.cells.add(new Cell('M'));
 			}
 			
@@ -198,11 +193,11 @@ public class Munificent implements ShipTemplate {
 		
 		Component quarters = new Component(ComponentType.QUARTERS);
 		
-		for(int i = 0; i < 10; i++) {
+		for(int i = 0; i < 6; i++) {
 			
 			if(i % 3 == 0) {
 				quarters.cells.add(new Cell(CellType.WRENCH));
-			} else if (i % 10 == 0) {
+			} else if (i % 2 == 0) {
 				quarters.cells.add(new Cell(CellType.CREW));
 			} else {
 				quarters.cells.add(new Cell(CellType.BLANK));
@@ -212,25 +207,10 @@ public class Munificent implements ShipTemplate {
 		
 		components.add(quarters);
 		
-		Component hangar = new Component(ComponentType.HANGARBAY);
-		
-		for(int i = 0; i < 3; i++) {
-			hangar.cells.add(new Cell(CellType.BLANK));
-		}
-		
-		components.add(hangar);
-		
-		Component bay = new Component(ComponentType.VEHICLEBAY);
-		
-		for(int i = 0; i < 4; i++) {
-			bay.cells.add(new Cell(CellType.BLANK));
-		}
-		
-		components.add(bay);
 		
 		Component pointDefense = new Component(ComponentType.POINTDEFENSE);
 		
-		for(int i = 40; i > 0; i -= 5) {
+		for(int i = 20; i > 0; i -= 5) {
 			pointDefense.cells.add(new Cell(i));
 		}
 		
@@ -238,7 +218,7 @@ public class Munificent implements ShipTemplate {
 		
 		Component shield = new Component(ComponentType.SHIELD);
 		
-		for(int i = 300; i > 0; i-= 100) {
+		for(int i = 150; i > 0; i-= 100) {
 			shield.cells.add(new Cell(i));
 		}
 		
@@ -250,45 +230,42 @@ public class Munificent implements ShipTemplate {
 	public void hardPoints() {
 		ArrayList<HardPoint> hardPoints = new ArrayList<>();
 		
-		HardPoint bowTurboLasers = new HardPoint(6,3);
-		bowTurboLasers.addWeapon(WeaponType.HEAVY_TURBO_LASER, FireType.SINGLE);
-		bowTurboLasers.addWeapon(WeaponType.HEAVY_TURBO_LASER, FireType.SINGLE);
+		HardPoint bowTurboLasers = new HardPoint(6,1);
+		bowTurboLasers.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.SINGLE);
+		bowTurboLasers.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.SINGLE);
+		bowTurboLasers.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.SINGLE);
+		bowTurboLasers.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.SINGLE);
+		bowTurboLasers.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.SINGLE);
 		hardPoints.add(bowTurboLasers);
 		
-		HardPoint lightTurboLasers = new HardPoint(5,1);
-		for(int i = 0; i < 13; i++)
-			lightTurboLasers.addWeapon(WeaponType.LIGHT_TURBO_LASER, FireType.TWIN);
-		hardPoints.add(lightTurboLasers);
-		
-		HardPoint lightTurboLasers2 = new HardPoint(5,2);
-		for(int i = 0; i < 13; i++)
-			lightTurboLasers2.addWeapon(WeaponType.LIGHT_TURBO_LASER, FireType.TWIN);
-		hardPoints.add(lightTurboLasers2);
+		HardPoint aftTurboLasers = new HardPoint(6,6);
+		aftTurboLasers.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.SINGLE);
+		aftTurboLasers.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.SINGLE);
+		aftTurboLasers.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.SINGLE);
+		aftTurboLasers.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.SINGLE);
+		aftTurboLasers.addWeapon(WeaponType.MEDIUM_TURBO_LASER, FireType.SINGLE);
+		hardPoints.add(aftTurboLasers);
 		
 		
-		HardPoint portDeckGuns = new HardPoint(8,4);
-		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		portDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		hardPoints.add(portDeckGuns);
-		
-		
-		HardPoint lightTurboLasers3 = new HardPoint(5,4);
+		HardPoint portTurboLasers = new HardPoint(6,3);
 		for(int i = 0; i < 10; i++)
-			lightTurboLasers3.addWeapon(WeaponType.LIGHT_TURBO_LASER, FireType.TWIN);
-		hardPoints.add(lightTurboLasers3);
+			portTurboLasers.addWeapon(WeaponType.LIGHT_TURBO_LASER, FireType.QUAD);
+		hardPoints.add(portTurboLasers);
 		
-		HardPoint starboardDeckGuns = new HardPoint(8,5);
-		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		starboardDeckGuns.addWeapon(WeaponType.DECK_GUN, FireType.SINGLE);
-		
-		HardPoint lightTurboLasers4 = new HardPoint(5,5);
+		HardPoint starboardTurboLasers = new HardPoint(6,4);
 		for(int i = 0; i < 10; i++)
-			lightTurboLasers4.addWeapon(WeaponType.LIGHT_TURBO_LASER, FireType.TWIN);
-		hardPoints.add(lightTurboLasers4);
+			starboardTurboLasers.addWeapon(WeaponType.LIGHT_TURBO_LASER, FireType.QUAD);
+		hardPoints.add(starboardTurboLasers);
+		
+		HardPoint portLasers = new HardPoint(6,3);
+		for(int i = 0; i < 10; i++)
+			portLasers.addWeapon(WeaponType.HEAVY_LASER_CANNON, FireType.QUAD);
+		hardPoints.add(portLasers);
+		
+		HardPoint starBoard = new HardPoint(6,4);
+		for(int i = 0; i < 10; i++)
+			starBoard.addWeapon(WeaponType.HEAVY_LASER_CANNON, FireType.QUAD);
+		hardPoints.add(starBoard);
 		
 		ship.hardPoints = hardPoints;
 	}
@@ -301,17 +278,17 @@ public class Munificent implements ShipTemplate {
 		nose.add(new HitLocation(ComponentType.CARGO, 8));
 		nose.add(new HitLocation(ComponentType.HANGARBAY, 8));
 		nose.add(new HitLocation(0, 4));
-		nose.add(new HitLocation(1, 4));
-		nose.add(new HitLocation(2, 4));
 		nose.add(new HitLocation(ComponentType.BATTERY, 8));
 		nose.add(new HitLocation(ComponentType.BATTERY, 8));
+		nose.add(new HitLocation(ComponentType.HEATSINKS, 6));
+		nose.add(new HitLocation(ComponentType.HEATSINKS, 6));
 		nose.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
 		
 		ArrayList<HitLocation> aft = new ArrayList<HitLocation>();
 		aft.add(new HitLocation(ComponentType.HYPERDRIVE, 6));
 		aft.add(new HitLocation(ComponentType.HYPERDRIVE, 6));
 		aft.add(new HitLocation(ComponentType.THRUST, 6));
-		aft.add(new HitLocation(ComponentType.THRUST, 6));
+		aft.add(new HitLocation(1, 4));
 		aft.add(new HitLocation(ComponentType.THRUST, 6));
 		aft.add(new HitLocation(ComponentType.HEATSINKS, 6));
 		aft.add(new HitLocation(ComponentType.HEATSINKS, 6));
@@ -320,8 +297,7 @@ public class Munificent implements ShipTemplate {
 		aft.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
 		
 		ArrayList<HitLocation> port = new ArrayList<HitLocation>();
-		port.add(new HitLocation(1, 4));
-		port.add(new HitLocation(3, 4));
+		port.add(new HitLocation(2, 4));
 		port.add(new HitLocation(4, 4));
 		port.add(new HitLocation(ComponentType.QUARTERS, 8));
 		port.add(new HitLocation(ComponentType.CARGO, 8));
@@ -329,17 +305,18 @@ public class Munificent implements ShipTemplate {
 		port.add(new HitLocation(ComponentType.BATTERY, 8));
 		port.add(new HitLocation(ComponentType.BATTERY, 8));
 		port.add(new HitLocation(LocationType.FUEL, 8));
+		port.add(new HitLocation(LocationType.FUEL, 8));
 		port.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
 		
 		ArrayList<HitLocation> starboard = new ArrayList<HitLocation>();
-		starboard.add(new HitLocation(2, 4));
+		starboard.add(new HitLocation(3, 4));
 		starboard.add(new HitLocation(5, 4));
-		starboard.add(new HitLocation(6, 4));
 		starboard.add(new HitLocation(ComponentType.QUARTERS, 8));
 		starboard.add(new HitLocation(ComponentType.CARGO, 8));
 		starboard.add(new HitLocation(ComponentType.REACTORS, 8));
 		starboard.add(new HitLocation(ComponentType.BATTERY, 8));
 		starboard.add(new HitLocation(ComponentType.BATTERY, 8));
+		starboard.add(new HitLocation(LocationType.FUEL, 8));
 		starboard.add(new HitLocation(LocationType.FUEL, 8));
 		starboard.add(new HitLocation(ComponentType.POINTDEFENSE, 8));
 		
@@ -347,24 +324,24 @@ public class Munificent implements ShipTemplate {
 		ArrayList<HitLocation> top = new ArrayList<HitLocation>();
 		top.add(new HitLocation(ComponentType.BRIDGE, 8));
 		top.add(new HitLocation(ComponentType.HEATSINKS, 8));
-		top.add(new HitLocation(ComponentType.HANGARBAY, 12));
-		top.add(new HitLocation(ComponentType.HANGARBAY, 12));
+		top.add(new HitLocation(ComponentType.SHIELD, 6));
 		top.add(new HitLocation(ComponentType.SHIELD, 6));
 		top.add(new HitLocation(ComponentType.RADIATORS, 8));
 		top.add(new HitLocation(ComponentType.BATTERY, 8));
 		top.add(new HitLocation(ComponentType.BATTERY, 8));
 		top.add(new HitLocation(LocationType.FUEL, 8));
+		top.add(new HitLocation(LocationType.FUEL, 8));
 		top.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
 		
 		ArrayList<HitLocation> bottom = new ArrayList<HitLocation>();
-		bottom.add(new HitLocation(0, 4));
-		bottom.add(new HitLocation(1, 4));
-		bottom.add(new HitLocation(2, 4));
 		bottom.add(new HitLocation(ComponentType.HYPERDRIVE, 6));
+		bottom.add(new HitLocation(ComponentType.THRUST, 6));
 		bottom.add(new HitLocation(ComponentType.THRUST, 6));
 		bottom.add(new HitLocation(ComponentType.BRIDGE, 6));
 		bottom.add(new HitLocation(ComponentType.HEATSINKS, 6));
 		bottom.add(new HitLocation(ComponentType.REACTORS, 6));
+		bottom.add(new HitLocation(LocationType.FUEL, 6));
+		bottom.add(new HitLocation(LocationType.FUEL, 6));
 		bottom.add(new HitLocation(LocationType.FUEL, 6));
 		bottom.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
 		
@@ -375,7 +352,7 @@ public class Munificent implements ShipTemplate {
 		core.add(new HitLocation(ComponentType.BRIDGE, 6));
 		core.add(new HitLocation(ComponentType.QUARTERS, 6));
 		core.add(new HitLocation(ComponentType.HYPERDRIVE, 6));
-		core.add(new HitLocation(ComponentType.VEHICLEBAY, 6));
+		core.add(new HitLocation(ComponentType.SHIELD, 6));
 		core.add(new HitLocation(ComponentType.BATTERY, 6));
 		core.add(new HitLocation(LocationType.ELECTRONICS, 6));
 		core.add(new HitLocation(ComponentType.SI, 6));
@@ -384,11 +361,11 @@ public class Munificent implements ShipTemplate {
 		HitTable hitTable =  new HitTable(nose, aft, port, starboard, top, bottom, core);
 		
 		hitTable.noseSkinArmor = 12;
-		hitTable.aftSkinArmor = 4;
-		hitTable.portSkinArmor = 6; 
-		hitTable.starboardSkinArmor = 6;
-		hitTable.topSkinArmor = 6;
-		hitTable.bottomSkinArmor = 4; 
+		hitTable.aftSkinArmor = 8;
+		hitTable.portSkinArmor = 12; 
+		hitTable.starboardSkinArmor = 12;
+		hitTable.topSkinArmor = 8;
+		hitTable.bottomSkinArmor = 8; 
 		
 		hitTable.noseAftDepth = ship.description.lengthMeters;
 		hitTable.portStarboardDepth = ship.description.widthMeters;
@@ -420,13 +397,13 @@ public class Munificent implements ShipTemplate {
 	@Override
 	public void pivot() {
 		
-		ship.pivotChart = 'M';
+		ship.pivotChart = 'L';
 		
 	}
 
 	@Override
 	public void roll() {
-		ship.rollChart = 'K';
+		ship.rollChart = 'J';
 	}	
 
 }
