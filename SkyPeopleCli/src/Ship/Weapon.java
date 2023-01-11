@@ -69,6 +69,9 @@ public class Weapon {
 		case HEAVY_TURBO_LASER:
 			heavyTurboLaser();
 			break;
+		case LIGHT_TURBO_LASER:
+			lightTurboLaser();
+			break;
 		case MEDIUM_LASER_CANNON:
 			mediumLaserCannon();
 			break;
@@ -184,7 +187,7 @@ public class Weapon {
 		case LIGHT_TURBO_LASER:
 			return weaponCode + "Light Turbo Laser Battery";
 		case HEAVY_TURBO_LASER:
-			return weaponCode + "Medium Turbo Laser Battery";
+			return weaponCode + "Heavy Turbo Laser Battery";
 		case MEDIUM_LASER_CANNON:
 			return weaponCode + "Medium Laser Cannon";
 		case HEAVY_PROTON_TORPEDO:
