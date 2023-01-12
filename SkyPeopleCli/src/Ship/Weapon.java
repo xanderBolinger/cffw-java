@@ -124,7 +124,7 @@ public class Weapon {
 	
 	public void lightTurboLaser() {
 		cooldown = 2;
-		powerCost = 3;
+		powerCost = 2;
 		columns = new ArrayList<WeaponColumn>();
 		columns.add(new WeaponColumn(7, new ArrayList<Integer>(Arrays.asList(21, 22, 22, 23, 24, 25, 26, 28, 29, 30))));
 		columns.add(new WeaponColumn(8, new ArrayList<Integer>(Arrays.asList(1, 14, 15, 16, 16, 17, 18, 18, 19, 20))));
@@ -137,7 +137,7 @@ public class Weapon {
 	
 	public void mediumTurboLaser() {
 		cooldown = 2;
-		powerCost = 4;
+		powerCost = 3;
 		columns = new ArrayList<WeaponColumn>();
 		columns.add(new WeaponColumn(8, new ArrayList<Integer>(Arrays.asList(27, 28, 28, 29, 30, 31, 32, 34, 35, 36))));
 		columns.add(new WeaponColumn(9, new ArrayList<Integer>(Arrays.asList(1, 18, 19, 19, 20, 20, 21, 22, 23, 25))));
