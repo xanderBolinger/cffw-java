@@ -21,6 +21,11 @@ public class HelpCommand implements Command {
 		CommandLineInterface.cli.print("undo - undoes last action");
 		CommandLineInterface.cli.print("save - saves game as json file");
 		CommandLineInterface.cli.print("load - loads game from json file");
+		CommandLineInterface.cli.print("create - [formationName{String} shipNames{String, names seperated with spaces}...]");
+		CommandLineInterface.cli.print("add - [formationName{String} shipName{String}]");
+		CommandLineInterface.cli.print("remove - [formationName{String} shipName{String}]");
+		CommandLineInterface.cli.print("clear - [formationName{String}]");
+		CommandLineInterface.cli.print("recharge - [shipName{String}, setReactorRechargeRate{int}]");
 		
 	}
 

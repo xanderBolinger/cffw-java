@@ -13,6 +13,7 @@ public class AddShipCommand implements Command {
 	public AddShipCommand(ArrayList<String> parameters) {
 		
 		if(!Command.checkParameters(parameters, 3)) {
+			System.out.println("Invalid number of parameters.");
 			return;
 		}
 		

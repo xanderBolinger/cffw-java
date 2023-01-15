@@ -24,8 +24,16 @@ public class HardPoint {
 	
 	
 	public void destroyWeapon() {
+		Weapon weapon;
 		
-		Weapon weapon = weapons.get(DiceRoller.randum_number(0, weapons.size() - 1));
+		if(weapons.size() <= 0) {
+			return;
+		} else if(weapons.size() == 1) {
+			weapon = weapons.get(0);
+		} else {
+			weapon = weapons.get(DiceRoller.randum_number(0, weapons.size() - 1));
+		}
+		
 		if(!weapon.destroyed) {
 			weapon.destroyed = true; 
 			return;

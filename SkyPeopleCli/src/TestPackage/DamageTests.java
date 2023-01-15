@@ -71,7 +71,7 @@ public class DamageTests {
 	public void applyHit() {
 		assertEquals(144, venator.fuel.remainingFuel());
 		
-		assertEquals(1, DamageAllocation.applyHit(8, 1, venator, venator.hitTable.aft.get(8)));
+		assertEquals(3, DamageAllocation.applyHit(8, 1, venator, venator.hitTable.aft.get(8)));
 		
 		assertEquals(136, venator.fuel.remainingFuel());
 		

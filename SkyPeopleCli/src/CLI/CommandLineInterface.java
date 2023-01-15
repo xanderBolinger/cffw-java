@@ -9,6 +9,11 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import Formations.AddFormationCommand;
+import Formations.ClearFormationCommand;
+import Formations.CreateFormationCommand;
+import Formations.RemoveFormationCommand;
+
 public class CommandLineInterface {
 
 	public static CommandLineInterface cli;
@@ -31,6 +36,7 @@ public class CommandLineInterface {
 		System.out.print("-> ");
 
 		while (open) {
+			
 			try {
 				String input = reader.nextLine();
 				read(input);
@@ -89,6 +95,16 @@ public class CommandLineInterface {
 			new SaveGameCommand();
 		} else if (command.equals("load")) {
 			new LoadGameCommand();
+		} else if (command.equals("create")) {
+			new CreateFormationCommand(parameters);
+		} else if (command.equals("add")) {
+			new AddFormationCommand(parameters);
+		} else if (command.equals("remove")) {
+			new RemoveFormationCommand(parameters);
+		} else if (command.equals("clear")) {
+			new ClearFormationCommand(parameters);
+		} else if (command.equals("recharge")) {
+			new SetRegenerationCommand(parameters);
 		} else {
 			print("Command not found");
 		}

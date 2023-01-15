@@ -22,7 +22,7 @@ public class PowerTests {
 		assertEquals(true, venator.power == 337.0);
 		
 		venator.generationStep();
-		
+		//System.out.println("heat: "+venator.heat);
 		assertEquals(true, venator.heat == 15.0);
 		assertEquals(true, venator.power == 352);
 		

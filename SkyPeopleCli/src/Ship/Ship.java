@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import javax.swing.RowFilter.ComparisonType;
 
+import CLI.Command.CommandType;
+import Game.GameMaster;
 import Mechanics.DiceRoller;
+import Mechanics.HeatIndex;
 import Ship.Cell.CellType;
 import Ship.Component.ComponentType;
 import ShipCreation.Dreadnaught;
@@ -36,6 +39,9 @@ public class Ship {
 	public double shieldStrength;
 	public double shieldGenerationValue;
 
+	public double reactorSet; 
+	public boolean extendedRadiators;
+	
 	public enum ShipType {
 		VENATOR,MUNIFICENT,DREADNAUGHT,RECUSANT
 	}
@@ -62,6 +68,8 @@ public class Ship {
 		shieldStrength = getShieldStrength();
 		power = getPower();
 		shieldGenerationValue = getNumberComponent(ComponentType.REACTORS);
+		this.reactorSet = getNumberComponent(ComponentType.REACTORS);
+		this.extendedRadiators = false;
 	}
 
 	public Ship(Ship other) {
@@ -83,6 +91,8 @@ public class Ship {
 		this.heatIndex = other.heatIndex;
 		this.shieldStrength = other.shieldStrength;
 		this.shieldGenerationValue = other.shieldGenerationValue;
+		this.reactorSet = other.reactorSet;
+		this.extendedRadiators = other.extendedRadiators;
 	}
 
 	public void destroyComponent(ComponentType compType) {
@@ -119,6 +129,12 @@ public class Ship {
 				int roll = DiceRoller.d10();
 				if (roll <= cell.number) {
 					destroyed = true;
+					System.out.println("SHIP: "+shipName+", DESTROYED");
+					if(GameMaster.game != null && GameMaster.game.destroyed != null
+							&& !GameMaster.game.destroyed.contains(this)) {
+						GameMaster.game.destroyed.add(this);
+						GameMaster.game.ships.remove(this);
+					}
 				}
 			}
 		}
@@ -219,21 +235,31 @@ public class Ship {
 	}
 
 	public void generationStep() {
-
+		if(reactorSet == 0) {
+			heatCheck();
+			radiatorCheck();
+			return;
+		}
+		
 		double toGenerate = getPower() - power;
 		double toGenerateShield = getShieldStrength() - shieldStrength;
-
 		double reactor = getNumberComponent(ComponentType.REACTORS);
 
+		if(reactor < shieldGenerationValue) {
+			shieldGenerationValue = reactor;
+		}
+		
+		if(reactorSet < reactor) {
+			reactor = reactorSet;
+		}
+		
 		if (toGenerateShield > 0) {
-			toGenerateShield -= shieldGenerationValue;
-			if (toGenerateShield < 0) {
-				reactor = toGenerateShield * -1;
-				heat += getNumberComponent(ComponentType.REACTORS) - reactor;
-			} else {
-				reactor -= shieldGenerationValue;
-				heat += shieldGenerationValue;
-			}
+			double shieldGenerationValue = reactorSet < this.shieldGenerationValue ? reactorSet : this.shieldGenerationValue;
+			shieldGenerationValue = toGenerateShield < shieldGenerationValue ? toGenerateShield : shieldGenerationValue;
+			
+			shieldStrength += shieldGenerationValue;
+			reactor -= shieldGenerationValue;
+			heat += shieldGenerationValue;
 		}
 
 		if (reactor > toGenerate) {
@@ -244,6 +270,31 @@ public class Ship {
 			heat += reactor;
 		}
 
+		heatCheck();
+		radiatorCheck();
+	}
+	
+	public void heatCheck() {
+		double heatIndex = HeatIndex.heatIndex(this);
+		
+		if(heatIndex > 0) {
+			System.out.println("WARNING Ship: "+shipName+", Heat Index: "+heatIndex);
+		}
+		
+	}
+	
+	public void radiatorCheck() {
+		
+		if(!extendedRadiators)
+			return;
+		
+		double radiatedHeat = getNumberComponent(ComponentType.RADIATORS);
+		
+		heat -= radiatedHeat;
+		
+		if(heat < 0)
+			heat = 0;
+		
 	}
 
 	public static ShipType getType(String shipType) {
@@ -272,6 +323,7 @@ public class Ship {
 		rslts += "Shield Strength: " + shieldStrength + "\n";
 		rslts += "Recharge Rate: " + shieldGenerationValue + "\n";
 		rslts += "Power: " + power + "\n";
+		rslts += "Set Reactor Rate: " + reactorSet + "\n";
 		rslts += "Heat: " + heat + "\n";
 		
 		rslts += "Pivot: " + pivotChart + ", Roll: " + rollChart + "\n";

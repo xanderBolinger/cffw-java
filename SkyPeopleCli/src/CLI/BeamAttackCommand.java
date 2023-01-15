@@ -7,6 +7,8 @@ import Game.Game;
 import Game.GameMaster;
 import Mechanics.BeamAttack;
 import Mechanics.DamageAllocation;
+import Mechanics.DiceRoller;
+import Mechanics.Formation;
 import Mechanics.DamageAllocation.HitSide;
 import Ship.Ship;
 import Ship.Weapon;
@@ -25,6 +27,8 @@ public class BeamAttackCommand implements Command {
 	Ship target;
 	Ship shooter;
 	HitSide hitSide; 
+	Formation shooterFormation;
+	Formation targetFormation;
 	
 	public BeamAttackCommand(ArrayList<String> parameters) {
 		
@@ -46,13 +50,15 @@ public class BeamAttackCommand implements Command {
 		
 		target = GameMaster.game.findShip(targetName);
 		shooter = GameMaster.game.findShip(shooterName);
+		targetFormation = GameMaster.game.findFormation(targetName);
+		shooterFormation = GameMaster.game.findFormation(shooterName);
 		
-		if(target == null) {
+		if(target == null && targetFormation == null) {
 			System.out.println("Target Not Found");
 			return; 
-		} else if(shooter == null) {
+		} else if(shooter == null && shooterFormation == null) {
 			System.out.println("Shooter Not Found");
-			return;
+			return; 
 		} else if(hardPointIndex >= shooter.hardPoints.size()) {
 			System.out.println("Hard Point Index Out of Range");
 			return;
@@ -64,25 +70,51 @@ public class BeamAttackCommand implements Command {
 			return;
 		}
 		
-		weapon = shooter.hardPoints.get(hardPointIndex).weapons.get(weaponIndex);
+		weapon = shooterFormation == null ? shooter.hardPoints.get(hardPointIndex).weapons.get(weaponIndex) : 
+			shooterFormation.ships.get(0).hardPoints.get(hardPointIndex).weapons.get(weaponIndex);
 		
 		resolve();
+	}
+	
+	public void performShots(Ship shooter, Ship target) throws Exception {
+		for(int i = 0; i < shots; i++) {
+			BeamAttack.beamAttack(target, weapon, range, target.getEcm(), 
+					shooter.getEccm(), hitSide);
+			shooter.power -= weapon.powerCost;
+			if(shooter.power < 0) {
+				System.out.println("Ship out of power.");
+				shooter.power = 0;
+				return;
+			}
+		}
 	}
 	
 	@Override
 	public void resolve() {
 		
 		try {
-			for(int i = 0; i < shots; i++) {
-				BeamAttack.beamAttack(target, weapon, range, target.getEcm(), 
-						shooter.getEccm(), hitSide);
-				shooter.power -= weapon.powerCost;
-				if(shooter.power < 0) {
-					System.out.println("Ship out of power.");
-					shooter.power = 0;
-					return;
+			if(shooterFormation != null && targetFormation != null) {
+				for(Ship shooter : shooterFormation.ships) {
+					performShots(shooter, targetFormation.ships.get(DiceRoller.randum_number(0, 
+							targetFormation.ships.size() - 1)));
 				}
+				
+				return;
+			} else if(shooterFormation != null) {
+				for(Ship shooter : shooterFormation.ships) {
+					performShots(shooter, target);
+				}
+				
+				return; 
+			} else if(targetFormation != null) {
+				performShots(shooter, targetFormation.ships.get(DiceRoller.randum_number(0, 
+						targetFormation.ships.size() - 1)));
+				return;
 			}
+			
+			
+			performShots(shooter, target);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

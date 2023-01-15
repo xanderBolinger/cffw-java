@@ -33,7 +33,7 @@ public class ShieldRechargeCommand implements Command {
 		if(ship == null) {
 			System.out.println("Ship Not Found");
 			return; 
-		} else if(rechargeRate > ship.getNumberComponent(ComponentType.REACTORS)) {
+		} else if(rechargeRate > ship.getNumberComponent(ComponentType.REACTORS) || rechargeRate < 0) {
 			System.out.println("Recharge rate out of index.");
 			return;
 		}

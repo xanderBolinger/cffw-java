@@ -25,7 +25,7 @@ public class JsonSaveRunner {
 	public static String path = System.getProperty("user.dir");
 	
 	public static String saveGame(Game game) {
-		//System.out.println("Save game");
+		//System.out.println("Save game: "+path);
 		return new Gson().toJson(game);
 	}
 

@@ -7,6 +7,8 @@ import CLI.Command.CommandType;
 import Game.GameMaster;
 import Mechanics.BeamAttack;
 import Mechanics.DamageAllocation;
+import Mechanics.DiceRoller;
+import Mechanics.Formation;
 import Mechanics.DamageAllocation.HitSide;
 import Ship.HardPoint;
 import Ship.Ship;
@@ -23,6 +25,8 @@ public class FireHardPointsCommand implements Command {
 	Ship target;
 	Ship shooter;
 	HitSide hitSide; 
+	Formation shooterFormation;
+	Formation targetFormation;
 	
 	public FireHardPointsCommand(ArrayList<String> parameters) {
 		
@@ -44,14 +48,15 @@ public class FireHardPointsCommand implements Command {
 		
 		target = GameMaster.game.findShip(targetName);
 		shooter = GameMaster.game.findShip(shooterName);
-		
+		targetFormation = GameMaster.game.findFormation(targetName);
+		shooterFormation = GameMaster.game.findFormation(shooterName);
 
-		if(target == null) {
+		if(target == null && targetFormation == null) {
 			System.out.println("Target Not Found");
 			return; 
-		} else if(shooter == null) {
+		} else if(shooter == null && shooterFormation == null) {
 			System.out.println("Shooter Not Found");
-			return;
+			return; 
 		} else if(hitSide == null) {
 			System.out.println("Hit Side Not Found");
 			return;
@@ -64,6 +69,13 @@ public class FireHardPointsCommand implements Command {
 		
 		for(int i = 6; i < parameters.size(); i++) {
 			hardpointIndices.add(Integer.parseInt(parameters.get(i)));
+		}
+		
+		
+		Ship shooter = this.shooter;
+		
+		if(shooterFormation != null) {
+			shooter = shooterFormation.ships.get(0);
 		}
 		
 		for(int index : hardpointIndices) {
@@ -82,35 +94,59 @@ public class FireHardPointsCommand implements Command {
 		resolve();
 	}
 	
+	public void performShots(Ship shooter, Ship target) throws Exception {
+		for(Weapon weapon : weapons) {
+			
+			int shots = 1; 
+			
+			switch(weapon.fireType) {
+			case TWIN:
+				shots = 2; 
+				break;
+			case QUAD:
+				shots = 4;
+				break;
+			}
+			
+			for(int i = 0; i < shots; i++) {
+				BeamAttack.beamAttack(target, weapon, range, target.getEcm(), 
+						shooter.getEccm(), hitSide);
+				shooter.power -= weapon.powerCost;
+				if(shooter.power < 0) {
+					System.out.println("Ship out of power.");
+					shooter.power = 0;
+					return;
+				}
+			}
+			
+		}
+	}
+	
 	@Override
 	public void resolve() {
 		
 		try {
-			for(Weapon weapon : weapons) {
-				
-				int shots = 1; 
-				
-				switch(weapon.fireType) {
-				case TWIN:
-					shots = 2; 
-					break;
-				case QUAD:
-					shots = 4;
-					break;
+			if(shooterFormation != null && targetFormation != null) {
+				for(Ship shooter : shooterFormation.ships) {
+					performShots(shooter, targetFormation.ships.get(DiceRoller.randum_number(0, 
+							targetFormation.ships.size() - 1)));
 				}
 				
-				for(int i = 0; i < shots; i++) {
-					BeamAttack.beamAttack(target, weapon, range, target.getEcm(), 
-							shooter.getEccm(), hitSide);
-					shooter.power -= weapon.powerCost;
-					if(shooter.power < 0) {
-						System.out.println("Ship out of power.");
-						shooter.power = 0;
-						return;
-					}
+				return;
+			} else if(shooterFormation != null) {
+				for(Ship shooter : shooterFormation.ships) {
+					performShots(shooter, target);
 				}
 				
+				return; 
+			} else if(targetFormation != null) {
+				performShots(shooter, targetFormation.ships.get(DiceRoller.randum_number(0, 
+						targetFormation.ships.size() - 1)));
+				return;
 			}
+			
+			
+			performShots(shooter, target);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

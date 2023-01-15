@@ -74,7 +74,7 @@ public class Recusant implements ShipTemplate {
 		
 		Component reactor = new Component(ComponentType.REACTORS);
 		
-		for(double i = 11; i >= 0; i -= 0.5) {
+		for(double i = 12; i >= 0; i -= 0.5) {
 			reactor.cells.add(new Cell(i));
 		}
 		
@@ -160,7 +160,7 @@ public class Recusant implements ShipTemplate {
 		
 		Component battery = new Component(ComponentType.BATTERY);
 		
-		for(int i = 200; i > 0; i -= 8) {
+		for(int i = 208; i > 0; i -= 8) {
 			battery.cells.add(new Cell(i));
 		}
 		
@@ -168,7 +168,7 @@ public class Recusant implements ShipTemplate {
 		
 		Component heatSink = new Component(ComponentType.HEATSINKS);
 		
-		for(int i = 145; i > 0; i -= 5) {
+		for(int i = 175; i > 0; i -= 5) {
 			heatSink.cells.add(new Cell(i));
 		}
 		
@@ -233,7 +233,7 @@ public class Recusant implements ShipTemplate {
 		
 		Component shield = new Component(ComponentType.SHIELD);
 		
-		for(int i = 280; i > 0; i-= 100) {
+		for(int i = 200; i > 0; i-= 100) {
 			shield.cells.add(new Cell(i));
 		}
 		
@@ -245,7 +245,7 @@ public class Recusant implements ShipTemplate {
 	public void hardPoints() {
 		ArrayList<HardPoint> hardPoints = new ArrayList<>();
 		
-		HardPoint bowTurboLasers = new HardPoint(6,3);
+		HardPoint bowTurboLasers = new HardPoint(6,0);
 		bowTurboLasers.addWeapon(WeaponType.HEAVY_TURBO_LASER, FireType.SINGLE);
 		hardPoints.add(bowTurboLasers);
 		
@@ -277,99 +277,99 @@ public class Recusant implements ShipTemplate {
 	@Override
 	public void hitTable() {
 		ArrayList<HitLocation> nose = new ArrayList<HitLocation>();
-		nose.add(new HitLocation(ComponentType.BRIDGE, 6));
-		nose.add(new HitLocation(ComponentType.QUARTERS, 8));
-		nose.add(new HitLocation(ComponentType.CARGO, 8));
-		nose.add(new HitLocation(ComponentType.HANGARBAY, 8));
-		nose.add(new HitLocation(0, 4));
-		nose.add(new HitLocation(1, 4));
-		nose.add(new HitLocation(2, 4));
-		nose.add(new HitLocation(ComponentType.BATTERY, 8));
-		nose.add(new HitLocation(ComponentType.BATTERY, 8));
-		nose.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
+		nose.add(new HitLocation(ComponentType.BRIDGE, 3));
+		nose.add(new HitLocation(ComponentType.QUARTERS, 6));
+		nose.add(new HitLocation(ComponentType.CARGO, 6));
+		nose.add(new HitLocation(ComponentType.HANGARBAY, 6));
+		nose.add(new HitLocation(0, 3));
+		nose.add(new HitLocation(1, 3));
+		nose.add(new HitLocation(2, 3));
+		nose.add(new HitLocation(ComponentType.BATTERY, 6));
+		nose.add(new HitLocation(ComponentType.BATTERY, 6));
+		nose.add(new HitLocation(ComponentType.POINTDEFENSE, 3));
 		
 		ArrayList<HitLocation> aft = new ArrayList<HitLocation>();
-		aft.add(new HitLocation(ComponentType.HYPERDRIVE, 6));
-		aft.add(new HitLocation(ComponentType.HYPERDRIVE, 6));
-		aft.add(new HitLocation(ComponentType.THRUST, 6));
-		aft.add(new HitLocation(ComponentType.THRUST, 6));
-		aft.add(new HitLocation(ComponentType.THRUST, 6));
-		aft.add(new HitLocation(ComponentType.HEATSINKS, 6));
-		aft.add(new HitLocation(ComponentType.HEATSINKS, 6));
-		aft.add(new HitLocation(LocationType.FUEL, 6));
-		aft.add(new HitLocation(LocationType.FUEL, 6));
-		aft.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
+		aft.add(new HitLocation(ComponentType.HYPERDRIVE, 3));
+		aft.add(new HitLocation(ComponentType.HYPERDRIVE, 3));
+		aft.add(new HitLocation(ComponentType.THRUST, 3));
+		aft.add(new HitLocation(ComponentType.THRUST, 3));
+		aft.add(new HitLocation(ComponentType.THRUST, 3));
+		aft.add(new HitLocation(ComponentType.HEATSINKS, 3));
+		aft.add(new HitLocation(ComponentType.HEATSINKS, 3));
+		aft.add(new HitLocation(LocationType.FUEL, 3));
+		aft.add(new HitLocation(LocationType.FUEL, 3));
+		aft.add(new HitLocation(ComponentType.POINTDEFENSE, 3));
 		
 		ArrayList<HitLocation> port = new ArrayList<HitLocation>();
-		port.add(new HitLocation(1, 4));
-		port.add(new HitLocation(4, 4));
-		port.add(new HitLocation(ComponentType.QUARTERS, 8));
-		port.add(new HitLocation(ComponentType.HANGARBAY, 8));
-		port.add(new HitLocation(ComponentType.CARGO, 8));
-		port.add(new HitLocation(ComponentType.REACTORS, 8));
-		port.add(new HitLocation(ComponentType.BATTERY, 8));
-		port.add(new HitLocation(ComponentType.BATTERY, 8));
-		port.add(new HitLocation(LocationType.FUEL, 8));
-		port.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
+		port.add(new HitLocation(1, 3));
+		port.add(new HitLocation(4, 3));
+		port.add(new HitLocation(ComponentType.QUARTERS, 5));
+		port.add(new HitLocation(ComponentType.HANGARBAY, 5));
+		port.add(new HitLocation(ComponentType.CARGO, 5));
+		port.add(new HitLocation(ComponentType.REACTORS, 5));
+		port.add(new HitLocation(ComponentType.BATTERY, 5));
+		port.add(new HitLocation(ComponentType.BATTERY, 5));
+		port.add(new HitLocation(LocationType.FUEL, 5));
+		port.add(new HitLocation(ComponentType.POINTDEFENSE, 3));
 		
 		ArrayList<HitLocation> starboard = new ArrayList<HitLocation>();
-		starboard.add(new HitLocation(2, 4));
-		starboard.add(new HitLocation(5, 4));
-		starboard.add(new HitLocation(ComponentType.HANGARBAY, 8));
-		starboard.add(new HitLocation(ComponentType.QUARTERS, 8));
-		starboard.add(new HitLocation(ComponentType.CARGO, 8));
-		starboard.add(new HitLocation(ComponentType.REACTORS, 8));
-		starboard.add(new HitLocation(ComponentType.BATTERY, 8));
-		starboard.add(new HitLocation(ComponentType.BATTERY, 8));
-		starboard.add(new HitLocation(LocationType.FUEL, 8));
-		starboard.add(new HitLocation(ComponentType.POINTDEFENSE, 8));
+		starboard.add(new HitLocation(2, 3));
+		starboard.add(new HitLocation(5, 3));
+		starboard.add(new HitLocation(ComponentType.HANGARBAY, 5));
+		starboard.add(new HitLocation(ComponentType.QUARTERS, 5));
+		starboard.add(new HitLocation(ComponentType.CARGO, 5));
+		starboard.add(new HitLocation(ComponentType.REACTORS, 5));
+		starboard.add(new HitLocation(ComponentType.BATTERY, 5));
+		starboard.add(new HitLocation(ComponentType.BATTERY, 5));
+		starboard.add(new HitLocation(LocationType.FUEL, 5));
+		starboard.add(new HitLocation(ComponentType.POINTDEFENSE, 3));
 		
 		
 		ArrayList<HitLocation> top = new ArrayList<HitLocation>();
-		top.add(new HitLocation(ComponentType.BRIDGE, 8));
-		top.add(new HitLocation(ComponentType.HEATSINKS, 8));
-		top.add(new HitLocation(ComponentType.HANGARBAY, 12));
-		top.add(new HitLocation(ComponentType.HANGARBAY, 12));
-		top.add(new HitLocation(ComponentType.SHIELD, 6));
-		top.add(new HitLocation(ComponentType.RADIATORS, 8));
-		top.add(new HitLocation(ComponentType.BATTERY, 8));
-		top.add(new HitLocation(ComponentType.BATTERY, 8));
-		top.add(new HitLocation(LocationType.FUEL, 8));
-		top.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
+		top.add(new HitLocation(ComponentType.BRIDGE, 5));
+		top.add(new HitLocation(ComponentType.HEATSINKS, 5));
+		top.add(new HitLocation(ComponentType.HANGARBAY, 6));
+		top.add(new HitLocation(ComponentType.HANGARBAY, 6));
+		top.add(new HitLocation(ComponentType.SHIELD, 3));
+		top.add(new HitLocation(ComponentType.RADIATORS, 5));
+		top.add(new HitLocation(ComponentType.BATTERY, 5));
+		top.add(new HitLocation(ComponentType.BATTERY, 5));
+		top.add(new HitLocation(LocationType.FUEL, 5));
+		top.add(new HitLocation(ComponentType.POINTDEFENSE, 3));
 		
 		ArrayList<HitLocation> bottom = new ArrayList<HitLocation>();
-		bottom.add(new HitLocation(0, 4));
-		bottom.add(new HitLocation(1, 4));
-		bottom.add(new HitLocation(ComponentType.HANGARBAY, 8));
-		bottom.add(new HitLocation(ComponentType.HYPERDRIVE, 6));
-		bottom.add(new HitLocation(ComponentType.THRUST, 6));
-		bottom.add(new HitLocation(ComponentType.BRIDGE, 6));
-		bottom.add(new HitLocation(ComponentType.HEATSINKS, 6));
-		bottom.add(new HitLocation(ComponentType.REACTORS, 6));
-		bottom.add(new HitLocation(LocationType.FUEL, 6));
-		bottom.add(new HitLocation(ComponentType.POINTDEFENSE, 6));
+		bottom.add(new HitLocation(0, 3));
+		bottom.add(new HitLocation(1, 3));
+		bottom.add(new HitLocation(ComponentType.HANGARBAY, 5));
+		bottom.add(new HitLocation(ComponentType.HYPERDRIVE, 3));
+		bottom.add(new HitLocation(ComponentType.THRUST, 3));
+		bottom.add(new HitLocation(ComponentType.BRIDGE, 3));
+		bottom.add(new HitLocation(ComponentType.HEATSINKS, 3));
+		bottom.add(new HitLocation(ComponentType.REACTORS, 3));
+		bottom.add(new HitLocation(LocationType.FUEL, 3));
+		bottom.add(new HitLocation(ComponentType.POINTDEFENSE, 3));
 		
 		ArrayList<HitLocation> core = new ArrayList<HitLocation>();
-		core.add(new HitLocation(ComponentType.HYPERDRIVE, 6));
-		core.add(new HitLocation(ComponentType.REACTORS, 6));
-		core.add(new HitLocation(ComponentType.LIFESUPPORT, 6));
-		core.add(new HitLocation(ComponentType.BRIDGE, 6));
-		core.add(new HitLocation(ComponentType.QUARTERS, 6));
-		core.add(new HitLocation(ComponentType.HYPERDRIVE, 6));
-		core.add(new HitLocation(ComponentType.VEHICLEBAY, 6));
-		core.add(new HitLocation(ComponentType.BATTERY, 6));
-		core.add(new HitLocation(LocationType.ELECTRONICS, 6));
-		core.add(new HitLocation(ComponentType.SI, 6));
+		core.add(new HitLocation(ComponentType.HYPERDRIVE, 2));
+		core.add(new HitLocation(ComponentType.REACTORS, 2));
+		core.add(new HitLocation(ComponentType.LIFESUPPORT, 2));
+		core.add(new HitLocation(ComponentType.BRIDGE, 2));
+		core.add(new HitLocation(ComponentType.QUARTERS, 2));
+		core.add(new HitLocation(ComponentType.HYPERDRIVE, 2));
+		core.add(new HitLocation(ComponentType.VEHICLEBAY, 2));
+		core.add(new HitLocation(ComponentType.BATTERY, 2));
+		core.add(new HitLocation(LocationType.ELECTRONICS, 2));
+		core.add(new HitLocation(ComponentType.SI, 2));
 		
 		
 		HitTable hitTable =  new HitTable(nose, aft, port, starboard, top, bottom, core);
 		
-		hitTable.noseSkinArmor = 8;
-		hitTable.aftSkinArmor = 4;
-		hitTable.portSkinArmor = 6; 
-		hitTable.starboardSkinArmor = 6;
-		hitTable.topSkinArmor = 6;
-		hitTable.bottomSkinArmor = 4; 
+		hitTable.noseSkinArmor = 6;
+		hitTable.aftSkinArmor = 3;
+		hitTable.portSkinArmor = 4; 
+		hitTable.starboardSkinArmor = 4;
+		hitTable.topSkinArmor = 4;
+		hitTable.bottomSkinArmor = 3; 
 		
 		hitTable.noseAftDepth = ship.description.lengthMeters;
 		hitTable.portStarboardDepth = ship.description.widthMeters;

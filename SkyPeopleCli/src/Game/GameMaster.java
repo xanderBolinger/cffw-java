@@ -1,6 +1,10 @@
 package Game;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import SaveRunner.JsonSaveRunner;
 
 public class GameMaster {
 	public static Game game;
@@ -27,5 +31,19 @@ public class GameMaster {
 	public static void move() {
 		//System.out.println("Move");
 		games.add(new Game(game.round, game.ships));
+		autosave();
 	}
+	
+	public static void autosave() {
+		String json = JsonSaveRunner.saveGame(game);
+		try {
+			//System.out.println("Autosave game: "+JsonSaveRunner.path+"\\autosave.json");
+			FileWriter file = new FileWriter(JsonSaveRunner.path+"\\autosave.json");
+			file.write(json);
+			file.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

@@ -12,6 +12,9 @@ public class Weapon {
 	public boolean destroyed;
 	public WeaponType weaponType;
 
+	public boolean fired; 
+	public int lastShot; 
+	
 	public enum FireType {
 		SINGLE, TWIN, QUAD, SEEKER
 	}
@@ -27,7 +30,9 @@ public class Weapon {
 				this.fireType = FireType.SINGLE;
 				this.weaponType = weaponType;
 				destroyed = false;
-
+				fired = false; 
+				lastShot = 0;
+				
 				switch (weaponType) {
 				case LIGHT_TURBO_LASER:
 					lightTurboLaser();
@@ -188,6 +193,8 @@ public class Weapon {
 			return weaponCode + "Light Turbo Laser Battery";
 		case HEAVY_TURBO_LASER:
 			return weaponCode + "Heavy Turbo Laser Battery";
+		case MEDIUM_TURBO_LASER:
+			return weaponCode + "Medium Turbo Laser Battery";
 		case MEDIUM_LASER_CANNON:
 			return weaponCode + "Medium Laser Cannon";
 		case HEAVY_PROTON_TORPEDO:
