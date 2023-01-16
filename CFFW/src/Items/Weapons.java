@@ -56,7 +56,7 @@ public class Weapons implements Serializable {
 	public int magnification = 0;
 	public int fuze = 0;
 	public int armTime = 0;
-	
+
 	public ArrayList<Integer> aimTime = new ArrayList<Integer>();
 
 	public ArrayList<Integer> pen = new ArrayList<Integer>();
@@ -66,11 +66,10 @@ public class Weapons implements Serializable {
 	public ArrayList<String> bshc = new ArrayList<String>();
 	public ArrayList<Integer> bc = new ArrayList<Integer>();
 	public ArrayList<Integer> ionDamage = new ArrayList<Integer>();
-	
-	public boolean shotgun = false; 
+
+	public boolean shotgun = false;
 	public ArrayList<String> bphc = new ArrayList<String>();
 	public ArrayList<Integer> salm = new ArrayList<Integer>();
-	
 
 	public CeWeaponStats ceStats = new CeWeaponStats();
 
@@ -167,15 +166,15 @@ public class Weapons implements Serializable {
 		Weapons weapon23 = new Weapons();
 		weapon23.M7();
 		weapons.add(weapon23);
-		
+
 		Weapons weapon24 = new Weapons();
 		weapon24.A310();
 		weapons.add(weapon24);
-		
+
 		Weapons weapon25 = new Weapons();
 		weapon25.EE3();
 		weapons.add(weapon25);
-		
+
 		Weapons shotgun = new Weapons();
 		shotgun.M870();
 		weapons.add(shotgun);
@@ -207,7 +206,7 @@ public class Weapons implements Serializable {
 		Weapons handGrenade4 = new Weapons();
 		handGrenade4.m9fragGrenade();
 		weapons.add(handGrenade4);
-		
+
 		Weapons handGrenade5 = new Weapons();
 		handGrenade5.rgd5();
 		weapons.add(handGrenade5);
@@ -905,6 +904,76 @@ public class Weapons implements Serializable {
 		ceStats.baseErgonomics = 70;
 	}
 
+	public void M1() {
+		this.name = "M1";
+		this.targetROF = 5;
+		this.suppressiveROF = 1;
+		this.type = "Rifle";
+		this.weaponBonus = 10; // Scope
+		this.scopeMagnification = "12-24x";
+		this.magnification = 24;
+		this.damage = 3;
+		this.damageBonus = 0;
+		this.damageMultiplier = 5;
+		this.armorPiercing = 2;
+		this.sab = 2;
+		this.fullAutoROF = 8;
+		this.tracers = false;
+		this.light = true;
+		this.laser = true;
+		this.irLaser = true;
+		this.energyWeapon = false;
+
+		// Aim time
+		this.aimTime.add(-29);
+		this.aimTime.add(-24);
+		this.aimTime.add(-18);
+		this.aimTime.add(-13);
+		this.aimTime.add(-6);
+		this.aimTime.add(-4);
+		this.aimTime.add(-1);
+		this.aimTime.add(2);
+		this.aimTime.add(5);
+		this.aimTime.add(7);
+		this.aimTime.add(8);
+		this.aimTime.add(10);
+		this.aimTime.add(11);
+
+		// 10 20 40 70 100 200 300 400
+		// PEN
+		this.pen.add(82);
+		this.pen.add(79);
+		this.pen.add(75);
+		this.pen.add(71);
+		this.pen.add(68);
+		this.pen.add(65);
+		this.pen.add(60);
+		this.pen.add(57);
+
+		// DC
+		this.dc.add(8);
+		this.dc.add(8);
+		this.dc.add(8);
+		this.dc.add(7);
+		this.dc.add(7);
+		this.dc.add(7);
+		this.dc.add(7);
+		this.dc.add(5);
+
+		// BA
+		this.ba.add(116);
+		this.ba.add(104);
+		this.ba.add(89);
+		this.ba.add(78);
+		this.ba.add(69);
+		this.ba.add(53);
+		this.ba.add(42);
+		this.ba.add(35);
+
+		// Ce stats
+		ceStats.baseErgonomics = 35;
+	}
+
 	public void z6() {
 		this.name = "Z6";
 		this.targetROF = 10;
@@ -1578,7 +1647,7 @@ public class Weapons implements Serializable {
 		// Ce stats
 		ceStats.baseErgonomics = 75;
 	}
-	
+
 	public void A310() {
 		this.name = "A310";
 		this.targetROF = 6;
@@ -1595,7 +1664,7 @@ public class Weapons implements Serializable {
 		this.light = true;
 		this.laser = true;
 		this.irLaser = true;
-		
+
 		// PEN
 		this.pen.add(42);
 		this.pen.add(36);
@@ -1650,7 +1719,7 @@ public class Weapons implements Serializable {
 		// Ce stats
 		ceStats.baseErgonomics = 65;
 	}
-	
+
 	public void EE3() {
 		this.name = "EE3";
 		this.targetROF = 6;
@@ -1667,7 +1736,7 @@ public class Weapons implements Serializable {
 		this.light = true;
 		this.laser = true;
 		this.irLaser = true;
-		
+
 		// PEN
 		this.pen.add(42);
 		this.pen.add(36);
@@ -2361,7 +2430,7 @@ public class Weapons implements Serializable {
 		this.loadTime = 6;
 		this.loadProgress = 0;
 		this.sab = 1;
-		this.fullAutoROF = 6;
+		this.fullAutoROF = 10;
 		this.tracers = true;
 		this.light = true;
 		this.laser = true;
@@ -2369,45 +2438,45 @@ public class Weapons implements Serializable {
 		this.irLaser = true;
 
 		this.aimTime.add(-36);
-		this.aimTime.add(-26);
-		this.aimTime.add(-21);
+		this.aimTime.add(-25);
 		this.aimTime.add(-16);
-		this.aimTime.add(-12);
+		this.aimTime.add(-11);
 		this.aimTime.add(-9);
-		this.aimTime.add(-7);
-		this.aimTime.add(-6);
-		this.aimTime.add(-4);
-		this.aimTime.add(-3);
 		this.aimTime.add(-1);
+		this.aimTime.add(0);
+		this.aimTime.add(1);
+		this.aimTime.add(2);
+		this.aimTime.add(3);
+		this.aimTime.add(4);
 
 		// 10 20 40 70 100 200 300 400
 		// PEN
-		this.pen.add(52);
-		this.pen.add(50);
-		this.pen.add(48);
-		this.pen.add(47);
-		this.pen.add(46);
-		this.pen.add(43);
-		this.pen.add(39);
-		this.pen.add(35);
+		this.pen.add(60);
+		this.pen.add(55);
+		this.pen.add(53);
+		this.pen.add(51);
+		this.pen.add(49);
+		this.pen.add(45);
+		this.pen.add(38);
+		this.pen.add(28);
 		// DC
-		this.dc.add(9);
-		this.dc.add(9);
-		this.dc.add(9);
-		this.dc.add(9);
-		this.dc.add(8);
-		this.dc.add(8);
-		this.dc.add(8);
-		this.dc.add(8);
-		// BC
-		this.ba.add(72);
-		this.ba.add(65);
-		this.ba.add(58);
-		this.ba.add(55);
-		this.ba.add(53);
-		this.ba.add(51);
-		this.ba.add(49);
+		this.dc.add(10);
+		this.dc.add(10);
+		this.dc.add(10);
+		this.dc.add(10);
+		this.dc.add(10);
+		this.dc.add(10);
+		this.dc.add(10);
+		this.dc.add(10);
+		// BA
+		this.ba.add(47);
 		this.ba.add(45);
+		this.ba.add(43);
+		this.ba.add(38);
+		this.ba.add(35);
+		this.ba.add(25);
+		this.ba.add(20);
+		this.ba.add(16);
 
 		// Minimum Arc
 		this.ma.add(.2);
@@ -2433,9 +2502,9 @@ public class Weapons implements Serializable {
 		this.armorPiercing = 2;
 		this.collateralDamage = 50;
 		this.energyWeapon = false;
-		this.fuze = 2; 
-		this.armTime = 3; 
-		
+		this.fuze = 2;
+		this.armTime = 3;
+
 		aimTime.add(-26);
 		aimTime.add(-18);
 		aimTime.add(-14);
@@ -2473,7 +2542,7 @@ public class Weapons implements Serializable {
 		this.bc.add(22);
 		this.bc.add(10);
 	}
-	
+
 	public void m9fragGrenade() {
 		this.name = "M9 Frag";
 		this.type = "Grenade";
@@ -3459,7 +3528,7 @@ public class Weapons implements Serializable {
 		pcAmmoTypes.add(he);
 
 	}
-	
+
 	public void M870() {
 		this.name = "M870";
 		this.targetROF = 1;
@@ -3478,8 +3547,8 @@ public class Weapons implements Serializable {
 		this.light = false;
 		this.laser = false;
 		this.irLaser = false;
-		this.shotgun = true; 
-		
+		this.shotgun = true;
+
 		// Aim time
 		this.aimTime.add(-23);
 		this.aimTime.add(-12);
@@ -3539,7 +3608,7 @@ public class Weapons implements Serializable {
 		this.bphc.add("62");
 		this.bphc.add("35");
 		this.bphc.add("8");
-		
+
 		this.salm.add(-14);
 		this.salm.add(-9);
 		this.salm.add(-4);
@@ -3551,8 +3620,7 @@ public class Weapons implements Serializable {
 		this.salm.add(10);
 		this.salm.add(12);
 		this.salm.add(17);
-		
-		
+
 		// Ce stats
 		ceStats.baseErgonomics = 50;
 
@@ -3613,7 +3681,6 @@ public class Weapons implements Serializable {
 		return weapon;
 	}
 
-	
 	public static String getShotgunTableString(ArrayList<String> values, int rangeInPcHexes) {
 		// 1 2 4 6 8 10 15 20 30 40 80
 
@@ -3633,16 +3700,16 @@ public class Weapons implements Serializable {
 			return values.get(6);
 		} else if (rangeInPcHexes <= 20) {
 			return values.get(7);
-		}  else if (rangeInPcHexes <= 30) {
+		} else if (rangeInPcHexes <= 30) {
 			return values.get(8);
-		}  else if (rangeInPcHexes <= 40) {
+		} else if (rangeInPcHexes <= 40) {
 			return values.get(9);
-		}  else {
+		} else {
 			return values.get(10);
 		}
 
 	}
-	
+
 	public static int getShotgunTableInteger(ArrayList<Integer> values, int rangeInPcHexes) {
 		// 1 2 4 6 8 10 15 20 30 40 80
 
@@ -3662,63 +3729,61 @@ public class Weapons implements Serializable {
 			return values.get(6);
 		} else if (rangeInPcHexes <= 20) {
 			return values.get(7);
-		}  else if (rangeInPcHexes <= 30) {
+		} else if (rangeInPcHexes <= 30) {
 			return values.get(8);
-		}  else if (rangeInPcHexes <= 40) {
+		} else if (rangeInPcHexes <= 40) {
 			return values.get(9);
-		}  else {
+		} else {
 			return values.get(10);
 		}
 
 	}
-	
+
 	public static int getShotgunHitLocation(int roll, int salm) {
-		
-		if(salm <= -12) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 1) : - DiceRoller.randInt(0, 1);
-		} else if(salm <= -10) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 2) : - DiceRoller.randInt(0, 2);
-		} else if(salm <= -6) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 3) : - DiceRoller.randInt(0, 3);
-		} else if(salm <= -4) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 4) : - DiceRoller.randInt(0, 4);
-		} else if(salm <= -2) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 6) : - DiceRoller.randInt(0, 6);
-		} else if(salm <= 0) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 8) : - DiceRoller.randInt(0, 8);
-		} else if(salm <= 2) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 11) : - DiceRoller.randInt(0, 11);
-		} else if(salm <= 4) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 14) : - DiceRoller.randInt(0, 14);
-		} else if(salm <= 6) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 19) : - DiceRoller.randInt(0, 19);
-		} else if(salm <= 8) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 25) : - DiceRoller.randInt(0, 25);
-		} else if(salm <= 10) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 34) : - DiceRoller.randInt(0, 34);
-		} else if(salm <= 12) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 45) : - DiceRoller.randInt(0, 45);
-		} else if(salm <= 14) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 60) : - DiceRoller.randInt(0, 60);
-		} else if(salm <= 16) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 79) : - DiceRoller.randInt(0, 79);
-		}  else {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 100) : - DiceRoller.randInt(0, 100);
+
+		if (salm <= -12) {
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 1) : -DiceRoller.randInt(0, 1);
+		} else if (salm <= -10) {
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 2) : -DiceRoller.randInt(0, 2);
+		} else if (salm <= -6) {
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 3) : -DiceRoller.randInt(0, 3);
+		} else if (salm <= -4) {
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 4) : -DiceRoller.randInt(0, 4);
+		} else if (salm <= -2) {
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 6) : -DiceRoller.randInt(0, 6);
+		} else if (salm <= 0) {
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 8) : -DiceRoller.randInt(0, 8);
+		} else if (salm <= 2) {
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 11) : -DiceRoller.randInt(0, 11);
+		} else if (salm <= 4) {
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 14) : -DiceRoller.randInt(0, 14);
+		} else if (salm <= 6) {
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 19) : -DiceRoller.randInt(0, 19);
+		} else if (salm <= 8) {
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 25) : -DiceRoller.randInt(0, 25);
+		} else if (salm <= 10) {
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 34) : -DiceRoller.randInt(0, 34);
+		} else if (salm <= 12) {
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 45) : -DiceRoller.randInt(0, 45);
+		} else if (salm <= 14) {
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 60) : -DiceRoller.randInt(0, 60);
+		} else if (salm <= 16) {
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 79) : -DiceRoller.randInt(0, 79);
+		} else {
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 100) : -DiceRoller.randInt(0, 100);
 		}
-		
-		while(roll > 99 || roll < 0) {
-			if(roll > 99) {
+
+		while (roll > 99 || roll < 0) {
+			if (roll > 99) {
 				roll = roll - 99;
 			} else {
-				roll = 99 - Math.abs(roll); 
+				roll = 99 - Math.abs(roll);
 			}
 		}
-		
-		return roll; 
+
+		return roll;
 	}
-	
-	
-	
+
 	public int getPen(int rangeInPcHexes) {
 		// 10 20 40 70 100 200 300 400
 

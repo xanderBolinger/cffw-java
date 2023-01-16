@@ -18,9 +18,11 @@ public class Item implements Serializable {
 	public enum ItemType {
 		NONE,ClassAThermalDetonator,DC15A,M5,DC15X,Z6,DC17M,DC17MRocket,DC17MSniper,DC40,RPS6,HEAT,HE,SmallArmsAmmo,
 		
+		M1,
+		
 		A310,EE3,
 		
-		E5,
+		E5,E5S,E5C,
 		
 		M870
 	}
@@ -43,6 +45,10 @@ public class Item implements Serializable {
 				new Item(ItemType.DC40, ItemType.HEAT),
 				new Item(ItemType.RPS6, ItemType.HE),
 				new Item(ItemType.RPS6, ItemType.HEAT),
+				new Item(ItemType.M1),
+				new Item(ItemType.E5),
+				new Item(ItemType.E5S),
+				new Item(ItemType.E5C),
 				
 				new Item(ItemType.M870)
 				));
@@ -72,10 +78,25 @@ public class Item implements Serializable {
 				&& ItemType.SmallArmsAmmo == ammoType) {
 			ammo = new PCAmmo("D1 Power Cell", 50);
 			itemWeight = 2;
-		}  else if(ItemType.Z6 == weaponType && ItemType.SmallArmsAmmo == ammoType) {
-			ammo = new PCAmmo("R1 Power Cell");
+		}  
+		else if((ItemType.Z6 == weaponType
+				) && ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("R1 Power Cell", 100);
 			itemWeight = 4;
-		} else if(ItemType.DC17MSniper == weaponType && ItemType.SmallArmsAmmo == ammoType) {
+		} 
+		else if((
+				ItemType.M1 == weaponType
+				) && ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("R1 Power Cell", 20);
+			itemWeight = 4;
+		} 
+		else if((ItemType.E5S == weaponType ||
+				ItemType.E5C == weaponType
+				) && ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("D11 Power Cell");
+			itemWeight = 4;
+		} 
+		else if(ItemType.DC17MSniper == weaponType && ItemType.SmallArmsAmmo == ammoType) {
 			ammo = new PCAmmo("DC17m Sniper Cartridge");
 			itemWeight = 1;
 		} else if(ItemType.DC17MRocket == weaponType && ItemType.HEAT == ammoType) {
@@ -100,7 +121,7 @@ public class Item implements Serializable {
 		
 		else if((ItemType.E5 == weaponType) 
 				&& ItemType.SmallArmsAmmo == ammoType) {
-			ammo = new PCAmmo("E1 Power Cell", 50);
+			ammo = new PCAmmo("S11 Power Cell", 50);
 			itemWeight = 2;
 		} 
 		
@@ -168,7 +189,22 @@ public class Item implements Serializable {
 		
 		else if(ItemType.E5 == itemType) {
 			weapon = new Weapons().findWeapon("E5");
-			itemWeight = 10; 
+			itemWeight = 6; 
+		} 
+		
+		else if(ItemType.E5S == itemType) {
+			weapon = new Weapons().findWeapon("E5S");
+			itemWeight = 13; 
+		} 
+		
+		else if(ItemType.E5C == itemType) {
+			weapon = new Weapons().findWeapon("E5C");
+			itemWeight = 11; 
+		} 
+		
+		else if(ItemType.M1 == itemType) {
+			weapon = new Weapons().findWeapon("M1");
+			itemWeight = 15; 
 		} 
 		
 		else if(ItemType.A310 == itemType) {

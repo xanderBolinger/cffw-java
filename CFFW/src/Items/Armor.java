@@ -282,24 +282,28 @@ public class Armor implements Serializable {
 		this.bPF = 15; 
 		armorName = "B1";
 		type = ArmorType.B1;
+		armorWeight = 20;
 	}
 	
 	public void b2Armor() {
 		this.bPF = 25; 
 		armorName = "B2";
 		type = ArmorType.B2;
+		armorWeight = 80;
 	}
 	
 	public void commandoDroidArmor() {
 		this.bPF = 25; 
 		armorName = "Commando Droid";
 		type = ArmorType.COMMANDODROID;
+		armorWeight = 20;
 	}
 	
 	public void magmaGuard() {
 		this.bPF = 25; 
 		armorName = "Margma Guard";
 		type = ArmorType.MAGMAGUARD;
+		armorWeight = 20;
 	}
 	
 	public void duraSteelHelmet() {

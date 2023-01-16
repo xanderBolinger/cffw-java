@@ -91,4 +91,45 @@ public class InventoryTest {
 	}
 	
 	
+	@Test
+	public void cisItemTest() throws Exception {
+		
+		Trooper trooper = new Trooper();
+		trooper.inventory.addContainer(ContainerType.Belt);
+		Inventory inv = trooper.inventory;
+		
+		inv.addItem(ItemType.E5);
+		
+		assertEquals(7, trooper.encumberance);
+		
+		inv.addItem(ItemType.E5, ItemType.SmallArmsAmmo);
+		
+		assertEquals(9, trooper.encumberance);
+		
+		inv.addItem(ItemType.E5S);
+		inv.addItem(ItemType.E5C);
+		inv.addItem(ItemType.E5S, ItemType.SmallArmsAmmo);
+		inv.addItem(ItemType.E5C, ItemType.SmallArmsAmmo);
+		
+		
+		assertEquals(41, trooper.encumberance);
+		
+	}
+	
+	@Test
+	public void m1Test() throws Exception {
+		Trooper trooper = new Trooper();
+		trooper.inventory.addContainer(ContainerType.Belt);
+		Inventory inv = trooper.inventory;
+		inv.addItem(ItemType.M1);
+		
+		assertEquals(16, trooper.encumberance);
+		
+		inv.addItem(ItemType.M1, ItemType.SmallArmsAmmo);
+		
+		assertEquals(20, trooper.encumberance);
+		
+	}
+	
+	
 }

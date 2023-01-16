@@ -1644,6 +1644,9 @@ public class Trooper implements Serializable {
 			this.encumberance = 46;
 			this.magnification = 24;
 			
+			inventory.addItems(ItemType.E5S, 1);
+			inventory.addItems(ItemType.E5S, ItemType.SmallArmsAmmo, 4);
+			
 			// Autorifleman
 		} else if (input.equals("B1 Autorifleman")) {
 			// Sets name
@@ -1668,6 +1671,9 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 57;
 
+			inventory.addItems(ItemType.E5C, 1);
+			inventory.addItems(ItemType.E5C, ItemType.SmallArmsAmmo, 2);
+			
 			// Assistant Autorifleman
 		} else if (input.equals("B1 Assistant Autorifleman")) {
 			// Sets name
@@ -1692,6 +1698,11 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 50;
 
+			
+			inventory.addItems(ItemType.E5, 1);
+			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 1);
+			inventory.addItems(ItemType.E5C, ItemType.SmallArmsAmmo, 4);
+			
 			// AT Specalist
 		} else if (input.equals("B1 AT Specialist")) {
 			// Sets name
@@ -1716,6 +1727,12 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 64;
 
+			inventory.addItems(ItemType.E5, 1);
+			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 1);
+			inventory.addItems(ItemType.RPS6, 1);
+			inventory.addItems(ItemType.RPS6, ItemType.HE, 1);
+			inventory.addItems(ItemType.RPS6, ItemType.HEAT, 1);
+			
 			// AT Assistant
 		} else if (input.equals("B1 Assistant AT Specialist")) {
 			// Sets name
@@ -1739,6 +1756,11 @@ public class Trooper implements Serializable {
 			this.eqiupment = "E-5, 8lbs(10lbs loaded), Hands[10x1xN/A].\n2 Baktoid Armor Workshop S11, 4lbs, Belt Magnitized[1x1x0.5].\nHEAA, 5lbs, Clipped On Back[4x0.75x0.75].\nHEDP, 5lbs, Clipped On Back[4x0.75x0.75].\nSelf, 20lbs.\nTrade Federation B1 Satchel, 1lbs.";
 			this.accomodations = "";
 			this.encumberance = 45;
+			
+			inventory.addItems(ItemType.E5, 1);
+			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 2);
+			inventory.addItems(ItemType.RPS6, ItemType.HE, 2);
+			inventory.addItems(ItemType.RPS6, ItemType.HEAT, 2);
 
 		} else if (input.equals("B2")) {
 			// Sets name
@@ -1768,6 +1790,9 @@ public class Trooper implements Serializable {
 			this.legArmor = 50;
 			this.armArmor = 50;
 			this.headArmor = 50;
+			encumberanceModifier = -20;
+			inventory.addItems(ItemType.E5, 1);
+			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 2);
 
 		} else if (input.equals("Commando Droid Squad Leader")) {
 			// Sets name
@@ -1792,6 +1817,10 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 36;
 			this.magnification = 24;
+			
+			inventory.addItems(ItemType.E5, 1);
+			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 2);
+			
 			// B1 Rifleman
 		} else if (input.equals("Commando Droid Rifleman")) {
 			// Sets name
@@ -1816,6 +1845,9 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 34;
 
+			inventory.addItems(ItemType.E5, 1);
+			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 2);
+			
 			// B1 Marksman
 		} else if (input.equals("Commando Droid Ammo Bearer")) {
 			// Sets name
@@ -1839,6 +1871,9 @@ public class Trooper implements Serializable {
 			this.eqiupment = "E-5, 8lbs(10lbs loaded), Hands[10x1xN/A].\n8 Baktoid Armor Workshop S11, 4lbs, Belt Magnitized[1x1x0.5].\nSelf, 20lbs.";
 			this.accomodations = "";
 			this.encumberance = 34;
+			
+			inventory.addItems(ItemType.E5, 1);
+			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 9);
 
 			// B1 Marksman
 		} else if (input.equals("Commando Droid Marksman")) {
@@ -1865,6 +1900,9 @@ public class Trooper implements Serializable {
 			this.encumberance = 46;
 			this.magnification = 24;
 
+			inventory.addItems(ItemType.E5S, 1);
+			inventory.addItems(ItemType.E5S, ItemType.SmallArmsAmmo, 4);
+			
 			// Autorifleman
 		} else if (input.equals("Commando Droid Autorifleman")) {
 			// Sets name
@@ -1889,6 +1927,9 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 57;
 
+			inventory.addItems(ItemType.E5C, 1);
+			inventory.addItems(ItemType.E5C, ItemType.SmallArmsAmmo, 2);
+			
 			// Assistant Autorifleman
 		} else if (input.equals("Commando Droid Assistant Autorifleman")) {
 			// Sets name
@@ -1913,6 +1954,11 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 50;
 
+			inventory.addItems(ItemType.E5, 1);
+			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 1);
+			inventory.addItems(ItemType.E5C, ItemType.SmallArmsAmmo, 4);
+			
+			
 			// AT Specalist
 		} else if (input.equals("Commando Droid AT Specialist")) {
 			// Sets name
@@ -1937,6 +1983,13 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 64;
 
+			
+			inventory.addItems(ItemType.E5, 1);
+			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 1);
+			inventory.addItems(ItemType.RPS6, 1);
+			inventory.addItems(ItemType.RPS6, ItemType.HE, 1);
+			inventory.addItems(ItemType.RPS6, ItemType.HEAT, 1);
+			
 			// AT Assistant
 		} else if (input.equals("Commando Droid Assistant AT Specialist")) {
 			// Sets name
@@ -1960,6 +2013,11 @@ public class Trooper implements Serializable {
 			this.eqiupment = "E-5, 8lbs(10lbs loaded), Hands[10x1xN/A].\n2 Baktoid Armor Workshop S11, 4lbs, Belt Magnitized[1x1x0.5].\nHEAA, 5lbs, Clipped On Back[4x0.75x0.75].\nHEDP, 5lbs, Clipped On Back[4x0.75x0.75].\nSelf, 20lbs.\nTrade Federation B1 Satchel, 1lbs.";
 			this.accomodations = "";
 			this.encumberance = 45;
+			
+			inventory.addItems(ItemType.E5, 1);
+			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 2);
+			inventory.addItems(ItemType.RPS6, ItemType.HE, 2);
+			inventory.addItems(ItemType.RPS6, ItemType.HEAT, 2);
 
 		} else if (input.equals("Magma Guard")) {
 			// Sets name
@@ -1984,8 +2042,31 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 55;
 
+			inventory.addItems(ItemType.E5, 1);
+			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 2);
+			
 		}
 
+		if (this.name.equals("B1")) {
+			this.KO = 150;
+			this.armor = new Armor();
+			this.armor.b1Armor();
+		} else if (this.name.equals("B2")) {
+			this.KO = 250;
+			this.armor = new Armor();
+			this.armor.b2Armor();
+		} else if (this.name.equals("Commando Droid")) {
+			this.KO = 185;
+			this.armor = new Armor();
+			this.armor.commandoDroidArmor();
+		} else if (this.name.equals("Magma Guard")) {
+			this.KO = 215;
+			this.armor = new Armor();
+			this.armor.magmaGuard();
+		}
+		
+		inventory.setEncumberance();
+		
 		// Creates skills
 		// Stores attributes in an array for the skill attr parameter
 		int attr[] = { str, wit, soc, wil, per, hlt, agi };
@@ -2008,23 +2089,7 @@ public class Trooper implements Serializable {
 		// Sets current HP
 		this.currentHP = this.hp;
 
-		if (this.name.equals("B1")) {
-			this.KO = 150;
-			this.armor = new Armor();
-			this.armor.b1Armor();
-		} else if (this.name.equals("B2")) {
-			this.KO = 250;
-			this.armor = new Armor();
-			this.armor.b2Armor();
-		} else if (this.name.equals("Commando Droid")) {
-			this.KO = 185;
-			this.armor = new Armor();
-			this.armor.commandoDroidArmor();
-		} else if (this.name.equals("Magma Guard")) {
-			this.KO = 215;
-			this.armor = new Armor();
-			this.armor.magmaGuard();
-		}
+		
 
 		if (this.str <= 6) {
 			this.carryingCapacity = 40;
