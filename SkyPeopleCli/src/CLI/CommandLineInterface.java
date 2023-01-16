@@ -105,6 +105,12 @@ public class CommandLineInterface {
 			new ClearFormationCommand(parameters);
 		} else if (command.equals("recharge")) {
 			new SetRegenerationCommand(parameters);
+		} else if (command.equals("radiators")) {
+			new RadiatorsCommand(parameters);
+		} else if (command.equals("next")) {
+			new NextCommand();
+		} else if (command.equals("response")) {
+			new ResponseCommand(parameters);
 		} else {
 			print("Command not found");
 		}

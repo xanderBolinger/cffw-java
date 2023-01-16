@@ -325,7 +325,7 @@ public class Ship {
 		rslts += "Power: " + power + "\n";
 		rslts += "Set Reactor Rate: " + reactorSet + "\n";
 		rslts += "Heat: " + heat + "\n";
-		
+		rslts += "Extended Radiators: "+extendedRadiators+"\n";
 		rslts += "Pivot: " + pivotChart + ", Roll: " + rollChart + "\n";
 		rslts += description.toString() + "\n";
 

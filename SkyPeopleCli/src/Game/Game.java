@@ -5,32 +5,42 @@ import java.util.ArrayList;
 import Mechanics.Formation;
 import Ship.Ship;
 import Ship.Ship.ShipType;
+import Turns.Turn;
 
 public class Game {
 	public ArrayList<Ship> ships;
 	public ArrayList<Ship> destroyed;
 	public ArrayList<Formation> formations;
-	public int round;
-	public int turn;
+
+	public ArrayList<Turn> turns;
 	
 	public Game() {
-		round = 1;
-		turn = 1;
 		ships = new ArrayList<>();
 		formations = new ArrayList<>();
 		destroyed = new ArrayList<>();
-		//System.out.println("Add Game");
+		turns = new ArrayList<>();
+		turns.add(new Turn());
 	}
 	
-	public Game(int round, ArrayList<Ship> oldShips) {
-		this.round = round;
-		ships = new ArrayList<>();
-		formations = new ArrayList<>();
-		destroyed = new ArrayList<>();
-		for(Ship oldShip : oldShips) {
-			ships.add(new Ship(oldShip));
-		}
+	public Game(Game original) {
+	    this.ships = new ArrayList<>(original.ships.size());
+	    for (Ship ship : original.ships) {
+	        this.ships.add(new Ship(ship));
+	    }
+	    this.destroyed = new ArrayList<>(original.destroyed.size());
+	    for (Ship ship : original.destroyed) {
+	        this.destroyed.add(new Ship(ship));
+	    }
+	    this.formations = new ArrayList<>(original.formations.size());
+	    for (Formation formation : original.formations) {
+	        this.formations.add(new Formation(formation));
+	    }
+	    this.turns = new ArrayList<>(original.turns.size());
+	    for (Turn turn : original.turns) {
+	        this.turns.add(new Turn(turn));
+	    }
 	}
+	
 	
 	public void nextRound() {
 		
@@ -38,13 +48,8 @@ public class Game {
 			ship.generationStep();
 		}
 		
-		if(round % 8 == 0)
-			turn++;
+		turns.add(new Turn());
 		
-		round++;
-		
-		
-		GameMaster.move();
 	}
 	
 	public void addShip(ShipType shipType, String shipName) {
@@ -73,31 +78,30 @@ public class Game {
 		return null;
 	} 
 	
+	public Turn currentTurn() {
+		return turns.get(turns.size() - 1);
+	}
+	
+	public String turns() {
+		return "";
+	}
+	
 	@Override
 	public String toString() {
 		
-		String roundNumber = "";
-		
-		if(round < 9) {
-			roundNumber = Integer.toString(round);
-		} else {
-			int temp = round; 
-			while(temp >= 9) {
-				
-				temp -=8;
-			}
-			roundNumber = Integer.toString(temp);
-		}
-		
-		String rslts = "Turn: "+ turn
-				+ ", Sequence: " + roundNumber
+		String rslts = "Turn: "+ (turns.size() + 1)
+				+ ", Segment: " + turns.get(turns.size() - 1).currentSegmentNumber()
 				+"\n";
+		
+		rslts += "Step: " + currentTurn().currentSegment().currentStep().toString() + "\n";
+		
+		rslts += "\nShips:\n";
 		
 		for(Ship ship : ships) {
 			rslts += ship.shipName +": "+ship.description.model+"\n";
 		} 
 		
-		rslts +="Formations: \n";
+		rslts +="\nFormations: \n";
 		
 		for(Formation formation : formations) {
 			rslts += formation.formationName;
@@ -108,7 +112,7 @@ public class Game {
 			rslts += "---\n";
 		}
 		
-		rslts +="Destroyed: \n";
+		rslts +="\nDestroyed: \n";
 		
 		for(Ship ship : destroyed) {
 			rslts += ship.shipName +": "+ship.description.model+"\n";

@@ -12,6 +12,7 @@ public class NextRoundCommand implements Command {
 	@Override
 	public void resolve() {
 		GameMaster.game.nextRound();
+		GameMaster.move();
 	}
 
 	@Override

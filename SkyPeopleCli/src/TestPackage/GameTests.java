@@ -26,14 +26,11 @@ public class GameTests {
 	@Test
 	public void nextRound() {
 		
-		
-		
 		game.ships.get(0).power -= 15;
 		
 		game.nextRound();
 		
 		assertEquals(true, game.ships.get(0).heat == 15);
-		assertEquals(2, game.round);
 	}
 	
 	@Test

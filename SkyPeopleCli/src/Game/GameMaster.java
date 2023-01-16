@@ -24,13 +24,13 @@ public class GameMaster {
 		games.remove(games.size() - 1);
 		// Get previous move
 		Game previousGame = games.get(games.size() - 1);
-		game = new Game(previousGame.round, previousGame.ships);
+		game = new Game(previousGame);
 		
 	}
 	
 	public static void move() {
 		//System.out.println("Move");
-		games.add(new Game(game.round, game.ships));
+		games.add(new Game(game));
 		autosave();
 	}
 	

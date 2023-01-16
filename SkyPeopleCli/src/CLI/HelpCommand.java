@@ -26,6 +26,10 @@ public class HelpCommand implements Command {
 		CommandLineInterface.cli.print("remove - [formationName{String} shipName{String}]");
 		CommandLineInterface.cli.print("clear - [formationName{String}]");
 		CommandLineInterface.cli.print("recharge - [shipName{String}, setReactorRechargeRate{int}]");
+		CommandLineInterface.cli.print("radiators - [shipName/formationName{String}] toggles radiators extended");
+		CommandLineInterface.cli.print("next - advances game to next step");
+		CommandLineInterface.cli.print("turns - prints out all turns and what happened");
+		CommandLineInterface.cli.print("response - [shipName/formationName{String}, response{String}] adds response to current step, when all responses are added, advances step");
 		
 	}
 

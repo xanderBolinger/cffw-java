@@ -40,7 +40,7 @@ public class DamageAllocation {
 		if (initialLocation.locationType != LocationType.HARDPOINT
 				|| initialLocation.componentType != ComponentType.POINTDEFENSE
 				|| initialLocation.componentType != ComponentType.BRIDGE) {
-			damage = applyInitialHit(damage, DiceRoller.d10(), skinArmor);
+			damage = applyInitialHit(damage, DiceRoller.twoD10Minus(), skinArmor);
 			hitSide = depthCheck(ship, hitSide);
 			if (hitSide == HitSide.NONE)
 				return;

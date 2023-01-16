@@ -14,4 +14,12 @@ public class Formation {
 		this.ships = ships;
 	}
 	
+	public Formation(Formation original) {
+	    this.formationName = new String(original.formationName);
+	    this.ships = new ArrayList<>(original.ships.size());
+	    for (Ship ship : original.ships) {
+	        this.ships.add(new Ship(ship));
+	    }
+	}
+
 }
