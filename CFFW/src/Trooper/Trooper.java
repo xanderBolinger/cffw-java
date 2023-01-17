@@ -1417,10 +1417,11 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.M5, 1);
 			inventory.addItems(ItemType.M5, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
+			encumberanceModifier = -20;
 
 		} else if (input.equals("Republic Commando")) { // ARC Trooper
 			// Creates attributes
-			attributes = new TLHStats(3, 2, -1, 2, 2, 3, 3);
+			attributes = new TLHStats(4, 3, -1, 2, 2, 3, 3);
 			this.str = attributes.str;
 			this.wit = attributes.wit;
 			this.soc = attributes.soc;
@@ -1449,6 +1450,7 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.DC17MRocket, ItemType.HEAT, 2);
 			inventory.addItems(ItemType.DC17MRocket, ItemType.HE, 2);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
+			encumberanceModifier = -20;
 		} else {
 			throw new Exception("Invalid Trooper Input.");
 		}
@@ -1464,11 +1466,16 @@ public class Trooper implements Serializable {
 		
 		// According to the Jango Fett clone template special rule, sets the minimum
 		// health to ten
-		if (hlt < 10) {
-			this.hlt = 10;
+		if (hlt < 12) {
+			this.hlt = 12;
 		}
 
+		if(agi < 12)
+			this.agi = 12;
 				
+		if(wit < 11)
+			this.wit = 11;
+		
 		// Creates skills
 		// Stores attributes in an array for the skill attr parameter
 		int attr[] = { str, wit, soc, wil, per, hlt, agi };
@@ -2124,7 +2131,7 @@ public class Trooper implements Serializable {
 	// Create PC stats
 	public void setPCStats() {
 		// Create PC stats
-		new PCStats(this);
+		new PCStats(this, true);
 	}
 
 	public void generateStats(int str, int wit, int soc, int wil, int per, int hlt, int agi) {
@@ -2881,7 +2888,7 @@ public class Trooper implements Serializable {
 			fatigueSystem = new FatigueSystem(this);
 		}
  		
-		new PCStats(individual);
+		new PCStats(individual, true);
 		individual.setCombatActions(combatActions);
 
 	}
@@ -2889,6 +2896,7 @@ public class Trooper implements Serializable {
 	public void setCombatActions(int combatActions) {
 		this.combatActions = combatActions;
 		int actionPoints = 0;
+		
 		if (combatActions <= 1) {
 			actionPoints = 2;
 		} else if (combatActions <= 2) {

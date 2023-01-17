@@ -19,7 +19,7 @@ public class PCStats implements Serializable {
 
 	//Pistol	Rifle	Launcher	Heavy	Subgun	SAL	ISF	IT	A#	DALM	CA	CAPI	KO	Balance	Climb	Composure	Dodge	Endurance	Expression	Grapple	Hold	Jump/Leap	Lift/Pull	Resist Pain	Search	Spot/Listen	Stealth	Calm Other	Diplomacy	Barter	Command	Tactics	Det. Motives	Intimidate	Persuade	Digi. Systems	Long Gun	Pistol	Launcher	Heavy	Subgun	Explosives	First Aid 	Navigation	Swim	Throw
 
-	public PCStats(Trooper trooper) {
+	public PCStats(Trooper trooper, boolean CFFW) {
 		if(trooper.wep == null) {
 			return; 
 		}
@@ -51,6 +51,10 @@ public class PCStats implements Serializable {
 		trooper.isf = trooper.sl + (trooper.wit);
 		// System.out.println("trooper.wit: "+trooper.wit);
 		int CA = TrooperUtility.calculateCA(mSpeed, trooper.isf);
+		if(CFFW) {
+			CA = TrooperUtility.calculateCACFFW(mSpeed, trooper.isf);
+		}
+		
 		trooper.DALM = TrooperUtility.defensiveALM(trooper.isf);
 		trooper.combatActions = CA;
 		trooper.KO = TrooperUtility.getKO(trooper);

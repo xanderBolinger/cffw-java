@@ -1466,6 +1466,9 @@ public class BulkWindow {
 			public void actionPerformed(ActionEvent e) {
 				
 				for(BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
+					if(bulkTrooper.targetTroopers.size() < 1)
+						continue;
+					
 					try {
 						PCShots(bulkTrooper, getTargetTrooper(bulkTrooper));
 					} catch (Exception e1) {

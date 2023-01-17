@@ -172,6 +172,52 @@ public class TrooperUtility {
 
 	}
 
+	public static int calculateCACFFW(double ms, int isf) {
+		// System.out.println("Calc CA ms: "+ms+", isf: "+isf);
+		int CA = 0;
+		int column = 0;
+		try {
+
+			FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "\\CA_CFFW.xlsx"));
+			Workbook workbook = new XSSFWorkbook(excelFile);
+			Sheet worksheet = workbook.getSheetAt(0);
+
+			Row row = worksheet.getRow(0);
+
+			if (isf <= 7) {
+
+				column = 1;
+
+			} else {
+
+				for (int i = 1; i < 19; i++) {
+					if (isf < row.getCell(i + 1).getNumericCellValue()) {
+						column = i;
+						break;
+					}
+				}
+			}
+
+			for (int x = 1; x < 22; x++) {
+				//System.out.println("Line 187 PC Stats X: "+x);
+				//System.out.println("MS: "+ms+", ISF: "+isf);
+				if (ms == worksheet.getRow(x).getCell(0).getNumericCellValue()) {
+					CA = (int) worksheet.getRow(x).getCell(column).getNumericCellValue();
+					break;
+				}
+			}
+
+			workbook.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return CA;
+
+	}
+	
 	public static int calculateCA(double ms, int isf) {
 		// System.out.println("Calc CA ms: "+ms+", isf: "+isf);
 		int CA = 0;

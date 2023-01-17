@@ -174,6 +174,10 @@ public class Weapons implements Serializable {
 		Weapons weapon25 = new Weapons();
 		weapon25.EE3();
 		weapons.add(weapon25);
+		
+		Weapons m1 = new Weapons();
+		m1.M1();
+		weapons.add(m1);
 
 		Weapons shotgun = new Weapons();
 		shotgun.M870();

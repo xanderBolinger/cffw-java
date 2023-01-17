@@ -143,56 +143,31 @@ public class PCUtility {
 		int skillLevel = 0;
 
 		if (val <= 20) {
-			skillLevel = 0;
-		} else if (val <= 40) {
-			skillLevel = 1;
-		} else if (val <= 45) {
-			skillLevel = 2;
-		} else if (val <= 60) {
-			skillLevel = 3;
-		} else if (val <= 65) {
-			skillLevel = 4;
-		} else if (val <= 70) {
-			skillLevel = 5;
-		} else if (val <= 80) {
-			skillLevel = 6;
-		} else if (val <= 85) {
-			skillLevel = 7;
-		} else if (val <= 88) {
-			skillLevel = 8;
-		} else if (val <= 95) {
-			skillLevel = 9;
-		} else {
-			skillLevel = 10;
-		}
-
-		// System.out.println("New SL: "+ skillLevel+", Val: "+val);
-
-		if (skillLevel == 0) {
 			return 0;
-		} else if (skillLevel == 1) {
+		} else if (val <= 30) {
+			return 3;
+		} else if (val <= 45) {
 			return 5;
-		} else if (skillLevel == 2) {
+		} else if (val <= 50) {
 			return 7;
-		} else if (skillLevel == 3) {
-			return 9;
-		} else if (skillLevel == 4) {
+		} else if (val <= 55) {
 			return 10;
-		} else if (skillLevel == 5) {
+		} else if (val <= 60) {
 			return 11;
-		} else if (skillLevel == 6) {
+		} else if (val <= 65) {
 			return 12;
-		} else if (skillLevel == 7) {
+		} else if (val <= 75) {
 			return 13;
-		} else if (skillLevel == 8) {
+		} else if (val <= 85) {
 			return 14;
-		} else if (skillLevel == 9) {
+		} else if (val <= 88) {
 			return 15;
-		} else if (skillLevel == 10) {
+		} else if (val <= 95) {
 			return 16;
 		} else {
-			return 16;
+			return 17;
 		}
+
 	}
 
 	public static int findVisibiltyALM(Unit targetUnit, Trooper shooterTrooper, int rangeInPCHexes) {

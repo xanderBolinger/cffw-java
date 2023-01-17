@@ -212,6 +212,17 @@ public class generateSquad implements Serializable {
 			troopers[10] = new Trooper("Captain", faction);
 			setSquad(troopers);
 
+		} else if (type.equals("Commando Squad")) {
+			Trooper[] troopers = new Trooper[4];
+			// Squad leader
+			troopers[0] = new Trooper("Republic Commando", faction);
+			// Rifleman++
+			troopers[1] = new Trooper("Republic Commando", faction);
+			// Rifleman
+			troopers[2] = new Trooper("Republic Commando", faction);
+			troopers[3] = new Trooper("Republic Commando", faction);
+			setSquad(troopers);
+
 		}
 
 	}

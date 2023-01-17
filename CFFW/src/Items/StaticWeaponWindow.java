@@ -1838,7 +1838,7 @@ public class StaticWeaponWindow {
 
 	}
 
-	public int calculateCA(double ms, int isf) {
+	/*public int calculateCA(double ms, int isf) {
 
 		int CA = 0;
 		int column = 0;
@@ -1907,7 +1907,7 @@ public class StaticWeaponWindow {
 		} else
 			return CA;
 
-	}
+	}*/
 
 	public int defensiveALM(int isf) {
 

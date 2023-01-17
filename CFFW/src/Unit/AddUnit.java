@@ -89,6 +89,7 @@ public class AddUnit implements Serializable {
 					comboBoxSquad.addItem("Special Riflesquad");
 					comboBoxSquad.addItem("Platoon Squad");
 					comboBoxSquad.addItem("Company Squad");
+					comboBoxSquad.addItem("Commando Squad");
 				} else if(comboBoxFaction.getSelectedItem().toString().equals("CIS Battle Droid")) {
 					comboBoxSquad.removeAllItems();
 					comboBoxSquad.addItem("Empty");
