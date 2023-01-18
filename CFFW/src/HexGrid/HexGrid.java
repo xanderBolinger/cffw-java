@@ -445,6 +445,14 @@ public class HexGrid implements Serializable {
 				results += " M";
 			} 
 			
+			for(Trooper trooper : unit.individuals) {
+				if(trooper.alive && (trooper.disabledLegs > 0 || !trooper.conscious)) {
+					results += " IM";
+					break; 
+				}
+			}
+			
+			
 			return results;
 		}
 		

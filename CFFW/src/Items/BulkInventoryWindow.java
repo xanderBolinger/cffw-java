@@ -93,12 +93,12 @@ public class BulkInventoryWindow extends JFrame {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = toolkit.getScreenSize();
 		// Calculate the frame location
-		int x = (screenSize.width - contentPane.getWidth()) / 2;
-		int y = (screenSize.height - contentPane.getHeight()) / 2;
+		int x = (screenSize.width - getWidth()) / 2;
+		int y = (screenSize.height - getHeight()) / 2;
 		//y -= screenSize.height / 5;
 
 		// Set the new frame location
-		contentPane.setLocation(x, y);
+		setLocation(x, y);
 		
 		setContentPane(contentPane);
 		contentPane.setLayout(null);

@@ -18,6 +18,7 @@ import org.junit.runners.Suite;
 import CreateGame.SetupWindow;
 import Items.Item;
 import Items.Item.ItemType;
+import JUnitTests.AllTests;
 import JUnitTests.InventoryTest;
 import UtilityClasses.TestUtility;
 
@@ -50,6 +51,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.junit.internal.TextListener;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
@@ -68,9 +70,20 @@ public class Main {
 	 */
 	public static void main(String[] args) throws Exception {
 		
-		//TestUtility.runTests();
+		JUnitCore junit = new JUnitCore();
+		junit.addListener(new TextListener(System.out));
+		Result result = junit.run(AllTests.class);
+		resultReport(result);
 		
 		new SetupWindow();
 	}
 
+	public static void resultReport(Result result) {
+	    System.out.println("Finished. Result: Failures: " +
+	      result.getFailureCount() + ". Ignored: " +
+	      result.getIgnoreCount() + ". Tests run: " +
+	      result.getRunCount() + ". Time: " +
+	      result.getRunTime() + "ms.");
+	}
+	
 }

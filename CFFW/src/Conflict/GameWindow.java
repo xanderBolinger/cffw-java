@@ -494,6 +494,10 @@ public class GameWindow implements Serializable {
 						//System.out.println("Original AU: "+originalAU);
 						//System.out.println("Next Active Unit: "+newActiveUnit);
 						
+						if(activeUnit == newActiveUnit) {
+							safeNextActiveUnit();
+						}
+						
 						// If on last unit 
 						while(activeUnit != newActiveUnit) {
 							try {

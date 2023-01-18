@@ -929,7 +929,7 @@ public class TargetedFire implements Serializable {
 		} else {
 			game.conflictLog.addNewLineToQueue("Shot EAL: "+EAL+" Shot ALM(Omitting Size ALM): "+ALMSum+" TN: "+TN+" Roll: "+tfRoll
 					+" Percent Bonus: "+percentBonus+ " Fatigue Penalty: "+fatiguePenalty+", EAL: "+EAL+", BA:"+BA+", Range ALM: "
-					+rangeALM+", Aim ALM: "+aim+", Raw Aim:"+rawAimMod+", Weapon Mod ALM: "+weaponConditionMod+", Shooter SL: "+
+					+rangeALM+", Aim Time: "+spentAimTime+", Aim ALM: "+aim+", Raw Aim:"+rawAimMod+", Weapon Mod ALM: "+weaponConditionMod+", Shooter SL: "+
 					shooterTrooper.sl+", Size ALM: "+sizeALM+", Speed ALM: "+speedALM+", Visibility ALM: "+visibilityALM+", Stance Mod EAL: "
 					+stanceMod+", EAL Bonus: "+EALBonus+"\n");
 		}
@@ -1017,8 +1017,10 @@ public class TargetedFire implements Serializable {
 	// Aims the shooters weapon
 	// Returns aim EAL 
 	public int aim(Trooper shooterTrooper, int spentAimTime, Weapons wep) {
-		if(spentAimTime < 0)
+		if(spentAimTime < 0) {
+			System.out.println("Bad Return: "+spentAimTime);
 			return 0; 
+		}
 		
 		int sl = shooterTrooper.sl;
 		
@@ -1026,14 +1028,14 @@ public class TargetedFire implements Serializable {
 		
 		 
 		
-		//System.out.println("Aim weapon: "+wep.name+", SL: "+sl);
+		System.out.println("Aim weapon: "+wep.name+", SL: "+sl);
 		
 		if(spentAimTime >= size) {
-			//System.out.println("Aim Result: "+wep.aimTime.get(size - 1)+" + "+sl+" = "+(wep.aimTime.get(size - 1) + sl));
+			System.out.println("Aim Result: "+wep.aimTime.get(size - 1)+" + "+sl+" = "+(wep.aimTime.get(size - 1) + sl));
 			rawAimMod = wep.aimTime.get( size - 1);
 			return wep.aimTime.get( size - 1) + sl;
 		} else {
-			//System.out.println("Aim Result: "+wep.aimTime.get(spentAimTime)+" + "+sl+" = "+(wep.aimTime.get(spentAimTime) + sl));
+			System.out.println("Aim Result: "+wep.aimTime.get(spentAimTime)+" + "+sl+" = "+(wep.aimTime.get(spentAimTime) + sl));
 			rawAimMod = wep.aimTime.get(spentAimTime);
 			return wep.aimTime.get(spentAimTime) + sl;
 		}

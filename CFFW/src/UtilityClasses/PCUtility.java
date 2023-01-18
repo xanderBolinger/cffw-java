@@ -20,6 +20,32 @@ import Unit.Unit;
 
 public class PCUtility {
 
+	
+	public static String convertTime(int inputMinutes) {
+		
+		double minutes = (double) inputMinutes; 
+		
+		
+		if(minutes / 60 / 24 > 0) {
+			double roundOff = Math.round(minutes / 60.0 / 24.0 * 100.0) / 100.0;
+			
+			if(roundOff % 1.0 == 0) 
+				return Integer.toString((int) roundOff) + "d";
+			
+			return Double.toString(roundOff) + "d";
+		} else if(minutes / 60 > 0) {
+			double roundOff = Math.round(minutes / 60.0 * 100.0) / 100.0;
+			
+			if(roundOff % 1.0 == 0) 
+				return Integer.toString((int) roundOff) + "h";
+			
+			return Double.toString(roundOff) + "h";
+		} else {
+			return Integer.toString(inputMinutes) + "m";
+		}
+		
+	}
+	
 	// Takes EAL and boolean for singleShot or fullAuto as parameter
 	// Returns the cell value according to the params
 	public static int getOddsOfHitting(boolean singleShot, int EAL) {

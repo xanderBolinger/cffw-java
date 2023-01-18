@@ -44,6 +44,9 @@ public class SelectedUnitsWindow {
 		this.selectedUnits = GameWindow.gameWindow.getUnitsInHex("None", x, y);
 		
 		for(DeployedUnit deployedUnit : selectedUnits) {
+			if(this.selectedUnits.contains(deployedUnit.unit))
+				continue; 
+			
 			this.selectedUnits.add(deployedUnit.unit);
 		}
 		

@@ -23,6 +23,7 @@ import Conflict.ConflictLog;
 import Conflict.Game;
 import Conflict.GameWindow;
 import Injuries.Injuries;
+import Injuries.Injury;
 import Conflict.OpenUnit;
 import CorditeExpansionStatBlock.StatBlock;
 import FatigueSystem.FatigueSystem;
@@ -90,6 +91,9 @@ public class Trooper implements Serializable {
 	public int recoveryRollMod;
 	public int aidMod;
 	public boolean recivingFirstAid;
+	public boolean aidStation = false;
+	public boolean fieldHospital = false;
+	public boolean traumaCenter = false;
 	public boolean recoveryMade = false;
 	public int arms;
 	public int legs;
@@ -154,10 +158,9 @@ public class Trooper implements Serializable {
 
 	// Abilities
 	public ArrayList<Ability> abilities = new ArrayList<Ability>();
-	
+
 	public int characterPointTotal;
 	public int spentCharacterPoints;
-	
 
 	// PC stats
 
@@ -170,7 +173,7 @@ public class Trooper implements Serializable {
 	public int KO;
 
 	public String input;
-	
+
 	// Simplified damage and wound stats
 	public int hp;
 	public int currentHP;
@@ -187,7 +190,7 @@ public class Trooper implements Serializable {
 	public FatigueSystem fatigueSystem;
 	public BaseSpeed baseSpeed;
 	public MaximumSpeed maximumSpeed;
-	
+
 	public int magnification = 0;
 
 	// Close combat
@@ -199,9 +202,9 @@ public class Trooper implements Serializable {
 
 	public Inventory inventory = new Inventory(this);
 	public int encumberanceModifier = 0;
-	
+
 	public StatBlock ceStatBlock;
-	
+
 	public class MaximumSpeed implements Serializable {
 
 		Trooper trooper;
@@ -215,7 +218,7 @@ public class Trooper implements Serializable {
 		}
 
 	}
-	
+
 	public class BaseSpeed implements Serializable {
 
 		Trooper trooper;
@@ -229,34 +232,34 @@ public class Trooper implements Serializable {
 		}
 
 	}
-	
+
 	public Trooper() {
 		inventory = new Inventory(this);
 	}
 
 	public Trooper(String name) {
 		inventory.addContainer(ContainerType.Belt);
-		
-		this.name = name; 
+
+		this.name = name;
 		this.identifier = identifier();
-		
+
 		setBasicStats();
 		calculateAttributes();
 		calculateSkills();
-		
+
 		baseSpeed = new BaseSpeed(this);
 		fatigueSystem = new FatigueSystem(this);
 		setCombatStats(this);
-		
-		designation = "None"; 
+
+		designation = "None";
 		wep = "None";
 		weaponPercent = "0";
-		
+
 	}
 
 	public Trooper(String input, String faction) {
 		inventory.addContainer(ContainerType.Belt);
-		System.out.println("New Trooper, input: "+input+", faction: "+faction);
+		System.out.println("New Trooper, input: " + input + ", faction: " + faction);
 
 		if (faction.equals("Clone Trooper Phase 1")) {
 			this.faction = "Clone Trooper Phase 1";
@@ -354,15 +357,12 @@ public class Trooper implements Serializable {
 		skills(input, attr);
 
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value, 
-				skills.getSkill("Rifle").value, 
-				skills.getSkill("Launcher").value, 
-				skills.getSkill("Heavy").value,
+		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value,
+				skills.getSkill("Rifle").value, skills.getSkill("Launcher").value, skills.getSkill("Heavy").value,
 				skills.getSkill("Subgun").value, true);
 		this.name = individual.name;
 		this.P1 = individual.P1;
 		this.P2 = individual.P2;
-
 
 		// Sets identifier
 		this.identifier = identifier();
@@ -700,15 +700,12 @@ public class Trooper implements Serializable {
 
 		// Create and set individual stats
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value, 
-				skills.getSkill("Rifle").value, 
-				skills.getSkill("Launcher").value, 
-				skills.getSkill("Heavy").value,
+		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value,
+				skills.getSkill("Rifle").value, skills.getSkill("Launcher").value, skills.getSkill("Heavy").value,
 				skills.getSkill("Subgun").value, true);
 
 		this.P1 = individual.P1;
 		this.P2 = individual.P2;
-
 
 		// Sets identifier
 		this.identifier = identifier();
@@ -970,12 +967,10 @@ public class Trooper implements Serializable {
 
 		// Create and set individual stats
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value, 
-				skills.getSkill("Rifle").value, 
-				skills.getSkill("Launcher").value, 
-				skills.getSkill("Heavy").value,
+		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value,
+				skills.getSkill("Rifle").value, skills.getSkill("Launcher").value, skills.getSkill("Heavy").value,
 				skills.getSkill("Subgun").value, true);
-		
+
 		this.name = individual.name;
 		this.P1 = individual.P1;
 		this.P2 = individual.P2;
@@ -1057,7 +1052,7 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 67;
 			this.magnification = 24;
-			
+
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
@@ -1084,7 +1079,7 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\nPhase 1 Armor, 35lbs.";
 			this.accomodations = "";
 			this.encumberance = 55;
-			
+
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
@@ -1108,7 +1103,7 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\nPhase 1 Armor, 35lbs.\n";
 			this.accomodations = "";
 			this.encumberance = 55;
-			
+
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
@@ -1135,7 +1130,7 @@ public class Trooper implements Serializable {
 
 			inventory.addItems(ItemType.Z6, 1);
 			inventory.addItems(ItemType.Z6, ItemType.SmallArmsAmmo, 1);
-			
+
 		} else if (input.equals("Clone Assistant Autorifleman")) { // Assistant Autorifleman
 			// Creates attributes
 			this.str = attributes.str;
@@ -1155,7 +1150,7 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\n2 BlasTech R1, 8lbs, Belt Magnitized[1.5x1.5x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\nPhase 1 Armor, 35lbs.\n";
 			this.accomodations = "";
 			this.encumberance = 63;
-			
+
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.Z6, ItemType.SmallArmsAmmo, 2);
@@ -1180,7 +1175,7 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n8 BlasTech DCA1, 16lbs, Belt Magnitized[1x1x0.5].\n4 Class-A Thermal Detonators, 8lbs, Belt Magnitized[0.75x0.75x0.75].\nPhase 1 Armor, 35lbs.\n";
 			this.accomodations = "";
 			this.encumberance = 73;
-			
+
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 9);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
@@ -1206,7 +1201,7 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 60;
 			this.magnification = 24;
-			
+
 			inventory.addItems(ItemType.DC15X, 1);
 			inventory.addItems(ItemType.DC15X, ItemType.SmallArmsAmmo, 4);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
@@ -1230,7 +1225,7 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\nPhase 1 Armor, 35lbs.\n";
 			this.accomodations = "";
 			this.encumberance = 55;
-			
+
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
@@ -1254,7 +1249,7 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\nPhase 1 Armor, 35lbs.\n";
 			this.accomodations = "";
 			this.encumberance = 55;
-			
+
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
@@ -1284,7 +1279,7 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.RPS6, ItemType.HEAT, 2);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
-			
+
 		} else if (input.equals("Clone Assistant AT Specialist")) { // Assistant AT specialist
 			// Creates attributes
 			this.str = attributes.str;
@@ -1304,7 +1299,7 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 HEAA, 10lbs, In Back Pack Main Space[4x0.75x0.75].\n2 HEDP, 10lbs, In Back Pack Second Space[4x0.75x0.75].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\nPhase 1 Armor, 35lbs.\nPhase 1 Clone Trooper Back Pack.";
 			this.accomodations = "";
 			this.encumberance = 75;
-			
+
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.RPS6, ItemType.HEAT, 4);
@@ -1330,7 +1325,7 @@ public class Trooper implements Serializable {
 			this.eqiupment = "DC-15A, 12lbs(14lbs loaded), Hands[10x1xN/A].\n2 BlasTech DCA1, 4lbs, Belt Magnitized[1x1x0.5].\nClass-A Thermal Detonator, 2lbs, Belt Magnitized[0.75x0.75x0.75].\n Phase 1 Armor, 35lbs.\n";
 			this.accomodations = "";
 			this.encumberance = 55;
-			
+
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
@@ -1355,7 +1350,7 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 57;
 			this.magnification = 24;
-			
+
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
@@ -1384,7 +1379,7 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 67;
 			this.magnification = 24;
-			
+
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
@@ -1413,7 +1408,7 @@ public class Trooper implements Serializable {
 			this.encumberance = 57;
 			this.armor = new Armor();
 			this.armor.Phase1ARC();
-			
+
 			inventory.addItems(ItemType.M5, 1);
 			inventory.addItems(ItemType.M5, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
@@ -1440,12 +1435,12 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 75;
 			this.armor.katarnArmor();
-			
+
 			inventory.addItems(ItemType.DC17M, 1);
 			inventory.addItems(ItemType.DC17MSniper, 1);
 			inventory.addItems(ItemType.DC17MRocket, 1);
 			inventory.addItems(ItemType.DC17M, ItemType.SmallArmsAmmo, 5);
-			//inventory.addItems(ItemType.DC17MRocket, ItemType.SmallArmsAmmo, 1);
+			// inventory.addItems(ItemType.DC17MRocket, ItemType.SmallArmsAmmo, 1);
 			inventory.addItems(ItemType.DC17MSniper, ItemType.SmallArmsAmmo, 4);
 			inventory.addItems(ItemType.DC17MRocket, ItemType.HEAT, 2);
 			inventory.addItems(ItemType.DC17MRocket, ItemType.HE, 2);
@@ -1455,43 +1450,40 @@ public class Trooper implements Serializable {
 			throw new Exception("Invalid Trooper Input.");
 		}
 
-		// Pack mule 
-		this.encumberanceModifier -= 20; 
-		
+		// Pack mule
+		this.encumberanceModifier -= 20;
+
 		inventory.setEncumberance();
-		
-		if(this.encumberance < 0) {
-			this.encumberance = 5; 
+
+		if (this.encumberance < 0) {
+			this.encumberance = 5;
 		}
-		
+
 		// According to the Jango Fett clone template special rule, sets the minimum
 		// health to ten
 		if (hlt < 12) {
 			this.hlt = 12;
 		}
 
-		if(agi < 12)
+		if (agi < 12)
 			this.agi = 12;
-				
-		if(wit < 11)
+
+		if (wit < 11)
 			this.wit = 11;
-		
+
 		// Creates skills
 		// Stores attributes in an array for the skill attr parameter
 		int attr[] = { str, wit, soc, wil, per, hlt, agi };
 		skills(input, attr);
 
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value, 
-				skills.getSkill("Rifle").value, 
-				skills.getSkill("Launcher").value, 
-				skills.getSkill("Heavy").value,
+		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value,
+				skills.getSkill("Rifle").value, skills.getSkill("Launcher").value, skills.getSkill("Heavy").value,
 				skills.getSkill("Subgun").value, true);
-		
+
 		this.name = individual.name;
 		this.P1 = individual.P1;
 		this.P2 = individual.P2;
-
 
 		// Sets identifier
 		this.identifier = identifier();
@@ -1499,7 +1491,6 @@ public class Trooper implements Serializable {
 		this.HD = false;
 		// Sets max HP
 
-		
 		this.hp = hlt;
 		this.legArmor = 44;
 		this.armArmor = 44;
@@ -1568,10 +1559,10 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 36;
 			this.magnification = 24;
-			
+
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 3);
-			
+
 			// B1 Rifleman
 		} else if (input.equals("B1 Rifleman")) {
 			// Sets name
@@ -1598,7 +1589,7 @@ public class Trooper implements Serializable {
 
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 3);
-			
+
 			// B1 Marksman
 		} else if (input.equals("B1 Ammo Bearer")) {
 			// Sets name
@@ -1625,7 +1616,7 @@ public class Trooper implements Serializable {
 
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 9);
-			
+
 			// B1 Marksman
 		} else if (input.equals("B1 Marksman")) {
 			// Sets name
@@ -1650,10 +1641,10 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 46;
 			this.magnification = 24;
-			
+
 			inventory.addItems(ItemType.E5S, 1);
 			inventory.addItems(ItemType.E5S, ItemType.SmallArmsAmmo, 4);
-			
+
 			// Autorifleman
 		} else if (input.equals("B1 Autorifleman")) {
 			// Sets name
@@ -1680,7 +1671,7 @@ public class Trooper implements Serializable {
 
 			inventory.addItems(ItemType.E5C, 1);
 			inventory.addItems(ItemType.E5C, ItemType.SmallArmsAmmo, 2);
-			
+
 			// Assistant Autorifleman
 		} else if (input.equals("B1 Assistant Autorifleman")) {
 			// Sets name
@@ -1705,11 +1696,10 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 50;
 
-			
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 1);
 			inventory.addItems(ItemType.E5C, ItemType.SmallArmsAmmo, 4);
-			
+
 			// AT Specalist
 		} else if (input.equals("B1 AT Specialist")) {
 			// Sets name
@@ -1739,7 +1729,7 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.RPS6, 1);
 			inventory.addItems(ItemType.RPS6, ItemType.HE, 1);
 			inventory.addItems(ItemType.RPS6, ItemType.HEAT, 1);
-			
+
 			// AT Assistant
 		} else if (input.equals("B1 Assistant AT Specialist")) {
 			// Sets name
@@ -1763,7 +1753,7 @@ public class Trooper implements Serializable {
 			this.eqiupment = "E-5, 8lbs(10lbs loaded), Hands[10x1xN/A].\n2 Baktoid Armor Workshop S11, 4lbs, Belt Magnitized[1x1x0.5].\nHEAA, 5lbs, Clipped On Back[4x0.75x0.75].\nHEDP, 5lbs, Clipped On Back[4x0.75x0.75].\nSelf, 20lbs.\nTrade Federation B1 Satchel, 1lbs.";
 			this.accomodations = "";
 			this.encumberance = 45;
-			
+
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 2);
 			inventory.addItems(ItemType.RPS6, ItemType.HE, 2);
@@ -1824,10 +1814,10 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 36;
 			this.magnification = 24;
-			
+
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 2);
-			
+
 			// B1 Rifleman
 		} else if (input.equals("Commando Droid Rifleman")) {
 			// Sets name
@@ -1854,7 +1844,7 @@ public class Trooper implements Serializable {
 
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 2);
-			
+
 			// B1 Marksman
 		} else if (input.equals("Commando Droid Ammo Bearer")) {
 			// Sets name
@@ -1878,7 +1868,7 @@ public class Trooper implements Serializable {
 			this.eqiupment = "E-5, 8lbs(10lbs loaded), Hands[10x1xN/A].\n8 Baktoid Armor Workshop S11, 4lbs, Belt Magnitized[1x1x0.5].\nSelf, 20lbs.";
 			this.accomodations = "";
 			this.encumberance = 34;
-			
+
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 9);
 
@@ -1909,7 +1899,7 @@ public class Trooper implements Serializable {
 
 			inventory.addItems(ItemType.E5S, 1);
 			inventory.addItems(ItemType.E5S, ItemType.SmallArmsAmmo, 4);
-			
+
 			// Autorifleman
 		} else if (input.equals("Commando Droid Autorifleman")) {
 			// Sets name
@@ -1936,7 +1926,7 @@ public class Trooper implements Serializable {
 
 			inventory.addItems(ItemType.E5C, 1);
 			inventory.addItems(ItemType.E5C, ItemType.SmallArmsAmmo, 2);
-			
+
 			// Assistant Autorifleman
 		} else if (input.equals("Commando Droid Assistant Autorifleman")) {
 			// Sets name
@@ -1964,8 +1954,7 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 1);
 			inventory.addItems(ItemType.E5C, ItemType.SmallArmsAmmo, 4);
-			
-			
+
 			// AT Specalist
 		} else if (input.equals("Commando Droid AT Specialist")) {
 			// Sets name
@@ -1990,13 +1979,12 @@ public class Trooper implements Serializable {
 			this.accomodations = "";
 			this.encumberance = 64;
 
-			
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 1);
 			inventory.addItems(ItemType.RPS6, 1);
 			inventory.addItems(ItemType.RPS6, ItemType.HE, 1);
 			inventory.addItems(ItemType.RPS6, ItemType.HEAT, 1);
-			
+
 			// AT Assistant
 		} else if (input.equals("Commando Droid Assistant AT Specialist")) {
 			// Sets name
@@ -2020,7 +2008,7 @@ public class Trooper implements Serializable {
 			this.eqiupment = "E-5, 8lbs(10lbs loaded), Hands[10x1xN/A].\n2 Baktoid Armor Workshop S11, 4lbs, Belt Magnitized[1x1x0.5].\nHEAA, 5lbs, Clipped On Back[4x0.75x0.75].\nHEDP, 5lbs, Clipped On Back[4x0.75x0.75].\nSelf, 20lbs.\nTrade Federation B1 Satchel, 1lbs.";
 			this.accomodations = "";
 			this.encumberance = 45;
-			
+
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 2);
 			inventory.addItems(ItemType.RPS6, ItemType.HE, 2);
@@ -2051,7 +2039,7 @@ public class Trooper implements Serializable {
 
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 2);
-			
+
 		}
 
 		if (this.name.equals("B1")) {
@@ -2071,21 +2059,19 @@ public class Trooper implements Serializable {
 			this.armor = new Armor();
 			this.armor.magmaGuard();
 		}
-		
+
 		inventory.setEncumberance();
-		
+
 		// Creates skills
 		// Stores attributes in an array for the skill attr parameter
 		int attr[] = { str, wit, soc, wil, per, hlt, agi };
 		skills(input, attr);
 
 		// Create and set individual stats
-		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value, 
-				skills.getSkill("Rifle").value, 
-				skills.getSkill("Launcher").value, 
-				skills.getSkill("Heavy").value,
+		IndividualStats individual = new IndividualStats(this.combatActions, sal, skills.getSkill("Pistol").value,
+				skills.getSkill("Rifle").value, skills.getSkill("Launcher").value, skills.getSkill("Heavy").value,
 				skills.getSkill("Subgun").value, true);
-		
+
 		this.P1 = individual.P1;
 		this.P2 = individual.P2;
 
@@ -2095,8 +2081,6 @@ public class Trooper implements Serializable {
 		this.HD = false;
 		// Sets current HP
 		this.currentHP = this.hp;
-
-		
 
 		if (this.str <= 6) {
 			this.carryingCapacity = 40;
@@ -2289,8 +2273,6 @@ public class Trooper implements Serializable {
 		 * Spine, Thigh Flesh, Thigh Bone, Knee, Shin Flesh, Shin Bone, Ankle - Foot
 		 */
 
-	
-		
 		log.addToLineInQueue(", " + injury.location + ", injury pd: " + injury.pd + ", total pd: " + physicalDamage);
 
 		if (injury.disabled) {
@@ -2535,9 +2517,9 @@ public class Trooper implements Serializable {
 			criticalTime = 0;
 			recoveryRoll = -1;
 			recoveryRollMod = 0;
-			alive = false; 
-			conscious = false; 
-			advanceTime(game, log);
+			alive = false;
+			conscious = false;
+			//advanceTime(game, log);
 			return;
 		}
 
@@ -2561,87 +2543,54 @@ public class Trooper implements Serializable {
 			}
 
 			// System.out.println("WR: "+woundRow+" PD: "+physicalDamage);
-			if (recivingFirstAid) {
-				recoveryRoll = (int) worksheet.getRow(woundRow).getCell(4).getNumericCellValue() + recoveryRollMod;
+			
+			int aidColumn = 1;
+			
+			if(traumaCenter) {
+				aidColumn = 9; 
+			} else if(fieldHospital) {
+				aidColumn = 7; 
+			} else if(aidStation) {
+				aidColumn = 5; 
+			} else if(recivingFirstAid) {
+				aidColumn = 3;
+			}
+			
+			recoveryRoll = (int) worksheet.getRow(woundRow).getCell(aidColumn+1).getNumericCellValue() + recoveryRollMod;
 
-				String ctp = worksheet.getRow(woundRow).getCell(3).getStringCellValue();
-				// System.out.println("CTP: "+ctp);
+			String ctp = worksheet.getRow(woundRow).getCell(aidColumn).getStringCellValue();
+			// System.out.println("CTP No First Aid: "+ctp);
 
-				if (ctp.length() == 2) {
+			if (ctp.length() == 2) {
 
-					int value = Character.getNumericValue(ctp.charAt(0));
+				int value = Character.getNumericValue(ctp.charAt(0));
 
-					if (ctp.charAt(1) == 'h') {
-						value = value * 120;
-					} else if (ctp.charAt(1) == 'm') {
-						value = value * 2;
-					} else if (ctp.charAt(1) == 'p') {
-						value = value * 2;
-						value = value / 30;
-					} else if (ctp.charAt(1) == 'd') {
-						value = value * 2880;
-					}
-
-					if (value <= 0)
-						advanceTime(game, log);
-					// System.out.println("CTP Value: "+value);
-					criticalTime = value;
-
-				} else {
-					int value = Integer.parseInt(ctp.substring(0, 2));
-
-					if (ctp.charAt(2) == 'h') {
-						value = value * 180;
-					} else if (ctp.charAt(2) == 'm') {
-						value = value * 3;
-					} else if (ctp.charAt(2) == 'p') {
-						value = value / 10;
-					} else if (ctp.charAt(2) == 'd') {
-						value = value * 4320;
-					}
-					// System.out.println("CTP Value: "+value);
-					criticalTime = value;
+				if (ctp.charAt(1) == 'h') {
+					value = value * 180;
+				} else if (ctp.charAt(1) == 'm') {
+					value = value * 3;
+				} else if (ctp.charAt(1) == 'p') {
+					value = value / 10;
+				} else if (ctp.charAt(1) == 'd') {
+					value = value * 4320;
 				}
+				// System.out.println("CTP Value: "+value);
+				criticalTime = value;
 
 			} else {
+				int value = Integer.parseInt(ctp.substring(0, 2));
 
-				recoveryRoll = (int) worksheet.getRow(woundRow).getCell(2).getNumericCellValue() + recoveryRollMod;
-
-				String ctp = worksheet.getRow(woundRow).getCell(1).getStringCellValue();
-				// System.out.println("CTP No First Aid: "+ctp);
-
-				if (ctp.length() == 2) {
-
-					int value = Character.getNumericValue(ctp.charAt(0));
-
-					if (ctp.charAt(1) == 'h') {
-						value = value * 180;
-					} else if (ctp.charAt(1) == 'm') {
-						value = value * 3;
-					} else if (ctp.charAt(1) == 'p') {
-						value = value / 10;
-					} else if (ctp.charAt(1) == 'd') {
-						value = value * 4320;
-					}
-					// System.out.println("CTP Value: "+value);
-					criticalTime = value;
-
-				} else {
-					int value = Integer.parseInt(ctp.substring(0, 2));
-
-					if (ctp.charAt(2) == 'h') {
-						value = value * 180;
-					} else if (ctp.charAt(2) == 'm') {
-						value = value * 3;
-					} else if (ctp.charAt(2) == 'p') {
-						value = value / 10;
-					} else if (ctp.charAt(2) == 'd') {
-						value = value * 4320;
-					}
-					// System.out.println("CTP Value: "+value);
-					criticalTime = value;
+				if (ctp.charAt(2) == 'h') {
+					value = value * 180;
+				} else if (ctp.charAt(2) == 'm') {
+					value = value * 3;
+				} else if (ctp.charAt(2) == 'p') {
+					value = value / 10;
+				} else if (ctp.charAt(2) == 'd') {
+					value = value * 4320;
 				}
-
+				// System.out.println("CTP Value: "+value);
+				criticalTime = value;
 			}
 
 			excelFile.close();
@@ -2655,11 +2604,33 @@ public class Trooper implements Serializable {
 
 	}
 
+	
+	
 	public void advanceTime(GameWindow game, ConflictLog log) {
 		if (physicalDamage <= 0 || !alive)
 			return;
 
 		timePassed++;
+
+		if(recoveryMade) {
+			
+			for(Injuries injury : injuries) {
+				if(injury.recovered)
+					continue; 
+				
+				injury.tpMinutes++; 
+				
+				if(injury.tpMinutes / 60 / 24 >= injury.ht) {
+					injury.recovered = true;
+					//System.out.println("set recovered");
+					physicalDamage -= injury.pd;
+				}
+				
+			
+			}
+			
+		}
+		
 		if (timePassed >= criticalTime && recoveryMade == false && !entirelyMechanical) {
 
 			Random rand = new Random();
@@ -2690,13 +2661,18 @@ public class Trooper implements Serializable {
 				if (log != null)
 					log.addNewLineToQueue(
 							number + " " + name + ": died to their wounds. RR: " + recoveryRoll + ", Roll: " + roll);
-
+				else 
+					System.out.println(number + " " + name + ": died to their wounds. RR: " + recoveryRoll + ", Roll: " + roll);
+				
 				alive = false;
 
 			} else {
 				if (log != null)
 					log.addNewLineToQueue(
 							number + " " + name + ": has stabilized. RR: " + recoveryRoll + ", Roll: " + roll);
+				else 
+					System.out.println(number + " " + name + ": has stabilized. RR: " + recoveryRoll + ", Roll: " + roll);
+				
 				recoveryRoll = -1;
 				criticalTime = -1;
 				timePassed = -1;
@@ -2875,19 +2851,20 @@ public class Trooper implements Serializable {
 		trooper += "PD: " + physicalDamage + "; P1: " + spentPhase1 + "/" + P1 + "; P2: " + spentPhase2 + "/" + P2
 				+ "::   " + name + "; Rank: " + rank;
 
-		trooper += "; Role: " + designation + "; Rifle: " + skills.getSkill("Rifle").value + "; Heavy: " + skills.getSkill("Heavy").value + "; Command:" + skills.getSkill("Command").value
-				+ "; Weapon: " + wep + "; Ammo: " + ammo;
+		trooper += "; Role: " + designation + "; Rifle: " + skills.getSkill("Rifle").value + "; Heavy: "
+				+ skills.getSkill("Heavy").value + "; Command:" + skills.getSkill("Command").value + "; Weapon: " + wep
+				+ "; Ammo: " + ammo;
 
 		return trooper;
 	}
 
 	public void setCombatStats(Trooper individual) {
-		if(maximumSpeed == null) {
+		if (maximumSpeed == null) {
 			baseSpeed = new BaseSpeed(this);
 			maximumSpeed = new MaximumSpeed(this);
 			fatigueSystem = new FatigueSystem(this);
 		}
- 		
+
 		new PCStats(individual, true);
 		individual.setCombatActions(combatActions);
 
@@ -2896,7 +2873,7 @@ public class Trooper implements Serializable {
 	public void setCombatActions(int combatActions) {
 		this.combatActions = combatActions;
 		int actionPoints = 0;
-		
+
 		if (combatActions <= 1) {
 			actionPoints = 2;
 		} else if (combatActions <= 2) {
@@ -2953,7 +2930,7 @@ public class Trooper implements Serializable {
 		} else if (!conscious) {
 			rslt += "UNCONSCIOUS: ";
 		}
-		
+
 		if (HD) {
 			rslt += "HUNKERED DOWN: ";
 		}
@@ -2961,7 +2938,7 @@ public class Trooper implements Serializable {
 		if (inCover) {
 			rslt += "IN COVER: ";
 		}
-		
+
 		if (disabledLegs > 1) {
 			rslt += "IMOBALIZED: ";
 		} else if (disabledLegs > 0) {
@@ -3000,9 +2977,9 @@ public class Trooper implements Serializable {
 		rslt += "Weapon: " + wep;
 
 		int average = skills.getSkill("Command").value + skills.getSkill("Fighter").value;
-		
-		rslt += " Command Avg/SL: "+(average/2)+"/"+PCUtility.getSL(average);
-		
+
+		rslt += " Command Avg/SL: " + (average / 2) + "/" + PCUtility.getSL(average);
+
 		return rslt;
 	}
 
@@ -3067,22 +3044,22 @@ public class Trooper implements Serializable {
 		int spottedCount = spottedTroopers.size();
 
 		rslt += "SC: " + spottedCount + ", ";
-		rslt += new Weapons().findWeapon(wep).type+": "+weaponPercent + "%, SL: " + sl + ", ";
+		rslt += new Weapons().findWeapon(wep).type + ": " + weaponPercent + "%, SL: " + sl + ", ";
 		rslt += "Ammo: " + ammo + ", ";
 		rslt += "Weapon: " + wep;
 
 		return rslt;
 	}
-	
+
 	public void applyHit(Weapons weapon, int distanceToTrooper) {
-		
+
 		System.out.println("Trooper Hit");
-		
+
 		GameWindow gameWindow = GameWindow.gameWindow;
-		Trooper targetTrooper = this; 
-		
-		ResolveHits resolveHits = new ResolveHits(targetTrooper, 1, weapon, 
-				gameWindow.conflictLog, targetTrooper.returnTrooperUnit(gameWindow), null, gameWindow);
+		Trooper targetTrooper = this;
+
+		ResolveHits resolveHits = new ResolveHits(targetTrooper, 1, weapon, gameWindow.conflictLog,
+				targetTrooper.returnTrooperUnit(gameWindow), null, gameWindow);
 		resolveHits.distanceToTarget = distanceToTrooper;
 
 		if (targetTrooper.returnTrooperUnit(gameWindow).suppression + 1 < 100) {
@@ -3095,7 +3072,7 @@ public class Trooper implements Serializable {
 		} else {
 			targetTrooper.returnTrooperUnit(gameWindow).organization = 0;
 		}
-		
+
 		resolveHits.performCalculations(gameWindow.game, gameWindow.conflictLog);
 		calculateInjury(gameWindow, gameWindow.conflictLog);
 	}
@@ -3121,29 +3098,29 @@ public class Trooper implements Serializable {
 		this.agi = rolld3d4DropOne();
 
 	}
-	
+
 	public void calculateSkills() {
 		skills = new Skills(this);
 	}
-	
+
 	public void recalculateSkills() {
-		
+
 		ArrayList<Skill> recalculatedSkills = new ArrayList<>();
-		
-		for(Skill skill : skills.skills) {
+
+		for (Skill skill : skills.skills) {
 			int attr1 = getAttribute(skill.baseAttribute);
 			int attr2 = getAttribute(skill.supportingAttribute);
 
 			Skill newSkill = new Skill(skill.name, skill.rank, skill.value, attr1, attr2, skill.baseAttribute,
 					skill.supportingAttribute, skill.supported, skill.trainingValue, skill.increasedValue, skill.type);
-		
+
 			recalculatedSkills.add(newSkill);
 		}
-		
-		skills.skills = recalculatedSkills;  
-		
+
+		skills.skills = recalculatedSkills;
+
 	}
-	
+
 	// Returns attribute value from attribute name
 	public int getAttribute(String attr) {
 
@@ -3170,18 +3147,18 @@ public class Trooper implements Serializable {
 		}
 
 	}
-	
+
 	public int getSkill(String skillName) {
 		return skills.getSkill(skillName).value;
 	}
-	
+
 	// Calculates stats and returns a string
 	public String exportStats(int encum) {
 
 		int slPistol = (getSkill("Pistol") / 10) % 10 + (getSkill("Fighter") / 10) % 10;
 		int slRifle = (getSkill("Rifle") / 10) % 10 + (getSkill("Fighter") / 10) % 10;
 		int slBow = (getSkill("Bow") + getSkill("Fighter")) / 12; // 0
-		//int slCrossbow = (getSkill("Crossbow") + getSkill("Fighter")) / 12; // 21
+		// int slCrossbow = (getSkill("Crossbow") + getSkill("Fighter")) / 12; // 21
 
 		int fighterTensPlace = (getSkill("Fighter") / 10) % 10;
 		int slMelee = fighterTensPlace + (getSkill("Dodge") / 10) % 10;
@@ -3194,17 +3171,17 @@ public class Trooper implements Serializable {
 		int rifleISF = slRifle + (wit / 3);
 		int pistolISF = slPistol + (wit / 3);
 		int bowISF = slBow + (wit / 3);
-		//int crossbowISF = slCrossbow + (wit / 3);
+		// int crossbowISF = slCrossbow + (wit / 3);
 		int dAlmMelee = TrooperUtility.defensiveALM(meleeISF);
 		int dAlmPistol = TrooperUtility.defensiveALM(pistolISF);
 		int dAlmRifle = TrooperUtility.defensiveALM(rifleISF);
 		int dAlmBow = TrooperUtility.defensiveALM(bowISF);
-		//int dAlmCrossbow = TrooperUtility.defensiveALM(crossbowISF);
+		// int dAlmCrossbow = TrooperUtility.defensiveALM(crossbowISF);
 		int meleeCA = TrooperUtility.calculateCA(mSpeed, meleeISF);
 		int pistolCA = TrooperUtility.calculateCA(mSpeed, pistolISF);
 		int rifleCA = TrooperUtility.calculateCA(mSpeed, rifleISF);
 		int bowCA = TrooperUtility.calculateCA(mSpeed, bowISF);
-		//int crossbowCA = TrooperUtility.calculateCA(mSpeed, crossbowISF);
+		// int crossbowCA = TrooperUtility.calculateCA(mSpeed, crossbowISF);
 		int KO = TrooperUtility.getKO(this);
 
 		int leadershipSkillFactor = (getSkill("Command")) / 3 + (getSkill("Tactics") / 3);
@@ -3215,24 +3192,24 @@ public class Trooper implements Serializable {
 		System.out.println("Pistol SAL: " + slPistol);
 		System.out.println("Rifle SAL: " + slRifle);
 		System.out.println("Bow SAL: " + slBow);
-		//System.out.println("Crossbow SAL: " + slCrossbow);
+		// System.out.println("Crossbow SAL: " + slCrossbow);
 		System.out.println("Melee ISF: " + meleeISF);
 		System.out.println("Rifle ISF: " + rifleISF);
 		System.out.println("Pistol ISF: " + pistolISF);
 		System.out.println("Bow ISF: " + bowISF);
-		//System.out.println("Crossbow ISF: " + crossbowISF);
+		// System.out.println("Crossbow ISF: " + crossbowISF);
 		System.out.println("Base Speed: " + bSpeed);
 		System.out.println("Maximum Speed: " + mSpeed);
 		System.out.println("dAlmMelee: " + dAlmMelee);
 		System.out.println("dAlmPistol: " + dAlmPistol);
 		System.out.println("dAlmRifle: " + dAlmRifle);
 		System.out.println("dAlmBow: " + dAlmBow);
-		//System.out.println("dAlmCrossbow: " + dAlmCrossbow);
+		// System.out.println("dAlmCrossbow: " + dAlmCrossbow);
 		System.out.println("Melee CA: " + meleeCA);
 		System.out.println("Pistol CA: " + pistolCA);
 		System.out.println("Rifle CA: " + rifleCA);
 		System.out.println("Bow CA: " + bowCA);
-		//System.out.println("Crossbow CA: " + crossbowCA);
+		// System.out.println("Crossbow CA: " + crossbowCA);
 		System.out.println("KO: " + KO);
 		System.out.println("");
 		System.out.println("AF: " + AF);
@@ -3240,7 +3217,7 @@ public class Trooper implements Serializable {
 		System.out.println("Pistol CoAC: " + AF * pistolCA);
 		System.out.println("Rifle CoAC: " + AF * rifleCA);
 		System.out.println("Bow CoAC: " + AF * bowCA);
-		//System.out.println("Crossbow CoAC: " + AF * crossbowCA);
+		// System.out.println("Crossbow CoAC: " + AF * crossbowCA);
 		System.out.println("Coolness Under Fire(CUF): " + (getSkill("Fighter") + getSkill("Composure")) / 2);
 		System.out.println("Leadership Skill Factor(LSF): " + leadershipSkillFactor);
 		System.out.println("Command Time(CT): " + TrooperUtility.calculateCT(leadershipSkillFactor));
@@ -3292,17 +3269,16 @@ public class Trooper implements Serializable {
 
 		return sum + 4;
 	}
-	
-	
+
 	public String toStringCe() {
-		String rslt = name + ": "; 
-		
+		String rslt = name + ": ";
+
 		if (!alive) {
 			rslt += "DEAD: ";
 		} else if (!conscious) {
 			rslt += "UNCONSCIOUS: ";
 		}
-		
+
 		if (HD) {
 			rslt += "HUNKERED DOWN: ";
 		}
@@ -3310,7 +3286,7 @@ public class Trooper implements Serializable {
 		if (inCover) {
 			rslt += "IN COVER: ";
 		}
-		
+
 		if (disabledLegs > 1) {
 			rslt += "IMOBALIZED: ";
 		} else if (disabledLegs > 0) {
@@ -3325,7 +3301,7 @@ public class Trooper implements Serializable {
 
 		if (ionDamage > 0)
 			rslt += "ID: " + ionDamage + ", ";
-		
+
 		ArrayList<Trooper> spottedTroopers = new ArrayList<>();
 
 		for (Spot spot : spotted) {
@@ -3346,12 +3322,12 @@ public class Trooper implements Serializable {
 		rslt += "Weapon: " + wep;
 
 		int average = skills.getSkill("Command").value + skills.getSkill("Fighter").value;
-		
-		rslt += " Command Avg/SL: "+(average/2)+"/"+PCUtility.getSL(average);
-		
-		return rslt; 
+
+		rslt += " Command Avg/SL: " + (average / 2) + "/" + PCUtility.getSL(average);
+
+		return rslt;
 	}
-	
+
 	// Takes parameters from trooper class and returns string
 	@Override
 	public String toString() {
@@ -3361,10 +3337,10 @@ public class Trooper implements Serializable {
 
 		if (!conscious) {
 			trooper += " UNCONSCIOUS::";
-		} else if(!alive) {
+		} else if (!alive) {
 			trooper += " DEAD::";
 		}
-		
+
 		if (HD) {
 			trooper += " HUNKERED DOWN; ";
 		}
@@ -3379,13 +3355,12 @@ public class Trooper implements Serializable {
 			trooper += " CRIP-LEG::";
 		}
 
-		
-
 		trooper += "PD: " + physicalDamage + "; P1: " + spentPhase1 + "/" + P1 + "; P2: " + spentPhase2 + "/" + P2
 				+ "::   " + name + "; Rank: " + rank;
 
-		trooper += "; Role: " + designation + "; Rifle: " + skills.getSkill("Rifle").value + "; Heavy: " + skills.getSkill("Heavy").value + "; Command:" + skills.getSkill("Command").value
-				+ "; Weapon: " + wep + "; Ammo: " + ammo;
+		trooper += "; Role: " + designation + "; Rifle: " + skills.getSkill("Rifle").value + "; Heavy: "
+				+ skills.getSkill("Heavy").value + "; Command:" + skills.getSkill("Command").value + "; Weapon: " + wep
+				+ "; Ammo: " + ammo;
 
 		return trooper;
 	}

@@ -182,8 +182,8 @@ public class Inventory implements Serializable {
 		for (Container container : containers) {
 
 			for (Item item : container.items) {
-
-				if (itemName.equals(item.getItemName())) {
+				System.out.println("inv item name: "+item.getItemName());
+				if (item.getItemName().contains(itemName)) {
 					removalItem = item;
 
 					itemFound = true;
@@ -213,7 +213,7 @@ public class Inventory implements Serializable {
 
 			for (Item item : container.items) {
 
-				if (itemName.equals(item.getItemName())) {
+				if (item.getItemName().contains(itemName)) {
 					removalItem = item;
 					removalContainer = container;
 

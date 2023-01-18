@@ -2719,8 +2719,12 @@ public class BulkWindow {
 		if(targetTrooper == null)
 			System.out.println("Target trooper is null");
 		
-		if(bulkTrooper.targetTroopers.size() < 1 || bulkTrooper.targetTroopers.size() < 1 || targetTrooper == null || bulkTrooper == null)
+		if(bulkTrooper.targetTroopers.size() < 1 || bulkTrooper.targetTroopers.size() < 1 || targetTrooper == null || bulkTrooper == null) {
+			System.out.println("Returning for mysterious reasons");
 			return; 
+		}
+		
+		System.out.println("PC shots");
 		/*else if(bulkTrooper.bestTargetTrooper != null && (bulkTrooper.tempTF != null || bulkTrooper.targetedFire != null))
 			return; */
 		
@@ -2747,6 +2751,8 @@ public class BulkWindow {
 		int maxAim = comboBoxAimTime.getSelectedIndex() - 1;
 
 		if(bulkTrooper.targetedFire == null) {
+			
+			System.out.println("null tf");
 			TargetedFire tf = new TargetedFire(shooterTrooper, targetTrooper, shooterUnit, targetUnit, gameWindow, maxAim, bulkTrooper.CA - bulkTrooper.spentCA, 
 					(int) spinnerEALBonus.getValue(), (int) spinnerPercentBonus.getValue(), 0, shooterTrooper.wep);
 			
@@ -2757,6 +2763,25 @@ public class BulkWindow {
 			tf.spentCA = bulkTrooper.spentCA; 
 			bulkTrooper.tempTF = tf;
 			bulkTrooper.tempTF.setTargetNumber();
+			
+			if(comboBoxAimTime.getSelectedIndex() > bulkTrooper.tempTF.spentAimTime) {
+				System.out.println("update alm");
+				Weapons wep = new Weapons().findWeapon(bulkTrooper.trooper.wep);
+				int oldAim = bulkTrooper.tempTF.aim(shooterTrooper, bulkTrooper.tempTF.spentAimTime - 1, wep);
+				oldAim += bulkTrooper.tempTF.weaponConditionsMod(wep, bulkTrooper.tempTF.spentAimTime - 1);
+				System.out.println("OLD AIM: "+oldAim);
+				int newAim = bulkTrooper.tempTF.aim(shooterTrooper, comboBoxAimTime.getSelectedIndex() - 1, wep);
+				newAim += bulkTrooper.tempTF.weaponConditionsMod(wep, comboBoxAimTime.getSelectedIndex() - 1);
+				System.out.println("NEW AIM: "+newAim);
+				
+				bulkTrooper.tempTF.ALMSum -= oldAim; 
+				bulkTrooper.tempTF.ALMSum += newAim;
+				bulkTrooper.tempTF.EAL -= oldAim; 
+				bulkTrooper.tempTF.EAL += newAim;
+				bulkTrooper.tempTF.setTargetNumber();
+			}
+			
+			
 			/*targetedFire = tf; 
 			reaction = null; 
 			possibleShots = true; */
@@ -2767,7 +2792,7 @@ public class BulkWindow {
 			
 		} else {
 			
-			
+			System.out.println("saved tf");
 			
 			if(bulkTrooper.targetedFire.shotsTaken > 0 && !bulkTrooper.targetedFire.consecutiveShots && !chckbxFullAuto.isSelected()) {
 				bulkTrooper.targetedFire.EAL += 2; 
@@ -2782,7 +2807,22 @@ public class BulkWindow {
 				bulkTrooper.targetedFire.setTargetNumber();
 			}
 			
-			
+			if(comboBoxAimTime.getSelectedIndex() > bulkTrooper.targetedFire.spentAimTime) {
+				System.out.println("update alm");
+				Weapons wep = new Weapons().findWeapon(bulkTrooper.trooper.wep);
+				int oldAim = bulkTrooper.targetedFire.aim(shooterTrooper, bulkTrooper.targetedFire.spentAimTime - 1, wep);
+				oldAim += bulkTrooper.targetedFire.weaponConditionsMod(wep, bulkTrooper.targetedFire.spentAimTime - 1);
+				System.out.println("OLD AIM: "+oldAim);
+				int newAim = bulkTrooper.targetedFire.aim(shooterTrooper, comboBoxAimTime.getSelectedIndex() - 1, wep);
+				newAim += bulkTrooper.targetedFire.weaponConditionsMod(wep, comboBoxAimTime.getSelectedIndex() - 1);
+				System.out.println("NEW AIM: "+newAim);
+				
+				bulkTrooper.targetedFire.ALMSum -= oldAim; 
+				bulkTrooper.targetedFire.ALMSum += newAim;
+				bulkTrooper.targetedFire.EAL -= oldAim; 
+				bulkTrooper.targetedFire.EAL += newAim;
+				bulkTrooper.targetedFire.setTargetNumber();
+			}
 			
 			
 			/*lblPossibleShots.setText("Possible Shots: "+(targetedFire.possibleShots-targetedFire.shotsTaken));
