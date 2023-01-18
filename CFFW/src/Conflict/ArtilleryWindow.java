@@ -61,6 +61,7 @@ public class ArtilleryWindow {
 	private transient JCheckBox chckbxLOS;
 	private transient JSpinner spinnerCrewCount;
 	private transient JCheckBox chckbxLosI;
+	private JCheckBox chckbxPLvl;
 	
 	/**
 	 * Create the application.
@@ -77,12 +78,12 @@ public class ArtilleryWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 729, 869);
+		frame.setBounds(100, 100, 757, 869);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		fireMissionScrollPane = new JScrollPane();
-		fireMissionScrollPane.setBounds(442, 46, 261, 720);
+		fireMissionScrollPane.setBounds(470, 46, 261, 773);
 		frame.getContentPane().add(fireMissionScrollPane);
 		
 		// Get the screen size
@@ -125,6 +126,12 @@ public class ArtilleryWindow {
 					chckbxCLvl.setSelected(false);
 				}
 				
+				if(fireMission.platoonLevelSupport) {
+					chckbxPLvl.setSelected(true);
+				} else {
+					chckbxPLvl.setSelected(false);
+				}
+				
 				int count = 0; 
 				for(Trooper trooper : unit.getTroopers()) {
 					if(!trooper.alive ||!trooper.conscious) {
@@ -150,7 +157,7 @@ public class ArtilleryWindow {
 		
 		JLabel lblNewLabel = new JLabel("Fire Missions");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel.setBounds(442, 10, 252, 26);
+		lblNewLabel.setBounds(470, 10, 252, 26);
 		frame.getContentPane().add(lblNewLabel);
 		
 		comboBoxBattery = new JComboBox();
@@ -205,7 +212,7 @@ public class ArtilleryWindow {
 		frame.getContentPane().add(comboBoxShell);
 		
 		JScrollPane fireMissionScrollPane_1 = new JScrollPane();
-		fireMissionScrollPane_1.setBounds(180, 46, 252, 720);
+		fireMissionScrollPane_1.setBounds(208, 46, 252, 773);
 		frame.getContentPane().add(fireMissionScrollPane_1);
 		
 		batteryList = new JList();
@@ -241,7 +248,7 @@ public class ArtilleryWindow {
 		
 		JLabel lblBatteries = new JLabel("Batteries");
 		lblBatteries.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblBatteries.setBounds(180, 10, 129, 26);
+		lblBatteries.setBounds(208, 10, 129, 26);
 		frame.getContentPane().add(lblBatteries);
 		
 		batteryNameField = new JTextField();
@@ -321,6 +328,7 @@ public class ArtilleryWindow {
 				fireMission.targetY = (int) spinnerTargetY.getValue();
 				
 				fireMission.companyLevelSupport = chckbxCLvl.isSelected();
+				fireMission.platoonLevelSupport = chckbxPLvl.isSelected();
 				fireMission.LOSToImpact = chckbxLosI.isSelected();
 				fireMission.LOSToTarget = chckbxLOS.isSelected();
 			
@@ -363,7 +371,7 @@ public class ArtilleryWindow {
 				
 			}
 		});
-		btnNewButton_1.setBounds(347, 15, 85, 21);
+		btnNewButton_1.setBounds(375, 15, 85, 21);
 		frame.getContentPane().add(btnNewButton_1);
 		
 		JButton btnNewButton_1_1 = new JButton("Remove");
@@ -381,7 +389,7 @@ public class ArtilleryWindow {
 				
 			}
 		});
-		btnNewButton_1_1.setBounds(592, 15, 111, 21);
+		btnNewButton_1_1.setBounds(620, 15, 111, 21);
 		frame.getContentPane().add(btnNewButton_1_1);
 		
 		JLabel lblCrewSkillLevel = new JLabel("Crew SL");
@@ -447,7 +455,7 @@ public class ArtilleryWindow {
 				FireMission fireMission = new FireMission(unit.individuals.get(comboBoxSpotter.getSelectedIndex()), 
 						new ArrayList<Artillery>(), chckbxLOS.isSelected(), (int) spinnerTargetX.getValue(), 
 						(int) spinnerTargetY.getValue(), chckbxCLvl.isSelected(), gameWindow);
-				
+				fireMission.platoonLevelSupport = chckbxPLvl.isSelected();
 				fireMission.fireMissionDisplayName = fireMissionNameField.getText();
 				fireMission.LOSToImpact = chckbxLosI.isSelected();
 				
@@ -598,7 +606,7 @@ public class ArtilleryWindow {
 		frame.getContentPane().add(chckbxLOS);
 		
 		chckbxCLvl = new JCheckBox("Company Lvl");
-		chckbxCLvl.setBounds(10, 166, 160, 21);
+		chckbxCLvl.setBounds(10, 166, 87, 21);
 		frame.getContentPane().add(chckbxCLvl);
 		
 		spinnerCrewCount = new JSpinner();
@@ -653,6 +661,10 @@ public class ArtilleryWindow {
 		});
 		btnClearTask.setBounds(10, 491, 160, 26);
 		frame.getContentPane().add(btnClearTask);
+		
+		chckbxPLvl = new JCheckBox("Company Lvl");
+		chckbxPLvl.setBounds(104, 166, 87, 21);
+		frame.getContentPane().add(chckbxPLvl);
 		frame.setVisible(true);
 		
 		setFields();

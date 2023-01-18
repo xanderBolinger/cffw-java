@@ -71,11 +71,11 @@ public class Artillery implements Serializable {
 	}
 	
 	public enum BatteryType implements Serializable {
-		M107,AV7
+		M107,AV7,M81
 	}
 	
 	public enum ShellType implements Serializable {
-		M107HE,AV7HEAT
+		M107HE,AV7HEAT,M81HE,M81ION
 	}
 	
 	public Artillery(BatteryType batteryType, int crewQuality) {
@@ -124,6 +124,28 @@ public class Artillery implements Serializable {
 			deployTime = 60; 
 			
 			shells.add(new Shell(ShellType.AV7HEAT));
+		} else if(BatteryType.M81  == batteryType) {
+			batteryName = "M81";
+			this.batteryType = batteryType; 
+			maximumRangeInTwoYardHexes = 2180; 
+			minimumRangeInTwoYardHexes = 25; 
+			
+			rangingAccuracy = 65; 
+			adjustmenAccuracy = 59; 
+			shellAccuracy = 55; 
+			
+			shortTermROF = 2; 
+			sustainedROF = 6; 
+			crew = 1; 
+			
+			batteryTargetSize = 6; 
+			
+			currentCrew = 0; 
+			
+			deployTime = 43; 
+			
+			shells.add(new Shell(ShellType.M81HE));
+			shells.add(new Shell(ShellType.M81ION));
 		}
 		
 	}
@@ -215,6 +237,83 @@ public class Artillery implements Serializable {
 				bc.add(53);
 				bc.add(15);
 				
+			} else if(shellType == ShellType.M81HE) {
+				shellName = "81mm HE";
+				pen.add(9);
+				pen.add(9);
+				pen.add(8);
+				pen.add(8);
+				pen.add(7);
+				pen.add(7);
+				pen.add(6);
+
+				
+				dc.add(6);
+				dc.add(6);
+				dc.add(6);
+				dc.add(6);
+				dc.add(6);
+				dc.add(5);
+				dc.add(5);
+
+				
+				bshc.add("*10");
+				bshc.add("*2");
+				bshc.add("36");
+				bshc.add("16");
+				bshc.add("9");
+				bshc.add("5");
+				bshc.add("4");
+				
+				bc.add(3000);
+				bc.add(530);
+				bc.add(95);
+				bc.add(43);
+				bc.add(25);
+				bc.add(17);
+				bc.add(13);
+				
+			} else if(shellType == ShellType.M81ION) {
+				shellName = "81mm ION";
+				pen.add(0);
+				pen.add(0);
+				pen.add(0);
+				pen.add(0);
+				pen.add(0);
+				pen.add(0);
+				pen.add(0);
+
+				dc.add(1);
+				dc.add(1);
+				dc.add(1);
+				dc.add(1);
+				dc.add(1);
+				dc.add(1);
+				dc.add(1);
+
+				bshc.add("0");
+				bshc.add("0");
+				bshc.add("0");
+				bshc.add("0");
+				bshc.add("0");
+				bshc.add("0");
+				bshc.add("0");
+				
+				bc.add(3000);
+				bc.add(530);
+				bc.add(95);
+				bc.add(43);
+				bc.add(25);
+				bc.add(17);
+				bc.add(13);
+				
+				ionDamage.add(9000);
+				ionDamage.add(800);
+				ionDamage.add(183);
+				ionDamage.add(54);
+				ionDamage.add(23);
+				ionDamage.add(15);
+				ionDamage.add(5);
 			}
 			
 		}

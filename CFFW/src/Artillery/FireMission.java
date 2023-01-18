@@ -55,6 +55,7 @@ public class FireMission implements Serializable {
 	public int fireMissionSpeed; 
 	public int randomFireMissionSpeed; 
 	public boolean companyLevelSupport;
+	public boolean platoonLevelSupport = false;
 	
 	public List<Shot> airborneShots = new ArrayList<Shot>();
 	
@@ -449,102 +450,142 @@ public class FireMission implements Serializable {
 		window.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Getting Fire Mission Time, fire mission speed: "+fireMissionSpeed);
 		
 		if(fireMissionSpeed == 1) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 160;
+			else if(companyLevelSupport)
 				return 200;
 			else
 				return 650;
 		} else if(fireMissionSpeed == 2) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 130;
+			else if(companyLevelSupport)
 				return 170;
 			else
 				return 560;
 		} else if(fireMissionSpeed == 3) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 100;
+			else if(companyLevelSupport)
 				return 150;
 			else
 				return 480;
 		} else if(fireMissionSpeed == 4) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 80;
+			else if(companyLevelSupport)
 				return 130;
 			else
 				return 420;
 		} else if(fireMissionSpeed == 5) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 70;
+			else if(companyLevelSupport)
 				return 120;
 			else
 				return 380;
 		} else if(fireMissionSpeed == 6) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 60;
+			else if(companyLevelSupport)
 				return 110;
 			else
 				return 340;
 		} else if(fireMissionSpeed == 7) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 50;
+			else if(companyLevelSupport)
 				return 100;
 			else
 				return 300;
 		} else if(fireMissionSpeed == 8) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 40;
+			else if(companyLevelSupport)
 				return 90;
 			else
 				return 260;
 		} else if(fireMissionSpeed == 9) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 30;
+			else if(companyLevelSupport)
 				return 80;
 			else
 				return 230;
 		} else if(fireMissionSpeed == 10) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 20;
+			else if(companyLevelSupport)
 				return 70;
 			else
 				return 210;
 		} else if(fireMissionSpeed == 11) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 14;
+			else if(companyLevelSupport)
 				return 64;
 			else
 				return 190;
 		} else if(fireMissionSpeed == 12) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 10;
+			else if(companyLevelSupport)
 				return 60;
 			else
 				return 170;
 		} else if(fireMissionSpeed == 13) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 8;
+			else if(companyLevelSupport)
 				return 58;
 			else
 				return 160;
 		} else if(fireMissionSpeed == 14) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 6;
+			else if(companyLevelSupport)
 				return 56;
 			else
 				return 150;
 		} else if(fireMissionSpeed == 15) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 4;
+			else if(companyLevelSupport)
 				return 54;
 			else
 				return 140;
 		} else if(fireMissionSpeed == 16) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 2;
+			else if(companyLevelSupport)
 				return 52;
 			else
 				return 130;
 		} else if(fireMissionSpeed == 17) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 1;
+			else if(companyLevelSupport)
 				return 50;
 			else
 				return 120;
 		} else if(fireMissionSpeed == 18) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 1;
+			else if(companyLevelSupport)
 				return 48;
 			else
 				return 110;
 		} else if(fireMissionSpeed == 19) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 1;
+			else if(companyLevelSupport)
 				return 44;
 			else
 				return 100;
 		} else if(fireMissionSpeed == 20) {
-			if(companyLevelSupport)
+			if(platoonLevelSupport)
+				return 1;
+			else if(companyLevelSupport)
 				return 40;
 			else
 				return 90;
