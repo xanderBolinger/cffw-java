@@ -750,13 +750,13 @@ public class Unit implements Serializable {
 				time = 20; 
 			}
 			
-			if(speed.equals("Crawl") && trooper.encumberance < trooper.carryingCapacity) {
+			if(speed.equals("Crawl")) {
 				trooper.fatigueSystem.AddLightActivityTime(time);
-			} else if(speed.equals("Crawl") && trooper.encumberance > trooper.carryingCapacity) {
+			} else if(speed.equals("Crawl") && trooper.fatigueSystem.analeticValue <= 40) {
 				trooper.fatigueSystem.AddStrenuousActivityTime(time);
 			} else if(speed.equals("Rush")) {
 				trooper.fatigueSystem.AddStrenuousActivityTime(time);
-			} else if(speed.equals("Walk") && trooper.encumberance > trooper.carryingCapacity) {
+			} else if(speed.equals("Walk")) {
 				trooper.fatigueSystem.AddLightActivityTime(time);
 			}
 			

@@ -150,11 +150,12 @@ public class TrooperUtility {
 	}
 
 	public static double baseSpeed(int encum, Trooper trooper) {
-
+		if(encum > 200)
+			encum = 200;
+		
 		try {
 			return ExcelUtility.getNumberFromSheet(encum, trooper.str, "BaseSpeed.xlsx", true, false);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return -1.0;

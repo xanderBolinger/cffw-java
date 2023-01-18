@@ -28,6 +28,7 @@ import Company.EditCompany;
 import CorditeExpansion.CorditeExpansionWindow;
 import CreateGame.SetupWindow;
 import Individuals.EditIndividual;
+import Items.BulkInventoryWindow;
 import Trooper.Trooper;
 import UtilityClasses.Keyboard;
 import UtilityClasses.PCUtility;
@@ -468,6 +469,15 @@ public class EditUnit implements Serializable {
 		});
 		btnCreateCeWindow.setBounds(404, 86, 281, 25);
 		f.getContentPane().add(btnCreateCeWindow);
+		
+		JButton btnBulkInventory = new JButton("Bulk Inventory");
+		btnBulkInventory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new BulkInventoryWindow(troopers);
+			}
+		});
+		btnBulkInventory.setBounds(403, 52, 281, 25);
+		f.getContentPane().add(btnBulkInventory);
 
 		if (unit != null) {
 			// Sets Troopers list

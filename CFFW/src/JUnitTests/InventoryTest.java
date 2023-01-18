@@ -131,5 +131,18 @@ public class InventoryTest {
 		
 	}
 	
+	@Test
+	public void rcTest() throws Exception {
+		Trooper trooper = new Trooper("Republic Commando", "Clone Trooper Phase 1");
+		
+		assertEquals(17, trooper.inventory.getItems().size());
+		
+		System.out.println("RC Start Inventory");
+		for(String str : trooper.inventory.getItems())
+			System.out.println(str);
+		System.out.println("RC End Inventory");
+	}
+	
+	
 	
 }

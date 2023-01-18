@@ -31,7 +31,10 @@ public class Inventory implements Serializable {
 			trooper.encumberance += trooper.armor.armorWeight;
 		trooper.encumberance += Math.round(weight) + trooper.encumberanceModifier;
 		
-		
+		if(trooper.fatigueSystem != null) {
+			trooper.fatigueSystem.CalcAV();
+			System.out.println("AV: "+trooper.fatigueSystem.analeticValue);
+		}
 	}
 	
 	public void addContainer(ContainerType type) {

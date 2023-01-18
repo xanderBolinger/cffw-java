@@ -18,6 +18,8 @@ public class Item implements Serializable {
 	public enum ItemType {
 		NONE,ClassAThermalDetonator,DC15A,M5,DC15X,Z6,DC17M,DC17MRocket,DC17MSniper,DC40,RPS6,HEAT,HE,SmallArmsAmmo,
 		
+		EWEBWeapon,EWEBTripod,EWEBBattery,
+		
 		M1,
 		
 		A310,EE3,
@@ -36,21 +38,42 @@ public class Item implements Serializable {
 				new Item(ItemType.DC17M),
 				new Item(ItemType.DC17MSniper),
 				new Item(ItemType.DC17MRocket),
-				new Item(ItemType.ClassAThermalDetonator),
 				new Item(ItemType.RPS6),
 				new Item(ItemType.DC40),
 				new Item(ItemType.A310),
 				new Item(ItemType.EE3),
-				new Item(ItemType.DC40, ItemType.HE),
-				new Item(ItemType.DC40, ItemType.HEAT),
-				new Item(ItemType.RPS6, ItemType.HE),
-				new Item(ItemType.RPS6, ItemType.HEAT),
 				new Item(ItemType.M1),
 				new Item(ItemType.E5),
 				new Item(ItemType.E5S),
 				new Item(ItemType.E5C),
+				new Item(ItemType.M870),
 				
-				new Item(ItemType.M870)
+				new Item(ItemType.EWEBWeapon),
+				new Item(ItemType.EWEBTripod),
+				new Item(ItemType.EWEBBattery),
+				
+				new Item(ItemType.ClassAThermalDetonator),
+				
+				new Item(ItemType.DC17MRocket, ItemType.HE),
+				new Item(ItemType.DC17MRocket, ItemType.HEAT),
+				new Item(ItemType.DC40, ItemType.HE),
+				new Item(ItemType.DC40, ItemType.HEAT),
+				new Item(ItemType.RPS6, ItemType.HE),
+				new Item(ItemType.RPS6, ItemType.HEAT),
+				
+				new Item(ItemType.DC15A, ItemType.SmallArmsAmmo),
+				new Item(ItemType.DC15X, ItemType.SmallArmsAmmo),
+				new Item(ItemType.Z6, ItemType.SmallArmsAmmo),
+				new Item(ItemType.M5, ItemType.SmallArmsAmmo),
+				new Item(ItemType.DC17M, ItemType.SmallArmsAmmo),
+				new Item(ItemType.DC17MSniper, ItemType.SmallArmsAmmo),
+				new Item(ItemType.A310, ItemType.SmallArmsAmmo),
+				new Item(ItemType.EE3, ItemType.SmallArmsAmmo),
+				new Item(ItemType.M1, ItemType.SmallArmsAmmo),
+				new Item(ItemType.E5S, ItemType.SmallArmsAmmo),
+				new Item(ItemType.E5, ItemType.SmallArmsAmmo),
+				new Item(ItemType.E5C, ItemType.SmallArmsAmmo),
+				new Item(ItemType.M870, ItemType.SmallArmsAmmo)
 				));
 	}
 	
@@ -172,10 +195,10 @@ public class Item implements Serializable {
 			weapon = new Weapons().findWeapon("DC17m");
 			itemWeight = 8; 
 		} else if(ItemType.DC17MRocket == itemType) {
-			weapon = new Weapons().findWeapon("DC17m Rocket");
+			weapon = new Weapons().findWeapon("DC17 Rocket");
 			itemWeight = 4; 
 		} else if(ItemType.DC17MSniper == itemType) {
-			weapon = new Weapons().findWeapon("DC17m Sniper");
+			weapon = new Weapons().findWeapon("DC17 Sniper");
 			itemWeight = 4; 
 		}  else if(ItemType.M5 == itemType) {
 			weapon = new Weapons().findWeapon("Westar M5");
@@ -185,7 +208,20 @@ public class Item implements Serializable {
 			itemWeight = 20; 
 		} else if(ItemType.DC40 == itemType) {
 			weapon = new Weapons().findWeapon("DC40");
-		} 
+			itemWeight = 2;
+		} else if(ItemType.EWEBWeapon == itemType) {
+			weapon = new Weapons().findWeapon("EWHB-12 Heavy Repeating Blaster");
+			weapon.name = "EWHB-12" + " Cannon";
+			itemWeight = 84;
+		} else if(ItemType.EWEBBattery == itemType) {
+			weapon = new Weapons().findWeapon("EWHB-12 Heavy Repeating Blaster");
+			weapon.name = "EWHB-12" + " Battery";
+			itemWeight = 10;
+		} else if(ItemType.EWEBTripod == itemType) {
+			weapon = new Weapons().findWeapon("EWHB-12 Heavy Repeating Blaster");
+			weapon.name = "EWHB-12" + " Tripod";
+			itemWeight = 30;
+		}
 		
 		else if(ItemType.E5 == itemType) {
 			weapon = new Weapons().findWeapon("E5");

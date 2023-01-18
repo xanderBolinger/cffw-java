@@ -14,6 +14,7 @@ import CreateGame.JsonSaveRunner;
 import CreateGame.SetupWindow;
 import Individuals.AddIndividual;
 import Individuals.EditIndividual;
+import Items.BulkInventoryWindow;
 import Trooper.Trooper;
 import Unit.AddUnit;
 import Unit.EditUnit;
@@ -446,6 +447,15 @@ public class EditCompany implements Serializable {
 		});
 		btnReorg.setBounds(293, 176, 95, 23);
 		f.getContentPane().add(btnReorg);
+		
+		JButton btnBulkInventory = new JButton("Bulk Inventory");
+		btnBulkInventory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new BulkInventoryWindow(units, roster);
+			}
+		});
+		btnBulkInventory.setBounds(522, 97, 252, 23);
+		f.getContentPane().add(btnBulkInventory);
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

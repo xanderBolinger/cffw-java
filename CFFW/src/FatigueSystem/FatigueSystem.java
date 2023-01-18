@@ -227,7 +227,10 @@ public class FatigueSystem implements Serializable
     // Applies FP for a unit of light physical work 
     public void LightWork()
     {
-    	
+    	if(analeticValue < 40) {
+    		StrenuousWork();
+    	}
+    		
     	double AVMod = TrooperUtility.getAVMod(analeticValue);
     	
         /*double AVMod = 0;

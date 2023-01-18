@@ -25,6 +25,7 @@ import javax.swing.SwingWorker;
 import CloseCombat.CloseCombatWindow;
 import HexGrid.HexGrid;
 import HexGrid.HexGrid.DeployedUnit;
+import Items.BulkInventoryWindow;
 import Items.StaticWeaponWindow;
 import Trooper.Trooper;
 import Trooper.generateSquad;
@@ -93,6 +94,7 @@ public class OpenUnit implements Serializable {
 	private JButton btnEmbark;
 	private JLabel lblFatigue;
 	private JButton btnOpenCharacterBuilder;
+	private JButton btnInventory;
 	/*
 	 * Launch the application.
 	 */
@@ -609,8 +611,8 @@ public class OpenUnit implements Serializable {
 		spinnerMoral = new JSpinner();
 		spinnerMoral.setBounds(221, 115, 40, 20);
 		
-		JButton btnSplitUnit = new JButton("Split Unit");
-		btnSplitUnit.setBounds(201, 173, 120, 23);
+		JButton btnSplitUnit = new JButton("Split");
+		btnSplitUnit.setBounds(201, 173, 62, 23);
 		btnSplitUnit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -1063,6 +1065,15 @@ public class OpenUnit implements Serializable {
 		});
 		btnOpenCharacterBuilder.setBounds(201, 201, 208, 23);
 		f.getContentPane().add(btnOpenCharacterBuilder);
+		
+		btnInventory = new JButton("Inventory");
+		btnInventory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new BulkInventoryWindow(troopers);
+			}
+		});
+		btnInventory.setBounds(271, 173, 137, 23);
+		f.getContentPane().add(btnInventory);
 		
 
 		// Sets spinners, must be executed before saveUnit();

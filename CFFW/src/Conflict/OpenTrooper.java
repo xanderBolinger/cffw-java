@@ -319,6 +319,8 @@ public class OpenTrooper implements Serializable {
 	private JList listItems;
 	private JList listInventory;
 	private JCheckBox chkbxOverRideInventory;
+	private JLabel lblArmorPage_1;
+	private JLabel lblEncumberance;
 
 	/**
 	 * Launch the application.
@@ -5155,7 +5157,7 @@ public class OpenTrooper implements Serializable {
 		tabbedPane.addTab("Inventory", null, panel_53_1, null);
 		panel_53_1.setLayout(null);
 
-		JLabel lblArmorPage_1 = new JLabel("Inventory");
+		lblArmorPage_1 = new JLabel("Inventory");
 		lblArmorPage_1.setBounds(10, 31, 433, 16);
 		lblArmorPage_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblArmorPage_1.setForeground(Color.WHITE);
@@ -5245,6 +5247,12 @@ public class OpenTrooper implements Serializable {
 				.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 		spinnerItemCount.setBounds(503, 27, 60, 20);
 		panel_53_1.add(spinnerItemCount);
+		
+		lblEncumberance = new JLabel("New label");
+		lblEncumberance.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblEncumberance.setForeground(Color.WHITE);
+		lblEncumberance.setBounds(10, 28, 176, 16);
+		panel_53_1.add(lblEncumberance);
 
 		// Calls methods
 		// Sets all fields on both pages
@@ -6698,6 +6706,8 @@ public class OpenTrooper implements Serializable {
 
 		SwingUtility.setList(listItems, items);
 		setEdit(openTrooper);
+		
+		lblEncumberance.setText("Encumerance: "+openTrooper.encumberance);
 	}
 
 	// Populates the target dropdown menus based off of the list of spotted
