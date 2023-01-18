@@ -5533,9 +5533,18 @@ public class OpenTrooper implements Serializable {
 	}
 
 	public void PCFire() {
+		
+		boolean shots;
+		
+		if (chckbxFullAuto.isSelected()) {
+			shots = openTrooper.inventory.fireShots(new Weapons().findWeapon(openTrooper.wep).fullAutoROF, new Weapons().findWeapon(openTrooper.wep));
+		} else {
+			int roll = new Random().nextInt(3) + 1;
+			shots= openTrooper.inventory.fireShots(roll, new Weapons().findWeapon(openTrooper.wep));
+		}
 
 		// Checks for out of ammo
-		if (openTrooper.ammo == 0) {
+		if (!shots) {
 			textPaneTargetedFire.setText("OUT OF AMMO");
 			return;
 		}
@@ -5714,22 +5723,6 @@ public class OpenTrooper implements Serializable {
 			possibleShots = false;
 			targetedFire = null;
 			PCShots();
-		}
-
-		if (chckbxFullAuto.isSelected()) {
-			if (openTrooper.ammo - new Weapons().findWeapon(openTrooper.wep).fullAutoROF <= 0) {
-				openTrooper.ammo = 0;
-			} else {
-				openTrooper.ammo -= new Weapons().findWeapon(openTrooper.wep).fullAutoROF;
-			}
-
-		} else {
-			int roll = new Random().nextInt(6) - 1;
-
-			if (openTrooper.ammo - roll < 0)
-				openTrooper.ammo = 0;
-			else
-				openTrooper.ammo -= roll;
 		}
 
 		if (!targetTrooper.alive) {
@@ -6948,8 +6941,12 @@ public class OpenTrooper implements Serializable {
 
 		Random rand = new Random();
 
+		int shots = comboBoxSuppressShots.getSelectedIndex();
+		boolean canShoot;
+		canShoot= trooper.inventory.fireShots(shots, new Weapons().findWeapon(trooper.wep));
+		
 		// Checks for out of ammo
-		if (trooper.ammo == 0) {
+		if (!canShoot) {
 			window.gameWindow.conflictLog.addNewLine("Out out ammo!");
 			// textPaneSuppressiveFire.setText("OUT OF AMMO");
 			return;
@@ -6959,7 +6956,7 @@ public class OpenTrooper implements Serializable {
 		RWS = getRWSSuppressive(trooper);
 
 		int bonus = (int) spinnerSuppressiveBonus.getValue();
-		int shots = comboBoxSuppressShots.getSelectedIndex();
+		
 
 		// Subtracts ammo
 		if (trooper.ammo < shots) {

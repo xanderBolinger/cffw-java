@@ -47,16 +47,16 @@ public class InventoryTest {
 		inv.addItem(ItemType.DC40);
 		assertEquals("DC40", inv.containers.get(0).items.get(0).getItemName());
 		inv.addItems(ItemType.DC40, ItemType.HEAT, 10);
-		assertEquals("DC40: HEAT round.", inv.containers.get(0).items.get(1).getItemName());
-		assertEquals("DC40: HEAT round.", inv.containers.get(0).items.get(10).getItemName());
+		assertEquals("DC40: HEAT round, depleted: false", inv.containers.get(0).items.get(1).getItemName());
+		assertEquals("DC40: HEAT round, depleted: false", inv.containers.get(0).items.get(10).getItemName());
 		
 		inv.removeItem(ItemType.DC40, ItemType.HEAT);
 		assertEquals(10, inv.containers.get(0).items.size());
-		assertEquals("DC40: HEAT round.", inv.containers.get(0).items.get(1).getItemName());
-		assertEquals("DC40: HEAT round.", inv.containers.get(0).items.get(9).getItemName());
+		assertEquals("DC40: HEAT round, depleted: false", inv.containers.get(0).items.get(1).getItemName());
+		assertEquals("DC40: HEAT round, depleted: false", inv.containers.get(0).items.get(9).getItemName());
 		assertEquals("DC40", inv.containers.get(0).items.get(0).getItemName());
 		inv.removeItem(0);
-		assertEquals("DC40: HEAT round.", inv.containers.get(0).items.get(0).getItemName());
+		assertEquals("DC40: HEAT round, depleted: false", inv.containers.get(0).items.get(0).getItemName());
 		
 		Item item = new Item(ItemType.ClassAThermalDetonator);
 		
@@ -64,7 +64,7 @@ public class InventoryTest {
 		assertEquals(false, item.isRound());
 		assertEquals(true, new Item(ItemType.DC40, ItemType.HEAT).isRound());
 		
-		inv.removeItem("DC40: HEAT round.");
+		inv.removeItem("DC40: HEAT round, depleted: false");
 		
 		inv.containers.get(0).items.clear();
 		inv.setEncumberance();
@@ -81,13 +81,13 @@ public class InventoryTest {
 		inv.addItems(ItemType.DC40, 1);
 		inv.addItems(ItemType.DC40, ItemType.HEAT, 10);
 		
-		assertEquals(22, trooper.encumberance);
+		assertEquals(24, trooper.encumberance);
 		
 		trooper.armor = new Armor();
 		trooper.armor.Phase1CloneArmor();
 		inv.setEncumberance();
 		
-		assertEquals(52, trooper.encumberance);
+		assertEquals(54, trooper.encumberance);
 	}
 	
 	
@@ -141,6 +141,37 @@ public class InventoryTest {
 		for(String str : trooper.inventory.getItems())
 			System.out.println(str);
 		System.out.println("RC End Inventory");
+		
+		
+		trooper.inventory.fireShots(50, new Weapons().findWeapon(trooper.wep));
+		
+		Item ammo = null; 
+		
+		for(Item item : trooper.inventory.getItemsArray()) {
+			if(item.isRound()) {
+				ammo = item; 
+				break; 
+			}
+		}
+		
+		assertEquals(true, ammo.ammo.depleted);
+		
+		
+		trooper.inventory.fireShots(50, new Weapons().findWeapon(trooper.wep));
+		trooper.inventory.fireShots(50, new Weapons().findWeapon(trooper.wep));
+		trooper.inventory.fireShots(50, new Weapons().findWeapon(trooper.wep));
+		trooper.inventory.fireShots(50, new Weapons().findWeapon(trooper.wep));
+		
+		assertEquals(false, trooper.inventory.fireShots(50, new Weapons().findWeapon(trooper.wep)));
+		
+		trooper.wep = "DC17 Sniper";
+		
+		assertEquals(true, trooper.inventory.fireShots(4, new Weapons().findWeapon(trooper.wep)));
+		assertEquals(true, trooper.inventory.fireShots(4, new Weapons().findWeapon(trooper.wep)));
+		assertEquals(true, trooper.inventory.fireShots(4, new Weapons().findWeapon(trooper.wep)));
+		assertEquals(true, trooper.inventory.fireShots(4, new Weapons().findWeapon(trooper.wep)));
+		assertEquals(false, trooper.inventory.fireShots(1, new Weapons().findWeapon(trooper.wep)));
+		
 	}
 	
 	

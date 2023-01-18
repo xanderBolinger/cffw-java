@@ -113,14 +113,19 @@ public class Item implements Serializable {
 			ammo = new PCAmmo("R1 Power Cell", 20);
 			itemWeight = 4;
 		} 
-		else if((ItemType.E5S == weaponType ||
+		else if((
 				ItemType.E5C == weaponType
 				) && ItemType.SmallArmsAmmo == ammoType) {
-			ammo = new PCAmmo("D11 Power Cell");
+			ammo = new PCAmmo("D11 Power Cell", 100);
+			itemWeight = 4;
+		} 
+		else if((ItemType.E5S == weaponType
+				) && ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("D11 Power Cell", 10);
 			itemWeight = 4;
 		} 
 		else if(ItemType.DC17MSniper == weaponType && ItemType.SmallArmsAmmo == ammoType) {
-			ammo = new PCAmmo("DC17m Sniper Cartridge");
+			ammo = new PCAmmo("DC17m Sniper Cartridge", 4);
 			itemWeight = 1;
 		} else if(ItemType.DC17MRocket == weaponType && ItemType.HEAT == ammoType) {
 			ammo = new PCAmmo("HEAT");
@@ -268,7 +273,7 @@ public class Item implements Serializable {
 		if(weapon == null || ammo == null)
 			return weapon != null ? weapon.name : ammo.name;
 		else 
-			return weapon.name + ": "+ammo.name+" round.";
+			return weapon.name + ": "+ammo.name+" round, "+ "depleted: "+ammo.depleted;
 	}
 	
 	

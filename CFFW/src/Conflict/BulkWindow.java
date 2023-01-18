@@ -2079,8 +2079,14 @@ public class BulkWindow {
 		Unit targetUnit = unit.lineOfSight.get(comboBoxTargetUnits.getSelectedIndex());
 		Random rand = new Random();
 		
+		
+		int shots = weapon.suppressiveROF;
+		boolean canShoot;
+		canShoot= trooper.inventory.fireShots(shots, new Weapons().findWeapon(trooper.wep));
+
+		
 		// Checks for out of ammo
-		if (trooper.ammo == 0) {
+		if (!canShoot) {
 			gameWindow.conflictLog.addNewLineToQueue("Out out ammo!");
 			//textPaneSuppressiveFire.setText("OUT OF AMMO");
 			return;
@@ -2094,7 +2100,7 @@ public class BulkWindow {
 		}
 		
 		int bonus = (int) spinnerSuppressiveBonus.getValue();
-		int shots = weapon.suppressiveROF;
+		
 		
 		// Subtracts ammo
 		if (trooper.ammo < shots) {
@@ -2965,8 +2971,18 @@ public class BulkWindow {
 
 		Trooper trooper = bulkTrooper.trooper;
 		
+		boolean shots;
+		
+		if (chckbxFullAuto.isSelected()) {
+			shots = trooper.inventory.fireShots(new Weapons().findWeapon(trooper.wep).fullAutoROF, new Weapons().findWeapon(trooper.wep));
+		} else {
+			int roll = new Random().nextInt(3) + 1;
+			shots= trooper.inventory.fireShots(roll, new Weapons().findWeapon(trooper.wep));
+		}
+
+		
 		// Checks for out of ammo
-		if (trooper.ammo == 0) {
+		if (!shots) {
 			//textPaneTargetedFire.setText("OUT OF AMMO");
 			gameWindow.conflictLog.addNewLineToQueue("Trooper: "+trooper.number+": "+trooper.name+" is out of ammo");
 			return;
@@ -3078,21 +3094,10 @@ public class BulkWindow {
 		
 		
 		if(chckbxFullAuto.isSelected()) {
-			if(trooper.ammo - new Weapons().findWeapon(trooper.wep).fullAutoROF <= 0) {
-				trooper.ammo = 0; 
-			} else {
-				trooper.ammo -= new Weapons().findWeapon(trooper.wep).fullAutoROF;
-			}
-				
+
 			bulkTrooper.spentCA += 2; 
 		} else {
-			
-			int roll = new Random().nextInt(6) - 1;
-			
-			if(trooper.ammo - roll < 0)
-				trooper.ammo = 0; 
-			else 
-				trooper.ammo -= roll;
+
 
 			bulkTrooper.spentCA++; 
 		}

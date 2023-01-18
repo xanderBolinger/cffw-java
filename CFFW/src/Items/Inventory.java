@@ -265,4 +265,40 @@ public class Inventory implements Serializable {
 
 	}
 
+	public boolean fireShots(int shots, Weapons weapon) {
+		
+		for(Item item : getItemsArray()) {
+			if(item.isRound() && item.weapon.name.equals(weapon.name) && !item.ammo.depleted) {
+				if(item.ammo.shots - item.ammo.firedShots - shots > 0) {
+					item.ammo.firedShots += shots;
+					shots = 0;
+					break; 
+				} else {
+					shots = 0;
+					item.ammo.depleted = true;
+					break;
+				}
+				 
+			}
+			
+		}
+		
+		int ammo = 0; 
+		
+		for(Item item : getItemsArray()) {
+			if(item.isRound() && item.weapon.name.equals(weapon.name) && !item.ammo.depleted) {
+				ammo += item.ammo.shots - item.ammo.firedShots;
+				 
+			}
+			
+		}
+		
+		trooper.ammo = ammo; 
+		
+		if(shots > 0)
+			return false;
+		else 
+			return true;
+	}
+	
 }

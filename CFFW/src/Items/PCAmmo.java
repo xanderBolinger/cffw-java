@@ -18,8 +18,10 @@ public class PCAmmo implements Serializable {
 	//public int ionDamage = 0; 
 	public boolean energyWeapon = false; 
 	public boolean ordnance = false; 
+	public boolean depleted = false; 
 	
 	public int depletionPoints = 0; 
+	public int firedShots = 0;
 	public int shots = 0;
 	
 	public PCAmmo(String name) {
