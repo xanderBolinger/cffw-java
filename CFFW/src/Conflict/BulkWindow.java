@@ -54,6 +54,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import Actions.ReactionToFireWindow;
 import Actions.Spot;
 import Actions.TargetedFire;
+import Hexes.Building;
+import Hexes.Hex;
 import Injuries.Injuries;
 import Injuries.ResolveHits;
 import Items.Weapons;
@@ -108,6 +110,18 @@ public class BulkWindow {
 	private JComboBox comboBoxWeapon;
 	private JTextField textFieldCallsign;
 	private JComboBox comboBoxTargetZone;
+	private JComboBox comboBoxBuilding;
+	private JComboBox comboBoxGrenadeTargets;
+	private JComboBox comboBoxGrenade;
+	private JSpinner spinnerGrenadeX;
+	private JSpinner spinnerGrenadeY;
+	private JSpinner spinnerTargetRoom;
+	private JSpinner spinnerTargetFloor;
+	private JSpinner spinnerThrowBonus;
+	private JSpinner spinnerThrowEALBonus;
+	private JSpinner spinnerLauncherBonus;
+	private JSpinner spinnerLauncherX;
+	private JSpinner spinnerLauncherY;
 	
 	/**
 	 * Create the application.
@@ -1903,11 +1917,11 @@ public class BulkWindow {
 		lblGrenade.setBounds(10, 484, 136, 31);
 		frame.getContentPane().add(lblGrenade);
 		
-		JComboBox comboBoxGrenade = new JComboBox();
+		comboBoxGrenade = new JComboBox();
 		comboBoxGrenade.setBounds(10, 514, 136, 20);
 		frame.getContentPane().add(comboBoxGrenade);
 		
-		JComboBox comboBoxGrenadeTargets = new JComboBox();
+		comboBoxGrenadeTargets = new JComboBox();
 		comboBoxGrenadeTargets.setBounds(157, 514, 136, 20);
 		frame.getContentPane().add(comboBoxGrenadeTargets);
 		
@@ -1929,7 +1943,7 @@ public class BulkWindow {
 		lblX.setBounds(71, 536, 16, 31);
 		frame.getContentPane().add(lblX);
 		
-		JSpinner spinnerGrenadeX = new JSpinner();
+		spinnerGrenadeX = new JSpinner();
 		spinnerGrenadeX.setBounds(86, 540, 40, 20);
 		frame.getContentPane().add(spinnerGrenadeX);
 		
@@ -1939,7 +1953,7 @@ public class BulkWindow {
 		lblY.setBounds(135, 536, 16, 31);
 		frame.getContentPane().add(lblY);
 		
-		JSpinner spinnerGrenadeY = new JSpinner();
+		spinnerGrenadeY = new JSpinner();
 		spinnerGrenadeY.setBounds(150, 540, 40, 20);
 		frame.getContentPane().add(spinnerGrenadeY);
 		
@@ -1955,7 +1969,7 @@ public class BulkWindow {
 		label_10_1.setBounds(200, 533, 16, 31);
 		frame.getContentPane().add(label_10_1);
 		
-		JComboBox comboBoxBuilding = new JComboBox();
+		comboBoxBuilding = new JComboBox();
 		comboBoxBuilding.setSelectedIndex(-1);
 		comboBoxBuilding.setBounds(298, 538, 136, 20);
 		frame.getContentPane().add(comboBoxBuilding);
@@ -1966,7 +1980,7 @@ public class BulkWindow {
 		lblBuilding_1.setBounds(226, 533, 62, 31);
 		frame.getContentPane().add(lblBuilding_1);
 		
-		JSpinner spinnerTargetRoom = new JSpinner();
+		spinnerTargetRoom = new JSpinner();
 		spinnerTargetRoom.setBounds(71, 570, 40, 20);
 		frame.getContentPane().add(spinnerTargetRoom);
 		
@@ -1976,7 +1990,7 @@ public class BulkWindow {
 		lblTargetRoom.setBounds(10, 567, 53, 31);
 		frame.getContentPane().add(lblTargetRoom);
 		
-		JSpinner spinnerTargetFloor = new JSpinner();
+		spinnerTargetFloor = new JSpinner();
 		spinnerTargetFloor.setBounds(170, 570, 40, 20);
 		frame.getContentPane().add(spinnerTargetFloor);
 		
@@ -1990,11 +2004,11 @@ public class BulkWindow {
 		btnThrow.setBounds(303, 505, 125, 23);
 		frame.getContentPane().add(btnThrow);
 		
-		JSpinner spinnerThrowBonus = new JSpinner();
+		spinnerThrowBonus = new JSpinner();
 		spinnerThrowBonus.setBounds(308, 570, 40, 20);
 		frame.getContentPane().add(spinnerThrowBonus);
 		
-		JSpinner spinnerThrowEALBonus = new JSpinner();
+		spinnerThrowEALBonus = new JSpinner();
 		spinnerThrowEALBonus.setBounds(430, 570, 39, 20);
 		frame.getContentPane().add(spinnerThrowEALBonus);
 		
@@ -2014,7 +2028,7 @@ public class BulkWindow {
 		comboBoxLauncher.setBounds(10, 617, 136, 20);
 		frame.getContentPane().add(comboBoxLauncher);
 		
-		JSpinner spinnerLauncherBonus = new JSpinner();
+		spinnerLauncherBonus = new JSpinner();
 		spinnerLauncherBonus.setBounds(157, 617, 74, 20);
 		frame.getContentPane().add(spinnerLauncherBonus);
 		
@@ -2024,7 +2038,7 @@ public class BulkWindow {
 		label_20.setBounds(236, 614, 16, 31);
 		frame.getContentPane().add(label_20);
 		
-		JSpinner spinnerLauncherX = new JSpinner();
+		spinnerLauncherX = new JSpinner();
 		spinnerLauncherX.setBounds(251, 618, 40, 20);
 		frame.getContentPane().add(spinnerLauncherX);
 		
@@ -2034,7 +2048,7 @@ public class BulkWindow {
 		label_21.setBounds(300, 614, 16, 31);
 		frame.getContentPane().add(label_21);
 		
-		JSpinner spinnerLauncherY = new JSpinner();
+		spinnerLauncherY = new JSpinner();
 		spinnerLauncherY.setBounds(315, 618, 40, 20);
 		frame.getContentPane().add(spinnerLauncherY);
 		
@@ -3468,4 +3482,24 @@ public class BulkWindow {
 		worker.execute();
 		 
 	}
+	
+	public void ordnanceComboboxes() {
+		/*comboBoxBuilding.removeAllItems();
+		comboBoxBuilding.addItem("None");
+		Hex hex = GameWindow.gameWindow.findHex(trooperUnit.X, trooperUnit.Y);
+		if (trooperBuilding == null && hex != null) {
+			for (Building building : hex.buildings) {
+
+				comboBoxBuilding.addItem(building.name);
+
+			}
+			comboBoxBuilding.setSelectedIndex(0);
+		} else if (hex != null) {
+			comboBoxBuilding.removeAllItems();
+			comboBoxBuilding.addItem("None");
+			comboBoxBuilding.addItem("ALREADY INSIDE");
+			comboBoxBuilding.setSelectedIndex(1);
+		}*/
+	}
+	
 }
