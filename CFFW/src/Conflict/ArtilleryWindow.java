@@ -606,6 +606,7 @@ public class ArtilleryWindow {
 		frame.getContentPane().add(chckbxLOS);
 		
 		chckbxCLvl = new JCheckBox("Company Lvl");
+		chckbxCLvl.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		chckbxCLvl.setBounds(10, 166, 87, 21);
 		frame.getContentPane().add(chckbxCLvl);
 		
@@ -662,7 +663,8 @@ public class ArtilleryWindow {
 		btnClearTask.setBounds(10, 491, 160, 26);
 		frame.getContentPane().add(btnClearTask);
 		
-		chckbxPLvl = new JCheckBox("Company Lvl");
+		chckbxPLvl = new JCheckBox("Platoon Lvl");
+		chckbxPLvl.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		chckbxPLvl.setBounds(104, 166, 87, 21);
 		frame.getContentPane().add(chckbxPLvl);
 		frame.setVisible(true);
