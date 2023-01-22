@@ -17,6 +17,7 @@ import HexGrid.HexGrid.DeployedUnit;
 import Hexes.Hex;
 import Hexes.HexWindow;
 import Items.PersonalShield;
+import Shoot.Shoot;
 import Trooper.Trooper;
 import Unit.Unit;
 import UtilityClasses.HexGridUtility;
@@ -892,6 +893,16 @@ public class GameWindow implements Serializable {
 
 	}
 
+	public void setCombatActions(Trooper shooter) {
+		
+		for(Shoot shot : Shoot.shootActions) {
+			if(shot.shooter.compareTo(shooter)) {
+				shot.spentCombatActions = 0;
+			}
+		}
+		
+	}
+	
 	// Performs nessesary checks for twenty seconds of passed time
 	public void unitWaitTwentySeconds() {
 
@@ -935,6 +946,8 @@ public class GameWindow implements Serializable {
 		for (int j = 0; j < troopers.size(); j++) {
 			// System.out.println("Pass Trooper: "+j);
 
+			setCombatActions(troopers.get(j));
+			
 			if (!troopers.get(j).alive) {
 				troopers.get(j).spentPhase1 = troopers.get(j).P1;
 				troopers.get(j).spentPhase2 = troopers.get(j).P2;
@@ -1062,6 +1075,8 @@ public class GameWindow implements Serializable {
 		for (int j = 0; j < troopers.size(); j++) {
 			// System.out.println("Pass Trooper: "+j);
 
+			setCombatActions(troopers.get(j));
+			
 			if (!troopers.get(j).alive) {
 				troopers.get(j).spentPhase1 = troopers.get(j).P1;
 				troopers.get(j).spentPhase2 = troopers.get(j).P2;
