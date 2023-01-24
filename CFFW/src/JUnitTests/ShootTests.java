@@ -60,7 +60,72 @@ public class ShootTests {
 	public void testUnitTest() {
 		assertEquals(1, 1);
 	}
-
+	
+	@Test 
+	public void setAimTime() {
+		
+		shooter.storedAimTime.clear();
+		shooter.storedAimTime.put(target, 3);
+		
+		shoot = new Shoot(shooterUnit, targetUnit, shooter, target);
+		
+		shoot.setAimTime(0);
+		assertEquals(0, shoot.spentCombatActions);
+		shoot.setAimTime(3);
+		assertEquals(0, shoot.spentCombatActions);
+		shoot.setAimTime(4);
+		assertEquals(1, shoot.spentCombatActions);
+		shoot.setAimTime(3);
+		assertEquals(0, shoot.spentCombatActions);
+		shoot.setAimTime(6);
+		assertEquals(3, shoot.spentCombatActions);
+		
+	}
+	
+	@Test
+	public void suppression() {
+		
+		shoot.pcHexRange = 100; 
+		shoot.target = null; 
+		
+		shoot.calculateModifiers();
+		shoot.setSuppressiveTn();
+		shoot.suppressiveFire(20);
+		assertEquals(5, targetUnit.suppression);
+		assertEquals(95, targetUnit.organization);
+		
+	}
+	
+	@Test
+	public void shootActions() {
+		shoot.pcHexRange = 5;
+		shoot.targetUnit.speed = "None";
+		
+		for(int i = 0; i < 13; i++) {
+			shoot.aimAction();
+		}
+		
+		for(int i = 0; i < 10; i++)
+			shoot.shot();
+		
+		assertEquals(true, shoot.ammoCheckSingle());
+		assertEquals(21, shoot.spentCombatActions);
+		
+		for(int i = 0; i < 100; i++)
+			shoot.burst();
+		assertEquals(false, shoot.ammoCheckFull());
+	}
+	
+	@Test
+	public void resolveHits() {
+		shoot.hits = 5;
+		shoot.suppressiveHits = 5; 
+		shoot.resolveHits();
+		shoot.resolveSuppressiveHits();
+		assertEquals(2, targetUnit.suppression);
+		assertEquals(98, targetUnit.organization);
+	}
+	
 	@Test
 	public void hits() {
 		// head
@@ -95,7 +160,7 @@ public class ShootTests {
 		shoot.ealSum = 30;
 		shoot.setFullAutoTn();
 		shoot.burstRoll();
-		assertEquals(0, shoot.hits);
+		assertEquals(1, shoot.hits);
 		shoot.burstRoll();
 		assertEquals(1, shoot.hits);
 	}
@@ -149,8 +214,7 @@ public class ShootTests {
 		shoot.calculateModifiers();
 		assertEquals(-8, shoot.aimBonus);
 
-		shoot.aimTime++;
-		shoot.spentCombatActions++;
+		shoot.aimAction();
 		shoot.calculateModifiers();
 
 		assertEquals(1, shoot.aimTime);

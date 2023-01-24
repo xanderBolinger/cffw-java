@@ -34,7 +34,7 @@ public class ResolveHits implements Serializable {
 	private int hits;
 	public Weapons weapon;
 	private Shell shell;
-	private ConflictLog log = GameWindow.gameWindow.conflictLog;
+	private ConflictLog log = GameWindow.gameWindow != null ? GameWindow.gameWindow.conflictLog : null;
 	private GameWindow gameWindow;
 	private Injuries manualInjury;
 	private String path = System.getProperty("user.dir") + "\\";

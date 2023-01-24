@@ -63,6 +63,7 @@ import Items.PCAmmo;
 import Items.PersonalShield;
 import Items.PersonalShield.ShieldType;
 import Items.Weapons;
+import Shoot.Shoot;
 import Items.Armor.ArmorType;
 import Items.Item.ItemType;
 import Items.Container;
@@ -5518,6 +5519,67 @@ public class OpenTrooper implements Serializable {
 
 	}
 
+	Shoot shoot;
+
+	public void setTarget() {
+		System.out.println("Set target tropoer");
+		Trooper target = targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1);
+
+		if (shoot == null) {
+			shoot = new Shoot(trooperUnit, target.returnTrooperUnit(gameWindow), openTrooper, target);
+		} else {
+			shoot.updateTarget(target.returnTrooperUnit(gameWindow), target);
+		}
+
+	}
+
+	public void setTargetUnit() {
+		System.out.println("Set target unit");
+		
+		if (shoot == null) {
+			shoot = new Shoot(trooperUnit, trooperUnit.lineOfSight.get(comboBoxTargetUnits.getSelectedIndex() - 1),
+					openTrooper, null);
+		} else {
+			shoot.updateTarget(trooperUnit.lineOfSight.get(comboBoxTargetUnits.getSelectedIndex() - 1), null);
+		}
+	}
+
+	public void shootGuiUpdate() {
+		System.out.println("Shoot Gui Update");
+		
+		lblPossibleShots.setText("Possible Shots: " + (openTrooper.combatActions - shoot.spentCombatActions));
+		lblAimTime.setText("Aim Time: " + shoot.aimTime);
+
+		String rslt = "Target Number: "
+				+ (shoot.target != null ? (chckbxFullAuto.isSelected() ? shoot.fullAutoTn : shoot.singleTn)
+						: shoot.suppressiveTn);
+
+		rslt += chckbxFullAuto.isSelected() ? ", Full Auto: " + shoot.fullAutoResults() : "";
+
+		lblTN.setText(rslt);
+		lblTfSpentCa.setText("Spent CA: " + shoot.spentCombatActions);
+		lblAmmo.setText("Ammo: " + openTrooper.ammo);
+		lblCombatActions.setText("CA: " + openTrooper.combatActions);
+		
+		gameWindow.conflictLog.addQueuedText();
+		gameWindow.refreshInitiativeOrder();
+	}
+
+	public void aimUpdate() {
+		System.out.println("Aim Update");
+		
+	}
+	
+	public void bonusUpdate() {
+		System.out.println("Bonus Auto Update");
+	}
+	
+	public void fullAutoUpdate() {
+		System.out.println("Full Auto Update");
+		shootGuiUpdate();
+		
+	}
+	
 	public void PCFireGuiUpdates() {
 		if (comboBoxTargets.getSelectedIndex() < 1)
 			return;
@@ -5713,7 +5775,7 @@ public class OpenTrooper implements Serializable {
 						e1.printStackTrace();
 					}
 				}
-				
+
 				reaction = null;
 				possibleShots = false;
 				targetedFire = null;

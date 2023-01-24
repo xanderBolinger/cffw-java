@@ -16,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import Conflict.GameWindow;
 import CorditeExpansion.FullAuto;
 import CorditeExpansion.FullAuto.FullAutoResults;
+import Injuries.ResolveHits;
 import Items.Weapons;
 import Trooper.Trooper;
 import Unit.Unit;
@@ -47,6 +48,8 @@ public class Shoot {
 	// on miss suppressive fire
 	// shoot suppressive fire
 	// aim, max aim 2, rush <= 20 hexes
+	// Percent penalty, alm bonus 
+	// Recurring alm bonus 
 
 	// Ammo check
 	// Resolve Hits
@@ -68,10 +71,12 @@ public class Shoot {
 
 	public int singleTn;
 	public int fullAutoTn;
+	public int suppressiveTn;
 
 	public int shotRoll;
 	public int burstRoll;
 	public int hits;
+	public int suppressiveHits;
 
 	public Weapons wep;
 
@@ -91,46 +96,121 @@ public class Shoot {
 
 		wep = new Weapons().findWeapon(shooter.wep);
 		maxAim = wep.aimTime.size() - 1;
+
+		setDistance();
 	}
 
+	public void setBonuses(int percent, int eal, int ealConcurrent) {
+		
+	}
+	
 	public void shot() {
+		if (!ammoCheckSingle()) {
+			return;
+		}
 
+		singleShotRoll();
+		resolveHits();
+		resolveSuppressiveHits();
+		ealSum += 2;
+		spentCombatActions++;
+		setSingleTn();
+		setSuppressiveTn();
+		setFullAutoTn();
 	}
 
 	public void burst() {
+		if (!ammoCheckFull()) {
+			return;
+		}
+
+		burstRoll();
+		resolveHits();
+		resolveSuppressiveHits();
+		ealSum -= wep.sab;
+		spentCombatActions++;
+		setSingleTn();
+		setSuppressiveTn();
+		setFullAutoTn();
+	}
+
+	public void suppressiveFire(int shots) {
+		if (!ammoCheckSuppressive(shots))
+			return;
+
+		for (int i = 0; i < shots; i++) {
+			suppressiveShotRoll(DiceRoller.randInt(0, 99));
+		}
+
+		resolveHits();
+		resolveSuppressiveHits();
+	}
+
+	public void updateTarget(Unit targetUnit, Trooper target) {
+		this.targetUnit = targetUnit;
+		this.target = target;
+
+		setDistance();
+		setStartingAim();
+		calculateModifiers();
+	}
+
+	public void setDistance() {
+		pcHexRange = GameWindow.hexDif(targetUnit, shooterUnit) * GameWindow.hexSize;
+
+		if (pcHexRange == 0)
+			setCloseCombatDistance();
 
 	}
 
-	public void updateTarget(Trooper target) {
-		this.target = target;
+	public void updateWeapon(String wep) {
+		this.wep = new Weapons().findWeapon(wep);
+		calculateModifiers();
 	}
 
 	public boolean ammoCheckSingle() {
-		return shooter.inventory.fireShots(1, wep); 
+		return shooter.inventory.fireShots(1, wep);
 	}
 
 	public boolean ammoCheckFull() {
 		return shooter.inventory.fireShots(wep.fullAutoROF, wep);
 	}
 
-	public void singleShotRoll() {
+	public boolean ammoCheckSuppressive(int suppShots) {
+		return shooter.inventory.fireShots(suppShots, wep);
+	}
 
+	public void suppressiveShotRoll(int roll) {
+		if (roll <= suppressiveTn) {
+			suppressiveHits++;
+			if (DiceRoller.randInt(0, 99) <= 0)
+				hits++;
+		}
+	}
+
+	public void singleShotRoll() {
 		shotRoll = DiceRoller.randInt(0, 99);
 
 		if (shotRoll <= singleTn) {
 			hits++;
+			suppressiveHits++;
+		} else {
+			suppressiveShotRoll(burstRoll);
 		}
-
 	}
 
 	public void burstRoll() {
 		shotRoll = DiceRoller.randInt(0, 99);
 
+		for (int i = 0; i < wep.fullAutoROF; i++) {
+			suppressiveShotRoll(shotRoll);
+		}
+
 		if (shotRoll <= fullAutoTn) {
 			double ma = wep.getMA(pcHexRange);
-			//System.out.println("MA: "+ma);
+			// System.out.println("MA: "+ma);
 			int rof = wep.fullAutoROF;
-			//System.out.println("ROF: "+rof);
+			// System.out.println("ROF: "+rof);
 			String autofireTable;
 			try {
 				autofireTable = ExcelUtility.getStringFromSheet(rof, ma, "\\PC Hit Calc Xlsxs\\automaticfire.xlsx",
@@ -150,17 +230,63 @@ public class Shoot {
 		}
 	}
 
+	public String fullAutoResults() {
+		double ma = wep.getMA(pcHexRange);
+		int rof = wep.fullAutoROF;
+		String autofireTable = "";
+		try {
+			autofireTable = ExcelUtility.getStringFromSheet(rof, ma, "\\PC Hit Calc Xlsxs\\automaticfire.xlsx",
+					true, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return autofireTable;
+	}
+	
 	public void resolveHits() {
 
 		while (hits > 0) {
+
+			ResolveHits resolveHits = new ResolveHits(target, hits, wep,
+					GameWindow.gameWindow != null ? GameWindow.gameWindow.conflictLog : null, targetUnit, shooterUnit,
+					GameWindow.gameWindow);
+
+			if (calledShotBounds.size() > 0) {
+				resolveHits.calledShot = true;
+				resolveHits.calledShotBounds = calledShotBounds;
+			}
+
+			if (GameWindow.gameWindow != null)
+				resolveHits.performCalculations(GameWindow.gameWindow.game, GameWindow.gameWindow.conflictLog);
 
 			hits--;
 		}
 
 	}
 
+	public void resolveSuppressiveHits() {
+		if (targetUnit.suppression + suppressiveHits < 100) {
+			targetUnit.suppression += suppressiveHits / 2;
+		} else {
+			targetUnit.suppression = 100;
+		}
+
+		if (targetUnit.organization - suppressiveHits > 0) {
+			targetUnit.organization -= suppressiveHits / 2;
+		} else {
+			targetUnit.organization = 0;
+		}
+
+		suppressiveHits = 0;
+	}
+
 	public void setSingleTn() {
 		singleTn = PCUtility.getOddsOfHitting(true, ealSum);
+	}
+
+	public void setSuppressiveTn() {
+		suppressiveTn = PCUtility.getOddsOfHitting(true, almSum + 18);
 	}
 
 	public void setFullAutoTn() {
@@ -175,9 +301,13 @@ public class Shoot {
 	}
 
 	public void aimAction() {
-		if (aimTime >= maxAim)
+		if (!canAim())
 			return;
 
+		if(target != null && shooter.storedAimTime.get(target) != null) {
+			aimTime = shooter.storedAimTime.get(target);
+		}
+		
 		aimTime++;
 		spentCombatActions++;
 
@@ -185,8 +315,29 @@ public class Shoot {
 		shooter.storedAimTime.put(target, aimTime);
 	}
 
+	public void setStartingAim() {
+		if(target != null && shooter.storedAimTime.get(target) != null) {
+			aimTime = shooter.storedAimTime.get(target);
+		} else {
+			aimTime = 0;
+		}
+	}
+	
+	public void setAimTime(int newTime) {
+		setStartingAim();
+		System.out.println("Aim Time: "+aimTime+", New Time: "+newTime);
+		spentCombatActions +=  newTime - aimTime;
+		
+		if(spentCombatActions < 0)
+			spentCombatActions = 0;
+		
+		aimTime = newTime;
+		
+	}
+	
 	public void setAimBonus() {
-		aimBonus = wep.aimTime.get(aimTime) + shooter.sl;
+		aimBonus = wep.aimTime.get(target != null && shooter.storedAimTime.get(target) != null ? shooter.storedAimTime.get(target) : aimTime)
+				+ shooter.sl;
 	}
 
 	public void calculateModifiers() {
@@ -285,7 +436,7 @@ public class Shoot {
 	}
 
 	public void setSizeALM() {
-		if (target.inCover) {
+		if (target == null || target.inCover) {
 			sizeALM = 0;
 			return;
 		}
@@ -303,7 +454,7 @@ public class Shoot {
 			alm += 6;
 		}
 
-		if (visibility.contains("Night") && target.weaponLightOn && pcHexRange <= 10) {
+		if (visibility.contains("Night") && target != null && target.weaponLightOn && pcHexRange <= 10) {
 			alm += -8;
 		}
 
@@ -432,7 +583,7 @@ public class Shoot {
 			}
 
 			// System.out.println("Work book 2");
-			//System.out.println("SS: " + ss);
+			// System.out.println("SS: " + ss);
 			if (ss < sizeALM)
 				sizeALM = ss;
 
