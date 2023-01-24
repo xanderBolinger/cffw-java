@@ -259,7 +259,7 @@ public class Trooper implements Serializable {
 
 	public Trooper(String input, String faction) {
 		inventory.addContainer(ContainerType.Belt);
-		System.out.println("New Trooper, input: " + input + ", faction: " + faction);
+		//System.out.println("New Trooper, input: " + input + ", faction: " + faction);
 
 		if (faction.equals("Clone Trooper Phase 1")) {
 			this.faction = "Clone Trooper Phase 1";
@@ -1022,7 +1022,9 @@ public class Trooper implements Serializable {
 		this.CloseCombat = false;
 		this.armor.Phase1CloneArmor();
 		this.criticalTime = 0;
-
+		nightVision = true;
+		nightVisionEffectiveness = 3; 
+		
 		TLHStats attributes = new TLHStats(2, 2, -2, 2, 1, 1, 2);
 
 		// in 20 second increments
@@ -1535,6 +1537,9 @@ public class Trooper implements Serializable {
 		this.disabledLegs = 0;
 		this.CloseCombat = false;
 		this.entirelyMechanical = true;
+		nightVision = true;
+		nightVisionEffectiveness = 2; 
+		
 		// B1 Sergeant
 		if (input.equals("B1 Squad Leader")) {
 			// Sets name
@@ -1790,6 +1795,7 @@ public class Trooper implements Serializable {
 			encumberanceModifier = -20;
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 2);
+			this.PCSize = 2.7;
 
 		} else if (input.equals("Commando Droid Squad Leader")) {
 			// Sets name

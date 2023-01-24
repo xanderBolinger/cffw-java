@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -15,41 +16,45 @@ import Conflict.Game;
 import Conflict.GameWindow;
 import Hexes.Hex;
 import Items.Weapons;
+import Shoot.Shoot;
 import Trooper.Trooper;
 import Unit.Unit;
 
 public class PCUtility {
 
-	
 	public static String convertTime(int inputMinutes) {
-		
-		double minutes = (double) inputMinutes; 
-		
-		
-		if(minutes / 60 / 24 > 0) {
+
+		double minutes = (double) inputMinutes;
+
+		if (minutes / 60 / 24 > 0) {
 			double roundOff = Math.round(minutes / 60.0 / 24.0 * 100.0) / 100.0;
-			
-			if(roundOff % 1.0 == 0) 
+
+			if (roundOff % 1.0 == 0)
 				return Integer.toString((int) roundOff) + "d";
-			
+
 			return Double.toString(roundOff) + "d";
-		} else if(minutes / 60 > 0) {
+		} else if (minutes / 60 > 0) {
 			double roundOff = Math.round(minutes / 60.0 * 100.0) / 100.0;
-			
-			if(roundOff % 1.0 == 0) 
+
+			if (roundOff % 1.0 == 0)
 				return Integer.toString((int) roundOff) + "h";
-			
+
 			return Double.toString(roundOff) + "h";
 		} else {
 			return Integer.toString(inputMinutes) + "m";
 		}
-		
+
 	}
-	
+
 	// Takes EAL and boolean for singleShot or fullAuto as parameter
 	// Returns the cell value according to the params
 	public static int getOddsOfHitting(boolean singleShot, int EAL) {
 
+		if(EAL > 28)
+			EAL = 28;
+		else if(EAL < -22)
+			EAL = -22;
+		
 		FileInputStream excelFile;
 		try {
 
@@ -59,8 +64,12 @@ public class PCUtility {
 			Sheet worksheet = workbook.getSheetAt(0);
 
 			int rowNum = 0;
-			for (int i = 1; i < 40; i++) {
-				if (EAL >= worksheet.getRow(i).getCell(0).getNumericCellValue()) {
+			for (int i = 1; i < 41; i++) {
+				if(EAL < 0 && worksheet.getRow(i).getCell(0).getNumericCellValue() < 0
+						&& EAL >= worksheet.getRow(i).getCell(0).getNumericCellValue() * -1) {
+					rowNum = i;
+					break;
+				} else if (EAL >= worksheet.getRow(i).getCell(0).getNumericCellValue()) {
 					rowNum = i;
 					break;
 				}
@@ -209,20 +218,15 @@ public class PCUtility {
 
 		// Find hex obscuration
 		// Apply obscuration
-		Hex hex = game.findHex(x, y);
-
-		if (hex == null)
-			return 0;
-
-		ALM -= hex.obscuration;
-
-		String visibility = game.visibility;
+		Hex hex = game != null ? game.findHex(x, y) : null;
+		ALM -= hex != null ? hex.obscuration : 0;
+		String visibility = game != null ? game.visibility : Shoot.testVisibility;
 
 		if (shooterTrooper.nightVisionInUse) {
 			if (visibility.equals("Good Visibility")) {
 
 			} else if (visibility.equals("Dusk")) {
-				ALM -= 2;
+				//ALM -= 2;
 			} else if (visibility.equals("Night - Full Moon")) {
 
 			} else if (visibility.equals("Night - Half Moon")) {
@@ -254,38 +258,18 @@ public class PCUtility {
 				ALM -= 8;
 			} else if (visibility.equals("Night - Smoke/Fog/Haze/Overcast")) {
 				if (shooterTrooper.nightVisionEffectiveness == 1) {
-					ALM -= 10;
+					ALM -= 14;
 				} else if (shooterTrooper.nightVisionEffectiveness == 2) {
-					ALM -= 9;
+					ALM -= 12;
 				} else if (shooterTrooper.nightVisionEffectiveness == 3) {
-					ALM -= 8;
+					ALM -= 10;
 				} else if (shooterTrooper.nightVisionEffectiveness == 4) {
-					ALM -= 6;
+					ALM -= 8;
 				}
 			} else if (visibility.equals("No Visibility - Heavy Fog - White Out")) {
 				ALM -= 14;
 			}
 
-		} else if (shooterTrooper.weaponLightOn && visibility.substring(0, 5).equals("Night")) {
-			if (visibility.equals("Good Visibility")) {
-
-			} else if (visibility.equals("Dusk")) {
-				ALM -= 2;
-			} else if (visibility.equals("Night - Full Moon")) {
-
-			} else if (visibility.equals("Night - Half Moon")) {
-
-			} else if (visibility.equals("Night - No Moon")) {
-
-			} else if (visibility.equals("Smoke/Fog/Haze/Overcast")) {
-				ALM -= 6;
-			} else if (visibility.equals("Dusk - Smoke/Fog/Haze/Overcast")) {
-				ALM -= 8;
-			} else if (visibility.equals("Night - Smoke/Fog/Haze/Overcast")) {
-				ALM -= 6;
-			} else if (visibility.equals("No Visibility - Heavy Fog - White Out")) {
-				ALM -= 14;
-			}
 		} else {
 			if (visibility.equals("Good Visibility")) {
 
@@ -302,31 +286,12 @@ public class PCUtility {
 			} else if (visibility.equals("Dusk - Smoke/Fog/Haze/Overcast")) {
 				ALM -= 8;
 			} else if (visibility.equals("Night - Smoke/Fog/Haze/Overcast")) {
-				ALM -= 12;
+				ALM -= 14;
 			} else if (visibility.equals("No Visibility - Heavy Fog - White Out")) {
 				ALM -= 14;
 			}
 		}
 
-		if (visibility.equals("Good Visibility")) {
-
-		} else if (visibility.equals("Dusk")) {
-			ALM -= 2;
-		} else if (visibility.equals("Night - Full Moon")) {
-			ALM -= 4;
-		} else if (visibility.equals("Night - Half Moon")) {
-			ALM -= 6;
-		} else if (visibility.equals("Night - No Moon")) {
-			ALM -= 12;
-		} else if (visibility.equals("Smoke/Fog/Haze/Overcast")) {
-			ALM -= 6;
-		} else if (visibility.equals("Dusk - Smoke/Fog/Haze/Overcast")) {
-			ALM -= 8;
-		} else if (visibility.equals("Night - Smoke/Fog/Haze/Overcast")) {
-			ALM -= 12;
-		} else if (visibility.equals("No Visibility - Heavy Fog - White Out")) {
-			ALM -= 14;
-		}
 
 		return ALM;
 	}
@@ -503,50 +468,50 @@ public class PCUtility {
 		return sizeALM;
 
 	}
-	
+
 	public static int defensiveALM(int isf) {
 
-		if(isf <= 3) {
+		if (isf <= 3) {
 			return 16;
-		} else if(isf <= 4) {
+		} else if (isf <= 4) {
 			return 13;
-		} else if(isf <= 5) {
+		} else if (isf <= 5) {
 			return 11;
-		} else if(isf <= 6) {
+		} else if (isf <= 6) {
 			return 10;
-		} else if(isf <= 7) {
+		} else if (isf <= 7) {
 			return 8;
-		} else if(isf <= 8) {
+		} else if (isf <= 8) {
 			return 7;
-		} else if(isf <= 9) {
+		} else if (isf <= 9) {
 			return 6;
-		} else if(isf <= 10) {
+		} else if (isf <= 10) {
 			return 5;
-		} else if(isf <= 11) {
+		} else if (isf <= 11) {
 			return 4;
-		} else if(isf <= 12) {
+		} else if (isf <= 12) {
 			return 3;
-		} else if(isf <= 14) {
+		} else if (isf <= 14) {
 			return 2;
-		} else if(isf <= 16) {
+		} else if (isf <= 16) {
 			return 1;
-		} else if(isf <= 17) {
+		} else if (isf <= 17) {
 			return 0;
-		} else if(isf <= 19) {
+		} else if (isf <= 19) {
 			return -1;
-		} else if(isf <= 22) {
+		} else if (isf <= 22) {
 			return -2;
-		} else if(isf <= 24) {
+		} else if (isf <= 24) {
 			return -3;
-		} else if(isf <= 27) {
+		} else if (isf <= 27) {
 			return -4;
-		} else if(isf <= 30) {
+		} else if (isf <= 30) {
 			return -5;
-		} else if(isf <= 34) {
+		} else if (isf <= 34) {
 			return -6;
-		} else if(isf <= 38) {
+		} else if (isf <= 38) {
 			return -7;
-		} else if(isf <= 40) {
+		} else if (isf <= 40) {
 			return -8;
 		} else {
 			System.out.println("ISF not found for defensive ALM");

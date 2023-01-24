@@ -648,12 +648,28 @@ public class Unit implements Serializable {
 		}
 		
 	}
-	
-	
+
 	public void move(GameWindow gameWindow, int xCord, int yCord, OpenUnit openUnitWindow) {
 		
 		soughtCover = false; 			
 		unembark(gameWindow);
+		
+		for(Trooper trooper : individuals) {
+			
+			trooper.pcRanges.clear();
+			
+			for(Unit otherUnit : gameWindow.initiativeOrder) {
+				
+				for(Trooper otherTrooper : otherUnit.individuals) {
+					
+					if(otherTrooper.pcRanges.containsKey(trooper)) 
+						otherTrooper.pcRanges.remove(trooper);
+					
+				}
+				
+			}
+			
+		}
 		
 		Hex leftHex = null; 
 		for(Hex hex : gameWindow.hexes) {

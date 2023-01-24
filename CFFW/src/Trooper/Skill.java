@@ -3,6 +3,8 @@ package Trooper;
 import java.io.Serializable;
 import java.util.Random;
 
+import UtilityClasses.DiceRoller;
+
 public class Skill implements Serializable {
 	public String name; 
 	public int rank; 
@@ -86,14 +88,13 @@ public class Skill implements Serializable {
 	
 	// Rank up 
 	public void rankUp() {
-		Random rand = new Random();
 		int advancement;
 		
 		if(type.equals("Basic")) {
 			
 			if(supported) {
-				int roll = rand.nextInt(6) + 1;
-				int roll2 = rand.nextInt(6) + 1;
+				int roll = DiceRoller.randInt(1, 6);
+				int roll2 = DiceRoller.randInt(1, 6);
 				
 				if(roll > roll2) {
 					advancement = roll;
@@ -102,15 +103,15 @@ public class Skill implements Serializable {
 				}
 				
 			} else {
-				advancement = rand.nextInt(6) + 1;
+				advancement = DiceRoller.randInt(1, 6);
 			}
 			
 		} else if (type.equals("Trained")) {
 			
 			if(supported) {
-				advancement = rand.nextInt(6) + 1;
+				advancement = DiceRoller.randInt(1, 6);
 			} else {
-				int roll = rand.nextInt(6) + 1;
+				int roll = DiceRoller.randInt(1, 6);
 				roll -= 2; 
 				if(roll < 0) {
 					advancement = 1; 
@@ -122,7 +123,7 @@ public class Skill implements Serializable {
 		} else {
 			
 			if(supported) {
-				int roll = rand.nextInt(6) + 1;
+				int roll = DiceRoller.randInt(1, 6);
 				roll -= 2; 
 				if(roll < 0) {
 					advancement = 0; 
@@ -130,8 +131,8 @@ public class Skill implements Serializable {
 					advancement = roll;
 				}
 			} else {
-				int roll = rand.nextInt(6) + 1;
-				int roll2 = rand.nextInt(6) + 1;
+				int roll = DiceRoller.randInt(1, 6);
+				int roll2 = DiceRoller.randInt(1, 6);
 				
 				if(roll < roll2) {
 					advancement = roll;

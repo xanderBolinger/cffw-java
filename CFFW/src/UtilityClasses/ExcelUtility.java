@@ -45,7 +45,11 @@ public class ExcelUtility {
 				throw new Exception("Value 2: "+matchRow+" not found in file: " + fileName);
 			}
 
-			result = worksheet.getRow(targetRow).getCell(targetColumn).getStringCellValue();
+			if(worksheet.getRow(targetRow).getCell(targetColumn).getCellType() == CellType.NUMERIC) {
+				result = Integer.toString((int) worksheet.getRow(targetRow).getCell(targetColumn).getNumericCellValue());
+			} else if(worksheet.getRow(targetRow).getCell(targetColumn).getCellType() == CellType.STRING) {
+				result = worksheet.getRow(targetRow).getCell(targetColumn).getStringCellValue();
+			}
 
 			workbook.close();
 		} catch (FileNotFoundException e) {

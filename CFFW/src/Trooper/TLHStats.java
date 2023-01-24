@@ -3,6 +3,8 @@ package Trooper;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
+
+import UtilityClasses.DiceRoller;
 public class TLHStats implements Serializable {
    // Stats 
    public int str;
@@ -28,13 +30,12 @@ public class TLHStats implements Serializable {
    // Returns the attribute
    public static int roll3D4(int bonus){
       // Rolls dice three times and comes up with the attribute sum. Includes the attr bonus. 
-	   Random rand = new Random();
 		int sum = 0;
 	
 		// Rolls 4 dice
 		ArrayList<Integer> rolls = new ArrayList<Integer>();
 		for (int i = 0; i < 3; i++) {
-			int roll = rand.nextInt(4) + 1;
+			int roll = DiceRoller.randInt(1, 4);
 			rolls.add(roll);
 		}
 	

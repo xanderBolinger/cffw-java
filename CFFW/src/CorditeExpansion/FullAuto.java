@@ -21,6 +21,7 @@ public class FullAuto {
 		}
 	}
 	
+	
 	public static FullAutoResults burst(int eal, double ma, int rof, StatBlock statBlock) throws Exception {
 		String rslts;
 		int hits = 0; 
