@@ -1137,6 +1137,10 @@ public class OpenTrooper implements Serializable {
 						protected Void doInBackground() throws Exception {
 							System.out.println("Shoot");
 							
+							if(shoot.wep.type.equals("Launcher") && launcherAmmoCheck()) {
+								return null; 
+							}
+							
 							if(comboBoxTargetUnits.getSelectedIndex() > 0)
 								shoot.suppressiveFire(shoot.wep.suppressiveROF);
 							else if(chckbxFullAuto.isSelected())
@@ -1146,6 +1150,11 @@ public class OpenTrooper implements Serializable {
 							
 							
 							GameWindow.gameWindow.conflictLog.addNewLineToQueue("Results: "+shoot.shotResults);
+							
+							String name = (String) comboBoxLauncher.getSelectedItem() + ": "
+									+ comboBoxAmmoTypeLauncher.getSelectedItem().toString() + " round";
+
+							
 							
 							return null;
 						}
@@ -7132,6 +7141,30 @@ public class OpenTrooper implements Serializable {
 		}
 		ShootUtility.shootGuiUpdate(lblPossibleShots, lblAimTime, lblTN, lblTfSpentCa, lblAmmo, lblCombatActions,
 				chckbxFullAuto, shots);
+	}
+	
+	public boolean launcherAmmoCheck() {
+		if (chkbxOverRideInventory.isSelected()) {
+			return true; 
+		}
+		
+		String name = (String) comboBoxLauncher.getSelectedItem() + ": "
+				+ comboBoxAmmoTypeLauncher.getSelectedItem().toString() + " round";
+		
+		if (!openTrooper.inventory.containsItem(name) && !chkbxOverRideInventory.isSelected()) {
+			GameWindow.gameWindow.conflictLog
+					.addNewLine("Could not make attack, trooper does not have item. Name: " + name);
+			return false;
+		}
+		
+		// System.out.println("Name: "+name);
+		try {
+			openTrooper.inventory.removeItem(name);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		return true; 
 	}
 
 }

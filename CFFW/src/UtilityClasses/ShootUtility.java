@@ -12,16 +12,14 @@ import Unit.Unit;
 
 public class ShootUtility {
 
-	public static Shoot setTarget(Unit shooterUnit, Unit targetUnit, Shoot shoot, Trooper shooter, Trooper target, 
+	public static Shoot setTarget(Unit shooterUnit, Unit targetUnit, Shoot shoot, Trooper shooter, Trooper target,
 			String wepName, int ammoIndex) {
 		System.out.println("Set target tropoer");
 
 		if (shoot == null) {
-			return new Shoot(shooterUnit,
-					targetUnit, shooter, target, wepName, ammoIndex);
-		} else {			
-			Shoot newShoot = new Shoot(shooterUnit,
-					targetUnit, shooter, target, wepName, ammoIndex);
+			return new Shoot(shooterUnit, targetUnit, shooter, target, wepName, ammoIndex);
+		} else {
+			Shoot newShoot = new Shoot(shooterUnit, targetUnit, shooter, target, wepName, ammoIndex);
 			newShoot.shots = shoot.shots;
 			newShoot.spentCombatActions = shoot.shots + shoot.aimTime - shoot.startingAimTime;
 			return newShoot;
@@ -29,22 +27,20 @@ public class ShootUtility {
 
 	}
 
-	public static Shoot setTargetUnit(Unit shooterUnit, Unit targetUnit, Shoot shoot, Trooper shooter,
-			String wepName, int ammoIndex) {
+	public static Shoot setTargetUnit(Unit shooterUnit, Unit targetUnit, Shoot shoot, Trooper shooter, String wepName,
+			int ammoIndex) {
 		System.out.println("Set target unit");
 
 		if (shoot == null) {
 			System.out.println("new shoot target unit");
-			return new Shoot(shooterUnit, targetUnit, shooter, null, 
-					wepName, ammoIndex);
+			return new Shoot(shooterUnit, targetUnit, shooter, null, wepName, ammoIndex);
 		} else {
-			Shoot newShoot = new Shoot(shooterUnit,
-					targetUnit, shooter, null, wepName, ammoIndex);
+			Shoot newShoot = new Shoot(shooterUnit, targetUnit, shooter, null, wepName, ammoIndex);
 			newShoot.shots = shoot.shots;
 			newShoot.spentCombatActions = shoot.shots + shoot.aimTime - shoot.startingAimTime;
 			return newShoot;
 		}
-		
+
 	}
 
 	public static void shootGuiUpdate(JLabel lblPossibleShots, JLabel lblAimTime, JLabel lblTN, JLabel lblTfSpentCa,
@@ -59,9 +55,9 @@ public class ShootUtility {
 		int meanSuppressiveTn = getMeanSuppresiveTn(shoot);
 		int meanAmmo = getMeanAmmo(shoot);
 
-		lblPossibleShots.setText( (shoot.get(0).target == null ? "Suppressive Fire Shots: " : "Possible Shots: ") + 
-				(shoot.get(0).target == null ? shoot.get(0).wep.suppressiveROF
-				: (meanCombatActions - meanSpentCombatActions)));
+		lblPossibleShots.setText((shoot.get(0).target == null ? "Suppressive Fire Shots: " : "Possible Shots: ")
+				+ (shoot.get(0).target == null ? shoot.get(0).wep.suppressiveROF
+						: (meanCombatActions - meanSpentCombatActions)));
 		lblAimTime.setText("Aim Time: " + meanAimTime);
 
 		String rslt = "Target Number: "
@@ -162,31 +158,31 @@ public class ShootUtility {
 		return ammo / shots.size();
 
 	}
-	
+
 	public static void aimUpdate(Shoot shoot, int aimIndex) {
 		System.out.println("Aim Update");
 
-		if(aimIndex == 0)
+		if (aimIndex == 0)
 			shoot.autoAim();
-		else 
+		else
 			shoot.setAimTime(aimIndex);
-		
+
 	}
 
 	public static void bonusUpdate(Shoot shoot) {
 		System.out.println("Bonus Auto Update");
-		
+
 		shoot.setBonuses(0, 0, 0);
 	}
 
 	public static void shoot(Shoot shoot, boolean fullAuto, boolean homing) {
-		
-		if(fullAuto)
+
+		if (fullAuto)
 			shoot.burst();
-		else 
+		else
 			shoot.shot(homing);
-	
+
 		GameWindow.gameWindow.conflictLog.addNewLine(shoot.shotResults);
 	}
-	
+
 }
