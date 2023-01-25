@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import Items.Weapons;
 import Shoot.Shoot;
 import Trooper.Trooper;
 import Trooper.generateSquad;
@@ -60,6 +61,20 @@ public class ShootTests {
 	@Test
 	public void testUnitTest() {
 		assertEquals(1, 1);
+	}
+	
+	@Test
+	public void recalcTest() {
+		shoot.pcHexRange = 10;
+		shoot.target.inCover = true;
+		shoot.recalc();
+		assertEquals(6, shoot.ealSum);
+		shoot.recalc();
+		assertEquals(6, shoot.ealSum);
+		shoot.recalc();
+		assertEquals(6, shoot.ealSum);
+		shoot.recalc();
+		assertEquals(6, shoot.ealSum);
 	}
 	
 	@Test

@@ -3167,7 +3167,8 @@ public class Weapons implements Serializable {
 		this.name = "DC40";
 		this.type = "Launcher";
 		this.collateralDamage = 50;
-
+		this.suppressiveROF = 3;
+		
 		/*
 		 * Ammo heat = new Ammo("HEAT", 8, 0, 6, 10, null, null, null); Ammo he = new
 		 * Ammo("HE", 8, 0, 4, 10, null, null, null);

@@ -188,7 +188,7 @@ public class Explosion {
 			GameWindow.gameWindow.conflictLog.addNewLine("");
 			return; 
 		}
-			 		
+		
 		GameWindow.gameWindow.conflictLog.addNewLineToQueue(GameWindow.getLogHead(target)+", sharp hit, pen: "+pen+", dc: "+dc);
 		
 		Injuries injury = resolveHits.getPCHitsManual(pen, dc, of);

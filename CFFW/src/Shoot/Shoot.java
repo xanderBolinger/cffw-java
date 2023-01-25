@@ -130,12 +130,17 @@ public class Shoot {
 
 	public void shot(boolean homing) {
 		if (!ammoCheckSingle()) {
+			System.out.println("shot return");
 			return;
 		}
 
+		System.out.println("shot");
 		singleShotRoll(homing);
+		System.out.println("shot 2");
 		resolveHits();
+		System.out.println("shot 3");
 		resolveSuppressiveHits();
+		System.out.println("shot 4");
 		spentCombatActions++;
 		shots++;
 		setShotResults(false);
@@ -182,8 +187,8 @@ public class Shoot {
 
 	public void setShotResults(boolean fullAuto) {
 		shotResults = (fullAuto ? "Full Auto Burst from " : "Single Shot from ") + shooterUnit.callsign + ": "
-				+ shooter.number + " " + shooter.name + "to " + targetUnit.callsign + ": " + target.number + " "
-				+ target.name;
+				+ shooter.number + " " + shooter.name + " to " + targetUnit.callsign + ": " + target.number + " "
+				+ target.name + ", Using: "+wep.name + (pcAmmo != null ? ": " +pcAmmo.name +"round.": "");
 
 		if (fullAuto) {
 			shotResults += " " + "Elevation roll: " + shotRoll + ", Elevation TN: " + fullAutoTn + ", Second Roll: "
@@ -243,7 +248,7 @@ public class Shoot {
 			hits++;
 			suppressiveHits++;
 		} else {
-			suppressiveShotRoll(burstRoll);
+			suppressiveShotRoll(shotRoll);
 		}
 	}
 
@@ -292,10 +297,29 @@ public class Shoot {
 		return autofireTable;
 	}
 
+	public void explosionCheck() {
+		if (pcAmmo != null) {
+			System.out.println("explode");
+			Explosion explosion = new Explosion(pcAmmo);
+			explosion.excludeTroopers.add(target);
+			
+			for(int i = 0; i < hits; i++) {
+				explosion.explosiveImpact(target, pcAmmo, wep);
+				explosion.explodeTrooper(target, 0);
+			}
+			
+			explosion.explodeHex(targetUnit.X, targetUnit.Y, shooterUnit.side);
+		} else {
+			System.out.println("null ammo");
+		}
+	}
+	
 	public void resolveHits() {
-
+		if(pcAmmo != null)
+			return;
+		
 		while (hits > 0) {
-
+			System.out.println("hit");
 			ResolveHits resolveHits = new ResolveHits(target, hits, wep,
 					GameWindow.gameWindow != null ? GameWindow.gameWindow.conflictLog : null, targetUnit, shooterUnit,
 					GameWindow.gameWindow);
@@ -310,18 +334,14 @@ public class Shoot {
 
 			hits--;
 
-			if (pcAmmo != null) {
-				Explosion explosion = new Explosion(pcAmmo);
-				explosion.excludeTroopers.add(target);
-				explosion.explodeTrooper(target, 0);
-				explosion.explodeHex(targetUnit.X, targetUnit.Y, shooterUnit.side);
-			}
-
 		}
 
 	}
 
 	public void resolveSuppressiveHits() {
+		if(suppressiveHits > 0)
+			explosionCheck();
+		
 		if (targetUnit.suppression + suppressiveHits < 100) {
 			targetUnit.suppression += suppressiveHits / 2;
 		} else {
@@ -414,11 +434,11 @@ public class Shoot {
 	public void setStanceALM() {
 
 		if (wep.staticWeapon && wep.assembled) {
-			stanceALM += 5;
+			stanceALM = 5;
 		} else if (shooter.inCover || shooter.stance == "Prone" && !wep.staticWeapon) {
-			stanceALM += wep.bipod + 6;
+			stanceALM = wep.bipod + 6;
 		} else if (shooter.stance == "Crouched") {
-			stanceALM += 3;
+			stanceALM = 3;
 		}
 
 	}
