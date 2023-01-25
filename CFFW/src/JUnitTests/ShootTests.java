@@ -13,6 +13,7 @@ import Trooper.Trooper;
 import Trooper.generateSquad;
 import Unit.Unit;
 import UtilityClasses.DiceRoller;
+import UtilityClasses.ShootUtility;
 
 public class ShootTests {
 
@@ -46,7 +47,7 @@ public class ShootTests {
 		targetUnit.speed = "None";
 		target = targetUnit.individuals.get(0);
 
-		shoot = new Shoot(shooterUnit, targetUnit, shooter, target);
+		shoot = new Shoot(shooterUnit, targetUnit, shooter, target, shooter.wep, 0);
 
 	}
 
@@ -61,38 +62,122 @@ public class ShootTests {
 		assertEquals(1, 1);
 	}
 	
+	@Test
+	public void switchTargets() {
+		
+		for(Trooper trooper : targetUnit.individuals) {
+			System.out.println(trooper.DALM);
+		}
+		for(Trooper trooper : shooterUnit.individuals) {
+			System.out.println(trooper.DALM);
+		}
+		
+		
+		targetUnit.X = 2;
+		targetUnit.Y = 1;
+		shoot = new Shoot(shooterUnit, targetUnit, shooter, target, shooter.wep, 0);
+		//System.out.println("Shoot 1");
+		//shoot.setShotResults(false);
+		//System.out.println(shoot.shotResults);
+		
+		assertEquals(-8, shoot.aimALM);
+		assertEquals(4, shoot.ealSum);
+		shoot.shot(false);
+		assertEquals(1, shoot.spentCombatActions);
+		
+		shoot = ShootUtility.setTarget(shooterUnit, targetUnit, shoot, shooter, targetUnit.individuals.get(1), shooter.wep, 0);
+		//shoot.setShotResults(false);
+		//System.out.println("Shoot 2");
+		//System.out.println(shoot.shotResults);
+		assertEquals(-8, shoot.aimALM);
+		assertEquals(4, shoot.ealSum);
+		assertEquals(1, shoot.spentCombatActions);
+		shoot.shot(false);
+		assertEquals(2, shoot.spentCombatActions);
+		
+		shoot = ShootUtility.setTarget(shooterUnit, targetUnit, shoot, shooter, targetUnit.individuals.get(2), shooter.wep, 0);
+		//shoot.setShotResults(false);
+		//System.out.println("Shoot 2");
+		//System.out.println(shoot.shotResults);
+		assertEquals(-8, shoot.aimALM);
+		assertEquals(4, shoot.ealSum);
+		assertEquals(2, shoot.spentCombatActions);
+	}
+	
 	@Test 
 	public void setAimTime() {
-		
 		shooter.storedAimTime.clear();
 		shooter.storedAimTime.put(target, 3);
 		
-		shoot = new Shoot(shooterUnit, targetUnit, shooter, target);
+		shoot = new Shoot(shooterUnit, targetUnit, shooter, target, shooter.wep, 0);
 		
+		//System.out.println("Set aimtime 1");
 		shoot.setAimTime(0);
 		assertEquals(0, shoot.spentCombatActions);
+		//System.out.println("Set aimtime 2");
 		shoot.setAimTime(3);
 		assertEquals(0, shoot.spentCombatActions);
+		//System.out.println("Set aimtime 3");
 		shoot.setAimTime(4);
 		assertEquals(1, shoot.spentCombatActions);
+		//System.out.println("Set aimtime 4");
 		shoot.setAimTime(3);
 		assertEquals(0, shoot.spentCombatActions);
+		//System.out.println("Set aimtime 5");
 		shoot.setAimTime(6);
 		assertEquals(3, shoot.spentCombatActions);
+		//System.out.println("Set aimtime 6");
+		shoot.setAimTime(3);
+		assertEquals(0, shoot.spentCombatActions);
 		
+		shoot.shot(false);
+		assertEquals(1, shoot.spentCombatActions);
+		shoot.setAimTime(5);
+		assertEquals(3, shoot.spentCombatActions);
+		shoot.setAimTime(3);
+		assertEquals(1, shoot.spentCombatActions);
+		shoot.setAimTime(2);
+		assertEquals(1, shoot.spentCombatActions);
+		shoot.setAimTime(5);
+		assertEquals(3, shoot.spentCombatActions);
+		shoot.shot(false);
+		assertEquals(4, shoot.spentCombatActions);
+		
+		shooter.storedAimTime.clear();
+		shoot = new Shoot(shooterUnit, targetUnit, shooter, target, shooter.wep, 0);
+		shoot.setAimTime(3);
+		assertEquals(3, shoot.spentCombatActions);
+		shoot.setAimTime(0);
+		assertEquals(0, shoot.spentCombatActions);
+		shoot.setAimTime(4);
+		assertEquals(4, shoot.spentCombatActions);
+		shoot.shot(false);
+		assertEquals(5, shoot.spentCombatActions);
+		shoot.setAimTime(5);
+		assertEquals(6, shoot.spentCombatActions);
+		shoot.shot(false);
+		assertEquals(7, shoot.spentCombatActions);
+		
+		
+		shooter.storedAimTime.clear();
+		shoot = new Shoot(shooterUnit, targetUnit, shooter, target, shooter.wep, 0);
+		shoot.calculateModifiers();
+		shoot.autoAim();
+		assertEquals(true, shoot.spentCombatActions < shooter.combatActions);
+		System.out.println("Sum: "+shoot.ealSum);
+		assertEquals(true, shoot.ealSum >= 17);
 	}
 	
 	@Test
 	public void suppression() {
 		
+		shoot = new Shoot(shooterUnit, targetUnit, shooter, null, shooter.wep, 0);
 		shoot.pcHexRange = 100; 
-		shoot.target = null; 
-		
 		shoot.calculateModifiers();
 		shoot.setSuppressiveTn();
 		shoot.suppressiveFire(20);
-		assertEquals(5, targetUnit.suppression);
-		assertEquals(95, targetUnit.organization);
+		assertEquals(10, targetUnit.suppression);
+		assertEquals(90, targetUnit.organization);
 		
 	}
 	
@@ -101,12 +186,12 @@ public class ShootTests {
 		shoot.pcHexRange = 5;
 		shoot.targetUnit.speed = "None";
 		
-		for(int i = 0; i < 13; i++) {
-			shoot.aimAction();
+		for(int i = 0; i < 12; i++) {
+			shoot.setAimTime(i);
 		}
 		
 		for(int i = 0; i < 10; i++)
-			shoot.shot();
+			shoot.shot(false);
 		
 		assertEquals(true, shoot.ammoCheckSingle());
 		assertEquals(21, shoot.spentCombatActions);
@@ -132,12 +217,12 @@ public class ShootTests {
 		shoot.pcHexRange = 5;
 		shoot.targetUnit.speed = "None";
 		shoot.calculateModifiers();
-		shoot.aimBonus = 0;
+		shoot.aimALM = 0;
 		shoot.setALM();
 		shoot.setEAL();
-		assertEquals(29, shoot.ealSum);
+		assertEquals(27, shoot.ealSum);
 		shoot.setSingleTn();
-		shoot.singleShotRoll();
+		shoot.singleShotRoll(false);
 		assertEquals(1, shoot.hits);
 
 		shoot.hits = 0;
@@ -146,7 +231,7 @@ public class ShootTests {
 		shoot.pcHexRange = 5;
 		shoot.targetUnit.speed = "None";
 		shoot.calculateModifiers();
-		shoot.aimBonus = 0;
+		shoot.aimALM = 0;
 		shoot.setALM();
 		shoot.setCalledShotBounds(1);
 		shoot.setEAL();
@@ -170,9 +255,10 @@ public class ShootTests {
 		shoot.pcHexRange = 10;
 		shoot.target.inCover = true;
 		shoot.calculateModifiers();
-		shoot.aimBonus = 0;
+		shoot.aimALM = 0;
 		shoot.setEAL();
-		assertEquals(16, shoot.ealSum);
+		assertEquals(14, shoot.ealSum);
+		shoot.ealSum = 16;
 		shoot.setSingleTn();
 		shoot.setFullAutoTn();
 		assertEquals(39, shoot.singleTn);
@@ -185,9 +271,10 @@ public class ShootTests {
 		shoot.shooter.weaponIRLaserOn = true;
 		shoot.target.inCover = false;
 		shoot.calculateModifiers();
-		shoot.aimBonus = 0;
+		shoot.aimALM = 0;
 		shoot.setEAL();
-		assertEquals(14, shoot.ealSum);
+		assertEquals(12, shoot.ealSum);
+		shoot.ealSum = 14;
 		shoot.setSingleTn();
 		shoot.setFullAutoTn();
 		assertEquals(27, shoot.singleTn);
@@ -212,20 +299,20 @@ public class ShootTests {
 		// System.out.println("Shooter SL: "+shoot.shooter.sl);
 
 		shoot.calculateModifiers();
-		assertEquals(-8, shoot.aimBonus);
+		assertEquals(-8, shoot.aimALM);
 
-		shoot.aimAction();
+		shoot.setAimTime(1);
 		shoot.calculateModifiers();
 
 		assertEquals(1, shoot.aimTime);
 		assertEquals(1, shoot.spentCombatActions);
-		assertEquals(1, shoot.aimBonus);
-		shoot.aimAction();
+		assertEquals(1, shoot.aimALM);
+		shoot.setAimTime(2);
 		shoot.calculateModifiers();
 
 		assertEquals(2, shoot.aimTime);
 		assertEquals(2, shoot.spentCombatActions);
-		assertEquals(5, shoot.aimBonus);
+		assertEquals(5, shoot.aimALM);
 	}
 
 	@Test
@@ -235,8 +322,9 @@ public class ShootTests {
 		shoot.pcHexRange = 10;
 		shoot.target.inCover = true;
 		shoot.calculateModifiers();
-		shoot.aimBonus = 0;
+		shoot.aimALM = 0;
 		shoot.setALM();
+		shoot.almSum += 2;
 		shoot.setCalledShotBounds(1);
 		calledShotBounds = shoot.calledShotBounds;
 		assertEquals(1, (int) calledShotBounds.get(0));
@@ -251,8 +339,9 @@ public class ShootTests {
 		shoot.shooter.weaponIRLaserOn = true;
 		shoot.target.inCover = false;
 		shoot.calculateModifiers();
-		shoot.aimBonus = 0;
+		shoot.aimALM = 0;
 		shoot.setALM();
+		shoot.almSum += 2;
 		shoot.setCalledShotBounds(2);
 		calledShotBounds = shoot.calledShotBounds;
 		assertEquals(7, shoot.almSum);
@@ -265,8 +354,9 @@ public class ShootTests {
 		shoot.pcHexRange = 5;
 		shoot.targetUnit.speed = "None";
 		shoot.calculateModifiers();
-		shoot.aimBonus = 0;
+		shoot.aimALM = 0;
 		shoot.setALM();
+		shoot.almSum += 2;
 		shoot.setCalledShotBounds(1);
 		assertEquals(24, shoot.almSum);
 		calledShotBounds = shoot.calledShotBounds;
@@ -276,7 +366,7 @@ public class ShootTests {
 		assertEquals(-1, (int) calledShotBounds.get(3));
 		assertEquals(0, shoot.sizeALM);
 		shoot.setEAL();
-		assertEquals(24, shoot.ealSum);
+		assertEquals(22, shoot.ealSum);
 
 	}
 
@@ -285,9 +375,9 @@ public class ShootTests {
 		shoot.pcHexRange = 10;
 		shoot.target.inCover = true;
 		shoot.calculateModifiers();
-		shoot.aimBonus = 0;
+		shoot.aimALM = 0;
 		shoot.setALM();
-		assertEquals(16, shoot.almSum);
+		assertEquals(14, shoot.almSum);
 
 		Shoot.testVisibility = "Dusk";
 		shoot.targetUnit.speed = "Walk";
@@ -296,9 +386,9 @@ public class ShootTests {
 		shoot.shooter.weaponIRLaserOn = true;
 		shoot.target.inCover = false;
 		shoot.calculateModifiers();
-		shoot.aimBonus = 0;
+		shoot.aimALM = 0;
 		shoot.setALM();
-		assertEquals(7, shoot.almSum);
+		assertEquals(5, shoot.almSum);
 	}
 
 	@Test
@@ -306,9 +396,9 @@ public class ShootTests {
 		shoot.pcHexRange = 10;
 		shoot.target.inCover = true;
 		shoot.calculateModifiers();
-		shoot.aimBonus = 0;
+		shoot.aimALM = 0;
 		shoot.setEAL();
-		assertEquals(16, shoot.ealSum);
+		assertEquals(14, shoot.ealSum);
 
 		Shoot.testVisibility = "Dusk";
 		shoot.targetUnit.speed = "Walk";
@@ -317,9 +407,9 @@ public class ShootTests {
 		shoot.shooter.weaponIRLaserOn = true;
 		shoot.target.inCover = false;
 		shoot.calculateModifiers();
-		shoot.aimBonus = 0;
+		shoot.aimALM = 0;
 		shoot.setEAL();
-		assertEquals(14, shoot.ealSum);
+		assertEquals(12, shoot.ealSum);
 	}
 
 	@Test

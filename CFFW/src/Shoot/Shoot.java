@@ -16,7 +16,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import Conflict.GameWindow;
 import CorditeExpansion.FullAuto;
 import CorditeExpansion.FullAuto.FullAutoResults;
+import Injuries.Explosion;
 import Injuries.ResolveHits;
+import Items.PCAmmo;
 import Items.Weapons;
 import Trooper.Trooper;
 import Unit.Unit;
@@ -29,6 +31,9 @@ public class Shoot {
 	public static ArrayList<Shoot> shootActions = new ArrayList<>();
 
 	public int spentCombatActions;
+	public int startingAimTime;
+	public int shots;
+	public int fullAutoShots;
 
 	public Trooper shooter;
 	public Unit shooterUnit;
@@ -48,11 +53,15 @@ public class Shoot {
 	// on miss suppressive fire
 	// shoot suppressive fire
 	// aim, max aim 2, rush <= 20 hexes
-	// Percent penalty, alm bonus 
-	// Recurring alm bonus 
+	// Percent penalty, alm bonus
+	// Recurring alm bonus
 
 	// Ammo check
 	// Resolve Hits
+	// Stance ALM
+	// Launcher, homing
+	// Launcher ammo
+	// bonuses, defensive ALM 
 
 	public int pcHexRange;
 	public int rangeALM;
@@ -60,8 +69,8 @@ public class Shoot {
 	public int sizeALM;
 	public int visibilityALM;
 	public int laserLightALM;
+	public int stanceALM;
 
-	public int aimBonus;
 	public int aimALM;
 	public int aimTime;
 	public int maxAim;
@@ -79,10 +88,19 @@ public class Shoot {
 	public int suppressiveHits;
 
 	public Weapons wep;
-
+	public PCAmmo pcAmmo;
 	public ArrayList<Integer> calledShotBounds = new ArrayList<Integer>();
+	public String calledShotLocation;
 
-	public Shoot(Unit shooterUnit, Unit targetUnit, Trooper shooter, Trooper target) {
+	String autofireResults;
+	public String shotResults;
+	
+	
+	public int percentBonus; 
+	public int ealBonus; 
+	public int ealConcurrentBonus; 
+
+	public Shoot(Unit shooterUnit, Unit targetUnit, Trooper shooter, Trooper target, String wepName, int ammoIndex) {
 		this.shooter = shooter;
 		this.target = target;
 		this.shooterUnit = shooterUnit;
@@ -90,33 +108,40 @@ public class Shoot {
 
 		spentCombatActions = 0;
 
-		if (shooter.storedAimTime.containsKey(target)) {
+		if (target != null && shooter.storedAimTime.containsKey(target)) {
 			aimTime = shooter.storedAimTime.get(target);
 		}
 
-		wep = new Weapons().findWeapon(shooter.wep);
+		wep = new Weapons().findWeapon(wepName);
 		maxAim = wep.aimTime.size() - 1;
 
+		pcAmmo = ammoIndex < 0 || ammoIndex >= wep.pcAmmoTypes.size() ? null : wep.pcAmmoTypes.get(ammoIndex);
+
 		setDistance();
+		setStartingAim();
+		recalc();
 	}
 
 	public void setBonuses(int percent, int eal, int ealConcurrent) {
-		
+		this.percentBonus = percent; 
+		this.ealBonus = eal; 
+		this.ealConcurrentBonus = ealConcurrent;
 	}
-	
-	public void shot() {
+
+	public void shot(boolean homing) {
 		if (!ammoCheckSingle()) {
 			return;
 		}
 
-		singleShotRoll();
+		singleShotRoll(homing);
 		resolveHits();
 		resolveSuppressiveHits();
-		ealSum += 2;
 		spentCombatActions++;
-		setSingleTn();
-		setSuppressiveTn();
-		setFullAutoTn();
+		shots++;
+		setShotResults(false);
+		recalc();
+		ealSum += 2;
+		ealSum += ealConcurrentBonus;
 	}
 
 	public void burst() {
@@ -127,14 +152,19 @@ public class Shoot {
 		burstRoll();
 		resolveHits();
 		resolveSuppressiveHits();
-		ealSum -= wep.sab;
 		spentCombatActions++;
-		setSingleTn();
-		setSuppressiveTn();
-		setFullAutoTn();
+		shots++;
+		fullAutoShots++;
+		setShotResults(true);
+		recalc();
+		ealSum -= wep.sab * fullAutoShots;
+		ealSum += ealConcurrentBonus;
 	}
 
 	public void suppressiveFire(int shots) {
+		
+		System.out.println("Shoot suppressive");
+		
 		if (!ammoCheckSuppressive(shots))
 			return;
 
@@ -142,17 +172,36 @@ public class Shoot {
 			suppressiveShotRoll(DiceRoller.randInt(0, 99));
 		}
 
+		shotResults = "Suppresive fire from " + shooterUnit.callsign + " to " 
+				+ targetUnit.callsign + ": " + suppressiveHits + " hits.";
+		
+		spentCombatActions = shooter.combatActions;
 		resolveHits();
 		resolveSuppressiveHits();
 	}
 
-	public void updateTarget(Unit targetUnit, Trooper target) {
-		this.targetUnit = targetUnit;
-		this.target = target;
+	public void setShotResults(boolean fullAuto) {
+		shotResults = (fullAuto ? "Full Auto Burst from " : "Single Shot from ") + shooterUnit.callsign + ": "
+				+ shooter.number + " " + shooter.name + "to " + targetUnit.callsign + ": " + target.number + " "
+				+ target.name;
 
-		setDistance();
-		setStartingAim();
-		calculateModifiers();
+		if (fullAuto) {
+			shotResults += " " + "Elevation roll: " + shotRoll + ", Elevation TN: " + fullAutoTn + ", Second Roll: "
+					+ burstRoll + ", AutoFire Results: " + autofireResults;
+		} else {
+			shotResults += " " + "Shot roll: " + shotRoll + ", Shot TN: " + singleTn;
+		}
+
+		shotResults += ", EAL Sum: " + ealSum + ", ALM Sum: " + almSum + ", Range ALM: " + rangeALM + ", Speed ALM: "
+				+ speedALM + ", Size ALM: " + sizeALM + ", Visibility ALM: " + visibilityALM + ", Laser Light ALM: "
+				+ laserLightALM + ", Stance ALM: " + stanceALM + ", Aim ALM: " + aimALM + ", Aim Time: " + aimTime
+				+ ", Max Aim: " + maxAim;
+
+		if (calledShotBounds.size() > 0) {
+			shotResults += ", Called Shot: " + calledShotLocation + ", Bounds: " + calledShotBounds.get(0) + ", "
+					+ calledShotBounds.get(1) + ", " + calledShotBounds.get(2) + ", " + calledShotBounds.get(3);
+		}
+
 	}
 
 	public void setDistance() {
@@ -165,7 +214,6 @@ public class Shoot {
 
 	public void updateWeapon(String wep) {
 		this.wep = new Weapons().findWeapon(wep);
-		calculateModifiers();
 	}
 
 	public boolean ammoCheckSingle() {
@@ -188,10 +236,10 @@ public class Shoot {
 		}
 	}
 
-	public void singleShotRoll() {
+	public void singleShotRoll(boolean homing) {
 		shotRoll = DiceRoller.randInt(0, 99);
 
-		if (shotRoll <= singleTn) {
+		if (shotRoll <= (!homing ? singleTn : wep.homingHitChance)) {
 			hits++;
 			suppressiveHits++;
 		} else {
@@ -211,14 +259,14 @@ public class Shoot {
 			// System.out.println("MA: "+ma);
 			int rof = wep.fullAutoROF;
 			// System.out.println("ROF: "+rof);
-			String autofireTable;
+
 			try {
-				autofireTable = ExcelUtility.getStringFromSheet(rof, ma, "\\PC Hit Calc Xlsxs\\automaticfire.xlsx",
+				autofireResults = ExcelUtility.getStringFromSheet(rof, ma, "\\PC Hit Calc Xlsxs\\automaticfire.xlsx",
 						true, true);
-				if (FullAuto.hits(autofireTable)) {
-					hits = FullAuto.getNumericResults(autofireTable);
+				if (FullAuto.hits(autofireResults)) {
+					hits = FullAuto.getNumericResults(autofireResults);
 				} else {
-					int tn = FullAuto.getNumericResults(autofireTable);
+					int tn = FullAuto.getNumericResults(autofireResults);
 					burstRoll = DiceRoller.randInt(0, 99);
 					if (burstRoll <= tn) {
 						hits++;
@@ -235,15 +283,15 @@ public class Shoot {
 		int rof = wep.fullAutoROF;
 		String autofireTable = "";
 		try {
-			autofireTable = ExcelUtility.getStringFromSheet(rof, ma, "\\PC Hit Calc Xlsxs\\automaticfire.xlsx",
-					true, true);
+			autofireTable = ExcelUtility.getStringFromSheet(rof, ma, "\\PC Hit Calc Xlsxs\\automaticfire.xlsx", true,
+					true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return autofireTable;
 	}
-	
+
 	public void resolveHits() {
 
 		while (hits > 0) {
@@ -261,6 +309,14 @@ public class Shoot {
 				resolveHits.performCalculations(GameWindow.gameWindow.game, GameWindow.gameWindow.conflictLog);
 
 			hits--;
+
+			if (pcAmmo != null) {
+				Explosion explosion = new Explosion(pcAmmo);
+				explosion.excludeTroopers.add(target);
+				explosion.explodeTrooper(target, 0);
+				explosion.explodeHex(targetUnit.X, targetUnit.Y, shooterUnit.side);
+			}
+
 		}
 
 	}
@@ -282,15 +338,27 @@ public class Shoot {
 	}
 
 	public void setSingleTn() {
-		singleTn = PCUtility.getOddsOfHitting(true, ealSum);
+		singleTn = PCUtility.getOddsOfHitting(true, ealSum) - percentBonus;
 	}
 
 	public void setSuppressiveTn() {
-		suppressiveTn = PCUtility.getOddsOfHitting(true, almSum + 18);
+		suppressiveTn = PCUtility.getOddsOfHitting(true, almSum + 18) - percentBonus;
 	}
 
 	public void setFullAutoTn() {
-		fullAutoTn = PCUtility.getOddsOfHitting(false, ealSum);
+		fullAutoTn = PCUtility.getOddsOfHitting(false, ealSum) - percentBonus;
+	}
+
+	public void autoAim() {
+		System.out.println("auto aim");
+		aimTime = 0; 
+		spentCombatActions = 0 + shots;
+		shooter.storedAimTime.clear();
+		while (ealSum <= 17 && spentCombatActions + 1 < shooter.combatActions && canAim()) {
+			System.out.println("aim action");
+			setAimTime(aimTime + 1);
+		}
+
 	}
 
 	public boolean canAim() {
@@ -300,61 +368,89 @@ public class Shoot {
 			return true;
 	}
 
-	public void aimAction() {
-		if (!canAim())
-			return;
-
-		if(target != null && shooter.storedAimTime.get(target) != null) {
-			aimTime = shooter.storedAimTime.get(target);
-		}
-		
-		aimTime++;
-		spentCombatActions++;
-
-		shooter.storedAimTime.clear();
-		shooter.storedAimTime.put(target, aimTime);
-	}
-
 	public void setStartingAim() {
-		if(target != null && shooter.storedAimTime.get(target) != null) {
+		if (target != null && shooter.storedAimTime.get(target) != null) {
 			aimTime = shooter.storedAimTime.get(target);
+			startingAimTime = shooter.storedAimTime.get(target);
 		} else {
 			aimTime = 0;
 		}
 	}
-	
+
 	public void setAimTime(int newTime) {
-		setStartingAim();
-		System.out.println("Aim Time: "+aimTime+", New Time: "+newTime);
-		spentCombatActions +=  newTime - aimTime;
+		// System.out.println("Aim Time: "+aimTime+", New Time: "+newTime);
+		if(newTime >= wep.aimTime.size())
+			newTime = wep.aimTime.size() - 1;
 		
-		if(spentCombatActions < 0)
-			spentCombatActions = 0;
 		
-		aimTime = newTime;
-		
+		if (aimTime < startingAimTime && newTime > startingAimTime)
+			spentCombatActions += newTime - startingAimTime;
+		else if (newTime > startingAimTime)
+			spentCombatActions += newTime - aimTime;
+		else if (newTime <= startingAimTime)
+			spentCombatActions = 0 + shots;
+
+		if (newTime != aimTime) {
+			System.out.println("set aim time");
+			aimTime = newTime;
+			setAimBonus();
+			setALM();
+			setEAL();
+			setSingleTn();
+			setSuppressiveTn();
+			setFullAutoTn();
+			shooter.storedAimTime.clear();
+			shooter.storedAimTime.put(target, aimTime);
+		}
+		setShotResults(false);
+		//System.out.println(shotResults);
 	}
-	
+
 	public void setAimBonus() {
-		aimBonus = wep.aimTime.get(target != null && shooter.storedAimTime.get(target) != null ? shooter.storedAimTime.get(target) : aimTime)
-				+ shooter.sl;
+		aimALM = wep.aimTime.get(aimTime) + shooter.sl;
+		System.out.println("AimALM: "+aimALM+", aim time: "+aimTime);
+	}
+
+	public void setStanceALM() {
+
+		if (wep.staticWeapon && wep.assembled) {
+			stanceALM += 5;
+		} else if (shooter.inCover || shooter.stance == "Prone" && !wep.staticWeapon) {
+			stanceALM += wep.bipod + 6;
+		} else if (shooter.stance == "Crouched") {
+			stanceALM += 3;
+		}
+
 	}
 
 	public void calculateModifiers() {
+		System.out.println("Calculate Modifiers");
 		setRangeALM();
 		setVisibilityALM();
 		setSpeedALM();
 		setSizeALM();
 		setLaserLightALM();
 		setAimBonus();
+		setStanceALM();
+	}
+	
+	public void recalc() {
+		calculateModifiers();
+		setALM();
+		setEAL();
+		setSingleTn();
+		setSuppressiveTn();
+		setFullAutoTn();
 	}
 
 	public void setALM() {
-		almSum = rangeALM + visibilityALM + speedALM + laserLightALM + aimBonus;
+		almSum = rangeALM + visibilityALM + speedALM + laserLightALM + aimALM + 
+				stanceALM + ealBonus + (target != null ? target.DALM : 0);
 	}
 
 	public void setEAL() {
-		ealSum = rangeALM + visibilityALM + sizeALM + speedALM + laserLightALM + aimBonus;
+		ealSum = rangeALM + visibilityALM + sizeALM + speedALM + laserLightALM + 
+				aimALM + stanceALM + ealBonus + (target != null ? target.DALM : 0);
 	}
 
 	public void noSpeed() {
@@ -469,6 +565,9 @@ public class Shoot {
 	}
 
 	public void setCloseCombatDistance() {
+		if(target == null)
+			return;
+		
 		// System.out.println(" Close Combat Calculations:");
 		if (shooter.pcRanges.containsKey(target)) {
 			pcHexRange = shooter.pcRanges.get(target);
@@ -485,6 +584,16 @@ public class Shoot {
 	public void setCalledShotBounds(int calledShotTarget) {
 
 		// System.out.println("Inside set called shot bounds");
+
+		if (calledShotTarget == 1) {
+			calledShotLocation = "Head";
+		} else if (calledShotTarget == 2) {
+			calledShotLocation = "Body";
+		} else if (calledShotTarget == 3) {
+			calledShotLocation = "Legs";
+		} else {
+
+		}
 
 		int sheetIndex = calledShotTarget - 1;
 

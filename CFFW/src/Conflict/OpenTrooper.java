@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Random;
@@ -76,6 +77,7 @@ import Unit.EditUnit;
 import Unit.Unit;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.PCUtility;
+import UtilityClasses.ShootUtility;
 import UtilityClasses.SwingUtility;
 import UtilityClasses.TrooperUtility;
 
@@ -92,6 +94,7 @@ import javax.swing.SwingUtilities;
 public class OpenTrooper implements Serializable {
 
 	public Unit targetUnit;
+	Shoot shoot;
 	public ArrayList<Trooper> spottedTroopers = new ArrayList<Trooper>();
 	public ArrayList<Trooper> targetTroopers = new ArrayList<Trooper>();
 	public TargetedFire targetedFire = null;
@@ -181,9 +184,6 @@ public class OpenTrooper implements Serializable {
 	private JComboBox comboBoxWeapon;
 	private JTextField textFieldCallsign;
 	private JComboBox comboBoxTargetUnits;
-	private JComboBox comboBoxSuppressWeapon;
-	private JComboBox comboBoxSuppressShots;
-	private JSpinner spinnerSuppressiveBonus;
 	private JLabel labelAlive;
 	private JLabel lblHD;
 	private JLabel lblMaxHp;
@@ -306,7 +306,6 @@ public class OpenTrooper implements Serializable {
 	private JSpinner spinnerThrowEALBonus;
 	private JSpinner spinnerMagnification;
 	private JCheckBox chckbxHoming;
-	private JCheckBox chckbxGuided;
 	private JSpinner spinnerTargetRoom;
 	private JComboBox comboBoxBuilding;
 	private JSpinner spinnerPD;
@@ -867,17 +866,26 @@ public class OpenTrooper implements Serializable {
 		comboBoxAimTime.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (comboBoxAimTime.getSelectedIndex() == 0)
+				if (shoot == null)
 					return;
 
+				if (comboBoxAimTime.getSelectedIndex() == 0)
+					shoot.autoAim();
+				else
+					shoot.setAimTime(comboBoxAimTime.getSelectedIndex() - 1);
+				
+				guiUpdates();
+				
 				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
 					@Override
 					protected Void doInBackground() throws Exception {
 
 						// System.out.println("Aim Time - Target Changed Shots1");
-						PCShots();
+						// PCShots();
 						// System.out.println("Aim Time - Target Changed Shots2");
+
+						
 
 						return null;
 					}
@@ -885,8 +893,8 @@ public class OpenTrooper implements Serializable {
 					@Override
 					protected void done() {
 
-						PCFireGuiUpdates();
-
+						// PCFireGuiUpdates();
+						
 					}
 
 				};
@@ -983,13 +991,6 @@ public class OpenTrooper implements Serializable {
 		comboBoxTargets.setBounds(14, 270, 163, 23);
 		comboBoxTargets.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				comboBoxAimTime.setSelectedIndex(0);
-				if (targetedFire != null) {
-					spentCA = targetedFire.spentCA + targetedFire.spentAimTime;
-					targetedFire = null;
-				}
-				possibleShots = true;
-				reaction = null;
 
 				if (comboBoxTargets.getSelectedIndex() == 0)
 					return;
@@ -1003,16 +1004,35 @@ public class OpenTrooper implements Serializable {
 					protected Void doInBackground() throws Exception {
 
 						// System.out.println("Target Changed Shots1");
-						PCShots();
+						// PCShots();
 						// System.out.println("Target Changed Shots2");
 
+						String wepName = trooper.wep;
+						int ammoIndex = -1;
+						if (comboBoxLauncher.getSelectedIndex() > 0) {
+							wepName = comboBoxLauncher.getSelectedItem().toString();
+							ammoIndex = comboBoxAmmoTypeLauncher.getSelectedIndex();
+							if (ammoIndex < 0) {
+								GameWindow.gameWindow.conflictLog.addNewLineToQueue("Select valid ammo");
+								return null;
+							}
+						}
+
+						shoot = ShootUtility.setTarget(unit, targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1).returnTrooperUnit(gameWindow), 
+								shoot,
+								trooper, targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1), 
+								wepName, ammoIndex);
+
+						if(comboBoxAimTime.getSelectedIndex() == 0)
+							shoot.autoAim();
+						
 						return null;
 					}
 
 					@Override
 					protected void done() {
 
-						PCFireGuiUpdates();
+						guiUpdates();
 
 					}
 
@@ -1077,8 +1097,13 @@ public class OpenTrooper implements Serializable {
 				}
 
 				DefaultComboBoxModel model = new DefaultComboBoxModel(shots);
-				// comboBoxAimTime.setModel(model);
 
+				if (shoot != null) {
+					shoot.updateWeapon(weapon.name);
+					shoot.recalc();
+				}
+				
+				guiUpdates();
 			}
 		});
 		comboBoxWeapon.setModel(new DefaultComboBoxModel(
@@ -1102,46 +1127,42 @@ public class OpenTrooper implements Serializable {
 		btnFire.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				if(shoot == null)
+					return;
+				
 				try {
 					SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
 						@Override
 						protected Void doInBackground() throws Exception {
-
-							// System.out.println("Shots1");
-							PCFire();
-							targetedFire.EAL += (int) spinnerConsecutiveEALBonus.getValue();
-							PCShots();
-							trooper.storedAimTime.clear();
-							// System.out.println("Shots2");
-
+							System.out.println("Shoot");
+							
+							if(comboBoxTargetUnits.getSelectedIndex() > 0)
+								shoot.suppressiveFire(shoot.wep.suppressiveROF);
+							else if(chckbxFullAuto.isSelected())
+								shoot.burst();
+							else 
+								shoot.shot(chckbxHoming.isSelected());
+							
+							
+							GameWindow.gameWindow.conflictLog.addNewLineToQueue("Results: "+shoot.shotResults);
+							
 							return null;
 						}
 
 						@Override
 						protected void done() {
 
-							// System.out.println("Done");
-							PCFireGuiUpdates();
-
 							// fire(window, unit, index, f, false);
-							if (openNext && !chckbxMultipleTargets.isSelected() && possibleShots == false
-									&& reaction == null) {
-								if (reaction != null) {
-									reaction.frame.dispose();
-									reaction = null;
-								}
-
+							if (openNext && !chckbxFreeAction.isSelected() && shoot.spentCombatActions >= shoot.shooter.combatActions) {
 								actionSpent(window, index);
 								window.openNext(true);
 								f.dispose();
-
-							} else {
-								// refreshTargets();
 							}
+
 							refreshInventory();
 							GameWindow.gameWindow.conflictLog.addQueuedText();
-
+							guiUpdates();
 						}
 
 					};
@@ -1184,70 +1205,55 @@ public class OpenTrooper implements Serializable {
 		lblTagetUnit_1.setForeground(Color.WHITE);
 		lblTagetUnit_1.setFont(new Font("Calibri", Font.PLAIN, 15));
 
-		JLabel label_1 = new JLabel("Weapon:");
-		label_1.setBounds(157, 325, 136, 23);
-		label_1.setForeground(Color.WHITE);
-		label_1.setFont(new Font("Calibri", Font.PLAIN, 15));
-
-		comboBoxSuppressWeapon = new JComboBox();
-		comboBoxSuppressWeapon.setBounds(156, 345, 136, 20);
-		comboBoxSuppressWeapon.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				Weapons weapon = new Weapons();
-				weapon = weapon.findWeapon(comboBoxSuppressWeapon.getSelectedItem().toString());
-
-				// array of shots size
-				int size = weapon.getSuppressROF() + 1;
-				String[] shots = new String[size];
-				shots[0] = "0";
-
-				for (int i = 0; i < shots.length - 1; i++) {
-					shots[i + 1] = String.valueOf(i + 1);
-				}
-
-				DefaultComboBoxModel model = new DefaultComboBoxModel(shots);
-				comboBoxSuppressShots.setModel(model);
-			}
-		});
-		comboBoxSuppressWeapon.setModel(new DefaultComboBoxModel(
-				new String[] { "None", "DC15A", "DC15X", "DC15S", "DC17m", "DC17 Sniper", "Z6", "E5", "E5S", "E5C",
-						"MA37", "M392 DMR", "M739 SAW", "Type-51 Carbine", "Type-52 Rifle", "Type-52 Pistol" }));
-		comboBoxSuppressWeapon.setSelectedIndex(0);
-
-		JLabel label_2 = new JLabel("Shots:");
-		label_2.setBounds(299, 325, 87, 23);
-		label_2.setForeground(Color.WHITE);
-		label_2.setFont(new Font("Calibri", Font.PLAIN, 15));
-
-		comboBoxSuppressShots = new JComboBox();
-		comboBoxSuppressShots.setBounds(298, 345, 87, 20);
-		comboBoxSuppressShots.setModel(new DefaultComboBoxModel(new String[] { "0" }));
-		comboBoxSuppressShots.setSelectedIndex(0);
-
-		spinnerSuppressiveBonus = new JSpinner();
-		spinnerSuppressiveBonus.setBounds(399, 345, 74, 20);
-
-		JLabel label_3 = new JLabel("Other Bonus:");
-		label_3.setBounds(404, 325, 87, 23);
-		label_3.setForeground(Color.WHITE);
-		label_3.setFont(new Font("Calibri", Font.PLAIN, 15));
-
-		JButton button = new JButton("Fire");
-		button.setBounds(483, 344, 63, 23);
-		button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				trooper.storedAimTime.clear();
-				fireSuppressive(window, unit, index, f, true);
-				if (openNext && !chckbxFreeAction.isSelected()) {
-					window.openNext(true);
-					f.dispose();
-
-				}
-			}
-		});
-
 		comboBoxTargetUnits = new JComboBox();
+		comboBoxTargetUnits.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (comboBoxTargets.getSelectedIndex() != 0 || comboBoxTargetUnits.getSelectedIndex() <= 0)
+					return;
+
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+
+						String wepName = trooper.wep;
+						int ammoIndex = -1;
+						if (comboBoxLauncher.getSelectedIndex() > 0) {
+							wepName = comboBoxLauncher.getSelectedItem().toString();
+							ammoIndex = comboBoxAmmoTypeLauncher.getSelectedIndex();
+							if (ammoIndex < 0) {
+								GameWindow.gameWindow.conflictLog.addNewLineToQueue("Select valid ammo");
+								return null;
+							}
+						}
+
+						shoot = ShootUtility.setTargetUnit(unit, unit.lineOfSight.get(comboBoxTargetUnits.getSelectedIndex()-1),
+								shoot, trooper,
+								wepName, ammoIndex);
+						
+						if(comboBoxAimTime.getSelectedIndex() == 0)
+							shoot.autoAim();
+						
+						if(shoot == null)
+							System.out.println("Shoot is null");
+						
+						return null;
+					}
+
+					@Override
+					protected void done() {
+
+						guiUpdates();
+
+					}
+
+				};
+
+				worker.execute();
+
+			}
+		});
 		comboBoxTargetUnits.setBounds(10, 345, 136, 20);
 		comboBoxTargetUnits.setModel(new DefaultComboBoxModel(new String[] { "None" }));
 		comboBoxTargetUnits.setSelectedIndex(0);
@@ -1259,14 +1265,7 @@ public class OpenTrooper implements Serializable {
 		panelActions.add(chckbxFreeSpotTest);
 		panelActions.add(lblSustainedFire);
 		panelActions.add(lblTagetUnit_1);
-		panelActions.add(label_1);
-		panelActions.add(label_2);
 		panelActions.add(comboBoxTargetUnits);
-		panelActions.add(comboBoxSuppressWeapon);
-		panelActions.add(comboBoxSuppressShots);
-		panelActions.add(label_3);
-		panelActions.add(spinnerSuppressiveBonus);
-		panelActions.add(button);
 		panelActions.add(textPaneTargetedFire);
 		panelActions.add(lblTagetIndividual);
 		panelActions.add(comboBoxTargets);
@@ -1643,18 +1642,10 @@ public class OpenTrooper implements Serializable {
 
 						}
 
-						comboBoxAimTime.setSelectedIndex(0);
-						if (targetedFire != null) {
-							spentCA = targetedFire.spentCA + targetedFire.spentAimTime;
-							targetedFire = null;
+						if (shoot != null) {
+							shoot.pcAmmo = launcher.pcAmmoTypes.get(comboBoxAmmoTypeLauncher.getSelectedIndex());
+							shoot.updateWeapon(launcher.name);
 						}
-						possibleShots = true;
-						reaction = null;
-
-						if (comboBoxTargets.getSelectedIndex() == 0)
-							return null;
-
-						PCShots();
 
 						return null;
 					}
@@ -1663,7 +1654,8 @@ public class OpenTrooper implements Serializable {
 					protected void done() {
 
 						comboBoxAmmoTypeLauncher.setModel(ammoTypes);
-						PCFireGuiUpdates();
+						// PCFireGuiUpdates();
+						guiUpdates();
 
 					}
 
@@ -1851,6 +1843,43 @@ public class OpenTrooper implements Serializable {
 		JButton btnAim = new JButton("Aim");
 		btnAim.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+				if (shoot == null) {
+					return;
+				}
+
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+
+						if (comboBoxAimTime.getSelectedIndex() == 0) {
+							shoot.autoAim();
+						} else {
+							shoot.setAimTime(comboBoxAimTime.getSelectedIndex() - 1);
+						}
+
+						if (!chckbxFreeAction.isSelected() && shoot.spentCombatActions >= openTrooper.combatActions) {
+
+							actionSpent(window, index);
+							if (openNext)
+								window.openNext(true);
+							f.dispose();
+
+						}
+
+						return null;
+					}
+
+					@Override
+					protected void done() {
+						guiUpdates();
+					}
+
+				};
+
+				worker.execute();
+
 			}
 		});
 		btnAim.setBounds(551, 269, 87, 23);
@@ -1902,6 +1931,43 @@ public class OpenTrooper implements Serializable {
 		panelActions.add(lblTargetZone);
 
 		comboBoxTargetZone = new JComboBox();
+		comboBoxTargetZone.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				if (shoot == null)
+					return;
+
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+
+						int index = comboBoxTargetZone.getSelectedIndex();
+
+						if (index == 0) {
+							shoot.calledShotBounds.clear();
+							shoot.calledShotLocation = "";
+						} else {
+							shoot.setCalledShotBounds(comboBoxTargetZone.getSelectedIndex());
+						}
+
+						shoot.recalc();
+						return null;
+					}
+
+					@Override
+					protected void done() {
+
+						guiUpdates();
+
+					}
+
+				};
+
+				worker.execute();
+
+			}
+		});
 		comboBoxTargetZone.setBounds(427, 270, 113, 23);
 		comboBoxTargetZone.setModel(new DefaultComboBoxModel(new String[] { "None", "Head", "Mid Body", "Legs" }));
 		comboBoxTargetZone.setSelectedIndex(0);
@@ -2305,12 +2371,6 @@ public class OpenTrooper implements Serializable {
 		});
 		btnShootHex.setBounds(386, 602, 128, 23);
 		panelActions.add(btnShootHex);
-
-		chckbxGuided = new JCheckBox("Guided");
-		chckbxGuided.setForeground(Color.WHITE);
-		chckbxGuided.setBackground(Color.DARK_GRAY);
-		chckbxGuided.setBounds(299, 650, 80, 23);
-		panelActions.add(chckbxGuided);
 
 		JLabel label_10 = new JLabel("OR");
 		label_10.setForeground(Color.WHITE);
@@ -5519,67 +5579,6 @@ public class OpenTrooper implements Serializable {
 
 	}
 
-	Shoot shoot;
-
-	public void setTarget() {
-		System.out.println("Set target tropoer");
-		Trooper target = targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1);
-
-		if (shoot == null) {
-			shoot = new Shoot(trooperUnit, target.returnTrooperUnit(gameWindow), openTrooper, target);
-		} else {
-			shoot.updateTarget(target.returnTrooperUnit(gameWindow), target);
-		}
-
-	}
-
-	public void setTargetUnit() {
-		System.out.println("Set target unit");
-		
-		if (shoot == null) {
-			shoot = new Shoot(trooperUnit, trooperUnit.lineOfSight.get(comboBoxTargetUnits.getSelectedIndex() - 1),
-					openTrooper, null);
-		} else {
-			shoot.updateTarget(trooperUnit.lineOfSight.get(comboBoxTargetUnits.getSelectedIndex() - 1), null);
-		}
-	}
-
-	public void shootGuiUpdate() {
-		System.out.println("Shoot Gui Update");
-		
-		lblPossibleShots.setText("Possible Shots: " + (openTrooper.combatActions - shoot.spentCombatActions));
-		lblAimTime.setText("Aim Time: " + shoot.aimTime);
-
-		String rslt = "Target Number: "
-				+ (shoot.target != null ? (chckbxFullAuto.isSelected() ? shoot.fullAutoTn : shoot.singleTn)
-						: shoot.suppressiveTn);
-
-		rslt += chckbxFullAuto.isSelected() ? ", Full Auto: " + shoot.fullAutoResults() : "";
-
-		lblTN.setText(rslt);
-		lblTfSpentCa.setText("Spent CA: " + shoot.spentCombatActions);
-		lblAmmo.setText("Ammo: " + openTrooper.ammo);
-		lblCombatActions.setText("CA: " + openTrooper.combatActions);
-		
-		gameWindow.conflictLog.addQueuedText();
-		gameWindow.refreshInitiativeOrder();
-	}
-
-	public void aimUpdate() {
-		System.out.println("Aim Update");
-		
-	}
-	
-	public void bonusUpdate() {
-		System.out.println("Bonus Auto Update");
-	}
-	
-	public void fullAutoUpdate() {
-		System.out.println("Full Auto Update");
-		shootGuiUpdate();
-		
-	}
-	
 	public void PCFireGuiUpdates() {
 		if (comboBoxTargets.getSelectedIndex() < 1)
 			return;
@@ -6032,9 +6031,9 @@ public class OpenTrooper implements Serializable {
 		 * }
 		 */
 		// Suppressive Fire
-		if (comboBoxTargetUnits.getItemCount() > 1) {
+		/*if (comboBoxTargetUnits.getItemCount() > 1) {
 			comboBoxTargetUnits.setSelectedIndex(1);
-		}
+		}*/
 
 		// Sets max shot active
 
@@ -6043,11 +6042,6 @@ public class OpenTrooper implements Serializable {
 		 * if(comboBoxAimTime.getItemCount() > 1) {
 		 * comboBoxAimTime.setSelectedIndex(comboBoxAimTime.getItemCount() - 1); }
 		 */
-
-		// Suppressive Fire
-		if (comboBoxSuppressShots.getItemCount() > 1) {
-			comboBoxSuppressShots.setSelectedIndex(comboBoxSuppressShots.getItemCount() - 1);
-		}
 
 		if (openTrooper.stance == "Standing") {
 			comboBoxStance.setSelectedIndex(0);
@@ -6117,16 +6111,6 @@ public class OpenTrooper implements Serializable {
 			}
 		}
 
-		// comboBoxSupressWeapon
-		for (int i = 0; i < comboBoxSuppressWeapon.getItemCount(); i++) {
-			comboBoxSuppressWeapon.setSelectedIndex(i);
-
-			if (comboBoxSuppressWeapon.getSelectedItem().toString().equals(weapon)) {
-				supWepFound = true;
-				break;
-			}
-		}
-
 		// comboBoxMeleeWeapon
 		for (int i = 0; i < comboBoxMeleeWeapon.getItemCount(); i++) {
 			comboBoxMeleeWeapon.setSelectedIndex(i);
@@ -6139,10 +6123,6 @@ public class OpenTrooper implements Serializable {
 
 		if (!wepFound) {
 			comboBoxWeapon.setSelectedIndex(0);
-		}
-
-		if (!supWepFound) {
-			comboBoxSuppressWeapon.setSelectedIndex(0);
 		}
 
 		if (!meleeWepFound) {
@@ -6910,6 +6890,8 @@ public class OpenTrooper implements Serializable {
 
 		comboBoxTargetUnits.removeAllItems();
 
+		comboBoxTargetUnits.addItem("None");
+		
 		for (Unit targetUnit : trooperUnit.lineOfSight)
 			comboBoxTargetUnits.addItem(targetUnit.callsign);
 
@@ -7047,245 +7029,6 @@ public class OpenTrooper implements Serializable {
 		return weapon;
 	}
 
-	// Suppressive fire action
-	public void fireSuppressive(OpenUnit window, Unit unit, int index, JFrame f, boolean suppressiveFire) {
-		Trooper trooper = window.openUnit.troopers.get(index);
-
-		Random rand = new Random();
-
-		int shots = comboBoxSuppressShots.getSelectedIndex();
-		boolean canShoot;
-		canShoot = trooper.inventory.fireShots(shots, new Weapons().findWeapon(trooper.wep));
-
-		// Checks for out of ammo
-		if (!canShoot) {
-			window.gameWindow.conflictLog.addNewLine("Out out ammo!");
-			// textPaneSuppressiveFire.setText("OUT OF AMMO");
-			return;
-		}
-
-		int RWS = 0;
-		RWS = getRWSSuppressive(trooper);
-
-		int bonus = (int) spinnerSuppressiveBonus.getValue();
-
-		// Subtracts ammo
-		if (trooper.ammo < shots) {
-			window.gameWindow.conflictLog.addNewLine("Out out ammo!");
-			return;
-		}
-
-		if (shots == 0) {
-			window.gameWindow.conflictLog.addNewLine("Select shots!");
-			return;
-		}
-
-		Trooper target = null;
-
-		// Gets target from selected unit
-		for (int i = 0; i < window.gameWindow.initiativeOrder.size(); i++) {
-			Unit tempUnit = window.gameWindow.initiativeOrder.get(i);
-			if (tempUnit.getTroopers() == null || tempUnit.getSize() < 1) {
-				return;
-			}
-
-			if (comboBoxTargetUnits.getSelectedItem().toString().equals(tempUnit.callsign)) {
-
-				// Gets random trooper as target
-				boolean rolling = true;
-				while (rolling) {
-					int roll = rand.nextInt(tempUnit.getSize());
-					target = tempUnit.getTroopers().get(roll);
-					if (target.alive) {
-						rolling = false;
-					}
-				}
-
-			}
-		}
-
-		if (target != null) {
-			// System.out.println("Line 2728, suppression pass");
-			// Sets target unit
-			targetUnit = null;
-
-			// Loops through intiiative order units and then individuals
-			// Finds target's unit
-			for (int i = 0; i < window.gameWindow.initiativeOrder.size(); i++) {
-				Unit tempUnit = window.gameWindow.initiativeOrder.get(i);
-				ArrayList<Trooper> tempTroopers = tempUnit.getTroopers();
-				for (int j = 0; j < tempUnit.getSize(); j++) {
-					if (tempTroopers.get(j).compareTo(target)) {
-						targetUnit = tempUnit;
-					}
-				}
-			}
-
-			if (targetUnit == null) {
-				return;
-			}
-
-			Weapons weapon = getWeapon();
-			if (weapon.tracers) {
-				trooper.firedTracers = true;
-			} else {
-				trooper.firedTracers = false;
-			}
-			firedWeapons = true;
-			// System.out.println("Weapon: "+weapon);
-			// System.out.println("RWS: "+RWS);
-			TargetedFire targetedFire = new TargetedFire(RWS, bonus, weapon, shots, target, trooper, targetUnit, unit,
-					suppressiveFire);
-
-			// Get hits
-			if (targetedFire != null) {
-				int hits = targetedFire.getHits();
-				int TN = targetedFire.getTN();
-
-				window.gameWindow.conflictLog.addNewLine("SUPPRESSIVE FIRE: " + unit.side + "::  " + unit.callsign
-						+ " to " + targetUnit.side + "::  " + targetUnit.callsign
-						+ "\nSuppressive Fire Results:\nHITS: " + hits + "\n" + "TN: " + TN);
-				// Subtracts suppression, moral and organization
-				for (int i = 0; i < window.gameWindow.initiativeOrder.size(); i++) {
-					if (window.gameWindow.initiativeOrder.get(i).compareTo(targetUnit)) {
-						// System.out.println("Pass suppression");
-						Unit tempUnit = window.gameWindow.initiativeOrder.get(i);
-
-						int x = tempUnit.X;
-						int y = tempUnit.Y;
-
-						for (Unit potentialTarget : window.gameWindow.initiativeOrder) {
-
-							if (potentialTarget.X == x && potentialTarget.Y == y) {
-								if (potentialTarget.suppression + hits / 2 < 100) {
-									potentialTarget.suppression += hits / 2;
-								} else {
-									potentialTarget.suppression = 100;
-								}
-								if (potentialTarget.organization - hits > 0) {
-									potentialTarget.organization -= hits;
-								} else {
-									potentialTarget.organization = 0;
-								}
-							}
-
-						}
-
-						if (tempUnit.suppression + hits / 2 < 100) {
-							tempUnit.suppression += hits / 2;
-						} else {
-							tempUnit.suppression = 100;
-						}
-						if (tempUnit.organization - hits > 0) {
-							tempUnit.organization -= hits;
-						} else {
-							tempUnit.organization = 0;
-						}
-
-						for (Unit collateralUnit : GameWindow.gameWindow.initiativeOrder) {
-
-							if (collateralUnit.X != tempUnit.X || collateralUnit.Y != tempUnit.Y
-									|| tempUnit.compareTo(collateralUnit)) {
-								continue;
-							}
-
-							if (collateralUnit.suppression + hits / 2 < 100) {
-								collateralUnit.suppression += hits / 2;
-							} else {
-								collateralUnit.suppression = 100;
-							}
-							if (collateralUnit.organization - hits > 0) {
-								collateralUnit.organization -= hits;
-							} else {
-								collateralUnit.organization = 0;
-							}
-
-						}
-
-						/*
-						 * if (tempUnit.moral - hits > 0) { tempUnit.moral -= hits; } else {
-						 * tempUnit.moral = 0; }
-						 */
-
-						int trooperHits = 0;
-						// Checks each hit for a strike against a individual in the target unit
-						for (int j = 0; j < hits; j++) {
-							int roll = rand.nextInt(100) + 1;
-							int hitTN = 1;
-
-							if (target.getBuilding() != null && target.getBuilding().getHexSize() < 200) {
-								hitTN = 11;
-							} else if (target.getBuilding() != null && target.getBuilding().getHexSize() < 400) {
-								hitTN = 6;
-							}
-
-							if (roll <= hitTN) {
-								trooperHits++;
-							}
-						}
-
-						if (trooperHits > 0) {
-							// System.out.println("pass trooper hits");
-							ResolveHits resolveHits = new ResolveHits(target, trooperHits, weapon,
-									window.gameWindow.conflictLog, tempUnit, trooperUnit, gameWindow);
-							resolveHits.performCalculations(window.gameWindow.game, window.gameWindow.conflictLog);
-							target = resolveHits.returnTarget();
-
-						}
-
-						/*
-						 * if (trooperHits > 0) { new ManualInjuryWindow(target, trooperHits, tempUnit,
-						 * windowOpenTrooper); } target.injuries = injuries; if(target.physicalDamage >
-						 * 3000) { trooper.kills++; }
-						 */
-						// tempUnit.setIndividual(target, target.number);
-
-						window.refreshSpinners();
-						window.gameWindow.initiativeOrder.set(i, tempUnit);
-						window.gameWindow.refreshInitiativeOrder();
-
-					}
-				}
-
-			}
-
-			trooper.ammo -= shots;
-
-			if (comboBoxSuppressShots.getSelectedIndex() >= comboBoxSuppressShots.getItemCount() - 1) {
-				if (shots > 10) {
-					int roll = rand.nextInt(8);
-
-					if (trooper.ammo - roll < 0) {
-						trooper.ammo = 0;
-					} else {
-						trooper.ammo -= roll;
-					}
-
-				} else {
-					int roll = rand.nextInt(6);
-
-					if (trooper.ammo - roll < 0) {
-						trooper.ammo = 0;
-					} else {
-						trooper.ammo -= roll;
-					}
-
-				}
-			}
-
-			window.openUnit.troopers.set(index, trooper);
-			refreshTrooper(trooper);
-			window.openUnit.refreshIndividuals();
-
-			// Adds action point, if it is not a free action
-			if (!chckbxFreeAction.isSelected()) {
-				actionSpent(window, index);
-			}
-
-		}
-
-	}
-
 	// Melee attack action
 	// Rolls Melee attack
 	// Applies damage
@@ -7378,4 +7121,17 @@ public class OpenTrooper implements Serializable {
 		}
 
 	}
+
+	public void guiUpdates() {
+		
+		ArrayList<Shoot> shots = new ArrayList<>();
+		shots.add(shoot);
+		if(shoot == null) {
+			System.out.println("Shoot is null 2");
+			return;
+		}
+		ShootUtility.shootGuiUpdate(lblPossibleShots, lblAimTime, lblTN, lblTfSpentCa, lblAmmo, lblCombatActions,
+				chckbxFullAuto, shots);
+	}
+
 }
