@@ -27,9 +27,11 @@ import Actions.TargetedFire;
 import Conflict.GameWindow;
 import Conflict.OpenUnit;
 import Injuries.ResolveHits;
+import Shoot.Shoot;
 import Trooper.Trooper;
 import Trooper.generateSquad;
 import Unit.Unit;
+import UtilityClasses.ShootUtility;
 
 import javax.swing.JButton;
 import javax.swing.JSpinner;
@@ -50,6 +52,8 @@ import java.awt.Color;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class StaticWeaponWindow {
 	private JList listStay;
@@ -77,6 +81,7 @@ public class StaticWeaponWindow {
 	public Unit trooperUnit;
 
 	public GameWindow window;
+	public Shoot shoot;
 	public int loadTime;
 	public int assembleTime;
 	private JList listIndividuals;
@@ -85,8 +90,6 @@ public class StaticWeaponWindow {
 	private JComboBox comboBoxTargets;
 	private JSpinner spinnerPercentBonus;
 	private JComboBox comboBoxSuppressiveFireTargets;
-	private JComboBox comboBoxSuppressiveFireShots;
-	private JSpinner spinnerSuppresiveFireBonus;
 	private JLabel lblProgress;
 	private JLabel lblAssembledissembleCost;
 	private JLabel lblAssembled;
@@ -110,13 +113,16 @@ public class StaticWeaponWindow {
 	private JCheckBox chckbxSustainedFullAuto;
 	private JCheckBox chckbxMultipleTargets;
 	private JCheckBox chckbxFreeAction;
-	private JSpinner spinnerCABonus;
+	private JSpinner spinnerConsecutiveEalBonus;
 	private JLabel lblPossibleShots;
 	private JLabel lblAimTime;
 	private JLabel lblTN;
 	private JLabel lblCombatActions;
 	private JLabel lblTfSpentCa;
 	private JComboBox comboBoxTargetZone;
+	private JLabel lblAmmunition;
+	private JComboBox comboBoxPcAmmo;
+	private JCheckBox chckbxHoming;
 
 	public StaticWeaponWindow(Unit unit, GameWindow window, OpenUnit openUnit) {
 		this.unit = unit;
@@ -143,6 +149,16 @@ public class StaticWeaponWindow {
 					lblStaticWeapon.setText(
 							Integer.toString(listEquipedStatics.getSelectedIndex() + 1) + " " + staticWep.name);
 
+					if(staticWeapon.pcAmmoTypes.size() > 0) {
+						
+						ArrayList<String> ammoNames = new ArrayList<>();
+						
+						for(PCAmmo pcAmmo : staticWeapon.pcAmmoTypes) {
+							ammoNames.add(pcAmmo.name);
+						}
+						
+					}
+					
 					setFields(unit);
 				}
 
@@ -252,13 +268,116 @@ public class StaticWeaponWindow {
 		comboBoxTargets = new JComboBox();
 		comboBoxTargets.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if (comboBoxTargets.getSelectedIndex() <= 0)
+					return;
 
+				// System.out.println("Targets Size: "+targetTroopers.size()+", Target Name:
+				// "+findTarget().number+" "+findTarget().name);
+
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+
+						// System.out.println("Target Changed Shots1");
+						// PCShots();
+						// System.out.println("Target Changed Shots2");
+
+						try {
+							String wepName = staticWeapon.name;
+							int ammoIndex = -1;
+							
+							if (staticWeapon.pcAmmoTypes.size() > 0) {
+								wepName = staticWeapon.name;
+								ammoIndex = 0;
+								if (ammoIndex < 0) {
+									GameWindow.gameWindow.conflictLog.addNewLineToQueue("Select valid ammo");
+									return null;
+								}
+							}
+
+							shoot = ShootUtility.setTarget(unit,
+									targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1)
+											.returnTrooperUnit(GameWindow.gameWindow),
+									shoot, gunner, targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1), wepName,
+									ammoIndex);
+
+							if (comboBoxAimTime.getSelectedIndex() == 0)
+								shoot.autoAim();
+
+							if (comboBoxTargetZone.getSelectedIndex() > 0) {
+								setCalledShotBounds();
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						return null;
+					}
+
+					@Override
+					protected void done() {
+
+						guiUpdates();
+
+					}
+
+				};
+
+				worker.execute();
+				
 			}
 		});
 		comboBoxTargets.setBounds(10, 97, 219, 23);
 		f.getContentPane().add(comboBoxTargets);
 
 		comboBoxSuppressiveFireTargets = new JComboBox();
+		comboBoxSuppressiveFireTargets.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (comboBoxTargets.getSelectedIndex() != 0 || comboBoxSuppressiveFireTargets.getSelectedIndex() <= 0)
+					return;
+
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+
+						String wepName = gunner.wep;
+						int ammoIndex = -1;
+						if (staticWeapon.pcAmmoTypes.size() > 0) {
+							wepName = staticWeapon.name;
+							ammoIndex = 0;
+							if (ammoIndex < 0) {
+								GameWindow.gameWindow.conflictLog.addNewLineToQueue("Select valid ammo");
+								return null;
+							}
+						}
+
+						shoot = ShootUtility.setTargetUnit(unit,
+								unit.lineOfSight.get(comboBoxSuppressiveFireTargets.getSelectedIndex() - 1), shoot, gunner,
+								wepName, ammoIndex);
+
+						if (comboBoxAimTime.getSelectedIndex() == 0)
+							shoot.autoAim();
+
+						if (shoot == null)
+							System.out.println("Shoot is null");
+
+						return null;
+					}
+
+					@Override
+					protected void done() {
+
+						guiUpdates();
+
+					}
+
+				};
+
+				worker.execute();
+			}
+		});
 		comboBoxSuppressiveFireTargets.setBounds(10, 409, 219, 23);
 		f.getContentPane().add(comboBoxSuppressiveFireTargets);
 
@@ -266,79 +385,53 @@ public class StaticWeaponWindow {
 		btnFire.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if (unit.staticWeapons.size() < 1 || selectedWeaponIndex < 0) {
+				if (shoot == null)
 					return;
-				}
 
 				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
 					@Override
 					protected Void doInBackground() throws Exception {
-						Trooper gunner = findGunner();
-						if (gunner == null)
-							return null;
 
-						//System.out.println("Shots1");
-						PCFire(gunner);
-						PCShots(gunner);
-						gunner.storedAimTime.clear();
-						//System.out.println("Shots2");
-						if(!chckbxFreeAction.isSelected()) {
-							spendAction();
+						try {
+							System.out.println("Shoot");
+
+							if (comboBoxSuppressiveFireTargets.getSelectedIndex() > 0)
+								shoot.suppressiveFire(shoot.wep.suppressiveROF);
+							else if (chckbxFullAuto.isSelected())
+								shoot.burst();
+							else
+								shoot.shot(chckbxHoming.isSelected());
+
+							GameWindow.gameWindow.conflictLog.addNewLineToQueue("Results: " + shoot.shotResults);
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
+
 						return null;
 					}
 
 					@Override
 					protected void done() {
-
-						//System.out.println("Done");
-						Trooper gunner = findGunner(); 
-						if (gunner == null) {
-							window.conflictLog.addNewLine("No avaiable gunner.");
-							return;
-						}
-						PCFireGuiUpdates(gunner);
-						//setFields(unit);
-						// fire(window, unit, index, f, false);
-						if (!chckbxMultipleTargets.isSelected() && possibleShots == false && reaction == null) {
-							if (reaction != null) {
-								reaction.frame.dispose();
-								reaction = null;
-							}
-							
-							spendAction();
-							
-							// actionSpent(window, index);
-							// window.openNext(true);
-							// f.dispose();
-
-						} 
 						
-						openUnit.refreshIndividuals();
+						// fire(window, unit, index, f, false);
+						if (!chckbxFreeAction.isSelected()
+								&& shoot.spentCombatActions >= shoot.shooter.combatActions) {
+							spendAction();
+						}
+
+						GameWindow.gameWindow.conflictLog.addQueuedText();
+						guiUpdates();
+						
+						if(!shoot.target.alive || !shoot.target.conscious || shoot.target.HD) {
+							refreshSustainedFireTargets(trooperUnit);
+						}
 						
 					}
 
 				};
 
 				worker.execute();
-
-				/*
-				 * Weapons staticWeapon = unit.staticWeapons.get(selectedWeapon);
-				 * 
-				 * // Spends one Action Point for equipped individuals // Checks if AP Full //
-				 * Increases spent AP for(Trooper trooper : staticWeapon.equipedTroopers) { if
-				 * (window.game.getPhase() == 1) { if(trooper.spentPhase1 !=
-				 * window.game.getCurrentAction()) {
-				 * 
-				 * if(trooper.spentPhase1 + 1 <= trooper.P1) trooper.spentPhase1 += 1; } } else
-				 * { if(trooper.spentPhase2 != window.game.getCurrentAction()) {
-				 * if(trooper.spentPhase2 + 1 <= trooper.P2) trooper.spentPhase2 += 1; } } }
-				 * 
-				 * sustainedFire(unit, window); openUnit.refreshIndividuals();
-				 * 
-				 * setFields(unit);
-				 */
 			}
 		});
 		btnFire.setBounds(10, 350, 102, 23);
@@ -349,60 +442,24 @@ public class StaticWeaponWindow {
 		lblAssembledissemble.setBounds(10, 675, 175, 14);
 		f.getContentPane().add(lblAssembledissemble);
 
-		JLabel lblAmmunition = new JLabel("Ammunition:");
+		lblAmmunition = new JLabel("Ammunition:");
 		lblAmmunition.setFont(new Font("Calibri", Font.BOLD, 13));
 		lblAmmunition.setBounds(10, 555, 175, 14);
 		f.getContentPane().add(lblAmmunition);
 
-		JLabel lblOtherBonus = new JLabel("Other Bonus:");
-		lblOtherBonus.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblOtherBonus.setBounds(141, 269, 76, 14);
-		f.getContentPane().add(lblOtherBonus);
+		JLabel lblPercentBonus = new JLabel("Percent Bonus:");
+		lblPercentBonus.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblPercentBonus.setBounds(141, 269, 76, 14);
+		f.getContentPane().add(lblPercentBonus);
 
 		spinnerPercentBonus = new JSpinner();
-		spinnerPercentBonus.setBounds(141, 283, 43, 22);
-		f.getContentPane().add(spinnerPercentBonus);
-
-		JButton button = new JButton("Fire");
-		button.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				if (unit.staticWeapons.size() < 1 || selectedWeaponIndex < 0) {
-					return;
-				}
-				
-				findGunner().storedAimTime.clear();
-
-				spendAction();
-
-				suppresiveFire(unit, window);
-				
-				openUnit.refreshSpinners();
-				openUnit.refreshIndividuals();
-
-				setFields(unit);
+		spinnerPercentBonus.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				bonuses();
 			}
 		});
-		button.setBounds(10, 508, 219, 23);
-		f.getContentPane().add(button);
-
-		comboBoxSuppressiveFireShots = new JComboBox();
-		comboBoxSuppressiveFireShots.setBounds(10, 468, 89, 23);
-		f.getContentPane().add(comboBoxSuppressiveFireShots);
-
-		spinnerSuppresiveFireBonus = new JSpinner();
-		spinnerSuppresiveFireBonus.setBounds(109, 469, 72, 22);
-		f.getContentPane().add(spinnerSuppresiveFireBonus);
-
-		JLabel label = new JLabel("Other Bonus:");
-		label.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		label.setBounds(109, 443, 89, 14);
-		f.getContentPane().add(label);
-
-		JLabel label_1 = new JLabel("Shots:");
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		label_1.setBounds(10, 443, 89, 14);
-		f.getContentPane().add(label_1);
+		spinnerPercentBonus.setBounds(141, 283, 43, 22);
+		f.getContentPane().add(spinnerPercentBonus);
 
 		lblLoaded = new JLabel("Loaded:");
 		lblLoaded.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -619,6 +676,11 @@ public class StaticWeaponWindow {
 		f.getContentPane().add(label_2);
 
 		spinnerEALBonus = new JSpinner();
+		spinnerEALBonus.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				bonuses();
+			}
+		});
 		spinnerEALBonus.setBounds(141, 323, 43, 20);
 		f.getContentPane().add(spinnerEALBonus);
 
@@ -707,7 +769,38 @@ public class StaticWeaponWindow {
 		comboBoxAimTime.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				if (shoot == null)
+					return;
 
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+
+						if (comboBoxAimTime.getSelectedIndex() == 0)
+							shoot.autoAim();
+						else
+							shoot.setAimTime(comboBoxAimTime.getSelectedIndex() - 1);
+
+						if (comboBoxTargetZone.getSelectedIndex() > 0) {
+							setCalledShotBounds();
+						}
+
+						return null;
+					}
+
+					@Override
+					protected void done() {
+
+						guiUpdates();
+
+					}
+
+				};
+
+				worker.execute();
+
+				
 			}
 		});
 		comboBoxAimTime.setModel(new DefaultComboBoxModel(new String[] { "Auto", "0", "1", "2", "3", "4", "5", "6", "7",
@@ -721,38 +814,42 @@ public class StaticWeaponWindow {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 
+				if (shoot == null) {
+					return;
+				}
+
 				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
 					@Override
 					protected Void doInBackground() throws Exception {
-						Trooper gunner = findGunner();
-						if (gunner == null)
-							return null;
-						aim(gunner);
-						PCShots(gunner);
-						if(!chckbxFreeAction.isSelected()) {
+
+						int newAim = shoot.aimTime + (gunner.combatActions - shoot.spentCombatActions);
+
+						newAim = newAim >= shoot.wep.aimTime.size() ? shoot.wep.aimTime.size() - 1 : newAim;
+
+						shoot.spentCombatActions += newAim - shoot.aimTime;
+
+						shoot.setAimTime(newAim);
+						
+						if (!chckbxFreeAction.isSelected() && shoot.spentCombatActions >= gunner.combatActions) {
 							spendAction();
 						}
-							
+						
+						refreshSustainedFireTargets(unit);
+						openUnit.refreshIndividuals();
 
 						return null;
 					}
 
 					@Override
 					protected void done() {
-						Trooper gunner = findGunner(); 
-						if (gunner == null) {
-							window.conflictLog.addNewLine("No avaiable gunner.");
-							return;
-						}
-						PCFireGuiUpdates(gunner);
-						openUnit.refreshIndividuals();
-						refreshSustainedFireTargets(unit);
+						guiUpdates();
 					}
 
 				};
 
 				worker.execute();
+				
 
 			}
 		});
@@ -766,11 +863,16 @@ public class StaticWeaponWindow {
 		chckbxFreeAction.setBounds(109, 147, 97, 23);
 		f.getContentPane().add(chckbxFreeAction);
 
-		spinnerCABonus = new JSpinner();
-		spinnerCABonus.setBounds(141, 244, 39, 20);
-		f.getContentPane().add(spinnerCABonus);
+		spinnerConsecutiveEalBonus = new JSpinner();
+		spinnerConsecutiveEalBonus.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				bonuses();
+			}
+		});
+		spinnerConsecutiveEalBonus.setBounds(141, 244, 39, 20);
+		f.getContentPane().add(spinnerConsecutiveEalBonus);
 
-		JLabel lblCaBonus = new JLabel("CA Bonus:");
+		JLabel lblCaBonus = new JLabel("Consec. EAL:");
 		lblCaBonus.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblCaBonus.setBounds(141, 227, 76, 14);
 		f.getContentPane().add(lblCaBonus);
@@ -791,7 +893,11 @@ public class StaticWeaponWindow {
 		comboBoxTargetZone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				
+				try {
+					setCalledShotBounds();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		comboBoxTargetZone.setModel(new DefaultComboBoxModel(new String[] {"Auto", "Head", "Body ", "Legs"}));
@@ -803,6 +909,21 @@ public class StaticWeaponWindow {
 		lblTargetZone.setFont(new Font("Calibri", Font.BOLD, 13));
 		lblTargetZone.setBounds(10, 172, 175, 14);
 		f.getContentPane().add(lblTargetZone);
+		
+		comboBoxPcAmmo = new JComboBox();
+		comboBoxPcAmmo.setBounds(10, 520, 219, 23);
+		f.getContentPane().add(comboBoxPcAmmo);
+		
+		JLabel lblPcAmmo = new JLabel("PC Ammo:");
+		lblPcAmmo.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblPcAmmo.setBounds(10, 494, 175, 14);
+		f.getContentPane().add(lblPcAmmo);
+		
+		chckbxHoming = new JCheckBox("Homing");
+		chckbxHoming.setForeground(Color.WHITE);
+		chckbxHoming.setBackground(Color.DARK_GRAY);
+		chckbxHoming.setBounds(10, 448, 113, 23);
+		f.getContentPane().add(chckbxHoming);
 
 		// Get the screen size
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -850,7 +971,6 @@ public class StaticWeaponWindow {
 		refreshWeaponStats(unit);
 		refreshSustainedFireTargets(unit);
 		refreshSuppressiveFireTargets(unit);
-		comboBoxSuppressiveFireShots.setSelectedIndex(comboBoxSuppressiveFireShots.getItemCount() - 1);
 
 	}
 
@@ -876,24 +996,6 @@ public class StaticWeaponWindow {
 
 			}
 
-		}
-
-		/*
-		 * ComboBoxSustainedFire (shots) int size = staticWeapon.getTargetedROF() + 1;
-		 * String[] shots = new String[size]; shots[0] = "0";
-		 * 
-		 * for (int i = 0; i < shots.length - 1; i++) { shots[i + 1] = String.valueOf(i
-		 * + 1); }
-		 * 
-		 * DefaultComboBoxModel model = new DefaultComboBoxModel(shots);
-		 */
-
-		// ComboBoxSuppresiveFire (shots)
-
-		comboBoxSuppressiveFireShots.removeAllItems();
-		comboBoxSuppressiveFireShots.addItem(0);
-		for (int i = 0; i < staticWeapon.suppressiveROF; i++) {
-			comboBoxSuppressiveFireShots.addItem(i + 1);
 		}
 
 		// Ammunition loaded
@@ -1062,84 +1164,7 @@ public class StaticWeaponWindow {
 		}
 	}
 
-	// Performs suppressie fire attack with the static weapon
-	public void suppresiveFire(Unit unit, GameWindow window) {
-		if (unit.staticWeapons.size() < 1 || selectedWeaponIndex < 0
-				|| comboBoxSuppressiveFireTargets.getSelectedIndex() < 1) {
-			return;
-		}
-
-		Weapons staticWeapon = unit.staticWeapons.get(selectedWeaponIndex);
-
-		ArrayList<Unit> targetableUnits = new ArrayList<>();
-
-		for (Unit initUnit : window.initiativeOrder) {
-			if (!initUnit.side.equals(unit.side))
-				targetableUnits.add(initUnit);
-		}
-
-		Unit suppressiveTargetUnit = targetableUnits.get(comboBoxSuppressiveFireTargets.getSelectedIndex() - 1);
-
-		// Removes ammo
-		int shots = comboBoxSuppressiveFireShots.getSelectedIndex();
-
-		// If shots zero or less
-		if (shots < 1) {
-			window.conflictLog.addNewLine("Selected shots equal zero!");
-			return;
-		}
-
-		// If shots are greater than the available ammo
-		if (shots > staticWeapon.ammoLoaded) {
-			window.conflictLog.addNewLine("Not enough ammo!");
-			return;
-		}
-
-		staticWeapon.ammoLoaded -= shots;
-
-		// Rolls hits
-
-		// Gets RWS
-		int RWS = getHeavyRWS(unit);
-
-		if (RWS < 5) {
-			RWS = 5;
-		}
-
-		targetTrooper = null;
-
-		Weapons weapon = unit.staticWeapons.get(selectedWeaponIndex);
-
-		if (RWS < 0 || weapon == null || shots < 1 || gunner == null || suppressiveTargetUnit == null || unit == null) {
-			//System.out.println("Unset variables : sustained fire failed");
-			return;
-		}
-
-		TargetedFire suppressiveFire = new TargetedFire(RWS, (int) spinnerPercentBonus.getValue(), weapon, shots,
-				targetTrooper, gunner, suppressiveTargetUnit, unit, true);
-
-		int hits = suppressiveFire.getHits();
-		int TN = suppressiveFire.getTN();
-
-		window.conflictLog.addNewLine("SUPPRESSIVE FIRE: " + unit.side + "::  " + unit.callsign + " to "
-				+ suppressiveTargetUnit.side + "::  " + suppressiveTargetUnit.callsign
-				+ "\nSuppressive Fire Results:\nHITS: " + hits + "\n" + "TN: " + TN);
-
-		Random rand = new Random();
-
-		int suppressiveHits = 0;
-
-		for (int i = 0; i < hits; i++) {
-			int roll = rand.nextInt(100) + 1;
-
-			if (roll == 1) {
-				suppressiveHits++;
-			}
-		}
-
-		resolveHits(hits, weapon, true, suppressiveHits, suppressiveTargetUnit);
-
-	}
+	
 
 	// Performs sustained fire attack with the static weapon
 	public void sustainedFire(Unit unit, GameWindow window) {
@@ -1423,7 +1448,7 @@ public class StaticWeaponWindow {
 
 		if (targetedFire == null) {
 			TargetedFire tf = new TargetedFire(shooterTrooper, targetTrooper, shooterUnit, targetUnit, window, maxAim,
-					TFCA + (int) spinnerCABonus.getValue(), (int) spinnerEALBonus.getValue(),
+					TFCA + (int) spinnerConsecutiveEalBonus.getValue(), (int) spinnerEALBonus.getValue(),
 					(int) spinnerPercentBonus.getValue(), 0, gunner.wep);
 
 			
@@ -1553,7 +1578,7 @@ public class StaticWeaponWindow {
 
 		setAction(gunner);
 		TargetedFire tf = new TargetedFire(shooterTrooper, targetTrooper, shooterUnit, targetUnit, window, maxAim,
-				TFCA + (int) spinnerCABonus.getValue(), (int) spinnerEALBonus.getValue(),
+				TFCA + (int) spinnerConsecutiveEalBonus.getValue(), (int) spinnerEALBonus.getValue(),
 				(int) spinnerPercentBonus.getValue(), 0, gunner.wep);
 
 		tf.spentCA = spentCA;
@@ -2042,5 +2067,71 @@ public class StaticWeaponWindow {
 			}
 		}
 		
+	}
+	
+	public void bonuses() {
+		if(shoot == null)
+			return;
+		
+		shoot.setBonuses((int) spinnerPercentBonus.getValue(), (int) spinnerEALBonus.getValue(), (int) spinnerConsecutiveEalBonus.getValue());
+		guiUpdates();
+	}
+	
+	public void guiUpdates() {
+
+		ArrayList<Shoot> shots = new ArrayList<>();
+		shots.add(shoot);
+		if (shoot == null) {
+			System.out.println("Shoot is null 2");
+			return;
+		}
+		ShootUtility.shootGuiUpdate(lblPossibleShots, lblAimTime, lblTN, lblTfSpentCa, lblAmmunition, lblCombatActions,
+				chckbxFullAuto, shots);
+	}
+	
+	public void setCalledShotBounds() {
+		if (shoot == null) {
+			System.out.println("shoot is null set called shot bounds");
+			return;
+		}
+
+		SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+			@Override
+			protected Void doInBackground() throws Exception {
+				try {
+					int index = comboBoxTargetZone.getSelectedIndex();
+					System.out.println("Size ALM Pre: " + shoot.sizeALM);
+					if (index == 0) {
+						System.out.println("Clear called shot");
+						shoot.calledShotBounds.clear();
+						shoot.calledShotLocation = "";
+					} else {
+						System.out.println("set called shot");
+						shoot.setCalledShotBounds(comboBoxTargetZone.getSelectedIndex());
+					}
+					System.out.println("Size ALM POST: " + shoot.sizeALM);
+					shoot.setALM();
+					shoot.setEAL();
+					shoot.setSingleTn();
+					shoot.setFullAutoTn();
+					shoot.setSuppressiveTn();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				return null;
+			}
+
+			@Override
+			protected void done() {
+
+				guiUpdates();
+
+			}
+
+		};
+
+		worker.execute();
 	}
 }
