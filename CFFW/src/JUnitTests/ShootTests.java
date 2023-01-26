@@ -64,6 +64,22 @@ public class ShootTests {
 	}
 	
 	@Test
+	public void targetTrooperTest() {
+		int newAim = shoot.aimTime + (shoot.shooter.combatActions - shoot.spentCombatActions);
+
+		newAim = newAim >= shoot.wep.aimTime.size() ? shoot.wep.aimTime.size() - 1 : newAim;
+
+		shoot.spentCombatActions += newAim - shoot.aimTime;
+
+		shoot = ShootUtility.setTarget(shooterUnit,
+				targetUnit,
+				shoot, shooter, target, shoot.wep.name,
+				-1);
+		
+		shoot.setAimTime(newAim);
+	}
+	
+	@Test
 	public void recalcTest() {
 		shoot.pcHexRange = 10;
 		shoot.target.inCover = true;

@@ -3,7 +3,9 @@ package UtilityClasses;
 import java.util.ArrayList;
 
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.SwingWorker;
 
 import Conflict.GameWindow;
 import Shoot.Shoot;
@@ -11,7 +13,7 @@ import Trooper.Trooper;
 import Unit.Unit;
 
 public class ShootUtility {
-
+	
 	public static Shoot setTarget(Unit shooterUnit, Unit targetUnit, Shoot shoot, Trooper shooter, Trooper target,
 			String wepName, int ammoIndex) {
 		System.out.println("Set target tropoer");

@@ -18,6 +18,7 @@ import CorditeExpansion.FullAuto;
 import CorditeExpansion.FullAuto.FullAutoResults;
 import Injuries.Explosion;
 import Injuries.ResolveHits;
+import Items.Item;
 import Items.PCAmmo;
 import Items.Weapons;
 import Trooper.Trooper;
@@ -110,6 +111,7 @@ public class Shoot {
 
 		if (target != null && shooter.storedAimTime.containsKey(target)) {
 			aimTime = shooter.storedAimTime.get(target);
+			System.out.println("stored aim time: "+aimTime);
 		}
 
 		wep = new Weapons().findWeapon(wepName);
@@ -129,8 +131,12 @@ public class Shoot {
 	}
 
 	public void shot(boolean homing) {
-		if (!ammoCheckSingle()) {
+		if(pcAmmo != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, 1)) {
+			shotResults = "Not enough ammunition.";
+			return;
+		} else if (!ammoCheckSingle()) {
 			System.out.println("shot return");
+			shotResults = "Not enough ammunition.";
 			return;
 		}
 
@@ -150,7 +156,11 @@ public class Shoot {
 	}
 
 	public void burst() {
-		if (!ammoCheckFull()) {
+		if(pcAmmo != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, wep.fullAutoROF)) {
+			shotResults = "Not enough ammunition.";
+			return;
+		} else if (!ammoCheckFull()) {
+			shotResults = "Not enough ammunition.";
 			return;
 		}
 
@@ -170,8 +180,13 @@ public class Shoot {
 		
 		System.out.println("Shoot suppressive");
 		
-		if (!ammoCheckSuppressive(shots))
+		if(pcAmmo != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, wep.suppressiveROF)) {
+			shotResults = "Not enough ammunition.";
 			return;
+		} else if (!ammoCheckSuppressive(shots)) {
+			shotResults = "Not enough ammunition.";
+			return;
+		}
 
 		for (int i = 0; i < shots; i++) {
 			suppressiveShotRoll(DiceRoller.randInt(0, 99));
@@ -184,7 +199,7 @@ public class Shoot {
 		resolveHits();
 		resolveSuppressiveHits();
 	}
-
+	
 	public void setShotResults(boolean fullAuto) {
 		shotResults = (fullAuto ? "Full Auto Burst from " : "Single Shot from ") + shooterUnit.callsign + ": "
 				+ shooter.number + " " + shooter.name + " to " + targetUnit.callsign + ": " + target.number + " "
@@ -371,7 +386,7 @@ public class Shoot {
 
 	public void autoAim() {
 		System.out.println("auto aim");
-		aimTime = 0; 
+		aimTime = startingAimTime; 
 		spentCombatActions = 0 + shots;
 		shooter.storedAimTime.clear();
 		while (ealSum <= 17 && spentCombatActions + 1 < shooter.combatActions && canAim()) {

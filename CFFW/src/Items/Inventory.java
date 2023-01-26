@@ -3,6 +3,7 @@ package Items;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Conflict.GameWindow;
 import Items.Container.ContainerType;
 import Items.Item.ItemType;
 import Trooper.Trooper;
@@ -203,6 +204,24 @@ public class Inventory implements Serializable {
 			return true;
 		}
 	}
+	
+	
+	public Item getItem(String itemName) {
+		for (Container container : containers) {
+
+			for (Item item : container.items) {
+				System.out.println("inv item name: "+item.getItemName());
+				if (item.getItemName().contains(itemName)) {
+					return item;
+				}
+
+			}
+
+
+		}
+
+		return null; 
+	}
 
 	public void removeItem(String itemName) throws Exception {
 
@@ -299,6 +318,36 @@ public class Inventory implements Serializable {
 			return false;
 		else 
 			return true;
+	}
+	
+	public boolean launcherAmmoCheck(Weapons wep, PCAmmo pcAmmo, int shots) {
+
+		String name = wep.name + ": "
+				+ pcAmmo.name + " round";
+
+		Item round = trooper.inventory.getItem(name);
+		
+		if (round == null) {
+			GameWindow.gameWindow.conflictLog
+					.addNewLine("Could not make attack, trooper does not have item. Name: " + name);
+			return false;
+		}
+
+		while(shots > 0 && trooper.inventory.containsItem(name)) {
+			if(round.ammo.shots > 1 && round.ammo.shots < round.ammo.firedShots + 1) {
+				round.ammo.firedShots++; 
+			} else {
+				try {
+					trooper.inventory.removeItem(name);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+			
+			shots--;
+		}
+
+		return shots <= 0;
 	}
 	
 }
