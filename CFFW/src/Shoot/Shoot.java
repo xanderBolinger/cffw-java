@@ -99,6 +99,7 @@ public class Shoot {
 	
 	public int percentBonus; 
 	public int ealBonus; 
+	public int hiddenEalBonus;
 	public int ealConcurrentBonus; 
 
 	public Shoot(Unit shooterUnit, Unit targetUnit, Trooper shooter, Trooper target, String wepName, int ammoIndex) {
@@ -128,6 +129,10 @@ public class Shoot {
 		this.percentBonus = percent; 
 		this.ealBonus = eal; 
 		this.ealConcurrentBonus = ealConcurrent;
+		setALM();
+		setEAL();
+		setSingleTn();
+		setFullAutoTn();
 	}
 
 	public void shot(boolean homing) {
@@ -151,8 +156,13 @@ public class Shoot {
 		shots++;
 		setShotResults(false);
 		recalc();
-		ealSum += 2;
-		ealSum += ealConcurrentBonus;
+		hiddenEalBonus += 2;
+		hiddenEalBonus += ealConcurrentBonus;
+		setALM();
+		setEAL();
+		setSingleTn();
+		setSuppressiveTn();
+		setFullAutoTn();
 	}
 
 	public void burst() {
@@ -172,8 +182,13 @@ public class Shoot {
 		fullAutoShots++;
 		setShotResults(true);
 		recalc();
-		ealSum -= wep.sab * fullAutoShots;
-		ealSum += ealConcurrentBonus;
+		hiddenEalBonus -= wep.sab * fullAutoShots;
+		hiddenEalBonus += ealConcurrentBonus;
+		setALM();
+		setEAL();
+		setSingleTn();
+		setSuppressiveTn();
+		setFullAutoTn();
 	}
 
 	public void suppressiveFire(int shots) {
@@ -373,15 +388,15 @@ public class Shoot {
 	}
 
 	public void setSingleTn() {
-		singleTn = PCUtility.getOddsOfHitting(true, ealSum) - percentBonus;
+		singleTn = PCUtility.getOddsOfHitting(true, ealSum) + percentBonus;
 	}
 
 	public void setSuppressiveTn() {
-		suppressiveTn = PCUtility.getOddsOfHitting(true, almSum + 18) - percentBonus;
+		suppressiveTn = PCUtility.getOddsOfHitting(true, almSum + 18) + percentBonus;
 	}
 
 	public void setFullAutoTn() {
-		fullAutoTn = PCUtility.getOddsOfHitting(false, ealSum) - percentBonus;
+		fullAutoTn = PCUtility.getOddsOfHitting(false, ealSum) + percentBonus;
 	}
 
 	public void autoAim() {
@@ -485,7 +500,7 @@ public class Shoot {
 
 	public void setEAL() {
 		ealSum = rangeALM + visibilityALM + sizeALM + speedALM + laserLightALM + 
-				aimALM + stanceALM + ealBonus + (target != null ? target.DALM : 0);
+				aimALM + stanceALM + ealBonus + (target != null ? target.DALM : 0) + hiddenEalBonus;
 	}
 
 	public void noSpeed() {

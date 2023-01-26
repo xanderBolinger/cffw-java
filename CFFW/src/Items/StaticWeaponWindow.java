@@ -252,48 +252,6 @@ public class StaticWeaponWindow {
 		comboBoxTargets = new JComboBox();
 		comboBoxTargets.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (comboBoxTargets.getSelectedIndex() == 0) {
-					//System.out.println("Combo Box Targets Return");
-					return;
-				}
-
-				comboBoxAimTime.setSelectedIndex(0);
-				targetedFire = null;
-				possibleShots = true;
-				reaction = null;
-
-				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
-
-					@Override
-					protected Void doInBackground() throws Exception {
-
-						//System.out.println("Target Changed Shots1");
-						Trooper gunner = findGunner();
-						if (gunner == null) {
-							return null;
-						}
-
-						//System.out.println("Target Changed Shots2");
-						PCShots(gunner);
-						//System.out.println("Target Changed Shots3");
-
-						return null;
-					}
-
-					@Override
-					protected void done() {
-						Trooper gunner = findGunner(); 
-						if (gunner == null) {
-							window.conflictLog.addNewLine("No avaiable gunner.");
-							return;
-						}
-						PCFireGuiUpdates(gunner);
-
-					}
-
-				};
-
-				worker.execute();
 
 			}
 		});
@@ -749,40 +707,6 @@ public class StaticWeaponWindow {
 		comboBoxAimTime.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (comboBoxAimTime.getSelectedIndex() == 0)
-					return;
-
-				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
-
-					@Override
-					protected Void doInBackground() throws Exception {
-
-						//System.out.println("Aim Time - Target Changed Shots1");
-						Trooper gunner = findGunner();
-						if (gunner == null)
-							return null;
-
-						//System.out.println("Aim Time - Target Changed Shots2");
-						PCShots(gunner);
-						//System.out.println("Aim Time - Target Changed Shots3");
-
-						return null;
-					}
-
-					@Override
-					protected void done() {
-						Trooper gunner = findGunner();
-						if (gunner == null) {
-							window.conflictLog.addNewLine("No avaiable gunner.");
-							return;
-						}
-						PCFireGuiUpdates(gunner);
-
-					}
-
-				};
-
-				worker.execute();
 
 			}
 		});
@@ -864,6 +788,12 @@ public class StaticWeaponWindow {
 		f.getContentPane().add(lblTfSpentCa);
 		
 		comboBoxTargetZone = new JComboBox();
+		comboBoxTargetZone.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
 		comboBoxTargetZone.setModel(new DefaultComboBoxModel(new String[] {"Auto", "Head", "Body ", "Legs"}));
 		comboBoxTargetZone.setSelectedIndex(0);
 		comboBoxTargetZone.setBounds(12, 188, 87, 20);

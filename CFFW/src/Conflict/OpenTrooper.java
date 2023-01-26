@@ -90,6 +90,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class OpenTrooper implements Serializable {
 
@@ -1224,6 +1226,17 @@ public class OpenTrooper implements Serializable {
 		lblEALBonus.setFont(new Font("Calibri", Font.PLAIN, 15));
 
 		spinnerEALBonus = new JSpinner();
+		spinnerEALBonus.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				bonuses();
+			}
+		});
+		spinnerEALBonus.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
 		spinnerEALBonus.setBounds(541, 220, 74, 20);
 
 		textPaneTargetedFire = new JTextPane();
@@ -1851,6 +1864,16 @@ public class OpenTrooper implements Serializable {
 		panelActions.add(label_18);
 
 		spinnerPercentBonus = new JSpinner();
+		spinnerPercentBonus.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				bonuses();
+			}
+		});
+		spinnerPercentBonus.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		spinnerPercentBonus.setBounds(625, 220, 74, 20);
 		panelActions.add(spinnerPercentBonus);
 
@@ -2287,6 +2310,16 @@ public class OpenTrooper implements Serializable {
 		panelActions.add(lblConsecutiveEalBonus);
 
 		spinnerConsecutiveEALBonus = new JSpinner();
+		spinnerConsecutiveEALBonus.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				bonuses();
+			}
+		});
+		spinnerConsecutiveEALBonus.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
 		spinnerConsecutiveEALBonus.setBounds(709, 220, 85, 20);
 		panelActions.add(spinnerConsecutiveEALBonus);
 
@@ -6746,11 +6779,8 @@ public class OpenTrooper implements Serializable {
 					} else if (gameWindow.initiativeOrder.get(j).getTroopers().get(x).compareTo(target)) {
 						targetUnit = gameWindow.initiativeOrder.get(j);
 						// System.out.println("pass2");
-
 					}
-
 				}
-
 			}
 
 			if (gameWindow == null) {
@@ -7097,6 +7127,14 @@ public class OpenTrooper implements Serializable {
 		};
 
 		worker.execute();
+	}
+	
+	public void bonuses() {
+		if(shoot == null)
+			return;
+		
+		shoot.setBonuses((int) spinnerPercentBonus.getValue(), (int) spinnerEALBonus.getValue(), (int) spinnerConsecutiveEALBonus.getValue());
+		guiUpdates();
 	}
 
 }
