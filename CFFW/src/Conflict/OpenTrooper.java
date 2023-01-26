@@ -988,7 +988,7 @@ public class OpenTrooper implements Serializable {
 		comboBoxTargets.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				if (comboBoxTargets.getSelectedIndex() == 0)
+				if (comboBoxTargets.getSelectedIndex() <= 0)
 					return;
 
 				// System.out.println("Targets Size: "+targetTroopers.size()+", Target Name:
@@ -1198,6 +1198,11 @@ public class OpenTrooper implements Serializable {
 						refreshInventory();
 						GameWindow.gameWindow.conflictLog.addQueuedText();
 						guiUpdates();
+						
+						if(!shoot.target.alive || !shoot.target.conscious || shoot.target.HD) {
+							refreshTargets();
+						}
+						
 					}
 
 				};
@@ -6711,6 +6716,7 @@ public class OpenTrooper implements Serializable {
 		if (targetTroopers == null || targetTroopers.size() < 1) {
 			return;
 		}
+		
 		String[] targets = new String[targetTroopers.size() + 1];
 		targets[0] = "None";
 
@@ -6726,6 +6732,9 @@ public class OpenTrooper implements Serializable {
 		grenadeTargets.clear();
 		for (int i = 0; i < targetTroopers.size(); i++) {
 			Trooper target = targetTroopers.get(i);
+			/*if(target.alive == false || target.conscious == false || target.HD)
+				continue;*/
+			
 			Unit targetUnit = null;
 			// gets troopers unit
 			for (int j = 0; j < gameWindow.initiativeOrder.size(); j++) {
