@@ -31,6 +31,7 @@ import Shoot.Shoot;
 import Trooper.Trooper;
 import Trooper.generateSquad;
 import Unit.Unit;
+import UtilityClasses.PCUtility;
 import UtilityClasses.ShootUtility;
 
 import javax.swing.JButton;
@@ -223,17 +224,22 @@ public class StaticWeaponWindow {
 
 				int index = listEquipedStatics.getSelectedIndex();
 
+				if(index < 0)
+					return;
+				
 				if (selectedWeaponIndex > -1) {
 
 					unit.staticWeapons.get(selectedWeaponIndex).equipedTroopers
 							.remove(listEquipedIndividuals.getSelectedIndex());
-
+					PCUtility.setSlUnequip(unequipedTroopers.get(listIndividuals.getSelectedIndex()));
 					setFields(unit);
 
 				}
 
 				listEquipedStatics.setSelectedIndex(index);
-
+				
+				setGunner();
+				
 			}
 		});
 		scrollPane_2.setViewportView(listEquipedIndividuals);
@@ -271,6 +277,8 @@ public class StaticWeaponWindow {
 				if (comboBoxTargets.getSelectedIndex() <= 0)
 					return;
 
+				
+				
 				// System.out.println("Targets Size: "+targetTroopers.size()+", Target Name:
 				// "+findTarget().number+" "+findTarget().name);
 
@@ -573,12 +581,16 @@ public class StaticWeaponWindow {
 
 				int index = listEquipedStatics.getSelectedIndex();
 
+				if(index < 0)
+					return;
+				
 				// Gets currently selected unequiped individual and adds them to currently
 				// selected weapon
 				if (listIndividuals.getSelectedIndex() > -1 && selectedWeaponIndex > -1) {
 					unit.staticWeapons.get(selectedWeaponIndex).equipedTroopers
 							.add(unequipedTroopers.get(listIndividuals.getSelectedIndex()));
 					unequipedTroopers.remove(listIndividuals.getSelectedIndex());
+					PCUtility.setSlEquip(unequipedTroopers.get(listIndividuals.getSelectedIndex()));
 				}
 
 				setFields(unit);
@@ -586,6 +598,8 @@ public class StaticWeaponWindow {
 				openUnit.refreshIndividuals();
 
 				listEquipedStatics.setSelectedIndex(index);
+				
+				setGunner();
 
 			}
 		});
@@ -1997,11 +2011,15 @@ public class StaticWeaponWindow {
 				continue;
 			}
 
-			if (gunner == null || trooper.getSkill("Heavy") > gunner.getSkill("Heavy"))
+			if (gunner == null || trooper.sl > gunner.sl)
 				gunner = trooper;
 		}
 		//System.out.println("Returning Gunner3, Gunner Name: "+gunner.name);
 		return gunner;
+	}
+	
+	public void setGunner() {
+		gunner = findGunner();
 	}
 
 	public void aim(Trooper gunner) {

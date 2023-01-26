@@ -172,6 +172,14 @@ public class PCUtility {
 
 	}
 
+	public static void setSlEquip(Trooper trooper) {
+		trooper.sl = PCUtility.getSL("Heavy", trooper);
+	}
+	
+	public static void setSlUnequip(Trooper trooper) {
+		trooper.sl = PCUtility.getSL(new Weapons().findWeapon(trooper.wep).type, trooper);
+	}
+	
 	public static int getSL(int sl) {
 		float val = ((float) sl) / 2f;
 
