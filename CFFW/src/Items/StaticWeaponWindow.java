@@ -82,7 +82,7 @@ public class StaticWeaponWindow {
 	public Unit trooperUnit;
 
 	public GameWindow window;
-	public Shoot shoot;
+	public ArrayList<Shoot> shots = new ArrayList<>();
 	public int loadTime;
 	public int assembleTime;
 	private JList listIndividuals;
@@ -130,6 +130,11 @@ public class StaticWeaponWindow {
 		this.window = window;
 		this.trooperUnit = openUnit.unit;
 		final JFrame f = new JFrame("Static Weapons");
+		if(shots.size() != unit.staticWeapons.size()) {
+			for(int i = 0; i < unit.staticWeapons.size() - shots.size(); i++)
+			shots.add(null);
+		}
+		
 		f.setSize(1097, 813);
 		f.getContentPane().setLayout(null);
 
@@ -164,7 +169,11 @@ public class StaticWeaponWindow {
 				}
 
 				//System.out.println("Selected Index: " + listEquipedStatics.getSelectedIndex());
-
+				
+				comboBoxTargets.setSelectedIndex(0);
+				comboBoxSuppressiveFireTargets.setSelectedIndex(0);
+				guiUpdates();
+				
 			}
 		});
 		scrollPane.setViewportView(listEquipedStatics);
@@ -277,7 +286,8 @@ public class StaticWeaponWindow {
 				if (comboBoxTargets.getSelectedIndex() <= 0)
 					return;
 
-				
+				if(listEquipedStatics.getSelectedIndex() < 0)
+					return;
 				
 				// System.out.println("Targets Size: "+targetTroopers.size()+", Target Name:
 				// "+findTarget().number+" "+findTarget().name);
@@ -287,6 +297,9 @@ public class StaticWeaponWindow {
 					@Override
 					protected Void doInBackground() throws Exception {
 
+						
+						Shoot shoot = shots.get(listEquipedStatics.getSelectedIndex());
+						
 						// System.out.println("Target Changed Shots1");
 						// PCShots();
 						// System.out.println("Target Changed Shots2");
@@ -317,6 +330,9 @@ public class StaticWeaponWindow {
 							if (comboBoxTargetZone.getSelectedIndex() > 0) {
 								setCalledShotBounds();
 							}
+							
+							shots.set(listEquipedStatics.getSelectedIndex(), shoot);
+							
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -345,12 +361,17 @@ public class StaticWeaponWindow {
 			public void actionPerformed(ActionEvent e) {
 				if (comboBoxTargets.getSelectedIndex() != 0 || comboBoxSuppressiveFireTargets.getSelectedIndex() <= 0)
 					return;
-
+				if(listEquipedStatics.getSelectedIndex() < 0)
+					return;
+				
+				
 				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
 					@Override
 					protected Void doInBackground() throws Exception {
 
+						Shoot shoot = shots.get(listEquipedStatics.getSelectedIndex());
+						
 						String wepName = gunner.wep;
 						int ammoIndex = -1;
 						if (staticWeapon.pcAmmoTypes.size() > 0) {
@@ -373,6 +394,8 @@ public class StaticWeaponWindow {
 						if (shoot == null)
 							System.out.println("Shoot is null");
 
+						shots.set(listEquipedStatics.getSelectedIndex(), shoot);
+						
 						return null;
 					}
 
@@ -395,6 +418,11 @@ public class StaticWeaponWindow {
 		btnFire.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				if(listEquipedStatics.getSelectedIndex() < 0)
+					return;
+				
+				Shoot shoot = shots.get(listEquipedStatics.getSelectedIndex());
+				
 				if (shoot == null)
 					return;
 
@@ -709,22 +737,14 @@ public class StaticWeaponWindow {
 		chckbxFullAuto = new JCheckBox("Full Auto");
 		chckbxFullAuto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (targetedFire != null) {
-
-					if (targetedFire.consecutiveShots) {
-						targetedFire.EAL -= 2;
-						targetedFire.ALMSum -= 2;
-						targetedFire.consecutiveShots = false;
-					}
-
-				}
-
-				Trooper gunner = findGunner();
-				if (gunner == null) {
-					window.conflictLog.addNewLine("No avaiable gunner.");
+				if(listEquipedStatics.getSelectedIndex() < 0)
 					return;
+				
+				Shoot shoot = shots.get(listEquipedStatics.getSelectedIndex());
+				
+				if(shoot != null) {
+					guiUpdates();
 				}
-				PCShots(gunner);
 			}
 		});
 		chckbxFullAuto.setForeground(Color.WHITE);
@@ -784,7 +804,11 @@ public class StaticWeaponWindow {
 		comboBoxAimTime = new JComboBox();
 		comboBoxAimTime.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				if(listEquipedStatics.getSelectedIndex() < 0)
+					return;
+				
+				Shoot shoot = shots.get(listEquipedStatics.getSelectedIndex());
+				
 				if (shoot == null)
 					return;
 
@@ -829,7 +853,11 @@ public class StaticWeaponWindow {
 		btnAim.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-
+				if(listEquipedStatics.getSelectedIndex() < 0)
+					return;
+				
+				Shoot shoot = shots.get(listEquipedStatics.getSelectedIndex());
+				
 				if (shoot == null) {
 					return;
 				}
@@ -1060,6 +1088,12 @@ public class StaticWeaponWindow {
 		listEquipedStatics.setModel(equpiedStaticsList);
 
 		listEquipedStatics.setSelectedIndex(index);
+		
+		if(shots.size() != unit.staticWeapons.size()) {
+			for(int i = 0; i < unit.staticWeapons.size() - shots.size(); i++)
+				shots.add(null);
+		}
+		
 	}
 
 	public void refreshTroopers(Unit unit) {
@@ -2092,6 +2126,11 @@ public class StaticWeaponWindow {
 	}
 	
 	public void bonuses() {
+		if(listEquipedStatics.getSelectedIndex() < 0)
+			return;
+		
+		Shoot shoot = shots.get(listEquipedStatics.getSelectedIndex());
+		
 		if(shoot == null)
 			return;
 		
@@ -2100,7 +2139,10 @@ public class StaticWeaponWindow {
 	}
 	
 	public void guiUpdates() {
-
+		if(listEquipedStatics.getSelectedIndex() < 0)
+			return;
+		
+		Shoot shoot = shots.get(listEquipedStatics.getSelectedIndex());
 		ArrayList<Shoot> shots = new ArrayList<>();
 		shots.add(shoot);
 		if (shoot == null) {
@@ -2113,6 +2155,10 @@ public class StaticWeaponWindow {
 	}
 	
 	public void setCalledShotBounds() {
+		if(listEquipedStatics.getSelectedIndex() < 0)
+			return;
+		
+		Shoot shoot = shots.get(listEquipedStatics.getSelectedIndex());
 		if (shoot == null) {
 			System.out.println("shoot is null set called shot bounds");
 			return;

@@ -1900,18 +1900,9 @@ public class OpenTrooper implements Serializable {
 		chckbxFullAuto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				if (targetedFire != null) {
-
-					if (targetedFire.consecutiveShots) {
-						targetedFire.EAL -= 2;
-						targetedFire.ALMSum -= 2;
-						targetedFire.consecutiveShots = false;
-					}
-
+				if(shoot != null) {
+					guiUpdates();
 				}
-
-				PCShots();
-				PCFireGuiUpdates();
 			}
 		});
 		chckbxFullAuto.setForeground(Color.WHITE);
