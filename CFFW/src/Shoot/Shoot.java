@@ -496,8 +496,10 @@ public class Shoot {
 
 	}
 
+	public static int count;
 	public void calculateModifiers() {
-		System.out.println("Calculate Modifiers");
+		count++;
+		System.out.println("Calculate Modifiers: "+count);
 		setRangeALM();
 		setVisibilityALM();
 		setSpeedALM();

@@ -51,7 +51,11 @@ public class ShootUtility {
 	public static void shootGuiUpdate(JLabel lblPossibleShots, JLabel lblAimTime, JLabel lblTN, JLabel lblTfSpentCa,
 			JLabel lblAmmo, JLabel lblCombatActions, JCheckBox chckbxFullAuto, ArrayList<Shoot> shoot) {
 		System.out.println("Shoot Gui Update");
-
+		if(shoot.size() < 1) {
+			System.out.println("shoot size is 0");
+			return;
+		}
+		
 		int meanAimTime = getMeanAimTime(shoot);
 		int meanCombatActions = getMeanCombatActions(shoot);
 		int meanSpentCombatActions = getMeanSpentCombatActions(shoot);

@@ -20,6 +20,7 @@ import Items.Item;
 import Items.Item.ItemType;
 import JUnitTests.AllTests;
 import JUnitTests.InventoryTest;
+import Shoot.Shoot;
 import UtilityClasses.TestUtility;
 
 import javax.swing.JButton;
@@ -74,7 +75,7 @@ public class Main {
 		junit.addListener(new TextListener(System.out));
 		Result result = junit.run(AllTests.class);
 		resultReport(result);
-		
+		Shoot.count = 0;
 		new SetupWindow();
 	}
 

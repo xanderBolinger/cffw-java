@@ -749,7 +749,7 @@ public class BulkWindow {
 					}
 
 					try {
-						PCShots(bulkTrooper, getTargetTrooper(bulkTrooper));
+						//PCShots(bulkTrooper, getTargetTrooper(bulkTrooper));
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -959,7 +959,7 @@ public class BulkWindow {
 							for(BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
 								
 								
-								PCShots(bulkTrooper, getTargetTrooper(bulkTrooper));
+								//PCShots(bulkTrooper, getTargetTrooper(bulkTrooper));
 								
 								
 							}
@@ -1053,7 +1053,7 @@ public class BulkWindow {
 						for(BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
 							Trooper targetTrooper = getTargetTrooper(bulkTrooper);
 							aim(bulkTrooper, comboBoxAimTime.getSelectedIndex(), targetTrooper);
-							PCShots(bulkTrooper, targetTrooper);
+							//PCShots(bulkTrooper, targetTrooper);
 							if (!chckbxFreeAction.isSelected() && bulkTrooper.spentCA >= bulkTrooper.CA) 	
 								actionSpent(bulkTrooper.trooper);
 						
@@ -1167,7 +1167,7 @@ public class BulkWindow {
 							for(BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
 								
 
-								PCShots(bulkTrooper, getTargetTrooper(bulkTrooper));
+								//PCShots(bulkTrooper, getTargetTrooper(bulkTrooper));
 								
 								
 							}
@@ -1349,14 +1349,21 @@ public class BulkWindow {
 							//System.out.println("Trigger, size: "+ getSelectedBulkTroopers().size());
 							
 							
-							ExecutorService es = Executors.newCachedThreadPool();
+							ExecutorService es = Executors.newFixedThreadPool(40);
 							for(BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
 								if(bulkTrooper.targetTroopers.size() < 1) {
 									continue;
 								}
 								
 								
-								
+								es.submit(() -> {
+									System.out.println("Submit");
+									try {
+										setValidTarget(bulkTrooper);
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+								});
 								/*for(Trooper targetTrooper : bulkTrooper.targetTroopers) {
 									Unit targetUnit = findTrooperUnit(targetTrooper);
 									
@@ -1369,29 +1376,17 @@ public class BulkWindow {
 								}*/
 								//System.out.println("List Changed 1");
 								//getTargetTrooper(bulkTrooper);
-								es.execute(new Runnable() {
-
-									@Override
-									public void run() {
-										System.out.println("Run");
-										try {
-											setValidTarget(bulkTrooper);
-										} catch (Exception e) {
-											e.printStackTrace();
-										}
-									} 
-							    	
-							    });
+								
 								
 								//System.out.println("List Changed 2");
 								//System.out.println("Finished");
 							}
 							
 							es.shutdown();
-							boolean finished = es.awaitTermination(1, TimeUnit.MINUTES);
+							/*boolean finished = es.awaitTermination(1, TimeUnit.MINUTES);
 							while(!finished) {
 								continue;
-							}
+							}*/
 							
 							
 							System.out.println("Finished Threads");
@@ -1501,7 +1496,7 @@ public class BulkWindow {
 						continue;
 					
 					try {
-						PCShots(bulkTrooper, getTargetTrooper(bulkTrooper));
+						//PCShots(bulkTrooper, getTargetTrooper(bulkTrooper));
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -2876,7 +2871,7 @@ public class BulkWindow {
 			} 
 			return; 
 		} else {
-			PCShots(bulkTrooper, targetTrooper);									
+			//PCShots(bulkTrooper, targetTrooper);									
 		}
 				
 
@@ -2925,154 +2920,6 @@ public class BulkWindow {
 	}
 	
 	
-	//public int pcShotsCount = 0; 
-	// Sets possible shots based off of current Selected Aim Time 
-	public void PCShots(BulkTrooper bulkTrooper, Trooper targetTrooper) {
-		if(targetTrooper == null)
-			System.out.println("Target trooper is null");
-		
-		if(bulkTrooper.targetTroopers.size() < 1 || bulkTrooper.targetTroopers.size() < 1 || targetTrooper == null || bulkTrooper == null) {
-			System.out.println("Returning for mysterious reasons");
-			return; 
-		}
-		
-		System.out.println("PC shots");
-		/*else if(bulkTrooper.bestTargetTrooper != null && (bulkTrooper.tempTF != null || bulkTrooper.targetedFire != null))
-			return; */
-		
-		//System.out.println("PC Shots: "+(++pcShotsCount));
-		
-		Trooper shooterTrooper = bulkTrooper.trooper; 
-		
-		
-		
-		for(Trooper t : bulkTrooper.targetTroopers) {
-			if(shooterTrooper.storedAimTime.containsKey(t) && validTarget(t)) {
-				targetTrooper = t; 
-				break;
-			}
-		}
-		
-		
-		//System.out.println("PC SHOTS: targetTrooper: "+targetTrooper.name);
-		Unit targetUnit = findTrooperUnit(targetTrooper);
-		Unit shooterUnit = findTrooperUnit(shooterTrooper);
-		//System.out.println("target unit: "+targetUnit.callsign);
-		//System.out.println("shooter unit: "+shooterUnit.callsign);
-		
-		int maxAim = comboBoxAimTime.getSelectedIndex() - 1;
-
-		if(bulkTrooper.targetedFire == null) {
-			
-			System.out.println("null tf");
-			TargetedFire tf = new TargetedFire(shooterTrooper, targetTrooper, shooterUnit, targetUnit, gameWindow, maxAim, bulkTrooper.CA - bulkTrooper.spentCA, 
-					(int) spinnerEALBonus.getValue(), (int) spinnerPercentBonus.getValue(), 0, shooterTrooper.wep);
-			
-			if(chckbxFullAuto.isSelected()) {
-				tf.setFullAuto();
-			}
-			
-			tf.spentCA = bulkTrooper.spentCA; 
-			bulkTrooper.tempTF = tf;
-			bulkTrooper.tempTF.setTargetNumber();
-			
-			if(comboBoxAimTime.getSelectedIndex() > bulkTrooper.tempTF.spentAimTime) {
-				System.out.println("update alm");
-				Weapons wep = new Weapons().findWeapon(bulkTrooper.trooper.wep);
-				int oldAim = bulkTrooper.tempTF.aim(shooterTrooper, bulkTrooper.tempTF.spentAimTime - 1, wep);
-				oldAim += bulkTrooper.tempTF.weaponConditionsMod(wep, bulkTrooper.tempTF.spentAimTime - 1);
-				System.out.println("OLD AIM: "+oldAim);
-				int newAim = bulkTrooper.tempTF.aim(shooterTrooper, comboBoxAimTime.getSelectedIndex() - 1, wep);
-				newAim += bulkTrooper.tempTF.weaponConditionsMod(wep, comboBoxAimTime.getSelectedIndex() - 1);
-				System.out.println("NEW AIM: "+newAim);
-				
-				bulkTrooper.tempTF.ALMSum -= oldAim; 
-				bulkTrooper.tempTF.ALMSum += newAim;
-				bulkTrooper.tempTF.EAL -= oldAim; 
-				bulkTrooper.tempTF.EAL += newAim;
-				bulkTrooper.tempTF.setTargetNumber();
-			}
-			
-			
-			/*targetedFire = tf; 
-			reaction = null; 
-			possibleShots = true; */
-			/*lblPossibleShots.setText("Possible Shots: "+(tf.possibleShots-tf.shotsTaken));
-			lblAimTime.setText("Aim Time: "+tf.spentAimTime);
-			lblTN.setText("Target Number: "+tf.TN);
-			lblTfSpentCa.setText("TF Spent CA: "+0);*/
-			
-		} else {
-			
-			System.out.println("saved tf");
-			
-			if(bulkTrooper.targetedFire.shotsTaken > 0 && !bulkTrooper.targetedFire.consecutiveShots && !chckbxFullAuto.isSelected()) {
-				bulkTrooper.targetedFire.EAL += 2; 
-				bulkTrooper.targetedFire.ALMSum += 2; 
-				bulkTrooper.targetedFire.consecutiveShots = true; 
-			}
-			
-			if(chckbxFullAuto.isSelected()) {
-				bulkTrooper.targetedFire.setFullAuto();
-				bulkTrooper.targetedFire.setFullAutoTargetNumber();
-			} else {
-				bulkTrooper.targetedFire.setTargetNumber();
-			}
-			
-			if(comboBoxAimTime.getSelectedIndex() > bulkTrooper.targetedFire.spentAimTime) {
-				System.out.println("update alm");
-				Weapons wep = new Weapons().findWeapon(bulkTrooper.trooper.wep);
-				int oldAim = bulkTrooper.targetedFire.aim(shooterTrooper, bulkTrooper.targetedFire.spentAimTime - 1, wep);
-				oldAim += bulkTrooper.targetedFire.weaponConditionsMod(wep, bulkTrooper.targetedFire.spentAimTime - 1);
-				System.out.println("OLD AIM: "+oldAim);
-				int newAim = bulkTrooper.targetedFire.aim(shooterTrooper, comboBoxAimTime.getSelectedIndex() - 1, wep);
-				newAim += bulkTrooper.targetedFire.weaponConditionsMod(wep, comboBoxAimTime.getSelectedIndex() - 1);
-				System.out.println("NEW AIM: "+newAim);
-				
-				bulkTrooper.targetedFire.ALMSum -= oldAim; 
-				bulkTrooper.targetedFire.ALMSum += newAim;
-				bulkTrooper.targetedFire.EAL -= oldAim; 
-				bulkTrooper.targetedFire.EAL += newAim;
-				bulkTrooper.targetedFire.setTargetNumber();
-			}
-			
-			
-			/*lblPossibleShots.setText("Possible Shots: "+(targetedFire.possibleShots-targetedFire.shotsTaken));
-			lblAimTime.setText("Aim Time: "+targetedFire.spentAimTime);
-			targetedFire.setTargetNumber();
-			
-			lblTfSpentCa.setText("TF Spent CA: "+targetedFire.spentCA);
-			lblTN.setText("Target Number: "+targetedFire.TN);*/
-		}
-		
-		
-		
-		//TargetedFire(Trooper shooterTrooper, Trooper targetTrooper, Unit shooterUnit , Unit targetUnit, GameWindow game, int maxAim)
-		//System.out.println("Target Trooper: "+targetTrooper.number+" "+targetTrooper.name);
-	}
-	
-	
-	/*static <T> void shuffleList(List<T> list) {
-		if(list.size() < 2)
-			return; 
-		
-	    List<T> temp = new ArrayList<T>(list);
-	    Integer [] indexes=new Integer[list.size()];
-	    for (int i=0;i<list.size();i++){
-	        indexes[i]=i;
-	    }
-	    Random rand = new Random();
-
-	    for (int i = 0; i < list.size(); i++) {
-	        int newPos = rand.nextInt(list.size());
-	        while (newPos == i||indexes[newPos]==null) {
-	        	System.out.println("List size: "+list.size());
-	            newPos = rand.nextInt(list.size());
-	        }
-	        list.set(i, temp.get(newPos));
-	        indexes[newPos]=null;
-	    }
-	}*/
 	
 	public Trooper getTargetTrooper(BulkTrooper bulkTrooper) throws Exception {
 		
