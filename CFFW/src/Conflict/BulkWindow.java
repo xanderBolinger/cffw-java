@@ -8,6 +8,7 @@ import javax.swing.SwingWorker;
 import Trooper.Trooper;
 import Unit.Unit;
 import UtilityClasses.DiceRoller;
+import UtilityClasses.ShootUtility;
 
 import javax.swing.JButton;
 import java.awt.BorderLayout;
@@ -21,6 +22,9 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -59,6 +63,7 @@ import Hexes.Hex;
 import Injuries.Injuries;
 import Injuries.ResolveHits;
 import Items.Weapons;
+import Shoot.Shoot;
 
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -87,9 +92,9 @@ public class BulkWindow {
 	private JSpinner spinnerPercentBonus;
 	private JComboBox comboBoxAimTime;
 	private JCheckBox chckbxFullAuto;
-	private JLabel lblMeanAimTime;
-	private JLabel lblMeanTn;
-	private JLabel lblMeanPossibleShots;
+	private JLabel lblAimTime;
+	private JLabel lblTn;
+	private JLabel lblPossibleShots;
 	private JCheckBox chckbxLaser;
 	private JCheckBox chckbxIrLaser;
 	private JCheckBox chckbxThermals;
@@ -1074,12 +1079,12 @@ public class BulkWindow {
 		button_10.setBounds(648, 535, 87, 23);
 		frame.getContentPane().add(button_10);
 		
-		lblMeanAimTime = new JLabel("Mean Aim Time:");
-		lblMeanAimTime.setBackground(Color.WHITE);
-		lblMeanAimTime.setForeground(Color.BLACK);
-		lblMeanAimTime.setFont(new Font("Calibri", Font.PLAIN, 15));
-		lblMeanAimTime.setBounds(647, 501, 136, 23);
-		frame.getContentPane().add(lblMeanAimTime);
+		lblAimTime = new JLabel("Mean Aim Time:");
+		lblAimTime.setBackground(Color.WHITE);
+		lblAimTime.setForeground(Color.BLACK);
+		lblAimTime.setFont(new Font("Calibri", Font.PLAIN, 15));
+		lblAimTime.setBounds(647, 501, 136, 23);
+		frame.getContentPane().add(lblAimTime);
 		
 		JButton btnSingle = new JButton("Single");
 		btnSingle.addActionListener(new ActionListener() {
@@ -1140,12 +1145,12 @@ public class BulkWindow {
 		btnSingle.setBounds(744, 535, 87, 23);
 		frame.getContentPane().add(btnSingle);
 		
-		lblMeanTn = new JLabel("Mean TN: 0");
-		lblMeanTn.setBackground(Color.WHITE);
-		lblMeanTn.setForeground(Color.BLACK);
-		lblMeanTn.setFont(new Font("Calibri", Font.PLAIN, 15));
-		lblMeanTn.setBounds(963, 501, 124, 23);
-		frame.getContentPane().add(lblMeanTn);
+		lblTn = new JLabel("Mean TN: 0");
+		lblTn.setBackground(Color.WHITE);
+		lblTn.setForeground(Color.BLACK);
+		lblTn.setFont(new Font("Calibri", Font.PLAIN, 15));
+		lblTn.setBounds(963, 501, 124, 23);
+		frame.getContentPane().add(lblTn);
 		
 		chckbxFullAuto = new JCheckBox("Full Auto");
 		chckbxFullAuto.addActionListener(new ActionListener() {
@@ -1344,7 +1349,7 @@ public class BulkWindow {
 							//System.out.println("Trigger, size: "+ getSelectedBulkTroopers().size());
 							
 							
-							
+							ExecutorService es = Executors.newCachedThreadPool();
 							for(BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
 								if(bulkTrooper.targetTroopers.size() < 1) {
 									continue;
@@ -1364,20 +1369,32 @@ public class BulkWindow {
 								}*/
 								//System.out.println("List Changed 1");
 								//getTargetTrooper(bulkTrooper);
-								
-								
-								
-								
-								setValidTarget(bulkTrooper);
+								es.execute(new Runnable() {
 
+									@Override
+									public void run() {
+										System.out.println("Run");
+										try {
+											setValidTarget(bulkTrooper);
+										} catch (Exception e) {
+											e.printStackTrace();
+										}
+									} 
+							    	
+							    });
 								
 								//System.out.println("List Changed 2");
 								//System.out.println("Finished");
 							}
 							
+							es.shutdown();
+							boolean finished = es.awaitTermination(1, TimeUnit.MINUTES);
+							while(!finished) {
+								continue;
+							}
 							
 							
-							//System.out.println("Finished 2");
+							System.out.println("Finished Threads");
 
 					      } catch(Exception e) {
 					         e.printStackTrace();
@@ -1410,8 +1427,8 @@ public class BulkWindow {
 						//System.out.println("Done");
 						setTargetFocus();
 						gameWindow.conflictLog.addQueuedText();
-						PCFireGuiUpdates();
-						
+						//PCFireGuiUpdates();
+						guiUpdates();
 					}
 					
 				};
@@ -1424,12 +1441,12 @@ public class BulkWindow {
 		individualsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		scrollPane.setViewportView(individualsList);
 		
-		lblMeanPossibleShots = new JLabel("Mean Possible Shots:");
-		lblMeanPossibleShots.setForeground(Color.BLACK);
-		lblMeanPossibleShots.setFont(new Font("Calibri", Font.PLAIN, 15));
-		lblMeanPossibleShots.setBackground(Color.WHITE);
-		lblMeanPossibleShots.setBounds(784, 501, 178, 23);
-		frame.getContentPane().add(lblMeanPossibleShots);
+		lblPossibleShots = new JLabel("Mean Possible Shots:");
+		lblPossibleShots.setForeground(Color.BLACK);
+		lblPossibleShots.setFont(new Font("Calibri", Font.PLAIN, 15));
+		lblPossibleShots.setBackground(Color.WHITE);
+		lblPossibleShots.setBounds(784, 501, 178, 23);
+		frame.getContentPane().add(lblPossibleShots);
 		
 		JButton btnVolley = new JButton("Volley");
 		btnVolley.addActionListener(new ActionListener() {
@@ -2622,6 +2639,7 @@ public class BulkWindow {
 		public boolean possibleShots = true; 
 		public String wepPercent; 
 		public int sl; 
+		public Shoot shoot;
 		
 		public BulkTrooper(Trooper trooper) {
 			//System.out.println("Constructor");
@@ -2799,7 +2817,9 @@ public class BulkWindow {
 		}
 		
 		if(validTarget(targetTrooper)) {
-			PCShots(bulkTrooper, targetTrooper);			
+			//PCShots(bulkTrooper, targetTrooper);	
+			bulkTrooper.shoot = ShootUtility.setTarget(unit, targetTrooper.returnTrooperUnit(gameWindow), bulkTrooper.shoot, 
+					bulkTrooper.trooper, targetTrooper, bulkTrooper.trooper.wep, -1);
 		} else {
 			throw new Exception(bulkTrooper.trooper.number+" "+bulkTrooper.trooper.name+" no valid target");
 		}
@@ -3153,7 +3173,7 @@ public class BulkWindow {
 			
 		}
 		meanTN /= getSelectedBulkTroopers().size();
-		lblMeanTn.setText("Mean TN: "+meanTN);
+		lblTn.setText("Mean TN: "+meanTN);
 
 		int aimTime = 0; 
 		for(BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
@@ -3165,7 +3185,7 @@ public class BulkWindow {
 			
 		}
 		aimTime /= getSelectedBulkTroopers().size();
-		lblMeanAimTime.setText("Mean Aim Time: "+ aimTime);
+		lblAimTime.setText("Mean Aim Time: "+ aimTime);
 		
 		
 		int possibleShots = 0; 
@@ -3184,7 +3204,7 @@ public class BulkWindow {
 			
 		}
 		possibleShots /= getSelectedBulkTroopers().size();
-		lblMeanPossibleShots.setText("Mean Possible Shots: "+ possibleShots);
+		lblPossibleShots.setText("Mean Possible Shots: "+ possibleShots);
 		
 		//lblAmmo.setText("Ammo: "+bulkTrooper.trooper.ammo);
 		//lblCombatActions.setText("TF CA: "+bulkTrooper.CA);		
@@ -3500,6 +3520,82 @@ public class BulkWindow {
 			comboBoxBuilding.addItem("ALREADY INSIDE");
 			comboBoxBuilding.setSelectedIndex(1);
 		}*/
+	}
+	
+	public void guiUpdates() {
+
+		ArrayList<Shoot> shots = new ArrayList<>();
+		
+		for(BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
+			if (bulkTrooper.shoot == null) {
+				System.out.println("Shoot is null 2");
+				continue;
+			}
+			shots.add(bulkTrooper.shoot);
+		}
+		
+		ShootUtility.shootGuiUpdate(lblPossibleShots, lblAimTime, lblTn, null, null, null,
+				chckbxFullAuto, shots);
+	}
+	
+	public void setCalledShotBounds(Shoot shoot) {
+		if (shoot == null) {
+			System.out.println("shoot is null set called shot bounds");
+			return;
+		}
+
+		SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+			@Override
+			protected Void doInBackground() throws Exception {
+				try {
+					int index = comboBoxTargetZone.getSelectedIndex();
+					System.out.println("Size ALM Pre: " + shoot.sizeALM);
+					if (index == 0) {
+						System.out.println("Clear called shot");
+						shoot.calledShotBounds.clear();
+						shoot.calledShotLocation = "";
+					} else {
+						System.out.println("set called shot");
+						shoot.setCalledShotBounds(comboBoxTargetZone.getSelectedIndex());
+					}
+					System.out.println("Size ALM POST: " + shoot.sizeALM);
+					shoot.setALM();
+					shoot.setEAL();
+					shoot.setSingleTn();
+					shoot.setFullAutoTn();
+					shoot.setSuppressiveTn();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				return null;
+			}
+
+			@Override
+			protected void done() {
+
+				guiUpdates();
+
+			}
+
+		};
+
+		worker.execute();
+	}
+	
+	public void bonuses(Shoot shoot) {
+		
+		for(BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
+			if (bulkTrooper.shoot == null) {
+				System.out.println("Shoot is null 2 bonuses");
+				continue;
+			}
+			bulkTrooper.shoot.setBonuses((int) spinnerPercentBonus.getValue(), (int) spinnerEALBonus.getValue(), (int) spinnerConsecutiveEALBonus.getValue());
+		}
+		
+		guiUpdates();
+		
 	}
 	
 }

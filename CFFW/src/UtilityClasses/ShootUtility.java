@@ -72,9 +72,12 @@ public class ShootUtility {
 		rslt += chckbxFullAuto.isSelected() ? ", Full Auto: " + shoot.get(0).fullAutoResults() : "";
 
 		lblTN.setText(rslt);
-		lblTfSpentCa.setText("Spent CA: " + meanSpentCombatActions);
-		lblAmmo.setText("Ammo: " + meanAmmo);
-		lblCombatActions.setText("CA: " + meanCombatActions);
+		if(lblTfSpentCa != null)
+			lblTfSpentCa.setText("Spent CA: " + meanSpentCombatActions);
+		if(lblAmmo != null)
+			lblAmmo.setText("Ammo: " + meanAmmo);
+		if(lblCombatActions != null)
+			lblCombatActions.setText("CA: " + meanCombatActions);
 
 		GameWindow.gameWindow.conflictLog.addQueuedText();
 		GameWindow.gameWindow.refreshInitiativeOrder();
