@@ -321,7 +321,13 @@ public class Inventory implements Serializable {
 	}
 	
 	public boolean launcherAmmoCheck(Weapons wep, PCAmmo pcAmmo, int shots) {
-
+		if(wep.type.equals("Static")) {
+			if(wep.ammoLoaded <= 0)
+				return false; 
+			wep.ammoLoaded-=wep.fullAutoROF; 
+			return true;
+		}
+		
 		String name = wep.name + ": "
 				+ pcAmmo.name + " round";
 

@@ -34,6 +34,7 @@ public class Shoot {
 	public int spentCombatActions;
 	public int startingAimTime;
 	public int shots;
+	public int previouslySpentCa;
 	public int fullAutoShots;
 
 	public Trooper shooter;
@@ -211,6 +212,7 @@ public class Shoot {
 				+ targetUnit.callsign + ": " + suppressiveHits + " hits.";
 		
 		spentCombatActions = shooter.combatActions;
+		this.shots = shooter.combatActions;
 		resolveHits();
 		resolveSuppressiveHits();
 	}
@@ -252,14 +254,35 @@ public class Shoot {
 	}
 
 	public boolean ammoCheckSingle() {
+		if(wep.type.equals("Static")) {
+			if(wep.ammoLoaded <= 0)
+				return false; 
+			wep.ammoLoaded--; 
+			return true;
+		}
+			
 		return shooter.inventory.fireShots(1, wep);
 	}
 
 	public boolean ammoCheckFull() {
+		if(wep.type.equals("Static")) {
+			if(wep.ammoLoaded <= 0)
+				return false; 
+			wep.ammoLoaded-=wep.fullAutoROF; 
+			return true;
+		}
+		
 		return shooter.inventory.fireShots(wep.fullAutoROF, wep);
 	}
 
 	public boolean ammoCheckSuppressive(int suppShots) {
+		if(wep.type.equals("Static")) {
+			if(wep.ammoLoaded <= 0)
+				return false; 
+			wep.ammoLoaded-=suppShots; 
+			return true;
+		}
+		
 		return shooter.inventory.fireShots(suppShots, wep);
 	}
 
@@ -402,7 +425,7 @@ public class Shoot {
 	public void autoAim() {
 		System.out.println("auto aim");
 		aimTime = startingAimTime; 
-		spentCombatActions = 0 + shots;
+		spentCombatActions = 0 + shots + previouslySpentCa;
 		shooter.storedAimTime.clear();
 		while (ealSum <= 17 && spentCombatActions + 1 < shooter.combatActions && canAim()) {
 			System.out.println("aim action");
@@ -438,7 +461,7 @@ public class Shoot {
 		else if (newTime > startingAimTime)
 			spentCombatActions += newTime - aimTime;
 		else if (newTime <= startingAimTime)
-			spentCombatActions = 0 + shots;
+			spentCombatActions = 0 + shots + previouslySpentCa;
 
 		if (newTime != aimTime) {
 			System.out.println("set aim time");

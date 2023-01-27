@@ -22,8 +22,11 @@ public class ShootUtility {
 			return new Shoot(shooterUnit, targetUnit, shooter, target, wepName, ammoIndex);
 		} else {
 			Shoot newShoot = new Shoot(shooterUnit, targetUnit, shooter, target, wepName, ammoIndex);
-			newShoot.shots = shoot.shots;
-			newShoot.spentCombatActions = shoot.shots + shoot.aimTime - shoot.startingAimTime;
+			System.out.println("Shoot starting aim time: "+shoot.startingAimTime);
+			System.out.println("Shots: "+shoot.shots+", Aim Time: "+shoot.aimTime);
+			newShoot.previouslySpentCa = shoot.aimTime - shoot.startingAimTime + shoot.previouslySpentCa + shoot.shots;
+			newShoot.spentCombatActions = newShoot.previouslySpentCa;
+			System.out.println("New spent combat actions: "+newShoot.spentCombatActions);
 			return newShoot;
 		}
 
@@ -38,8 +41,8 @@ public class ShootUtility {
 			return new Shoot(shooterUnit, targetUnit, shooter, null, wepName, ammoIndex);
 		} else {
 			Shoot newShoot = new Shoot(shooterUnit, targetUnit, shooter, null, wepName, ammoIndex);
-			newShoot.shots = shoot.shots;
-			newShoot.spentCombatActions = shoot.shots + shoot.aimTime - shoot.startingAimTime;
+			newShoot.previouslySpentCa = shoot.aimTime - shoot.startingAimTime + shoot.previouslySpentCa + shoot.shots;
+			newShoot.spentCombatActions = newShoot.previouslySpentCa;
 			return newShoot;
 		}
 

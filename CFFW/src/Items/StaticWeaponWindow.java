@@ -231,7 +231,7 @@ public class StaticWeaponWindow {
 
 					unit.staticWeapons.get(selectedWeaponIndex).equipedTroopers
 							.remove(listEquipedIndividuals.getSelectedIndex());
-					PCUtility.setSlUnequip(unequipedTroopers.get(listIndividuals.getSelectedIndex()));
+					PCUtility.setSlUnequip(unequipedTroopers.get(listEquipedIndividuals.getSelectedIndex()));
 					setFields(unit);
 
 				}
@@ -304,6 +304,7 @@ public class StaticWeaponWindow {
 								}
 							}
 
+							setGunner();
 							shoot = ShootUtility.setTarget(unit,
 									targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1)
 											.returnTrooperUnit(GameWindow.gameWindow),
@@ -361,6 +362,7 @@ public class StaticWeaponWindow {
 							}
 						}
 
+						setGunner();
 						shoot = ShootUtility.setTargetUnit(unit,
 								unit.lineOfSight.get(comboBoxSuppressiveFireTargets.getSelectedIndex() - 1), shoot, gunner,
 								wepName, ammoIndex);
@@ -431,7 +433,7 @@ public class StaticWeaponWindow {
 						GameWindow.gameWindow.conflictLog.addQueuedText();
 						guiUpdates();
 						
-						if(!shoot.target.alive || !shoot.target.conscious || shoot.target.HD) {
+						if(shoot.target != null && (!shoot.target.alive || !shoot.target.conscious || shoot.target.HD)) {
 							refreshSustainedFireTargets(trooperUnit);
 						}
 						
@@ -1084,7 +1086,7 @@ public class StaticWeaponWindow {
 			DefaultListModel equipedList = new DefaultListModel();
 
 			for (Trooper equipedTrooper : unit.staticWeapons.get(selectedWeaponIndex).equipedTroopers) {
-				equipedList.addElement(equipedTrooper);
+				equipedList.addElement(equipedTrooper.toStringImproved(GameWindow.gameWindow.game));
 			}
 
 			listEquipedIndividuals.setModel(equipedList);
@@ -1136,8 +1138,8 @@ public class StaticWeaponWindow {
 			}
 
 		}
-		
-		comboBoxTargets.setSelectedIndex(index);
+		if(index > targetTroopers.size())
+			comboBoxTargets.setSelectedIndex(0);
 
 	}
 
@@ -2085,6 +2087,8 @@ public class StaticWeaponWindow {
 			}
 		}
 		
+		refreshEquipedIndividuals(unit);
+		
 	}
 	
 	public void bonuses() {
@@ -2105,6 +2109,7 @@ public class StaticWeaponWindow {
 		}
 		ShootUtility.shootGuiUpdate(lblPossibleShots, lblAimTime, lblTN, lblTfSpentCa, lblAmmunition, lblCombatActions,
 				chckbxFullAuto, shots);
+		lblAmmunition.setText("Ammunition: "+shoot.wep.ammoLoaded);
 	}
 	
 	public void setCalledShotBounds() {
