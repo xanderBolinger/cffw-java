@@ -54,6 +54,7 @@ import javax.swing.event.ListSelectionListener;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.util.SystemOutLogger;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import Actions.ReactionToFireWindow;
@@ -306,106 +307,7 @@ public class BulkWindow {
 				if (arg0.getValueIsAdjusting() || individualsList.getSelectedIndices().length < 1 || individualListLock)
 					return;
 
-				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
-
-					@Override
-					protected Void doInBackground() throws Exception {
-						try {
-
-							ExecutorService es = Executors.newFixedThreadPool(16);
-
-							ArrayList<BulkTrooper> currentlySelectedBulkTroopers = getSelectedBulkTroopers();
-							ArrayList<BulkTrooper> removeTrooper = new ArrayList<>();
-
-							for (BulkTrooper bulkTrooper : selectedBulkTroopers) {
-								if (!currentlySelectedBulkTroopers.contains(bulkTrooper)) {
-									removeTrooper.add(bulkTrooper);
-								}
-							}
-
-							for (BulkTrooper bulkTrooper : removeTrooper) {
-								selectedBulkTroopers.remove(bulkTrooper);
-							}
-
-							for (BulkTrooper bulkTrooper : currentlySelectedBulkTroopers) {
-								if (selectedBulkTroopers.contains(bulkTrooper))
-									continue;
-
-								if (bulkTrooper.targetTroopers.size() > 0) {
-									es.submit(() -> {
-										System.out.println("Submit");
-										try {
-											setValidTarget(bulkTrooper);
-
-											if (comboBoxAimTime.getSelectedIndex() == 0)
-												bulkTrooper.shoot.autoAim();
-
-											if (comboBoxTargetZone.getSelectedIndex() > 0) {
-												setCalledShotBounds(bulkTrooper.shoot);
-											}
-
-										} catch (Exception e) {
-											e.printStackTrace();
-										}
-									});
-								}
-
-								selectedBulkTroopers.add(bulkTrooper);
-							}
-
-							/*
-							 * for(BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
-							 * if(bulkTrooper.targetTroopers.size() < 1) { continue; }
-							 * 
-							 * 
-							 * es.submit(() -> { System.out.println("Submit"); try {
-							 * setValidTarget(bulkTrooper); } catch (Exception e) { e.printStackTrace(); }
-							 * }); }
-							 */
-
-							es.shutdown();
-
-							System.out.println("Finished Threads");
-
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-
-						return null;
-					}
-
-					@Override
-					protected void done() {
-						/*
-						 * targetedFireFocus.removeAllItems();
-						 * targetedFireFocus.addItem("Targeted Fire Focus"); targetUnits.clear();
-						 * for(BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
-						 * 
-						 * for(Trooper targetTrooper : bulkTrooper.targetTroopers) { Unit targetUnit =
-						 * findTrooperUnit(targetTrooper);
-						 * 
-						 * if(targetUnits.contains(targetUnit)) continue;
-						 * 
-						 * targetUnits.add(targetUnit);
-						 * targetedFireFocus.addItem(findTrooperUnit(targetTrooper).callsign);
-						 * 
-						 * }
-						 * 
-						 * }
-						 */
-
-						// System.out.println("Done");
-						setTargetFocus();
-						
-						gameWindow.conflictLog.addQueuedText();
-						// PCFireGuiUpdates();
-						guiUpdates();
-						System.out.println("Selected Bulk Troopers Size: " + selectedBulkTroopers.size());
-					}
-
-				};
-
-				worker.execute();
+				selected();
 
 				// System.out.println("Entry Count:
 				// "+individualsList.getSelectedValuesList().size());
@@ -1096,7 +998,11 @@ public class BulkWindow {
 
 						@Override
 						protected void done() {
-
+							try {
+								TimeUnit.SECONDS.sleep(1);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
 							guiUpdates();
 
 						}
@@ -1268,22 +1174,36 @@ public class BulkWindow {
 										else
 											shoot.shot(chckbxGuided.isSelected());
 
+										try {
+											TimeUnit.SECONDS.sleep(15);
+										} catch (InterruptedException e) {
+											e.printStackTrace();
+										}
+										
 										GameWindow.gameWindow.conflictLog
 												.addNewLineToQueue("Results: " + shoot.shotResults);
-
-										if (!freeAction() && (shoot.spentCombatActions >= shoot.shooter.combatActions)) {
-											actionSpent(bulkTrooper.trooper);
-										}
+										System.out.println("Supp results: "+shoot.shotResults);
+										
 										
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
 								});
 
-								
+								try {
+									TimeUnit.SECONDS.sleep(75);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
 
 							}
 
+							try {
+								TimeUnit.SECONDS.sleep(250);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							
 							es.shutdown();
 
 						} catch (Exception e2) {
@@ -1295,8 +1215,22 @@ public class BulkWindow {
 
 					@Override
 					protected void done() {
-
+						try {
+							TimeUnit.SECONDS.sleep(100);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						
+						for(BulkTrooper bulkTrooper : selectedBulkTroopers) {
+							if (!freeAction() && ((bulkTrooper.shoot.spentCombatActions >= bulkTrooper.shoot.shooter.combatActions) 
+									|| comboBoxTargetUnits.getSelectedIndex() > 0)) {
+								System.out.println("Action spent suppress");
+								actionSpent(bulkTrooper.trooper);
+							}
+						}
+						
 						guiUpdates();
+						gameWindow.conflictLog.addQueuedText();
 						refreshIndividualList();
 						InjuryLog.InjuryLog.printResultsToLog();
 					}
@@ -1323,7 +1257,7 @@ public class BulkWindow {
 			public void actionPerformed(ActionEvent e) {
 
 				guiUpdates();
-
+				//refreshIndividualList();
 			}
 		});
 		chckbxFullAuto.setForeground(Color.BLACK);
@@ -1334,9 +1268,6 @@ public class BulkWindow {
 		comboBoxTargetUnits = new JComboBox();
 		comboBoxTargetUnits.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if(comboBoxTargetUnits.getSelectedIndex() < 1)
-					return; 
 				
 				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
@@ -1360,29 +1291,45 @@ public class BulkWindow {
 							}
 
 							for (BulkTrooper bulkTrooper : currentlySelectedBulkTroopers) {
-								if (selectedBulkTroopers.contains(bulkTrooper))
-									continue;
-
+								
 								if (bulkTrooper.targetTroopers.size() > 0) {
 									es.submit(() -> {
 										System.out.println("Submit");
 										try {
-											
-											bulkTrooper.shoot = ShootUtility.setTargetUnit(unit, targetUnits.get(comboBoxTargetUnits.getSelectedIndex() -1),
-													bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, -1);
+											if(comboBoxTargetUnits.getSelectedIndex() > 0) {
+												bulkTrooper.shoot = ShootUtility.setTargetUnit(unit, targetUnits.get(comboBoxTargetUnits.getSelectedIndex() -1),
+														bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, -1);
+											} else {
+												setValidTarget(bulkTrooper);
+											}
 
 											if (comboBoxAimTime.getSelectedIndex() == 0)
 												bulkTrooper.shoot.autoAim();
+											
+											if (comboBoxTargetZone.getSelectedIndex() > 0 && comboBoxTargetUnits.getSelectedIndex() == 0) {
+												setCalledShotBounds(bulkTrooper.shoot);
+											}
 
 										} catch (Exception e) {
 											e.printStackTrace();
 										}
 									});
+									try {
+										TimeUnit.MILLISECONDS.sleep(75);
+									} catch (InterruptedException e) {
+										e.printStackTrace();
+									}
 								}
 
-								selectedBulkTroopers.add(bulkTrooper);
+								if(!selectedBulkTroopers.contains(bulkTrooper))
+									selectedBulkTroopers.add(bulkTrooper);
 							}
 
+							try {
+								TimeUnit.MILLISECONDS.sleep(150);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
 
 							es.shutdown();
 
@@ -1397,7 +1344,11 @@ public class BulkWindow {
 
 					@Override
 					protected void done() {
-						
+						try {
+							TimeUnit.MILLISECONDS.sleep(250);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 						gameWindow.conflictLog.addQueuedText();
 						guiUpdates();
 						System.out.println("Selected Bulk Troopers Suppression Size: " + selectedBulkTroopers.size());
@@ -1547,8 +1498,9 @@ public class BulkWindow {
 										}
 									});
 								}
-
-								selectedBulkTroopers.add(bulkTrooper);
+								
+								if(!selectedBulkTroopers.contains(bulkTrooper))
+									selectedBulkTroopers.add(bulkTrooper);
 							}
 
 							es.shutdown();
@@ -1565,7 +1517,11 @@ public class BulkWindow {
 
 					@Override
 					protected void done() {
-
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 						// System.out.println("Done");
 						gameWindow.conflictLog.addQueuedText();
 						// PCFireGuiUpdates();
@@ -1616,7 +1572,10 @@ public class BulkWindow {
 
 				int[] indices = indexes.stream().mapToInt(i -> i).toArray();
 
+				individualListLock = true; 
 				individualsList.setSelectedIndices(indices);
+				individualListLock = false; 
+				selected();
 				// System.out.println("Set Indexes: "+indices.length);
 			}
 		});
@@ -1956,8 +1915,11 @@ public class BulkWindow {
 				}
 
 				int[] indices = indexes.stream().mapToInt(i -> i).toArray();
-
+				
+				individualListLock = true; 
 				individualsList.setSelectedIndices(indices);
+				individualListLock = false; 
+				selected();
 			}
 		});
 		button_5_1_1.setForeground(Color.BLACK);
@@ -1993,7 +1955,10 @@ public class BulkWindow {
 
 				int[] indices = indexes.stream().mapToInt(i -> i).toArray();
 
+				individualListLock = true; 
 				individualsList.setSelectedIndices(indices);
+				individualListLock = false; 
+				selected();
 			}
 		});
 		button_5_1_1_1.setForeground(Color.BLACK);
@@ -2874,6 +2839,8 @@ public class BulkWindow {
 			bulkTrooper.shoot = ShootUtility.setTarget(unit, targetTrooper.returnTrooperUnit(gameWindow),
 					bulkTrooper.shoot, bulkTrooper.trooper, targetTrooper, bulkTrooper.trooper.wep, -1);
 		} else {
+			// SC: # displayed in list could be spotted troopers 
+			// Multithreading could be leading to errors where ui doesn't get set or lists don't get updated / cleared 
 			throw new Exception(bulkTrooper.trooper.number + " " + bulkTrooper.trooper.name + " no valid target");
 		}
 
@@ -3388,18 +3355,26 @@ public class BulkWindow {
 								System.out.println("Volley Out of Ammo Test: "+(!shoot.outOfAmmo));
 							}
 							
-							if(!chckbxFreeAction.isSelected()) {
-								System.out.println("volley action spent");
-								actionSpent(bulkTrooper.trooper);
-							}
+							
 							
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					});
-
+					
+					try {
+						TimeUnit.MILLISECONDS.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 
+				try {
+					TimeUnit.MILLISECONDS.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
 				es.shutdown();
 
 				return null;
@@ -3409,11 +3384,20 @@ public class BulkWindow {
 			protected void done() {
 
 				try {
-					TimeUnit.SECONDS.sleep(1);
+					TimeUnit.MILLISECONDS.sleep(250);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				
+				for(BulkTrooper bulkTrooper : selectedBulkTroopers) {
+					if(!chckbxFreeAction.isSelected()) {
+						System.out.println("volley action spent");
+						actionSpent(bulkTrooper.trooper);
+					}
+				}
+				
 				System.out.println("volley gui updates");
+				gameWindow.conflictLog.addQueuedText();
 				guiUpdates();
 				refreshIndividualList();
 				InjuryLog.InjuryLog.printResultsToLog();
@@ -3537,4 +3521,123 @@ public class BulkWindow {
 
 	}
 
+	public void selected() {
+		SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+			@Override
+			protected Void doInBackground() throws Exception {
+				try {
+
+					ExecutorService es = Executors.newFixedThreadPool(16);
+
+					ArrayList<BulkTrooper> currentlySelectedBulkTroopers = getSelectedBulkTroopers();
+					ArrayList<BulkTrooper> removeTrooper = new ArrayList<>();
+
+					for (BulkTrooper bulkTrooper : selectedBulkTroopers) {
+						if (!currentlySelectedBulkTroopers.contains(bulkTrooper)) {
+							removeTrooper.add(bulkTrooper);
+						}
+					}
+
+					for (BulkTrooper bulkTrooper : removeTrooper) {
+						selectedBulkTroopers.remove(bulkTrooper);
+					}
+
+					for (BulkTrooper bulkTrooper : currentlySelectedBulkTroopers) {
+						if (selectedBulkTroopers.contains(bulkTrooper))
+							continue;
+
+						if (bulkTrooper.targetTroopers.size() > 0) {
+							es.submit(() -> {
+								System.out.println("Submit");
+								try {
+									
+									if(comboBoxTargetUnits.getSelectedIndex() > 0)
+										bulkTrooper.shoot = ShootUtility.setTargetUnit(unit, targetUnits.get(comboBoxTargetUnits.getSelectedIndex() -1),
+												bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, -1);
+									else 
+										setValidTarget(bulkTrooper);
+
+									if (comboBoxAimTime.getSelectedIndex() == 0)
+										bulkTrooper.shoot.autoAim();
+
+									if (comboBoxTargetZone.getSelectedIndex() > 0 && comboBoxTargetUnits.getSelectedIndex() == 0) {
+										setCalledShotBounds(bulkTrooper.shoot);
+									}
+
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							});
+						}
+						
+						if(!selectedBulkTroopers.contains(bulkTrooper))
+							selectedBulkTroopers.add(bulkTrooper);
+					}
+
+					/*
+					 * for(BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
+					 * if(bulkTrooper.targetTroopers.size() < 1) { continue; }
+					 * 
+					 * 
+					 * es.submit(() -> { System.out.println("Submit"); try {
+					 * setValidTarget(bulkTrooper); } catch (Exception e) { e.printStackTrace(); }
+					 * }); }
+					 */
+
+					es.shutdown();
+
+					System.out.println("Finished Threads");
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				return null;
+			}
+
+			@Override
+			protected void done() {
+				/*
+				 * targetedFireFocus.removeAllItems();
+				 * targetedFireFocus.addItem("Targeted Fire Focus"); targetUnits.clear();
+				 * for(BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
+				 * 
+				 * for(Trooper targetTrooper : bulkTrooper.targetTroopers) { Unit targetUnit =
+				 * findTrooperUnit(targetTrooper);
+				 * 
+				 * if(targetUnits.contains(targetUnit)) continue;
+				 * 
+				 * targetUnits.add(targetUnit);
+				 * targetedFireFocus.addItem(findTrooperUnit(targetTrooper).callsign);
+				 * 
+				 * }
+				 * 
+				 * }
+				 */
+
+				// System.out.println("Done");
+				
+				
+				selectedGuiUpdates();
+			}
+
+		};
+
+		worker.execute();
+	}
+	
+	public void selectedGuiUpdates() {
+		try {
+			TimeUnit.MILLISECONDS.sleep(250);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		setTargetFocus();
+		gameWindow.conflictLog.addQueuedText();
+		// PCFireGuiUpdates();
+		guiUpdates();
+		System.out.println("Selected Bulk Troopers Size: " + selectedBulkTroopers.size());
+	}
+	
 }

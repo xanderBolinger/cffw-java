@@ -224,6 +224,8 @@ public class ShootTests {
 		for(int i = 0; i < 10; i++)
 			shoot.shot(false);
 		
+		System.out.println("Target Unit Suppression: "+shoot.targetUnit.suppression);
+		
 		assertEquals(true, shoot.ammoCheckSingle());
 		assertEquals(21, shoot.spentCombatActions);
 		

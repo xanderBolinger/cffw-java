@@ -220,9 +220,12 @@ public class Shoot {
 	}
 	
 	public void setShotResults(boolean fullAuto) {
-		shotResults = (fullAuto ? "Full Auto Burst from " : "Single Shot from ") + shooterUnit.callsign + ": "
-				+ shooter.number + " " + shooter.name + " to " + targetUnit.callsign + ": " + target.number + " "
-				+ target.name + ", Using: "+wep.name + (pcAmmo != null ? ": " +pcAmmo.name +"round.": "");
+		
+		if(target != null) {
+			shotResults = (fullAuto ? "Full Auto Burst from " : "Single Shot from ") + shooterUnit.callsign + ": "
+					+ shooter.number + " " + shooter.name + " to " + targetUnit.callsign + ": " + target.number + " "
+					+ target.name + ", Using: "+wep.name + (pcAmmo != null ? ": " +pcAmmo.name +"round.": "");
+		}
 
 		if (fullAuto) {
 			shotResults += " " + "Elevation roll: " + shotRoll + ", Elevation TN: " + fullAutoTn + ", Second Roll: "
@@ -311,6 +314,7 @@ public class Shoot {
 
 	public void suppressiveShotRoll(int roll) {
 		if (roll <= suppressiveTn) {
+			System.out.println("Plus Suppressive Hits 2");
 			suppressiveHits++;
 			if (DiceRoller.randInt(0, 99) <= 0)
 				hits++;
@@ -323,6 +327,7 @@ public class Shoot {
 		if (shotRoll <= (!homing ? singleTn : wep.homingHitChance)) {
 			hits++;
 			suppressiveHits++;
+			System.out.println("Plus Suppressive Hits");
 		} else {
 			suppressiveShotRoll(shotRoll);
 		}
@@ -425,19 +430,22 @@ public class Shoot {
 		if(suppressiveHits > 0)
 			explosionCheck();
 		
-		if (targetUnit.suppression + suppressiveHits < 100) {
+		if (targetUnit.suppression + suppressiveHits / 2 < 100) {
 			targetUnit.suppression += suppressiveHits / 2;
 		} else {
 			targetUnit.suppression = 100;
 		}
 
-		if (targetUnit.organization - suppressiveHits > 0) {
+		if (targetUnit.organization - suppressiveHits / 2 > 0) {
 			targetUnit.organization -= suppressiveHits / 2;
 		} else {
 			targetUnit.organization = 0;
 		}
 
-		suppressiveHits = 0;
+		if(suppressiveHits % 2 == 0)
+			suppressiveHits = 0; 
+		else 
+			suppressiveHits = 1;
 	}
 
 	public void setSingleTn() {
@@ -503,7 +511,9 @@ public class Shoot {
 			setSuppressiveTn();
 			setFullAutoTn();
 			shooter.storedAimTime.clear();
-			shooter.storedAimTime.put(target, aimTime);
+			if(target != null ) {
+				shooter.storedAimTime.put(target, aimTime);
+			}
 		}
 		setShotResults(false);
 		//System.out.println(shotResults);
