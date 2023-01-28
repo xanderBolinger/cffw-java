@@ -1332,6 +1332,83 @@ public class BulkWindow {
 		frame.getContentPane().add(chckbxFullAuto);
 
 		comboBoxTargetUnits = new JComboBox();
+		comboBoxTargetUnits.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(comboBoxTargetUnits.getSelectedIndex() < 1)
+					return; 
+				
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+						try {
+
+							ExecutorService es = Executors.newFixedThreadPool(16);
+
+							ArrayList<BulkTrooper> currentlySelectedBulkTroopers = getSelectedBulkTroopers();
+							ArrayList<BulkTrooper> removeTrooper = new ArrayList<>();
+
+							for (BulkTrooper bulkTrooper : selectedBulkTroopers) {
+								if (!currentlySelectedBulkTroopers.contains(bulkTrooper)) {
+									removeTrooper.add(bulkTrooper);
+								}
+							}
+
+							for (BulkTrooper bulkTrooper : removeTrooper) {
+								selectedBulkTroopers.remove(bulkTrooper);
+							}
+
+							for (BulkTrooper bulkTrooper : currentlySelectedBulkTroopers) {
+								if (selectedBulkTroopers.contains(bulkTrooper))
+									continue;
+
+								if (bulkTrooper.targetTroopers.size() > 0) {
+									es.submit(() -> {
+										System.out.println("Submit");
+										try {
+											
+											bulkTrooper.shoot = ShootUtility.setTargetUnit(unit, targetUnits.get(comboBoxTargetUnits.getSelectedIndex() -1),
+													bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, -1);
+
+											if (comboBoxAimTime.getSelectedIndex() == 0)
+												bulkTrooper.shoot.autoAim();
+
+										} catch (Exception e) {
+											e.printStackTrace();
+										}
+									});
+								}
+
+								selectedBulkTroopers.add(bulkTrooper);
+							}
+
+
+							es.shutdown();
+
+							System.out.println("Finished Threads");
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						return null;
+					}
+
+					@Override
+					protected void done() {
+						
+						gameWindow.conflictLog.addQueuedText();
+						guiUpdates();
+						System.out.println("Selected Bulk Troopers Suppression Size: " + selectedBulkTroopers.size());
+					}
+
+				};
+
+				worker.execute();
+				
+			}
+		});
 		comboBoxTargetUnits.setForeground(Color.BLACK);
 		// comboBox_12.setSelectedIndex(0);
 		comboBoxTargetUnits.setBounds(479, 643, 178, 21);
@@ -2235,6 +2312,7 @@ public class BulkWindow {
 	public void setSuppressiveFireTargets() {
 
 		comboBoxTargetUnits.removeAllItems();
+		comboBoxTargetUnits.addItem("None");
 		if (unit.lineOfSight.size() < 1)
 			return;
 

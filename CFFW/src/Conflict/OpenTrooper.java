@@ -1201,7 +1201,7 @@ public class OpenTrooper implements Serializable {
 						GameWindow.gameWindow.conflictLog.addQueuedText();
 						guiUpdates();
 						
-						if(!shoot.target.alive || !shoot.target.conscious || shoot.target.HD) {
+						if(shoot.target == null || !shoot.target.alive || !shoot.target.conscious || shoot.target.HD) {
 							refreshTargets();
 						}
 						

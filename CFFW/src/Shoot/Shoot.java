@@ -396,6 +396,13 @@ public class Shoot {
 		
 		while (hits > 0) {
 			System.out.println("hit");
+			
+			Trooper target = this.target;
+			
+			if(this.target == null) {
+				target = targetUnit.individuals.get(DiceRoller.randInt(0, targetUnit.individuals.size()-1));
+			}
+			
 			ResolveHits resolveHits = new ResolveHits(target, hits, wep,
 					GameWindow.gameWindow != null ? GameWindow.gameWindow.conflictLog : null, targetUnit, shooterUnit,
 					GameWindow.gameWindow);
