@@ -2000,6 +2000,9 @@ public class GameWindow implements Serializable {
 	}
 
 	public static String getLogHead(Trooper target) {
+		if(target == null)
+			return "Target is Null:";
+		
 		return GameWindow.findTrooperUnit(target).callsign + ", " + target.number + ": " + target.name;
 	}
 

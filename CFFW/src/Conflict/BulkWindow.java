@@ -1175,14 +1175,14 @@ public class BulkWindow {
 											shoot.shot(chckbxGuided.isSelected());
 
 										try {
-											TimeUnit.SECONDS.sleep(15);
+											TimeUnit.MILLISECONDS.sleep(15);
 										} catch (InterruptedException e) {
 											e.printStackTrace();
 										}
 										
 										GameWindow.gameWindow.conflictLog
 												.addNewLineToQueue("Results: " + shoot.shotResults);
-										System.out.println("Supp results: "+shoot.shotResults);
+										//System.out.println("Supp results: "+shoot.shotResults);
 										
 										
 									} catch (Exception e) {
@@ -1191,7 +1191,7 @@ public class BulkWindow {
 								});
 
 								try {
-									TimeUnit.SECONDS.sleep(75);
+									TimeUnit.MILLISECONDS.sleep(75);
 								} catch (InterruptedException e) {
 									e.printStackTrace();
 								}
@@ -1199,7 +1199,7 @@ public class BulkWindow {
 							}
 
 							try {
-								TimeUnit.SECONDS.sleep(250);
+								TimeUnit.MILLISECONDS.sleep(250);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
@@ -1216,7 +1216,7 @@ public class BulkWindow {
 					@Override
 					protected void done() {
 						try {
-							TimeUnit.SECONDS.sleep(100);
+							TimeUnit.MILLISECONDS.sleep(100);
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -1292,33 +1292,32 @@ public class BulkWindow {
 
 							for (BulkTrooper bulkTrooper : currentlySelectedBulkTroopers) {
 								
-								if (bulkTrooper.targetTroopers.size() > 0) {
-									es.submit(() -> {
-										System.out.println("Submit");
-										try {
-											if(comboBoxTargetUnits.getSelectedIndex() > 0) {
-												bulkTrooper.shoot = ShootUtility.setTargetUnit(unit, targetUnits.get(comboBoxTargetUnits.getSelectedIndex() -1),
-														bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, -1);
-											} else {
-												setValidTarget(bulkTrooper);
-											}
-
-											if (comboBoxAimTime.getSelectedIndex() == 0)
-												bulkTrooper.shoot.autoAim();
-											
-											if (comboBoxTargetZone.getSelectedIndex() > 0 && comboBoxTargetUnits.getSelectedIndex() == 0) {
-												setCalledShotBounds(bulkTrooper.shoot);
-											}
-
-										} catch (Exception e) {
-											e.printStackTrace();
-										}
-									});
+								es.submit(() -> {
+									System.out.println("Submit");
 									try {
-										TimeUnit.MILLISECONDS.sleep(75);
-									} catch (InterruptedException e) {
+										if(comboBoxTargetUnits.getSelectedIndex() > 0) {
+											bulkTrooper.shoot = ShootUtility.setTargetUnit(unit, targetUnits.get(comboBoxTargetUnits.getSelectedIndex() -1),
+													bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, -1);
+											System.out.println("Create bulk suppressive shot: "+(bulkTrooper.shoot == null ? "is null" : "not null"));
+										} else if(bulkTrooper.targetTroopers.size() > 0){
+											setValidTarget(bulkTrooper);
+										}
+
+										if (comboBoxAimTime.getSelectedIndex() == 0 && bulkTrooper.shoot != null)
+											bulkTrooper.shoot.autoAim();
+										
+										if (comboBoxTargetZone.getSelectedIndex() > 0 && comboBoxTargetUnits.getSelectedIndex() == 0) {
+											setCalledShotBounds(bulkTrooper.shoot);
+										}
+
+									} catch (Exception e) {
 										e.printStackTrace();
 									}
+								});
+								try {
+									TimeUnit.MILLISECONDS.sleep(75);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
 								}
 
 								if(!selectedBulkTroopers.contains(bulkTrooper))

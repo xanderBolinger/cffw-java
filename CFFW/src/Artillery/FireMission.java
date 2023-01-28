@@ -58,11 +58,9 @@ public class FireMission implements Serializable {
 	public boolean platoonLevelSupport = false;
 	
 	public List<Shot> airborneShots = new ArrayList<Shot>();
-	
-	public transient GameWindow window; 
+	public transient GameWindow window;
 	
 	public FireMission(Trooper spotter, ArrayList<Artillery> batteries, boolean LOSToTarget, int targetX, int targetY, boolean companyLevelSupport, GameWindow window) {
-		this.window = window; 
 		this.batteries = batteries;
 		this.spotter = spotter; 
 		this.LOSToTarget = LOSToTarget;
@@ -156,17 +154,17 @@ public class FireMission implements Serializable {
 	}
 	
 	public void rangeShot(int shots, int shellIndex) {
-		window.conflictLog.addNewLine("Range Shot");
+		GameWindow.gameWindow.conflictLog.addNewLine("Range Shot");
 		//System.out.println("Range Shot");
 		fireMissionStatus = FireMissionStatus.RANGING;
 		
 		if(plottedX < 1 && plottedY < 1) {
-			window.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Not Plotted");
+			GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Not Plotted");
 			//System.out.println("Not Plotted");
 			return; 
 			
 		} else {
-			window.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Already Plotted, Ordering Shot");
+			GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Already Plotted, Ordering Shot");
 			//System.out.println("Already Plotted, Ordering Shot");
 		}
 		
@@ -192,7 +190,7 @@ public class FireMission implements Serializable {
 		int direction = returnScatterDirection();
 		int scatterDistance = 0; 
 
-		window.conflictLog.addNewLine("Fire Mision Plotted: "+fireMissionDisplayName+" Spotter Skill: "+spotterSkill);
+		GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision Plotted: "+fireMissionDisplayName+" Spotter Skill: "+spotterSkill);
 		//System.out.println("Fire Mision: "+fireMissionDisplayName+" Spotter Skill: "+spotterSkill);
 		
 		if(spotterSkill > 8) {
@@ -243,7 +241,7 @@ public class FireMission implements Serializable {
 				actionsToFire = 1; 
 			}
 		}
-		window.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Ordering Shot: actions to fire, "+actionsToFire+", Shot Count: "+shots);
+		GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Ordering Shot: actions to fire, "+actionsToFire+", Shot Count: "+shots);
 		//System.out.println("Ordering Shot: actions to fire, "+actionsToFire);
 		
 		for(Artillery battery : batteries) {
@@ -251,7 +249,7 @@ public class FireMission implements Serializable {
 			for(int i = 0; i < shots; i++) 
 				battery.queue.push(shellIndex);
 			
-			window.conflictLog.addNewLine("Queue Size: "+battery.queue.size());
+			GameWindow.gameWindow.conflictLog.addNewLine("Queue Size: "+battery.queue.size());
 		}
 	}
 	
@@ -269,7 +267,7 @@ public class FireMission implements Serializable {
 	
 	public void advanceTime() {
 		
-		window.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Advance Time Fire Mission");
+		GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Advance Time Fire Mission");
 		//System.out.println("Advance Time Fire Mission");
 		
 		
@@ -282,7 +280,7 @@ public class FireMission implements Serializable {
 				waiting = false; 
 			
 			if(waiting) {
-				window.conflictLog.addNewLine("Bat: "+bat.batteryDisplayName+" is waiting");
+				GameWindow.gameWindow.conflictLog.addNewLine("Bat: "+bat.batteryDisplayName+" is waiting");
 				//bat.batteryStatus = BatteryStatus.WAITING;
 				fireMissionStatus = FireMissionStatus.WAITING;
 			}
@@ -296,7 +294,7 @@ public class FireMission implements Serializable {
 		
 		for(Artillery bat : batteries) {
 			if(bat.queue.size() > 0 && bat.batteryStatus == BatteryStatus.FIRING) {
-				window.conflictLog.addNewLine("Taking Shot, Queue Size: "+bat.queue.size());
+				GameWindow.gameWindow.conflictLog.addNewLine("Taking Shot, Queue Size: "+bat.queue.size());
 				bat.takeShot(this);
 			} else {
 				bat.batteryStatus = BatteryStatus.WAITING; 
@@ -307,12 +305,12 @@ public class FireMission implements Serializable {
 		
 		if(actionsToFire > 0) {
 			
-			window.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Advance Time Fire Mission");
+			GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Advance Time Fire Mission");
 			//System.out.println("Advance Actions to Fire");
 			
 			if(timeSpentPrepingFire >= actionsToFire) {
 				for(Artillery battery : batteries) {
-					window.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Shot Taken, Firing Battery: "+
+					GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Shot Taken, Firing Battery: "+
 				battery.batteryName);
 					//System.out.println("Shot Taken, Firing Battery: "+battery.batteryName);
 					battery.takeShot(this);
@@ -343,13 +341,13 @@ public class FireMission implements Serializable {
 		if(actionsToPlotted < 1)
 			return; 
 		
-		window.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Advanced Plot Time");
+		GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Advanced Plot Time");
 		//System.out.println("Advanced Plot Time");
 		
 		timeSpentPlotting++; 
 		
 		if(timeSpentPlotting >= actionsToPlotted) {
-			window.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Plotted");
+			GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Plotted");
 			//System.out.println("Plotted");
 			fireMissionStatus = FireMissionStatus.WAITING;
 			plotShot();
@@ -368,8 +366,8 @@ public class FireMission implements Serializable {
 	}
 	
 	public void checkForImpacts() {
-		window.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Check For Impacts");
-		window.conflictLog.addNewLine("Airborn Shots Count: "+airborneShots.size());
+		GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Check For Impacts");
+		GameWindow.gameWindow.conflictLog.addNewLine("Airborn Shots Count: "+airborneShots.size());
 		
 		ArrayList<Shot> removedShots = new ArrayList<>();
 		for(Shot shot : airborneShots) {
@@ -388,7 +386,7 @@ public class FireMission implements Serializable {
 	}
 	
 	public void impact(Shot shot) {
-		window.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Impact from "+shot.battery.batteryDisplayName+" "+shot.battery.batteryName);
+		GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Impact from "+shot.battery.batteryDisplayName+" "+shot.battery.batteryName);
 		//System.out.println("Impact from "+shot.battery.batteryName);
 		int accuracy; 
 		
@@ -409,7 +407,7 @@ public class FireMission implements Serializable {
 		ArrayList<Integer> cords = returnScatteredHex(plottedX, plottedY, scatterDistance, returnScatterDirection());
 		impactX = cords.get(0);
 		impactY = cords.get(1);
-		window.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" X: "+impactX+", Y: "+impactY);
+		GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" X: "+impactX+", Y: "+impactY);
 		//System.out.println("X: "+impactX+", Y: "+impactY);
 		
 		new AlertWindow("Fire Mision: "+fireMissionDisplayName+" X: "+impactX+", Y: "+impactY);
@@ -447,7 +445,7 @@ public class FireMission implements Serializable {
 		
 		setFireMissionSpeed();
 
-		window.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Getting Fire Mission Time, fire mission speed: "+fireMissionSpeed);
+		GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Getting Fire Mission Time, fire mission speed: "+fireMissionSpeed);
 		
 		if(fireMissionSpeed == 1) {
 			if(platoonLevelSupport)

@@ -109,8 +109,10 @@ public class CloseQuartersBattleWindow {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-				if (listIndividual.getSelectedIndices().length < 1)
+				if (listIndividual.getSelectedIndices().length < 1) {
+					System.out.println("attack returning");
 					return;
+				}
 
 				Unit unit = gameWindow.cqb.unitsInCloseCombat.get(listUnits.getSelectedIndex());
 
@@ -122,10 +124,12 @@ public class CloseQuartersBattleWindow {
 				}
 
 				for (int i : listIndividual.getSelectedIndices()) {
-
+					System.out.println("set attack");
 					activeTroopers.get(i).attackingInCloseCombat = true;
 					activeTroopers.get(i).defendingInCloseCombat = false;
 					activeTroopers.get(i).HD = false;
+					System.out.println("active trooper: "+activeTroopers.get(i).name+", "
+							+activeTroopers.get(i).identifier);
 				}
 
 				refreshIndividualList();
@@ -657,7 +661,7 @@ public class CloseQuartersBattleWindow {
 		DefaultListModel<String> model = new DefaultListModel<>();
 
 		for (Trooper trooper : selectedUnit.individuals) {
-
+			System.out.println("refresh trooper: "+trooper.name+", "+trooper.identifier);
 			// If trooper not alive, not conscious or not in a building continue
 			if (!trooper.alive || !trooper.conscious
 					|| gameWindow.findHex(selectedUnit.X, selectedUnit.Y).getTrooperBuilding(trooper) == null)

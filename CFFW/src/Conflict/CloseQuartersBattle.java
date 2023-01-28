@@ -265,6 +265,10 @@ public class CloseQuartersBattle implements Serializable {
 					
 				}
 				
+				// trooper not in building 
+				if(trooperFloor == null)
+					continue;
+				
 				Room trooperRoom = null; 
 				
 				for(Room room : trooperFloor.rooms) {
@@ -395,6 +399,10 @@ public class CloseQuartersBattle implements Serializable {
 					
 				}
 				
+				// trooper not in building 
+				if(trooperFloor == null)
+					continue;
+				
 				ArrayList<Trooper> possibleDefenders = new ArrayList<>();
 				
 				for(Trooper possibleDefender : trooperFloor.getAllOccupants()) {
@@ -474,8 +482,13 @@ public class CloseQuartersBattle implements Serializable {
 					for(Floor floor : building.floors) {
 						
 						for(Trooper otherTrooper : floor.getAllOccupants()) {
+							System.out.println("floor occupant");
+							
+							System.out.println("Other Trooper: "+otherTrooper.name+", "+otherTrooper.identifier);
+							System.out.println("Trooper: "+trooper.name+", "+trooper.identifier);
 							if(otherTrooper.compareTo(trooper)) {
 								trooperFloor = floor; 
+								System.out.println("trooper floor found");
 								//break; 
 							}
 						}
@@ -483,6 +496,10 @@ public class CloseQuartersBattle implements Serializable {
 					}
 					
 				}
+				
+				// trooper not in building 
+				if(trooperFloor == null)
+					continue;
 				
 				// Attacking troopers with troopers of the same unit in their room create bouts with non hunkered down defenders. 
 				// If there are none, they move forward to the next room not solely occupied by friendly forces, and enter bouts with hunkered down defenders. 
@@ -580,6 +597,10 @@ public class CloseQuartersBattle implements Serializable {
 					}
 					
 				}
+				
+				// trooper not in building 
+				if(trooperFloor == null)
+					continue;
 				
 				
 				Room trooperRoom = null; 

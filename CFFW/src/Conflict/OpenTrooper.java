@@ -1526,7 +1526,8 @@ public class OpenTrooper implements Serializable {
 					if (trooperBuilding == null) {
 						Building building = hex.buildings.get(comboBoxBuilding.getSelectedIndex() - 1);
 
-						if ((int) spinnerTargetFloor.getValue() >= building.floors.size()) {
+						if ((int) spinnerTargetFloor.getValue() - 1 >= building.floors.size() || 
+								(int) spinnerTargetFloor.getValue() - 1 < 0) {
 							gameWindow.conflictLog.addNewLine("Input a valid floor.");
 							return;
 						}
