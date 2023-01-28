@@ -2343,7 +2343,7 @@ public class Trooper implements Serializable {
 
 		Unit returnedTrooperUnit = returnTrooperUnit(gameWindow);
 
-		if (physicalDamage >= 12000) {
+		if (physicalDamage >= 16000) {
 			dead(returnedTrooperUnit, log);
 
 			// Structural integrity rules

@@ -2001,6 +2001,8 @@ public class OpenTrooper implements Serializable {
 					e1.printStackTrace();
 				}
 
+				guiUpdates();
+				
 			}
 		});
 		comboBoxTargetZone.setBounds(427, 270, 113, 23);

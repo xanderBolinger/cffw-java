@@ -102,6 +102,8 @@ public class Shoot {
 	public int ealBonus; 
 	public int hiddenEalBonus;
 	public int ealConcurrentBonus; 
+	
+	public boolean outOfAmmo = false;
 
 	public Shoot(Unit shooterUnit, Unit targetUnit, Trooper shooter, Trooper target, String wepName, int ammoIndex) {
 		this.shooter = shooter;
@@ -255,35 +257,56 @@ public class Shoot {
 
 	public boolean ammoCheckSingle() {
 		if(wep.type.equals("Static")) {
-			if(wep.ammoLoaded <= 0)
+			if(wep.ammoLoaded <= 0) {
+				outOfAmmo = true;
 				return false; 
+			}
 			wep.ammoLoaded--; 
 			return true;
 		}
-			
-		return shooter.inventory.fireShots(1, wep);
+		
+		boolean results = shooter.inventory.fireShots(1, wep);
+		
+		if(!results)
+			outOfAmmo = true;
+		
+		return results; 
 	}
 
 	public boolean ammoCheckFull() {
 		if(wep.type.equals("Static")) {
-			if(wep.ammoLoaded <= 0)
+			if(wep.ammoLoaded <= 0) {
+				outOfAmmo = true;
 				return false; 
+			}
 			wep.ammoLoaded-=wep.fullAutoROF; 
 			return true;
 		}
 		
-		return shooter.inventory.fireShots(wep.fullAutoROF, wep);
+		boolean results = shooter.inventory.fireShots(wep.fullAutoROF, wep);
+		
+		if(!results)
+			outOfAmmo = true;
+		
+		return results;
 	}
 
 	public boolean ammoCheckSuppressive(int suppShots) {
 		if(wep.type.equals("Static")) {
-			if(wep.ammoLoaded <= 0)
+			if(wep.ammoLoaded <= 0) {
+				outOfAmmo = true;
 				return false; 
+			}
 			wep.ammoLoaded-=suppShots; 
 			return true;
 		}
 		
-		return shooter.inventory.fireShots(suppShots, wep);
+		boolean results =  shooter.inventory.fireShots(suppShots, wep);
+		
+		if(!results)
+			outOfAmmo = true;
+		
+		return results;
 	}
 
 	public void suppressiveShotRoll(int roll) {
