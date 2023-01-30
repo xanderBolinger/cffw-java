@@ -1180,6 +1180,8 @@ public class BulkWindow {
 											e.printStackTrace();
 										}
 										
+										valleyValidTargetCheck(shoot, bulkTrooper);
+										
 										GameWindow.gameWindow.conflictLog
 												.addNewLineToQueue("Results: " + shoot.shotResults);
 										//System.out.println("Supp results: "+shoot.shotResults);

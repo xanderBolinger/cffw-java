@@ -897,7 +897,7 @@ public class Skills implements Serializable {
 			getSkill("Throw").supported = true;
 			getSkill("Throw").value = 55;
 
-		} else if (input.equals("B1 AT Specalist")) {
+		} else if (input.equals("B1 AT Specialist")) {
 
 			// Soldier Training
 			getSkill("Endurance").supported = true;
@@ -933,7 +933,7 @@ public class Skills implements Serializable {
 			getSkill("Throw").supported = true;
 			getSkill("Throw").value = 55;
 
-		} else if (input.equals("B1 AT Assistant")) {
+		} else if (input.equals("B1 Assistant AT Specialist")) {
 
 			// Soldier Training
 			getSkill("Endurance").supported = true;

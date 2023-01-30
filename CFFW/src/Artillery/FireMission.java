@@ -13,6 +13,7 @@ import Injuries.Explosion;
 import Injuries.ResolveHits;
 import Trooper.Trooper;
 import Unit.Unit;
+import UtilityClasses.DiceRoller;
 
 public class FireMission implements Serializable {
 
@@ -29,6 +30,7 @@ public class FireMission implements Serializable {
 	
 	public int actionsToFire;
 	public int timeSpentPrepingFire;
+	public int fireMissionRadius = 0;
 	public boolean inProgress = false; 
 	
 	public FireMissionStatus fireMissionStatus; 
@@ -399,7 +401,7 @@ public class FireMission implements Serializable {
 		}
 		
 		accuracy /= 10; 
-		int scatterDistance = (int) (accuracy * scatterModifier());
+		int scatterDistance = (int) (accuracy * scatterModifier()) + DiceRoller.randInt(0, fireMissionRadius);
 		
 		int impactX; 
 		int impactY; 
@@ -410,7 +412,13 @@ public class FireMission implements Serializable {
 		GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" X: "+impactX+", Y: "+impactY);
 		//System.out.println("X: "+impactX+", Y: "+impactY);
 		
-		new AlertWindow("Fire Mision: "+fireMissionDisplayName+" X: "+impactX+", Y: "+impactY);
+		String units = "Hit Units: ";
+		for(Unit unit : GameWindow.gameWindow.getUnitsInHex("None", impactX, impactY)) {
+			units += unit.callsign + ", ";
+		}
+		
+		
+		new AlertWindow("Fire Mision: "+fireMissionDisplayName+" X: "+impactX+", Y: "+impactY+", "+units);
 		
 		int x = impactX;
 		int y = impactY; 
@@ -885,7 +893,7 @@ public class FireMission implements Serializable {
 			status = "Fire For Effect, Actions to Fire: "+actionsToFire;
 		}
 		
-		return fireMissionDisplayName+" Target X: "+targetX+" Target Y: "+targetY+" LOS to Target: "+LOSToTarget+" LOS to Impact: "+LOSToImpact+" Status: "+status; 
+		return fireMissionDisplayName+" Target X: "+targetX+" Target Y: "+targetY+" LOS to Target: "+LOSToTarget+" LOS to Impact: "+LOSToImpact+" Status: "+status+", Radius: "+fireMissionRadius; 
 	}
 	
 }

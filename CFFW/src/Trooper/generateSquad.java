@@ -283,10 +283,10 @@ public class generateSquad implements Serializable {
 			troopers[1] = new Trooper("B1 Rifleman", faction);
 			troopers[2] = new Trooper("B1 Rifleman", faction);
 			troopers[3] = new Trooper("B1 Rifleman", faction);
-			troopers[4] = new Trooper("B1 AT Specalist", faction);
-			troopers[5] = new Trooper("B1 AT Assistant", faction);
-			troopers[6] = new Trooper("B1 AT Specalist", faction);
-			troopers[7] = new Trooper("B1 AT Assistant", faction);
+			troopers[4] = new Trooper("B1 AT Specialist", faction);
+			troopers[5] = new Trooper("B1 Assistant AT Specialist", faction);
+			troopers[6] = new Trooper("B1 AT Specialist", faction);
+			troopers[7] = new Trooper("B1 Assistant AT Specialist", faction);
 
 			setSquad(troopers);
 		} else if (type.equals("Droid Fire Support")) {
@@ -301,6 +301,20 @@ public class generateSquad implements Serializable {
 			troopers[5] = new Trooper("B1 Assistant Autorifleman", faction);
 			troopers[6] = new Trooper("B1 Autorifleman", faction);
 			troopers[7] = new Trooper("B1 Assistant Autorifleman", faction);
+
+			setSquad(troopers);
+		} else if (type.equals("Droid Integrated Squad")) {
+			Trooper[] troopers = new Trooper[8];
+			// Sergeant
+			troopers[0] = new Trooper("B1 Squad Leader", faction);
+			// Rifleman
+			troopers[1] = new Trooper("B1 Marksman", faction);
+			troopers[2] = new Trooper("B2", faction);
+			troopers[3] = new Trooper("B2", faction);
+			troopers[4] = new Trooper("B1 Autorifleman", faction);
+			troopers[5] = new Trooper("B1 Assistant Autorifleman", faction);
+			troopers[6] = new Trooper("B1 AT Specialist", faction);
+			troopers[7] = new Trooper("B1 Assistant AT Specialist", faction);
 
 			setSquad(troopers);
 		}

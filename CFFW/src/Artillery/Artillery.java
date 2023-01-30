@@ -60,6 +60,7 @@ public class Artillery implements Serializable {
 		public Shot(Artillery battery, int shellIndex) {
 			this.battery = battery;
 			shell = battery.shells.get(shellIndex);
+			System.out.println("Shell Index: "+shellIndex);
 			actionsToImpact = 1; 
 			actionsSpentInAir = 0;
 		}

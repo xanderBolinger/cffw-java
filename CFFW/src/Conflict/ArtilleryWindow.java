@@ -62,6 +62,7 @@ public class ArtilleryWindow {
 	private transient JSpinner spinnerCrewCount;
 	private transient JCheckBox chckbxLosI;
 	private JCheckBox chckbxPLvl;
+	private JSpinner spinnerRadius;
 	
 	/**
 	 * Create the application.
@@ -148,6 +149,7 @@ public class ArtilleryWindow {
 				
 				spinnerTargetX.setValue(fireMission.targetX);
 				spinnerTargetY.setValue(fireMission.targetY);
+				spinnerRadius.setValue(fireMission.fireMissionRadius);
 				
 				refreshBatteryList();
 				
@@ -326,12 +328,13 @@ public class ArtilleryWindow {
 				fireMission.fireMissionDisplayName = fireMissionNameField.getText();
 				fireMission.targetX = (int) spinnerTargetX.getValue();
 				fireMission.targetY = (int) spinnerTargetY.getValue();
+				fireMission.fireMissionRadius = (int) spinnerRadius.getValue();
 				
 				fireMission.companyLevelSupport = chckbxCLvl.isSelected();
 				fireMission.platoonLevelSupport = chckbxPLvl.isSelected();
 				fireMission.LOSToImpact = chckbxLosI.isSelected();
 				fireMission.LOSToTarget = chckbxLOS.isSelected();
-			
+				
 				int count = 0; 
 				for(Trooper trooper : unit.getTroopers()) {
 					if(!trooper.alive ||!trooper.conscious) {
@@ -602,12 +605,13 @@ public class ArtilleryWindow {
 		frame.getContentPane().add(comboBoxSpotter);
 		
 		chckbxLOS = new JCheckBox("LOS to Target");
-		chckbxLOS.setBounds(10, 121, 160, 21);
+		chckbxLOS.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		chckbxLOS.setBounds(10, 121, 99, 21);
 		frame.getContentPane().add(chckbxLOS);
 		
 		chckbxCLvl = new JCheckBox("Company Lvl");
 		chckbxCLvl.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		chckbxCLvl.setBounds(10, 166, 87, 21);
+		chckbxCLvl.setBounds(114, 152, 87, 21);
 		frame.getContentPane().add(chckbxCLvl);
 		
 		spinnerCrewCount = new JSpinner();
@@ -620,7 +624,8 @@ public class ArtilleryWindow {
 		frame.getContentPane().add(lblCrew);
 		
 		chckbxLosI = new JCheckBox("LOS to Impact");
-		chckbxLosI.setBounds(10, 145, 160, 21);
+		chckbxLosI.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		chckbxLosI.setBounds(10, 145, 99, 21);
 		frame.getContentPane().add(chckbxLosI);
 		
 		JButton btnSetPlotted = new JButton("Set Plotted");
@@ -665,8 +670,17 @@ public class ArtilleryWindow {
 		
 		chckbxPLvl = new JCheckBox("Platoon Lvl");
 		chckbxPLvl.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		chckbxPLvl.setBounds(104, 166, 87, 21);
+		chckbxPLvl.setBounds(114, 128, 87, 21);
 		frame.getContentPane().add(chckbxPLvl);
+		
+		spinnerRadius = new JSpinner();
+		spinnerRadius.setBounds(67, 173, 42, 20);
+		frame.getContentPane().add(spinnerRadius);
+		
+		JLabel lblRadius = new JLabel("Radius");
+		lblRadius.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblRadius.setBounds(10, 168, 55, 15);
+		frame.getContentPane().add(lblRadius);
 		frame.setVisible(true);
 		
 		setFields();

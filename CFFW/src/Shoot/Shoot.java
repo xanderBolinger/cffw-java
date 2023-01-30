@@ -231,7 +231,7 @@ public class Shoot {
 			shotResults += " " + "Elevation roll: " + shotRoll + ", Elevation TN: " + fullAutoTn + ", Second Roll: "
 					+ burstRoll + ", AutoFire Results: " + autofireResults;
 		} else {
-			shotResults += " " + "Shot roll: " + shotRoll + ", Shot TN: " + singleTn;
+			shotResults += " " + "Shot roll: " + shotRoll + ", Shot TN: " + singleTn + ", Supp TN: " + suppressiveTn;
 		}
 
 		shotResults += ", EAL Sum: " + ealSum + ", ALM Sum: " + almSum + ", Range ALM: " + rangeALM + ", Speed ALM: "
@@ -389,7 +389,8 @@ public class Shoot {
 				explosion.explodeTrooper(target, 0);
 			}
 			
-			explosion.explodeHex(targetUnit.X, targetUnit.Y, shooterUnit.side);
+			if(suppressiveHits > 0)
+				explosion.explodeHex(targetUnit.X, targetUnit.Y, shooterUnit.side);
 		} else {
 			System.out.println("null ammo");
 		}
@@ -520,6 +521,9 @@ public class Shoot {
 	}
 
 	public void setAimBonus() {
+		if(aimTime >= wep.aimTime.size() )
+			aimTime = wep.aimTime.size() - 1;
+		
 		aimALM = wep.aimTime.get(aimTime) + shooter.sl;
 		System.out.println("AimALM: "+aimALM+", aim time: "+aimTime);
 	}

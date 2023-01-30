@@ -174,7 +174,7 @@ public class Weapons implements Serializable {
 		Weapons weapon25 = new Weapons();
 		weapon25.EE3();
 		weapons.add(weapon25);
-		
+
 		Weapons m1 = new Weapons();
 		m1.M1();
 		weapons.add(m1);
@@ -363,18 +363,18 @@ public class Weapons implements Serializable {
 		this.pen.add(49);
 		this.pen.add(45);
 		this.pen.add(41);
+		this.pen.add(32);
 		this.pen.add(29);
-		this.pen.add(21);
-		this.pen.add(15);
+		this.pen.add(18);
 		// DC
+		this.dc.add(10);
+		this.dc.add(10);
+		this.dc.add(10);
+		this.dc.add(10);
+		this.dc.add(10);
+		this.dc.add(10);
+		this.dc.add(10);
 		this.dc.add(9);
-		this.dc.add(9);
-		this.dc.add(9);
-		this.dc.add(9);
-		this.dc.add(8);
-		this.dc.add(8);
-		this.dc.add(7);
-		this.dc.add(6);
 		// BC
 		this.ba.add(72);
 		this.ba.add(65);
@@ -806,32 +806,32 @@ public class Weapons implements Serializable {
 
 		// 10 20 40 70 100 200 300 400
 		// PEN
-		this.pen.add(51);
+		this.pen.add(54);
+		this.pen.add(53);
 		this.pen.add(49);
-		this.pen.add(44);
-		this.pen.add(37);
-		this.pen.add(33);
-		this.pen.add(19);
-		this.pen.add(12);
-		this.pen.add(7);
+		this.pen.add(45);
+		this.pen.add(41);
+		this.pen.add(29);
+		this.pen.add(21);
+		this.pen.add(15);
 		// DC
-		this.dc.add(7);
+		this.dc.add(9);
+		this.dc.add(9);
+		this.dc.add(9);
+		this.dc.add(9);
+		this.dc.add(8);
+		this.dc.add(8);
 		this.dc.add(7);
 		this.dc.add(6);
-		this.dc.add(6);
-		this.dc.add(5);
-		this.dc.add(2);
-		this.dc.add(1);
-		this.dc.add(1);
-		// BA
-		this.ba.add(90);
-		this.ba.add(76);
-		this.ba.add(63);
-		this.ba.add(52);
+		// BC
+		this.ba.add(72);
+		this.ba.add(65);
+		this.ba.add(58);
+		this.ba.add(55);
+		this.ba.add(53);
+		this.ba.add(51);
+		this.ba.add(49);
 		this.ba.add(45);
-		this.ba.add(30);
-		this.ba.add(22);
-		this.ba.add(16);
 
 		// Ce stats
 		ceStats.baseErgonomics = 50;
@@ -3168,7 +3168,7 @@ public class Weapons implements Serializable {
 		this.type = "Launcher";
 		this.collateralDamage = 50;
 		this.suppressiveROF = 3;
-		
+
 		/*
 		 * Ammo heat = new Ammo("HEAT", 8, 0, 6, 10, null, null, null); Ammo he = new
 		 * Ammo("HE", 8, 0, 4, 10, null, null, null);
