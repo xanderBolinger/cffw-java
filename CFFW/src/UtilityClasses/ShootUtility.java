@@ -70,7 +70,8 @@ public class ShootUtility {
 		lblAimTime.setText("Aim Time: " + meanAimTime);
 
 		String rslt = "TN: "
-				+ (shoot.get(0).target != null ? (chckbxFullAuto.isSelected() ? meanFullAutoTn : meanSingleTn)
+				+ (shoot.get(0).target != null ? (chckbxFullAuto.isSelected() ? meanFullAutoTn + ", Supp TN: "+meanSuppressiveTn
+						: meanSingleTn + ", Supp TN: "+meanSuppressiveTn)
 						: meanSuppressiveTn);
 
 		rslt += chckbxFullAuto.isSelected() ? ", Full Auto: " + shoot.get(0).fullAutoResults() : "";

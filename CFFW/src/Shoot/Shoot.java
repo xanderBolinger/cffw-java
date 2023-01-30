@@ -450,15 +450,15 @@ public class Shoot {
 	}
 
 	public void setSingleTn() {
-		singleTn = PCUtility.getOddsOfHitting(true, ealSum) + percentBonus;
+		singleTn = PCUtility.getOddsOfHitting(true, ealSum) + percentBonus - shooterUnit.suppression;
 	}
 
 	public void setSuppressiveTn() {
-		suppressiveTn = PCUtility.getOddsOfHitting(true, almSum + 18) + percentBonus;
+		suppressiveTn = PCUtility.getOddsOfHitting(true, almSum + 18) + percentBonus - shooterUnit.suppression;
 	}
 
 	public void setFullAutoTn() {
-		fullAutoTn = PCUtility.getOddsOfHitting(false, ealSum) + percentBonus;
+		fullAutoTn = PCUtility.getOddsOfHitting(false, ealSum) + percentBonus - shooterUnit.suppression;
 	}
 
 	public void autoAim() {
@@ -606,6 +606,9 @@ public class Shoot {
 	}
 
 	public boolean walkMoving() {
+		if(target == null)
+			return false; 
+		
 		// Checks if individual is moving
 		int action = GameWindow.gameWindow != null ? GameWindow.gameWindow.game.getCurrentAction() : testAction;
 		int count = 1;
