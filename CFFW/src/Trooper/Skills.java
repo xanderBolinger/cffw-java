@@ -359,7 +359,7 @@ public class Skills implements Serializable {
 			crack();
 			crackAtSpecalist();
 
-		} else if (input.equals("Assistant AT specialist")) { // Assistant AT specialist
+		} else if (input.equals("Clone Assistant AT Specialist")) { // Assistant AT specialist
 			// Adds skill dice levels to the skills
 			// Soldier Training
 			crack();
