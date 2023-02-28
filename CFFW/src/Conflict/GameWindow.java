@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -1685,7 +1687,9 @@ public class GameWindow implements Serializable {
 	// Loops through each unit
 	// Rolls spot for all individuals against units that are not on their side
 	public void spotCycle() {
-
+		
+		ExecutorService es = Executors.newFixedThreadPool(16);
+		
 		for (Iterator<Unit> iteratorInitOrder = initiativeOrder.iterator(); iteratorInitOrder.hasNext();) {
 
 			Unit spotterUnit = iteratorInitOrder.next();

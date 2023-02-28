@@ -159,6 +159,7 @@ public class EditIndividual implements Serializable {
 	private JSpinner spinnerKO;
 	private JSpinner spinnerFighterRanks;
 	public Trooper trooper;
+
 	/**
 	 * Launch the application.
 	 */
@@ -207,34 +208,35 @@ public class EditIndividual implements Serializable {
 		lblAmmo = new JLabel("Ammo:");
 		lblAmmo.setForeground(Color.WHITE);
 		lblAmmo.setFont(new Font("Calibri", Font.PLAIN, 15));
-		
+
 		JButton btnNewButton = new JButton("Open Character Builder");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new CharacterBuilderWindow(trooper);
+
+				openCharacterBuilder();
+
 			}
 		});
-		
+
 		JButton btnNewButton_1 = new JButton("Load JSON");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				try {
 					loadTrooper();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				
-				
+
 			}
 		});
-		
+
 		JButton btnNewButton_1_1 = new JButton("Save JSON");
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				String json = JsonSaveRunner.saveTrooper(new TrooperJson(trooper));
-				
+
 				try {
 					JsonSaveRunner.saveFile(trooper.name, json);
 				} catch (IOException e1) {
@@ -243,44 +245,36 @@ public class EditIndividual implements Serializable {
 			}
 		});
 		GroupLayout gl_panelIndividual = new GroupLayout(panelIndividual);
-		gl_panelIndividual.setHorizontalGroup(
-			gl_panelIndividual.createParallelGroup(Alignment.LEADING)
+		gl_panelIndividual.setHorizontalGroup(gl_panelIndividual.createParallelGroup(Alignment.LEADING)
 				.addComponent(tabbedPane2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 938, Short.MAX_VALUE)
-				.addGroup(gl_panelIndividual.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblP1, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblP2, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblWep, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblAmmo, GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panelIndividual.setVerticalGroup(
-			gl_panelIndividual.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelIndividual.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panelIndividual.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelIndividual.createSequentialGroup().addContainerGap()
+						.addComponent(lblP1, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(lblP2, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(lblWep, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.UNRELATED)
+						.addComponent(lblAmmo, GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		gl_panelIndividual.setVerticalGroup(gl_panelIndividual.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelIndividual.createSequentialGroup().addContainerGap().addGroup(gl_panelIndividual
+						.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblP1, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panelIndividual.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblP2, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblWep, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblP2, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblWep, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panelIndividual.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblAmmo, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-							.addComponent(btnNewButton)
-							.addComponent(btnNewButton_1)
-							.addComponent(btnNewButton_1_1)))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(tabbedPane2, GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
-					.addGap(0))
-		);
+								.addComponent(lblAmmo, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnNewButton).addComponent(btnNewButton_1)
+								.addComponent(btnNewButton_1_1)))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(tabbedPane2, GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE).addGap(0)));
 
 		JPanel panelStats = new JPanel();
 		panelStats.setBackground(Color.DARK_GRAY);
@@ -343,41 +337,41 @@ public class EditIndividual implements Serializable {
 		lblPD.setDoubleBuffered(true);
 		lblPD.setForeground(Color.WHITE);
 		lblPD.setFont(new Font("Calibri", Font.PLAIN, 15));
-		
+
 		JLabel lblHpStatus = new JLabel("HP Status");
 		lblHpStatus.setBounds(51, 371, 226, 31);
 		lblHpStatus.setForeground(Color.WHITE);
 		lblHpStatus.setFont(new Font("Calibri", Font.PLAIN, 25));
-		
+
 		lblAlive_1 = new JLabel("Alive:");
 		lblAlive_1.setBounds(51, 296, 226, 31);
 		lblAlive_1.setForeground(Color.WHITE);
 		lblAlive_1.setFont(new Font("Calibri", Font.PLAIN, 15));
-		
+
 		lblMaxHp = new JLabel("Max HP:");
 		lblMaxHp.setBounds(51, 445, 232, 31);
 		lblMaxHp.setForeground(Color.WHITE);
 		lblMaxHp.setFont(new Font("Calibri", Font.PLAIN, 15));
 		lblMaxHp.setDoubleBuffered(true);
-		
+
 		lblCurrentHp = new JLabel("Current HP:");
 		lblCurrentHp.setBounds(51, 482, 232, 31);
 		lblCurrentHp.setForeground(Color.WHITE);
 		lblCurrentHp.setFont(new Font("Calibri", Font.PLAIN, 15));
 		lblCurrentHp.setDoubleBuffered(true);
-		
+
 		lblMaxShields_1 = new JLabel("Max Shields: 0");
 		lblMaxShields_1.setBounds(51, 519, 232, 31);
 		lblMaxShields_1.setForeground(Color.WHITE);
 		lblMaxShields_1.setFont(new Font("Calibri", Font.PLAIN, 15));
 		lblMaxShields_1.setDoubleBuffered(true);
-		
+
 		lblCurrentShields_1 = new JLabel("Current Shields: 0");
 		lblCurrentShields_1.setBounds(51, 556, 232, 31);
 		lblCurrentShields_1.setForeground(Color.WHITE);
 		lblCurrentShields_1.setFont(new Font("Calibri", Font.PLAIN, 15));
 		lblCurrentShields_1.setDoubleBuffered(true);
-		
+
 		textPaneEquipment = new JTextPane();
 		textPaneEquipment.setBackground(Color.DARK_GRAY);
 		textPaneEquipment.setForeground(Color.WHITE);
@@ -419,26 +413,26 @@ public class EditIndividual implements Serializable {
 		panelStats.add(scrollPaneCFFWSkills);
 		panelStats.add(lblInjuries);
 		panelStats.add(scrollEquipment);
-		
+
 		JScrollPane scrollPane_5 = new JScrollPane();
 		scrollPane_5.setBounds(595, 47, 270, 228);
 		panelStats.add(scrollPane_5);
-		
+
 		listInjuries = new JList();
 		listInjuries.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				//listInjuries.remove(listInjuries.getSelectedIndex());
+
+				// listInjuries.remove(listInjuries.getSelectedIndex());
 				trooper.removeInjury(listInjuries.getSelectedIndex(), null, null);
 				DefaultListModel listInjuries2 = new DefaultListModel();
-				
-				for(Injuries injury : trooper.injuries) {
-					
+
+				for (Injuries injury : trooper.injuries) {
+
 					listInjuries2.addElement(injury.toString());
-					
+
 				}
-				
+
 				listInjuries.setModel(listInjuries2);
 			}
 		});
@@ -446,80 +440,80 @@ public class EditIndividual implements Serializable {
 		listInjuries.setFont(new Font("Calibri", Font.PLAIN, 13));
 		listInjuries.setBackground(Color.DARK_GRAY);
 		scrollPane_5.setViewportView(listInjuries);
-		
+
 		JLabel lblInjuries_1 = new JLabel("Injuries");
 		lblInjuries_1.setForeground(Color.WHITE);
 		lblInjuries_1.setFont(new Font("Calibri", Font.PLAIN, 25));
 		lblInjuries_1.setBounds(595, 10, 197, 31);
 		panelStats.add(lblInjuries_1);
-		
+
 		lblTP = new JLabel("TP(Phases): 0");
 		lblTP.setForeground(Color.WHITE);
 		lblTP.setFont(new Font("Calibri", Font.PLAIN, 15));
 		lblTP.setDoubleBuffered(true);
 		lblTP.setBounds(473, 101, 112, 31);
 		panelStats.add(lblTP);
-		
+
 		lblRR = new JLabel("RR: 0");
 		lblRR.setForeground(Color.WHITE);
 		lblRR.setFont(new Font("Calibri", Font.PLAIN, 15));
 		lblRR.setDoubleBuffered(true);
 		lblRR.setBounds(473, 76, 112, 31);
 		panelStats.add(lblRR);
-		
+
 		lblCTP = new JLabel("CTP(Phases): 0");
 		lblCTP.setForeground(Color.WHITE);
 		lblCTP.setFont(new Font("Calibri", Font.PLAIN, 15));
 		lblCTP.setDoubleBuffered(true);
 		lblCTP.setBounds(473, 47, 112, 31);
 		panelStats.add(lblCTP);
-		
+
 		JButton btnCalculate = new JButton("Calculate Aid");
 		btnCalculate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				trooper.recivingFirstAid = chckbxFirstAid.isSelected();
-				//System.out.println("Trooper reciving first aid: "+trooper.recivingFirstAid);
+				// System.out.println("Trooper reciving first aid: "+trooper.recivingFirstAid);
 				trooper.recoveryRollMod = (int) spinnerRRMod.getValue();
 				trooper.calculateInjury(null, null);
 				refreshInjuries(trooper);
 				editUnit.refreshIndividuals();
-				
+
 			}
 		});
 		btnCalculate.setBounds(438, 192, 147, 21);
 		panelStats.add(btnCalculate);
-		
+
 		spinnerRRMod = new JSpinner();
 		spinnerRRMod.setBounds(540, 159, 49, 20);
 		panelStats.add(spinnerRRMod);
-		
+
 		JLabel lblRrMod = new JLabel("RR Mod:");
 		lblRrMod.setForeground(Color.WHITE);
 		lblRrMod.setFont(new Font("Calibri", Font.PLAIN, 13));
 		lblRrMod.setBounds(485, 160, 54, 17);
 		panelStats.add(lblRrMod);
-		
+
 		JLabel lblRecivingFirstAid = new JLabel("Reciving First Aid");
 		lblRecivingFirstAid.setForeground(Color.WHITE);
 		lblRecivingFirstAid.setFont(new Font("Calibri", Font.PLAIN, 13));
 		lblRecivingFirstAid.setBounds(449, 131, 90, 16);
 		panelStats.add(lblRecivingFirstAid);
-		
+
 		chckbxFirstAid = new JCheckBox("");
 		chckbxFirstAid.setBounds(557, 126, 32, 21);
 		panelStats.add(chckbxFirstAid);
-		
+
 		JButton btnRecoveryRoll = new JButton("Recovery Roll");
 		btnRecoveryRoll.setBounds(438, 226, 147, 21);
 		panelStats.add(btnRecoveryRoll);
-		
+
 		JLabel lblKo = new JLabel("KO:");
 		lblKo.setForeground(Color.WHITE);
 		lblKo.setFont(new Font("Calibri", Font.PLAIN, 13));
 		lblKo.setBounds(51, 413, 32, 22);
 		panelStats.add(lblKo);
-		
+
 		spinnerKO = new JSpinner();
 		spinnerKO.setModel(new SpinnerNumberModel(new Integer(0), null, null, new Integer(1)));
 		spinnerKO.setBounds(93, 415, 68, 20);
@@ -532,16 +526,11 @@ public class EditIndividual implements Serializable {
 
 		JScrollPane scrollPane = new JScrollPane();
 		GroupLayout gl_panelIndividualEdit = new GroupLayout(panelIndividualEdit);
-		gl_panelIndividualEdit.setHorizontalGroup(
-			gl_panelIndividualEdit.createParallelGroup(Alignment.LEADING)
-				.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 936, Short.MAX_VALUE)
-		);
-		gl_panelIndividualEdit.setVerticalGroup(
-			gl_panelIndividualEdit.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panelIndividualEdit.createSequentialGroup()
-					.addGap(12)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 932, Short.MAX_VALUE))
-		);
+		gl_panelIndividualEdit.setHorizontalGroup(gl_panelIndividualEdit.createParallelGroup(Alignment.LEADING)
+				.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 936, Short.MAX_VALUE));
+		gl_panelIndividualEdit.setVerticalGroup(gl_panelIndividualEdit.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelIndividualEdit.createSequentialGroup().addGap(12).addComponent(scrollPane,
+						GroupLayout.DEFAULT_SIZE, 932, Short.MAX_VALUE)));
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.DARK_GRAY);
@@ -552,11 +541,19 @@ public class EditIndividual implements Serializable {
 		btnSaveChanges.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+
+				Trooper trooper = saveChanges();
+				
 				if (editUnit != null) {
-					saveChangesUnit(f, trooper, index, editUnit);
+					editUnit.setTrooper(trooper, index);
+					editUnit.refreshIndividuals();
 				} else {
-					saveChangesCompany(f, trooper, index, editCompany);
-				}
+					editCompany.setIndividual(trooper, index);
+					editCompany.refreshIndividuals();
+				}	
+				
+				f.dispose();
+				
 			}
 		});
 
@@ -962,227 +959,199 @@ public class EditIndividual implements Serializable {
 		btnAddToRoster.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(editUnit != null) {
+				if (editUnit != null) {
 					editUnit.window.addIndividual(trooper);
 					editUnit.window.refreshIndividuals();
 					editUnit.deleteIndividual(index);
 					editUnit.refreshIndividuals();
 					f.dispose();
 				}
-				
 
 			}
 		});
-		
+
 		JPanel panel_78 = new JPanel();
 		panel_78.setBounds(201, 444, 113, 45);
 		panel_78.setBackground(Color.DARK_GRAY);
-		
+
 		JLabel lblKills = new JLabel("Kills");
 		lblKills.setForeground(Color.WHITE);
 		lblKills.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		spinnerKills = new JSpinner();
 		GroupLayout gl_panel_78 = new GroupLayout(panel_78);
-		gl_panel_78.setHorizontalGroup(
-			gl_panel_78.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 153, Short.MAX_VALUE)
-				.addGap(0, 153, Short.MAX_VALUE)
-				.addGap(0, 153, Short.MAX_VALUE)
-				.addGroup(gl_panel_78.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblKills)
-					.addPreferredGap(ComponentPlacement.UNRELATED, 13, Short.MAX_VALUE)
-					.addComponent(spinnerKills, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_78.setVerticalGroup(
-			gl_panel_78.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_78.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_78.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblKills)
-						.addComponent(spinnerKills, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(14, Short.MAX_VALUE))
-		);
+		gl_panel_78.setHorizontalGroup(gl_panel_78.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 153, Short.MAX_VALUE).addGap(0, 153, Short.MAX_VALUE).addGap(0, 153, Short.MAX_VALUE)
+				.addGroup(gl_panel_78.createSequentialGroup().addContainerGap().addComponent(lblKills)
+						.addPreferredGap(ComponentPlacement.UNRELATED, 13, Short.MAX_VALUE)
+						.addComponent(spinnerKills, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		gl_panel_78.setVerticalGroup(gl_panel_78.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
+				.addGap(0, 45, Short.MAX_VALUE).addGap(0, 45, Short.MAX_VALUE)
+				.addGroup(gl_panel_78.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_78.createParallelGroup(Alignment.BASELINE).addComponent(lblKills)
+								.addComponent(spinnerKills, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(14, Short.MAX_VALUE)));
 		panel_78.setLayout(gl_panel_78);
-		
+
 		JPanel panel_85 = new JPanel();
 		panel_85.setBounds(765, 820, 198, 45);
 		panel_85.setBackground(Color.DARK_GRAY);
-		
+
 		JLabel lblCurrentShields = new JLabel("Current Shields");
 		lblCurrentShields.setForeground(Color.WHITE);
 		lblCurrentShields.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		spinnerCurrentShields = new JSpinner();
 		GroupLayout gl_panel_85 = new GroupLayout(panel_85);
-		gl_panel_85.setHorizontalGroup(
-			gl_panel_85.createParallelGroup(Alignment.LEADING)
+		gl_panel_85.setHorizontalGroup(gl_panel_85.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 198, Short.MAX_VALUE)
-				.addGroup(gl_panel_85.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblCurrentShields)
-					.addPreferredGap(ComponentPlacement.UNRELATED, 72, Short.MAX_VALUE)
-					.addComponent(spinnerCurrentShields, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_85.setVerticalGroup(
-			gl_panel_85.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_85.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_85.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblCurrentShields)
-						.addComponent(spinnerCurrentShields, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(14, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_85.createSequentialGroup().addContainerGap().addComponent(lblCurrentShields)
+						.addPreferredGap(ComponentPlacement.UNRELATED, 72, Short.MAX_VALUE)
+						.addComponent(spinnerCurrentShields, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		gl_panel_85.setVerticalGroup(gl_panel_85.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
+				.addGroup(gl_panel_85.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_85.createParallelGroup(Alignment.BASELINE).addComponent(lblCurrentShields)
+								.addComponent(spinnerCurrentShields, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(14, Short.MAX_VALUE)));
 		panel_85.setLayout(gl_panel_85);
-		
+
 		JPanel panel_86 = new JPanel();
 		panel_86.setBounds(765, 871, 198, 45);
 		panel_86.setBackground(Color.DARK_GRAY);
-		
+
 		JLabel lblShieldChance = new JLabel("Shield Chance");
 		lblShieldChance.setForeground(Color.WHITE);
 		lblShieldChance.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		spinnerShieldChance = new JSpinner();
 		GroupLayout gl_panel_86 = new GroupLayout(panel_86);
-		gl_panel_86.setHorizontalGroup(
-			gl_panel_86.createParallelGroup(Alignment.LEADING)
+		gl_panel_86.setHorizontalGroup(gl_panel_86.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 198, Short.MAX_VALUE)
-				.addGroup(gl_panel_86.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblShieldChance)
-					.addPreferredGap(ComponentPlacement.UNRELATED, 72, Short.MAX_VALUE)
-					.addComponent(spinnerShieldChance, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_86.setVerticalGroup(
-			gl_panel_86.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_86.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_86.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblShieldChance)
-						.addComponent(spinnerShieldChance, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(14, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_86.createSequentialGroup().addContainerGap().addComponent(lblShieldChance)
+						.addPreferredGap(ComponentPlacement.UNRELATED, 72, Short.MAX_VALUE)
+						.addComponent(spinnerShieldChance, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		gl_panel_86.setVerticalGroup(gl_panel_86.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
+				.addGroup(gl_panel_86.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_86.createParallelGroup(Alignment.BASELINE).addComponent(lblShieldChance)
+								.addComponent(spinnerShieldChance, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(14, Short.MAX_VALUE)));
 		panel_86.setLayout(gl_panel_86);
-		
-				JPanel panel_31 = new JPanel();
-				panel_31.setBounds(681, 144, 138, 32);
-				panel_31.setBackground(Color.DARK_GRAY);
-				
-						JLabel lblDiplomancy = new JLabel("Diplomancy");
-						lblDiplomancy.setForeground(Color.WHITE);
-						lblDiplomancy.setFont(new Font("Calibri", Font.PLAIN, 13));
-						
-								spinnerDiplomacy = new JSpinner();
-								GroupLayout gl_panel_31 = new GroupLayout(panel_31);
-								gl_panel_31.setHorizontalGroup(gl_panel_31.createParallelGroup(Alignment.LEADING)
-										.addGap(0, 138, Short.MAX_VALUE)
-										.addGroup(gl_panel_31.createSequentialGroup().addContainerGap().addComponent(lblDiplomancy).addGap(18)
-												.addComponent(spinnerDiplomacy, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-												.addContainerGap(17, Short.MAX_VALUE)));
-								gl_panel_31.setVerticalGroup(gl_panel_31.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
-										.addGap(0, 32, Short.MAX_VALUE)
-										.addGroup(gl_panel_31.createSequentialGroup().addContainerGap()
-												.addGroup(gl_panel_31.createParallelGroup(Alignment.BASELINE).addComponent(lblDiplomancy)
-														.addComponent(spinnerDiplomacy, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-																GroupLayout.PREFERRED_SIZE))
-												.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-								panel_31.setLayout(gl_panel_31);
-		
-				JPanel panel_32 = new JPanel();
-				panel_32.setBounds(681, 182, 138, 32);
-				panel_32.setBackground(Color.DARK_GRAY);
-				
-						JLabel lblBarter = new JLabel("Barter");
-						lblBarter.setForeground(Color.WHITE);
-						lblBarter.setFont(new Font("Calibri", Font.PLAIN, 13));
-						
-								spinnerBarter = new JSpinner();
-								GroupLayout gl_panel_32 = new GroupLayout(panel_32);
-								gl_panel_32.setHorizontalGroup(gl_panel_32.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_panel_32.createSequentialGroup().addContainerGap().addComponent(lblBarter)
-												.addPreferredGap(ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
-												.addComponent(spinnerBarter, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
-								gl_panel_32.setVerticalGroup(gl_panel_32.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
-										.addGroup(gl_panel_32.createSequentialGroup().addContainerGap()
-												.addGroup(gl_panel_32.createParallelGroup(Alignment.BASELINE).addComponent(lblBarter)
-														.addComponent(spinnerBarter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-																GroupLayout.PREFERRED_SIZE))
-												.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-								panel_32.setLayout(gl_panel_32);
-		
-				JPanel panel_30 = new JPanel();
-				panel_30.setBounds(681, 106, 138, 32);
-				panel_30.setBackground(Color.DARK_GRAY);
-				
-						JLabel lblCalm = new JLabel("Calm");
-						lblCalm.setForeground(Color.WHITE);
-						lblCalm.setFont(new Font("Calibri", Font.PLAIN, 13));
-						
-								spinnerCalm = new JSpinner();
-								GroupLayout gl_panel_30 = new GroupLayout(panel_30);
-								gl_panel_30.setHorizontalGroup(gl_panel_30.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_panel_30.createSequentialGroup().addContainerGap().addComponent(lblCalm)
-												.addPreferredGap(ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-												.addComponent(spinnerCalm, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
-								gl_panel_30.setVerticalGroup(gl_panel_30.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
-										.addGroup(gl_panel_30.createSequentialGroup().addContainerGap()
-												.addGroup(gl_panel_30.createParallelGroup(Alignment.BASELINE).addComponent(lblCalm)
-														.addComponent(spinnerCalm, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-																GroupLayout.PREFERRED_SIZE))
-												.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-								panel_30.setLayout(gl_panel_30);
-		
-				JPanel panel_29 = new JPanel();
-				panel_29.setBounds(681, 63, 138, 32);
-				panel_29.setBackground(Color.DARK_GRAY);
-				
-						JLabel lblCamo = new JLabel("Camo");
-						lblCamo.setForeground(Color.WHITE);
-						lblCamo.setFont(new Font("Calibri", Font.PLAIN, 13));
-						
-								spinnerCamo = new JSpinner();
-								GroupLayout gl_panel_29 = new GroupLayout(panel_29);
-								gl_panel_29.setHorizontalGroup(gl_panel_29.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_panel_29.createSequentialGroup().addContainerGap().addComponent(lblCamo)
-												.addPreferredGap(ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-												.addComponent(spinnerCamo, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
-								gl_panel_29.setVerticalGroup(gl_panel_29.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
-										.addGroup(gl_panel_29.createSequentialGroup().addContainerGap()
-												.addGroup(gl_panel_29.createParallelGroup(Alignment.BASELINE).addComponent(lblCamo)
-														.addComponent(spinnerCamo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-																GroupLayout.PREFERRED_SIZE))
-												.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-								panel_29.setLayout(gl_panel_29);
-		
-				spinnerSwim = new JSpinner();
-				spinnerSwim.setBounds(774, 231, 45, 20);
-		
-				JLabel lblSwim = new JLabel("Swim");
-				lblSwim.setBounds(697, 235, 49, 16);
-				lblSwim.setForeground(Color.WHITE);
-				lblSwim.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
-				spinnerThrow = new JSpinner();
-				spinnerThrow.setBounds(774, 272, 45, 20);
-		
-				JLabel lblThrow = new JLabel("Throw");
-				lblThrow.setBounds(696, 276, 65, 16);
-				lblThrow.setForeground(Color.WHITE);
-				lblThrow.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
+		JPanel panel_31 = new JPanel();
+		panel_31.setBounds(681, 144, 138, 32);
+		panel_31.setBackground(Color.DARK_GRAY);
+
+		JLabel lblDiplomancy = new JLabel("Diplomancy");
+		lblDiplomancy.setForeground(Color.WHITE);
+		lblDiplomancy.setFont(new Font("Calibri", Font.PLAIN, 13));
+
+		spinnerDiplomacy = new JSpinner();
+		GroupLayout gl_panel_31 = new GroupLayout(panel_31);
+		gl_panel_31.setHorizontalGroup(gl_panel_31.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 138, Short.MAX_VALUE)
+				.addGroup(gl_panel_31.createSequentialGroup().addContainerGap().addComponent(lblDiplomancy).addGap(18)
+						.addComponent(spinnerDiplomacy, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap(17, Short.MAX_VALUE)));
+		gl_panel_31.setVerticalGroup(gl_panel_31.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
+				.addGap(0, 32, Short.MAX_VALUE)
+				.addGroup(gl_panel_31.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_31.createParallelGroup(Alignment.BASELINE).addComponent(lblDiplomancy)
+								.addComponent(spinnerDiplomacy, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		panel_31.setLayout(gl_panel_31);
+
+		JPanel panel_32 = new JPanel();
+		panel_32.setBounds(681, 182, 138, 32);
+		panel_32.setBackground(Color.DARK_GRAY);
+
+		JLabel lblBarter = new JLabel("Barter");
+		lblBarter.setForeground(Color.WHITE);
+		lblBarter.setFont(new Font("Calibri", Font.PLAIN, 13));
+
+		spinnerBarter = new JSpinner();
+		GroupLayout gl_panel_32 = new GroupLayout(panel_32);
+		gl_panel_32.setHorizontalGroup(gl_panel_32.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_32.createSequentialGroup().addContainerGap().addComponent(lblBarter)
+						.addPreferredGap(ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+						.addComponent(spinnerBarter, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_32.setVerticalGroup(gl_panel_32.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
+				.addGroup(gl_panel_32.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_32.createParallelGroup(Alignment.BASELINE).addComponent(lblBarter)
+								.addComponent(spinnerBarter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		panel_32.setLayout(gl_panel_32);
+
+		JPanel panel_30 = new JPanel();
+		panel_30.setBounds(681, 106, 138, 32);
+		panel_30.setBackground(Color.DARK_GRAY);
+
+		JLabel lblCalm = new JLabel("Calm");
+		lblCalm.setForeground(Color.WHITE);
+		lblCalm.setFont(new Font("Calibri", Font.PLAIN, 13));
+
+		spinnerCalm = new JSpinner();
+		GroupLayout gl_panel_30 = new GroupLayout(panel_30);
+		gl_panel_30.setHorizontalGroup(gl_panel_30.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_30.createSequentialGroup().addContainerGap().addComponent(lblCalm)
+						.addPreferredGap(ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+						.addComponent(spinnerCalm, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_30.setVerticalGroup(gl_panel_30.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
+				.addGroup(gl_panel_30.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_30.createParallelGroup(Alignment.BASELINE).addComponent(lblCalm)
+								.addComponent(spinnerCalm, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		panel_30.setLayout(gl_panel_30);
+
+		JPanel panel_29 = new JPanel();
+		panel_29.setBounds(681, 63, 138, 32);
+		panel_29.setBackground(Color.DARK_GRAY);
+
+		JLabel lblCamo = new JLabel("Camo");
+		lblCamo.setForeground(Color.WHITE);
+		lblCamo.setFont(new Font("Calibri", Font.PLAIN, 13));
+
+		spinnerCamo = new JSpinner();
+		GroupLayout gl_panel_29 = new GroupLayout(panel_29);
+		gl_panel_29.setHorizontalGroup(gl_panel_29.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_29.createSequentialGroup().addContainerGap().addComponent(lblCamo)
+						.addPreferredGap(ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+						.addComponent(spinnerCamo, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_29.setVerticalGroup(gl_panel_29.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
+				.addGroup(gl_panel_29.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_29.createParallelGroup(Alignment.BASELINE).addComponent(lblCamo)
+								.addComponent(spinnerCamo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		panel_29.setLayout(gl_panel_29);
+
+		spinnerSwim = new JSpinner();
+		spinnerSwim.setBounds(774, 231, 45, 20);
+
+		JLabel lblSwim = new JLabel("Swim");
+		lblSwim.setBounds(697, 235, 49, 16);
+		lblSwim.setForeground(Color.WHITE);
+		lblSwim.setFont(new Font("Calibri", Font.PLAIN, 13));
+
+		spinnerThrow = new JSpinner();
+		spinnerThrow.setBounds(774, 272, 45, 20);
+
+		JLabel lblThrow = new JLabel("Throw");
+		lblThrow.setBounds(696, 276, 65, 16);
+		lblThrow.setForeground(Color.WHITE);
+		lblThrow.setFont(new Font("Calibri", Font.PLAIN, 13));
+
 		advancedMedicineSpinner = new JSpinner();
 		advancedMedicineSpinner.setBounds(774, 302, 45, 20);
-		
+
 		JLabel lblAdvancedMed = new JLabel("Adv. Med.");
 		lblAdvancedMed.setBounds(697, 306, 80, 16);
 		lblAdvancedMed.setForeground(Color.WHITE);
@@ -1911,11 +1880,11 @@ public class EditIndividual implements Serializable {
 		panel.add(panel_85);
 		panel.add(panel_86);
 		panel.add(btnAddToRoster);
-		
+
 		JButton btnCalcStats = new JButton("Roll");
 		btnCalcStats.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				trooper.str = (int) spinnerStr.getValue();
 				trooper.wit = (int) spinnerWit.getValue();
 				trooper.soc = (int) spinnerSoc.getValue();
@@ -1923,1074 +1892,796 @@ public class EditIndividual implements Serializable {
 				trooper.per = (int) spinnerPer.getValue();
 				trooper.hlt = (int) spinnerHlt.getValue();
 				trooper.agi = (int) spinnerAgi.getValue();
-				
+
 				TrooperUtility.recalcTrooper(trooper);
 				setDetails(trooper);
 				setEdit(trooper);
 				setEditSkills(trooper);
-				
+
 			}
 		});
 		btnCalcStats.setBounds(155, 11, 71, 21);
 		panel.add(btnCalcStats);
-		
+
 		JButton btnCalc = new JButton("Calc");
 		btnCalc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				TrooperUtility.setTrooperStatsSafe(trooper);
 				setDetails(trooper);
 				setEdit(trooper);
 				setEditSkills(trooper);
-				
+
 			}
 		});
 		btnCalc.setBounds(236, 11, 67, 21);
 		panel.add(btnCalc);
 		panelIndividualEdit.setLayout(gl_panelIndividualEdit);
-		
+
 		JPanel panel_61 = new JPanel();
 		panel_61.setLayout(null);
 		panel_61.setBackground(Color.DARK_GRAY);
 		tabbedPane.addTab("Additional Skills", null, panel_61, null);
-		
+
 		JPanel panel_62 = new JPanel();
 		panel_62.setLayout(null);
 		panel_62.setBackground(Color.DARK_GRAY);
 		panel_62.setBounds(34, 11, 137, 838);
 		panel_61.add(panel_62);
-		
+
 		JPanel panel_63 = new JPanel();
 		panel_63.setBackground(Color.DARK_GRAY);
 		panel_63.setBounds(0, 305, 138, 32);
 		panel_62.add(panel_63);
-		
+
 		JLabel label_5 = new JLabel("Silent Op.");
 		label_5.setForeground(Color.WHITE);
 		label_5.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		silentOperationsSpinner = new JSpinner();
 		GroupLayout gl_panel_63 = new GroupLayout(panel_63);
-		gl_panel_63.setHorizontalGroup(
-			gl_panel_63.createParallelGroup(Alignment.LEADING)
+		gl_panel_63.setHorizontalGroup(gl_panel_63.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_63.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_5)
-					.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-					.addComponent(silentOperationsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_63.setVerticalGroup(
-			gl_panel_63.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_63.createSequentialGroup().addContainerGap().addComponent(label_5)
+						.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE).addComponent(
+								silentOperationsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_63.setVerticalGroup(gl_panel_63.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
 				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_63.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_63.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_5)
-						.addComponent(silentOperationsSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_63.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_63.createParallelGroup(Alignment.BASELINE).addComponent(label_5)
+								.addComponent(silentOperationsSpinner, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_63.setLayout(gl_panel_63);
-		
+
 		JPanel panel_64 = new JPanel();
 		panel_64.setBackground(Color.DARK_GRAY);
 		panel_64.setBounds(0, 262, 138, 32);
 		panel_62.add(panel_64);
-		
+
 		JLabel label_6 = new JLabel("Reload Drills");
 		label_6.setForeground(Color.WHITE);
 		label_6.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		reloadDrillsSpinner = new JSpinner();
 		GroupLayout gl_panel_64 = new GroupLayout(panel_64);
-		gl_panel_64.setHorizontalGroup(
-			gl_panel_64.createParallelGroup(Alignment.LEADING)
+		gl_panel_64.setHorizontalGroup(gl_panel_64.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_64.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_6)
-					.addPreferredGap(ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-					.addComponent(reloadDrillsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_64.setVerticalGroup(
-			gl_panel_64.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_64.createSequentialGroup().addContainerGap().addComponent(label_6)
+						.addPreferredGap(ComponentPlacement.RELATED, 11, Short.MAX_VALUE).addComponent(
+								reloadDrillsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_64.setVerticalGroup(gl_panel_64.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
 				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_64.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_64.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_6)
-						.addComponent(reloadDrillsSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_64.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_64.createParallelGroup(Alignment.BASELINE).addComponent(label_6)
+								.addComponent(reloadDrillsSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_64.setLayout(gl_panel_64);
-		
+
 		JPanel panel_65 = new JPanel();
 		panel_65.setBackground(Color.DARK_GRAY);
 		panel_65.setBounds(0, 224, 138, 32);
 		panel_62.add(panel_65);
-		
+
 		JLabel label_7 = new JLabel("Trigger Disc.");
 		label_7.setForeground(Color.WHITE);
 		label_7.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		triggerDisciplineSpinner = new JSpinner();
 		GroupLayout gl_panel_65 = new GroupLayout(panel_65);
-		gl_panel_65.setHorizontalGroup(
-			gl_panel_65.createParallelGroup(Alignment.LEADING)
+		gl_panel_65.setHorizontalGroup(gl_panel_65.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_65.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_7)
-					.addPreferredGap(ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-					.addComponent(triggerDisciplineSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_65.setVerticalGroup(
-			gl_panel_65.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_65.createSequentialGroup().addContainerGap().addComponent(label_7)
+						.addPreferredGap(ComponentPlacement.RELATED, 15, Short.MAX_VALUE).addComponent(
+								triggerDisciplineSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_65.setVerticalGroup(gl_panel_65.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
 				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_65.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_65.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_7)
-						.addComponent(triggerDisciplineSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_65.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_65.createParallelGroup(Alignment.BASELINE).addComponent(label_7)
+								.addComponent(triggerDisciplineSpinner, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_65.setLayout(gl_panel_65);
-		
+
 		JPanel panel_66 = new JPanel();
 		panel_66.setBackground(Color.DARK_GRAY);
 		panel_66.setBounds(0, 181, 138, 32);
 		panel_62.add(panel_66);
-		
+
 		JLabel label_8 = new JLabel("Recoil Cont.");
 		label_8.setForeground(Color.WHITE);
 		label_8.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		recoilControlSpinner = new JSpinner();
 		GroupLayout gl_panel_66 = new GroupLayout(panel_66);
-		gl_panel_66.setHorizontalGroup(
-			gl_panel_66.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_66.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_8)
-					.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-					.addComponent(recoilControlSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_66.setVerticalGroup(
-			gl_panel_66.createParallelGroup(Alignment.LEADING)
+		gl_panel_66.setHorizontalGroup(gl_panel_66.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 138, Short.MAX_VALUE).addGap(0, 138, Short.MAX_VALUE)
+				.addGroup(gl_panel_66.createSequentialGroup().addContainerGap().addComponent(label_8)
+						.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE).addComponent(
+								recoilControlSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_66.setVerticalGroup(gl_panel_66.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
 				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_66.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_66.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_8)
-						.addComponent(recoilControlSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_66.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_66.createParallelGroup(Alignment.BASELINE).addComponent(label_8)
+								.addComponent(recoilControlSpinner, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_66.setLayout(gl_panel_66);
-		
+
 		JPanel panel_67 = new JPanel();
 		panel_67.setBackground(Color.DARK_GRAY);
 		panel_67.setBounds(0, 92, 138, 32);
 		panel_62.add(panel_67);
-		
+
 		JLabel label_9 = new JLabel("Fighter");
 		label_9.setForeground(Color.WHITE);
 		label_9.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		fighterSpinner = new JSpinner();
 		GroupLayout gl_panel_67 = new GroupLayout(panel_67);
-		gl_panel_67.setHorizontalGroup(
-			gl_panel_67.createParallelGroup(Alignment.LEADING)
+		gl_panel_67.setHorizontalGroup(gl_panel_67.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_67.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_9)
-					.addPreferredGap(ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-					.addComponent(fighterSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_67.setVerticalGroup(
-			gl_panel_67.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_67.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_67.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_9)
-						.addComponent(fighterSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_67.createSequentialGroup().addContainerGap().addComponent(label_9)
+						.addPreferredGap(ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+						.addComponent(fighterSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_67.setVerticalGroup(gl_panel_67.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
+				.addGroup(gl_panel_67.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_67.createParallelGroup(Alignment.BASELINE).addComponent(label_9)
+								.addComponent(fighterSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_67.setLayout(gl_panel_67);
-		
+
 		JPanel panel_68 = new JPanel();
 		panel_68.setBackground(Color.DARK_GRAY);
 		panel_68.setBounds(0, 49, 138, 32);
 		panel_62.add(panel_68);
-		
+
 		JLabel label_10 = new JLabel("Covert Mov.");
 		label_10.setForeground(Color.WHITE);
 		label_10.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		covertMovementSpinner = new JSpinner();
 		GroupLayout gl_panel_68 = new GroupLayout(panel_68);
-		gl_panel_68.setHorizontalGroup(
-			gl_panel_68.createParallelGroup(Alignment.LEADING)
+		gl_panel_68.setHorizontalGroup(gl_panel_68.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_68.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_10)
-					.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-					.addComponent(covertMovementSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_68.setVerticalGroup(
-			gl_panel_68.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_68.createSequentialGroup().addContainerGap().addComponent(label_10)
+						.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE).addComponent(
+								covertMovementSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_68.setVerticalGroup(gl_panel_68.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
 				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_68.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_68.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_10)
-						.addComponent(covertMovementSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_68.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_68.createParallelGroup(Alignment.BASELINE).addComponent(label_10)
+								.addComponent(covertMovementSpinner, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_68.setLayout(gl_panel_68);
-		
+
 		JPanel panel_69 = new JPanel();
 		panel_69.setBackground(Color.DARK_GRAY);
 		panel_69.setBounds(0, 11, 138, 32);
 		panel_62.add(panel_69);
-		
+
 		JLabel label_11 = new JLabel("Clean Op.");
 		label_11.setForeground(Color.WHITE);
 		label_11.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		cleanOperationsSpinner = new JSpinner();
 		GroupLayout gl_panel_69 = new GroupLayout(panel_69);
-		gl_panel_69.setHorizontalGroup(
-			gl_panel_69.createParallelGroup(Alignment.LEADING)
+		gl_panel_69.setHorizontalGroup(gl_panel_69.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_69.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_11)
-					.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-					.addComponent(cleanOperationsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_69.setVerticalGroup(
-			gl_panel_69.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_69.createSequentialGroup().addContainerGap().addComponent(label_11)
+						.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE).addComponent(
+								cleanOperationsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_69.setVerticalGroup(gl_panel_69.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
 				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_69.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_69.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_11)
-						.addComponent(cleanOperationsSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_69.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_69.createParallelGroup(Alignment.BASELINE).addComponent(label_11)
+								.addComponent(cleanOperationsSpinner, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_69.setLayout(gl_panel_69);
-		
+
 		JPanel panel_70 = new JPanel();
 		panel_70.setBackground(Color.DARK_GRAY);
 		panel_70.setBounds(0, 348, 138, 32);
 		panel_62.add(panel_70);
-		
+
 		JLabel label_12 = new JLabel("AK Systems");
 		label_12.setForeground(Color.WHITE);
 		label_12.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		akSystemsSpinner = new JSpinner();
 		GroupLayout gl_panel_70 = new GroupLayout(panel_70);
-		gl_panel_70.setHorizontalGroup(
-			gl_panel_70.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_70.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_12)
-					.addPreferredGap(ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-					.addComponent(akSystemsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_70.setVerticalGroup(
-			gl_panel_70.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_70.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_70.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_12)
-						.addComponent(akSystemsSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+		gl_panel_70.setHorizontalGroup(gl_panel_70.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 138, Short.MAX_VALUE).addGap(0, 138, Short.MAX_VALUE)
+				.addGroup(gl_panel_70.createSequentialGroup().addContainerGap().addComponent(label_12)
+						.addPreferredGap(ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+						.addComponent(akSystemsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_70.setVerticalGroup(gl_panel_70.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
+				.addGap(0, 32, Short.MAX_VALUE).addGap(0, 32, Short.MAX_VALUE)
+				.addGroup(gl_panel_70.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_70.createParallelGroup(Alignment.BASELINE).addComponent(label_12)
+								.addComponent(akSystemsSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_70.setLayout(gl_panel_70);
-		
+
 		JPanel panel_71 = new JPanel();
 		panel_71.setBackground(Color.DARK_GRAY);
 		panel_71.setBounds(0, 391, 138, 32);
 		panel_62.add(panel_71);
-		
+
 		JLabel label_13 = new JLabel("Assualt Ops");
 		label_13.setForeground(Color.WHITE);
 		label_13.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		assualtOperationsSpinner = new JSpinner();
 		GroupLayout gl_panel_71 = new GroupLayout(panel_71);
-		gl_panel_71.setHorizontalGroup(
-			gl_panel_71.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_71.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_13)
-					.addPreferredGap(ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-					.addComponent(assualtOperationsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_71.setVerticalGroup(
-			gl_panel_71.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_71.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_71.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_13)
-						.addComponent(assualtOperationsSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+		gl_panel_71.setHorizontalGroup(gl_panel_71.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 138, Short.MAX_VALUE).addGap(0, 138, Short.MAX_VALUE)
+				.addGroup(gl_panel_71.createSequentialGroup().addContainerGap().addComponent(label_13)
+						.addPreferredGap(ComponentPlacement.RELATED, 17, Short.MAX_VALUE).addComponent(
+								assualtOperationsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_71.setVerticalGroup(gl_panel_71.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
+				.addGap(0, 32, Short.MAX_VALUE).addGap(0, 32, Short.MAX_VALUE)
+				.addGroup(gl_panel_71.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_71.createParallelGroup(Alignment.BASELINE).addComponent(label_13)
+								.addComponent(assualtOperationsSpinner, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_71.setLayout(gl_panel_71);
-		
+
 		JPanel panel_72 = new JPanel();
 		panel_72.setBackground(Color.DARK_GRAY);
 		panel_72.setBounds(0, 434, 138, 32);
 		panel_62.add(panel_72);
-		
+
 		JLabel label_14 = new JLabel("Authority");
 		label_14.setForeground(Color.WHITE);
 		label_14.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		authoritySpinner = new JSpinner();
 		GroupLayout gl_panel_72 = new GroupLayout(panel_72);
-		gl_panel_72.setHorizontalGroup(
-			gl_panel_72.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_72.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_14)
-					.addPreferredGap(ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-					.addComponent(authoritySpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_72.setVerticalGroup(
-			gl_panel_72.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_72.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_72.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_14)
-						.addComponent(authoritySpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+		gl_panel_72.setHorizontalGroup(gl_panel_72.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 138, Short.MAX_VALUE).addGap(0, 138, Short.MAX_VALUE)
+				.addGroup(gl_panel_72.createSequentialGroup().addContainerGap().addComponent(label_14)
+						.addPreferredGap(ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+						.addComponent(authoritySpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_72.setVerticalGroup(gl_panel_72.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
+				.addGap(0, 32, Short.MAX_VALUE).addGap(0, 32, Short.MAX_VALUE)
+				.addGroup(gl_panel_72.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_72.createParallelGroup(Alignment.BASELINE).addComponent(label_14)
+								.addComponent(authoritySpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_72.setLayout(gl_panel_72);
-		
+
 		JPanel panel_73 = new JPanel();
 		panel_73.setBackground(Color.DARK_GRAY);
 		panel_73.setBounds(0, 477, 138, 32);
 		panel_62.add(panel_73);
-		
+
 		JLabel label_15 = new JLabel("Raw Power");
 		label_15.setForeground(Color.WHITE);
 		label_15.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		rawPowerSpinner = new JSpinner();
 		GroupLayout gl_panel_73 = new GroupLayout(panel_73);
-		gl_panel_73.setHorizontalGroup(
-			gl_panel_73.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_73.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_15)
-					.addPreferredGap(ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
-					.addComponent(rawPowerSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_73.setVerticalGroup(
-			gl_panel_73.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_73.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_73.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_15)
-						.addComponent(rawPowerSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+		gl_panel_73.setHorizontalGroup(gl_panel_73.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 138, Short.MAX_VALUE).addGap(0, 138, Short.MAX_VALUE)
+				.addGroup(gl_panel_73.createSequentialGroup().addContainerGap().addComponent(label_15)
+						.addPreferredGap(ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+						.addComponent(rawPowerSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_73.setVerticalGroup(gl_panel_73.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
+				.addGap(0, 32, Short.MAX_VALUE).addGap(0, 32, Short.MAX_VALUE)
+				.addGroup(gl_panel_73.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_73.createParallelGroup(Alignment.BASELINE).addComponent(label_15)
+								.addComponent(rawPowerSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_73.setLayout(gl_panel_73);
-		
+
 		JPanel panel_74 = new JPanel();
 		panel_74.setBackground(Color.DARK_GRAY);
 		panel_74.setBounds(0, 520, 138, 32);
 		panel_62.add(panel_74);
-		
+
 		JLabel label_16 = new JLabel("AR Systems");
 		label_16.setForeground(Color.WHITE);
 		label_16.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		arSystemsSpinner = new JSpinner();
 		GroupLayout gl_panel_74 = new GroupLayout(panel_74);
-		gl_panel_74.setHorizontalGroup(
-			gl_panel_74.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_74.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_16)
-					.addPreferredGap(ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-					.addComponent(arSystemsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_74.setVerticalGroup(
-			gl_panel_74.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_74.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_74.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_16)
-						.addComponent(arSystemsSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+		gl_panel_74.setHorizontalGroup(gl_panel_74.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 138, Short.MAX_VALUE).addGap(0, 138, Short.MAX_VALUE).addGap(0, 138, Short.MAX_VALUE)
+				.addGroup(gl_panel_74.createSequentialGroup().addContainerGap().addComponent(label_16)
+						.addPreferredGap(ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+						.addComponent(arSystemsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_74.setVerticalGroup(gl_panel_74.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
+				.addGap(0, 32, Short.MAX_VALUE).addGap(0, 32, Short.MAX_VALUE).addGap(0, 32, Short.MAX_VALUE)
+				.addGroup(gl_panel_74.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_74.createParallelGroup(Alignment.BASELINE).addComponent(label_16)
+								.addComponent(arSystemsSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_74.setLayout(gl_panel_74);
-		
+
 		JPanel panel_75 = new JPanel();
 		panel_75.setBackground(Color.DARK_GRAY);
 		panel_75.setBounds(0, 563, 138, 32);
 		panel_62.add(panel_75);
-		
+
 		JLabel label_17 = new JLabel("Long Range");
 		label_17.setForeground(Color.WHITE);
 		label_17.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		longRangeOpticsSpinner = new JSpinner();
 		GroupLayout gl_panel_75 = new GroupLayout(panel_75);
-		gl_panel_75.setHorizontalGroup(
-			gl_panel_75.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_75.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_17)
-					.addPreferredGap(ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-					.addComponent(longRangeOpticsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_75.setVerticalGroup(
-			gl_panel_75.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_75.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_75.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_17)
-						.addComponent(longRangeOpticsSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+		gl_panel_75.setHorizontalGroup(gl_panel_75.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 138, Short.MAX_VALUE).addGap(0, 138, Short.MAX_VALUE).addGap(0, 138, Short.MAX_VALUE)
+				.addGroup(gl_panel_75.createSequentialGroup().addContainerGap().addComponent(label_17)
+						.addPreferredGap(ComponentPlacement.RELATED, 22, Short.MAX_VALUE).addComponent(
+								longRangeOpticsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_75.setVerticalGroup(gl_panel_75.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
+				.addGap(0, 32, Short.MAX_VALUE).addGap(0, 32, Short.MAX_VALUE).addGap(0, 32, Short.MAX_VALUE)
+				.addGroup(gl_panel_75.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_75.createParallelGroup(Alignment.BASELINE).addComponent(label_17)
+								.addComponent(longRangeOpticsSpinner, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_75.setLayout(gl_panel_75);
-		
+
 		JPanel panel_76 = new JPanel();
 		panel_76.setBackground(Color.DARK_GRAY);
 		panel_76.setBounds(0, 606, 138, 32);
 		panel_62.add(panel_76);
-		
+
 		JLabel label_18 = new JLabel("Negotiations");
 		label_18.setForeground(Color.WHITE);
 		label_18.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		negotiationsSpinner = new JSpinner();
 		GroupLayout gl_panel_76 = new GroupLayout(panel_76);
-		gl_panel_76.setHorizontalGroup(
-			gl_panel_76.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_76.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_18)
-					.addPreferredGap(ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-					.addComponent(negotiationsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_76.setVerticalGroup(
-			gl_panel_76.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_76.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_76.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_18)
-						.addComponent(negotiationsSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+		gl_panel_76.setHorizontalGroup(gl_panel_76.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 138, Short.MAX_VALUE).addGap(0, 138, Short.MAX_VALUE).addGap(0, 138, Short.MAX_VALUE)
+				.addGroup(gl_panel_76.createSequentialGroup().addContainerGap().addComponent(label_18)
+						.addPreferredGap(ComponentPlacement.RELATED, 13, Short.MAX_VALUE).addComponent(
+								negotiationsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_76.setVerticalGroup(gl_panel_76.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
+				.addGap(0, 32, Short.MAX_VALUE).addGap(0, 32, Short.MAX_VALUE).addGap(0, 32, Short.MAX_VALUE)
+				.addGroup(gl_panel_76.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_76.createParallelGroup(Alignment.BASELINE).addComponent(label_18)
+								.addComponent(negotiationsSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_76.setLayout(gl_panel_76);
-		
+
 		JPanel panel_77 = new JPanel();
 		panel_77.setBackground(Color.DARK_GRAY);
 		panel_77.setBounds(0, 649, 138, 32);
 		panel_62.add(panel_77);
-		
+
 		JLabel label_19 = new JLabel("SU Tactics");
 		label_19.setForeground(Color.WHITE);
 		label_19.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		smallUnitTacticsSpinner = new JSpinner();
 		GroupLayout gl_panel_77 = new GroupLayout(panel_77);
-		gl_panel_77.setHorizontalGroup(
-			gl_panel_77.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_77.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_19)
-					.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-					.addComponent(smallUnitTacticsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_77.setVerticalGroup(
-			gl_panel_77.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_77.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_77.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_19)
-						.addComponent(smallUnitTacticsSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+		gl_panel_77.setHorizontalGroup(gl_panel_77.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 138, Short.MAX_VALUE).addGap(0, 138, Short.MAX_VALUE).addGap(0, 138, Short.MAX_VALUE)
+				.addGroup(gl_panel_77.createSequentialGroup().addContainerGap().addComponent(label_19)
+						.addPreferredGap(ComponentPlacement.RELATED, 27, Short.MAX_VALUE).addComponent(
+								smallUnitTacticsSpinner, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_77.setVerticalGroup(gl_panel_77.createParallelGroup(Alignment.LEADING).addGap(0, 32, Short.MAX_VALUE)
+				.addGap(0, 32, Short.MAX_VALUE).addGap(0, 32, Short.MAX_VALUE).addGap(0, 32, Short.MAX_VALUE)
+				.addGroup(gl_panel_77.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_77.createParallelGroup(Alignment.BASELINE).addComponent(label_19)
+								.addComponent(smallUnitTacticsSpinner, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_77.setLayout(gl_panel_77);
-		
+
 		JPanel panel_66_1 = new JPanel();
 		panel_66_1.setBackground(Color.DARK_GRAY);
 		panel_66_1.setBounds(0, 134, 138, 32);
 		panel_62.add(panel_66_1);
-		
+
 		JLabel label_8_1 = new JLabel("Fighter Ranks");
 		label_8_1.setForeground(Color.WHITE);
 		label_8_1.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		spinnerFighterRanks = new JSpinner();
 		GroupLayout gl_panel_66_1 = new GroupLayout(panel_66_1);
-		gl_panel_66_1.setHorizontalGroup(
-			gl_panel_66_1.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGap(0, 138, Short.MAX_VALUE)
-				.addGroup(gl_panel_66_1.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_8_1)
-					.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-					.addComponent(spinnerFighterRanks, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_panel_66_1.setVerticalGroup(
-			gl_panel_66_1.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGap(0, 32, Short.MAX_VALUE)
-				.addGroup(gl_panel_66_1.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_66_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_8_1)
-						.addComponent(spinnerFighterRanks, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+		gl_panel_66_1.setHorizontalGroup(gl_panel_66_1.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 138, Short.MAX_VALUE).addGap(0, 138, Short.MAX_VALUE)
+				.addGroup(gl_panel_66_1.createSequentialGroup().addContainerGap().addComponent(label_8_1)
+						.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE).addComponent(
+								spinnerFighterRanks, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)));
+		gl_panel_66_1.setVerticalGroup(gl_panel_66_1.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 32, Short.MAX_VALUE).addGap(0, 32, Short.MAX_VALUE)
+				.addGroup(gl_panel_66_1.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_66_1.createParallelGroup(Alignment.BASELINE).addComponent(label_8_1)
+								.addComponent(spinnerFighterRanks, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 		panel_66_1.setLayout(gl_panel_66_1);
-		
+
 		JPanel panel_84 = new JPanel();
 		panel_84.setBackground(Color.DARK_GRAY);
 		panel_84.setBounds(391, 62, 198, 45);
 		panel_61.add(panel_84);
-		
+
 		JLabel lblMaxShields = new JLabel("Max Shields");
 		lblMaxShields.setForeground(Color.WHITE);
 		lblMaxShields.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		spinnerMaxShields = new JSpinner();
 		GroupLayout gl_panel_84 = new GroupLayout(panel_84);
-		gl_panel_84.setHorizontalGroup(
-			gl_panel_84.createParallelGroup(Alignment.LEADING)
+		gl_panel_84.setHorizontalGroup(gl_panel_84.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 198, Short.MAX_VALUE)
-				.addGroup(gl_panel_84.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblMaxShields)
-					.addPreferredGap(ComponentPlacement.UNRELATED, 71, Short.MAX_VALUE)
-					.addComponent(spinnerMaxShields, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_84.setVerticalGroup(
-			gl_panel_84.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_84.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_84.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblMaxShields)
-						.addComponent(spinnerMaxShields, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(15, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_84.createSequentialGroup().addContainerGap().addComponent(lblMaxShields)
+						.addPreferredGap(ComponentPlacement.UNRELATED, 71, Short.MAX_VALUE)
+						.addComponent(spinnerMaxShields, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		gl_panel_84.setVerticalGroup(gl_panel_84.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
+				.addGroup(gl_panel_84.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_84.createParallelGroup(Alignment.BASELINE).addComponent(lblMaxShields)
+								.addComponent(spinnerMaxShields, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(15, Short.MAX_VALUE)));
 		panel_84.setLayout(gl_panel_84);
-		
+
 		JPanel panel_59 = new JPanel();
 		panel_59.setBackground(Color.DARK_GRAY);
 		panel_59.setBounds(391, 11, 200, 45);
 		panel_61.add(panel_59);
-		
+
 		JLabel label_4 = new JLabel("Disabled Legs");
 		label_4.setForeground(Color.WHITE);
 		label_4.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		spinnerDisabledLegs = new JSpinner();
 		GroupLayout gl_panel_59 = new GroupLayout(panel_59);
-		gl_panel_59.setHorizontalGroup(
-			gl_panel_59.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGroup(gl_panel_59.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_4)
-					.addPreferredGap(ComponentPlacement.UNRELATED, 62, Short.MAX_VALUE)
-					.addComponent(spinnerDisabledLegs, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_59.setVerticalGroup(
-			gl_panel_59.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_59.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_59.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_4)
-						.addComponent(spinnerDisabledLegs, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(15, Short.MAX_VALUE))
-		);
+		gl_panel_59.setHorizontalGroup(gl_panel_59.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 200, Short.MAX_VALUE).addGap(0, 200, Short.MAX_VALUE).addGap(0, 200, Short.MAX_VALUE)
+				.addGroup(gl_panel_59.createSequentialGroup().addContainerGap().addComponent(label_4)
+						.addPreferredGap(ComponentPlacement.UNRELATED, 62, Short.MAX_VALUE)
+						.addComponent(spinnerDisabledLegs, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		gl_panel_59.setVerticalGroup(gl_panel_59.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
+				.addGap(0, 45, Short.MAX_VALUE).addGap(0, 45, Short.MAX_VALUE)
+				.addGroup(gl_panel_59.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_59.createParallelGroup(Alignment.BASELINE).addComponent(label_4)
+								.addComponent(spinnerDisabledLegs, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(15, Short.MAX_VALUE)));
 		panel_59.setLayout(gl_panel_59);
-		
+
 		JPanel panel_58 = new JPanel();
 		panel_58.setBackground(Color.DARK_GRAY);
 		panel_58.setBounds(181, 602, 200, 45);
 		panel_61.add(panel_58);
-		
+
 		JLabel label_3 = new JLabel("Disabled Arms");
 		label_3.setForeground(Color.WHITE);
 		label_3.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		spinnerDisabledArms = new JSpinner();
 		GroupLayout gl_panel_58 = new GroupLayout(panel_58);
-		gl_panel_58.setHorizontalGroup(
-			gl_panel_58.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGroup(gl_panel_58.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_3)
-					.addPreferredGap(ComponentPlacement.UNRELATED, 60, Short.MAX_VALUE)
-					.addComponent(spinnerDisabledArms, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_58.setVerticalGroup(
-			gl_panel_58.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_58.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_58.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_3)
-						.addComponent(spinnerDisabledArms, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(15, Short.MAX_VALUE))
-		);
+		gl_panel_58.setHorizontalGroup(gl_panel_58.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 200, Short.MAX_VALUE).addGap(0, 200, Short.MAX_VALUE).addGap(0, 200, Short.MAX_VALUE)
+				.addGroup(gl_panel_58.createSequentialGroup().addContainerGap().addComponent(label_3)
+						.addPreferredGap(ComponentPlacement.UNRELATED, 60, Short.MAX_VALUE)
+						.addComponent(spinnerDisabledArms, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		gl_panel_58.setVerticalGroup(gl_panel_58.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
+				.addGap(0, 45, Short.MAX_VALUE).addGap(0, 45, Short.MAX_VALUE)
+				.addGroup(gl_panel_58.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_58.createParallelGroup(Alignment.BASELINE).addComponent(label_3)
+								.addComponent(spinnerDisabledArms, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(15, Short.MAX_VALUE)));
 		panel_58.setLayout(gl_panel_58);
-		
+
 		JPanel panel_57 = new JPanel();
 		panel_57.setBackground(Color.DARK_GRAY);
 		panel_57.setBounds(181, 546, 200, 45);
 		panel_61.add(panel_57);
-		
+
 		JLabel label_2 = new JLabel("Legs");
 		label_2.setForeground(Color.WHITE);
 		label_2.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		spinnerLegs = new JSpinner();
 		GroupLayout gl_panel_57 = new GroupLayout(panel_57);
-		gl_panel_57.setHorizontalGroup(
-			gl_panel_57.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGroup(gl_panel_57.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_2)
-					.addPreferredGap(ComponentPlacement.UNRELATED, 111, Short.MAX_VALUE)
-					.addComponent(spinnerLegs, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_57.setVerticalGroup(
-			gl_panel_57.createParallelGroup(Alignment.LEADING)
+		gl_panel_57.setHorizontalGroup(gl_panel_57.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 200, Short.MAX_VALUE).addGap(0, 200, Short.MAX_VALUE)
+				.addGroup(gl_panel_57.createSequentialGroup().addContainerGap().addComponent(label_2)
+						.addPreferredGap(ComponentPlacement.UNRELATED, 111, Short.MAX_VALUE)
+						.addComponent(spinnerLegs, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		gl_panel_57.setVerticalGroup(gl_panel_57.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
 				.addGap(0, 45, Short.MAX_VALUE)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_57.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_57.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_2)
-						.addComponent(spinnerLegs, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(15, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_57.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_57.createParallelGroup(Alignment.BASELINE).addComponent(label_2)
+								.addComponent(spinnerLegs, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(15, Short.MAX_VALUE)));
 		panel_57.setLayout(gl_panel_57);
-		
+
 		JPanel panel_56 = new JPanel();
 		panel_56.setBackground(Color.DARK_GRAY);
 		panel_56.setBounds(181, 491, 200, 45);
 		panel_61.add(panel_56);
-		
+
 		JLabel label_1 = new JLabel("Arms");
 		label_1.setForeground(Color.WHITE);
 		label_1.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		spinnerArms = new JSpinner();
 		GroupLayout gl_panel_56 = new GroupLayout(panel_56);
-		gl_panel_56.setHorizontalGroup(
-			gl_panel_56.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGroup(gl_panel_56.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(label_1)
-					.addPreferredGap(ComponentPlacement.UNRELATED, 109, Short.MAX_VALUE)
-					.addComponent(spinnerArms, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_56.setVerticalGroup(
-			gl_panel_56.createParallelGroup(Alignment.LEADING)
+		gl_panel_56.setHorizontalGroup(gl_panel_56.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 200, Short.MAX_VALUE).addGap(0, 200, Short.MAX_VALUE)
+				.addGroup(gl_panel_56.createSequentialGroup().addContainerGap().addComponent(label_1)
+						.addPreferredGap(ComponentPlacement.UNRELATED, 109, Short.MAX_VALUE)
+						.addComponent(spinnerArms, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		gl_panel_56.setVerticalGroup(gl_panel_56.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
 				.addGap(0, 45, Short.MAX_VALUE)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_56.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_56.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_1)
-						.addComponent(spinnerArms, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(15, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_56.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_56.createParallelGroup(Alignment.BASELINE).addComponent(label_1)
+								.addComponent(spinnerArms, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(15, Short.MAX_VALUE)));
 		panel_56.setLayout(gl_panel_56);
-		
+
 		JPanel panel_83 = new JPanel();
 		panel_83.setBackground(Color.DARK_GRAY);
 		panel_83.setBounds(181, 436, 200, 45);
 		panel_61.add(panel_83);
-		
+
 		JLabel lblPhysiciansSkill = new JLabel("Physicians Skill");
 		lblPhysiciansSkill.setForeground(Color.WHITE);
 		lblPhysiciansSkill.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		spinnerPhysiciansSkill = new JSpinner();
 		GroupLayout gl_panel_83 = new GroupLayout(panel_83);
-		gl_panel_83.setHorizontalGroup(
-			gl_panel_83.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGroup(gl_panel_83.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblPhysiciansSkill)
-					.addPreferredGap(ComponentPlacement.UNRELATED, 57, Short.MAX_VALUE)
-					.addComponent(spinnerPhysiciansSkill, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_83.setVerticalGroup(
-			gl_panel_83.createParallelGroup(Alignment.LEADING)
+		gl_panel_83.setHorizontalGroup(gl_panel_83.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 200, Short.MAX_VALUE).addGap(0, 200, Short.MAX_VALUE)
+				.addGroup(gl_panel_83.createSequentialGroup().addContainerGap().addComponent(lblPhysiciansSkill)
+						.addPreferredGap(ComponentPlacement.UNRELATED, 57, Short.MAX_VALUE)
+						.addComponent(spinnerPhysiciansSkill, GroupLayout.PREFERRED_SIZE, 45,
+								GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		gl_panel_83.setVerticalGroup(gl_panel_83.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
 				.addGap(0, 45, Short.MAX_VALUE)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_83.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_83.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblPhysiciansSkill)
-						.addComponent(spinnerPhysiciansSkill, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(15, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_83.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_83.createParallelGroup(Alignment.BASELINE).addComponent(lblPhysiciansSkill)
+								.addComponent(spinnerPhysiciansSkill, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(15, Short.MAX_VALUE)));
 		panel_83.setLayout(gl_panel_83);
-		
+
 		JPanel panel_82 = new JPanel();
 		panel_82.setBackground(Color.DARK_GRAY);
 		panel_82.setBounds(181, 385, 200, 45);
 		panel_61.add(panel_82);
-		
+
 		JLabel lblTimeMortallyWnd = new JLabel("Time Mortally Wnd.");
 		lblTimeMortallyWnd.setForeground(Color.WHITE);
 		lblTimeMortallyWnd.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		spinnerTimeMortallyWounded = new JSpinner();
 		GroupLayout gl_panel_82 = new GroupLayout(panel_82);
-		gl_panel_82.setHorizontalGroup(
-			gl_panel_82.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGroup(gl_panel_82.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblTimeMortallyWnd)
-					.addPreferredGap(ComponentPlacement.UNRELATED, 33, Short.MAX_VALUE)
-					.addComponent(spinnerTimeMortallyWounded, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_82.setVerticalGroup(
-			gl_panel_82.createParallelGroup(Alignment.LEADING)
+		gl_panel_82.setHorizontalGroup(gl_panel_82.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 200, Short.MAX_VALUE).addGap(0, 200, Short.MAX_VALUE)
+				.addGroup(gl_panel_82.createSequentialGroup().addContainerGap().addComponent(lblTimeMortallyWnd)
+						.addPreferredGap(ComponentPlacement.UNRELATED, 33, Short.MAX_VALUE)
+						.addComponent(spinnerTimeMortallyWounded, GroupLayout.PREFERRED_SIZE, 45,
+								GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		gl_panel_82.setVerticalGroup(gl_panel_82.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
 				.addGap(0, 45, Short.MAX_VALUE)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_82.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_82.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTimeMortallyWnd)
-						.addComponent(spinnerTimeMortallyWounded, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(15, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_82.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_82.createParallelGroup(Alignment.BASELINE).addComponent(lblTimeMortallyWnd)
+								.addComponent(spinnerTimeMortallyWounded, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(15, Short.MAX_VALUE)));
 		panel_82.setLayout(gl_panel_82);
-		
+
 		JPanel panel_81 = new JPanel();
 		panel_81.setBackground(Color.DARK_GRAY);
 		panel_81.setBounds(181, 330, 200, 45);
 		panel_61.add(panel_81);
-		
+
 		JLabel lblTimeUnconscious = new JLabel("Time Unconscious");
 		lblTimeUnconscious.setForeground(Color.WHITE);
 		lblTimeUnconscious.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		spinnerTimeUnconscious = new JSpinner();
 		GroupLayout gl_panel_81 = new GroupLayout(panel_81);
-		gl_panel_81.setHorizontalGroup(
-			gl_panel_81.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGroup(gl_panel_81.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblTimeUnconscious)
-					.addPreferredGap(ComponentPlacement.UNRELATED, 41, Short.MAX_VALUE)
-					.addComponent(spinnerTimeUnconscious, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_81.setVerticalGroup(
-			gl_panel_81.createParallelGroup(Alignment.LEADING)
+		gl_panel_81.setHorizontalGroup(gl_panel_81.createParallelGroup(Alignment.LEADING)
+				.addGap(0, 200, Short.MAX_VALUE).addGap(0, 200, Short.MAX_VALUE)
+				.addGroup(gl_panel_81.createSequentialGroup().addContainerGap().addComponent(lblTimeUnconscious)
+						.addPreferredGap(ComponentPlacement.UNRELATED, 41, Short.MAX_VALUE)
+						.addComponent(spinnerTimeUnconscious, GroupLayout.PREFERRED_SIZE, 45,
+								GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		gl_panel_81.setVerticalGroup(gl_panel_81.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
 				.addGap(0, 45, Short.MAX_VALUE)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_81.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_81.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTimeUnconscious)
-						.addComponent(spinnerTimeUnconscious, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(15, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_81.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_81.createParallelGroup(Alignment.BASELINE).addComponent(lblTimeUnconscious)
+								.addComponent(spinnerTimeUnconscious, GroupLayout.PREFERRED_SIZE,
+										GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(15, Short.MAX_VALUE)));
 		panel_81.setLayout(gl_panel_81);
-		
+
 		JPanel panel_80 = new JPanel();
 		panel_80.setBackground(Color.DARK_GRAY);
 		panel_80.setBounds(181, 274, 200, 45);
 		panel_61.add(panel_80);
-		
+
 		JLabel lblStabalized = new JLabel("Stabalized");
 		lblStabalized.setForeground(Color.WHITE);
 		lblStabalized.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		checkBoxStabalized = new JCheckBox("");
 		GroupLayout gl_panel_80 = new GroupLayout(panel_80);
-		gl_panel_80.setHorizontalGroup(
-			gl_panel_80.createParallelGroup(Alignment.TRAILING)
+		gl_panel_80.setHorizontalGroup(gl_panel_80.createParallelGroup(Alignment.TRAILING)
 				.addGap(0, 200, Short.MAX_VALUE)
-				.addGroup(gl_panel_80.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblStabalized)
-					.addPreferredGap(ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
-					.addComponent(checkBoxStabalized, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_80.setVerticalGroup(
-			gl_panel_80.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_80.createSequentialGroup()
-					.addGap(11)
-					.addGroup(gl_panel_80.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblStabalized)
-						.addComponent(checkBoxStabalized))
-					.addContainerGap(13, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_80.createSequentialGroup().addContainerGap().addComponent(lblStabalized)
+						.addPreferredGap(ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+						.addComponent(checkBoxStabalized, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		gl_panel_80.setVerticalGroup(gl_panel_80.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
+				.addGroup(gl_panel_80
+						.createSequentialGroup().addGap(11).addGroup(gl_panel_80.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblStabalized).addComponent(checkBoxStabalized))
+						.addContainerGap(13, Short.MAX_VALUE)));
 		panel_80.setLayout(gl_panel_80);
-		
+
 		JPanel panel_79 = new JPanel();
 		panel_79.setBackground(Color.DARK_GRAY);
 		panel_79.setBounds(181, 219, 200, 45);
 		panel_61.add(panel_79);
-		
+
 		JLabel lblMortallyWounded = new JLabel("Mortal Wound");
 		lblMortallyWounded.setForeground(Color.WHITE);
 		lblMortallyWounded.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		checkBoxMortalWound = new JCheckBox("");
 		GroupLayout gl_panel_79 = new GroupLayout(panel_79);
-		gl_panel_79.setHorizontalGroup(
-			gl_panel_79.createParallelGroup(Alignment.TRAILING)
+		gl_panel_79.setHorizontalGroup(gl_panel_79.createParallelGroup(Alignment.TRAILING)
 				.addGap(0, 200, Short.MAX_VALUE)
-				.addGroup(gl_panel_79.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblMortallyWounded)
-					.addPreferredGap(ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-					.addComponent(checkBoxMortalWound, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_79.setVerticalGroup(
-			gl_panel_79.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_79.createSequentialGroup()
-					.addGap(11)
-					.addGroup(gl_panel_79.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblMortallyWounded)
-						.addComponent(checkBoxMortalWound))
-					.addContainerGap(13, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_79.createSequentialGroup().addContainerGap().addComponent(lblMortallyWounded)
+						.addPreferredGap(ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+						.addComponent(checkBoxMortalWound, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		gl_panel_79.setVerticalGroup(gl_panel_79.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
+				.addGroup(gl_panel_79
+						.createSequentialGroup().addGap(11).addGroup(gl_panel_79.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblMortallyWounded).addComponent(checkBoxMortalWound))
+						.addContainerGap(13, Short.MAX_VALUE)));
 		panel_79.setLayout(gl_panel_79);
-		
+
 		JPanel panel_55 = new JPanel();
 		panel_55.setBackground(Color.DARK_GRAY);
 		panel_55.setBounds(181, 164, 200, 45);
 		panel_61.add(panel_55);
-		
+
 		JLabel lblAwake = new JLabel("Awake");
 		lblAwake.setForeground(Color.WHITE);
 		lblAwake.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		checkBoxAwake = new JCheckBox("");
 		GroupLayout gl_panel_55 = new GroupLayout(panel_55);
-		gl_panel_55.setHorizontalGroup(
-			gl_panel_55.createParallelGroup(Alignment.TRAILING)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGroup(gl_panel_55.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblAwake)
-					.addPreferredGap(ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
-					.addComponent(checkBoxAwake, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_55.setVerticalGroup(
-			gl_panel_55.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_55.createSequentialGroup()
-					.addGap(11)
-					.addGroup(gl_panel_55.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblAwake)
-						.addComponent(checkBoxAwake))
-					.addContainerGap(13, Short.MAX_VALUE))
-		);
+		gl_panel_55
+				.setHorizontalGroup(gl_panel_55.createParallelGroup(Alignment.TRAILING).addGap(0, 200, Short.MAX_VALUE)
+						.addGroup(gl_panel_55.createSequentialGroup().addContainerGap().addComponent(lblAwake)
+								.addPreferredGap(ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
+								.addComponent(checkBoxAwake, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap()));
+		gl_panel_55.setVerticalGroup(gl_panel_55.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
+				.addGroup(gl_panel_55
+						.createSequentialGroup().addGap(11).addGroup(gl_panel_55.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblAwake).addComponent(checkBoxAwake))
+						.addContainerGap(13, Short.MAX_VALUE)));
 		panel_55.setLayout(gl_panel_55);
-		
+
 		JPanel panel_54 = new JPanel();
 		panel_54.setBackground(Color.DARK_GRAY);
 		panel_54.setBounds(181, 113, 200, 45);
 		panel_61.add(panel_54);
-		
+
 		JLabel lblAlive_2 = new JLabel("Alive");
 		lblAlive_2.setForeground(Color.WHITE);
 		lblAlive_2.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		checkBoxAlive = new JCheckBox("");
 		GroupLayout gl_panel_54 = new GroupLayout(panel_54);
-		gl_panel_54.setHorizontalGroup(
-			gl_panel_54.createParallelGroup(Alignment.TRAILING)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGroup(gl_panel_54.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblAlive_2)
-					.addPreferredGap(ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
-					.addComponent(checkBoxAlive, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_54.setVerticalGroup(
-			gl_panel_54.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_54.createSequentialGroup()
-					.addGap(11)
-					.addGroup(gl_panel_54.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblAlive_2)
-						.addComponent(checkBoxAlive))
-					.addContainerGap(13, Short.MAX_VALUE))
-		);
+		gl_panel_54
+				.setHorizontalGroup(gl_panel_54.createParallelGroup(Alignment.TRAILING).addGap(0, 200, Short.MAX_VALUE)
+						.addGroup(gl_panel_54.createSequentialGroup().addContainerGap().addComponent(lblAlive_2)
+								.addPreferredGap(ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+								.addComponent(checkBoxAlive, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap()));
+		gl_panel_54.setVerticalGroup(gl_panel_54.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
+				.addGroup(gl_panel_54
+						.createSequentialGroup().addGap(11).addGroup(gl_panel_54.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblAlive_2).addComponent(checkBoxAlive))
+						.addContainerGap(13, Short.MAX_VALUE)));
 		panel_54.setLayout(gl_panel_54);
-		
+
 		JPanel panel_53 = new JPanel();
 		panel_53.setBackground(Color.DARK_GRAY);
 		panel_53.setBounds(181, 62, 200, 45);
 		panel_61.add(panel_53);
-		
+
 		JLabel lblCurrenthp = new JLabel("CurrentHP");
 		lblCurrenthp.setForeground(Color.WHITE);
 		lblCurrenthp.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		spinnerCurrentHp = new JSpinner();
 		GroupLayout gl_panel_53 = new GroupLayout(panel_53);
-		gl_panel_53.setHorizontalGroup(
-			gl_panel_53.createParallelGroup(Alignment.LEADING)
+		gl_panel_53.setHorizontalGroup(gl_panel_53.createParallelGroup(Alignment.LEADING)
 				.addGap(0, 200, Short.MAX_VALUE)
-				.addGroup(gl_panel_53.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblCurrenthp)
-					.addPreferredGap(ComponentPlacement.UNRELATED, 82, Short.MAX_VALUE)
-					.addComponent(spinnerCurrentHp, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_53.setVerticalGroup(
-			gl_panel_53.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_53.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_53.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblCurrenthp)
-						.addComponent(spinnerCurrentHp, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(15, Short.MAX_VALUE))
-		);
+				.addGroup(gl_panel_53.createSequentialGroup().addContainerGap().addComponent(lblCurrenthp)
+						.addPreferredGap(ComponentPlacement.UNRELATED, 82, Short.MAX_VALUE)
+						.addComponent(spinnerCurrentHp, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+						.addContainerGap()));
+		gl_panel_53.setVerticalGroup(gl_panel_53.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
+				.addGroup(gl_panel_53.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_53.createParallelGroup(Alignment.BASELINE).addComponent(lblCurrenthp)
+								.addComponent(spinnerCurrentHp, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(15, Short.MAX_VALUE)));
 		panel_53.setLayout(gl_panel_53);
-		
+
 		JPanel panel_52 = new JPanel();
 		panel_52.setBackground(Color.DARK_GRAY);
 		panel_52.setBounds(181, 11, 200, 45);
 		panel_61.add(panel_52);
-		
+
 		JLabel lblMaxhp = new JLabel("MaxHP");
 		lblMaxhp.setForeground(Color.WHITE);
 		lblMaxhp.setFont(new Font("Calibri", Font.PLAIN, 13));
-		
+
 		spinnerMaxHP = new JSpinner();
 		GroupLayout gl_panel_52 = new GroupLayout(panel_52);
-		gl_panel_52.setHorizontalGroup(
-			gl_panel_52.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 200, Short.MAX_VALUE)
-				.addGroup(gl_panel_52.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblMaxhp)
-					.addPreferredGap(ComponentPlacement.UNRELATED, 98, Short.MAX_VALUE)
-					.addComponent(spinnerMaxHP, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
-		);
-		gl_panel_52.setVerticalGroup(
-			gl_panel_52.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 45, Short.MAX_VALUE)
-				.addGroup(gl_panel_52.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_panel_52.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblMaxhp)
-						.addComponent(spinnerMaxHP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(15, Short.MAX_VALUE))
-		);
+		gl_panel_52
+				.setHorizontalGroup(gl_panel_52.createParallelGroup(Alignment.LEADING).addGap(0, 200, Short.MAX_VALUE)
+						.addGroup(gl_panel_52.createSequentialGroup().addContainerGap().addComponent(lblMaxhp)
+								.addPreferredGap(ComponentPlacement.UNRELATED, 98, Short.MAX_VALUE)
+								.addComponent(spinnerMaxHP, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+								.addContainerGap()));
+		gl_panel_52.setVerticalGroup(gl_panel_52.createParallelGroup(Alignment.LEADING).addGap(0, 45, Short.MAX_VALUE)
+				.addGroup(gl_panel_52.createSequentialGroup().addContainerGap()
+						.addGroup(gl_panel_52.createParallelGroup(Alignment.BASELINE).addComponent(lblMaxhp)
+								.addComponent(spinnerMaxHP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+										GroupLayout.PREFERRED_SIZE))
+						.addContainerGap(15, Short.MAX_VALUE)));
 		panel_52.setLayout(gl_panel_52);
 		f.getContentPane().setLayout(groupLayout);
 		f.setVisible(true);
@@ -3012,7 +2703,7 @@ public class EditIndividual implements Serializable {
 		setEditSkills(trooper);
 		refreshInjuries(trooper);
 	}
-	
+
 	// Sets all of the fields and lists on the first details page
 	public void setDetails(Trooper individual) {
 		lblName.setText("Name: " + individual.name);
@@ -3024,13 +2715,13 @@ public class EditIndividual implements Serializable {
 		lblP2.setText("P2: " + individual.spentPhase2 + "/" + individual.P2);
 		lblWep.setText("Weapon: " + individual.wep);
 		lblAmmo.setText("Ammo: " + individual.ammo);
-		lblMaxHp.setText("Max HP: "+individual.hp);
-		lblCurrentHp.setText("Current HP: "+individual.currentHP);
-		lblAlive_1.setText("Alive: "+individual.alive);
-		lblConscious.setText("Conscious: "+individual.conscious);
-		lblMaxShields_1.setText("Max Shields: "+individual.shields);
-		lblCurrentShields_1.setText("Current Shields: "+individual.currentShields);
-		
+		lblMaxHp.setText("Max HP: " + individual.hp);
+		lblCurrentHp.setText("Current HP: " + individual.currentHP);
+		lblAlive_1.setText("Alive: " + individual.alive);
+		lblConscious.setText("Conscious: " + individual.conscious);
+		lblMaxShields_1.setText("Max Shields: " + individual.shields);
+		lblCurrentShields_1.setText("Current Shields: " + individual.currentShields);
+
 		int cffwSkills[] = new int[10];
 		cffwSkills[0] = individual.getSkill("Rifle");
 		cffwSkills[1] = individual.getSkill("Pistol");
@@ -3078,29 +2769,29 @@ public class EditIndividual implements Serializable {
 		spinnerPer.setValue(individual.per);
 		spinnerHlt.setValue(individual.hlt);
 		spinnerAgi.setValue(individual.agi);
-		if(individual.alive) {
+		if (individual.alive) {
 			checkBoxAlive.setSelected(true);
 		} else {
 			checkBoxAlive.setSelected(false);
 		}
-		if(individual.conscious) {
+		if (individual.conscious) {
 			checkBoxAwake.setSelected(true);
 		} else {
 			checkBoxAwake.setSelected(false);
 		}
-		if(individual.mortallyWounded) {
+		if (individual.mortallyWounded) {
 			checkBoxMortalWound.setSelected(true);
 		} else {
 			checkBoxMortalWound.setSelected(false);
 		}
-		if(individual.stabalized) {
+		if (individual.stabalized) {
 			checkBoxStabalized.setSelected(true);
 		} else {
 			checkBoxStabalized.setSelected(false);
 		}
 		spinnerCurrentShields.setValue(individual.currentShields);
 		spinnerShieldChance.setValue(individual.shieldChance);
-		
+
 		spinnerKills.setValue(individual.kills);
 		spinnerKO.setValue(individual.KO);
 	}
@@ -3161,7 +2852,6 @@ public class EditIndividual implements Serializable {
 		negotiationsSpinner.setValue(individual.getSkill("Negotiations"));
 		smallUnitTacticsSpinner.setValue(individual.getSkill("Small Unit Tactics"));
 
-
 	}
 
 	public void deleteIndividualUnit(JFrame f, int index, EditUnit window) {
@@ -3176,11 +2866,10 @@ public class EditIndividual implements Serializable {
 		f.dispose();
 	}
 
-	// Sets troopers stats to equal the changed values
-	// Recalculates skills based off of attribute changes
-	// Sets skills equal to their skill bonus
-	public void saveChangesUnit(JFrame f, Trooper individual, int index, EditUnit window) {
+	public Trooper saveChanges() {
 
+		Trooper individual = this.trooper;
+		
 		// Sets basic fields
 		individual.name = textFieldName.getText();
 		individual.rank = textFieldRank.getText();
@@ -3188,7 +2877,6 @@ public class EditIndividual implements Serializable {
 		individual.vet = textFieldVet.getText();
 		individual.wep = textFieldWeapon.getText();
 		individual.ammo = (int) spinnerAmmo.getValue();
-
 
 		// Sets individual stats
 		individual.str = (int) spinnerStr.getValue();
@@ -3210,117 +2898,113 @@ public class EditIndividual implements Serializable {
 
 		// Sets skills equal to spinners
 
-		/*individual.ballance = (int) spinnerBallance.getValue();
-		individual.climb = (int) spinnerClimb.getValue();
-		individual.composure = (int) spinnerComposure.getValue();
-		individual.dodge = (int) spinnerDodge.getValue();
-		individual.endurance = (int) spinnerEndurance.getValue();
-		individual.expression = (int) spinnerExpression.getValue();
-		individual.grapple = (int) spinnerGrapple.getValue();
-		individual.hold = (int) spinnerHold.getValue();
-		individual.jump = (int) spinnerJump.getValue();
-		individual.lift = (int) spinnerLift.getValue();
-		individual.resistPain = (int) spinnerResistPain.getValue();
-		individual.search = (int) spinnerSearch.getValue();
-		individual.spotListen = (int) spinnerSpot.getValue();
-		individual.stealth = (int) spinnerStealth.getValue();
-		individual.camouflage = (int) spinnerCamo.getValue();
-		individual.calm = (int) spinnerCalm.getValue();
-		individual.diplomacy = (int) spinnerDiplomacy.getValue();
-		individual.barter = (int) spinnerBarter.getValue();
-		individual.command = (int) spinnerCommand.getValue();
-		individual.tactics = (int) spinnerTactics.getValue();
-		individual.detMotives = (int) spinnerDetMotives.getValue();
-		individual.intimidate = (int) spinnerIntimidate.getValue();
-		individual.persuade = (int) spinnerPersuade.getValue();
-		individual.digiSystems = (int) spinnerComputers.getValue();
-		individual.pistol = (int) spinnerPistol.getValue();
-		individual.heavy = (int) spinnerHeavy.getValue();
-		individual.subgun = (int) spinnerSubgun.getValue();
-		individual.launcher = (int) spinnerLauncher.getValue();
-		individual.rifle = (int) spinnerRifle.getValue();
-		individual.explosives = (int) spinnerExplosives.getValue();
-		individual.advancedMedicine = (int) advancedMedicineSpinner.getValue();
-		individual.firstAid = (int) spinnerFirstAid.getValue();
-		individual.navigation = (int) spinnerNavigation.getValue();
-		individual.swim = (int) spinnerSwim.getValue();
-		individual.Throw = (int) spinnerThrow.getValue();
-		 
-		individual.cleanOperations = (int) cleanOperationsSpinner.getValue();
-		individual.covertMovement = (int) covertMovementSpinner.getValue();
-		individual.fighter = (int) fighterSpinner.getValue();
-		individual.skills.getSkill("Fighter").rank = (int) spinnerFighterRanks.getValue();
-		individual.recoilControl = (int) recoilControlSpinner.getValue();
-		individual.reloadDrills = (int) reloadDrillsSpinner.getValue();
-		individual.silentOperations = (int) silentOperationsSpinner.getValue();
-		
-		individual.akSystems = (int) akSystemsSpinner.getValue();
-		individual.assualtOperations = (int) assualtOperationsSpinner.getValue();
-		individual.authority = (int) authoritySpinner.getValue();
-		individual.rawPower = (int) rawPowerSpinner.getValue();
-		
-		individual.arSystems = (int) arSystemsSpinner.getValue();
-		//individual.longRangeOptics = (int) longRangeOpticsSpinner.getValue();
-		individual.negotiations = (int) negotiationsSpinner.getValue();
-		individual.smallUnitTactics = (int) smallUnitTacticsSpinner.getValue();*/
-
+		/*
+		 * individual.ballance = (int) spinnerBallance.getValue(); individual.climb =
+		 * (int) spinnerClimb.getValue(); individual.composure = (int)
+		 * spinnerComposure.getValue(); individual.dodge = (int)
+		 * spinnerDodge.getValue(); individual.endurance = (int)
+		 * spinnerEndurance.getValue(); individual.expression = (int)
+		 * spinnerExpression.getValue(); individual.grapple = (int)
+		 * spinnerGrapple.getValue(); individual.hold = (int) spinnerHold.getValue();
+		 * individual.jump = (int) spinnerJump.getValue(); individual.lift = (int)
+		 * spinnerLift.getValue(); individual.resistPain = (int)
+		 * spinnerResistPain.getValue(); individual.search = (int)
+		 * spinnerSearch.getValue(); individual.spotListen = (int)
+		 * spinnerSpot.getValue(); individual.stealth = (int) spinnerStealth.getValue();
+		 * individual.camouflage = (int) spinnerCamo.getValue(); individual.calm = (int)
+		 * spinnerCalm.getValue(); individual.diplomacy = (int)
+		 * spinnerDiplomacy.getValue(); individual.barter = (int)
+		 * spinnerBarter.getValue(); individual.command = (int)
+		 * spinnerCommand.getValue(); individual.tactics = (int)
+		 * spinnerTactics.getValue(); individual.detMotives = (int)
+		 * spinnerDetMotives.getValue(); individual.intimidate = (int)
+		 * spinnerIntimidate.getValue(); individual.persuade = (int)
+		 * spinnerPersuade.getValue(); individual.digiSystems = (int)
+		 * spinnerComputers.getValue(); individual.pistol = (int)
+		 * spinnerPistol.getValue(); individual.heavy = (int) spinnerHeavy.getValue();
+		 * individual.subgun = (int) spinnerSubgun.getValue(); individual.launcher =
+		 * (int) spinnerLauncher.getValue(); individual.rifle = (int)
+		 * spinnerRifle.getValue(); individual.explosives = (int)
+		 * spinnerExplosives.getValue(); individual.advancedMedicine = (int)
+		 * advancedMedicineSpinner.getValue(); individual.firstAid = (int)
+		 * spinnerFirstAid.getValue(); individual.navigation = (int)
+		 * spinnerNavigation.getValue(); individual.swim = (int) spinnerSwim.getValue();
+		 * individual.Throw = (int) spinnerThrow.getValue();
+		 * 
+		 * individual.cleanOperations = (int) cleanOperationsSpinner.getValue();
+		 * individual.covertMovement = (int) covertMovementSpinner.getValue();
+		 * individual.fighter = (int) fighterSpinner.getValue();
+		 * individual.skills.getSkill("Fighter").rank = (int)
+		 * spinnerFighterRanks.getValue(); individual.recoilControl = (int)
+		 * recoilControlSpinner.getValue(); individual.reloadDrills = (int)
+		 * reloadDrillsSpinner.getValue(); individual.silentOperations = (int)
+		 * silentOperationsSpinner.getValue();
+		 * 
+		 * individual.akSystems = (int) akSystemsSpinner.getValue();
+		 * individual.assualtOperations = (int) assualtOperationsSpinner.getValue();
+		 * individual.authority = (int) authoritySpinner.getValue(); individual.rawPower
+		 * = (int) rawPowerSpinner.getValue();
+		 * 
+		 * individual.arSystems = (int) arSystemsSpinner.getValue();
+		 * //individual.longRangeOptics = (int) longRangeOpticsSpinner.getValue();
+		 * individual.negotiations = (int) negotiationsSpinner.getValue();
+		 * individual.smallUnitTactics = (int) smallUnitTacticsSpinner.getValue();
+		 */
 
 		// Creates PC stats
 		individual.setPCStats();
-		
-		// Sets health window 
+
+		// Sets health window
 		individual.currentHP = (int) spinnerCurrentHp.getValue();
 		individual.hp = (int) spinnerMaxHP.getValue();
-		if(checkBoxAlive.isSelected()) {
-			individual.alive = true; 
+		if (checkBoxAlive.isSelected()) {
+			individual.alive = true;
 		} else {
-			individual.alive = false; 
+			individual.alive = false;
 		}
-		if(checkBoxAwake.isSelected()) {
+		if (checkBoxAwake.isSelected()) {
 			individual.conscious = true;
 		} else {
 			individual.conscious = false;
 		}
-		
+
 		individual.shields = (int) spinnerMaxShields.getValue();
 		individual.currentShields = (int) spinnerCurrentShields.getValue();
 		individual.shieldChance = (int) spinnerShieldChance.getValue();
-		
+
 		individual.legs = (int) spinnerLegs.getValue();
 		individual.arms = (int) spinnerArms.getValue();
 		individual.disabledLegs = (int) spinnerDisabledLegs.getValue();
 		individual.disabledArms = (int) spinnerDisabledArms.getValue();
 		individual.kills = (int) spinnerKills.getValue();
-		
+
 		individual.timeUnconscious = (int) spinnerTimeUnconscious.getValue();
 		individual.timeMortallyWounded = (int) spinnerTimeMortallyWounded.getValue();
 		individual.physicianSkill = (int) spinnerPhysiciansSkill.getValue();
-		
-		if(checkBoxMortalWound.isSelected()) {
+
+		if (checkBoxMortalWound.isSelected()) {
 			individual.mortallyWounded = true;
 		} else {
 			individual.mortallyWounded = false;
 		}
-		
-		if(checkBoxStabalized.isSelected()) {
+
+		if (checkBoxStabalized.isSelected()) {
 			individual.stabalized = true;
 		} else {
 			individual.stabalized = false;
 		}
-		
-		
+
 		// Sets notes and equipment
 		individual.notes = textPaneNotes.getText();
 		individual.eqiupment = textPaneEquipment.getText();
-		
+
 		// Creates PC stats
 		individual.setPCStats();
-		
+
 		// Create and set individual stats
-		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal, individual.skills.getSkill("Pistol").value, 
-				individual.skills.getSkill("Rifle").value, 
-				individual.skills.getSkill("Launcher").value, 
-				individual.skills.getSkill("Heavy").value,
+		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal,
+				individual.skills.getSkill("Pistol").value, individual.skills.getSkill("Rifle").value,
+				individual.skills.getSkill("Launcher").value, individual.skills.getSkill("Heavy").value,
 				individual.skills.getSkill("Subgun").value, true);
 		individual.P1 = individualStats.P1;
 		individual.P2 = individualStats.P2;
@@ -3328,7 +3012,159 @@ public class EditIndividual implements Serializable {
 		individual.notes = textPaneNotes.getText();
 
 		individual.KO = (int) spinnerKO.getValue();
-		
+
+		return individual;
+
+	}
+
+	// Sets troopers stats to equal the changed values
+	// Recalculates skills based off of attribute changes
+	// Sets skills equal to their skill bonus
+	public void saveChangesUnit(JFrame f, Trooper individual, int index, EditUnit window) {
+
+		// Sets basic fields
+		individual.name = textFieldName.getText();
+		individual.rank = textFieldRank.getText();
+		individual.designation = textFieldRole.getText();
+		individual.vet = textFieldVet.getText();
+		individual.wep = textFieldWeapon.getText();
+		individual.ammo = (int) spinnerAmmo.getValue();
+
+		// Sets individual stats
+		individual.str = (int) spinnerStr.getValue();
+		individual.wit = (int) spinnerWit.getValue();
+		individual.soc = (int) spinnerSoc.getValue();
+		individual.wil = (int) spinnerWil.getValue();
+		individual.per = (int) spinnerPer.getValue();
+		individual.hlt = (int) spinnerHlt.getValue();
+		individual.agi = (int) spinnerAgi.getValue();
+
+		int attr[] = new int[7];
+		attr[0] = individual.str;
+		attr[1] = individual.wit;
+		attr[2] = individual.soc;
+		attr[3] = individual.wil;
+		attr[4] = individual.per;
+		attr[5] = individual.hlt;
+		attr[6] = individual.agi;
+
+		// Sets skills equal to spinners
+
+		/*
+		 * individual.ballance = (int) spinnerBallance.getValue(); individual.climb =
+		 * (int) spinnerClimb.getValue(); individual.composure = (int)
+		 * spinnerComposure.getValue(); individual.dodge = (int)
+		 * spinnerDodge.getValue(); individual.endurance = (int)
+		 * spinnerEndurance.getValue(); individual.expression = (int)
+		 * spinnerExpression.getValue(); individual.grapple = (int)
+		 * spinnerGrapple.getValue(); individual.hold = (int) spinnerHold.getValue();
+		 * individual.jump = (int) spinnerJump.getValue(); individual.lift = (int)
+		 * spinnerLift.getValue(); individual.resistPain = (int)
+		 * spinnerResistPain.getValue(); individual.search = (int)
+		 * spinnerSearch.getValue(); individual.spotListen = (int)
+		 * spinnerSpot.getValue(); individual.stealth = (int) spinnerStealth.getValue();
+		 * individual.camouflage = (int) spinnerCamo.getValue(); individual.calm = (int)
+		 * spinnerCalm.getValue(); individual.diplomacy = (int)
+		 * spinnerDiplomacy.getValue(); individual.barter = (int)
+		 * spinnerBarter.getValue(); individual.command = (int)
+		 * spinnerCommand.getValue(); individual.tactics = (int)
+		 * spinnerTactics.getValue(); individual.detMotives = (int)
+		 * spinnerDetMotives.getValue(); individual.intimidate = (int)
+		 * spinnerIntimidate.getValue(); individual.persuade = (int)
+		 * spinnerPersuade.getValue(); individual.digiSystems = (int)
+		 * spinnerComputers.getValue(); individual.pistol = (int)
+		 * spinnerPistol.getValue(); individual.heavy = (int) spinnerHeavy.getValue();
+		 * individual.subgun = (int) spinnerSubgun.getValue(); individual.launcher =
+		 * (int) spinnerLauncher.getValue(); individual.rifle = (int)
+		 * spinnerRifle.getValue(); individual.explosives = (int)
+		 * spinnerExplosives.getValue(); individual.advancedMedicine = (int)
+		 * advancedMedicineSpinner.getValue(); individual.firstAid = (int)
+		 * spinnerFirstAid.getValue(); individual.navigation = (int)
+		 * spinnerNavigation.getValue(); individual.swim = (int) spinnerSwim.getValue();
+		 * individual.Throw = (int) spinnerThrow.getValue();
+		 * 
+		 * individual.cleanOperations = (int) cleanOperationsSpinner.getValue();
+		 * individual.covertMovement = (int) covertMovementSpinner.getValue();
+		 * individual.fighter = (int) fighterSpinner.getValue();
+		 * individual.skills.getSkill("Fighter").rank = (int)
+		 * spinnerFighterRanks.getValue(); individual.recoilControl = (int)
+		 * recoilControlSpinner.getValue(); individual.reloadDrills = (int)
+		 * reloadDrillsSpinner.getValue(); individual.silentOperations = (int)
+		 * silentOperationsSpinner.getValue();
+		 * 
+		 * individual.akSystems = (int) akSystemsSpinner.getValue();
+		 * individual.assualtOperations = (int) assualtOperationsSpinner.getValue();
+		 * individual.authority = (int) authoritySpinner.getValue(); individual.rawPower
+		 * = (int) rawPowerSpinner.getValue();
+		 * 
+		 * individual.arSystems = (int) arSystemsSpinner.getValue();
+		 * //individual.longRangeOptics = (int) longRangeOpticsSpinner.getValue();
+		 * individual.negotiations = (int) negotiationsSpinner.getValue();
+		 * individual.smallUnitTactics = (int) smallUnitTacticsSpinner.getValue();
+		 */
+
+		// Creates PC stats
+		individual.setPCStats();
+
+		// Sets health window
+		individual.currentHP = (int) spinnerCurrentHp.getValue();
+		individual.hp = (int) spinnerMaxHP.getValue();
+		if (checkBoxAlive.isSelected()) {
+			individual.alive = true;
+		} else {
+			individual.alive = false;
+		}
+		if (checkBoxAwake.isSelected()) {
+			individual.conscious = true;
+		} else {
+			individual.conscious = false;
+		}
+
+		individual.shields = (int) spinnerMaxShields.getValue();
+		individual.currentShields = (int) spinnerCurrentShields.getValue();
+		individual.shieldChance = (int) spinnerShieldChance.getValue();
+
+		individual.legs = (int) spinnerLegs.getValue();
+		individual.arms = (int) spinnerArms.getValue();
+		individual.disabledLegs = (int) spinnerDisabledLegs.getValue();
+		individual.disabledArms = (int) spinnerDisabledArms.getValue();
+		individual.kills = (int) spinnerKills.getValue();
+
+		individual.timeUnconscious = (int) spinnerTimeUnconscious.getValue();
+		individual.timeMortallyWounded = (int) spinnerTimeMortallyWounded.getValue();
+		individual.physicianSkill = (int) spinnerPhysiciansSkill.getValue();
+
+		if (checkBoxMortalWound.isSelected()) {
+			individual.mortallyWounded = true;
+		} else {
+			individual.mortallyWounded = false;
+		}
+
+		if (checkBoxStabalized.isSelected()) {
+			individual.stabalized = true;
+		} else {
+			individual.stabalized = false;
+		}
+
+		// Sets notes and equipment
+		individual.notes = textPaneNotes.getText();
+		individual.eqiupment = textPaneEquipment.getText();
+
+		// Creates PC stats
+		individual.setPCStats();
+
+		// Create and set individual stats
+		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal,
+				individual.skills.getSkill("Pistol").value, individual.skills.getSkill("Rifle").value,
+				individual.skills.getSkill("Launcher").value, individual.skills.getSkill("Heavy").value,
+				individual.skills.getSkill("Subgun").value, true);
+		individual.P1 = individualStats.P1;
+		individual.P2 = individualStats.P2;
+
+		individual.notes = textPaneNotes.getText();
+
+		individual.KO = (int) spinnerKO.getValue();
+
 		window.setTrooper(individual, index);
 		window.refreshIndividuals();
 		f.dispose();
@@ -3369,118 +3205,115 @@ public class EditIndividual implements Serializable {
 
 		// Sets skills equal to spinners
 
-		/*individual.ballance = (int) spinnerBallance.getValue();
-		individual.climb = (int) spinnerClimb.getValue();
-		individual.composure = (int) spinnerComposure.getValue();
-		individual.dodge = (int) spinnerDodge.getValue();
-		individual.endurance = (int) spinnerEndurance.getValue();
-		individual.expression = (int) spinnerExpression.getValue();
-		individual.grapple = (int) spinnerGrapple.getValue();
-		individual.hold = (int) spinnerHold.getValue();
-		individual.jump = (int) spinnerJump.getValue();
-		individual.lift = (int) spinnerLift.getValue();
-		individual.resistPain = (int) spinnerResistPain.getValue();
-		individual.search = (int) spinnerSearch.getValue();
-		individual.spotListen = (int) spinnerSpot.getValue();
-		individual.stealth = (int) spinnerStealth.getValue();
-		individual.camouflage = (int) spinnerCamo.getValue();
-		individual.calm = (int) spinnerCalm.getValue();
-		individual.diplomacy = (int) spinnerDiplomacy.getValue();
-		individual.barter = (int) spinnerBarter.getValue();
-		individual.command = (int) spinnerCommand.getValue();
-		individual.tactics = (int) spinnerTactics.getValue();
-		individual.detMotives = (int) spinnerDetMotives.getValue();
-		individual.intimidate = (int) spinnerIntimidate.getValue();
-		individual.persuade = (int) spinnerPersuade.getValue();
-		individual.digiSystems = (int) spinnerComputers.getValue();
-		individual.pistol = (int) spinnerPistol.getValue();
-		individual.heavy = (int) spinnerHeavy.getValue();
-		individual.subgun = (int) spinnerSubgun.getValue();
-		individual.launcher = (int) spinnerLauncher.getValue();
-		individual.rifle = (int) spinnerRifle.getValue();
-		individual.explosives = (int) spinnerExplosives.getValue();
-		individual.advancedMedicine = (int) advancedMedicineSpinner.getValue();
-		individual.firstAid = (int) spinnerFirstAid.getValue();
-		individual.navigation = (int) spinnerNavigation.getValue();
-		individual.swim = (int) spinnerSwim.getValue();
-		individual.Throw = (int) spinnerThrow.getValue();
-		 
-		individual.cleanOperations = (int) cleanOperationsSpinner.getValue();
-		individual.covertMovement = (int) covertMovementSpinner.getValue();
-		individual.fighter = (int) fighterSpinner.getValue();
-		individual.skills.getSkill("Fighter").rank = (int) spinnerFighterRanks.getValue();
-		individual.recoilControl = (int) recoilControlSpinner.getValue();
-		individual.reloadDrills = (int) reloadDrillsSpinner.getValue();
-		individual.silentOperations = (int) silentOperationsSpinner.getValue();
-		
-		individual.akSystems = (int) akSystemsSpinner.getValue();
-		individual.assualtOperations = (int) assualtOperationsSpinner.getValue();
-		individual.authority = (int) authoritySpinner.getValue();
-		individual.rawPower = (int) rawPowerSpinner.getValue();
-		
-		individual.arSystems = (int) arSystemsSpinner.getValue();
-		//individual.longRangeOptics = (int) longRangeOpticsSpinner.getValue();
-		individual.negotiations = (int) negotiationsSpinner.getValue();
-		individual.smallUnitTactics = (int) smallUnitTacticsSpinner.getValue();*/
+		/*
+		 * individual.ballance = (int) spinnerBallance.getValue(); individual.climb =
+		 * (int) spinnerClimb.getValue(); individual.composure = (int)
+		 * spinnerComposure.getValue(); individual.dodge = (int)
+		 * spinnerDodge.getValue(); individual.endurance = (int)
+		 * spinnerEndurance.getValue(); individual.expression = (int)
+		 * spinnerExpression.getValue(); individual.grapple = (int)
+		 * spinnerGrapple.getValue(); individual.hold = (int) spinnerHold.getValue();
+		 * individual.jump = (int) spinnerJump.getValue(); individual.lift = (int)
+		 * spinnerLift.getValue(); individual.resistPain = (int)
+		 * spinnerResistPain.getValue(); individual.search = (int)
+		 * spinnerSearch.getValue(); individual.spotListen = (int)
+		 * spinnerSpot.getValue(); individual.stealth = (int) spinnerStealth.getValue();
+		 * individual.camouflage = (int) spinnerCamo.getValue(); individual.calm = (int)
+		 * spinnerCalm.getValue(); individual.diplomacy = (int)
+		 * spinnerDiplomacy.getValue(); individual.barter = (int)
+		 * spinnerBarter.getValue(); individual.command = (int)
+		 * spinnerCommand.getValue(); individual.tactics = (int)
+		 * spinnerTactics.getValue(); individual.detMotives = (int)
+		 * spinnerDetMotives.getValue(); individual.intimidate = (int)
+		 * spinnerIntimidate.getValue(); individual.persuade = (int)
+		 * spinnerPersuade.getValue(); individual.digiSystems = (int)
+		 * spinnerComputers.getValue(); individual.pistol = (int)
+		 * spinnerPistol.getValue(); individual.heavy = (int) spinnerHeavy.getValue();
+		 * individual.subgun = (int) spinnerSubgun.getValue(); individual.launcher =
+		 * (int) spinnerLauncher.getValue(); individual.rifle = (int)
+		 * spinnerRifle.getValue(); individual.explosives = (int)
+		 * spinnerExplosives.getValue(); individual.advancedMedicine = (int)
+		 * advancedMedicineSpinner.getValue(); individual.firstAid = (int)
+		 * spinnerFirstAid.getValue(); individual.navigation = (int)
+		 * spinnerNavigation.getValue(); individual.swim = (int) spinnerSwim.getValue();
+		 * individual.Throw = (int) spinnerThrow.getValue();
+		 * 
+		 * individual.cleanOperations = (int) cleanOperationsSpinner.getValue();
+		 * individual.covertMovement = (int) covertMovementSpinner.getValue();
+		 * individual.fighter = (int) fighterSpinner.getValue();
+		 * individual.skills.getSkill("Fighter").rank = (int)
+		 * spinnerFighterRanks.getValue(); individual.recoilControl = (int)
+		 * recoilControlSpinner.getValue(); individual.reloadDrills = (int)
+		 * reloadDrillsSpinner.getValue(); individual.silentOperations = (int)
+		 * silentOperationsSpinner.getValue();
+		 * 
+		 * individual.akSystems = (int) akSystemsSpinner.getValue();
+		 * individual.assualtOperations = (int) assualtOperationsSpinner.getValue();
+		 * individual.authority = (int) authoritySpinner.getValue(); individual.rawPower
+		 * = (int) rawPowerSpinner.getValue();
+		 * 
+		 * individual.arSystems = (int) arSystemsSpinner.getValue();
+		 * //individual.longRangeOptics = (int) longRangeOpticsSpinner.getValue();
+		 * individual.negotiations = (int) negotiationsSpinner.getValue();
+		 * individual.smallUnitTactics = (int) smallUnitTacticsSpinner.getValue();
+		 */
 
 		// Creates PC stats
 		individual.setPCStats();
-		// Sets health window 
+		// Sets health window
 		individual.currentHP = (int) spinnerCurrentHp.getValue();
 		individual.hp = (int) spinnerMaxHP.getValue();
-		
-		if(checkBoxAlive.isSelected()) {
-			individual.alive = true; 
+
+		if (checkBoxAlive.isSelected()) {
+			individual.alive = true;
 		} else {
-			individual.alive = false; 
+			individual.alive = false;
 		}
-		if(checkBoxAwake.isSelected()) {
+		if (checkBoxAwake.isSelected()) {
 			individual.conscious = true;
 		} else {
 			individual.conscious = false;
 		}
-		
+
 		individual.shields = (int) spinnerMaxShields.getValue();
 		individual.currentShields = (int) spinnerCurrentShields.getValue();
 		individual.shieldChance = (int) spinnerShieldChance.getValue();
-		
+
 		individual.legs = (int) spinnerLegs.getValue();
 		individual.arms = (int) spinnerArms.getValue();
 		individual.disabledLegs = (int) spinnerDisabledLegs.getValue();
 		individual.disabledArms = (int) spinnerDisabledArms.getValue();
 		individual.kills = (int) spinnerKills.getValue();
-		
+
 		individual.timeUnconscious = (int) spinnerTimeUnconscious.getValue();
 		individual.timeMortallyWounded = (int) spinnerTimeMortallyWounded.getValue();
 		individual.physicianSkill = (int) spinnerPhysiciansSkill.getValue();
-		
-		if(checkBoxMortalWound.isSelected()) {
+
+		if (checkBoxMortalWound.isSelected()) {
 			individual.mortallyWounded = true;
 		} else {
 			individual.mortallyWounded = false;
 		}
-		
-		if(checkBoxStabalized.isSelected()) {
+
+		if (checkBoxStabalized.isSelected()) {
 			individual.stabalized = true;
 		} else {
 			individual.stabalized = false;
 		}
-		
-		
+
 		// Sets notes and equipment
 		individual.notes = textPaneNotes.getText();
 		individual.eqiupment = textPaneEquipment.getText();
-		
+
 		individual.setPCStats();
-		
+
 		// Create and set individual stats
 		// Create and set individual stats
-		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal, individual.skills.getSkill("Pistol").value, 
-				individual.skills.getSkill("Rifle").value, 
-				individual.skills.getSkill("Launcher").value, 
-				individual.skills.getSkill("Heavy").value,
+		IndividualStats individualStats = new IndividualStats(individual.combatActions, individual.sal,
+				individual.skills.getSkill("Pistol").value, individual.skills.getSkill("Rifle").value,
+				individual.skills.getSkill("Launcher").value, individual.skills.getSkill("Heavy").value,
 				individual.skills.getSkill("Subgun").value, true);
-		
+
 		individual.P1 = individualStats.P1;
 		individual.P2 = individualStats.P2;
 
@@ -3518,29 +3351,27 @@ public class EditIndividual implements Serializable {
 		}
 
 	}
-	
+
 	public void refreshInjuries(Trooper trooper) {
-		
-		
+
 		chckbxFirstAid.setSelected(trooper.recivingFirstAid);
-		
+
 		spinnerRRMod.setValue(trooper.recoveryRollMod);
-		lblRR.setText("RR: "+trooper.recoveryRoll);
-		
-		lblCTP.setText("CT(Phases): "+trooper.criticalTime);
-		lblTP.setText("TP(Phases): "+trooper.timePassed);
-		
-		
+		lblRR.setText("RR: " + trooper.recoveryRoll);
+
+		lblCTP.setText("CT(Phases): " + trooper.criticalTime);
+		lblTP.setText("TP(Phases): " + trooper.timePassed);
+
 		DefaultListModel listInjuries2 = new DefaultListModel();
-		
-		for(Injuries injury : trooper.injuries) {
-			
+
+		for (Injuries injury : trooper.injuries) {
+
 			listInjuries2.addElement(injury.toString());
-			
+
 		}
-		
+
 		listInjuries.setModel(listInjuries2);
-		
+
 	}
 
 	// Gets units from edit company window
@@ -3570,4 +3401,9 @@ public class EditIndividual implements Serializable {
 		}
 
 	}
+
+	public void openCharacterBuilder() {
+		new CharacterBuilderWindow(this.trooper);
+	}
+
 }

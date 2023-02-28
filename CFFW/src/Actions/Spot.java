@@ -1693,6 +1693,17 @@ public class Spot implements Serializable {
 		return success;
 	}
 
+	public void displayResultsQueue(GameWindow gameWindow, Spot spotAction) {
+		
+		// Print results
+				gameWindow.conflictLog.addNewLineToQueue("Spotted: \n"
+						+ "Results: " + resultsString + "\n" 
+						+ "Target Number: " + spotActionSpottingChance + " Roll: " + spotActionDiceRoll 
+						+ "\nSuccess: "
+						+ spotAction.success + "\n" + spotAction.spottedIndividuals.toString());
+		
+	}
+	
 	public void displayResults(GameWindow gameWindow, Spot spotAction) {
 		
 		// Print results
@@ -1703,6 +1714,5 @@ public class Spot implements Serializable {
 						+ spotAction.success + "\n" + spotAction.spottedIndividuals.toString());
 		
 	}
-	
 	
 }

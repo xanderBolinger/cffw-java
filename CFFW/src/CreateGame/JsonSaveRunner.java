@@ -80,6 +80,7 @@ public class JsonSaveRunner {
 
 	public static Trooper loadTrooper(String json) {
 		TrooperJson trooperJson = new Gson().fromJson(json, TrooperJson.class);
+		System.out.println("Trooper Json Name: "+trooperJson.name);
 		return trooperJson.getTrooper();
 	}
 	

@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import Conflict.GameWindow;
+import Conflict.InjuryLog;
 import CorditeExpansion.FullAuto;
 import CorditeExpansion.FullAuto.FullAutoResults;
 import Injuries.Explosion;
@@ -166,8 +167,11 @@ public class Shoot {
 		setSingleTn();
 		setSuppressiveTn();
 		setFullAutoTn();
+		
+		updateInjuryLog();
+		
 	}
-
+	
 	public void burst() {
 		if(pcAmmo != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, wep.fullAutoROF)) {
 			shotResults = "Not enough ammunition.";
@@ -192,8 +196,18 @@ public class Shoot {
 		setSingleTn();
 		setSuppressiveTn();
 		setFullAutoTn();
+		
+		updateInjuryLog();
 	}
 
+	public void updateInjuryLog() {
+		if(target == null)
+			return; 
+		System.out.println("Shoot Add trooper log");
+		InjuryLog.InjuryLog.addTrooper(target);
+		
+	}
+	
 	public void suppressiveFire(int shots) {
 		
 		System.out.println("Shoot suppressive");

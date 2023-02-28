@@ -94,12 +94,10 @@ public class TrooperJson {
 		trooper.encumberanceModifier = encumberanceModifier;
 		trooper.wep = wep;
 		trooper.name = name; 
+		//System.out.println("Name Pass: "+trooper.name);
 		trooper.ammo = ammo;
 		
-		int attr[] = { trooper.str, trooper.wit, trooper.soc, trooper.wil, trooper.per, 
-				trooper.hlt, trooper.agi };
-		
-		trooper.skills(input, attr);
+		trooper.skills = skills;
 
 		IndividualStats individual = new IndividualStats(trooper.combatActions, trooper.sal,
 				skills.getSkill("Pistol").value, 
@@ -107,10 +105,11 @@ public class TrooperJson {
 				trooper.skills.getSkill("Launcher").value, 
 				trooper.skills.getSkill("Heavy").value,
 				trooper.skills.getSkill("Subgun").value, true);
-		trooper.name = individual.name;
 		trooper.P1 = individual.P1;
 		trooper.P2 = individual.P2;
 
+		//System.out.println("Name Pass 1: "+trooper.name);
+		
 		trooper.identifier = identifier;
 		trooper.HD = false;
 
@@ -134,7 +133,12 @@ public class TrooperJson {
 			trooper.carryingCapacity = 120;
 		}
 		
+		//System.out.println("Name Pass 2: "+trooper.name);
+		
 		trooper.setCombatStats(trooper);
+		System.out.println("Trooper Wis: "+trooper.wis+", wis field: "+wis);
+		System.out.println("Trooper Abilities Count: "+trooper.abilities.size()+", abilities field: "+abilities.size());
+		System.out.println("Load Trooper Name: "+trooper.name+", Name Field: "+this.name);
 		
 		return trooper;
 	}

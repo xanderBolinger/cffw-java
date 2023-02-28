@@ -574,20 +574,36 @@ public class BulkWindow {
 					@Override
 					protected Void doInBackground() throws Exception {
 
+						ExecutorService es = Executors.newFixedThreadPool(16);
+						
 						try {
+							
+							
+							
 							for (Trooper trooper : getSelectedTroopers()) {
 
-								// System.out.println("Spot Test All 1");
-								spotTestAll(trooper, unit);
-								// System.out.println("Spot Test All 2");
+								
+								es.submit(() -> {
+									// System.out.println("Spot Test All 1");
+									spotTestAll(trooper, unit);
+									// System.out.println("Spot Test All 2");
 
-								// If not a free test
-								if (!chckbxFreeAction.isSelected()) {
-									actionSpent(trooper);
+									// If not a free test
+									if (!chckbxFreeAction.isSelected()) {
+										actionSpent(trooper);
+									}
+								});
+								
+								try {
+									TimeUnit.MILLISECONDS.sleep(75);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
 								}
 
 							}
 
+							es.shutdown();
+							
 							// refreshTargets();
 						} catch (Exception e2) {
 							System.out.println("toString(): " + e2.toString());
@@ -616,6 +632,8 @@ public class BulkWindow {
 						listSpottedUnitsArray.setModel(listSpottedUnits);
 
 						refreshIndividualList();
+						
+						GameWindow.gameWindow.conflictLog.addQueuedText();
 
 					}
 
@@ -656,21 +674,36 @@ public class BulkWindow {
 
 						try {
 
+							ExecutorService es = Executors.newFixedThreadPool(16);
+							
 							for (Trooper trooper : getSelectedTroopers()) {
 
-								// Loops through all signs, performs spotting test
-								for (int i = 0; i < callsigns.size(); i++) {
-									// System.out.println("Spot Test 1");
-									spotTest(callsigns.get(i), trooper, unit);
-									// System.out.println("Spot Test 2");
-								}
+								es.submit(() -> {
+									// Loops through all signs, performs spotting test
+									for (int i = 0; i < callsigns.size(); i++) {
+										// System.out.println("Spot Test 1");
+										spotTest(callsigns.get(i), trooper, unit);
+										// System.out.println("Spot Test 2");
+									}
 
-								// If not a free test
-								if (!chckbxFreeAction.isSelected()) {
-									actionSpent(trooper);
+									// If not a free test
+									if (!chckbxFreeAction.isSelected()) {
+										actionSpent(trooper);
+									}
+								});
+								
+								try {
+									TimeUnit.MILLISECONDS.sleep(75);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
 								}
+				
 
 							}
+							
+							es.shutdown();
+							
+							
 
 						} catch (Exception e2) {
 							System.out.println("toString(): " + e2.toString());
@@ -700,7 +733,7 @@ public class BulkWindow {
 
 						refreshIndividualList();
 						// refreshTargets();
-
+						GameWindow.gameWindow.conflictLog.addQueuedText();
 					}
 
 				};
@@ -1232,9 +1265,9 @@ public class BulkWindow {
 						}
 						
 						guiUpdates();
-						gameWindow.conflictLog.addQueuedText();
 						refreshIndividualList();
 						InjuryLog.InjuryLog.printResultsToLog();
+						gameWindow.conflictLog.addQueuedText();
 					}
 
 				};
@@ -3268,7 +3301,7 @@ public class BulkWindow {
 				gameWindow);
 
 		// Print results
-		spotAction.displayResults(gameWindow, spotAction);
+		spotAction.displayResultsQueue(gameWindow, spotAction);
 
 		// Set results in trooper
 		trooper.spotted.add(spotAction);
@@ -3290,7 +3323,7 @@ public class BulkWindow {
 					comboBoxScanArea.getSelectedItem().toString(), gameWindow.visibility, gameWindow.initiativeOrder,
 					gameWindow);
 
-			spotAction.displayResults(gameWindow, spotAction);
+			spotAction.displayResultsQueue(gameWindow, spotAction);
 
 			// Set results in trooper
 			trooper.spotted.add(spotAction);
@@ -3398,10 +3431,10 @@ public class BulkWindow {
 				}
 				
 				System.out.println("volley gui updates");
-				gameWindow.conflictLog.addQueuedText();
 				guiUpdates();
 				refreshIndividualList();
 				InjuryLog.InjuryLog.printResultsToLog();
+				gameWindow.conflictLog.addQueuedText();
 				// individualsList.setSelectedIndex(-1);
 
 			}

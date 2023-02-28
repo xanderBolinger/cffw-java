@@ -103,7 +103,7 @@ public class InjuryLog {
 		String text = "\nSITREP:\n"; 
 		
 		if(dead.size() > 0) {
-			text += "DEAD: [";
+			text += "DEAD("+dead.size()+"): [";
 			for(Trooper trooper : dead) {
 				text += GameWindow.getLogHead(trooper);
 				
@@ -118,7 +118,7 @@ public class InjuryLog {
 		}
 		
 		if(unconscious.size() > 0) {
-			text += "UNCONSCIOUS: [";
+			text += "UNCONSCIOUS("+unconscious.size()+"): [";
 			for(Trooper trooper : unconscious) {
 				if(dead.contains(trooper))
 					continue; 
@@ -138,7 +138,7 @@ public class InjuryLog {
 		
 		
 		if(injured.size() > 0) {
-			text += "INJURED: [";
+			text += "INJURED("+injured.size()+"): [";
 			for(Trooper trooper : injured) {
 				if(dead.contains(trooper) || unconscious.contains(trooper))
 					continue; 
@@ -154,10 +154,10 @@ public class InjuryLog {
 		
 		GameWindow.gameWindow.conflictLog.addNewLineToQueue(text);
 		
+		System.out.println("Print results to log, injured size: "+injured.size());
 		dead.clear();
 		injured.clear();
 		unconscious.clear();
-
 	}
 	
 	
