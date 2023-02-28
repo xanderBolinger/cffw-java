@@ -272,7 +272,7 @@ public class Item implements Serializable {
 	public String getItemName() {
 		if(weapon == null || ammo == null)
 			return weapon != null ? weapon.name : ammo.name;
-		else 
+		else
 			return weapon.name + ": "+ammo.name+" round, "+ "depleted: "+ammo.depleted;
 	}
 	

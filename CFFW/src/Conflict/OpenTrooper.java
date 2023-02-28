@@ -1177,7 +1177,7 @@ public class OpenTrooper implements Serializable {
 								shoot.burst();
 							else
 								shoot.shot(chckbxHoming.isSelected());
-
+							System.out.println("Open Trooper Shoot");
 							GameWindow.gameWindow.conflictLog.addNewLineToQueue("Results: " + shoot.shotResults);
 						} catch (Exception e) {
 							e.printStackTrace();

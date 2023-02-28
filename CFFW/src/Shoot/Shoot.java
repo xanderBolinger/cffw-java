@@ -143,7 +143,7 @@ public class Shoot {
 		if(pcAmmo != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, 1)) {
 			shotResults = "Not enough ammunition.";
 			return;
-		} else if (!ammoCheckSingle()) {
+		} else if (pcAmmo == null && !ammoCheckSingle()) {
 			System.out.println("shot return");
 			shotResults = "Not enough ammunition.";
 			return;
@@ -176,7 +176,7 @@ public class Shoot {
 		if(pcAmmo != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, wep.fullAutoROF)) {
 			shotResults = "Not enough ammunition.";
 			return;
-		} else if (!ammoCheckFull()) {
+		} else if (pcAmmo == null && !ammoCheckFull()) {
 			shotResults = "Not enough ammunition.";
 			return;
 		}
@@ -212,10 +212,10 @@ public class Shoot {
 		
 		System.out.println("Shoot suppressive");
 		
-		if(pcAmmo != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, wep.suppressiveROF)) {
+		if(pcAmmo != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, shots)) {
 			shotResults = "Not enough ammunition.";
 			return;
-		} else if (!ammoCheckSuppressive(shots)) {
+		} else if (pcAmmo == null && !ammoCheckSuppressive(shots)) {
 			shotResults = "Not enough ammunition.";
 			return;
 		}
@@ -273,6 +273,9 @@ public class Shoot {
 	}
 
 	public boolean ammoCheckSingle() {
+		
+		System.out.println("Ammo Check Single");
+		
 		if(wep.type.equals("Static")) {
 			if(wep.ammoLoaded <= 0) {
 				outOfAmmo = true;

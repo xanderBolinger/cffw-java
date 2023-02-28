@@ -294,6 +294,7 @@ public class Inventory implements Serializable {
 					break; 
 				} else {
 					shots = 0;
+					System.out.println("Depleted");
 					item.ammo.depleted = true;
 					break;
 				}
@@ -305,7 +306,7 @@ public class Inventory implements Serializable {
 		int ammo = 0; 
 		
 		for(Item item : getItemsArray()) {
-			if(item.isRound() && item.weapon.name.equals(weapon.name) && !item.ammo.depleted) {
+			if(item.isRound() && item.weapon.name.equals(trooper.wep) && !item.ammo.depleted) {
 				ammo += item.ammo.shots - item.ammo.firedShots;
 				 
 			}
@@ -321,6 +322,9 @@ public class Inventory implements Serializable {
 	}
 	
 	public boolean launcherAmmoCheck(Weapons wep, PCAmmo pcAmmo, int shots) {
+		
+		System.out.println("Launcher ammo check");
+		
 		if(wep.type.equals("Static")) {
 			if(wep.ammoLoaded <= 0)
 				return false; 
@@ -344,6 +348,7 @@ public class Inventory implements Serializable {
 				round.ammo.firedShots++; 
 			} else {
 				try {
+					System.out.println("remove item");
 					trooper.inventory.removeItem(name);
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -352,6 +357,8 @@ public class Inventory implements Serializable {
 			
 			shots--;
 		}
+		
+		
 
 		return shots <= 0;
 	}

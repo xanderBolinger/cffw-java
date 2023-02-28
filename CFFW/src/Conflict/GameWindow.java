@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -1703,7 +1704,15 @@ public class GameWindow implements Serializable {
 					Unit targetUnit = targetUnits.next();
 					// System.out.println("Target Unit: "+targetUnit.callsign);
 					// System.out.println("Entering Spot 1");
-					spot(targetUnit, spotterUnit, spotterTrooper);
+					es.submit(() -> {
+						spot(targetUnit, spotterUnit, spotterTrooper);						
+					});
+					
+					try {
+						TimeUnit.MILLISECONDS.sleep(75);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 					// System.out.println("Exiting Spot 2");
 				}
 
@@ -1711,6 +1720,7 @@ public class GameWindow implements Serializable {
 
 		}
 
+		es.shutdown();
 		/*
 		 * for (int i = 0; i < initiativeOrder.size(); i++) { // Gets spotter unit Unit
 		 * spotterUnit = initiativeOrder.get(i);
@@ -1752,9 +1762,9 @@ public class GameWindow implements Serializable {
 		// System.out.println("Target Unit: "+targetUnit.callsign);
 		// System.out.println("spotterUnit: "+spotterUnit.callsign);
 
-		for (Unit unit : spotterUnit.lineOfSight) {
+		/*for (Unit unit : spotterUnit.lineOfSight) {
 			// System.out.println("Unit in LOS: "+unit.callsign);
-		}
+		}*/
 
 		// System.out.println("spotterUnitLOS: "+spotterUnit.lineOfSight);
 		if (!spotterUnit.lineOfSight.contains(targetUnit)) {
