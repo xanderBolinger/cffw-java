@@ -16,6 +16,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import Company.Formation.LeaderType;
+
 public class generateSquad implements Serializable {
 	private ArrayList<Trooper> individuals = new ArrayList<Trooper>();
 
@@ -130,8 +132,11 @@ public class generateSquad implements Serializable {
 			Trooper[] troopers = new Trooper[9];
 			// Squad leader
 			troopers[0] = new Trooper("Clone Squad Leader", faction);
+			troopers[0].leaderType = LeaderType.SL;
 			// Rifleman++
 			troopers[1] = new Trooper("Clone Rifleman++", faction);
+			troopers[1].leaderType = LeaderType.FTL;
+			troopers[0].subordinates.add(troopers[1]);
 			// Rifleman
 			troopers[2] = new Trooper("Clone Rifleman", faction);
 			troopers[3] = new Trooper("Clone Rifleman", faction);
@@ -150,8 +155,11 @@ public class generateSquad implements Serializable {
 			Trooper[] troopers = new Trooper[12];
 			// Squad leader
 			troopers[0] = new Trooper("Clone Squad Leader", faction);
+			troopers[0].leaderType = LeaderType.SL;
 			// Rifleman++
 			troopers[1] = new Trooper("Clone Rifleman++", faction);
+			troopers[1].leaderType = LeaderType.FTL;
+			troopers[0].subordinates.add(troopers[1]);
 			// Rifleman
 			troopers[2] = new Trooper("Clone Rifleman++", faction);
 			troopers[3] = new Trooper("Clone Autorifleman", faction);
@@ -171,51 +179,80 @@ public class generateSquad implements Serializable {
 
 		} else if (type.equals("Platoon Squad")) {
 			Trooper[] troopers = new Trooper[10];
+			
+			
+			troopers[0] = new Trooper("Platoon Leader", faction);
+			troopers[0].leaderType = LeaderType.PC;
+			
 			// Squad leader
-			troopers[0] = new Trooper("Clone Squad Leader", faction);
+			troopers[1] = new Trooper("Clone Squad Leader", faction);
+			troopers[1].leaderType = LeaderType.SL;
+			troopers[0].subordinates.add(troopers[1]);
+			
 			// Rifleman++
-			troopers[1] = new Trooper("Clone Rifleman++", faction);
+			troopers[2] = new Trooper("Clone Rifleman++", faction);
+			troopers[2].leaderType = LeaderType.FTL;
+			troopers[0].subordinates.add(troopers[2]);
+			troopers[1].subordinates.add(troopers[2]);
 			// Rifleman
-			troopers[2] = new Trooper("Clone Rifleman", faction);
 			troopers[3] = new Trooper("Clone Rifleman", faction);
 			troopers[4] = new Trooper("Clone Rifleman", faction);
+			troopers[5] = new Trooper("Clone Rifleman", faction);
 			// Autorifleman
-			troopers[5] = new Trooper("Clone Autorifleman", faction);
+			troopers[6] = new Trooper("Clone Autorifleman", faction);
 			// Assistant Autorifleman
-			troopers[6] = new Trooper("Clone Assistant Autorifleman", faction);
+			troopers[7] = new Trooper("Clone Assistant Autorifleman", faction);
 			// Marksman
-			troopers[7] = new Trooper("Clone Marksman", faction);
+			troopers[8] = new Trooper("Clone Marksman", faction);
 			// Combat Life Saver
-			troopers[8] = new Trooper("Clone Combat Life Saver", faction);
-			troopers[9] = new Trooper("Platoon Leader", faction);
+			troopers[9] = new Trooper("Clone Combat Life Saver", faction);
+			
 			setSquad(troopers);
 
 		} else if (type.equals("Company Squad")) {
 			Trooper[] troopers = new Trooper[11];
+			
+			
+			troopers[0] = new Trooper("Clone Captain", faction);
+			troopers[0].leaderType = LeaderType.CC;
+			
+			troopers[1] = new Trooper("Clone Platoon Leader", faction);
+			troopers[1].leaderType = LeaderType.PC;
+			troopers[0].subordinates.add(troopers[1]);
+			
 			// Squad leader
-			troopers[0] = new Trooper("Clone Squad Leader", faction);
+			troopers[2] = new Trooper("Clone Squad Leader", faction);
+			troopers[2].leaderType = LeaderType.SL;
+			troopers[0].subordinates.add(troopers[2]);
+			troopers[1].subordinates.add(troopers[2]);
+			
 			// Rifleman++
-			troopers[1] = new Trooper("Clone Rifleman++", faction);
+			troopers[3] = new Trooper("Clone Rifleman++", faction);
+			troopers[3].leaderType = LeaderType.FTL;
+			troopers[0].subordinates.add(troopers[3]);
+			troopers[1].subordinates.add(troopers[3]);
+			troopers[2].subordinates.add(troopers[3]);
+			
 			// Rifleman
-			troopers[2] = new Trooper("Clone Rifleman", faction);
-			troopers[3] = new Trooper("Clone Rifleman", faction);
 			troopers[4] = new Trooper("Clone Rifleman", faction);
+			troopers[5] = new Trooper("Clone Rifleman", faction);
+			troopers[6] = new Trooper("Clone Rifleman", faction);
 			// Autorifleman
-			troopers[5] = new Trooper("Clone Autorifleman", faction);
+			troopers[7] = new Trooper("Clone Autorifleman", faction);
 			// Assistant Autorifleman
-			troopers[6] = new Trooper("Clone Assistant Autorifleman", faction);
+			troopers[8] = new Trooper("Clone Assistant Autorifleman", faction);
 			// Marksman
-			troopers[7] = new Trooper("Clone Marksman", faction);
+			troopers[9] = new Trooper("Clone Marksman", faction);
 			// Combat Life Saver
-			troopers[8] = new Trooper("Clone Combat Life Saver", faction);
-			troopers[9] = new Trooper("Platoon Leader", faction);
-			troopers[10] = new Trooper("Captain", faction);
+			troopers[10] = new Trooper("Clone Combat Life Saver", faction);
+			
 			setSquad(troopers);
 
 		} else if (type.equals("Commando Squad")) {
 			Trooper[] troopers = new Trooper[4];
 			// Squad leader
 			troopers[0] = new Trooper("Republic Commando", faction);
+			troopers[0].leaderType = LeaderType.SL;
 			// Rifleman++
 			troopers[1] = new Trooper("Republic Commando", faction);
 			// Rifleman

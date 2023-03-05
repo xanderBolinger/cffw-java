@@ -730,9 +730,15 @@ public class GameWindow implements Serializable {
 				// Sets some unit stats
 				unit.side = company.getSide();
 				unit.company = company.getName();
+				
 				unit.getCommandValue();
+				
 				int roll = rand.nextInt(10) + 1;
-				unit.initiative = roll + unit.commandValue;
+				
+				int leaderShipCommandValue = getLeaderShipCommandValue(company, unit);
+				
+				unit.initiative = roll + unit.commandValue + leaderShipCommandValue;
+				conflictLog.addNewLine("Init Order Roll("+unit.initiative+"), Roll: "+roll+", Command Value: "+unit.commandValue+leaderShipCommandValue);
 				if (unit.active) {
 					initiativeOrder.add(unit);
 				}
@@ -743,6 +749,30 @@ public class GameWindow implements Serializable {
 		rollInitiativeOrder();
 
 	}
+	
+	public int getLeaderShipCommandValue(Company company, Unit unit) {
+		if(unit.individuals.size() <= 0)
+			return 0;
+		
+		Trooper leader = unit.individuals.get(0);
+		
+		int bonus = 0; 
+		
+		for(Unit otherUnit : company.getUnits()) {
+			for(Trooper trooper : otherUnit.individuals) {
+				
+				if(trooper.subordinates.contains(leader)) {
+					bonus += trooper.getSkill("Command") / 10;
+				}
+				
+			}
+			
+		}
+		
+		return bonus; 
+		
+	}
+	
 
 	// Sets initiative order
 	public void rollInitiativeOrder() {

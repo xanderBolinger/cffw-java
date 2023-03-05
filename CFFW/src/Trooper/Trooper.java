@@ -19,6 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import Actions.Spot;
 import CharacterBuilder.Ability;
+import Company.Formation.LeaderType;
 import Conflict.ConflictLog;
 import Conflict.Game;
 import Conflict.GameWindow;
@@ -58,6 +59,11 @@ public class Trooper implements Serializable {
 	// Command Tactics Det. Motives Intimidate Persuade Digi. Systems Long Gun
 	// Pistol Launcher Heavy Subgun Explosives First Aid Navigation Swim Throw
 
+	
+	public LeaderType leaderType = LeaderType.NONE;
+	public ArrayList<Trooper> subordinates = new ArrayList<Trooper>();
+	
+	
 	// Skill Level
 	public String weaponPercent;
 	public int sl;
@@ -1332,7 +1338,7 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
-		} else if (input.equals("Platoon Sergeant")) { // Platoon Sergeant
+		} else if (input.equals("Clone Platoon Leader")) { // Platoon Leader
 			// Creates attributes
 			this.str = attributes.str;
 			this.wit = attributes.wit;
@@ -1357,7 +1363,7 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
-		} else if (input.equals("Captain")) { // Captain
+		} else if (input.equals("Clone Captain")) { // Captain
 			// Creates attributes
 			attributes = new TLHStats(2, 3, 1, 2, 1, 2, 3);
 			this.str = attributes.str;
@@ -2986,7 +2992,9 @@ public class Trooper implements Serializable {
 
 		rslt += " Command Avg/SL: " + (average / 2) + "/" + PCUtility.getSL(average);
 
-		return rslt;
+		String leaderType = this.leaderType == LeaderType.NONE ? "" : this.leaderType.toString()+":: ";
+		
+		return leaderType+ rslt;
 	}
 
 	public String toStringImprovedEquipped(Game game) {
@@ -3054,7 +3062,9 @@ public class Trooper implements Serializable {
 		rslt += "Ammo: " + ammo + ", ";
 		rslt += "Weapon: " + wep;
 
-		return rslt;
+		String leaderType = this.leaderType == LeaderType.NONE ? "" : this.leaderType.toString()+":: ";
+		
+		return leaderType+ rslt;
 	}
 
 	public void applyHit(Weapons weapon, int distanceToTrooper) {
@@ -3331,7 +3341,9 @@ public class Trooper implements Serializable {
 
 		rslt += " Command Avg/SL: " + (average / 2) + "/" + PCUtility.getSL(average);
 
-		return rslt;
+		String leaderType = this.leaderType == LeaderType.NONE ? "" : this.leaderType.toString()+":: ";
+		
+		return leaderType+ rslt;
 	}
 
 	// Takes parameters from trooper class and returns string
@@ -3368,7 +3380,9 @@ public class Trooper implements Serializable {
 				+ skills.getSkill("Heavy").value + "; Command:" + skills.getSkill("Command").value + "; Weapon: " + wep
 				+ "; Ammo: " + ammo;
 
-		return trooper;
+		String leaderType = this.leaderType == LeaderType.NONE ? "" : this.leaderType.toString()+":: ";
+		
+		return leaderType+ trooper;
 	}
 
 	/*

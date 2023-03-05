@@ -81,6 +81,7 @@ public class EditCompany implements Serializable {
 	Company company; 
 	private JSpinner spinnerPlatoon;
 	private JSpinner spinnerSquad;
+	private JButton Formation;
 	public EditCompany(Company company, SetupWindow setupWindow, int index) {
 		EditCompany window = this;
 		this.company = company;
@@ -455,7 +456,7 @@ public class EditCompany implements Serializable {
 				new BulkInventoryWindow(units, roster);
 			}
 		});
-		btnBulkInventory.setBounds(522, 97, 252, 23);
+		btnBulkInventory.setBounds(522, 102, 252, 23);
 		f.getContentPane().add(btnBulkInventory);
 		
 		JButton btnMedical = new JButton("Medical");
@@ -464,8 +465,17 @@ public class EditCompany implements Serializable {
 				new MedicalWindow(units, roster);
 			}
 		});
-		btnMedical.setBounds(522, 131, 252, 23);
+		btnMedical.setBounds(522, 127, 252, 23);
 		f.getContentPane().add(btnMedical);
+		
+		Formation = new JButton("Formations");
+		Formation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new FormationWindow(company);
+			}
+		});
+		Formation.setBounds(522, 77, 252, 23);
+		f.getContentPane().add(Formation);
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
