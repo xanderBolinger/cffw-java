@@ -1784,6 +1784,9 @@ public class HexGrid implements Serializable {
 			
 			String status = "";
 			
+			if(unit.entirelyMechanical())
+				return s;
+			
 			if(unit.suppression > 50) {
 				status += "SUPPRESSED:: ";
 			} else if (unit.suppression > 10) {
