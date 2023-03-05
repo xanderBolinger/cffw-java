@@ -115,6 +115,18 @@ public class Unit implements Serializable {
 	}
 	
 	
+	public boolean entirelyMechanical() {
+		
+		for(Trooper trooper : individuals) {
+			
+			if(!trooper.entirelyMechanical)
+				return false;
+			
+		}
+		
+		return true; 
+		
+	}
 	
 	// Adds/Equips a new static weapon with the unit 
 	public void addStaticWeapon(Weapons staticWep) {

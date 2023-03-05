@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 
 import Unit.Unit;
 import Unit.Unit.UnitType;
+import UtilityClasses.DiceRoller;
 import UtilityClasses.HexGridUtility;
 import UtilityClasses.UnitReorderListener;
 
@@ -95,6 +96,7 @@ public class OpenUnit implements Serializable {
 	private JLabel lblFatigue;
 	private JButton btnOpenCharacterBuilder;
 	private JButton btnInventory;
+	private JButton btnCommandRoll;
 	/*
 	 * Launch the application.
 	 */
@@ -1075,6 +1077,82 @@ public class OpenUnit implements Serializable {
 		btnInventory.setBounds(271, 173, 137, 23);
 		f.getContentPane().add(btnInventory);
 		
+		btnCommandRoll = new JButton("Command Roll");
+		btnCommandRoll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(unit.individuals.size() <= 0)
+					return;
+				
+				int roll = DiceRoller.randInt(1, 100);
+				int preModifiers = roll;
+				/*
+					1-10: 2 bonus dice
+					11-15: 3 bonus dice 
+					16-20: 4 bonus dice 
+					21-30: 5 bonus dice 
+					31-40: 6 bonus dice 
+				*/ 
+				
+				int ftlCommandSum = 0; 
+				
+				Trooper leader = unit.individuals.get(0);
+				
+				for(Trooper trooper : unit.individuals) {
+					
+					if(leader.subordinates.contains(trooper)) {
+						ftlCommandSum += trooper.getSkill("Command") / 10;
+					}
+					
+				}
+				
+				if(ftlCommandSum <= 10) {
+					for(int i = 0; i < 2; i++)
+						roll -= DiceRoller.d6_exploding();
+				} else if(ftlCommandSum <= 15) {
+					for(int i = 0; i < 3; i++)
+						roll -= DiceRoller.d6_exploding();
+				} else if(ftlCommandSum <= 20) {
+					for(int i = 0; i < 4; i++)
+						roll -= DiceRoller.d6_exploding();
+				} else if(ftlCommandSum <= 30) {
+					for(int i = 0; i < 5; i++)
+						roll -= DiceRoller.d6_exploding();
+				} else if(ftlCommandSum <= 40) {
+					for(int i = 0; i < 6; i++)
+						roll -= DiceRoller.d6_exploding();
+				}
+				
+				roll -= ftlCommandSum + unit.suppression / 2;
+				
+				int margin = 0; 
+				
+				if(roll <= leader.getSkill("Command")) {
+					margin = leader.getSkill("Command") - roll + 1;
+				}
+				
+				unit.suppression -= margin;
+				unit.organization += margin;
+				
+				if(unit.suppression < 0)
+					unit.suppression = 0; 
+				if(unit.organization > 100)
+					unit.organization = 100;
+				
+				if(margin == 0) {
+					GameWindow.gameWindow.conflictLog.addNewLine("Command Skill Roll FAILED: "+unit.callsign+" "+leader.number+" "+leader.name+" Command Skill: "+(leader.getSkill("Command"))
+							+", Original Roll: "+preModifiers+", Modified Roll: "+roll+", FTL Sum: "+ftlCommandSum);
+				} else {
+					GameWindow.gameWindow.conflictLog.addNewLine("Command Skill Roll SUCCESS: "+unit.callsign+" "+leader.number+" "+leader.name+" Command Skill: "+(leader.getSkill("Command"))
+							+", Original Roll: "+preModifiers+", Modified Roll: "+roll+", FTL Sum: "+ftlCommandSum);
+				}
+				actionSpent(leader);
+				refreshSpinners();
+			}
+		});
+		btnCommandRoll.setBounds(522, 229, 152, 23);
+		f.getContentPane().add(btnCommandRoll);
+		
 
 		// Sets spinners, must be executed before saveUnit();
 		refreshSpinners();
@@ -1142,6 +1220,35 @@ public class OpenUnit implements Serializable {
 			comboBoxBehavior.setSelectedIndex(2);
 		} 
 		
+	}
+	
+	public void actionSpent(Trooper trooper) {
+
+		/*
+		 * if(!firedWeapons) { trooper.firedTracers = false; }
+		 */
+
+		float time = 60;
+
+		if (gameWindow.game.getPhase() == 1) {
+
+			if (trooper.P1 > 0)
+				time = 60 / trooper.P1;
+		} else {
+			if (trooper.P2 > 0)
+				time = 60 / trooper.P2;
+		}
+
+		if (GameWindow.gameWindow.game.getPhase() == 1) {
+			trooper.spentPhase1 += 1;
+			// trooper.fatigueSystem.AddStrenuousActivityTime(time);
+		} else {
+			trooper.spentPhase2 += 1;
+			// trooper.fatigueSystem.AddStrenuousActivityTime(time);
+		}
+
+		openUnit.refreshIndividuals();
+
 	}
 	
 	public DeployedUnit getDeployedUnit(Unit unit) {

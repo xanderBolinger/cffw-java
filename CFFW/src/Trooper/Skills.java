@@ -543,7 +543,7 @@ public class Skills implements Serializable {
 			getSkill("Throw").rankUp();
 			getSkill("Throw").rankUp();
 
-		} else if (input.equals("Platoon Sergeant")) { // Platoon Leader
+		} else if (input.equals("Clone Platoon Leader")) { // Platoon Leader
 			// Adds skill dice levels to the skills
 			// Squad Leader Training
 			getSkill("Small Unit Tactics").supported = true;
@@ -650,7 +650,7 @@ public class Skills implements Serializable {
 			getSkill("Throw").rankUp();
 			getSkill("Throw").rankUp();
 			getSkill("Throw").rankUp();
-		} else if (input.equals("Captain")) { // Platoon Leader
+		} else if (input.equals("Clone Captain")) { // Platoon Leader
 			// Adds skill dice levels to the skills
 			// Squad Leader Training
 			getSkill("Small Unit Tactics").supported = true;

@@ -77,6 +77,7 @@ import javax.swing.*;
 import CeHexGrid.Chit;
 import CeHexGrid.Colors;
 import CeHexGrid.Chit.Facing;
+import Company.Formation.LeaderType;
 
 import java.awt.Component;
 import java.awt.SystemColor;
@@ -1714,6 +1715,8 @@ public class HexGrid implements Serializable {
 
 			String s = deployedUnit.getCallsign() + ":: "+GameWindow.gameWindow.initiativeOrder.indexOf(deployedUnit.unit);
 
+			s = commandStatus(deployedUnit.unit, s);
+			
 			/*
 			 * double textSizeMod = 0.8;
 			 * 
@@ -1775,6 +1778,30 @@ public class HexGrid implements Serializable {
 			 */
 		}
 
+		public String commandStatus(Unit unit, String s) {
+			if(unit.individuals.size() <=0)
+				return "EMPTY:: " + s;
+			
+			String status = "";
+			
+			if(unit.suppression > 50) {
+				status += "SUPPRESSED:: ";
+			} else if (unit.suppression > 10) {
+				status += "PINNED:: ";
+			} 
+			
+			if(unit.organization < 25 || unit.individuals.get(0).leaderType == LeaderType.NONE) {
+				status += "LOST COHESION:: ";
+			} else if(unit.organization < 50) {
+				status += "DISORIENTED:: ";
+			}
+			
+			
+			
+			return status + s;
+			
+		}
+		
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
