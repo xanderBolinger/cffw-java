@@ -1649,7 +1649,8 @@ public class GameWindow implements Serializable {
 					int roll = rand.nextInt(10) + 1;
 
 					if (roll < initiativeOrder.get(i).getTroopers().get(x).P1
-							+ initiativeOrder.get(i).getTroopers().get(x).P2) {
+							+ initiativeOrder.get(i).getTroopers().get(x).P2
+							&& !initiativeOrder.get(i).getTroopers().get(x).entirelyMechanical) {
 
 						if (initiativeOrder.get(i).getTroopers().get(x).inCover) {
 							initiativeOrder.get(i).getTroopers().get(x).HD = true;
@@ -1662,6 +1663,25 @@ public class GameWindow implements Serializable {
 
 				}
 
+				
+				if(initiativeOrder.get(i).suppression > 50) {
+					Random rand = new Random();
+					int roll = rand.nextInt(10) + 1;
+
+					if (roll < initiativeOrder.get(i).getTroopers().get(x).P1
+							+ initiativeOrder.get(i).getTroopers().get(x).P2 && !initiativeOrder.get(i).getTroopers().get(x).entirelyMechanical) {
+
+						if (initiativeOrder.get(i).getTroopers().get(x).inCover) {
+							initiativeOrder.get(i).getTroopers().get(x).HD = true;
+							conflictLog.addNewLineToQueue(initiativeOrder.get(i).getTroopers().get(x).number + " "
+									+ initiativeOrder.get(i).getTroopers().get(x).name
+									+ " hunkers down. SUPPRESSED.");
+						}
+
+					}
+
+				}
+				
 				initiativeOrder.get(i).getTroopers().get(x).advanceTime(this, conflictLog);
 			}
 
