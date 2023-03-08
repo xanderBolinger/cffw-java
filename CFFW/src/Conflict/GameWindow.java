@@ -754,7 +754,7 @@ public class GameWindow implements Serializable {
 		if(unit.individuals.size() <= 0)
 			return 0;
 		
-		Trooper leader = unit.individuals.get(0);
+		Trooper leader = unit.getLeader();
 		
 		int bonus = 0; 
 		
@@ -1951,11 +1951,11 @@ public class GameWindow implements Serializable {
 								// System.out.println("LR Roll Modded: "+leaderShipRoll);
 
 								gameWindow.conflictLog.addNewLine("Entering Close Combat: " + unit.callsign);
-								gameWindow.conflictLog.addNewLine("Command: " + unit.individuals.get(0).getSkill("Command"));
+								gameWindow.conflictLog.addNewLine("Command: " + unit.getLeader().getSkill("Command"));
 								gameWindow.conflictLog.addNewLine("Leadership Roll: " + leaderShipRoll);
 								gameWindow.conflictLog.addNewLine("Unit Morale: " + unit.moral);
 
-								if (leaderShipRoll > unit.individuals.get(0).getSkill("Command")) {
+								if (leaderShipRoll > unit.getLeader().getSkill("Command")) {
 									for (int j = 0; j < unit.individuals.size(); j++) {
 										int roll = rand.nextInt(100) + 1;
 										gameWindow.conflictLog.addNewLine(unit.individuals.get(j).name + " "

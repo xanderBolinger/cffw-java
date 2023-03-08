@@ -110,7 +110,7 @@ public class Unit implements Serializable {
 		if(individuals == null || individuals.size() < 1) {
 			return;
 		}
-		int command = individuals.get(0).getSkill("Command");
+		int command = getLeader().getSkill("Command");
 		this.commandValue = command / 10; 
 	}
 	
@@ -851,6 +851,17 @@ public class Unit implements Serializable {
 		return null; 
 	}
 	
+	public Trooper getLeader() {
+		
+		for(Trooper trooper : individuals) {
+			if(!trooper.alive || !trooper.conscious)
+				continue; 
+			return trooper; 
+		}
+		
+		return null; 
+		
+	}
 	
 	//Gets and prints out unit details 
 	@Override

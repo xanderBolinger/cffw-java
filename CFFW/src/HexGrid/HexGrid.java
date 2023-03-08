@@ -1793,7 +1793,7 @@ public class HexGrid implements Serializable {
 				status += "PINNED:: ";
 			} 
 			
-			if(unit.organization < 25 || unit.individuals.get(0).leaderType == LeaderType.NONE) {
+			if(unit.organization < 25 || unit.getLeader().leaderType == LeaderType.NONE) {
 				status += "LOST COHESION:: ";
 			} else if(unit.organization < 50) {
 				status += "DISORIENTED:: ";

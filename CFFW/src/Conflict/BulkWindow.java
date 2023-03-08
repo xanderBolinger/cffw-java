@@ -1870,6 +1870,30 @@ public class BulkWindow {
 					gameWindow.cqbWindowOpen = false;
 				}
 
+				for(BulkTrooper bulkTrooper : bulkTroopers) {
+					
+					if(GameWindow.gameWindow.game.getPhase() == 1) {
+						if(bulkTrooper.trooper.spentPhase1 < GameWindow.gameWindow.game.getCurrentAction() && bulkTrooper.shoot != null) {
+							
+							bulkTrooper.shoot.aimTime = bulkTrooper.shoot.startingAimTime;
+							if(bulkTrooper.shoot.target != null) {
+								bulkTrooper.trooper.storedAimTime.put(bulkTrooper.shoot.target, bulkTrooper.shoot.aimTime);
+							}
+							
+						}
+					} else {
+						if(bulkTrooper.trooper.spentPhase2 < GameWindow.gameWindow.game.getCurrentAction() && bulkTrooper.shoot != null) {
+							
+							bulkTrooper.shoot.aimTime = bulkTrooper.shoot.startingAimTime;
+							if(bulkTrooper.shoot.target != null) {
+								bulkTrooper.trooper.storedAimTime.put(bulkTrooper.shoot.target, bulkTrooper.shoot.aimTime);
+							}
+							
+						}
+					}
+					
+				}
+				
 				frame.dispose();
 
 			}

@@ -1096,7 +1096,7 @@ public class OpenUnit implements Serializable {
 				
 				int ftlCommandSum = 0; 
 				
-				Trooper leader = unit.individuals.get(0);
+				Trooper leader = unit.getLeader();
 				
 				for(Trooper trooper : unit.individuals) {
 					

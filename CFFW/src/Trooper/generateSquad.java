@@ -181,7 +181,7 @@ public class generateSquad implements Serializable {
 			Trooper[] troopers = new Trooper[10];
 			
 			
-			troopers[0] = new Trooper("Platoon Leader", faction);
+			troopers[0] = new Trooper("Clone Platoon Leader", faction);
 			troopers[0].leaderType = LeaderType.PC;
 			
 			// Squad leader
