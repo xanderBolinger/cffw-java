@@ -533,7 +533,7 @@ public class GameWindow implements Serializable {
 						guiUpdateNextActiveUnit();
 
 						if(hexGrid != null) {
-							hexGrid.panel.shownType = HexGridUtility.getShownTypeFromSide(initiativeOrder.get(activeUnit).side);
+							//hexGrid.panel.shownType = HexGridUtility.getShownTypeFromSide(initiativeOrder.get(activeUnit).side);
 						}
 						
 						openUnit(initiativeOrder.get(activeUnit), activeUnit);

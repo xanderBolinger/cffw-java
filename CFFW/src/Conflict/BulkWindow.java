@@ -20,6 +20,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -162,19 +165,48 @@ public class BulkWindow {
 		this.game = GameWindow.gameWindow.game;
 		this.openUnit = null;
 
+		ArrayList<String> sides = new ArrayList<>();
+		
 		ArrayList<Trooper> troopers = new ArrayList<>();
 
 		for (Unit unit : units) {
+			if(!sides.contains(unit.side)) {
+				sides.add(unit.side);
+			}
+			
+			
 			for (Trooper trooper : unit.individuals) {
 				troopers.add(trooper);
 			}
 		}
+		
+		if(sides.size() > 1) {
+			System.out.println("Sort troopers");
+			for(Trooper trooper : troopers) {
+				trooper.kills = DiceRoller.randInt(0, 9);
+			}
+			Collections.sort(troopers, new Comparator<Trooper>() {
+				   public int compare(Trooper b1, Trooper b2) {
+					   
+					   System.out.println("b1 CA: "+((b1.combatActions+ b1.sl) - b1.kills)+", b2 CA: "+((b2.combatActions + b2.sl) - b2.kills));
+					   if((b1.combatActions+ b1.sl) - b1.kills < (b2.combatActions + b2.sl) - b2.kills)
+						   return 1;
+					   else if((b1.combatActions+ b1.sl) - b1.kills > (b2.combatActions + b2.sl) - b2.kills)
+						   return -1;
+					   else 
+						   return 0;
+				   }
+			});
+		}
+		
 
 		initializeWindow();
 		setIndividuals(troopers);
 		refreshIndividualList();
 		setComboBoxes();
 	}
+	
+	
 
 	public BulkWindow(Unit unit, GameWindow gameWindow, OpenUnit openUnit, ArrayList<Trooper> cqbt) {
 		this.unit = unit;
