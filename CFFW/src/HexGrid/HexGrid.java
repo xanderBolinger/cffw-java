@@ -1779,7 +1779,7 @@ public class HexGrid implements Serializable {
 		}
 
 		public String commandStatus(Unit unit, String s) {
-			if(unit.individuals.size() <=0)
+			if(unit.individuals.size() <=0 || unit.getLeader() == null)
 				return "EMPTY:: " + s;
 			
 			String status = "";

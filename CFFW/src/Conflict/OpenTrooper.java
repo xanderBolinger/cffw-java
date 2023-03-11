@@ -97,6 +97,7 @@ public class OpenTrooper implements Serializable {
 
 	public Unit targetUnit;
 	Shoot shoot;
+	public boolean shootReset = true;
 	public ArrayList<Trooper> spottedTroopers = new ArrayList<Trooper>();
 	public ArrayList<Trooper> targetTroopers = new ArrayList<Trooper>();
 	public TargetedFire targetedFire = null;
@@ -1022,6 +1023,11 @@ public class OpenTrooper implements Serializable {
 											.returnTrooperUnit(gameWindow),
 									shoot, trooper, targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1), wepName,
 									ammoIndex);
+							
+							if(shootReset) {
+								shoot.previouslySpentCa = 0; 
+								shoot.spentCombatActions = 0;
+							}
 
 							if (comboBoxAimTime.getSelectedIndex() == 0)
 								shoot.autoAim();
@@ -1183,6 +1189,8 @@ public class OpenTrooper implements Serializable {
 							e.printStackTrace();
 						}
 
+						shootReset = false;
+						
 						return null;
 					}
 
@@ -1282,6 +1290,11 @@ public class OpenTrooper implements Serializable {
 								unit.lineOfSight.get(comboBoxTargetUnits.getSelectedIndex() - 1), shoot, trooper,
 								wepName, ammoIndex);
 
+						if(shootReset) {
+							shoot.previouslySpentCa = 0; 
+							shoot.spentCombatActions = 0;
+						}
+						
 						if (comboBoxAimTime.getSelectedIndex() == 0)
 							shoot.autoAim();
 
@@ -1963,6 +1976,8 @@ public class OpenTrooper implements Serializable {
 
 						}
 
+						shootReset = false;
+						
 						return null;
 					}
 

@@ -665,7 +665,7 @@ public class OpenUnit implements Serializable {
 				// Adds unit to company 
 				for(int i = 0; i < window.companies.size(); i++) {
 					
-					if(window.companies.get(i).getName().equals(newUnit.company)) {
+					if(window.companies.get(i).getName().equals(newUnit.company) && window.companies.get(i).getSide().equals(newUnit.side)) {
 						window.companies.get(i).updateUnit(unit);
 						window.companies.get(i).addUnit(newUnit);
 						// Adds companies to setupWindow

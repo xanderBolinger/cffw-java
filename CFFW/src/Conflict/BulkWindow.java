@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingWorker;
 
 import Trooper.Trooper;
+import Trooper.generateSquad;
 import Unit.Unit;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.ShootUtility;
@@ -60,6 +61,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import Actions.ReactionToFireWindow;
 import Actions.Spot;
 import Actions.TargetedFire;
+import Company.Formation.LeaderType;
 import Hexes.Building;
 import Hexes.Hex;
 import Injuries.Injuries;
@@ -76,6 +78,7 @@ public class BulkWindow {
 
 	private String path = System.getProperty("user.dir") + "\\";
 	// My vars
+
 	public boolean targetFocusLock = false;
 	public boolean individualListLock = false;
 	public GameWindow gameWindow;
@@ -1145,7 +1148,7 @@ public class BulkWindow {
 							if (!chckbxFreeAction.isSelected() && bulkTrooper.shoot.spentCombatActions >= bulkTrooper.trooper.combatActions) {
 								actionSpent(bulkTrooper.trooper);
 							}
-							
+							bulkTrooper.shootReset = false;
 
 						}
 						
@@ -1230,6 +1233,8 @@ public class BulkWindow {
 								} catch (InterruptedException e) {
 									e.printStackTrace();
 								}
+								
+								bulkTrooper.shootReset = false;
 
 							}
 
@@ -1333,6 +1338,12 @@ public class BulkWindow {
 										if(comboBoxTargetUnits.getSelectedIndex() > 0) {
 											bulkTrooper.shoot = ShootUtility.setTargetUnit(unit, targetUnits.get(comboBoxTargetUnits.getSelectedIndex() -1),
 													bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, -1);
+											
+											if(bulkTrooper.shootReset) {
+												bulkTrooper.shoot.spentCombatActions = 0; 
+												bulkTrooper.shoot.previouslySpentCa = 0;
+											}
+											
 											System.out.println("Create bulk suppressive shot: "+(bulkTrooper.shoot == null ? "is null" : "not null"));
 										} else if(bulkTrooper.targetTroopers.size() > 0){
 											setValidTarget(bulkTrooper);
@@ -1793,7 +1804,8 @@ public class BulkWindow {
 						Trooper trooper = bulkTrooper.trooper;
 
 						// Adds trooper
-						gameWindow.initiativeOrder.get(targetUnitIndex).addToUnit(trooper);
+						if(!gameWindow.initiativeOrder.get(targetUnitIndex).individuals.contains(trooper))
+							gameWindow.initiativeOrder.get(targetUnitIndex).addToUnit(trooper);
 
 						// Removes trooper from unit
 						for (int i = 0; i < unit.getSize(); i++) {
@@ -1859,7 +1871,7 @@ public class BulkWindow {
 			}
 		});
 		btnTransfer.setForeground(Color.BLACK);
-		btnTransfer.setBounds(909, 395, 97, 23);
+		btnTransfer.setBounds(954, 421, 97, 23);
 		frame.getContentPane().add(btnTransfer);
 
 		JButton btnClose = new JButton("Close");
@@ -1923,7 +1935,7 @@ public class BulkWindow {
 					bulkTrooper.trooper.fatigueSystem.fatiguePoints.set(0.0);
 				}
 
-				GameWindow.gameWindow.conflictLog.addNewLine("Reset FP.");
+				GameWindow.gameWindow.conflictLog.addNewLine("Reset FP for selected troopers.");
 
 			}
 		});
@@ -2200,6 +2212,169 @@ public class BulkWindow {
 		chckbxGuided.setBackground(Color.DARK_GRAY);
 		chckbxGuided.setBounds(796, 469, 80, 23);
 		frame.getContentPane().add(chckbxGuided);
+		
+		JButton btnCreateTransfer = new JButton("Create & Transfer");
+		btnCreateTransfer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Adds new unit 
+				// Splits unit 
+				ArrayList<Trooper> individuals = new ArrayList<Trooper>();
+				generateSquad squad = new generateSquad("Clone Trooper Phase 1", "Empty");
+				individuals = squad.getSquad();
+				Unit newUnit = new Unit(textFieldCallsign.getText(), 0, 0, individuals, 100, 0, 100, 0, 0, 20, 0, unit.behavior);
+				
+				//Unit newUnit = unit.copyUnit(unit); 
+				newUnit.side = unit.side;
+				newUnit.initiative = unit.initiative;
+				newUnit.organization = unit.organization;
+				unit.organization = unit.organization; 
+				
+				newUnit.concealment = unit.concealment;
+				newUnit.suppression = unit.suppression;
+				newUnit.moral = unit.moral;
+				newUnit.cohesion = unit.cohesion;
+				newUnit.company = unit.company;
+				newUnit.X = unit.X;
+				newUnit.Y = unit.Y;
+				newUnit.behavior = unit.behavior;
+				newUnit.lineOfSight = new ArrayList<Unit>(unit.lineOfSight);
+				//Collections.copy(newUnit.lineOfSight, unit.lineOfSight);
+				//newUnit.lineOfSight = Collections.copy(unit.lineOfSight);
+				gameWindow.initiativeOrder.add(newUnit);
+				
+				gameWindow.rollInitiativeOrder();
+				gameWindow.refreshInitiativeOrder();
+				
+				// Loops through initiative order
+				// Finds units that have LOS with this unit 
+				// Adds new unit to the spotting units LOS
+				
+				for(Unit initUnit : gameWindow.initiativeOrder) {
+					
+					if(initUnit.lineOfSight.contains(unit)) {
+						initUnit.lineOfSight.add(newUnit);
+					}
+					
+				}
+				
+				
+				// Finds newUnit's company 
+				// Adds unit to company 
+				for(int i = 0; i < gameWindow.companies.size(); i++) {
+					
+					if(gameWindow.companies.get(i).getName().equals(newUnit.company) && gameWindow.companies.get(i).getSide().equals(newUnit.side)) {
+						gameWindow.companies.get(i).updateUnit(unit);
+						gameWindow.companies.get(i).addUnit(newUnit);
+						// Adds companies to setupWindow
+						gameWindow.confirmCompany(gameWindow.companies.get(i), i);
+						//f.dispose();
+						
+					}
+					
+				}
+				
+				
+				boolean found = false;
+
+				int targetUnitIndex = 0;
+
+				// Checks for valid unit name
+				if (textFieldCallsign.getText().equals("Enter Callsign")
+						|| textFieldCallsign.getText().equals("Enter valid callsign...")) {
+					textFieldCallsign.setText("Enter valid callsign...");
+
+				}
+
+				// Loops through initiative order
+				for (int i = 0; i < gameWindow.initiativeOrder.size(); i++) {
+
+					if (textFieldCallsign.getText().equals(gameWindow.initiativeOrder.get(i).callsign)) {
+						found = true;
+						targetUnitIndex = i;
+						break;
+					}
+
+				}
+
+				// Reports to user
+				if (!found) {
+					textFieldCallsign.setText("Enter valid callsign...");
+				} else {
+
+					for (BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
+
+						Trooper trooper = bulkTrooper.trooper;
+
+						// Adds trooper
+						if(!gameWindow.initiativeOrder.get(targetUnitIndex).individuals.contains(trooper))
+							gameWindow.initiativeOrder.get(targetUnitIndex).addToUnit(trooper);
+
+						// Removes trooper from unit
+						for (int i = 0; i < unit.getSize(); i++) {
+							if (trooper.compareTo(unit.individuals.get(i))) {
+								unit.individuals.remove(i);
+								break;
+							}
+						}
+
+						// Checks if individuals in initiative order that are spotting this trooper have
+						// LOS to his new unit
+						// If not, this trooper is removed from their LOS
+						for (Unit initUnit : gameWindow.initiativeOrder) {
+
+							// For unit that is not on the same side as this trooper
+							if (!initUnit.side.equals(trooper.returnTrooperUnit(gameWindow))) {
+
+								// If initUnit does not have LOS to this trooper's unit
+								if (!initUnit.lineOfSight.contains(trooper.returnTrooperUnit(gameWindow))) {
+									// Loops through individuals
+									// Loops through spotted action
+									// Finds this trooper
+									// Removes this trooper
+									for (Trooper spottingTrooper : initUnit.individuals) {
+
+										for (Spot spotAction : spottingTrooper.spotted) {
+
+											for (Trooper spottedTrooper : spotAction.spottedIndividuals) {
+
+												if (spottedTrooper.compareTo(trooper))
+													spotAction.spottedIndividuals.remove(spottedTrooper);
+
+											}
+
+										}
+
+									}
+
+								}
+
+							}
+
+						}
+					}
+
+					gameWindow.initiativeOrder.get(targetUnitIndex)
+							.seekCover(gameWindow.findHex(gameWindow.initiativeOrder.get(targetUnitIndex).X,
+									gameWindow.initiativeOrder.get(targetUnitIndex).Y), gameWindow);
+
+					bulkTroopers.clear();
+
+					if (!gameWindow.cqbWindowOpen)
+						setIndividuals();
+
+					refreshIndividualList();
+
+					// Refreshes windows
+					if (openUnit != null)
+						openUnit.refreshIndividuals();
+					// window.gameWindow.rollInitiativeOrder();
+					gameWindow.refreshInitiativeOrder();
+				}
+			}
+		});
+		btnCreateTransfer.setForeground(Color.BLACK);
+		btnCreateTransfer.setBounds(909, 395, 142, 23);
+		frame.getContentPane().add(btnCreateTransfer);
 		frame.setVisible(true);
 	}
 
@@ -2726,6 +2901,7 @@ public class BulkWindow {
 		public String wepPercent;
 		public int sl;
 		public Shoot shoot;
+		public boolean shootReset = true;
 
 		public BulkTrooper(Trooper trooper) {
 			// System.out.println("Constructor");
@@ -2813,7 +2989,9 @@ public class BulkWindow {
 					rslt = "Exhausted: " + rslt;
 			}
 
-			return rslt;
+			String leaderType = trooper.leaderType == LeaderType.NONE ? "" : trooper.leaderType.toString()+":: ";
+			
+			return leaderType+ rslt;
 
 		}
 
@@ -2896,6 +3074,10 @@ public class BulkWindow {
 			// PCShots(bulkTrooper, targetTrooper);
 			bulkTrooper.shoot = ShootUtility.setTarget(unit, targetTrooper.returnTrooperUnit(gameWindow),
 					bulkTrooper.shoot, bulkTrooper.trooper, targetTrooper, bulkTrooper.trooper.wep, -1);
+			if(bulkTrooper.shootReset) {
+				bulkTrooper.shoot.spentCombatActions = 0; 
+				bulkTrooper.shoot.previouslySpentCa = 0;
+			}
 		} else {
 			// SC: # displayed in list could be spotted troopers 
 			// Multithreading could be leading to errors where ui doesn't get set or lists don't get updated / cleared 
@@ -3697,5 +3879,4 @@ public class BulkWindow {
 		guiUpdates();
 		System.out.println("Selected Bulk Troopers Size: " + selectedBulkTroopers.size());
 	}
-	
 }

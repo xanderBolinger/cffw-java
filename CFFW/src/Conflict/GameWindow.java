@@ -502,18 +502,27 @@ public class GameWindow implements Serializable {
 							safeNextActiveUnit();
 						}
 						
+						
+						ExecutorService es = Executors.newFixedThreadPool(16);
+						
 						// If on last unit 
 						while(activeUnit != newActiveUnit) {
 							try {
-
-								safeNextActiveUnit();
-
+								es.submit(() -> {
+									safeNextActiveUnit();
+									
+								});
+								try {
+									TimeUnit.MILLISECONDS.sleep(75);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
 							} catch (Exception e2) {
 								e2.printStackTrace();
 							}
 						}
 						
-						
+						es.shutdown();
 						
 						return null;
 					}
@@ -1105,6 +1114,7 @@ public class GameWindow implements Serializable {
 		}
 
 		ArrayList<Trooper> troopers = unit.getTroopers();
+		
 		for (int j = 0; j < troopers.size(); j++) {
 			// System.out.println("Pass Trooper: "+j);
 
@@ -1951,11 +1961,11 @@ public class GameWindow implements Serializable {
 								// System.out.println("LR Roll Modded: "+leaderShipRoll);
 
 								gameWindow.conflictLog.addNewLine("Entering Close Combat: " + unit.callsign);
-								gameWindow.conflictLog.addNewLine("Command: " + unit.getLeader().getSkill("Command"));
+								gameWindow.conflictLog.addNewLine("Command: " + (unit.getLeader() != null ? unit.getLeader().getSkill("Command") : "0"));
 								gameWindow.conflictLog.addNewLine("Leadership Roll: " + leaderShipRoll);
 								gameWindow.conflictLog.addNewLine("Unit Morale: " + unit.moral);
 
-								if (leaderShipRoll > unit.getLeader().getSkill("Command")) {
+								if (unit.getLeader() == null || leaderShipRoll > unit.getLeader().getSkill("Command")) {
 									for (int j = 0; j < unit.individuals.size(); j++) {
 										int roll = rand.nextInt(100) + 1;
 										gameWindow.conflictLog.addNewLine(unit.individuals.get(j).name + " "

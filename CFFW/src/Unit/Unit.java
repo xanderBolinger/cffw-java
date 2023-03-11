@@ -107,7 +107,7 @@ public class Unit implements Serializable {
 	// Checks inidividuals 
 	// Sets CV from the top trooper 
 	public void getCommandValue() {
-		if(individuals == null || individuals.size() < 1) {
+		if(individuals == null || individuals.size() < 1 || getLeader() == null) {
 			return;
 		}
 		int command = getLeader().getSkill("Command");
