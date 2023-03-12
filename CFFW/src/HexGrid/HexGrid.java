@@ -1607,7 +1607,7 @@ public class HexGrid implements Serializable {
 				// 2d 0 is top of the screen)
 				int y = (int) ((hexCenterY - chit.getHeight() / 1.5) + -metrics.getHeight() / 2
 						+ metrics.getAscent()) - (int) (3 * zoom);
-				g2.setColor(Color.YELLOW);
+				g2.setColor(Color.GREEN);
 				g2.drawString(s, x, y);
 				g2.setColor(Color.RED);
 			}
@@ -1700,16 +1700,16 @@ public class HexGrid implements Serializable {
 			// g2.setFont(font);
 
 			if (deployedUnit.unit.side.equals("BLUFOR")) {
-				g2.setColor(Color.yellow);
+				g2.setColor(Color.GREEN);
 
 			} else if (deployedUnit.unit.side.equals("OPFOR")) {
-				g2.setColor(Color.yellow);
+				g2.setColor(Color.GREEN);
 
 			} else if (deployedUnit.unit.side.equals("INDFOR")) {
-				g2.setColor(Color.yellow);
+				g2.setColor(Color.GREEN);
 
 			} else {
-				g2.setColor(Color.yellow);
+				g2.setColor(Color.GREEN);
 
 			}
 
@@ -1918,10 +1918,9 @@ public class HexGrid implements Serializable {
 					
 					Color color = g2.getColor();
 					g2.setColor(Color.GREEN);
-					if(gameWindow.findHex(i, j) == null) {
+					if(gameWindow.hexes.size() != columns * rows && !hideU && gameWindow.findHex(i, j) == null) {
 						//g2.drawString("U", hex.xpoints[0],hex.ypoints[0]);
-						if(!hideU)
-							g2.drawString("U", (int) (hex.xpoints[0]-(hex.getBounds().width*0.5)), (int)(hex.ypoints[0]+(hex.getBounds().height*0.3)));
+						g2.drawString("U", (int) (hex.xpoints[0]-(hex.getBounds().width*0.5)), (int)(hex.ypoints[0]+(hex.getBounds().height*0.3)));
 					}
 					g2.setColor(color);
 

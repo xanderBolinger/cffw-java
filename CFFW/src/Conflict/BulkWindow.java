@@ -1362,13 +1362,17 @@ public class BulkWindow {
 								selectedBulkTroopers.remove(bulkTrooper);
 							}
 
+							
 							for (BulkTrooper bulkTrooper : currentlySelectedBulkTroopers) {
+							
+								
 								
 								es.submit(() -> {
-									System.out.println("Submit");
+									System.out.println("Submit Suppressive Fire");
 									try {
-										if(comboBoxTargetUnits.getSelectedIndex() > 0) {
-											bulkTrooper.shoot = ShootUtility.setTargetUnit(unit, targetUnits.get(comboBoxTargetUnits.getSelectedIndex() -1),
+										if(comboBoxTargetUnits.getSelectedIndex() > 1) {
+											Unit shooterUnit = bulkTrooper.trooper.returnTrooperUnit(GameWindow.gameWindow);
+											bulkTrooper.shoot = ShootUtility.setTargetUnit(shooterUnit, targetUnits.get(comboBoxTargetUnits.getSelectedIndex() - 2),
 													bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, -1);
 											
 											if(bulkTrooper.shootReset) {
@@ -1377,7 +1381,22 @@ public class BulkWindow {
 											}
 											
 											System.out.println("Create bulk suppressive shot: "+(bulkTrooper.shoot == null ? "is null" : "not null"));
-										} else if(bulkTrooper.targetTroopers.size() > 0){
+										} else if(comboBoxTargetUnits.getSelectedIndex() == 1){
+											
+											Unit shooterUnit = bulkTrooper.trooper.returnTrooperUnit(GameWindow.gameWindow);
+											
+											bulkTrooper.shoot = ShootUtility.setTargetUnit(shooterUnit, 
+													shooterUnit.lineOfSight.get(DiceRoller.randInt(0, shooterUnit.lineOfSight.size()-1)),
+													bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, -1);
+											
+											if(bulkTrooper.shootReset) {
+												bulkTrooper.shoot.spentCombatActions = 0; 
+												bulkTrooper.shoot.previouslySpentCa = 0;
+											}
+											
+											System.out.println("Create bulk suppressive shot: "+(bulkTrooper.shoot == null ? "is null" : "not null"));
+											
+										} else if(comboBoxTargetUnits.getSelectedIndex() <= 0){
 											setValidTarget(bulkTrooper);
 										}
 
@@ -2543,6 +2562,7 @@ public class BulkWindow {
 
 		comboBoxTargetUnits.removeAllItems();
 		comboBoxTargetUnits.addItem("None");
+		comboBoxTargetUnits.addItem("Random");
 		if (unit.lineOfSight.size() < 1)
 			return;
 
@@ -3020,10 +3040,10 @@ public class BulkWindow {
 				if (trooper.spentPhase2 >= trooper.P2 || trooper.spentPhase2 >= game.getCurrentAction())
 					rslt = "Exhausted: " + rslt;
 			}
-
+			
 			String leaderType = trooper.leaderType == LeaderType.NONE ? "" : trooper.leaderType.toString()+":: ";
 			
-			return leaderType+ rslt;
+			return trooper.returnTrooperUnit(GameWindow.gameWindow).callsign + ":: " + leaderType+ rslt;
 
 		}
 
@@ -3104,7 +3124,7 @@ public class BulkWindow {
 
 		if (validTarget(targetTrooper)) {
 			// PCShots(bulkTrooper, targetTrooper);
-			bulkTrooper.shoot = ShootUtility.setTarget(unit, targetTrooper.returnTrooperUnit(gameWindow),
+			bulkTrooper.shoot = ShootUtility.setTarget(bulkTrooper.trooper.returnTrooperUnit(GameWindow.gameWindow), targetTrooper.returnTrooperUnit(gameWindow),
 					bulkTrooper.shoot, bulkTrooper.trooper, targetTrooper, bulkTrooper.trooper.wep, -1);
 			if(bulkTrooper.shootReset) {
 				bulkTrooper.shoot.spentCombatActions = 0; 
