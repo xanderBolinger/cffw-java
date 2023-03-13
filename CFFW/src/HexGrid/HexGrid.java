@@ -323,7 +323,7 @@ public class HexGrid implements Serializable {
 				int notches = e.getWheelRotation();
 				double temp = zoom - (notches * 0.2);
 				// minimum zoom factor is 1.0
-				temp = Math.max(temp, 1.0);
+				temp = Math.max(temp, 0.1);
 				if (temp != zoom) {
 					zoom = temp;
 					zoomChanged();
@@ -1840,7 +1840,7 @@ public class HexGrid implements Serializable {
 			
 			if (zoom != oldZoom) {
 				s = Math.round(s / oldZoom * zoom);
-				// System.out.println("S: "+s+", Zoom: "+zoom);
+				System.out.println("S: "+s+", Zoom: "+zoom);
 				backgroundImageWidth = (int) Math.round(s * (columns / 2 * 3));
 				backgroundImageHeight = (int) Math.round(s * 1.7175 * rows);
 				backgroundImageHeight -= backgroundImageHeight / rows / 2;
