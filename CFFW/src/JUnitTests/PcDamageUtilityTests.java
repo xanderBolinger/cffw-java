@@ -18,6 +18,7 @@ import CorditeExpansion.ActionOrder;
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.ExcelUtility;
+import UtilityClasses.PCUtility;
 import UtilityClasses.PcDamageUtility;
 
 public class PcDamageUtilityTests {
@@ -47,6 +48,15 @@ public class PcDamageUtilityTests {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Test
+	public void coverageTest() {
+		Trooper clone = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
+		
+		assertEquals(true, PCUtility.armorCoverage(clone));
+		clone.armor = null;
+		assertEquals(false, PCUtility.armorCoverage(clone));
 	}
 	
 	@Test

@@ -667,28 +667,57 @@ public class EditCompany implements Serializable {
 			roster++; 
 		
 		
-		
 		lblUnits.setText("Units: "+(units.size()+roster));
+		
 		
 		int disrupted = 0; 
 		int fractured = 0; 
 		int routed = 0;
 		
-		for(Unit unit : units) {
-			
-			if(unit.organization < 50 && unit.moral < 50) {
-				routed++; 
-				fractured++; 
-				disrupted++;
-			} else if(unit.moral < 50)  {
-				fractured++; 
-				disrupted++; 
-			} else if(unit.organization < 50 ) {
-				disrupted++; 
-			} 
-			
-		}
 		
+		int a = 0; 
+		int w = 0; 
+		int sw = 0;
+		int i = 0; 
+		int d = 0; 
+		for(Unit unit : units) {
+			double size = (double) unit.getSize();
+			int wounded = 0;
+			int dead = 0; 
+			int incapacitated = 0;
+			int severlyWounded = 0; 
+			
+			for(Trooper trooper : unit.individuals) {
+				
+				if(!trooper.alive) {
+					dead++;
+					d++; 
+				} else if(!trooper.conscious) {
+					incapacitated++;
+					i++; 
+				} else if(trooper.physicalDamage > trooper.KO * 3) {
+					severlyWounded++;
+					sw++;
+				} else if(trooper.physicalDamage > 0) {
+					wounded++;
+					w++;
+				} else {
+					a++; 
+				}
+				
+				if(dead + severlyWounded + incapacitated > size * 0.75) {
+					routed++;
+				} else if(dead + severlyWounded + incapacitated > size * 0.5) {
+					fractured++;
+				} else if(wounded > 0.75) {
+					fractured++;
+				} else if(dead + severlyWounded + incapacitated + wounded > size * 0.25) {
+					disrupted++;
+				} 
+				
+				
+			}
+		}
 		
 		lblDisruptedUnits.setText("Disrupted: "+disrupted);
 		lblFracturedUnits.setText("Fractured: "+fractured);
@@ -705,31 +734,6 @@ public class EditCompany implements Serializable {
 		
 		if(((units.size() + roster) / 3) * 2 < routed) {
 			lblStatus.setText("Status: ROUTED");
-		}
-		
-		
-		
-		int a = 0; 
-		int w = 0; 
-		int sw = 0;
-		int i = 0; 
-		int d = 0; 
-		for(Unit unit : units) {
-			for(Trooper trooper : unit.individuals) {
-				
-				if(!trooper.alive) {
-					d++; 
-				} else if(!trooper.conscious) {
-					i++; 
-				} else if(trooper.physicalDamage > trooper.KO * 3) {
-					sw++;
-				} else if(trooper.physicalDamage > 0) {
-					 w++;
-				} else {
-					a++; 
-				}
-				
-			}
 		}
 		
 		lblTroopers.setText("Troopers: A: "+a+", W: "+w+", SW: "+sw+", I: "+i+", D: "+d);

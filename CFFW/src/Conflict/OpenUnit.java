@@ -940,7 +940,7 @@ public class OpenUnit implements Serializable {
 		
 		lblFatigue = new JLabel("Average Fatigue Points:");
 		lblFatigue.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 11));
-		lblFatigue.setBounds(333, 233, 339, 14);
+		lblFatigue.setBounds(333, 233, 208, 14);
 		f.getContentPane().add(lblFatigue);
 		
 		JButton btnWait = new JButton("Wait");
@@ -1131,8 +1131,8 @@ public class OpenUnit implements Serializable {
 					margin = leader.getSkill("Command") - roll + 1;
 				}
 				
-				unit.suppression -= margin;
-				unit.organization += margin;
+				unit.suppression -= margin / 2;
+				unit.organization += margin / 2;
 				
 				if(unit.suppression < 0)
 					unit.suppression = 0; 

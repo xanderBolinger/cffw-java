@@ -22,6 +22,24 @@ import Unit.Unit;
 
 public class PCUtility {
 
+	public static boolean armorCoverage(Trooper trooper) {
+		if(trooper.armor == null)
+			return false; 
+		
+		int percentCovered = 0; 
+		
+		for(int i = 0; i < 100; i++) {
+			if(trooper.armor.isZoneProtected(i, !trooper.inCover)) {
+				percentCovered++;
+			}
+		}
+		
+		if(percentCovered < 50)
+			return false;
+		
+		return true; 
+	}
+	
 	public static String convertTime(int inputMinutes) {
 
 		double minutes = (double) inputMinutes;

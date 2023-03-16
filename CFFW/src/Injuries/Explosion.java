@@ -10,6 +10,7 @@ import Items.Weapons;
 import Trooper.Trooper;
 import Unit.Unit;
 import UtilityClasses.DiceRoller;
+import UtilityClasses.PCUtility;
 
 public class Explosion {
 
@@ -109,6 +110,15 @@ public class Explosion {
 			
 			bshcRslts = ", Roll: "+roll; 
 			
+		}
+		
+		if(target.inCover)
+			bc /= 2;
+		
+		if(PCUtility.armorCoverage(target) && bc > target.armor.bPF) 
+			bc /= 2;
+		else if(PCUtility.armorCoverage(target) && bc <= target.armor.bPF) {
+			bc /= 100;
 		}
 		
 		//GameWindow.gameWindow.conflictLog.addNewLineToQueue(GameWindow.getLogHead(target)+", Distance PC Hexes: "+rangePCHexes+", Explosion BC Damage: "+bc+", BSHC: "+bshc+bshcRslts);
