@@ -1608,6 +1608,15 @@ public class HexGrid implements Serializable {
 				int y = (int) ((hexCenterY - chit.getHeight() / 1.5) + -metrics.getHeight() / 2
 						+ metrics.getAscent()) - (int) (3 * zoom);
 				g2.setColor(Color.GREEN);
+				g2.setColor(Color.MAGENTA);
+				g2.setStroke(new BasicStroke(1f));
+				g2.draw(losThread);
+				
+				g2.setColor(Color.BLACK);
+				FontMetrics fm = g2.getFontMetrics();
+				Rectangle2D rect = fm.getStringBounds(s, g2);
+				g2.fillRect(x, y - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
+				g2.setColor(Color.MAGENTA);
 				g2.drawString(s, x, y);
 				g2.setColor(Color.RED);
 			}
@@ -1742,7 +1751,19 @@ public class HexGrid implements Serializable {
 			int y = (int) ((hexCenterY - deployedUnit.unitImage.getHeight(null) / 1.5) + -metrics.getHeight() / 2
 					+ metrics.getAscent()) - (int) (3 * zoom);
 
+			
+			
 			if (count == unitsInHex(deployedUnit.xCord, deployedUnit.yCord)) {
+				g2.setColor(Color.MAGENTA);
+				g2.setStroke(new BasicStroke(1f));
+				g2.draw(losThread);
+				
+				g2.setColor(Color.BLACK);
+				FontMetrics fm = g2.getFontMetrics();
+				Rectangle2D rect = fm.getStringBounds(s, g2);
+				g2.fillRect(x, y - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
+				g2.setColor(Color.MAGENTA);
+				
 				g2.drawString(s, x, y);
 			}
 
