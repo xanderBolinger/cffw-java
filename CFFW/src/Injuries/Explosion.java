@@ -185,8 +185,9 @@ public class Explosion {
 		
 		if(target.inCover)
 			bc /= 2;
-		
-		if(PCUtility.armorCoverage(target) && bc > target.armor.bPF) 
+		if(PCUtility.armorCoverage(target) && bc > target.armor.bPF && target.entirelyMechanical) 
+			bc /= 4;
+		else if(PCUtility.armorCoverage(target) && bc > target.armor.bPF) 
 			bc /= 2;
 		else if(PCUtility.armorCoverage(target) && bc <= target.armor.bPF) {
 			bc /= 100;
@@ -203,6 +204,9 @@ public class Explosion {
 		} else if(shell != null && shell.ionDamage.size() > 0) {
 			ionDmg = shell.ionDamage.get(getExplsoionRangeColumn(rangePCHexes));
 		}
+		
+		if(target.inCover)
+			ionDmg /= 2;
 		
 		if(ionDmg > 0 && target.entirelyMechanical) {
 			GameWindow.gameWindow.conflictLog.addToLineInQueue(", Ion Damage: "+ionDmg);
