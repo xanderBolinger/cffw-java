@@ -1022,7 +1022,7 @@ public class OpenTrooper implements Serializable {
 									targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1)
 											.returnTrooperUnit(gameWindow),
 									shoot, trooper, targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1), wepName,
-									ammoIndex);
+									(ammoIndex == -1 ? ShootUtility.getPcAmmoIndex(trooper) : ammoIndex));
 							
 							if(shootReset) {
 								shoot.previouslySpentCa = 0; 
@@ -1288,7 +1288,7 @@ public class OpenTrooper implements Serializable {
 
 						shoot = ShootUtility.setTargetUnit(unit,
 								unit.lineOfSight.get(comboBoxTargetUnits.getSelectedIndex() - 1), shoot, trooper,
-								wepName, ammoIndex);
+								wepName, (ammoIndex == -1 ? ShootUtility.getPcAmmoIndex(trooper) : ammoIndex));
 
 						if(shootReset) {
 							shoot.previouslySpentCa = 0; 
