@@ -619,8 +619,8 @@ public class StaticWeaponWindow {
 				if (listIndividuals.getSelectedIndex() > -1 && selectedWeaponIndex > -1) {
 					unit.staticWeapons.get(selectedWeaponIndex).equipedTroopers
 							.add(unequipedTroopers.get(listIndividuals.getSelectedIndex()));
-					unequipedTroopers.remove(listIndividuals.getSelectedIndex());
 					PCUtility.setSlEquip(unequipedTroopers.get(listIndividuals.getSelectedIndex()));
+					unequipedTroopers.remove(listIndividuals.getSelectedIndex());
 				}
 
 				setFields(unit);
@@ -628,7 +628,8 @@ public class StaticWeaponWindow {
 				openUnit.refreshIndividuals();
 
 				listEquipedStatics.setSelectedIndex(index);
-				
+				//refreshTroopers(unit);
+				//refreshEquipedIndividuals(unit);
 				setGunner();
 
 			}

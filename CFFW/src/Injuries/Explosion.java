@@ -44,7 +44,7 @@ public class Explosion {
 	// Randomly determines distance 
 	// If a friendly side should be exempt from the explosion such as in grenade tosses, allows specification of friendly side 
 	public void explodeHex(int x, int y, String friendlySide) {
-		
+		System.out.println("Explode Hex");
 		ArrayList<Unit> targetUnits = GameWindow.gameWindow.getUnitsInHexExcludingSide(friendlySide, x, y);
 		
 		for(Unit unit : targetUnits) {
@@ -52,7 +52,9 @@ public class Explosion {
 			for(Trooper trooper : unit.individuals) {
 				
 				if(!excludeTroopers.contains(trooper) && !trooper.inBuilding(GameWindow.gameWindow)) {
-					explodeTrooper(trooper, DiceRoller.randInt(0, 10));
+					int roll1 = DiceRoller.randInt(0, 10);
+					int roll2 = DiceRoller.randInt(0, 10);
+					explodeTrooper(trooper, (roll1 < roll2 ? roll1 : roll2));
 				}
 						
 			}
@@ -67,7 +69,56 @@ public class Explosion {
 				unit.organization = 0; 
 			
 		}
+	
+		explodeAdjacentHexes(x, y, friendlySide);
 		
+	}
+	
+	public void explodeAdjacentHexes(int x, int y, String friendlySide) {
+		/*-1,+1
+		-1,0
+		-1,-1
+		0,-1
+		+1,0
+		0,+1*/
+		explodeAdjacentHex(x-1, y+1, friendlySide);
+		explodeAdjacentHex(x-1, y, friendlySide);
+		explodeAdjacentHex(x-1, y-1, friendlySide);
+		explodeAdjacentHex(x, y-1, friendlySide);
+		explodeAdjacentHex(x+1, y, friendlySide);
+		explodeAdjacentHex(x, y+1, friendlySide);
+	}
+	
+	public void explodeAdjacentHex(int x, int y, String friendlySide) {
+		ArrayList<Unit> targetUnits = GameWindow.gameWindow.getUnitsInHexExcludingSide(friendlySide, x, y);
+		
+		for(Unit unit : targetUnits) {
+			
+			for(Trooper trooper : unit.individuals) {
+				
+				if(!excludeTroopers.contains(trooper) && !trooper.inBuilding(GameWindow.gameWindow)) {
+					
+					
+					int roll1 = DiceRoller.randInt(0, 5);
+					int roll2 = DiceRoller.randInt(0, 5);
+					
+					int roll3 = DiceRoller.randInt(0, 10);
+					int roll4 = DiceRoller.randInt(0, 10);
+					explodeTrooper(trooper, (roll1 < roll2 ? roll1 : roll2) + (roll3 < roll4 ? roll3 : roll4));
+				}
+						
+			}
+			
+			unit.suppression += 3; 
+			unit.organization -= 3; 
+			
+			if(unit.suppression > 100)
+				unit.suppression = 100; 
+			
+			if(unit.organization < 0)
+				unit.organization = 0; 
+			
+		}
 	}
 	
 	// Called on each trooper in a hex that contains an explosion 
@@ -80,17 +131,37 @@ public class Explosion {
 		int bc; 
 		
 		if(weapon != null) {
-			bshc = weapon.bshc.get(getExplsoionRangeColumn(rangePCHexes)); 
-			bc = weapon.bc.get(getExplsoionRangeColumn(rangePCHexes));
+			if(getExplsoionRangeColumn(rangePCHexes) >= weapon.bc.size()) {
+				bshc = "0";
+				bc = 0;
+			} else {
+				bshc = weapon.bshc.get(getExplsoionRangeColumn(rangePCHexes)); 
+				bc = weapon.bc.get(getExplsoionRangeColumn(rangePCHexes));				
+			}
 		} else if(pcAmmo != null && pcAmmo.ordnance) {
-			bshc = pcAmmo.bshc.get(getOrdnanceRangeColumn(rangePCHexes)); 
-			bc = pcAmmo.bc.get(getOrdnanceRangeColumn(rangePCHexes));
+			if(getOrdnanceRangeColumn(rangePCHexes) >= pcAmmo.bc.size()) {
+				bshc = "0";
+				bc = 0;
+			} else {
+				bshc = pcAmmo.bshc.get(getOrdnanceRangeColumn(rangePCHexes)); 
+				bc = pcAmmo.bc.get(getOrdnanceRangeColumn(rangePCHexes));				
+			}
 		} else if(pcAmmo != null){
-			bshc = pcAmmo.bshc.get(getExplsoionRangeColumn(rangePCHexes)); 
-			bc = pcAmmo.bc.get(getExplsoionRangeColumn(rangePCHexes));
+			if(getExplsoionRangeColumn(rangePCHexes) >= pcAmmo.bc.size()) {
+				bshc = "0";
+				bc = 0;
+			} else {
+				bshc = pcAmmo.bshc.get(getExplsoionRangeColumn(rangePCHexes)); 
+				bc = pcAmmo.bc.get(getExplsoionRangeColumn(rangePCHexes));				
+			}
 		} else if(shell != null) {
-			bshc = shell.bshc.get(getExplsoionRangeColumn(rangePCHexes));
-			bc = shell.bc.get(getExplsoionRangeColumn(rangePCHexes));
+			if(getExplsoionRangeColumn(rangePCHexes) >= shell.bc.size()) {
+				bshc = "0";
+				bc = 0;
+			} else {
+				bshc = shell.bshc.get(getExplsoionRangeColumn(rangePCHexes)); 
+				bc = shell.bc.get(getExplsoionRangeColumn(rangePCHexes));				
+			}
 		} else {
 			GameWindow.gameWindow.conflictLog.addNewLine("Explode Trooper failed. No valid weapon.");
 			return;

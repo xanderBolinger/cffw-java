@@ -16,7 +16,7 @@ public class Item implements Serializable {
 	
 	
 	public enum ItemType {
-		NONE,ClassAThermalDetonator,DC15A,M5,DC15X,Z6,DC17M,DC17MRocket,DC17MSniper,DC40,RPS6,HEAT,HE,SmallArmsAmmo,
+		NONE,ClassAThermalDetonator,DC15A,DC20,M5,DC15X,Z6,DC17M,DC17MRocket,DC17MSniper,DC40,RPS6,HEAT,HE,SmallArmsAmmo,
 		
 		EWEBWeapon,EWEBTripod,EWEBBattery,
 		
@@ -32,6 +32,7 @@ public class Item implements Serializable {
 	public Item() throws Exception {
 		allItems = new ArrayList<>(Arrays.asList(
 				new Item(ItemType.DC15A),
+				new Item(ItemType.DC20),
 				new Item(ItemType.DC15X),
 				new Item(ItemType.Z6),
 				new Item(ItemType.M5),
@@ -62,6 +63,7 @@ public class Item implements Serializable {
 				new Item(ItemType.RPS6, ItemType.HEAT),
 				
 				new Item(ItemType.DC15A, ItemType.SmallArmsAmmo),
+				new Item(ItemType.DC20, ItemType.SmallArmsAmmo),
 				new Item(ItemType.DC15X, ItemType.SmallArmsAmmo),
 				new Item(ItemType.Z6, ItemType.SmallArmsAmmo),
 				new Item(ItemType.M5, ItemType.SmallArmsAmmo),
@@ -101,6 +103,11 @@ public class Item implements Serializable {
 				&& ItemType.SmallArmsAmmo == ammoType) {
 			ammo = new PCAmmo("D1 Power Cell", 50);
 			itemWeight = 2;
+		} 
+		else if(ItemType.DC20 == weaponType
+				&& ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("D1S Power Cell", 10);
+			itemWeight = 4;
 		}  
 		else if((ItemType.Z6 == weaponType
 				) && ItemType.SmallArmsAmmo == ammoType) {
@@ -190,6 +197,9 @@ public class Item implements Serializable {
 		} else if(ItemType.DC15A == itemType) {
 			weapon = new Weapons().findWeapon("DC15A");
 			itemWeight = 12; 
+		} else if(ItemType.DC20 == itemType) {
+			weapon = new Weapons().findWeapon("DC20");
+			itemWeight = 20; 
 		} else if(ItemType.Z6 == itemType) {
 			weapon = new Weapons().findWeapon("Z6");
 			itemWeight = 20; 

@@ -78,6 +78,10 @@ public class Weapons implements Serializable {
 		Weapons weapon1 = new Weapons();
 		weapon1.DC15A();
 		weapons.add(weapon1);
+		
+		Weapons dc20 = new Weapons();
+		dc20.DC20();
+		weapons.add(dc20);
 
 		Weapons weapon2 = new Weapons();
 		weapon2.E5();
