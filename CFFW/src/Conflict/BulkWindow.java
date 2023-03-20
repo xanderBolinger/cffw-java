@@ -1373,7 +1373,8 @@ public class BulkWindow {
 										if(comboBoxTargetUnits.getSelectedIndex() > 1) {
 											Unit shooterUnit = bulkTrooper.trooper.returnTrooperUnit(GameWindow.gameWindow);
 											bulkTrooper.shoot = ShootUtility.setTargetUnit(shooterUnit, targetUnits.get(comboBoxTargetUnits.getSelectedIndex() - 2),
-													bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, -1);
+													bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, 
+													ShootUtility.getPcAmmoIndex(bulkTrooper.trooper));
 											
 											if(bulkTrooper.shootReset) {
 												bulkTrooper.shoot.spentCombatActions = 0; 
@@ -1387,7 +1388,7 @@ public class BulkWindow {
 											
 											bulkTrooper.shoot = ShootUtility.setTargetUnit(shooterUnit, 
 													shooterUnit.lineOfSight.get(DiceRoller.randInt(0, shooterUnit.lineOfSight.size()-1)),
-													bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, -1);
+													bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, ShootUtility.getPcAmmoIndex(bulkTrooper.trooper));
 											
 											if(bulkTrooper.shootReset) {
 												bulkTrooper.shoot.spentCombatActions = 0; 
@@ -3125,7 +3126,7 @@ public class BulkWindow {
 		if (validTarget(targetTrooper)) {
 			// PCShots(bulkTrooper, targetTrooper);
 			bulkTrooper.shoot = ShootUtility.setTarget(bulkTrooper.trooper.returnTrooperUnit(GameWindow.gameWindow), targetTrooper.returnTrooperUnit(gameWindow),
-					bulkTrooper.shoot, bulkTrooper.trooper, targetTrooper, bulkTrooper.trooper.wep, -1);
+					bulkTrooper.shoot, bulkTrooper.trooper, targetTrooper, bulkTrooper.trooper.wep, ShootUtility.getPcAmmoIndex(bulkTrooper.trooper));
 			if(bulkTrooper.shootReset) {
 				bulkTrooper.shoot.spentCombatActions = 0; 
 				bulkTrooper.shoot.previouslySpentCa = 0;
@@ -3846,7 +3847,7 @@ public class BulkWindow {
 									
 									if(comboBoxTargetUnits.getSelectedIndex() > 0)
 										bulkTrooper.shoot = ShootUtility.setTargetUnit(unit, targetUnits.get(comboBoxTargetUnits.getSelectedIndex() -1),
-												bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, -1);
+												bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, ShootUtility.getPcAmmoIndex(bulkTrooper.trooper));
 									else 
 										setValidTarget(bulkTrooper);
 
@@ -3918,6 +3919,8 @@ public class BulkWindow {
 
 		worker.execute();
 	}
+	
+	
 	
 	public void selectedGuiUpdates() {
 		try {

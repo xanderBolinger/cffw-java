@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.SwingWorker;
 
 import Conflict.GameWindow;
+import Items.Weapons;
 import Shoot.Shoot;
 import Trooper.Trooper;
 import Unit.Unit;
@@ -48,6 +49,15 @@ public class ShootUtility {
 
 	}
 
+	public static int getPcAmmoIndex(Trooper trooper) {
+		Weapons weapon = new Weapons().findWeapon(trooper.wep);
+		
+		if(weapon.pcAmmoTypes.size() > 0)
+			return 0;
+		
+		return -1; 
+	}
+	
 	public static void shootGuiUpdate(JLabel lblPossibleShots, JLabel lblAimTime, JLabel lblTN, JLabel lblTfSpentCa,
 			JLabel lblAmmo, JLabel lblCombatActions, JCheckBox chckbxFullAuto, ArrayList<Shoot> shoot) {
 		System.out.println("Shoot Gui Update");

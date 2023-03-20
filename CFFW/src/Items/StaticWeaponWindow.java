@@ -25,6 +25,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import Actions.ReactionToFireWindow;
 import Actions.TargetedFire;
 import Conflict.GameWindow;
+import Conflict.InjuryLog;
 import Conflict.OpenUnit;
 import Injuries.ResolveHits;
 import Shoot.Shoot;
@@ -461,7 +462,7 @@ public class StaticWeaponWindow {
 
 						GameWindow.gameWindow.conflictLog.addQueuedText();
 						guiUpdates();
-						
+						InjuryLog.InjuryLog.printResultsToLog();
 						if(shoot.target != null && (!shoot.target.alive || !shoot.target.conscious || shoot.target.HD)) {
 							refreshSustainedFireTargets(trooperUnit);
 						}

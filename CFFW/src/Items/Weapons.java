@@ -328,8 +328,43 @@ public class Weapons implements Serializable {
 		this.ma.add(7.0);
 
 		// Ce stats
-		ceStats.baseErgonomics = 50;
+		/*ceStats.baseErgonomics = 50;
+		String name = "HEAT";
+		ArrayList<Integer> pen = new ArrayList<Integer>();
+		pen.add(9);
+		pen.add(9);
+		pen.add(8);
+		pen.add(8);
+		pen.add(7);
+		pen.add(7);
 
+		ArrayList<Integer> dc = new ArrayList<Integer>();
+		dc.add(9);
+		dc.add(9);
+		dc.add(9);
+		dc.add(9);
+		dc.add(9);
+		dc.add(8);
+
+		ArrayList<String> bshc = new ArrayList<String>();
+		bshc.add("10");
+		bshc.add("2");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+
+		ArrayList<Integer> bc = new ArrayList<Integer>();
+		bc.add(2800);
+		bc.add(575);
+		bc.add(155);
+		bc.add(80);
+		bc.add(45);
+		bc.add(18);
+
+		PCAmmo heat = new PCAmmo(name, pen, dc, bshc, bc, 17000, 10);
+		heat.shots = -1;
+		pcAmmoTypes.add(heat);*/
 	}
 
 	public void DC20() {
