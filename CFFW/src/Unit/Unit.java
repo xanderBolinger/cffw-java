@@ -740,7 +740,7 @@ public class Unit implements Serializable {
 		
 		gameWindow.closeCombatCheck();
 		
-		if(newHex == null) {
+		if(newHex == null && !GameWindow.gameWindow.hexGrid.panel.hideU) {
 			
 			new HexWindow(true, X, Y, this, openUnitWindow);
 			
