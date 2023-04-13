@@ -689,7 +689,9 @@ public class HexGrid implements Serializable {
 				selectedUnitsItem(xCord, yCord);
 				newHexItem(xCord, yCord);
 				attackWindowItem(GameWindow.gameWindow.findHex(xCord, yCord));
-
+				SetNone();
+				SetWalk();
+				SetRush();
 			}
 
 			public PanelPopUp(int xCord, int yCord, Unit unit) {
@@ -723,6 +725,115 @@ public class HexGrid implements Serializable {
 				selectedUnitsItem(xCord, yCord);
 				newHexItem(xCord, yCord);
 				attackWindowItem(GameWindow.gameWindow.findHex(xCord, yCord));
+				SetNone();
+				SetWalk();
+				SetRush();
+			}
+			
+			public void SetWalk() {
+				if(selectedUnits.size() < 1 && selectedUnit == null) {
+					System.out.println("set walk return");
+					return; 
+				}
+				System.out.println("Set walk");
+				
+				JMenuItem item = new JMenuItem("Set Walk");
+				item.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						SetSpeed("Walk");
+						
+						
+					}
+				});
+
+				add(item);
+
+			}
+			
+			public void SetRush() {
+				
+				if(selectedUnits.size() < 1 && selectedUnit == null) {
+					//System.out.println("remove los return");
+					return; 
+				}
+				
+				JMenuItem item = new JMenuItem("Set Rush");
+				item.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						SetSpeed("Rush");
+						
+						
+					}
+				});
+
+				add(item);
+				
+			}
+			
+			public void SetNone() {
+				if(selectedUnits.size() < 1 && selectedUnit == null) {
+					//System.out.println("remove los return");
+					return; 
+				}
+				
+				JMenuItem item = new JMenuItem("Set None");
+				item.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						SetSpeed("None");
+						
+						
+					}
+				});
+
+				add(item);
+			}
+			
+			public void SetSpeed(String speed) {
+				if(selectedUnit != null) {
+					selectedUnit.unit.speed = speed;
+					Unit unit = selectedUnit.unit;
+					unit.speed = speed;
+					if(gameWindow.findHex(unit.X, unit.Y) != null)
+						gameWindow.findHex(unit.X, unit.Y).usedPositions -= unit.individualsInCover;
+					
+					unit.individualsInCover = 0; 
+					for(Trooper trooper : unit.individuals) {
+						if(!trooper.inBuilding(gameWindow)) 
+							trooper.inCover = false; 
+						
+					}
+					
+					unit.soughtCover = false; 
+					if(!unit.behavior.equals("No Contact")) {
+						unit.timeSinceContact = 0;				
+						unit.seekCover(gameWindow.findHex(unit.X, unit.Y), gameWindow);
+					}
+				}
+				
+				for(DeployedUnit depUnit : selectedUnits) {
+					Unit unit = depUnit.unit;
+					unit.speed = speed;
+					if(gameWindow.findHex(unit.X, unit.Y) != null)
+						gameWindow.findHex(unit.X, unit.Y).usedPositions -= unit.individualsInCover;
+					
+					unit.individualsInCover = 0; 
+					for(Trooper trooper : unit.individuals) {
+						if(!trooper.inBuilding(gameWindow)) 
+							trooper.inCover = false; 
+						
+					}
+					
+					unit.soughtCover = false; 
+					if(!unit.behavior.equals("No Contact")) {
+						unit.timeSinceContact = 0;				
+						unit.seekCover(gameWindow.findHex(unit.X, unit.Y), gameWindow);
+					}
+				}
+				selectedUnit = null;
+				selectedUnits.clear();
 			}
 			
 			public void removeLOS() {
