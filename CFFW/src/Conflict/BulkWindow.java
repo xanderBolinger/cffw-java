@@ -76,6 +76,7 @@ import javax.swing.event.ListSelectionEvent;
 import java.awt.event.MouseMotionAdapter;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.SpinnerNumberModel;
 
 public class BulkWindow {
 
@@ -136,10 +137,13 @@ public class BulkWindow {
 	private JSpinner spinnerTargetFloor;
 	private JSpinner spinnerThrowBonus;
 	private JSpinner spinnerThrowEALBonus;
-	private JSpinner spinnerLauncherBonus;
 	private JSpinner spinnerLauncherX;
 	private JSpinner spinnerLauncherY;
 	private JCheckBox chckbxGuided;
+	private JComboBox comboBoxWep;
+	private JComboBox comboBoxDesignation;
+	private JComboBox comboBoxSide;
+	private JSpinner spinnerDivisor;
 
 	/**
 	 * Create the application.
@@ -221,7 +225,7 @@ public class BulkWindow {
 
 	private void initializeWindow() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1113, 712);
+		frame.setBounds(100, 100, 1113, 733);
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.setVisible(true);
 
@@ -306,7 +310,7 @@ public class BulkWindow {
 		label_1.setFont(new Font("Calibri", Font.PLAIN, 12));
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 84, 445, 389);
+		scrollPane.setBounds(10, 205, 445, 351);
 		frame.getContentPane().add(scrollPane);
 		individualsList = new JList();
 		individualsList.addMouseMotionListener(new MouseMotionAdapter() {
@@ -686,7 +690,7 @@ public class BulkWindow {
 		chckbxFreeAction.setForeground(Color.BLACK);
 		chckbxFreeAction.setFont(new Font("Calibri", Font.BOLD, 12));
 		chckbxFreeAction.setBackground(Color.WHITE);
-		chckbxFreeAction.setBounds(84, 57, 97, 27);
+		chckbxFreeAction.setBounds(86, 169, 97, 27);
 		frame.getContentPane().add(chckbxFreeAction);
 
 		comboBoxScanArea = new JComboBox();
@@ -1458,7 +1462,7 @@ public class BulkWindow {
 		});
 		comboBoxTargetUnits.setForeground(Color.BLACK);
 		// comboBox_12.setSelectedIndex(0);
-		comboBoxTargetUnits.setBounds(479, 643, 178, 21);
+		comboBoxTargetUnits.setBounds(559, 617, 178, 21);
 		frame.getContentPane().add(comboBoxTargetUnits);
 
 		JLabel label_23 = new JLabel("Taget Unit: ");
@@ -1482,14 +1486,14 @@ public class BulkWindow {
 		JLabel lblBulkOperations = new JLabel("Bulk Operations");
 		lblBulkOperations.setForeground(Color.BLACK);
 		lblBulkOperations.setFont(new Font("Calibri", Font.PLAIN, 18));
-		lblBulkOperations.setBounds(10, 10, 221, 20);
+		lblBulkOperations.setBounds(10, 10, 147, 20);
 		frame.getContentPane().add(lblBulkOperations);
 
 		JLabel lblIndividuals = new JLabel("Individuals");
 		lblIndividuals.setForeground(Color.BLACK);
 		lblIndividuals.setFont(new Font("Calibri", Font.PLAIN, 15));
 		lblIndividuals.setBackground(Color.WHITE);
-		lblIndividuals.setBounds(10, 59, 87, 23);
+		lblIndividuals.setBounds(10, 171, 87, 23);
 		frame.getContentPane().add(lblIndividuals);
 
 		
@@ -1637,47 +1641,22 @@ public class BulkWindow {
 		targetedFireFocus.setBounds(944, 535, 143, 20);
 		frame.getContentPane().add(targetedFireFocus);
 
-		JButton button_5_1 = new JButton("Select Fresh");
-		button_5_1.addActionListener(new ActionListener() {
+		JButton btnFresh = new JButton("Fresh");
+		btnFresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
 				// System.out.println("Phase: "+game.getPhase()+", Action:
 				// "+game.getCurrentAction());
 
-				individualsList.clearSelection();
-				ArrayList<Integer> indexes = new ArrayList<Integer>();
-
-				for (BulkTrooper bulkTrooper : bulkTroopers) {
-
-					if (game.getPhase() == 1) {
-						// System.out.println("Spent Phsae 1: "+bulkTrooper.trooper.spentPhase1);
-						if (bulkTrooper.trooper.spentPhase1 < game.getCurrentAction()
-								&& bulkTrooper.trooper.spentPhase1 < bulkTrooper.trooper.P1) {
-							indexes.add(bulkTroopers.indexOf(bulkTrooper));
-						}
-
-					} else {
-						// System.out.println("Spent Phsae 2: "+bulkTrooper.trooper.spentPhase2);
-						if (bulkTrooper.trooper.spentPhase2 < game.getCurrentAction()
-								&& bulkTrooper.trooper.spentPhase2 < bulkTrooper.trooper.P2) {
-							indexes.add(bulkTroopers.indexOf(bulkTrooper));
-						}
-					}
-
-				}
-
-				int[] indices = indexes.stream().mapToInt(i -> i).toArray();
-
-				individualListLock = true; 
-				individualsList.setSelectedIndices(indices);
-				individualListLock = false; 
-				selected();
+				//individualsList.clearSelection();
+				//ArrayList<Integer> indexes = new ArrayList<Integer>();
+				addFresh();
 				// System.out.println("Set Indexes: "+indices.length);
 			}
 		});
-		button_5_1.setForeground(Color.BLACK);
-		button_5_1.setBounds(325, 57, 130, 23);
-		frame.getContentPane().add(button_5_1);
+		btnFresh.setForeground(Color.BLACK);
+		btnFresh.setBounds(123, 27, 75, 23);
+		frame.getContentPane().add(btnFresh);
 
 		chckbxUnspottable = new JCheckBox("Unspottable");
 		chckbxUnspottable.setForeground(Color.BLACK);
@@ -1961,7 +1940,7 @@ public class BulkWindow {
 
 			}
 		});
-		btnClose.setBounds(998, 642, 89, 23);
+		btnClose.setBounds(998, 642, 89, 41);
 		frame.getContentPane().add(btnClose);
 
 		JButton btnClear = new JButton("Clear Aim");
@@ -1991,7 +1970,7 @@ public class BulkWindow {
 			}
 		});
 		btnResetFp.setForeground(Color.BLACK);
-		btnResetFp.setBounds(883, 642, 111, 23);
+		btnResetFp.setBounds(995, 614, 92, 23);
 		frame.getContentPane().add(btnResetFp);
 
 		JButton btnPass = new JButton("Pass");
@@ -2005,11 +1984,11 @@ public class BulkWindow {
 			}
 		});
 		btnPass.setForeground(Color.BLACK);
-		btnPass.setBounds(10, 30, 115, 23);
+		btnPass.setBounds(198, 169, 115, 23);
 		frame.getContentPane().add(btnPass);
 
-		JButton button_5_1_1 = new JButton("Select Shooters");
-		button_5_1_1.addActionListener(new ActionListener() {
+		JButton btnShooters = new JButton("Shooters");
+		btnShooters.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				individualsList.clearSelection();
 				ArrayList<Integer> indexes = new ArrayList<Integer>();
@@ -2043,12 +2022,12 @@ public class BulkWindow {
 				selected();
 			}
 		});
-		button_5_1_1.setForeground(Color.BLACK);
-		button_5_1_1.setBounds(187, 57, 136, 23);
-		frame.getContentPane().add(button_5_1_1);
+		btnShooters.setForeground(Color.BLACK);
+		btnShooters.setBounds(300, 27, 87, 23);
+		frame.getContentPane().add(btnShooters);
 
-		JButton button_5_1_1_1 = new JButton("Select Aiming");
-		button_5_1_1_1.addActionListener(new ActionListener() {
+		JButton btnAiming = new JButton("Aiming");
+		btnAiming.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				individualsList.clearSelection();
 				ArrayList<Integer> indexes = new ArrayList<Integer>();
@@ -2082,181 +2061,167 @@ public class BulkWindow {
 				selected();
 			}
 		});
-		button_5_1_1_1.setForeground(Color.BLACK);
-		button_5_1_1_1.setBounds(187, 30, 136, 23);
-		frame.getContentPane().add(button_5_1_1_1);
+		btnAiming.setForeground(Color.BLACK);
+		btnAiming.setBounds(208, 27, 82, 23);
+		frame.getContentPane().add(btnAiming);
 
 		JLabel lblLauncher = new JLabel("Launcher");
 		lblLauncher.setForeground(Color.BLACK);
 		lblLauncher.setFont(new Font("Calibri", Font.PLAIN, 16));
-		lblLauncher.setBounds(10, 596, 136, 20);
+		lblLauncher.setBounds(479, 634, 136, 20);
 		frame.getContentPane().add(lblLauncher);
 
 		JLabel lblGrenade = new JLabel("Grenade: ");
 		lblGrenade.setForeground(Color.BLACK);
 		lblGrenade.setFont(new Font("Calibri", Font.PLAIN, 15));
-		lblGrenade.setBounds(10, 484, 136, 31);
+		lblGrenade.setBounds(10, 567, 136, 31);
 		frame.getContentPane().add(lblGrenade);
 
 		comboBoxGrenade = new JComboBox();
-		comboBoxGrenade.setBounds(10, 514, 136, 20);
+		comboBoxGrenade.setBounds(10, 597, 136, 20);
 		frame.getContentPane().add(comboBoxGrenade);
 
 		comboBoxGrenadeTargets = new JComboBox();
-		comboBoxGrenadeTargets.setBounds(157, 514, 136, 20);
+		comboBoxGrenadeTargets.setBounds(157, 597, 136, 20);
 		frame.getContentPane().add(comboBoxGrenadeTargets);
 
 		JLabel label_16_1 = new JLabel("Taget Individual: ");
 		label_16_1.setForeground(Color.BLACK);
 		label_16_1.setFont(new Font("Calibri", Font.PLAIN, 15));
-		label_16_1.setBounds(157, 484, 121, 31);
+		label_16_1.setBounds(157, 567, 121, 31);
 		frame.getContentPane().add(label_16_1);
 
 		JLabel lblOr = new JLabel("OR");
 		lblOr.setForeground(Color.BLACK);
 		lblOr.setFont(new Font("Calibri", Font.PLAIN, 12));
-		lblOr.setBounds(20, 533, 16, 31);
+		lblOr.setBounds(20, 616, 16, 31);
 		frame.getContentPane().add(lblOr);
 
 		JLabel lblX = new JLabel("X:");
 		lblX.setForeground(Color.BLACK);
 		lblX.setFont(new Font("Calibri", Font.PLAIN, 12));
-		lblX.setBounds(71, 536, 16, 31);
+		lblX.setBounds(71, 619, 16, 31);
 		frame.getContentPane().add(lblX);
 
 		spinnerGrenadeX = new JSpinner();
-		spinnerGrenadeX.setBounds(86, 540, 40, 20);
+		spinnerGrenadeX.setBounds(86, 623, 40, 20);
 		frame.getContentPane().add(spinnerGrenadeX);
 
 		JLabel lblY = new JLabel("Y:");
 		lblY.setForeground(Color.BLACK);
 		lblY.setFont(new Font("Calibri", Font.PLAIN, 12));
-		lblY.setBounds(135, 536, 16, 31);
+		lblY.setBounds(135, 619, 16, 31);
 		frame.getContentPane().add(lblY);
 
 		spinnerGrenadeY = new JSpinner();
-		spinnerGrenadeY.setBounds(150, 540, 40, 20);
+		spinnerGrenadeY.setBounds(150, 623, 40, 20);
 		frame.getContentPane().add(spinnerGrenadeY);
 
 		JLabel lblHex = new JLabel("Hex:");
 		lblHex.setForeground(Color.BLACK);
 		lblHex.setFont(new Font("Calibri", Font.PLAIN, 15));
-		lblHex.setBounds(38, 533, 40, 31);
+		lblHex.setBounds(38, 616, 40, 31);
 		frame.getContentPane().add(lblHex);
 
 		JLabel label_10_1 = new JLabel("OR");
 		label_10_1.setForeground(Color.BLACK);
 		label_10_1.setFont(new Font("Calibri", Font.PLAIN, 12));
-		label_10_1.setBounds(200, 533, 16, 31);
+		label_10_1.setBounds(200, 616, 16, 31);
 		frame.getContentPane().add(label_10_1);
 
 		comboBoxBuilding = new JComboBox();
 		comboBoxBuilding.setSelectedIndex(-1);
-		comboBoxBuilding.setBounds(298, 538, 136, 20);
+		comboBoxBuilding.setBounds(298, 621, 136, 20);
 		frame.getContentPane().add(comboBoxBuilding);
 
 		JLabel lblBuilding_1 = new JLabel("Building:");
 		lblBuilding_1.setForeground(Color.BLACK);
 		lblBuilding_1.setFont(new Font("Calibri", Font.PLAIN, 15));
-		lblBuilding_1.setBounds(226, 533, 62, 31);
+		lblBuilding_1.setBounds(226, 616, 62, 31);
 		frame.getContentPane().add(lblBuilding_1);
 
 		spinnerTargetRoom = new JSpinner();
-		spinnerTargetRoom.setBounds(71, 570, 40, 20);
+		spinnerTargetRoom.setBounds(71, 653, 40, 20);
 		frame.getContentPane().add(spinnerTargetRoom);
 
 		JLabel lblTargetRoom = new JLabel("Room:");
 		lblTargetRoom.setForeground(Color.BLACK);
 		lblTargetRoom.setFont(new Font("Calibri", Font.PLAIN, 15));
-		lblTargetRoom.setBounds(10, 567, 53, 31);
+		lblTargetRoom.setBounds(10, 650, 53, 31);
 		frame.getContentPane().add(lblTargetRoom);
 
 		spinnerTargetFloor = new JSpinner();
-		spinnerTargetFloor.setBounds(170, 570, 40, 20);
+		spinnerTargetFloor.setBounds(170, 653, 40, 20);
 		frame.getContentPane().add(spinnerTargetFloor);
 
 		JLabel lblFloor = new JLabel("Floor:");
 		lblFloor.setForeground(Color.BLACK);
 		lblFloor.setFont(new Font("Calibri", Font.PLAIN, 15));
-		lblFloor.setBounds(123, 569, 53, 31);
+		lblFloor.setBounds(123, 652, 53, 31);
 		frame.getContentPane().add(lblFloor);
 
 		JButton btnThrow = new JButton("Throw");
-		btnThrow.setBounds(303, 505, 125, 23);
+		btnThrow.setBounds(303, 588, 125, 23);
 		frame.getContentPane().add(btnThrow);
 
 		spinnerThrowBonus = new JSpinner();
-		spinnerThrowBonus.setBounds(308, 570, 40, 20);
+		spinnerThrowBonus.setBounds(308, 653, 40, 20);
 		frame.getContentPane().add(spinnerThrowBonus);
 
 		spinnerThrowEALBonus = new JSpinner();
-		spinnerThrowEALBonus.setBounds(430, 570, 39, 20);
+		spinnerThrowEALBonus.setBounds(430, 653, 39, 20);
 		frame.getContentPane().add(spinnerThrowEALBonus);
 
 		JLabel label_15 = new JLabel("Other Bonus:");
 		label_15.setForeground(Color.BLACK);
 		label_15.setFont(new Font("Calibri", Font.PLAIN, 15));
-		label_15.setBounds(226, 567, 87, 31);
+		label_15.setBounds(226, 650, 87, 31);
 		frame.getContentPane().add(label_15);
 
 		JLabel lblEalBonus = new JLabel("EAL Bonus:");
 		lblEalBonus.setForeground(Color.BLACK);
 		lblEalBonus.setFont(new Font("Calibri", Font.PLAIN, 15));
-		lblEalBonus.setBounds(354, 567, 80, 31);
+		lblEalBonus.setBounds(354, 650, 80, 31);
 		frame.getContentPane().add(lblEalBonus);
 
 		JComboBox comboBoxLauncher = new JComboBox();
-		comboBoxLauncher.setBounds(10, 617, 136, 20);
+		comboBoxLauncher.setBounds(479, 655, 136, 20);
 		frame.getContentPane().add(comboBoxLauncher);
-
-		spinnerLauncherBonus = new JSpinner();
-		spinnerLauncherBonus.setBounds(157, 617, 74, 20);
-		frame.getContentPane().add(spinnerLauncherBonus);
 
 		JLabel label_20 = new JLabel("X:");
 		label_20.setForeground(Color.BLACK);
 		label_20.setFont(new Font("Calibri", Font.PLAIN, 12));
-		label_20.setBounds(236, 614, 16, 31);
+		label_20.setBounds(705, 652, 16, 31);
 		frame.getContentPane().add(label_20);
 
 		spinnerLauncherX = new JSpinner();
-		spinnerLauncherX.setBounds(251, 618, 40, 20);
+		spinnerLauncherX.setBounds(720, 656, 40, 20);
 		frame.getContentPane().add(spinnerLauncherX);
 
 		JLabel label_21 = new JLabel("Y:");
 		label_21.setForeground(Color.BLACK);
 		label_21.setFont(new Font("Calibri", Font.PLAIN, 12));
-		label_21.setBounds(300, 614, 16, 31);
+		label_21.setBounds(769, 652, 16, 31);
 		frame.getContentPane().add(label_21);
 
 		spinnerLauncherY = new JSpinner();
-		spinnerLauncherY.setBounds(315, 618, 40, 20);
+		spinnerLauncherY.setBounds(784, 656, 40, 20);
 		frame.getContentPane().add(spinnerLauncherY);
 
 		JLabel label_22 = new JLabel("Target Hex:");
 		label_22.setForeground(Color.BLACK);
 		label_22.setFont(new Font("Calibri", Font.PLAIN, 12));
-		label_22.setBounds(261, 597, 87, 23);
+		label_22.setBounds(730, 635, 87, 23);
 		frame.getContentPane().add(label_22);
 
-		JLabel label_19_1 = new JLabel("Other Bonus:");
-		label_19_1.setForeground(Color.BLACK);
-		label_19_1.setFont(new Font("Calibri", Font.PLAIN, 12));
-		label_19_1.setBounds(154, 593, 87, 23);
-		frame.getContentPane().add(label_19_1);
-
 		JButton btnShootHex = new JButton("Shoot Hex");
-		btnShootHex.setBounds(364, 616, 89, 23);
+		btnShootHex.setBounds(833, 654, 89, 23);
 		frame.getContentPane().add(btnShootHex);
 
 		JComboBox comboBoxAmmoTypeLauncher = new JComboBox();
 		comboBoxAmmoTypeLauncher.setSelectedIndex(-1);
-		comboBoxAmmoTypeLauncher.setBounds(10, 644, 136, 20);
+		comboBoxAmmoTypeLauncher.setBounds(626, 655, 74, 20);
 		frame.getContentPane().add(comboBoxAmmoTypeLauncher);
-
-		JComboBox comboBoxLauncherConcealment = new JComboBox();
-		comboBoxLauncherConcealment.setBounds(152, 644, 136, 20);
-		frame.getContentPane().add(comboBoxLauncherConcealment);
 
 		chckbxGuided = new JCheckBox("Guided");
 		chckbxGuided.setForeground(Color.WHITE);
@@ -2426,9 +2391,216 @@ public class BulkWindow {
 		btnCreateTransfer.setForeground(Color.BLACK);
 		btnCreateTransfer.setBounds(909, 395, 142, 23);
 		frame.getContentPane().add(btnCreateTransfer);
+		
+		JLabel lblSelectFraction = new JLabel("Select Divisor");
+		lblSelectFraction.setForeground(Color.BLACK);
+		lblSelectFraction.setFont(new Font("Calibri", Font.PLAIN, 12));
+		lblSelectFraction.setBackground(Color.WHITE);
+		lblSelectFraction.setBounds(10, 29, 87, 23);
+		frame.getContentPane().add(lblSelectFraction);
+		
+		spinnerDivisor = new JSpinner();
+		spinnerDivisor.setModel(new SpinnerNumberModel(Integer.valueOf(1), null, null, Integer.valueOf(1)));
+		spinnerDivisor.setBounds(10, 46, 51, 20);
+		frame.getContentPane().add(spinnerDivisor);
+		
+		comboBoxWep = new JComboBox();
+		comboBoxWep.setModel(new DefaultComboBoxModel(new String[] {"N/A"}));
+		comboBoxWep.setBounds(10, 125, 115, 22);
+		frame.getContentPane().add(comboBoxWep);
+		
+		comboBoxDesignation = new JComboBox();
+		comboBoxDesignation.setModel(new DefaultComboBoxModel(new String[] {"N/A"}));
+		comboBoxDesignation.setBounds(134, 125, 115, 22);
+		frame.getContentPane().add(comboBoxDesignation);
+		
+		JLabel lblSelectFraction_1 = new JLabel("Weapon");
+		lblSelectFraction_1.setForeground(Color.BLACK);
+		lblSelectFraction_1.setFont(new Font("Calibri", Font.PLAIN, 12));
+		lblSelectFraction_1.setBackground(Color.WHITE);
+		lblSelectFraction_1.setBounds(10, 105, 87, 23);
+		frame.getContentPane().add(lblSelectFraction_1);
+		
+		JLabel lblSelectFraction_1_1 = new JLabel("Add");
+		lblSelectFraction_1_1.setForeground(Color.BLACK);
+		lblSelectFraction_1_1.setFont(new Font("Calibri", Font.PLAIN, 12));
+		lblSelectFraction_1_1.setBackground(Color.WHITE);
+		lblSelectFraction_1_1.setBounds(170, 9, 87, 23);
+		frame.getContentPane().add(lblSelectFraction_1_1);
+		
+		JLabel lblSelectFraction_1_1_1 = new JLabel("Remove");
+		lblSelectFraction_1_1_1.setForeground(Color.BLACK);
+		lblSelectFraction_1_1_1.setFont(new Font("Calibri", Font.PLAIN, 12));
+		lblSelectFraction_1_1_1.setBackground(Color.WHITE);
+		lblSelectFraction_1_1_1.setBounds(170, 52, 87, 20);
+		frame.getContentPane().add(lblSelectFraction_1_1_1);
+		
+		JButton btnFresh_1 = new JButton("Fresh");
+		btnFresh_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				removeFresh();
+				
+				
+			}
+		});
+		btnFresh_1.setForeground(Color.BLACK);
+		btnFresh_1.setBounds(123, 73, 75, 23);
+		frame.getContentPane().add(btnFresh_1);
+		
+		JButton btnAiming_1 = new JButton("Aiming");
+		btnAiming_1.setForeground(Color.BLACK);
+		btnAiming_1.setBounds(208, 73, 82, 23);
+		frame.getContentPane().add(btnAiming_1);
+		
+		JButton btnShooters_1 = new JButton("Shooters");
+		btnShooters_1.setForeground(Color.BLACK);
+		btnShooters_1.setBounds(300, 73, 87, 23);
+		frame.getContentPane().add(btnShooters_1);
+		
+		comboBoxSide = new JComboBox();
+		comboBoxSide.setModel(new DefaultComboBoxModel(new String[] {"N/A", "BLUFOR", "OPFOR"}));
+		comboBoxSide.setBounds(259, 125, 115, 22);
+		frame.getContentPane().add(comboBoxSide);
+		
+		JLabel lblSelectFraction_1_2 = new JLabel("Designation");
+		lblSelectFraction_1_2.setForeground(Color.BLACK);
+		lblSelectFraction_1_2.setFont(new Font("Calibri", Font.PLAIN, 12));
+		lblSelectFraction_1_2.setBackground(Color.WHITE);
+		lblSelectFraction_1_2.setBounds(134, 105, 87, 23);
+		frame.getContentPane().add(lblSelectFraction_1_2);
+		
+		JLabel lblSelectFraction_1_2_1 = new JLabel("Side");
+		lblSelectFraction_1_2_1.setForeground(Color.BLACK);
+		lblSelectFraction_1_2_1.setFont(new Font("Calibri", Font.PLAIN, 12));
+		lblSelectFraction_1_2_1.setBackground(Color.WHITE);
+		lblSelectFraction_1_2_1.setBounds(259, 106, 87, 23);
+		frame.getContentPane().add(lblSelectFraction_1_2_1);
+		
+		JButton btnRemoveAp = new JButton("Remove AP");
+		btnRemoveAp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnRemoveAp.setForeground(Color.BLACK);
+		btnRemoveAp.setBounds(319, 169, 115, 23);
+		frame.getContentPane().add(btnRemoveAp);
+		
+		JButton btnExh = new JButton("Exh");
+		btnExh.setForeground(Color.BLACK);
+		btnExh.setBounds(397, 27, 71, 23);
+		frame.getContentPane().add(btnExh);
+		
+		JButton btnExh_1 = new JButton("Exh");
+		btnExh_1.setForeground(Color.BLACK);
+		btnExh_1.setBounds(397, 73, 71, 23);
+		frame.getContentPane().add(btnExh_1);
+		
+		JButton btnNewButton = new JButton("Clear");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectTroopers(new ArrayList<Integer>());
+			}
+		});
+		btnNewButton.setBounds(10, 73, 89, 23);
+		frame.getContentPane().add(btnNewButton);
 		frame.setVisible(true);
 	}
+	
+	public ArrayList<Integer> getIndexes() {
+		ArrayList<Integer> indexes = new ArrayList<Integer>();
+		
+		for(int integer : individualsList.getSelectedIndices()) {
+			indexes.add(integer);
+		}
+		return indexes;
+	}
+	
+	public void addFresh() {
+		ArrayList<Integer> indexes = getIndexes();
+		int count = 1;
+		
+		for (BulkTrooper bulkTrooper : bulkTroopers) {
+			if(indexes.contains(bulkTroopers.indexOf(bulkTrooper)))
+				continue;
+			
+			if(freshTrooper(bulkTrooper) 
+					&& validTrooper(bulkTrooper.trooper)
+					&& count % (int) spinnerDivisor.getValue() == 0) {
+				indexes.add(bulkTroopers.indexOf(bulkTrooper));
+				count++;
+			} else if(freshTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)) {
+				count++; 
+			}
 
+		}
+
+		selectTroopers(indexes);
+	}
+	
+	public void removeFresh() {
+		ArrayList<Integer> indexes = getIndexes();
+		int count = 1;
+		
+		for (BulkTrooper bulkTrooper : bulkTroopers) {
+			if(!indexes.contains(bulkTroopers.indexOf(bulkTrooper)))
+				continue;
+			
+			if(freshTrooper(bulkTrooper) 
+					&& validTrooper(bulkTrooper.trooper)
+					&& count % (int) spinnerDivisor.getValue() == 0) {
+				indexes.remove((Object) bulkTroopers.indexOf(bulkTrooper));
+				count++;
+			} else if(freshTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)) {
+				count++; 
+			}
+
+		}
+
+		selectTroopers(indexes);
+	}
+
+	public void selectTroopers(ArrayList<Integer> indexes) {
+		int[] indices = indexes.stream().mapToInt(i -> i).toArray();
+
+		individualListLock = true; 
+		individualsList.setSelectedIndices(indices);
+		individualListLock = false; 
+		selected();
+	}
+	
+	public boolean freshTrooper(BulkTrooper bulkTrooper) {
+		int maxAp = game.getPhase() == 1 ? bulkTrooper.trooper.P1 : bulkTrooper.trooper.P2;
+		int sepntAp = game.getPhase() == 1 ? bulkTrooper.trooper.spentPhase1 : bulkTrooper.trooper.spentPhase2;
+		return sepntAp < maxAp ? true : false;
+	}
+	
+	public boolean aimingTrooper() {
+		return false; 
+	}
+	
+	public boolean extTrooper(BulkTrooper bulkTrooper) {
+		return !freshTrooper(bulkTrooper);
+	}
+	
+	public boolean validTrooper(Trooper trooper) {
+		if(comboBoxWep.getSelectedIndex() != 0 && !trooper.wep.equals(comboBoxWep.getSelectedItem().toString())) {
+			return false;
+		}
+		
+		if(comboBoxDesignation.getSelectedIndex() != 0 && 
+				!trooper.designation.equals(comboBoxDesignation.getSelectedItem().toString())) {
+			return false;
+		}
+		
+		if(comboBoxSide.getSelectedIndex() != 0 && !trooper.returnTrooperUnit(GameWindow.gameWindow)
+				.side.equals(comboBoxSide.getSelectedItem().toString())) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public boolean trooperAlreadyAdded(Trooper trooper) {
 
 		for (BulkTrooper bulkTrooper : bulkTroopers) {
@@ -2496,7 +2668,46 @@ public class BulkWindow {
 
 		// Set focus unit
 		setTargetFocus();
-
+		
+		
+		// Select Unit Combo Boxes 
+		selectConditions();
+	}
+	
+	public void selectConditions() {
+		
+		comboBoxWep.removeAllItems();
+		
+		ArrayList<String> weapons = new ArrayList<String>();
+		
+		for(BulkTrooper bulkTrooper : bulkTroopers) {
+			if(weapons.contains(bulkTrooper.trooper.wep))
+				continue; 
+			weapons.add(bulkTrooper.trooper.wep);
+		}
+		
+		comboBoxWep.addItem("N/A");
+		for(String str : weapons)
+			comboBoxWep.addItem(str);
+		comboBoxWep.setSelectedIndex(0);
+		
+		
+		comboBoxDesignation.removeAllItems();
+		ArrayList<String> designations = new ArrayList<String>();
+		
+		for(BulkTrooper bulkTrooper : bulkTroopers) {
+			if(designations.contains(bulkTrooper.trooper.designation))
+				continue; 
+			designations.add(bulkTrooper.trooper.designation);
+		}
+		
+		comboBoxDesignation.addItem("N/A");
+		for(String str : designations)
+			comboBoxDesignation.addItem(str);
+		comboBoxDesignation.setSelectedIndex(0);
+		
+		
+		
 	}
 
 	public void setTargetFocus() {
