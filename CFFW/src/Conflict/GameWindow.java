@@ -24,6 +24,7 @@ import Shoot.Shoot;
 import Trooper.Trooper;
 import Unit.Unit;
 import UtilityClasses.HexGridUtility;
+import UtilityClasses.PCUtility;
 
 import javax.swing.JList;
 import javax.swing.JButton;
@@ -964,7 +965,7 @@ public class GameWindow implements Serializable {
 
 		}
 
-		if (unit.suppression >= 50) {
+		/*if (unit.suppression >= 50) {
 
 			if ((double) activeTrooperCount / activeTroopersInCover < 0.5) {
 				conflictLog.addNewLine(
@@ -976,7 +977,7 @@ public class GameWindow implements Serializable {
 						+ "And 1 bonus die for each additional leader.");
 			}
 
-		}
+		}*/
 
 		// Fire Missions
 		for (FireMission fireMission : unit.fireMissions) {
@@ -1093,7 +1094,7 @@ public class GameWindow implements Serializable {
 
 		}
 
-		if (unit.suppression >= 50) {
+		/*if (unit.suppression >= 50) {
 
 			if ((double) activeTrooperCount / activeTroopersInCover < 0.5) {
 				conflictLog.addNewLine(
@@ -1105,7 +1106,7 @@ public class GameWindow implements Serializable {
 						+ "And 1 bonus die for each additional leader.");
 			}
 
-		}
+		}*/
 
 		// Fire Missions
 		for (FireMission fireMission : unit.fireMissions) {
@@ -1956,18 +1957,11 @@ public class GameWindow implements Serializable {
 						if (!unit.closeCombat) {
 							unit.closeCombat = true;
 
-							if (unit.individuals.size() > 0) {
+							if (unit.individuals.size() > 0 && !unit.entirelyMechanical() && PCUtility.Routed(unit)) {
 
 								int leaderShipRoll = rand.nextInt(100) + 1;
 
 								// System.out.println("LR Roll 1: "+leaderShipRoll);
-
-								if (unit.moral < 60) {
-									int margin = 60 - unit.moral;
-									margin = margin / 10;
-									leaderShipRoll += margin * 10;
-
-								}
 
 								// System.out.println("LR Roll Modded: "+leaderShipRoll);
 
@@ -1982,7 +1976,7 @@ public class GameWindow implements Serializable {
 										gameWindow.conflictLog.addNewLine(unit.individuals.get(j).name + " "
 												+ unit.individuals.get(j).number + " Morale Roll: " + roll);
 
-										if (roll > unit.moral) {
+										if (roll <= PCUtility.fleeChance(unit.individuals.get(j))) {
 											flee.add(unit.individuals.get(j));
 											rout = true;
 

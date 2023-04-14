@@ -1,3 +1,10 @@
+/Actions/
+/Artillery/
+/CeHexGrid/
+/CharacterBuilder/
+/CloseCombat/
+/CommandLineInterface/
+/Company/
 /Conflict/
 /CorditeExpansion/
 /CorditeExpansionActions/
@@ -21,7 +28,7 @@
 /Trooper/
 /Unit/
 /UtilityClasses/
+/images/
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
-/Company/

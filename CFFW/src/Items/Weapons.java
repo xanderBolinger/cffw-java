@@ -988,8 +988,8 @@ public class Weapons implements Serializable {
 		this.damageBonus = -2;
 		this.damageMultiplier = 5;
 		this.armorPiercing = 2;
-		this.sab = 3;
-		this.fullAutoROF = 7;
+		this.sab = 2;
+		this.fullAutoROF = 12;
 		this.tracers = true;
 		this.light = true;
 		this.laser = true;
@@ -1041,12 +1041,12 @@ public class Weapons implements Serializable {
 		// Minimum Arc
 		this.ma.add(.2);
 		this.ma.add(.3);
-		this.ma.add(.7);
+		this.ma.add(.5);
+		this.ma.add(0.7);
 		this.ma.add(1.0);
 		this.ma.add(2.0);
 		this.ma.add(3.0);
-		this.ma.add(5.0);
-		this.ma.add(7.0);
+		this.ma.add(6.0);
 
 		// Ce stats
 		ceStats.baseErgonomics = 50;
@@ -1203,7 +1203,7 @@ public class Weapons implements Serializable {
 		this.armorPiercing = 2;
 		this.tracers = true;
 		this.sab = 2;
-		this.fullAutoROF = 5;
+		this.fullAutoROF = 7;
 		this.tracers = true;
 		this.light = true;
 		this.laser = true;
@@ -1253,8 +1253,8 @@ public class Weapons implements Serializable {
 
 		// Minimum Arc
 		this.ma.add(.2);
-		this.ma.add(.4);
-		this.ma.add(.8);
+		this.ma.add(.3);
+		this.ma.add(.7);
 		this.ma.add(1.0);
 		this.ma.add(2.0);
 		this.ma.add(4.0);

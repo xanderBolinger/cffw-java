@@ -234,13 +234,16 @@ public class Unit implements Serializable {
 	
 	// Creates a new unit from a number of fleeing individuals 
 	public void flee(GameWindow window, Unit unit, ArrayList<Trooper> flee) {
+		if(unit.callsign.toLowerCase().contains("rout"))
+			return; 
+		
 		// Adds new unit 
 		// Splits unit 
 		ArrayList<Trooper> individuals = new ArrayList<Trooper>();
 		generateSquad squad = new generateSquad("Clone Trooper Phase 1", "Empty");
 		individuals = squad.getSquad();
 		
-		String newCallsign = "Fleeing - "+unit.callsign;
+		String newCallsign = "ROUTED - "+unit.callsign;
 		int count = 1; 
 		for(int i = 0; i < window.initiativeOrder.size(); i++) {
 			if(newCallsign.equals(window.initiativeOrder.get(i).callsign)) {
@@ -293,7 +296,7 @@ public class Unit implements Serializable {
 		// Adds unit to company 
 		for(int i = 0; i < window.companies.size(); i++) {
 			
-			if(window.companies.get(i).getName().equals(newUnit.company)) {
+			if(window.companies.get(i).getUnits().contains(this)) {
 				window.companies.get(i).updateUnit(unit);
 				window.companies.get(i).addUnit(newUnit);
 				// Adds companies to setupWindow

@@ -439,7 +439,7 @@ public class Shoot {
 				resolveHits.performCalculations(GameWindow.gameWindow.game, GameWindow.gameWindow.conflictLog);
 
 			hits--;
-
+			InjuryLog.InjuryLog.addTrooper(target);
 		}
 
 	}

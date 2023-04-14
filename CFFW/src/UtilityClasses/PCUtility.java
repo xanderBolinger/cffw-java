@@ -22,6 +22,54 @@ import Unit.Unit;
 
 public class PCUtility {
 
+	public static boolean Routed(Unit unit) {
+		double size = (double) unit.getSize();
+		int wounded = 0;
+		int dead = 0; 
+		int incapacitated = 0;
+		int severlyWounded = 0; 
+		
+		for(Trooper trooper : unit.individuals) {
+			
+			if(!trooper.alive) {
+				dead++;
+			} else if(!trooper.conscious) {
+				incapacitated++;
+			} else if(trooper.physicalDamage > trooper.KO * 3) {
+				severlyWounded++;
+			} else if(trooper.physicalDamage > 0) {
+				wounded++;
+			} 
+			
+			if(dead + severlyWounded + incapacitated > size * 0.75) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static int fleeChance(Trooper trooper) {
+		int chance; 
+		
+		if(trooper.sl < 5) {
+			chance = 90;
+		} else if(trooper.sl < 7) {
+			chance = 65;
+		} else if(trooper.sl < 10) {
+			chance = 50;
+		} else if(trooper.sl < 11) {
+			chance = 45;
+		} else if(trooper.sl <= 13) {
+			chance = 33;
+		} else {
+			chance = 25;
+		}
+		
+		return chance - (trooper.inCover ? 10 : 0);
+		
+	}
+	
 	public static boolean armorCoverage(Trooper trooper) {
 		if(trooper.armor == null)
 			return false; 

@@ -144,6 +144,8 @@ public class BulkWindow {
 	private JComboBox comboBoxDesignation;
 	private JComboBox comboBoxSide;
 	private JSpinner spinnerDivisor;
+	private JComboBox comboBoxHd;
+	private JLabel lblSelected;
 
 	/**
 	 * Create the application.
@@ -1325,7 +1327,7 @@ public class BulkWindow {
 		lblTn.setBackground(Color.WHITE);
 		lblTn.setForeground(Color.BLACK);
 		lblTn.setFont(new Font("Calibri", Font.PLAIN, 15));
-		lblTn.setBounds(963, 501, 124, 23);
+		lblTn.setBounds(808, 501, 205, 23);
 		frame.getContentPane().add(lblTn);
 
 		chckbxFullAuto = new JCheckBox("Full Auto");
@@ -1338,7 +1340,7 @@ public class BulkWindow {
 		});
 		chckbxFullAuto.setForeground(Color.BLACK);
 		chckbxFullAuto.setBackground(Color.WHITE);
-		chckbxFullAuto.setBounds(715, 469, 74, 23);
+		chckbxFullAuto.setBounds(716, 444, 74, 23);
 		frame.getContentPane().add(chckbxFullAuto);
 
 		comboBoxTargetUnits = new JComboBox();
@@ -1502,7 +1504,7 @@ public class BulkWindow {
 		lblPossibleShots.setForeground(Color.BLACK);
 		lblPossibleShots.setFont(new Font("Calibri", Font.PLAIN, 15));
 		lblPossibleShots.setBackground(Color.WHITE);
-		lblPossibleShots.setBounds(784, 501, 178, 23);
+		lblPossibleShots.setBounds(808, 471, 178, 23);
 		frame.getContentPane().add(lblPossibleShots);
 
 		JButton btnVolley = new JButton("Volley");
@@ -1984,42 +1986,13 @@ public class BulkWindow {
 			}
 		});
 		btnPass.setForeground(Color.BLACK);
-		btnPass.setBounds(198, 169, 115, 23);
+		btnPass.setBounds(198, 169, 74, 23);
 		frame.getContentPane().add(btnPass);
 
 		JButton btnShooters = new JButton("Shooters");
 		btnShooters.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				individualsList.clearSelection();
-				ArrayList<Integer> indexes = new ArrayList<Integer>();
-
-				for (BulkTrooper bulkTrooper : bulkTroopers) {
-
-					if (game.getPhase() == 1) {
-						// System.out.println("Spent Phsae 1: "+bulkTrooper.trooper.spentPhase1);
-						if (bulkTrooper.trooper.spentPhase1 < game.getCurrentAction()
-								&& bulkTrooper.trooper.spentPhase1 < bulkTrooper.trooper.P1
-								&& bulkTrooper.targetTroopers.size() > 0) {
-							indexes.add(bulkTroopers.indexOf(bulkTrooper));
-						}
-
-					} else {
-						// System.out.println("Spent Phsae 2: "+bulkTrooper.trooper.spentPhase2);
-						if (bulkTrooper.trooper.spentPhase2 < game.getCurrentAction()
-								&& bulkTrooper.trooper.spentPhase2 < bulkTrooper.trooper.P2
-								&& bulkTrooper.targetTroopers.size() > 0) {
-							indexes.add(bulkTroopers.indexOf(bulkTrooper));
-						}
-					}
-
-				}
-
-				int[] indices = indexes.stream().mapToInt(i -> i).toArray();
-				
-				individualListLock = true; 
-				individualsList.setSelectedIndices(indices);
-				individualListLock = false; 
-				selected();
+				addShooters();
 			}
 		});
 		btnShooters.setForeground(Color.BLACK);
@@ -2029,36 +2002,7 @@ public class BulkWindow {
 		JButton btnAiming = new JButton("Aiming");
 		btnAiming.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				individualsList.clearSelection();
-				ArrayList<Integer> indexes = new ArrayList<Integer>();
-
-				for (BulkTrooper bulkTrooper : bulkTroopers) {
-
-					if (game.getPhase() == 1) {
-						// System.out.println("Spent Phsae 1: "+bulkTrooper.trooper.spentPhase1);
-						if (bulkTrooper.trooper.spentPhase1 < game.getCurrentAction()
-								&& bulkTrooper.trooper.spentPhase1 < bulkTrooper.trooper.P1
-								&& bulkTrooper.trooper.storedAimTime.size() > 0) {
-							indexes.add(bulkTroopers.indexOf(bulkTrooper));
-						}
-
-					} else {
-						// System.out.println("Spent Phsae 2: "+bulkTrooper.trooper.spentPhase2);
-						if (bulkTrooper.trooper.spentPhase2 < game.getCurrentAction()
-								&& bulkTrooper.trooper.spentPhase2 < bulkTrooper.trooper.P2
-								&& bulkTrooper.trooper.storedAimTime.size() > 0) {
-							indexes.add(bulkTroopers.indexOf(bulkTrooper));
-						}
-					}
-
-				}
-
-				int[] indices = indexes.stream().mapToInt(i -> i).toArray();
-
-				individualListLock = true; 
-				individualsList.setSelectedIndices(indices);
-				individualListLock = false; 
-				selected();
+				addAiming();
 			}
 		});
 		btnAiming.setForeground(Color.BLACK);
@@ -2226,7 +2170,7 @@ public class BulkWindow {
 		chckbxGuided = new JCheckBox("Guided");
 		chckbxGuided.setForeground(Color.WHITE);
 		chckbxGuided.setBackground(Color.DARK_GRAY);
-		chckbxGuided.setBounds(796, 469, 80, 23);
+		chckbxGuided.setBounds(808, 444, 80, 23);
 		frame.getContentPane().add(chckbxGuided);
 		
 		JButton btnCreateTransfer = new JButton("Create & Transfer");
@@ -2277,8 +2221,8 @@ public class BulkWindow {
 				// Finds newUnit's company 
 				// Adds unit to company 
 				for(int i = 0; i < gameWindow.companies.size(); i++) {
-					
-					if(gameWindow.companies.get(i).getName().equals(newUnit.company) && gameWindow.companies.get(i).getSide().equals(newUnit.side)) {
+					if(gameWindow.companies.get(i).getUnits().contains(unit)) {
+					//if(gameWindow.companies.get(i).getName().equals(newUnit.company) && gameWindow.companies.get(i).getSide().equals(newUnit.side)) {
 						gameWindow.companies.get(i).updateUnit(unit);
 						gameWindow.companies.get(i).addUnit(newUnit);
 						// Adds companies to setupWindow
@@ -2449,11 +2393,21 @@ public class BulkWindow {
 		frame.getContentPane().add(btnFresh_1);
 		
 		JButton btnAiming_1 = new JButton("Aiming");
+		btnAiming_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				removeAiming();
+			}
+		});
 		btnAiming_1.setForeground(Color.BLACK);
 		btnAiming_1.setBounds(208, 73, 82, 23);
 		frame.getContentPane().add(btnAiming_1);
 		
 		JButton btnShooters_1 = new JButton("Shooters");
+		btnShooters_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				removeShooters();
+			}
+		});
 		btnShooters_1.setForeground(Color.BLACK);
 		btnShooters_1.setBounds(300, 73, 87, 23);
 		frame.getContentPane().add(btnShooters_1);
@@ -2480,18 +2434,41 @@ public class BulkWindow {
 		JButton btnRemoveAp = new JButton("Remove AP");
 		btnRemoveAp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				for(BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
+					
+					if(game.getPhase() == 1 && bulkTrooper.trooper.spentPhase1 - 1 >= 0) {
+						bulkTrooper.trooper.spentPhase1--;
+					} else if(bulkTrooper.trooper.spentPhase2 - 1 >= 0) {
+						bulkTrooper.trooper.spentPhase2--;
+					}
+					
+				}
+				
+				refreshIndividualList();
+				
 			}
 		});
 		btnRemoveAp.setForeground(Color.BLACK);
-		btnRemoveAp.setBounds(319, 169, 115, 23);
+		btnRemoveAp.setBounds(282, 169, 105, 23);
 		frame.getContentPane().add(btnRemoveAp);
 		
 		JButton btnExh = new JButton("Exh");
+		btnExh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addExh();
+			}
+		});
 		btnExh.setForeground(Color.BLACK);
 		btnExh.setBounds(397, 27, 71, 23);
 		frame.getContentPane().add(btnExh);
 		
 		JButton btnExh_1 = new JButton("Exh");
+		btnExh_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				removeExh();
+			}
+		});
 		btnExh_1.setForeground(Color.BLACK);
 		btnExh_1.setBounds(397, 73, 71, 23);
 		frame.getContentPane().add(btnExh_1);
@@ -2504,6 +2481,25 @@ public class BulkWindow {
 		});
 		btnNewButton.setBounds(10, 73, 89, 23);
 		frame.getContentPane().add(btnNewButton);
+		
+		comboBoxHd = new JComboBox();
+		comboBoxHd.setModel(new DefaultComboBoxModel(new String[] {"N/A", "NO", "YES"}));
+		comboBoxHd.setBounds(384, 124, 71, 22);
+		frame.getContentPane().add(comboBoxHd);
+		
+		JLabel lblSelectFraction_1_2_1_1 = new JLabel("Side");
+		lblSelectFraction_1_2_1_1.setForeground(Color.BLACK);
+		lblSelectFraction_1_2_1_1.setFont(new Font("Calibri", Font.PLAIN, 12));
+		lblSelectFraction_1_2_1_1.setBackground(Color.WHITE);
+		lblSelectFraction_1_2_1_1.setBounds(384, 105, 87, 23);
+		frame.getContentPane().add(lblSelectFraction_1_2_1_1);
+		
+		lblSelected = new JLabel("Selected: 0");
+		lblSelected.setForeground(Color.BLACK);
+		lblSelected.setFont(new Font("Calibri", Font.PLAIN, 12));
+		lblSelected.setBackground(Color.WHITE);
+		lblSelected.setBounds(397, 171, 87, 23);
+		frame.getContentPane().add(lblSelected);
 		frame.setVisible(true);
 	}
 	
@@ -2514,6 +2510,154 @@ public class BulkWindow {
 			indexes.add(integer);
 		}
 		return indexes;
+	}
+	
+	public void addExh() {
+		ArrayList<Integer> indexes = getIndexes();
+		int count = 1;
+		
+		for (BulkTrooper bulkTrooper : bulkTroopers) {
+			if(indexes.contains(bulkTroopers.indexOf(bulkTrooper)))
+				continue;
+			
+			if(extTrooper(bulkTrooper) 
+					&& validTrooper(bulkTrooper.trooper)
+					&& count % (int) spinnerDivisor.getValue() == 0) {
+				//System.out.println("Count: "+count);
+				//System.out.println("Divisor: "+(int) spinnerDivisor.getValue());
+				indexes.add(bulkTroopers.indexOf(bulkTrooper));
+				count++;
+			} else if(extTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)) {
+				count++; 
+			}
+
+		}
+
+		selectTroopers(indexes);
+	}
+	
+	public void removeExh() {
+		ArrayList<Integer> indexes = getIndexes();
+		int count = 1;
+		
+		for (BulkTrooper bulkTrooper : bulkTroopers) {
+			if(!indexes.contains(bulkTroopers.indexOf(bulkTrooper)))
+				continue;
+			
+			if(extTrooper(bulkTrooper) 
+					&& validTrooper(bulkTrooper.trooper)
+					&& count % (int) spinnerDivisor.getValue() == 0) {
+				indexes.remove((Object) bulkTroopers.indexOf(bulkTrooper));
+				count++;
+			} else if(extTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)) {
+				count++; 
+			}
+
+		}
+
+		selectTroopers(indexes);
+	}
+	
+	public void addShooters() {
+		ArrayList<Integer> indexes = getIndexes();
+		int count = 1;
+		
+		for (BulkTrooper bulkTrooper : bulkTroopers) {
+			if(indexes.contains(bulkTroopers.indexOf(bulkTrooper)))
+				continue;
+			
+			if(freshTrooper(bulkTrooper) 
+					&& validTrooper(bulkTrooper.trooper)
+					&& count % (int) spinnerDivisor.getValue() == 0
+					&& bulkTrooper.targetTroopers.size() > 0) {
+				//System.out.println("Count: "+count);
+				//System.out.println("Divisor: "+(int) spinnerDivisor.getValue());
+				indexes.add(bulkTroopers.indexOf(bulkTrooper));
+				count++;
+			} else if(freshTrooper(bulkTrooper) 
+					&& validTrooper(bulkTrooper.trooper)
+					&& bulkTrooper.targetTroopers.size() > 0) {
+				count++; 
+			}
+
+		}
+
+		selectTroopers(indexes);
+	}
+	
+	public void removeShooters() {
+		ArrayList<Integer> indexes = getIndexes();
+		int count = 1;
+		
+		for (BulkTrooper bulkTrooper : bulkTroopers) {
+			if(!indexes.contains(bulkTroopers.indexOf(bulkTrooper)))
+				continue;
+			
+			if(freshTrooper(bulkTrooper) 
+					&& validTrooper(bulkTrooper.trooper)
+					&& count % (int) spinnerDivisor.getValue() == 0
+					&& bulkTrooper.targetTroopers.size() > 0) {
+				indexes.remove((Object) bulkTroopers.indexOf(bulkTrooper));
+				count++;
+			} else if(freshTrooper(bulkTrooper) 
+					&& validTrooper(bulkTrooper.trooper)
+					&& bulkTrooper.targetTroopers.size() > 0) {
+				count++; 
+			}
+
+		}
+
+		selectTroopers(indexes);
+	}
+	
+	public void addAiming() {
+		ArrayList<Integer> indexes = getIndexes();
+		int count = 1;
+		
+		for (BulkTrooper bulkTrooper : bulkTroopers) {
+			if(indexes.contains(bulkTroopers.indexOf(bulkTrooper)))
+				continue;
+			
+			if(freshTrooper(bulkTrooper) 
+					&& validTrooper(bulkTrooper.trooper)
+					&& count % (int) spinnerDivisor.getValue() == 0
+					&& bulkTrooper.trooper.storedAimTime.size() > 0) {
+				indexes.add(bulkTroopers.indexOf(bulkTrooper));
+				count++;
+			} else if(freshTrooper(bulkTrooper) 
+					&& validTrooper(bulkTrooper.trooper)
+					&& bulkTrooper.trooper.storedAimTime.size() > 0) {
+				count++; 
+			}
+
+		}
+
+		selectTroopers(indexes);
+	}
+	
+	public void removeAiming() {
+		ArrayList<Integer> indexes = getIndexes();
+		int count = 1;
+		
+		for (BulkTrooper bulkTrooper : bulkTroopers) {
+			if(!indexes.contains(bulkTroopers.indexOf(bulkTrooper)))
+				continue;
+			
+			if(freshTrooper(bulkTrooper) 
+					&& validTrooper(bulkTrooper.trooper)
+					&& count % (int) spinnerDivisor.getValue() == 0
+					&& bulkTrooper.trooper.storedAimTime.size() > 0) {
+				indexes.remove((Object) bulkTroopers.indexOf(bulkTrooper));
+				count++;
+			} else if(freshTrooper(bulkTrooper) 
+					&& validTrooper(bulkTrooper.trooper)
+					&& bulkTrooper.trooper.storedAimTime.size() > 0) {
+				count++; 
+			}
+
+		}
+
+		selectTroopers(indexes);
 	}
 	
 	public void addFresh() {
@@ -2527,6 +2671,8 @@ public class BulkWindow {
 			if(freshTrooper(bulkTrooper) 
 					&& validTrooper(bulkTrooper.trooper)
 					&& count % (int) spinnerDivisor.getValue() == 0) {
+				//System.out.println("Count: "+count);
+				//System.out.println("Divisor: "+(int) spinnerDivisor.getValue());
 				indexes.add(bulkTroopers.indexOf(bulkTrooper));
 				count++;
 			} else if(freshTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)) {
@@ -2562,7 +2708,7 @@ public class BulkWindow {
 
 	public void selectTroopers(ArrayList<Integer> indexes) {
 		int[] indices = indexes.stream().mapToInt(i -> i).toArray();
-
+		lblSelected.setText("Selected: " + indices.length);
 		individualListLock = true; 
 		individualsList.setSelectedIndices(indices);
 		individualListLock = false; 
@@ -2571,8 +2717,8 @@ public class BulkWindow {
 	
 	public boolean freshTrooper(BulkTrooper bulkTrooper) {
 		int maxAp = game.getPhase() == 1 ? bulkTrooper.trooper.P1 : bulkTrooper.trooper.P2;
-		int sepntAp = game.getPhase() == 1 ? bulkTrooper.trooper.spentPhase1 : bulkTrooper.trooper.spentPhase2;
-		return sepntAp < maxAp ? true : false;
+		int spentAp = game.getPhase() == 1 ? bulkTrooper.trooper.spentPhase1 : bulkTrooper.trooper.spentPhase2;
+		return spentAp < maxAp && spentAp < game.getCurrentAction() ? true : false;
 	}
 	
 	public boolean aimingTrooper() {
@@ -2596,6 +2742,14 @@ public class BulkWindow {
 		if(comboBoxSide.getSelectedIndex() != 0 && !trooper.returnTrooperUnit(GameWindow.gameWindow)
 				.side.equals(comboBoxSide.getSelectedItem().toString())) {
 			return false;
+		}
+		
+		if(comboBoxHd.getSelectedIndex() == 1 && trooper.HD) {
+			System.out.println("Return false");
+			return false;
+		} else if(comboBoxHd.getSelectedIndex() == 2 && !trooper.HD) {
+			System.out.println("Return false");
+			return false; 
 		}
 		
 		return true;
