@@ -2660,9 +2660,9 @@ public class Weapons implements Serializable {
 		this.bshc.add("64");
 		this.bshc.add("22");
 
-		this.bc.add(8300);
-		this.bc.add(713);
-		this.bc.add(251);
+		this.bc.add(20000);
+		this.bc.add(2513);
+		this.bc.add(651);
 		this.bc.add(155);
 		this.bc.add(72);
 		this.bc.add(54);
@@ -3437,31 +3437,31 @@ public class Weapons implements Serializable {
 
 		String name = "HEAT";
 		ArrayList<Integer> pen = new ArrayList<Integer>();
-		pen.add(9);
-		pen.add(9);
-		pen.add(8);
-		pen.add(8);
-		pen.add(7);
-		pen.add(7);
+		pen.add(1600);
+		pen.add(112);
+		pen.add(112);
+		pen.add(112);
+		pen.add(112);
+		pen.add(112);
 
 		ArrayList<Integer> dc = new ArrayList<Integer>();
-		dc.add(9);
-		dc.add(9);
-		dc.add(9);
-		dc.add(9);
-		dc.add(9);
-		dc.add(8);
+		dc.add(10);
+		dc.add(6);
+		dc.add(6);
+		dc.add(6);
+		dc.add(6);
+		dc.add(6);
 
 		ArrayList<String> bshc = new ArrayList<String>();
-		bshc.add("34");
-		bshc.add("12");
-		bshc.add("0");
-		bshc.add("0");
+		bshc.add("*10");
+		bshc.add("*1");
+		bshc.add("73");
+		bshc.add("26");
 		bshc.add("0");
 		bshc.add("0");
 
 		ArrayList<Integer> bc = new ArrayList<Integer>();
-		bc.add(2000);
+		bc.add(3300);
 		bc.add(393);
 		bc.add(105);
 		bc.add(52);
@@ -3491,10 +3491,10 @@ public class Weapons implements Serializable {
 		bshc = new ArrayList<String>();
 		bshc.add("*23");
 		bshc.add("*6");
+		bshc.add("*2");
 		bshc.add("*1");
-		bshc.add("64");
-		bshc.add("22");
-		bshc.add("0");
+		bshc.add("65");
+		bshc.add("40");
 
 		bc = new ArrayList<Integer>();
 		bc.add(2400);
