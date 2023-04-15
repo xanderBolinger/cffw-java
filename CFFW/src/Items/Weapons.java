@@ -2948,7 +2948,8 @@ public class Weapons implements Serializable {
 		this.launcherHomingInfantry = true;
 		this.launcherHomingVehicle = true;
 		this.homingHitChance = 88;
-
+		this.suppressiveROF = 1;
+		
 		Ammo hedp2 = new Ammo("HEDP", 8, 0, 6, 10, null, new Ammo("Linked", 5, 0, 2, 0), null);
 		Ammo heaa2 = new Ammo("HEAA", 8, 0, 4, 10, null, new Ammo("Linked", 6, 0, 3, 0), null);
 
@@ -3059,7 +3060,8 @@ public class Weapons implements Serializable {
 		this.launcherHomingInfantry = true;
 		this.launcherHomingVehicle = true;
 		this.homingHitChance = 75;
-
+		this.suppressiveROF = 1;
+		
 		Ammo hedp2 = new Ammo("HEDP", 8, 0, 6, 10, null, new Ammo("Linked", 5, 0, 2, 0), null);
 		Ammo heaa2 = new Ammo("HEAA", 8, 0, 4, 10, null, new Ammo("Linked", 6, 0, 3, 0), null);
 
@@ -3167,7 +3169,7 @@ public class Weapons implements Serializable {
 		this.name = "DC40";
 		this.type = "Launcher";
 		this.collateralDamage = 50;
-		this.suppressiveROF = 3;
+		this.suppressiveROF = 2;
 
 		/*
 		 * Ammo heat = new Ammo("HEAT", 8, 0, 6, 10, null, null, null); Ammo he = new
@@ -3272,7 +3274,7 @@ public class Weapons implements Serializable {
 		this.name = "DC17 Rocket";
 		this.type = "Launcher";
 		this.collateralDamage = 50;
-
+		this.suppressiveROF = 1;
 		/*
 		 * Ammo heat = new Ammo("HEAT", 8, 0, 6, 10, null, null, null); Ammo he = new
 		 * Ammo("HE", 8, 0, 4, 10, null, null, null);
@@ -3377,7 +3379,7 @@ public class Weapons implements Serializable {
 		this.name = "B2RR";
 		this.type = "Launcher";
 		this.collateralDamage = 50;
-
+		this.suppressiveROF = 1;
 		/*
 		 * Ammo heat = new Ammo("HEAT", 8, 0, 6, 10, null, null, null); Ammo he = new
 		 * Ammo("HE", 8, 0, 4, 10, null, null, null);

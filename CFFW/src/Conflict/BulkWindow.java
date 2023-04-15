@@ -73,6 +73,7 @@ import Injuries.Injuries;
 import Injuries.ResolveHits;
 import Items.Item;
 import Items.Item.ItemType;
+import Items.PCAmmo;
 import Items.Weapons;
 import Shoot.Shoot;
 
@@ -81,6 +82,8 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.SpinnerNumberModel;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class BulkWindow {
 
@@ -138,8 +141,6 @@ public class BulkWindow {
 	private JSpinner spinnerTargetFloor;
 	private JSpinner spinnerThrowBonus;
 	private JSpinner spinnerThrowEALBonus;
-	private JSpinner spinnerLauncherX;
-	private JSpinner spinnerLauncherY;
 	private JCheckBox chckbxGuided;
 	private JComboBox comboBoxWep;
 	private JComboBox comboBoxDesignation;
@@ -148,6 +149,8 @@ public class BulkWindow {
 	private JComboBox comboBoxHd;
 	private JLabel lblSelected;
 	private JComboBox comboBoxGrenadeUnit;
+	private JComboBox comboBoxLauncher;
+	private JComboBox comboBoxAmmoTypeLauncher;
 
 	/**
 	 * Create the application.
@@ -1235,6 +1238,17 @@ public class BulkWindow {
 									System.out.println("Single Fire");
 									try {
 
+										if(shoot.shooter.inventory.containsItem(comboBoxLauncher.getSelectedItem().toString())) {
+											Weapons launcher = new Weapons().findWeapon(comboBoxLauncher.getSelectedItem().toString());
+											shoot.pcAmmo = launcher.pcAmmoTypes.get(0);
+											shoot.updateWeapon(launcher.name);
+											//System.out.println("Update Weapon");
+											shoot.recalc();
+											if (comboBoxTargetZone.getSelectedIndex() > 0) {
+												setCalledShotBounds(shoot);
+											}
+										}
+										
 										if (comboBoxTargetUnits.getSelectedIndex() > 0)
 											shoot.suppressiveFire(shoot.wep.suppressiveROF);
 										else if (chckbxFullAuto.isSelected()) {
@@ -1242,9 +1256,18 @@ public class BulkWindow {
 											shoot.suppressiveFire(
 													shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
 										} else {
-											shoot.shot(chckbxGuided.isSelected());
+											
+											
+											
+											if(shoot.wep.launcherHomingInfantry)
+												shoot.shot(chckbxGuided.isSelected());
+											else 
+												shoot.shot(false);
+											
 											shoot.suppressiveFire(
 													shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+										
+										
 										}
 
 										try {
@@ -2033,7 +2056,7 @@ public class BulkWindow {
 		JLabel lblLauncher = new JLabel("Launcher");
 		lblLauncher.setForeground(Color.BLACK);
 		lblLauncher.setFont(new Font("Calibri", Font.PLAIN, 16));
-		lblLauncher.setBounds(479, 634, 136, 20);
+		lblLauncher.setBounds(479, 645, 136, 20);
 		frame.getContentPane().add(lblLauncher);
 
 		JLabel lblGrenade = new JLabel("Grenade: ");
@@ -2064,6 +2087,7 @@ public class BulkWindow {
 		frame.getContentPane().add(lblBuilding_1);
 
 		spinnerTargetRoom = new JSpinner();
+		spinnerTargetRoom.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 		spinnerTargetRoom.setBounds(282, 626, 40, 20);
 		frame.getContentPane().add(spinnerTargetRoom);
 
@@ -2074,6 +2098,7 @@ public class BulkWindow {
 		frame.getContentPane().add(lblTargetRoom);
 
 		spinnerTargetFloor = new JSpinner();
+		spinnerTargetFloor.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 		spinnerTargetFloor.setBounds(384, 626, 40, 20);
 		frame.getContentPane().add(spinnerTargetFloor);
 
@@ -2128,43 +2153,32 @@ public class BulkWindow {
 		lblEalBonus.setBounds(107, 623, 80, 31);
 		frame.getContentPane().add(lblEalBonus);
 
-		JComboBox comboBoxLauncher = new JComboBox();
-		comboBoxLauncher.setBounds(479, 655, 136, 20);
+		comboBoxLauncher = new JComboBox();
+		comboBoxLauncher.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				
+				// Sets ammo types
+				Weapons weapon = new Weapons();
+				weapon.getWeapons();
+				Weapons launcher = weapon.findWeapon((String) comboBoxLauncher.getSelectedItem());
+				// System.out.println("Launcher Name: "+launcher.name);
+
+				comboBoxAmmoTypeLauncher.removeAllItems();
+				
+				for (PCAmmo ammo : launcher.pcAmmoTypes) {
+					// System.out.println("ADDED Name: "+ammo.name);
+					comboBoxAmmoTypeLauncher.addItem(ammo.name);
+
+				}
+				
+			}
+		});
+		comboBoxLauncher.setBounds(479, 663, 136, 20);
 		frame.getContentPane().add(comboBoxLauncher);
 
-		JLabel label_20 = new JLabel("X:");
-		label_20.setForeground(Color.BLACK);
-		label_20.setFont(new Font("Calibri", Font.PLAIN, 12));
-		label_20.setBounds(705, 652, 16, 31);
-		frame.getContentPane().add(label_20);
-
-		spinnerLauncherX = new JSpinner();
-		spinnerLauncherX.setBounds(720, 656, 40, 20);
-		frame.getContentPane().add(spinnerLauncherX);
-
-		JLabel label_21 = new JLabel("Y:");
-		label_21.setForeground(Color.BLACK);
-		label_21.setFont(new Font("Calibri", Font.PLAIN, 12));
-		label_21.setBounds(769, 652, 16, 31);
-		frame.getContentPane().add(label_21);
-
-		spinnerLauncherY = new JSpinner();
-		spinnerLauncherY.setBounds(784, 656, 40, 20);
-		frame.getContentPane().add(spinnerLauncherY);
-
-		JLabel label_22 = new JLabel("Target Hex:");
-		label_22.setForeground(Color.BLACK);
-		label_22.setFont(new Font("Calibri", Font.PLAIN, 12));
-		label_22.setBounds(730, 635, 87, 23);
-		frame.getContentPane().add(label_22);
-
-		JButton btnShootHex = new JButton("Shoot Hex");
-		btnShootHex.setBounds(833, 654, 89, 23);
-		frame.getContentPane().add(btnShootHex);
-
-		JComboBox comboBoxAmmoTypeLauncher = new JComboBox();
+		comboBoxAmmoTypeLauncher = new JComboBox();
 		comboBoxAmmoTypeLauncher.setSelectedIndex(-1);
-		comboBoxAmmoTypeLauncher.setBounds(626, 655, 74, 20);
+		comboBoxAmmoTypeLauncher.setBounds(625, 663, 74, 20);
 		frame.getContentPane().add(comboBoxAmmoTypeLauncher);
 
 		chckbxGuided = new JCheckBox("Guided");
@@ -3995,14 +4009,31 @@ public class BulkWindow {
 
 								System.out.println("volley shot: " + shots);
 
+								if(shoot.shooter.inventory.containsItem(comboBoxLauncher.getSelectedItem().toString())) {
+									Weapons launcher = new Weapons().findWeapon(comboBoxLauncher.getSelectedItem().toString());
+									shoot.pcAmmo = launcher.pcAmmoTypes.get(0);
+									shoot.updateWeapon(launcher.name);
+									//System.out.println("Update Weapon");
+									shoot.recalc();
+									if (comboBoxTargetZone.getSelectedIndex() > 0) {
+										setCalledShotBounds(shoot);
+									}
+								}
+								
 								if (comboBoxTargetUnits.getSelectedIndex() > 0)
 									shoot.suppressiveFire(shoot.wep.suppressiveROF);
 								else if (chckbxFullAuto.isSelected()) {
 									shoot.burst();
 									shoot.suppressiveFire(shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
 								} else {
-									shoot.shot(chckbxGuided.isSelected());
-									shoot.suppressiveFire(shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+									
+									if(shoot.wep.launcherHomingInfantry)
+										shoot.shot(chckbxGuided.isSelected());
+									else 
+										shoot.shot(false);
+									
+									shoot.suppressiveFire(
+											shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
 								}
 
 								GameWindow.gameWindow.conflictLog.addNewLineToQueue("Results: " + shoot.shotResults);
@@ -4282,6 +4313,7 @@ public class BulkWindow {
 
 				selectedGuiUpdates();
 				grenadeUpdates();
+				launcherUpdates();
 			}
 
 		};
@@ -4326,7 +4358,7 @@ public class BulkWindow {
 				boolean fromOutside = hex.getUnembarkedTroopers(trooperUnit).contains(trooper);
 				String buildingName = comboBoxBuilding.getSelectedItem().toString();
 				int floorNum = (int) spinnerTargetFloor.getValue();
-				Room room = hex.buildings.get(comboBoxBuilding.getSelectedIndex()-1).floors.get(floorNum).rooms.get((int) spinnerTargetRoom.getValue());
+				Room room = hex.buildings.get(comboBoxBuilding.getSelectedIndex()-1).floors.get(floorNum-1).rooms.get((int) spinnerTargetRoom.getValue()-1);
 				PcGrenadeThrow gt = new PcGrenadeThrow(trooper, null, comboBoxGrenade.getSelectedItem().toString(), 
 						(int) spinnerThrowBonus.getValue(), (int) spinnerThrowEALBonus.getValue());
 				gt.tossIntoRoom(room, fromOutside, floorNum, trooperUnit.X, trooperUnit.Y, buildingName);
@@ -4366,6 +4398,22 @@ public class BulkWindow {
 			
 			actionSpent(trooper);
 			
+		}
+		
+	}
+	
+	public void launcherUpdates() {
+		
+		comboBoxLauncher.removeAllItems();
+		comboBoxLauncher.addItem("None");
+		comboBoxAmmoTypeLauncher.removeAllItems();
+		
+		for(Trooper trooper : getSelectedTroopers()) {
+			for(Item item : trooper.inventory.getItemsArray()) {
+				if(item.isWeapon() && !item.isRound() && item.weapon.type.equals("Launcher")) {
+					comboBoxLauncher.addItem(item.getItemName());
+				}
+			}
 		}
 		
 	}
