@@ -286,10 +286,10 @@ public class Armor implements Serializable {
 	}
 	
 	public void b2Armor() {
-		this.bPF = 25; 
+		this.bPF = 30; 
 		armorName = "B2";
 		type = ArmorType.B2;
-		armorWeight = 80;
+		armorWeight = 50;
 	}
 	
 	public void commandoDroidArmor() {

@@ -1664,7 +1664,7 @@ public class GameWindow implements Serializable {
 							&& !initiativeOrder.get(i).getTroopers().get(x).entirelyMechanical) {
 
 						if (initiativeOrder.get(i).getTroopers().get(x).inCover) {
-							initiativeOrder.get(i).getTroopers().get(x).HD = true;
+							initiativeOrder.get(i).getTroopers().get(x).hunkerDown(gameWindow);
 							conflictLog.addNewLineToQueue(initiativeOrder.get(i).getTroopers().get(x).number + " "
 									+ initiativeOrder.get(i).getTroopers().get(x).name
 									+ " hunkers down. Morale too low.");
@@ -1683,7 +1683,7 @@ public class GameWindow implements Serializable {
 							+ initiativeOrder.get(i).getTroopers().get(x).P2 && !initiativeOrder.get(i).getTroopers().get(x).entirelyMechanical) {
 
 						if (initiativeOrder.get(i).getTroopers().get(x).inCover) {
-							initiativeOrder.get(i).getTroopers().get(x).HD = true;
+							initiativeOrder.get(i).getTroopers().get(x).hunkerDown(gameWindow);
 							conflictLog.addNewLineToQueue(initiativeOrder.get(i).getTroopers().get(x).number + " "
 									+ initiativeOrder.get(i).getTroopers().get(x).name
 									+ " hunkers down. SUPPRESSED.");

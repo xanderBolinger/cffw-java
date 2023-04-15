@@ -24,7 +24,7 @@ public class Item implements Serializable {
 		
 		A310,EE3,
 		
-		E5,E5S,E5C,
+		E5,E5S,E5C,B2RR,
 		
 		M870
 	}
@@ -46,6 +46,7 @@ public class Item implements Serializable {
 				new Item(ItemType.E5),
 				new Item(ItemType.E5S),
 				new Item(ItemType.E5C),
+				new Item(ItemType.B2RR),
 				new Item(ItemType.M870),
 				
 				new Item(ItemType.EWEBWeapon),
@@ -54,6 +55,8 @@ public class Item implements Serializable {
 				
 				new Item(ItemType.ClassAThermalDetonator),
 				
+				new Item(ItemType.B2RR, ItemType.HE),
+				new Item(ItemType.B2RR, ItemType.HEAT),
 				new Item(ItemType.DC17MRocket, ItemType.HE),
 				new Item(ItemType.DC17MRocket, ItemType.HEAT),
 				new Item(ItemType.DC40, ItemType.HE),
@@ -145,6 +148,12 @@ public class Item implements Serializable {
 		} else if(ItemType.DC40 == weaponType && ItemType.HE == ammoType) {
 			ammo = new PCAmmo("HE");
 			itemWeight = 0.2;
+		} else if(ItemType.B2RR == weaponType && ItemType.HEAT == ammoType) {
+			ammo = new PCAmmo("HEAT");
+			itemWeight = 2;
+		} else if(ItemType.B2RR == weaponType && ItemType.HE == ammoType) {
+			ammo = new PCAmmo("HE");
+			itemWeight = 2;
 		}
 		
 		else if((ItemType.E5 == weaponType) 
@@ -201,6 +210,9 @@ public class Item implements Serializable {
 			itemWeight = 8; 
 		} else if(ItemType.DC17MRocket == itemType) {
 			weapon = new Weapons().findWeapon("DC17 Rocket");
+			itemWeight = 4; 
+		} else if(ItemType.B2RR == itemType) {
+			weapon = new Weapons().findWeapon("B2RR");
 			itemWeight = 4; 
 		} else if(ItemType.DC17MSniper == itemType) {
 			weapon = new Weapons().findWeapon("DC17 Sniper");
@@ -273,7 +285,7 @@ public class Item implements Serializable {
 		if(weapon == null || ammo == null)
 			return weapon != null ? weapon.name : ammo.name;
 		else
-			return weapon.name + ": "+ammo.name+" round, "+ "depleted: "+ammo.depleted;
+			return weapon.name + ": "+ammo.name+" round, "+ "depleted: "+ammo.depleted+", Shots: "+ammo.firedShots;
 	}
 	
 	

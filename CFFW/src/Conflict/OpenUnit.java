@@ -12,6 +12,7 @@ import Unit.Unit;
 import Unit.Unit.UnitType;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.HexGridUtility;
+import UtilityClasses.PCUtility;
 import UtilityClasses.UnitReorderListener;
 
 import javax.swing.JLabel;
@@ -1123,7 +1124,7 @@ public class OpenUnit implements Serializable {
 						roll -= DiceRoller.d6_exploding();
 				}
 				
-				roll -= ftlCommandSum + unit.suppression / 2;
+				roll -= ftlCommandSum - (int)((double) unit.suppression * PCUtility.suppressionPenalty(leader));
 				
 				int margin = 0; 
 				

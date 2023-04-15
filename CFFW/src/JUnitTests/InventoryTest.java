@@ -47,16 +47,16 @@ public class InventoryTest {
 		inv.addItem(ItemType.DC40);
 		assertEquals("DC40", inv.containers.get(0).items.get(0).getItemName());
 		inv.addItems(ItemType.DC40, ItemType.HEAT, 10);
-		assertEquals("DC40: HEAT round, depleted: false", inv.containers.get(0).items.get(1).getItemName());
-		assertEquals("DC40: HEAT round, depleted: false", inv.containers.get(0).items.get(10).getItemName());
+		assertEquals("DC40: HEAT round, depleted: false, Shots: 0", inv.containers.get(0).items.get(1).getItemName());
+		assertEquals("DC40: HEAT round, depleted: false, Shots: 0", inv.containers.get(0).items.get(10).getItemName());
 		
 		inv.removeItem(ItemType.DC40, ItemType.HEAT);
 		assertEquals(10, inv.containers.get(0).items.size());
-		assertEquals("DC40: HEAT round, depleted: false", inv.containers.get(0).items.get(1).getItemName());
-		assertEquals("DC40: HEAT round, depleted: false", inv.containers.get(0).items.get(9).getItemName());
+		assertEquals("DC40: HEAT round, depleted: false, Shots: 0", inv.containers.get(0).items.get(1).getItemName());
+		assertEquals("DC40: HEAT round, depleted: false, Shots: 0", inv.containers.get(0).items.get(9).getItemName());
 		assertEquals("DC40", inv.containers.get(0).items.get(0).getItemName());
 		inv.removeItem(0);
-		assertEquals("DC40: HEAT round, depleted: false", inv.containers.get(0).items.get(0).getItemName());
+		assertEquals("DC40: HEAT round, depleted: false, Shots: 0", inv.containers.get(0).items.get(0).getItemName());
 		
 		Item item = new Item(ItemType.ClassAThermalDetonator);
 		
@@ -64,7 +64,7 @@ public class InventoryTest {
 		assertEquals(false, item.isRound());
 		assertEquals(true, new Item(ItemType.DC40, ItemType.HEAT).isRound());
 		
-		inv.removeItem("DC40: HEAT round, depleted: false");
+		inv.removeItem("DC40: HEAT round, depleted: false, Shots: 0");
 		
 		inv.containers.get(0).items.clear();
 		inv.setEncumberance();

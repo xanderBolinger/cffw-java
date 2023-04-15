@@ -428,22 +428,37 @@ public class OpenTrooper implements Serializable {
 		btnHunkerDown.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
-				if (trooper.HD)
-					trooper.HD = false;
-				else
-					trooper.hunkerDown(gameWindow);
+					@Override
+					protected Void doInBackground() throws Exception {
+						if (trooper.HD)
+							trooper.HD = false;
+						else
+							trooper.hunkerDown(gameWindow);
 
-				if (window.gameWindow.game.getPhase() == 1) {
-					trooper.spentPhase1 += 1;
-				} else {
-					trooper.spentPhase2 += 1;
-				}
-				window.openUnit.refreshIndividuals();
-				if (openNext) {
-					window.openNext(true);
-				}
-				f.dispose();
+						if (window.gameWindow.game.getPhase() == 1) {
+							trooper.spentPhase1 += 1;
+						} else {
+							trooper.spentPhase2 += 1;
+						}
+						return null;
+					}
+
+					@Override
+					protected void done() {
+						window.openUnit.refreshIndividuals();
+						if (openNext) {
+							window.openNext(true);
+						}
+						f.dispose();
+					}
+
+				};
+
+				worker.execute();
+				
+				
 
 			}
 		});
@@ -1023,9 +1038,9 @@ public class OpenTrooper implements Serializable {
 											.returnTrooperUnit(gameWindow),
 									shoot, trooper, targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1), wepName,
 									ammoIndex);
-							
-							if(shootReset) {
-								shoot.previouslySpentCa = 0; 
+
+							if (shootReset) {
+								shoot.previouslySpentCa = 0;
 								shoot.spentCombatActions = 0;
 							}
 
@@ -1179,10 +1194,13 @@ public class OpenTrooper implements Serializable {
 
 							if (comboBoxTargetUnits.getSelectedIndex() > 0)
 								shoot.suppressiveFire(shoot.wep.suppressiveROF);
-							else if (chckbxFullAuto.isSelected())
+							else if (chckbxFullAuto.isSelected()) {
 								shoot.burst();
-							else
+								shoot.suppressiveFire(shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+							} else {
 								shoot.shot(chckbxHoming.isSelected());
+								shoot.suppressiveFire(shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+							}
 							System.out.println("Open Trooper Shoot");
 							GameWindow.gameWindow.conflictLog.addNewLineToQueue("Results: " + shoot.shotResults);
 						} catch (Exception e) {
@@ -1190,7 +1208,7 @@ public class OpenTrooper implements Serializable {
 						}
 
 						shootReset = false;
-						
+
 						return null;
 					}
 
@@ -1208,11 +1226,11 @@ public class OpenTrooper implements Serializable {
 						refreshInventory();
 						GameWindow.gameWindow.conflictLog.addQueuedText();
 						guiUpdates();
-						
-						if(shoot.target == null || !shoot.target.alive || !shoot.target.conscious || shoot.target.HD) {
+
+						if (shoot.target == null || !shoot.target.alive || !shoot.target.conscious || shoot.target.HD) {
 							refreshTargets();
 						}
-						
+
 					}
 
 				};
@@ -1242,7 +1260,7 @@ public class OpenTrooper implements Serializable {
 		spinnerEALBonus.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 			}
 		});
 		spinnerEALBonus.setBounds(541, 220, 74, 20);
@@ -1290,11 +1308,11 @@ public class OpenTrooper implements Serializable {
 								unit.lineOfSight.get(comboBoxTargetUnits.getSelectedIndex() - 1), shoot, trooper,
 								wepName, ammoIndex);
 
-						if(shootReset) {
-							shoot.previouslySpentCa = 0; 
+						if (shootReset) {
+							shoot.previouslySpentCa = 0;
 							shoot.spentCombatActions = 0;
 						}
-						
+
 						if (comboBoxAimTime.getSelectedIndex() == 0)
 							shoot.autoAim();
 
@@ -1539,8 +1557,8 @@ public class OpenTrooper implements Serializable {
 					if (trooperBuilding == null) {
 						Building building = hex.buildings.get(comboBoxBuilding.getSelectedIndex() - 1);
 
-						if ((int) spinnerTargetFloor.getValue() - 1 >= building.floors.size() || 
-								(int) spinnerTargetFloor.getValue() - 1 < 0) {
+						if ((int) spinnerTargetFloor.getValue() - 1 >= building.floors.size()
+								|| (int) spinnerTargetFloor.getValue() - 1 < 0) {
 							gameWindow.conflictLog.addNewLine("Input a valid floor.");
 							return;
 						}
@@ -1914,7 +1932,7 @@ public class OpenTrooper implements Serializable {
 		chckbxFullAuto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				if(shoot != null) {
+				if (shoot != null) {
 					guiUpdates();
 				}
 			}
@@ -1977,7 +1995,7 @@ public class OpenTrooper implements Serializable {
 						}
 
 						shootReset = false;
-						
+
 						return null;
 					}
 
@@ -2018,7 +2036,7 @@ public class OpenTrooper implements Serializable {
 				}
 
 				guiUpdates();
-				
+
 			}
 		});
 		comboBoxTargetZone.setBounds(427, 270, 113, 23);
@@ -5414,8 +5432,6 @@ public class OpenTrooper implements Serializable {
 
 	}
 
-
-
 	// Sets possible shots based off of current Selected Aim Time
 	public void PCShots() {
 		if (comboBoxTargets.getSelectedIndex() < 1 || targetTroopers.size() < 1)
@@ -6758,7 +6774,7 @@ public class OpenTrooper implements Serializable {
 		if (targetTroopers == null || targetTroopers.size() < 1) {
 			return;
 		}
-		
+
 		String[] targets = new String[targetTroopers.size() + 1];
 		targets[0] = "None";
 
@@ -6774,9 +6790,10 @@ public class OpenTrooper implements Serializable {
 		grenadeTargets.clear();
 		for (int i = 0; i < targetTroopers.size(); i++) {
 			Trooper target = targetTroopers.get(i);
-			/*if(target.alive == false || target.conscious == false || target.HD)
-				continue;*/
-			
+			/*
+			 * if(target.alive == false || target.conscious == false || target.HD) continue;
+			 */
+
 			Unit targetUnit = null;
 			// gets troopers unit
 			for (int j = 0; j < gameWindow.initiativeOrder.size(); j++) {
@@ -7137,12 +7154,13 @@ public class OpenTrooper implements Serializable {
 
 		worker.execute();
 	}
-	
+
 	public void bonuses() {
-		if(shoot == null)
+		if (shoot == null)
 			return;
-		
-		shoot.setBonuses((int) spinnerPercentBonus.getValue(), (int) spinnerEALBonus.getValue(), (int) spinnerConsecutiveEALBonus.getValue());
+
+		shoot.setBonuses((int) spinnerPercentBonus.getValue(), (int) spinnerEALBonus.getValue(),
+				(int) spinnerConsecutiveEALBonus.getValue());
 		guiUpdates();
 	}
 
