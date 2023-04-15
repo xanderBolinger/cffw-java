@@ -183,6 +183,8 @@ public class Explosion {
 			
 		}
 		
+		System.out.println("BC Before: " + bc);
+		
 		if(target.inCover)
 			bc /= 2;
 		if(PCUtility.armorCoverage(target) && bc > target.armor.bPF && target.entirelyMechanical) 
@@ -192,6 +194,8 @@ public class Explosion {
 		else if(PCUtility.armorCoverage(target) && bc <= target.armor.bPF) {
 			bc /= 100;
 		}
+		
+		System.out.println("BC After: " + bc);
 		
 		//GameWindow.gameWindow.conflictLog.addNewLineToQueue(GameWindow.getLogHead(target)+", Distance PC Hexes: "+rangePCHexes+", Explosion BC Damage: "+bc+", BSHC: "+bshc+bshcRslts);
 			
@@ -227,7 +231,6 @@ public class Explosion {
 			bc = 0; 
 		} else {
 			// Applies blast damage
-			target.physicalDamage += bc; 
 			totalBC += bc; 		
 			target.injured(GameWindow.gameWindow.conflictLog, new Injuries(bc, "Blast Damage", false, null), GameWindow.gameWindow.game, GameWindow.gameWindow);
 		}
