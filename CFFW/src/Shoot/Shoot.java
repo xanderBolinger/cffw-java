@@ -439,7 +439,7 @@ public class Shoot {
 				resolveHits.performCalculations(GameWindow.gameWindow.game, GameWindow.gameWindow.conflictLog);
 
 			hits--;
-
+			InjuryLog.InjuryLog.addTrooper(target);
 		}
 
 	}
@@ -448,13 +448,13 @@ public class Shoot {
 		if(suppressiveHits > 0)
 			explosionCheck();
 		
-		if (targetUnit.suppression + suppressiveHits / 2 < 100) {
+		if (targetUnit.suppression + suppressiveHits < 100) {
 			targetUnit.suppression += suppressiveHits / 2;
 		} else {
 			targetUnit.suppression = 100;
 		}
 
-		if (targetUnit.organization - suppressiveHits / 2 > 0) {
+		if (targetUnit.organization - suppressiveHits > 0) {
 			targetUnit.organization -= suppressiveHits / 2;
 		} else {
 			targetUnit.organization = 0;
@@ -467,15 +467,15 @@ public class Shoot {
 	}
 
 	public void setSingleTn() {
-		singleTn = PCUtility.getOddsOfHitting(true, ealSum) + percentBonus - shooterUnit.suppression;
+		singleTn = PCUtility.getOddsOfHitting(true, ealSum) + percentBonus - (int)((double) shooterUnit.suppression * PCUtility.suppressionPenalty(shooter));
 	}
 
 	public void setSuppressiveTn() {
-		suppressiveTn = PCUtility.getOddsOfHitting(true, almSum + 18) + percentBonus - shooterUnit.suppression;
+		suppressiveTn = PCUtility.getOddsOfHitting(true, almSum + 18) + percentBonus - (int)((double) shooterUnit.suppression * PCUtility.suppressionPenalty(shooter));
 	}
 
 	public void setFullAutoTn() {
-		fullAutoTn = PCUtility.getOddsOfHitting(false, ealSum) + percentBonus - shooterUnit.suppression;
+		fullAutoTn = PCUtility.getOddsOfHitting(false, ealSum) + percentBonus - (int)((double) shooterUnit.suppression * PCUtility.suppressionPenalty(shooter));
 	}
 
 	public void autoAim() {

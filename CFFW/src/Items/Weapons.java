@@ -1033,8 +1033,8 @@ public class Weapons implements Serializable {
 		this.damageBonus = -2;
 		this.damageMultiplier = 5;
 		this.armorPiercing = 2;
-		this.sab = 3;
-		this.fullAutoROF = 7;
+		this.sab = 2;
+		this.fullAutoROF = 12;
 		this.tracers = true;
 		this.light = true;
 		this.laser = true;
@@ -1086,12 +1086,12 @@ public class Weapons implements Serializable {
 		// Minimum Arc
 		this.ma.add(.2);
 		this.ma.add(.3);
-		this.ma.add(.7);
+		this.ma.add(.5);
+		this.ma.add(0.7);
 		this.ma.add(1.0);
 		this.ma.add(2.0);
 		this.ma.add(3.0);
-		this.ma.add(5.0);
-		this.ma.add(7.0);
+		this.ma.add(6.0);
 
 		// Ce stats
 		ceStats.baseErgonomics = 50;
@@ -1248,7 +1248,7 @@ public class Weapons implements Serializable {
 		this.armorPiercing = 2;
 		this.tracers = true;
 		this.sab = 2;
-		this.fullAutoROF = 5;
+		this.fullAutoROF = 7;
 		this.tracers = true;
 		this.light = true;
 		this.laser = true;
@@ -1298,8 +1298,8 @@ public class Weapons implements Serializable {
 
 		// Minimum Arc
 		this.ma.add(.2);
-		this.ma.add(.4);
-		this.ma.add(.8);
+		this.ma.add(.3);
+		this.ma.add(.7);
 		this.ma.add(1.0);
 		this.ma.add(2.0);
 		this.ma.add(4.0);
@@ -2705,9 +2705,9 @@ public class Weapons implements Serializable {
 		this.bshc.add("64");
 		this.bshc.add("22");
 
-		this.bc.add(8300);
-		this.bc.add(713);
-		this.bc.add(251);
+		this.bc.add(20000);
+		this.bc.add(2513);
+		this.bc.add(651);
 		this.bc.add(155);
 		this.bc.add(72);
 		this.bc.add(54);
@@ -2993,7 +2993,8 @@ public class Weapons implements Serializable {
 		this.launcherHomingInfantry = true;
 		this.launcherHomingVehicle = true;
 		this.homingHitChance = 88;
-
+		this.suppressiveROF = 1;
+		
 		Ammo hedp2 = new Ammo("HEDP", 8, 0, 6, 10, null, new Ammo("Linked", 5, 0, 2, 0), null);
 		Ammo heaa2 = new Ammo("HEAA", 8, 0, 4, 10, null, new Ammo("Linked", 6, 0, 3, 0), null);
 
@@ -3104,7 +3105,8 @@ public class Weapons implements Serializable {
 		this.launcherHomingInfantry = true;
 		this.launcherHomingVehicle = true;
 		this.homingHitChance = 75;
-
+		this.suppressiveROF = 1;
+		
 		Ammo hedp2 = new Ammo("HEDP", 8, 0, 6, 10, null, new Ammo("Linked", 5, 0, 2, 0), null);
 		Ammo heaa2 = new Ammo("HEAA", 8, 0, 4, 10, null, new Ammo("Linked", 6, 0, 3, 0), null);
 
@@ -3212,7 +3214,7 @@ public class Weapons implements Serializable {
 		this.name = "DC40";
 		this.type = "Launcher";
 		this.collateralDamage = 50;
-		this.suppressiveROF = 3;
+		this.suppressiveROF = 2;
 
 		/*
 		 * Ammo heat = new Ammo("HEAT", 8, 0, 6, 10, null, null, null); Ammo he = new
@@ -3296,6 +3298,49 @@ public class Weapons implements Serializable {
 		PCAmmo he = new PCAmmo(name, pen, dc, bshc, bc, 2, 10);
 		pcAmmoTypes.add(he);
 
+		name = "ION";
+		pen = new ArrayList<Integer>();
+		pen.add(2);
+		pen.add(2);
+		pen.add(1);
+		pen.add(1);
+		pen.add(1);
+		pen.add(1);
+
+		dc = new ArrayList<Integer>();
+		dc.add(3);
+		dc.add(3);
+		dc.add(2);
+		dc.add(2);
+		dc.add(2);
+		dc.add(1);
+
+		bshc = new ArrayList<String>();
+		bshc.add("*3");
+		bshc.add("*1");
+		bshc.add("62");
+		bshc.add("15");
+		bshc.add("6");
+		bshc.add("2");
+
+		bc = new ArrayList<Integer>();
+		bc.add(353);
+		bc.add(100);
+		bc.add(31);
+		bc.add(16);
+		bc.add(7);
+		bc.add(2);
+
+		PCAmmo ion = new PCAmmo(name, pen, dc, bshc, bc, 2, 10);		
+		ion.ionDamage.add(1200);
+		ion.ionDamage.add(600);
+		ion.ionDamage.add(200);
+		ion.ionDamage.add(112);
+		ion.ionDamage.add(75);
+		ion.ionDamage.add(50);
+		pcAmmoTypes.add(ion);
+		
+		
 		// Aim time
 		this.aimTime.add(-23);
 		this.aimTime.add(-13);
@@ -3317,7 +3362,7 @@ public class Weapons implements Serializable {
 		this.name = "DC17 Rocket";
 		this.type = "Launcher";
 		this.collateralDamage = 50;
-
+		this.suppressiveROF = 1;
 		/*
 		 * Ammo heat = new Ammo("HEAT", 8, 0, 6, 10, null, null, null); Ammo he = new
 		 * Ammo("HE", 8, 0, 4, 10, null, null, null);
@@ -3422,7 +3467,7 @@ public class Weapons implements Serializable {
 		this.name = "B2RR";
 		this.type = "Launcher";
 		this.collateralDamage = 50;
-
+		this.suppressiveROF = 1;
 		/*
 		 * Ammo heat = new Ammo("HEAT", 8, 0, 6, 10, null, null, null); Ammo he = new
 		 * Ammo("HE", 8, 0, 4, 10, null, null, null);
@@ -3437,31 +3482,31 @@ public class Weapons implements Serializable {
 
 		String name = "HEAT";
 		ArrayList<Integer> pen = new ArrayList<Integer>();
-		pen.add(9);
-		pen.add(9);
-		pen.add(8);
-		pen.add(8);
-		pen.add(7);
-		pen.add(7);
+		pen.add(1600);
+		pen.add(112);
+		pen.add(112);
+		pen.add(112);
+		pen.add(112);
+		pen.add(112);
 
 		ArrayList<Integer> dc = new ArrayList<Integer>();
-		dc.add(9);
-		dc.add(9);
-		dc.add(9);
-		dc.add(9);
-		dc.add(9);
-		dc.add(8);
+		dc.add(10);
+		dc.add(6);
+		dc.add(6);
+		dc.add(6);
+		dc.add(6);
+		dc.add(6);
 
 		ArrayList<String> bshc = new ArrayList<String>();
-		bshc.add("34");
-		bshc.add("12");
-		bshc.add("0");
-		bshc.add("0");
+		bshc.add("*10");
+		bshc.add("*1");
+		bshc.add("73");
+		bshc.add("26");
 		bshc.add("0");
 		bshc.add("0");
 
 		ArrayList<Integer> bc = new ArrayList<Integer>();
-		bc.add(2000);
+		bc.add(3300);
 		bc.add(393);
 		bc.add(105);
 		bc.add(52);
@@ -3491,10 +3536,10 @@ public class Weapons implements Serializable {
 		bshc = new ArrayList<String>();
 		bshc.add("*23");
 		bshc.add("*6");
+		bshc.add("*2");
 		bshc.add("*1");
-		bshc.add("64");
-		bshc.add("22");
-		bshc.add("0");
+		bshc.add("65");
+		bshc.add("40");
 
 		bc = new ArrayList<Integer>();
 		bc.add(2400);

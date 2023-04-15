@@ -1064,8 +1064,7 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
-			inventory.addItems(ItemType.DC40, 1);
-			inventory.addItems(ItemType.DC40, ItemType.HEAT, 10);
+			
 
 		} else if (input.equals("Clone Rifleman")) { // Rifleman
 			// Creates attributes
@@ -1115,6 +1114,9 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
+			inventory.addItems(ItemType.DC40, 1);
+			inventory.addItems(ItemType.DC40, ItemType.HEAT, 6);
+			inventory.addItems(ItemType.DC40, ItemType.ION, 4);
 
 		} else if (input.equals("Clone Autorifleman")) { // Autorifleman
 			// Creates attributes
@@ -1776,7 +1778,7 @@ public class Trooper implements Serializable {
 
 			// Creates attributes
 			this.str = 14;
-			this.wit = 5;
+			this.wit = 10;
 			this.soc = 5;
 			this.wil = 10;
 			this.per = 10;
@@ -1801,6 +1803,9 @@ public class Trooper implements Serializable {
 			encumberanceModifier = -20;
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 2);
+			inventory.addItems(ItemType.B2RR, 1);
+			inventory.addItems(ItemType.B2RR, ItemType.HE, 2);
+			inventory.addItems(ItemType.B2RR, ItemType.HEAT, 2);
 			this.PCSize = 2.7;
 
 		} else if (input.equals("Commando Droid Squad Leader")) {

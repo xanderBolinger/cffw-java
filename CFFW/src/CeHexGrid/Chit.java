@@ -26,6 +26,7 @@ import javax.imageio.ImageIO;
 
 import CeHexGrid.Chit.Facing;
 import CorditeExpansion.Cord;
+import UtilityClasses.ExcelUtility;
 
 public class Chit implements Serializable {
 	public transient Image chitImage;
@@ -158,17 +159,36 @@ public class Chit implements Serializable {
 	public void loadImage() {
 		if(chitImage == null) {
 			try {
-				chitImage =  ImageIO.read(new File(imagePath));
+				//throw new Exception("Image Path: "+imagePath);
+				
+				if(imagePath.contains("blufor")) {
+					this.imagePath = ExcelUtility.path+"\\Icons\\unknown_blufor_icon.png";
+				} else if(imagePath.contains("opfor")) {
+					this.imagePath = ExcelUtility.path+"\\Icons\\unknown_opfor_icon.png";
+				} else {
+					this.imagePath = ExcelUtility.path+"\\Icons\\unknown_icon.png";
+				}
+				
+				File file = new File(imagePath);
+				
+				chitImage =  ImageIO.read(file);
 				chitImage =  chitImage.getScaledInstance((int) chitWidth, (int) chitHeight,
 						Image.SCALE_DEFAULT);
 			} catch (IOException e) {
+				System.out.println("ImagePath: "+imagePath);
 				e.printStackTrace();
-			}
+			} /*catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
 		}
 	}
 	
 	public void drawChit(double zoom, Graphics2D g2, Polygon hex) {
-		 loadImage();
+		loadImage();
+		
+		if(chitImage == null)
+			return;
 		
 		int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
 		int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
