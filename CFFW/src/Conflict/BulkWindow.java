@@ -2738,8 +2738,20 @@ public class BulkWindow {
 		return !freshTrooper(bulkTrooper);
 	}
 
+	public boolean wepType(Trooper trooper) {
+		
+		for(Item item : trooper.inventory.getItemsArray()) {
+			if(item.isWeapon() && !item.isRound() && item.weapon.type.equals(comboBoxWep.getSelectedItem().toString())) {
+				return true;
+			}
+		}
+		
+		return false; 
+	}
+	
 	public boolean validTrooper(Trooper trooper) {
-		if (comboBoxWep.getSelectedIndex() != 0 && !trooper.wep.equals(comboBoxWep.getSelectedItem().toString())) {
+		if (comboBoxWep.getSelectedIndex() != 0 && !trooper.wep.equals(comboBoxWep.getSelectedItem().toString())
+				&& !wepType(trooper)) {
 			return false;
 		}
 
@@ -2849,6 +2861,8 @@ public class BulkWindow {
 		}
 
 		comboBoxWep.addItem("N/A");
+		comboBoxWep.addItem("Launcher");
+		comboBoxWep.addItem("Grenade");
 		for (String str : weapons)
 			comboBoxWep.addItem(str);
 		comboBoxWep.setSelectedIndex(0);
