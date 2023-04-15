@@ -321,8 +321,7 @@ public class Inventory implements Serializable {
 			return true;
 	}
 	
-	public boolean launcherAmmoCheck(Weapons wep, PCAmmo pcAmmo, int shots) {
-		
+	public boolean launcherAmmoCheck(Weapons wep, PCAmmo pcAmmo, int shots) {		
 		System.out.println("Launcher ammo check");
 		
 		if(wep.type.equals("Static")) {

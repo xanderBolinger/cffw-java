@@ -140,22 +140,22 @@ public class Shoot {
 	}
 
 	public void shot(boolean homing) {
-		if(pcAmmo != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, 1)) {
+		if(pcAmmo != null && pcAmmo.shots != -1 && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, 1)) {
 			shotResults = "Not enough ammunition.";
 			return;
-		} else if (pcAmmo == null && !ammoCheckSingle()) {
+		} else if ((pcAmmo == null || pcAmmo.shots == -1) && !ammoCheckSingle()) {
 			System.out.println("shot return");
 			shotResults = "Not enough ammunition.";
 			return;
 		}
 
-		System.out.println("shot");
+		//System.out.println("shot");
 		singleShotRoll(homing);
-		System.out.println("shot 2");
+		//System.out.println("shot 2");
 		resolveHits();
-		System.out.println("shot 3");
+		//System.out.println("shot 3");
 		resolveSuppressiveHits();
-		System.out.println("shot 4");
+		//System.out.println("shot 4");
 		spentCombatActions++;
 		shots++;
 		setShotResults(false);

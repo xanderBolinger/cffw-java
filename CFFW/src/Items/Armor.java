@@ -825,9 +825,9 @@ public class Armor implements Serializable {
 			}
 		}
 		
-		if(GameWindow.gameWindow != null && GameWindow.gameWindow.conflictLog != null) {
-			//GameWindow.gameWindow.conflictLog.addNewLineToQueue("Armor Wearer Hit Fire Position, Location Roll: "+roll+", Protected: "+protectedZone);
-		}
+		/*if(GameWindow.gameWindow != null && GameWindow.gameWindow.conflictLog != null) {
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Armor Wearer Hit Fire Position, Location Roll: "+roll+", Protected: "+protectedZone);
+		}*/
 		
 		return protectedZone; 
 	}
