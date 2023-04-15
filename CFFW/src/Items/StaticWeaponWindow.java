@@ -268,7 +268,11 @@ public class StaticWeaponWindow {
 		lblSuppressiveFireTargets.setBounds(10, 384, 175, 14);
 		f.getContentPane().add(lblSuppressiveFireTargets);
 
-		JButton btnSaveAndClose = new JButton("Save");
+		JButton btnSaveAndClose = new JButton("Update Ammo");
+		btnSaveAndClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnSaveAndClose.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -277,7 +281,7 @@ public class StaticWeaponWindow {
 
 			}
 		});
-		btnSaveAndClose.setBounds(141, 699, 87, 23);
+		btnSaveAndClose.setBounds(99, 549, 130, 23);
 		f.getContentPane().add(btnSaveAndClose);
 
 		comboBoxTargets = new JComboBox();
@@ -968,6 +972,21 @@ public class StaticWeaponWindow {
 		chckbxHoming.setBackground(Color.DARK_GRAY);
 		chckbxHoming.setBounds(10, 448, 113, 23);
 		f.getContentPane().add(chckbxHoming);
+		
+		JButton btnFree = new JButton("Free A/D");
+		btnFree.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedWeaponIndex < 0) {
+					return; 
+				}
+				
+				trooperUnit.staticWeapons.get(selectedWeaponIndex).assembled = 
+						!trooperUnit.staticWeapons.get(selectedWeaponIndex).assembled;
+				refreshWeaponStats(trooperUnit);
+			}
+		});
+		btnFree.setBounds(142, 700, 87, 23);
+		f.getContentPane().add(btnFree);
 
 		// Get the screen size
 		Toolkit toolkit = Toolkit.getDefaultToolkit();

@@ -239,7 +239,8 @@ public class BulkInventoryWindow extends JFrame {
 		
 		for(Unit unit : units) {
 			for(Trooper individual : unit.individuals) {
-				trooperEntries.add(unit.callsign +": "+individual.number+" "+individual.name+", CA: "+individual.combatActions+", P1: "+individual.P1+", P2: "+individual.P2);
+				trooperEntries.add(unit.callsign +": "+individual.number+" "+individual.name+" "+individual.designation
+						+", CA: "+individual.combatActions+", P1: "+individual.P1+", P2: "+individual.P2);
 			}
 		}
 		

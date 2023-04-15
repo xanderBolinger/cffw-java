@@ -2792,7 +2792,7 @@ public class BulkWindow {
 	public void setIndividuals() {
 
 		for (Trooper trooper : unit.individuals) {
-			if (trooper.alive == false || !trooper.conscious || trooperAlreadyAdded(trooper))
+			if (trooper.alive == false || !trooper.conscious || trooperAlreadyAdded(trooper) || unit.equipped(trooper))
 				continue;
 
 			for (Unit losUnit : trooper.returnTrooperUnit(GameWindow.gameWindow).lineOfSight) {
