@@ -16,7 +16,7 @@ public class Item implements Serializable {
 	
 	
 	public enum ItemType {
-		NONE,ClassAThermalDetonator,DC15A,M5,DC15X,Z6,DC17M,DC17MRocket,DC17MSniper,DC40,RPS6,HEAT,HE,ION,SmallArmsAmmo,
+		NONE,ClassAThermalDetonator,DC15A,DC20,M5,DC15X,Z6,DC17M,DC17MRocket,DC17MSniper,DC40,RPS6,HEAT,HE,ION,SmallArmsAmmo,
 		
 		EWEBWeapon,EWEBTripod,EWEBBattery,
 		
