@@ -3253,6 +3253,49 @@ public class Weapons implements Serializable {
 		PCAmmo he = new PCAmmo(name, pen, dc, bshc, bc, 2, 10);
 		pcAmmoTypes.add(he);
 
+		name = "ION";
+		pen = new ArrayList<Integer>();
+		pen.add(2);
+		pen.add(2);
+		pen.add(1);
+		pen.add(1);
+		pen.add(1);
+		pen.add(1);
+
+		dc = new ArrayList<Integer>();
+		dc.add(3);
+		dc.add(3);
+		dc.add(2);
+		dc.add(2);
+		dc.add(2);
+		dc.add(1);
+
+		bshc = new ArrayList<String>();
+		bshc.add("*3");
+		bshc.add("*1");
+		bshc.add("62");
+		bshc.add("15");
+		bshc.add("6");
+		bshc.add("2");
+
+		bc = new ArrayList<Integer>();
+		bc.add(353);
+		bc.add(100);
+		bc.add(31);
+		bc.add(16);
+		bc.add(7);
+		bc.add(2);
+
+		PCAmmo ion = new PCAmmo(name, pen, dc, bshc, bc, 2, 10);		
+		ion.ionDamage.add(1200);
+		ion.ionDamage.add(600);
+		ion.ionDamage.add(200);
+		ion.ionDamage.add(112);
+		ion.ionDamage.add(75);
+		ion.ionDamage.add(50);
+		pcAmmoTypes.add(ion);
+		
+		
 		// Aim time
 		this.aimTime.add(-23);
 		this.aimTime.add(-13);

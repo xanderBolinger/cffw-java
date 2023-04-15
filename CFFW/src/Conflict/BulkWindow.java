@@ -1240,7 +1240,7 @@ public class BulkWindow {
 
 										if(shoot.shooter.inventory.containsItem(comboBoxLauncher.getSelectedItem().toString())) {
 											Weapons launcher = new Weapons().findWeapon(comboBoxLauncher.getSelectedItem().toString());
-											shoot.pcAmmo = launcher.pcAmmoTypes.get(0);
+											shoot.pcAmmo = launcher.pcAmmoTypes.get(comboBoxAmmoTypeLauncher.getSelectedIndex());
 											shoot.updateWeapon(launcher.name);
 											//System.out.println("Update Weapon");
 											shoot.recalc();
@@ -3423,7 +3423,19 @@ public class BulkWindow {
 					grenades++;
 			}
 			
-			rslt += "Grenades: "+grenades;
+			rslt += "Grenades: "+grenades+ ", ";
+			
+			boolean hasLauncher = false; 
+			int launcherAmmo = 0;
+			
+			for(Item item : trooper.inventory.getItemsArray()) {
+				if(item.isWeapon() && !item.isRound() && item.weapon.type.equals("Launcher"))
+					hasLauncher = true; 
+				else if(item.isWeapon() && item.isRound() && item.weapon.type.equals("Launcher"))
+					launcherAmmo++; 
+			}
+			
+			rslt += "Launcher: "+(hasLauncher ? "yes" : "no")+ ", Rounds: "+launcherAmmo;
 
 			if (game.getPhase() == 1) {
 				if (trooper.spentPhase1 >= trooper.P1 || trooper.spentPhase1 >= game.getCurrentAction())
@@ -4025,7 +4037,7 @@ public class BulkWindow {
 
 								if(shoot.shooter.inventory.containsItem(comboBoxLauncher.getSelectedItem().toString())) {
 									Weapons launcher = new Weapons().findWeapon(comboBoxLauncher.getSelectedItem().toString());
-									shoot.pcAmmo = launcher.pcAmmoTypes.get(0);
+									shoot.pcAmmo = launcher.pcAmmoTypes.get(comboBoxAmmoTypeLauncher.getSelectedIndex());
 									shoot.updateWeapon(launcher.name);
 									//System.out.println("Update Weapon");
 									shoot.recalc();

@@ -1064,8 +1064,7 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
-			inventory.addItems(ItemType.DC40, 1);
-			inventory.addItems(ItemType.DC40, ItemType.HEAT, 10);
+			
 
 		} else if (input.equals("Clone Rifleman")) { // Rifleman
 			// Creates attributes
@@ -1115,6 +1114,9 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
+			inventory.addItems(ItemType.DC40, 1);
+			inventory.addItems(ItemType.DC40, ItemType.HEAT, 6);
+			inventory.addItems(ItemType.DC40, ItemType.ION, 4);
 
 		} else if (input.equals("Clone Autorifleman")) { // Autorifleman
 			// Creates attributes
