@@ -126,7 +126,7 @@ public class PersonalShield implements Serializable {
 		}
 
 		if(GameWindow.gameWindow != null && GameWindow.gameWindow.conflictLog != null) {
-			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shield Wearer Hit Open, Location Roll: "+roll+", Protected: "+protectedZone);
+			//GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shield Wearer Hit Open, Location Roll: "+roll+", Protected: "+protectedZone);
 		}
 		
 		return protectedZone; 
@@ -145,7 +145,7 @@ public class PersonalShield implements Serializable {
 		}
 		
 		if(GameWindow.gameWindow != null && GameWindow.gameWindow.conflictLog != null) {
-			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shield Wearer Hit Fire Position, Location Roll: "+roll+", Protected: "+protectedZone);
+			//GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shield Wearer Hit Fire Position, Location Roll: "+roll+", Protected: "+protectedZone);
 		}
 		
 		return protectedZone; 

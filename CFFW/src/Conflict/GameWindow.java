@@ -24,6 +24,7 @@ import Shoot.Shoot;
 import Trooper.Trooper;
 import Unit.Unit;
 import UtilityClasses.HexGridUtility;
+import UtilityClasses.PCUtility;
 
 import javax.swing.JList;
 import javax.swing.JButton;
@@ -45,6 +46,7 @@ import java.awt.Toolkit;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import Actions.Spot;
+import Artillery.AlertWindow;
 import Artillery.FireMission;
 
 import javax.swing.JComboBox;
@@ -86,17 +88,16 @@ public class GameWindow implements Serializable {
 	public boolean cqbWindowOpen = false;
 	public OpenUnit currentlyOpenUnit;
 	private JSpinner spinnerHexSize;
-	public int hexCols; 
-	public int hexRows; 
-	
+	public int hexCols;
+	public int hexRows;
 
 	/**
 	 * Launch the application.
 	 */
-	public GameWindow(ArrayList<Company> companiesFromSetupWindow, SetupWindow setupWindow, Game game,
-			boolean openUnit, int hexRows, int hexCols) {
+	public GameWindow(ArrayList<Company> companiesFromSetupWindow, SetupWindow setupWindow, Game game, boolean openUnit,
+			int hexRows, int hexCols) {
 		this.hexCols = hexCols;
-		this.hexRows = hexRows; 
+		this.hexRows = hexRows;
 		this.game = game;
 		this.gameWindow = this;
 		this.conflictLog = new ConflictLog();
@@ -432,7 +433,7 @@ public class GameWindow implements Serializable {
 		JButton btnClearAllSpotted = new JButton("Clear All Spotted");
 		btnClearAllSpotted.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
 					@Override
@@ -451,7 +452,7 @@ public class GameWindow implements Serializable {
 						}
 
 						conflictLog.addNewLine("Cleared spotted.");
-						
+
 						// System.out.println("Clear Spot2");
 						return null;
 					}
@@ -459,14 +460,12 @@ public class GameWindow implements Serializable {
 				};
 
 				worker.execute();
-				
+
 			}
 		});
 		btnClearAllSpotted.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-
-				
 
 			}
 		});
@@ -494,23 +493,22 @@ public class GameWindow implements Serializable {
 					@Override
 					protected Void doInBackground() throws Exception {
 						int newActiveUnit = (int) spinnerActiveUnit.getValue();
-						
-						//System.out.println("Original AU: "+originalAU);
-						//System.out.println("Next Active Unit: "+newActiveUnit);
-						
-						if(activeUnit == newActiveUnit) {
+
+						// System.out.println("Original AU: "+originalAU);
+						// System.out.println("Next Active Unit: "+newActiveUnit);
+
+						if (activeUnit == newActiveUnit) {
 							safeNextActiveUnit();
 						}
-						
-						
+
 						ExecutorService es = Executors.newFixedThreadPool(16);
-						
-						// If on last unit 
-						while(activeUnit != newActiveUnit) {
+
+						// If on last unit
+						while (activeUnit != newActiveUnit) {
 							try {
 								es.submit(() -> {
 									safeNextActiveUnit();
-									
+
 								});
 								try {
 									TimeUnit.MILLISECONDS.sleep(75);
@@ -521,9 +519,9 @@ public class GameWindow implements Serializable {
 								e2.printStackTrace();
 							}
 						}
-						
+
 						es.shutdown();
-						
+
 						return null;
 					}
 
@@ -532,10 +530,11 @@ public class GameWindow implements Serializable {
 						conflictLog.addQueuedText();
 						guiUpdateNextActiveUnit();
 
-						if(hexGrid != null) {
-							//hexGrid.panel.shownType = HexGridUtility.getShownTypeFromSide(initiativeOrder.get(activeUnit).side);
+						if (hexGrid != null) {
+							// hexGrid.panel.shownType =
+							// HexGridUtility.getShownTypeFromSide(initiativeOrder.get(activeUnit).side);
 						}
-						
+
 						openUnit(initiativeOrder.get(activeUnit), activeUnit);
 						hexGrid.frame.toFront();
 						hexGrid.frame.requestFocus();
@@ -616,45 +615,45 @@ public class GameWindow implements Serializable {
 		});
 		btnNewButton_3.setBounds(546, 101, 128, 23);
 		f.getContentPane().add(btnNewButton_3);
-		
+
 		JButton btnSetContact = new JButton("Set Contact");
 		btnSetContact.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				for(Unit unit : initiativeOrder) {
+
+				for (Unit unit : initiativeOrder) {
 					unit.behavior = "Contact";
-					if(gameWindow.findHex(unit.X, unit.Y) != null)
+					if (gameWindow.findHex(unit.X, unit.Y) != null)
 						gameWindow.findHex(unit.X, unit.Y).usedPositions -= unit.individualsInCover;
-					
-					unit.individualsInCover = 0; 
-					for(Trooper trooper : unit.individuals) {
-						if(!trooper.inBuilding(gameWindow)) 
-							trooper.inCover = false; 
-											
+
+					unit.individualsInCover = 0;
+					for (Trooper trooper : unit.individuals) {
+						if (!trooper.inBuilding(gameWindow))
+							trooper.inCover = false;
+
 					}
-					
-					unit.soughtCover = false; 
-					if(!unit.behavior.equals("No Contact")) {
-						unit.timeSinceContact = 0;				
+
+					unit.soughtCover = false;
+					if (!unit.behavior.equals("No Contact")) {
+						unit.timeSinceContact = 0;
 						unit.seekCover(gameWindow.findHex(unit.X, unit.Y), gameWindow);
 					}
-					
-					for(Trooper trooper : unit.individuals) {
-						if(!trooper.inCover && !trooper.manualStance)
+
+					for (Trooper trooper : unit.individuals) {
+						if (!trooper.inCover && !trooper.manualStance)
 							trooper.stance = "Prone";
-						else if(! trooper.manualStance)
+						else if (!trooper.manualStance)
 							trooper.stance = "Standing";
 					}
-				
+
 				}
-				
+
 				conflictLog.addNewLine("Set Contact.");
-				
+
 			}
 		});
 		btnSetContact.setBounds(546, 70, 128, 23);
 		f.getContentPane().add(btnSetContact);
-		
+
 		JButton btnSelectedUnits = new JButton("Selected Units");
 		btnSelectedUnits.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -663,6 +662,40 @@ public class GameWindow implements Serializable {
 		});
 		btnSelectedUnits.setBounds(418, 162, 128, 23);
 		f.getContentPane().add(btnSelectedUnits);
+
+		JButton btnNextAction = new JButton("Next Action");
+		btnNextAction.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				new AlertWindow("Loading Next Action");
+				
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+						nextAction();
+						return null;
+					}
+
+					@Override
+					protected void done() {
+						guiUpdateNextActiveUnit();
+						//openUnit(initiativeOrder.get(activeUnit), activeUnit);
+						hexGrid.frame.toFront();
+						hexGrid.frame.requestFocus();
+						new AlertWindow("Finished Loading Next Action");
+						conflictLog.addQueuedText();
+					}
+
+				};
+
+				worker.execute();
+
+			}
+		});
+		btnNextAction.setBounds(418, 132, 128, 23);
+		f.getContentPane().add(btnNextAction);
 
 	}
 
@@ -716,11 +749,11 @@ public class GameWindow implements Serializable {
 		listIniativeOrder.setModel(initiativeOrderList);
 
 		setUnitlabel();
-		
-		if(hexGrid != null) {
+
+		if (hexGrid != null) {
 			hexGrid.refreshDeployedUnits();
 		}
-		
+
 	}
 
 	// Loops through companies
@@ -739,15 +772,16 @@ public class GameWindow implements Serializable {
 				// Sets some unit stats
 				unit.side = company.getSide();
 				unit.company = company.getName();
-				
+
 				unit.getCommandValue();
-				
+
 				int roll = rand.nextInt(10) + 1;
-				
+
 				int leaderShipCommandValue = getLeaderShipCommandValue(company, unit);
-				
+
 				unit.initiative = roll + unit.commandValue + leaderShipCommandValue;
-				conflictLog.addNewLine("Init Order Roll("+unit.initiative+"), Roll: "+roll+", Command Value: "+unit.commandValue+leaderShipCommandValue);
+				conflictLog.addNewLine("Init Order Roll(" + unit.initiative + "), Roll: " + roll + ", Command Value: "
+						+ unit.commandValue + leaderShipCommandValue);
 				if (unit.active) {
 					initiativeOrder.add(unit);
 				}
@@ -758,30 +792,29 @@ public class GameWindow implements Serializable {
 		rollInitiativeOrder();
 
 	}
-	
+
 	public int getLeaderShipCommandValue(Company company, Unit unit) {
-		if(unit.individuals.size() <= 0)
+		if (unit.individuals.size() <= 0)
 			return 0;
-		
+
 		Trooper leader = unit.getLeader();
-		
-		int bonus = 0; 
-		
-		for(Unit otherUnit : company.getUnits()) {
-			for(Trooper trooper : otherUnit.individuals) {
-				
-				if(trooper.subordinates.contains(leader)) {
+
+		int bonus = 0;
+
+		for (Unit otherUnit : company.getUnits()) {
+			for (Trooper trooper : otherUnit.individuals) {
+
+				if (trooper.subordinates.contains(leader)) {
 					bonus += trooper.getSkill("Command") / 10;
 				}
-				
+
 			}
-			
+
 		}
-		
-		return bonus; 
-		
+
+		return bonus;
+
 	}
-	
 
 	// Sets initiative order
 	public void rollInitiativeOrder() {
@@ -936,15 +969,15 @@ public class GameWindow implements Serializable {
 	}
 
 	public void setCombatActions(Trooper shooter) {
-		
-		for(Shoot shot : Shoot.shootActions) {
-			if(shot.shooter.compareTo(shooter)) {
+
+		for (Shoot shot : Shoot.shootActions) {
+			if (shot.shooter.compareTo(shooter)) {
 				shot.spentCombatActions = 0;
 			}
 		}
-		
+
 	}
-	
+
 	// Performs nessesary checks for twenty seconds of passed time
 	public void unitWaitTwentySeconds() {
 
@@ -964,19 +997,20 @@ public class GameWindow implements Serializable {
 
 		}
 
-		if (unit.suppression >= 50) {
-
-			if ((double) activeTrooperCount / activeTroopersInCover < 0.5) {
-				conflictLog.addNewLine(
-						unit.callsign + " is forced to route due to high suppression and minimal cover. This "
-								+ "unit can avoid routing if all individuals not in cover can hunker down.");
-			} else {
-				conflictLog.addNewLine(unit.callsign + " is pinned and cannot move until suppression "
-						+ "becomes less than 50. Or a successful command test is made, with one difficulty die for every 10 suppression. "
-						+ "And 1 bonus die for each additional leader.");
-			}
-
-		}
+		/*
+		 * if (unit.suppression >= 50) {
+		 * 
+		 * if ((double) activeTrooperCount / activeTroopersInCover < 0.5) {
+		 * conflictLog.addNewLine( unit.callsign +
+		 * " is forced to route due to high suppression and minimal cover. This " +
+		 * "unit can avoid routing if all individuals not in cover can hunker down."); }
+		 * else { conflictLog.addNewLine(unit.callsign +
+		 * " is pinned and cannot move until suppression " +
+		 * "becomes less than 50. Or a successful command test is made, with one difficulty die for every 10 suppression. "
+		 * + "And 1 bonus die for each additional leader."); }
+		 * 
+		 * }
+		 */
 
 		// Fire Missions
 		for (FireMission fireMission : unit.fireMissions) {
@@ -989,7 +1023,7 @@ public class GameWindow implements Serializable {
 			// System.out.println("Pass Trooper: "+j);
 
 			setCombatActions(troopers.get(j));
-			
+
 			if (!troopers.get(j).alive) {
 				troopers.get(j).spentPhase1 = troopers.get(j).P1;
 				troopers.get(j).spentPhase2 = troopers.get(j).P2;
@@ -1093,116 +1127,21 @@ public class GameWindow implements Serializable {
 
 		}
 
-		if (unit.suppression >= 50) {
+		/*
+		 * if (unit.suppression >= 50) {
+		 * 
+		 * if ((double) activeTrooperCount / activeTroopersInCover < 0.5) {
+		 * conflictLog.addNewLine( unit.callsign +
+		 * " is forced to route due to high suppression and minimal cover. This " +
+		 * "unit can avoid routing if all individuals not in cover can hunker down."); }
+		 * else { conflictLog.addNewLine(unit.callsign +
+		 * " is pinned and cannot move until suppression " +
+		 * "becomes less than 50. Or a successful command test is made, with one difficulty die for every 10 suppression. "
+		 * + "And 1 bonus die for each additional leader."); }
+		 * 
+		 * }
+		 */
 
-			if ((double) activeTrooperCount / activeTroopersInCover < 0.5) {
-				conflictLog.addNewLine(
-						unit.callsign + " is forced to route due to high suppression and minimal cover. This "
-								+ "unit can avoid routing if all individuals not in cover can hunker down.");
-			} else {
-				conflictLog.addNewLine(unit.callsign + " is pinned and cannot move until suppression "
-						+ "becomes less than 50. Or a successful command test is made, with one difficulty die for every 10 suppression. "
-						+ "And 1 bonus die for each additional leader.");
-			}
-
-		}
-
-		// Fire Missions
-		for (FireMission fireMission : unit.fireMissions) {
-			// System.out.println("Calling Advance Time Fire Mission");
-			fireMission.advanceTime();
-		}
-
-		ArrayList<Trooper> troopers = unit.getTroopers();
-		
-		for (int j = 0; j < troopers.size(); j++) {
-			// System.out.println("Pass Trooper: "+j);
-
-			setCombatActions(troopers.get(j));
-			
-			if (!troopers.get(j).alive) {
-				troopers.get(j).spentPhase1 = troopers.get(j).P1;
-				troopers.get(j).spentPhase2 = troopers.get(j).P2;
-				continue;
-			}
-
-			// Increases time unconscious
-			// Checks for wake up
-			if (actions <= 3 && actions != 0) {
-
-				if (!troopers.get(j).conscious) {
-
-					if (troopers.get(j).timeUnconscious >= troopers.get(j).incapacitationTime) {
-						troopers.get(j).timeUnconscious = 0;
-						troopers.get(j).incapacitationTime = 0;
-						conflictLog.addNewLineToQueue(troopers.get(j).number + " " + troopers.get(j).name
-								+ " from unit:" + unit.callsign + "has awoken.");
-						troopers.get(j).conscious = true;
-
-					} else {
-						troopers.get(j).timeUnconscious++;
-					}
-					troopers.get(j).spentPhase1 = troopers.get(j).P1;
-					troopers.get(j).spentPhase2 = troopers.get(j).P2;
-
-					continue;
-
-				}
-
-				Trooper trooper = troopers.get(j);
-				if (trooper.personalShield != null) {
-					PersonalShield ps = trooper.personalShield;
-
-					if (ps.currentShieldStrength < ps.maxShieldStrength) {
-
-						ps.currentShieldStrength += ps.maxShieldStrength * ps.rechargeRate;
-
-						if (ps.currentShieldStrength > ps.maxShieldStrength)
-							ps.currentShieldStrength = ps.maxShieldStrength;
-
-					}
-
-				}
-
-			}
-
-			float time;
-
-			if (gameWindow.game.getPhase() == 1) {
-				if (troopers.get(j).P1 == 0)
-					time = 30;
-				else
-					time = 60 / troopers.get(j).P1;
-			} else {
-				if (troopers.get(j).P2 == 0)
-					time = 30;
-				else
-					time = 60 / troopers.get(j).P2;
-			}
-
-			// System.out.println("Pass Add Recovery TIme");
-			if (unit.speed.equals("None")) {
-				troopers.get(j).fatigueSystem.AddRecoveryTime(time);
-			}
-
-			if (game.getPhase() == 1) {
-				if (troopers.get(j).spentPhase1 != actions) {
-
-					if (troopers.get(j).spentPhase1 + 1 <= troopers.get(j).P1) {
-
-						troopers.get(j).spentPhase1 += 1;
-					}
-				}
-			} else {
-				if (troopers.get(j).spentPhase2 != actions) {
-
-					if (troopers.get(j).spentPhase2 + 1 <= troopers.get(j).P2) {
-
-						troopers.get(j).spentPhase2 += 1;
-					}
-				}
-			}
-		}
 	}
 
 	// Next active unit
@@ -1311,20 +1250,20 @@ public class GameWindow implements Serializable {
 	// Takes a trooper, returns true if that unit has spent its AP for this action,
 	// returns false if a trooper has not
 	public static boolean exhaustedTrooper(Trooper trooper) {
-		//System.out.println("Exuasted Trooper test: "+trooper.name);
+		// System.out.println("Exuasted Trooper test: "+trooper.name);
 		if (GameWindow.gameWindow.game.getPhase() == 1) {
 			if (trooper.spentPhase1 < trooper.P1) {
-				//System.out.println("Return False");
+				// System.out.println("Return False");
 				return false;
 			}
 		} else {
 			if (trooper.spentPhase2 < trooper.P2) {
-				//System.out.println("Return False");
+				// System.out.println("Return False");
 				return false;
 			}
 		}
-		
-		//System.out.println("Return True");
+
+		// System.out.println("Return True");
 		return true;
 	}
 
@@ -1334,45 +1273,43 @@ public class GameWindow implements Serializable {
 
 		// System.out.println("Entering Exhusted Unit Check");
 
-		
-		
 		for (Trooper trooper : unit.getTroopers()) {
-			if(!exhaustedTrooper(trooper))
-				return false; 
+			if (!exhaustedTrooper(trooper))
+				return false;
 		}
 
 		// System.out.println("Returning True");
 		return true;
 	}
-	
+
 	public static boolean mostlyExhausted(Unit unit) {
-		
+
 		int exausted = 0, fresh = 0;
-		
+
 		for (Trooper trooper : unit.getTroopers()) {
-			if(exhaustedTrooper(trooper))
+			if (exhaustedTrooper(trooper))
 				exausted++;
-			else 
-				fresh++; 
+			else
+				fresh++;
 		}
 
-		if(exausted >= fresh) {
+		if (exausted >= fresh) {
 			return true;
 		} else {
-			return false; 
+			return false;
 		}
 	}
 
 	public static boolean anyoneExhausted(Unit unit) {
 		for (Trooper trooper : unit.getTroopers()) {
-			if(exhaustedTrooper(trooper))
-				return true; 
+			if (exhaustedTrooper(trooper))
+				return true;
 		}
 
 		// System.out.println("Returning True");
 		return false;
 	}
-	
+
 	// Returns true if all individuals have spent ap for this action, returns false
 	// if they have not
 	public boolean checkForAllExahusted() {
@@ -1438,18 +1375,18 @@ public class GameWindow implements Serializable {
 
 			// Checks for artillery fire missions
 			int diff = 3 - game.getCurrentAction();
-			//System.out.println("diff: "+diff);
-			for(Unit unit : initiativeOrder) {
+			// System.out.println("diff: "+diff);
+			for (Unit unit : initiativeOrder) {
 				// Fire Missions
 				for (FireMission fireMission : unit.fireMissions) {
 					// System.out.println("Calling Advance Time Fire Mission");
-					for(int i = 0; i < diff; i++) {
-						fireMission.advanceTime();						
+					for (int i = 0; i < diff; i++) {
+						fireMission.advanceTime();
 					}
-					
+
 				}
 			}
-			
+
 			// Check for end of round or phase
 			if (game.getPhase() == 1) {
 				game.setPhase(2);
@@ -1473,14 +1410,14 @@ public class GameWindow implements Serializable {
 			conflictLog.addNewLineToQueue("End of Action");
 			conflictLog.addNewLineToQueue("Actions: " + actions);
 			activeUnit = 0;
-			
-			//System.out.println("End of action");
-			
-			// Action ended 
-			for(DeployedUnit deployedUnit : hexGrid.panel.deployedUnits) {
-				deployedUnit.moved = false; 
+
+			// System.out.println("End of action");
+
+			// Action ended
+			for (DeployedUnit deployedUnit : hexGrid.panel.deployedUnits) {
+				deployedUnit.moved = false;
 			}
-			
+
 			int currentAction = game.getCurrentAction();
 			// Performs spot test
 			if (currentAction == 1 || currentAction == 2 || currentAction == 3)
@@ -1496,14 +1433,10 @@ public class GameWindow implements Serializable {
 				}
 
 			}
-			
-			
-			
 
 		} else {
 			activeUnit++;
 		}
-		
 
 	}
 
@@ -1663,7 +1596,7 @@ public class GameWindow implements Serializable {
 							&& !initiativeOrder.get(i).getTroopers().get(x).entirelyMechanical) {
 
 						if (initiativeOrder.get(i).getTroopers().get(x).inCover) {
-							initiativeOrder.get(i).getTroopers().get(x).HD = true;
+							initiativeOrder.get(i).getTroopers().get(x).hunkerDown(gameWindow);
 							conflictLog.addNewLineToQueue(initiativeOrder.get(i).getTroopers().get(x).number + " "
 									+ initiativeOrder.get(i).getTroopers().get(x).name
 									+ " hunkers down. Morale too low.");
@@ -1673,36 +1606,34 @@ public class GameWindow implements Serializable {
 
 				}
 
-				
-				if(initiativeOrder.get(i).suppression > 10) {
+				if (initiativeOrder.get(i).suppression > 10) {
 					Random rand = new Random();
 					int roll = rand.nextInt(10) + 1;
 
 					if (roll < initiativeOrder.get(i).getTroopers().get(x).P1
-							+ initiativeOrder.get(i).getTroopers().get(x).P2 && !initiativeOrder.get(i).getTroopers().get(x).entirelyMechanical) {
+							+ initiativeOrder.get(i).getTroopers().get(x).P2
+							&& !initiativeOrder.get(i).getTroopers().get(x).entirelyMechanical) {
 
 						if (initiativeOrder.get(i).getTroopers().get(x).inCover) {
-							initiativeOrder.get(i).getTroopers().get(x).HD = true;
+							initiativeOrder.get(i).getTroopers().get(x).hunkerDown(gameWindow);
 							conflictLog.addNewLineToQueue(initiativeOrder.get(i).getTroopers().get(x).number + " "
-									+ initiativeOrder.get(i).getTroopers().get(x).name
-									+ " hunkers down. SUPPRESSED.");
+									+ initiativeOrder.get(i).getTroopers().get(x).name + " hunkers down. SUPPRESSED.");
 						} else {
-							
-							if(game.getPhase() == 1 ) {
+
+							if (game.getPhase() == 1) {
 								initiativeOrder.get(i).getTroopers().get(x).spentPhase1++;
-							}  else {
+							} else {
 								initiativeOrder.get(i).getTroopers().get(x).spentPhase2++;
 							}
-							
+
 							conflictLog.addNewLineToQueue(initiativeOrder.get(i).getTroopers().get(x).number + " "
-									+ initiativeOrder.get(i).getTroopers().get(x).name
-									+ " cowers. SUPPRESSED.");
+									+ initiativeOrder.get(i).getTroopers().get(x).name + " cowers. SUPPRESSED.");
 						}
 
 					}
 
 				}
-				
+
 				initiativeOrder.get(i).getTroopers().get(x).advanceTime(this, conflictLog);
 			}
 
@@ -1759,9 +1690,11 @@ public class GameWindow implements Serializable {
 	// Loops through each unit
 	// Rolls spot for all individuals against units that are not on their side
 	public void spotCycle() {
+
+		conflictLog.addNewLineToQueue("Spot Cycle: ");
 		
 		ExecutorService es = Executors.newFixedThreadPool(16);
-		
+
 		for (Iterator<Unit> iteratorInitOrder = initiativeOrder.iterator(); iteratorInitOrder.hasNext();) {
 
 			Unit spotterUnit = iteratorInitOrder.next();
@@ -1776,11 +1709,11 @@ public class GameWindow implements Serializable {
 					// System.out.println("Target Unit: "+targetUnit.callsign);
 					// System.out.println("Entering Spot 1");
 					es.submit(() -> {
-						spot(targetUnit, spotterUnit, spotterTrooper);						
+						spot(targetUnit, spotterUnit, spotterTrooper);
 					});
-					
+
 					try {
-						TimeUnit.MILLISECONDS.sleep(75);
+						TimeUnit.MILLISECONDS.sleep(10);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -1833,9 +1766,10 @@ public class GameWindow implements Serializable {
 		// System.out.println("Target Unit: "+targetUnit.callsign);
 		// System.out.println("spotterUnit: "+spotterUnit.callsign);
 
-		/*for (Unit unit : spotterUnit.lineOfSight) {
-			// System.out.println("Unit in LOS: "+unit.callsign);
-		}*/
+		/*
+		 * for (Unit unit : spotterUnit.lineOfSight) { //
+		 * System.out.println("Unit in LOS: "+unit.callsign); }
+		 */
 
 		// System.out.println("spotterUnitLOS: "+spotterUnit.lineOfSight);
 		if (!spotterUnit.lineOfSight.contains(targetUnit)) {
@@ -1956,23 +1890,17 @@ public class GameWindow implements Serializable {
 						if (!unit.closeCombat) {
 							unit.closeCombat = true;
 
-							if (unit.individuals.size() > 0) {
+							if (unit.individuals.size() > 0 && !unit.entirelyMechanical() && PCUtility.Routed(unit)) {
 
 								int leaderShipRoll = rand.nextInt(100) + 1;
 
 								// System.out.println("LR Roll 1: "+leaderShipRoll);
 
-								if (unit.moral < 60) {
-									int margin = 60 - unit.moral;
-									margin = margin / 10;
-									leaderShipRoll += margin * 10;
-
-								}
-
 								// System.out.println("LR Roll Modded: "+leaderShipRoll);
 
 								gameWindow.conflictLog.addNewLine("Entering Close Combat: " + unit.callsign);
-								gameWindow.conflictLog.addNewLine("Command: " + (unit.getLeader() != null ? unit.getLeader().getSkill("Command") : "0"));
+								gameWindow.conflictLog.addNewLine("Command: "
+										+ (unit.getLeader() != null ? unit.getLeader().getSkill("Command") : "0"));
 								gameWindow.conflictLog.addNewLine("Leadership Roll: " + leaderShipRoll);
 								gameWindow.conflictLog.addNewLine("Unit Morale: " + unit.moral);
 
@@ -1982,7 +1910,7 @@ public class GameWindow implements Serializable {
 										gameWindow.conflictLog.addNewLine(unit.individuals.get(j).name + " "
 												+ unit.individuals.get(j).number + " Morale Roll: " + roll);
 
-										if (roll > unit.moral) {
+										if (roll <= PCUtility.fleeChance(unit.individuals.get(j))) {
 											flee.add(unit.individuals.get(j));
 											rout = true;
 
@@ -2033,24 +1961,23 @@ public class GameWindow implements Serializable {
 	}
 
 	public static int hexDif(int x, int y, int x1, int y1) {
-		//System.out.println("Distance: "+dist(x, y, x1, y1));
+		// System.out.println("Distance: "+dist(x, y, x1, y1));
 		return dist(x, y, x1, y1);
 	}
-	
+
 	public static int dist(int y1, int x1, int y2, int x2) {
-		
+
 		int du = x2 - x1;
 		int dv = (y2 + Math.floorDiv(x2, 2)) - (y1 + Math.floorDiv(x1, 2));
-		
-		if( du >= 0 && dv >= 0 || (du < 0 && dv < 0)) {
+
+		if (du >= 0 && dv >= 0 || (du < 0 && dv < 0)) {
 			return Math.max(Math.abs(du), Math.abs(dv));
 		} else {
 			return Math.abs(du) + Math.abs(dv);
 		}
-		
+
 	}
-	
-	
+
 	public ArrayList<Unit> getUnitsInHex(String sideSpecified, int x, int y) {
 
 		ArrayList<Unit> units = new ArrayList<>();
@@ -2085,9 +2012,9 @@ public class GameWindow implements Serializable {
 	}
 
 	public static String getLogHead(Trooper target) {
-		if(target == null)
+		if (target == null)
 			return "Target is Null: ";
-		else if(GameWindow.findTrooperUnit(target) == null)
+		else if (GameWindow.findTrooperUnit(target) == null)
 			return "Unit is null: ";
 		return GameWindow.findTrooperUnit(target).callsign + ", " + target.number + ": " + target.name;
 	}
@@ -2151,4 +2078,191 @@ public class GameWindow implements Serializable {
 
 		setupWindow.refreshCreated();
 	}
+
+	public void nextAction() {
+		activeUnit = 0;
+		advanceTime();
+		markUnmoved();
+		timedEvents();
+		
+		game.setCurrentAction(game.getCurrentAction()+1);
+		
+		int maxAction = 3; 
+		
+		for(Unit unit : initiativeOrder) {
+			for(Trooper trooper : unit.getTroopers()) {
+				if(game.getPhase() == 1 ? (trooper.P1 > maxAction) : (trooper.P2 > maxAction)) {
+					maxAction = game.getPhase() == 1 ? trooper.P1 : trooper.P2;
+				}
+			}
+		}
+		
+		if(game.getCurrentAction() > maxAction) {
+			advancePhase();
+		}
+		
+	}
+	
+	public void advancePhase() {
+		// Check for end of round or phase
+		if (game.getPhase() == 1) {
+			game.setPhase(2);
+			// End of phase
+			conflictLog.addNewLineToQueue("     Round: " + game.getRound() + " Phase: 2");
+			endOfPhase();
+		} else {
+			game.setPhase(1);
+			int round = game.getRound() + 1;
+			game.setRound(round);
+			conflictLog.addNewLineToQueue("     Round: " + game.getRound() + " Phase: 1");
+			// End of round
+			endOfPhase();
+			endOfRound();
+
+		}
+	}
+	
+	public void markUnmoved() {
+		for (DeployedUnit deployedUnit : hexGrid.panel.deployedUnits) {
+			deployedUnit.moved = false;
+		}
+	}
+	
+	public void timedEvents() {
+		int currentAction = game.getCurrentAction();
+		
+		if (currentAction == 1 || currentAction == 2 || currentAction == 3) {
+			advanceTimeFireMissions();
+			spotCycle();
+		}
+	}
+
+	public void advanceTime() {
+		ExecutorService es = Executors.newFixedThreadPool(16);
+
+		for(Unit unit : initiativeOrder) {
+			es.submit(() -> {
+				
+				advanceTimeUnit(unit);
+				
+			});
+			
+			try {
+				TimeUnit.MILLISECONDS.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		es.shutdown();
+	}
+	
+	public void advanceTimeFireMissions() {
+		
+		ExecutorService es = Executors.newFixedThreadPool(16);
+
+		for(Unit unit : initiativeOrder) {
+			es.submit(() -> {
+				// Fire Missions
+				for (FireMission fireMission : unit.fireMissions) {
+					// System.out.println("Calling Advance Time Fire Mission");
+					fireMission.advanceTime();
+				}
+				
+			});
+			
+			try {
+				TimeUnit.MILLISECONDS.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		es.shutdown();
+		
+	}
+	
+	public void advanceTimeUnit(Unit unit) {
+		
+		int actions = game.getCurrentAction();
+		
+
+		ArrayList<Trooper> troopers = unit.getTroopers();
+
+		for (int j = 0; j < troopers.size(); j++) {
+			// System.out.println("Pass Trooper: "+j);
+
+			setCombatActions(troopers.get(j));
+
+			if (!troopers.get(j).alive) {
+				troopers.get(j).spentPhase1 = troopers.get(j).P1;
+				troopers.get(j).spentPhase2 = troopers.get(j).P2;
+				continue;
+			}
+
+			// Increases time unconscious
+			// Checks for wake up
+			if (actions <= 3 && actions != 0) {
+
+				if (!troopers.get(j).conscious) {
+
+					if (troopers.get(j).timeUnconscious >= troopers.get(j).incapacitationTime) {
+						troopers.get(j).timeUnconscious = 0;
+						troopers.get(j).incapacitationTime = 0;
+						conflictLog.addNewLineToQueue(troopers.get(j).number + " " + troopers.get(j).name
+								+ " from unit:" + unit.callsign + "has awoken.");
+						troopers.get(j).conscious = true;
+
+					} else {
+						troopers.get(j).timeUnconscious++;
+					}
+					troopers.get(j).spentPhase1 = troopers.get(j).P1;
+					troopers.get(j).spentPhase2 = troopers.get(j).P2;
+
+					continue;
+
+				}
+
+				Trooper trooper = troopers.get(j);
+				if (trooper.personalShield != null) {
+					PersonalShield ps = trooper.personalShield;
+
+					if (ps.currentShieldStrength < ps.maxShieldStrength) {
+
+						ps.currentShieldStrength += ps.maxShieldStrength * ps.rechargeRate;
+
+						if (ps.currentShieldStrength > ps.maxShieldStrength)
+							ps.currentShieldStrength = ps.maxShieldStrength;
+
+					}
+
+				}
+
+			}
+
+			// System.out.println("Pass Add Recovery TIme");
+			if (unit.speed.equals("None")) {
+				troopers.get(j).fatigueSystem.AddRecoveryTime(20);
+			}
+
+			if (game.getPhase() == 1) {
+				if (troopers.get(j).spentPhase1 != actions) {
+
+					if (troopers.get(j).spentPhase1 + 1 <= troopers.get(j).P1) {
+
+						troopers.get(j).spentPhase1 += 1;
+					}
+				}
+			} else {
+				if (troopers.get(j).spentPhase2 != actions) {
+
+					if (troopers.get(j).spentPhase2 + 1 <= troopers.get(j).P2) {
+
+						troopers.get(j).spentPhase2 += 1;
+					}
+				}
+			}
+		}
+	}
+
 }

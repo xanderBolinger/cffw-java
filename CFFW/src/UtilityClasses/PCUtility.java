@@ -22,6 +22,74 @@ import Unit.Unit;
 
 public class PCUtility {
 
+	public static double suppressionPenalty(Trooper trooper) {
+		if(trooper.entirelyMechanical)
+			return 0.5;
+		
+		if(trooper.sl < 5) {
+			return 5.0;
+		}
+		else if(trooper.sl == 5 || trooper.sl == 6) {
+			return 4.0;
+		} else if(trooper.sl >= 7 && trooper.sl < 10) {
+			return 3.0;
+		} else if(trooper.sl == 10) {
+			return 2.0;
+		} else if(trooper.sl >= 11 && trooper.sl < 13) {
+			return 1.0; 
+		} else {
+			return 0.5; 
+		}
+	}
+	
+	public static boolean Routed(Unit unit) {
+		double size = (double) unit.getSize();
+		int wounded = 0;
+		int dead = 0; 
+		int incapacitated = 0;
+		int severlyWounded = 0; 
+		
+		for(Trooper trooper : unit.individuals) {
+			
+			if(!trooper.alive) {
+				dead++;
+			} else if(!trooper.conscious) {
+				incapacitated++;
+			} else if(trooper.physicalDamage > trooper.KO * 3) {
+				severlyWounded++;
+			} else if(trooper.physicalDamage > 0) {
+				wounded++;
+			} 
+			
+			if(dead + severlyWounded + incapacitated > size * 0.75) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public static int fleeChance(Trooper trooper) {
+		int chance; 
+		
+		if(trooper.sl < 5) {
+			chance = 90;
+		} else if(trooper.sl < 7) {
+			chance = 65;
+		} else if(trooper.sl < 10) {
+			chance = 50;
+		} else if(trooper.sl < 11) {
+			chance = 45;
+		} else if(trooper.sl <= 13) {
+			chance = 33;
+		} else {
+			chance = 25;
+		}
+		
+		return chance - (trooper.inCover ? 10 : 0);
+		
+	}
+	
 	public static boolean armorCoverage(Trooper trooper) {
 		if(trooper.armor == null)
 			return false; 
@@ -173,6 +241,8 @@ public class PCUtility {
 		} else if (skill.equals("Launcher")) {
 			sl += trooper.skills.getSkill("Launcher").value;
 			trooper.weaponPercent += "Launcher: ";
+		} else if(skill.equals("Throw")) {
+			sl += trooper.skills.getSkill("Throw").value;
 		} else {
 			sl += trooper.skills.getSkill("Rifle").value;
 			trooper.weaponPercent += "Rifle: ";

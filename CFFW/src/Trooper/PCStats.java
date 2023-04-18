@@ -50,10 +50,14 @@ public class PCStats implements Serializable {
 		// System.out.println("slRifle: "+slRifle);
 		trooper.isf = trooper.sl + (trooper.wit);
 		// System.out.println("trooper.wit: "+trooper.wit);
+		
 		int CA = TrooperUtility.calculateCA(mSpeed, trooper.isf);
 		if(CFFW) {
 			CA = TrooperUtility.calculateCACFFW(mSpeed, trooper.isf);
 		}
+		//System.out.println("mSpeed: "+mSpeed+", ISF: "+trooper.isf+", CA: "+CA);
+		
+		
 		
 		trooper.DALM = TrooperUtility.defensiveALM(trooper.isf);
 		trooper.combatActions = CA;

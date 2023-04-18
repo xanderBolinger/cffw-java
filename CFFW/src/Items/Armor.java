@@ -86,7 +86,7 @@ public class Armor implements Serializable {
 	
 	
 	public void Phase1CloneArmor() {
-		this.bPF = 20; 
+		this.bPF = 25; 
 		armorName = "Phase 1";
 		type = ArmorType.PHASEONE;
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
@@ -182,7 +182,7 @@ public class Armor implements Serializable {
 	}
 	
 	public void Phase1ARC() {
-		this.bPF = 25; 
+		this.bPF = 30; 
 		armorName = "Phase 1 Arc";
 		type = ArmorType.PHASEONEARC;
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
@@ -279,17 +279,17 @@ public class Armor implements Serializable {
 	}
 	
 	public void b1Armor() {
-		this.bPF = 15; 
+		this.bPF = 20; 
 		armorName = "B1";
 		type = ArmorType.B1;
 		armorWeight = 20;
 	}
 	
 	public void b2Armor() {
-		this.bPF = 25; 
+		this.bPF = 30; 
 		armorName = "B2";
 		type = ArmorType.B2;
-		armorWeight = 80;
+		armorWeight = 50;
 	}
 	
 	public void commandoDroidArmor() {
@@ -807,7 +807,7 @@ public class Armor implements Serializable {
 		}
 
 		if(GameWindow.gameWindow != null && GameWindow.gameWindow.conflictLog != null) {
-			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Armor Wearer Hit Open, Location Roll: "+roll+", Protected: "+protectedZone);
+			//GameWindow.gameWindow.conflictLog.addNewLineToQueue("Armor Wearer Hit Open, Location Roll: "+roll+", Protected: "+protectedZone);
 		}
 		
 		return protectedZone; 
@@ -825,9 +825,9 @@ public class Armor implements Serializable {
 			}
 		}
 		
-		if(GameWindow.gameWindow != null && GameWindow.gameWindow.conflictLog != null) {
+		/*if(GameWindow.gameWindow != null && GameWindow.gameWindow.conflictLog != null) {
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Armor Wearer Hit Fire Position, Location Roll: "+roll+", Protected: "+protectedZone);
-		}
+		}*/
 		
 		return protectedZone; 
 	}

@@ -25,6 +25,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import Actions.ReactionToFireWindow;
 import Actions.TargetedFire;
 import Conflict.GameWindow;
+import Conflict.InjuryLog;
 import Conflict.OpenUnit;
 import Injuries.ResolveHits;
 import Shoot.Shoot;
@@ -151,16 +152,18 @@ public class StaticWeaponWindow {
 					selectedWeaponIndex = listEquipedStatics.getSelectedIndex();
 
 					Weapons staticWep = unit.staticWeapons.get(listEquipedStatics.getSelectedIndex());
-
+					staticWeapon = staticWep;
+					
 					lblStaticWeapon.setText(
 							Integer.toString(listEquipedStatics.getSelectedIndex() + 1) + " " + staticWep.name);
-
+					System.out.println("Static Weapon Name: "+staticWep.name);
+					System.out.println("BC0: "+staticWeapon.pcAmmoTypes.get(0).bc.get(0));
 					if(staticWeapon.pcAmmoTypes.size() > 0) {
 						
-						ArrayList<String> ammoNames = new ArrayList<>();
-						
+						comboBoxPcAmmo.removeAllItems();
+
 						for(PCAmmo pcAmmo : staticWeapon.pcAmmoTypes) {
-							ammoNames.add(pcAmmo.name);
+							comboBoxPcAmmo.addItem(pcAmmo.name);
 						}
 						
 					}
@@ -268,7 +271,11 @@ public class StaticWeaponWindow {
 		lblSuppressiveFireTargets.setBounds(10, 384, 175, 14);
 		f.getContentPane().add(lblSuppressiveFireTargets);
 
-		JButton btnSaveAndClose = new JButton("Save");
+		JButton btnSaveAndClose = new JButton("Update Ammo");
+		btnSaveAndClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnSaveAndClose.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -277,7 +284,7 @@ public class StaticWeaponWindow {
 
 			}
 		});
-		btnSaveAndClose.setBounds(141, 699, 87, 23);
+		btnSaveAndClose.setBounds(99, 549, 130, 23);
 		f.getContentPane().add(btnSaveAndClose);
 
 		comboBoxTargets = new JComboBox();
@@ -307,12 +314,11 @@ public class StaticWeaponWindow {
 						try {
 							String wepName = staticWeapon.name;
 							int ammoIndex = -1;
-							
 							if (staticWeapon.pcAmmoTypes.size() > 0) {
 								wepName = staticWeapon.name;
-								ammoIndex = 0;
+								ammoIndex = comboBoxPcAmmo.getSelectedIndex() > 0 ? comboBoxPcAmmo.getSelectedIndex() : 0;
 								if (ammoIndex < 0) {
-									GameWindow.gameWindow.conflictLog.addNewLineToQueue("Select valid ammo");
+									GameWindow.gameWindow.conflictLog.addNewLine("Select valid ammo");
 									return null;
 								}
 							}
@@ -324,7 +330,7 @@ public class StaticWeaponWindow {
 									shoot, gunner, targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1), wepName,
 									ammoIndex);
 
-							if (comboBoxAimTime.getSelectedIndex() == 0)
+							if (comboBoxAimTime.getSelectedIndex() == 0 && shoot != null)
 								shoot.autoAim();
 
 							if (comboBoxTargetZone.getSelectedIndex() > 0) {
@@ -342,7 +348,7 @@ public class StaticWeaponWindow {
 
 					@Override
 					protected void done() {
-
+						GameWindow.gameWindow.conflictLog.addQueuedText();
 						guiUpdates();
 
 					}
@@ -376,9 +382,9 @@ public class StaticWeaponWindow {
 						int ammoIndex = -1;
 						if (staticWeapon.pcAmmoTypes.size() > 0) {
 							wepName = staticWeapon.name;
-							ammoIndex = 0;
+							ammoIndex = comboBoxPcAmmo.getSelectedIndex() > 0 ? comboBoxPcAmmo.getSelectedIndex() : 0;
 							if (ammoIndex < 0) {
-								GameWindow.gameWindow.conflictLog.addNewLineToQueue("Select valid ammo");
+								GameWindow.gameWindow.conflictLog.addNewLine("Select valid ammo");
 								return null;
 							}
 						}
@@ -388,7 +394,7 @@ public class StaticWeaponWindow {
 								unit.lineOfSight.get(comboBoxSuppressiveFireTargets.getSelectedIndex() - 1), shoot, gunner,
 								wepName, ammoIndex);
 
-						if (comboBoxAimTime.getSelectedIndex() == 0)
+						if (comboBoxAimTime.getSelectedIndex() == 0 && shoot != null)
 							shoot.autoAim();
 
 						if (shoot == null)
@@ -401,7 +407,7 @@ public class StaticWeaponWindow {
 
 					@Override
 					protected void done() {
-
+						GameWindow.gameWindow.conflictLog.addQueuedText();
 						guiUpdates();
 
 					}
@@ -460,7 +466,7 @@ public class StaticWeaponWindow {
 
 						GameWindow.gameWindow.conflictLog.addQueuedText();
 						guiUpdates();
-						
+						InjuryLog.InjuryLog.printResultsToLog();
 						if(shoot.target != null && (!shoot.target.alive || !shoot.target.conscious || shoot.target.HD)) {
 							refreshSustainedFireTargets(trooperUnit);
 						}
@@ -619,8 +625,8 @@ public class StaticWeaponWindow {
 				if (listIndividuals.getSelectedIndex() > -1 && selectedWeaponIndex > -1) {
 					unit.staticWeapons.get(selectedWeaponIndex).equipedTroopers
 							.add(unequipedTroopers.get(listIndividuals.getSelectedIndex()));
-					unequipedTroopers.remove(listIndividuals.getSelectedIndex());
 					PCUtility.setSlEquip(unequipedTroopers.get(listIndividuals.getSelectedIndex()));
+					unequipedTroopers.remove(listIndividuals.getSelectedIndex());
 				}
 
 				setFields(unit);
@@ -628,7 +634,8 @@ public class StaticWeaponWindow {
 				openUnit.refreshIndividuals();
 
 				listEquipedStatics.setSelectedIndex(index);
-				
+				//refreshTroopers(unit);
+				//refreshEquipedIndividuals(unit);
 				setGunner();
 
 			}
@@ -968,6 +975,21 @@ public class StaticWeaponWindow {
 		chckbxHoming.setBackground(Color.DARK_GRAY);
 		chckbxHoming.setBounds(10, 448, 113, 23);
 		f.getContentPane().add(chckbxHoming);
+		
+		JButton btnFree = new JButton("Free A/D");
+		btnFree.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedWeaponIndex < 0) {
+					return; 
+				}
+				
+				trooperUnit.staticWeapons.get(selectedWeaponIndex).assembled = 
+						!trooperUnit.staticWeapons.get(selectedWeaponIndex).assembled;
+				refreshWeaponStats(trooperUnit);
+			}
+		});
+		btnFree.setBounds(142, 700, 87, 23);
+		f.getContentPane().add(btnFree);
 
 		// Get the screen size
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
