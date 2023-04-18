@@ -117,7 +117,7 @@ public class Skills implements Serializable {
 		skills.add(new Skill("Deception", 0, deception, "SOC", "int", false, 0, 0, "Basic"));
 		skills.add(new Skill("Dodge", 0, dodge, "AGL", "str", false, 0, 0, "Basic"));
 		skills.add(new Skill("Endurance", 0, endurance, "STR", "wil", false, 0, 0, "Basic"));
-		skills.add(new Skill("Expression", 0, expression, "HTL", "per", false, 0, 0, "Basic"));
+		skills.add(new Skill("Expression", 0, expression, "SOC", "int", false, 0, 0, "Basic"));
 		skills.add(new Skill("Grapple", 0, grapple, "STR", "agl", false, 0, 0, "Basic"));
 		skills.add(new Skill("Hold", 0, hold, "STR", "agl", false, 0, 0, "Basic"));
 		skills.add(new Skill("Intuition", 0, intuition, "WIL", "per", false, 0, 0, "Basic"));
