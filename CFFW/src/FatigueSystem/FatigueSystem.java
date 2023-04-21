@@ -248,6 +248,8 @@ public class FatigueSystem implements Serializable
 
        
         fatiguePoints.set(fatiguePoints.get() + 0.333 * AVMod);
+        
+        character.setCombatStats(character);
         //recoverableFP += 0.333 * AVMod;
     }
 
@@ -261,6 +263,9 @@ public class FatigueSystem implements Serializable
         //recoverableFP += 1.0 * AVMod;
 
         strenuousWorkCalls++; 
+        
+        character.setCombatStats(character);
+        
     }
 
     public void AddRecoveryTime(float time)
@@ -295,6 +300,8 @@ public class FatigueSystem implements Serializable
             //if (physicalRecoveryTime.get() - 1 < 0) { physicalRecoveryTime.set(0); } else { physicalRecoveryTime.set(physicalRecoveryTime.get() - 1); }
         }
         physicalRecoveryTime.set(0);
+        
+        character.setCombatStats(character);
         
     }
 

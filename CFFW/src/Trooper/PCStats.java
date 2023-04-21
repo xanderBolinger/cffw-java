@@ -57,7 +57,32 @@ public class PCStats implements Serializable {
 		}
 		//System.out.println("mSpeed: "+mSpeed+", ISF: "+trooper.isf+", CA: "+CA);
 		
+		double fatiguePoints = trooper.fatigueSystem.fatiguePoints.get();
 		
+		if(fatiguePoints < 11) {
+			CA -= 1;
+		} else if(fatiguePoints <= 15) {
+			CA -= 2;
+		} else if(fatiguePoints <= 19 ) {
+			CA -= 3;
+		} else if(fatiguePoints <= 23 ) {
+			CA -= 4;
+		} else if(fatiguePoints <= 27 ) {
+			CA -= 5;
+		} else if(fatiguePoints <= 31 ) {
+			CA -= 6;
+		} else if(fatiguePoints <= 32 ) {
+			CA -= 7;
+		} else if(fatiguePoints <= 33 ) {
+			CA -= 8;
+		} else if(fatiguePoints <= 34 ) {
+			CA -= 9;
+		} else if(fatiguePoints > 34) {
+			CA -= 9 + fatiguePoints - 34;
+		}
+		
+		if(CA < 2)
+			CA = 2;
 		
 		trooper.DALM = TrooperUtility.defensiveALM(trooper.isf);
 		trooper.combatActions = CA;
