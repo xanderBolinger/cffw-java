@@ -12,6 +12,7 @@ import Trooper.Skill;
 import Trooper.Trooper;
 import Unit.Unit;
 import UtilityClasses.DialogBox;
+import UtilityClasses.XmlReader;
 
 import java.awt.BorderLayout;
 import javax.swing.JTabbedPane;
@@ -32,6 +33,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -39,6 +41,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSpinner;
 import java.awt.TextArea;
+import javax.swing.JComboBox;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class CharacterBuilderWindow implements Serializable {
 
@@ -47,6 +52,7 @@ public class CharacterBuilderWindow implements Serializable {
 	private JTextField textFieldName;
 
 	public Trooper trooper;
+	ArrayList<Ability> xmlAbilities = new ArrayList<Ability>();
 	public ArrayList<Trooper> troopers = new ArrayList();
 
 	public Skill tempSkill = new Skill();
@@ -115,6 +121,7 @@ public class CharacterBuilderWindow implements Serializable {
 	ArrayList<Skill> expertSkills = new ArrayList<>();
 	private JButton btnSaveChanges;
 	private JTextField textFieldEncumberance;
+	private JComboBox comboBoxAbilities;
 	
 	/**
 	 * Create the application.
@@ -826,36 +833,7 @@ public class CharacterBuilderWindow implements Serializable {
 
 				Ability ability = trooper.abilities.get(listActiveAbilities.getSelectedIndex());
 
-				spinnerAbilityRank.setValue(Integer.valueOf(ability.rank));
-
-				// Sets supported skills
-				DefaultListModel supportedSkillList = new DefaultListModel();
-
-				for (int i = 0; i < ability.skillSupport.size(); i++) {
-					supportedSkillList.addElement(ability.skillSupport.get(i));
-
-				}
-
-				listSkillSupport.setModel(supportedSkillList);
-
-				// Sets training values
-				DefaultListModel trainingValueList = new DefaultListModel();
-
-				for (int i = 0; i < ability.trainingValues.size(); i++) {
-					trainingValueList.addElement(ability.trainingValues.get(i));
-
-				}
-
-				listTrainingValues.setModel(trainingValueList);
-
-				// Sets special
-				textPaneSpecial.setText(ability.special);
-
-				// Sets mastery
-				textPaneMastery.setText(ability.mastery);
-
-				// Sets name
-				textFieldAbilityName.setText(ability.name);
+				setSelectedAbility(ability);
 
 			}
 		});
@@ -1097,6 +1075,22 @@ public class CharacterBuilderWindow implements Serializable {
 				
 				textPaneMastery = new TextArea();
 				scrollPane_10.setViewportView(textPaneMastery);
+				
+				comboBoxAbilities = new JComboBox();
+				comboBoxAbilities.addItemListener(new ItemListener() {
+					public void itemStateChanged(ItemEvent e) {
+						
+						if(comboBoxAbilities.getSelectedIndex() < 1) {
+							setSelectedAbility(new Ability());
+							return;
+						}
+
+						setSelectedAbility(xmlAbilities.get(comboBoxAbilities.getSelectedIndex()-1));
+						
+					}
+				});
+				comboBoxAbilities.setBounds(128, 10, 182, 22);
+				panelAbilities.add(comboBoxAbilities);
 
 		panelSkills = new JPanel();
 		panelSkills.setBackground(Color.DARK_GRAY);
@@ -1399,6 +1393,41 @@ public class CharacterBuilderWindow implements Serializable {
 		setFields();
 	}
 
+	public void setSelectedAbility(Ability ability) {
+		
+		spinnerAbilityRank.setValue(Integer.valueOf(ability.rank));
+
+		// Sets supported skills
+		DefaultListModel supportedSkillList = new DefaultListModel();
+
+		for (int i = 0; i < ability.skillSupport.size(); i++) {
+			supportedSkillList.addElement(ability.skillSupport.get(i));
+
+		}
+
+		listSkillSupport.setModel(supportedSkillList);
+
+		// Sets training values
+		DefaultListModel trainingValueList = new DefaultListModel();
+
+		for (int i = 0; i < ability.trainingValues.size(); i++) {
+			trainingValueList.addElement(ability.trainingValues.get(i));
+
+		}
+
+		listTrainingValues.setModel(trainingValueList);
+
+		// Sets special
+		textPaneSpecial.setText(ability.special);
+
+		// Sets mastery
+		textPaneMastery.setText(ability.mastery);
+
+		// Sets name
+		textFieldAbilityName.setText(ability.name);
+		
+	}
+	
 	// Takes the active character's content and sets it equal to the fields
 	public void setFields() {
 		textFieldName.setText(trooper.name);
@@ -1433,9 +1462,28 @@ public class CharacterBuilderWindow implements Serializable {
 		
 		// Sets skills
 		setSkills();
-
+		setAbilities();
 	}
 
+	
+	
+	public void setAbilities() {
+		xmlAbilities.clear();
+		comboBoxAbilities.removeAllItems();
+		
+		comboBoxAbilities.addItem("N/A");
+		XmlReader read = new XmlReader();
+		List<Ability> list = read.readAbilities("ability.xml");
+		
+		for(Ability a : list) {
+			xmlAbilities.add(a);
+			comboBoxAbilities.addItem(a.name);
+		}
+		
+		
+		
+	}
+	
 	// Takes character values from skills and sets skills on front end
 	public void setSkills() {
 

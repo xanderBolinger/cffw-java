@@ -2,15 +2,17 @@ package CharacterBuilder;
 import java.io.Serializable;
 import java.util.*;
 
+
+
+
 public class Ability implements Serializable {
-	String name; 
-	String special; 
-	String mastery;
-	int rank;
-	ArrayList<String> skillSupport;
-	ArrayList<String> trainingValues;
+	public String name; 
+	public String special; 
+	public String mastery;
+	public int rank;
+	public ArrayList<String> skillSupport;
+	public ArrayList<String> trainingValues;
 		
-	
 	public Ability() {
 		skillSupport = new ArrayList<String>();
 		trainingValues = new ArrayList<String>();
@@ -24,7 +26,6 @@ public class Ability implements Serializable {
 		this.skillSupport = skillSupport;
 		this.trainingValues = trainingValues;
 	}
-	
 	
 	public String toString() {
 		return "-"+name+" ("+rank+")";
