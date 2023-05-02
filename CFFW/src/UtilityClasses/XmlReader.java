@@ -64,11 +64,13 @@ public class XmlReader {
 						break;
 					case SPECIAL:
 						event = eventReader.nextEvent();
-						ability.special = event.asCharacters().getData();
+						if(!event.isEndElement())
+							ability.special = event.asCharacters().getData();
 						break;
 					case MASTERY:
 						event = eventReader.nextEvent();
-						ability.mastery = event.asCharacters().getData();
+						if(!event.isEndElement())
+							ability.mastery = event.asCharacters().getData();
 						break;
 					case SUPPORT:
 						event = eventReader.nextEvent();
@@ -76,7 +78,8 @@ public class XmlReader {
 					case SKILL:
 						event = eventReader.nextEvent();
 						//System.out.println("Skill: "+event.asCharacters().getData());
-						ability.skillSupport.add(event.asCharacters().getData());
+						if(!event.isEndElement())
+							ability.skillSupport.add(event.asCharacters().getData());
 						break;
 					}
 				}
@@ -88,6 +91,7 @@ public class XmlReader {
 						items.add(ability);
 					}
 				}
+				
 
 			}
 		} catch (FileNotFoundException | XMLStreamException e) {
