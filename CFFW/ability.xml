@@ -7,7 +7,6 @@
             <skill>Composure</skill>
         </support>
     </ability>
-
     <ability name="Meditation">
         <special>Add bonus die to channel Force through composure.</special>
         <mastery>Add one success to channel force through composure.</mastery>
@@ -17,7 +16,6 @@
             <skill>Intuition</skill>
         </support>
     </ability>
-
     <ability name="The Force is my Ally">
         <special></special>
         <mastery>Increase FP by 1.</mastery>
@@ -25,7 +23,6 @@
             <skill>Intuition</skill>
         </support>
     </ability>
-
     <ability name="Indomitable Will">
         <special>Add one bonus die to corruption checks when passion is involved.</special>
         <mastery></mastery>
@@ -33,35 +30,30 @@
             <skill>Endurance</skill>
         </support>
     </ability>
-
     <ability name="Embrace your hate">
         <special>Add one two bonus dice to corruption checks when hate is involved.</special>
         <mastery>Increase FP by 1.</mastery>
         <support>
         </support>
     </ability>
-
     <ability name="There is no try">
         <special></special>
         <mastery>Increase FP by 2.</mastery>
         <support>
         </support>
     </ability>
-
     <ability name="Instrument of the Force">
         <special>Reduce corruption by d3 * ranks when rolling for corruption side effects.</special>
         <mastery>Increase FP by 1.</mastery>
         <support>
         </support>
     </ability>
-
     <ability name="Strong in the Force">
         <special>Reduce cost of Force bonuses by ranks to a minimum of 1.</special>
         <mastery>Increase FP by 1.</mastery>
         <support>
         </support>
     </ability>
-
     <ability name="Power from Pain">
         <special>Reduce cost of Force bonuses by ranks to a minimum of 1.</special>
         <mastery>Increase FP by 1.</mastery>
@@ -69,7 +61,6 @@
             <skill>Endurance</skill>
         </support>
     </ability>
-
     <ability name="Powerful Ally">
         <special></special>
         <mastery>Increase FP by 1.</mastery>
@@ -77,14 +68,12 @@
             <skill>Raw Power</skill>
         </support>
     </ability>
-
     <ability name="Conduit for the Force">
         <special>Reduce the difficulty dice from composure when attempting to channel the Force.</special>
         <mastery>Increase FP by 1.</mastery>
         <support>
         </support>
     </ability>
-
     <ability name="Harsh Conditioning">
         <special>Allows Raw Power to be used instaed of composure to channel FP. Each ranks adds 2 bonus dice and 1 point of corruption.</special>
         <mastery>Increase FP by 1.</mastery>
@@ -93,5 +82,4 @@
             <skill>Raw Power</skill>
         </support>
     </ability>
-
 </config>

@@ -603,6 +603,11 @@ public class HexGrid implements Serializable {
 				System.out.println(e.getMessage());
 			}
 		
+			TraceLine.GetHexes(new Cord(0,0), new Cord(0,3), this);
+			System.out.println("---");
+			TraceLine.GetHexes(new Cord(1,1), new Cord(0,0), this);
+			System.out.println("---");
+			TraceLine.GetHexes(new Cord(4,4), new Cord(0,0), this);
 		}
 
 
@@ -1194,6 +1199,18 @@ public class HexGrid implements Serializable {
 			Chit.unselectChit();
 		}
 
+		public Cord getCenterFromCoordinates(int x, int y) {
+				
+			System.out.println("Get Center: "+x+", "+y);
+			Polygon hex = hexMap.get(x).get(y);
+			
+			int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
+			int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
+			System.out.println("At, "+hexCenterX+", "+hexCenterY);
+			return new Cord(hexCenterX, hexCenterY);
+			
+		}
+		
 		public int[] getHexFromPoint(Point point) {
 
 			// System.out.println("Get hex from point");
