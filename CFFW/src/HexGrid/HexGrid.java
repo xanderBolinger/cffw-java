@@ -102,7 +102,7 @@ public class HexGrid implements Serializable {
 	public static boolean losThreadShowing = false; 
 	public static boolean deployBluforUnknown = false; 
 	public static boolean deployOpforUnknown = false; 
-	public static boolean deployUnknown = false; 
+	public static boolean deployUnknown = false;
 	private JMenuItem mntmHideU;
 	private JMenuItem mntmInitEmptyHexes;
 	private JButton btnNewButton_1;
@@ -1073,8 +1073,6 @@ public class HexGrid implements Serializable {
 			//System.out.println("Pressed Cursor Point, X: "+pressedCursorPoint.x+", Y:"+pressedCursorPoint.y);
 			currentCursorPoint = null;
 			
-			
-			
 			int[] points = getHexFromPoint(e.getPoint());
 			if (points == null)
 				return;
@@ -1201,12 +1199,12 @@ public class HexGrid implements Serializable {
 
 		public Cord getCenterFromCoordinates(int x, int y) {
 				
-			System.out.println("Get Center: "+x+", "+y);
+			//System.out.println("Get Center: "+x+", "+y);
 			Polygon hex = hexMap.get(x).get(y);
 			
 			int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
 			int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
-			System.out.println("At, "+hexCenterX+", "+hexCenterY);
+			//System.out.println("At, "+hexCenterX+", "+hexCenterY);
 			return new Cord(hexCenterX, hexCenterY);
 			
 		}
@@ -1430,6 +1428,8 @@ public class HexGrid implements Serializable {
 							GameWindow.gameWindow.hexes.add(newHex);							
 							
 							GameWindow.gameWindow.conflictLog.addNewLine("Pasted! X: "+i+", Y: "+j);
+							
+							GameWindow.gameWindow.CalcLOS();
 							
 						}
 						

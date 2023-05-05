@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 
 import Company.Company;
 import CreateGame.SetupWindow;
+import HexGrid.CalculateLOS;
 import HexGrid.HexGrid;
 import HexGrid.HexGrid.DeployedUnit;
 import Hexes.Hex;
@@ -2265,4 +2266,23 @@ public class GameWindow implements Serializable {
 		}
 	}
 
+	public void CalcLOS() {
+		System.out.println("Calc los");
+		
+		for(Unit unit : initiativeOrder) {
+			
+			unit.lineOfSight.clear();
+			
+			for(Unit targetUnit : initiativeOrder) {
+				if(unit.side.equals(targetUnit.side))
+					continue;
+				
+				CalculateLOS.calc(unit, targetUnit);
+				
+			}
+			
+		}
+		
+	}
+	
 }

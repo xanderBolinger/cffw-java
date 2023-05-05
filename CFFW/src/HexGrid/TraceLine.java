@@ -26,21 +26,21 @@ public class TraceLine {
 			hexes.add(new Cord(cords[0], cords[1]));
 		}
 
-		for (Cord hex : hexes) {
+		/*for (Cord hex : hexes) {
 			System.out.println("Hex: " + hex.xCord + ", " + hex.yCord);
-		}
+		}*/
 
 		return hexes;
 	}
 
 	
 	
-	public static ArrayList<Cord> getPositions(Cord cord1, Cord cord2) {
+	private static ArrayList<Cord> getPositions(Cord cord1, Cord cord2) {
 		int x1 = cord1.xCord, y1 = cord1.yCord, x2 = cord2.xCord, y2 = cord2.yCord;
 		return bresenham(y1, x1, y2, x2);
 	}
 
-	static ArrayList<Cord> bresenham(int x0, int y0, int x1, int y1) {
+	private static ArrayList<Cord> bresenham(int x0, int y0, int x1, int y1) {
 		ArrayList<Cord> line = new ArrayList<Cord>();
 
 		int dx = Math.abs(x1 - x0);
@@ -75,7 +75,7 @@ public class TraceLine {
 		return line;
 	}
 
-	public static ArrayList<Cord> plotPixel(int x1, int y1, int x2, int y2) {
+	private static ArrayList<Cord> plotPixel(int x1, int y1, int x2, int y2) {
 		//System.out.println("Plot Pixel Start: (" + x1 + ", " + y1 + "), " + "(" + x2 + "," + y2 + ")");
 		int dx = Math.abs(x2 - x1);
 		int dy = Math.abs(y2 - y1);
