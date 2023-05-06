@@ -47,12 +47,26 @@ public class Smoke {
 		for(SmokeStats smoke : deployedSmoke) {
 			smoke.increaseElapsedActions();
 		}
+		
+		ArrayList<SmokeStats> disipatedSmoke = new ArrayList<>();
+		
+		for(SmokeStats smoke : deployedSmoke) {
+			if(smoke.getElapsedActionsTotal() > smoke.duration && almPenalty(smoke.diameter, smoke.getElapsedActionsAfterDuration())> -5) {
+				disipatedSmoke.add(smoke);
+			}
+		}
+		
+		for(SmokeStats smoke : disipatedSmoke) {
+			deployedSmoke.remove(smoke);
+		}
+		
 	}
 	
 	public void deploySmoke(Cord cord, SmokeStats smokeStats) {
 		smokeStats.deployedHex = cord;
 		deployedSmoke.add(smokeStats);
 	}
+	
 	
 	public int windSpeedRow(int speedHpp) {
 		

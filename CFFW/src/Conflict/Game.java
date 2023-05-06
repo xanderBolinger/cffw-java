@@ -15,6 +15,7 @@ public class Game implements Serializable {
 	public int chitCounter;
 	
 	public Wind wind;
+	public Smoke smoke;
 	// public timne object 
 
 	public Game(int phase, int round, int currentAction) {
@@ -24,6 +25,7 @@ public class Game implements Serializable {
 		chits = new ArrayList<>();
 		chitCounter = 1;
 		wind = new Wind();
+		smoke = new Smoke();
 	} 
 	
 	// SETTERS 
