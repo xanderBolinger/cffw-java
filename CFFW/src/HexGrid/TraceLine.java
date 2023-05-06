@@ -26,7 +26,8 @@ public class TraceLine {
 			hexes.add(new Cord(cords[0], cords[1]));
 		}
 
-		/*for (Cord hex : hexes) {
+		/*System.out.println("Cord: "+cord1.toString()+", to Cord 2: "+cord2.toString());
+		for (Cord hex : hexes) {
 			System.out.println("Hex: " + hex.xCord + ", " + hex.yCord);
 		}*/
 

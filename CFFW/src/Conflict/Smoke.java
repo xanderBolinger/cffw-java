@@ -1,12 +1,13 @@
 package Conflict;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import CorditeExpansion.Cord;
 
-public class Smoke {
+public class Smoke implements Serializable {
 
 	List<ArrayList<String>> smokeEffectsTable = new ArrayList<ArrayList<String>>();
 	List<Integer> windSpeedHpp;

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import Artillery.Artillery.Shell;
 import Conflict.GameWindow;
 import Conflict.InjuryLog;
+import Conflict.SmokeStats;
+import CorditeExpansion.Cord;
 import Items.PCAmmo;
 import Items.Weapons;
 import Trooper.Trooper;
@@ -44,6 +46,11 @@ public class Explosion {
 	// Randomly determines distance 
 	// If a friendly side should be exempt from the explosion such as in grenade tosses, allows specification of friendly side 
 	public void explodeHex(int x, int y, String friendlySide) {
+		
+		if(pcAmmo != null && pcAmmo.smoke == true) {
+			GameWindow.gameWindow.game.smoke.deploySmoke(new Cord(x,y), new SmokeStats(pcAmmo.smokeType));
+		}
+		
 		System.out.println("Explode Hex");
 		ArrayList<Unit> targetUnits = GameWindow.gameWindow.getUnitsInHexExcludingSide(friendlySide, x, y);
 		

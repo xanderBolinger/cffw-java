@@ -3,6 +3,7 @@ package Items;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Conflict.SmokeStats.SmokeType;
 import Items.Item.ItemType;
 
 public class PCAmmo implements Serializable {
@@ -19,10 +20,18 @@ public class PCAmmo implements Serializable {
 	public boolean energyWeapon = false; 
 	public boolean ordnance = false; 
 	public boolean depleted = false; 
+	public boolean smoke = false; 
+	public SmokeType smokeType;
 	
 	public int depletionPoints = 0; 
 	public int firedShots = 0;
 	public int shots = 0;
+	
+	public PCAmmo(SmokeType smokeType) {
+		name = "Smoke";
+		smoke = true;
+		this.smokeType = smokeType;
+	}
 	
 	public PCAmmo(String name) {
 		this.name = name; 

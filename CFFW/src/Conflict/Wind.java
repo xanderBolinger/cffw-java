@@ -1,8 +1,10 @@
 package Conflict;
 
+import java.io.Serializable;
+
 import UtilityClasses.DiceRoller;
 
-public class Wind {
+public class Wind implements Serializable {
 
 	private int speedMph;
 	public WindDirection windDirection;

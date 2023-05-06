@@ -18,6 +18,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import Conflict.GameWindow;
+import HexGrid.CalculateLOS;
 import Hexes.Building;
 import Hexes.Hex;
 import Items.Weapons;
@@ -779,12 +780,12 @@ public class Spot implements Serializable {
 			skillTestMod += margin / 10; 
 		}
 		
-		if(skillTestMod > 5)
-			skillTestMod = 5; 
-		
-		if(skillTestMod < -5)
-			skillTestMod = -5 ;
-		
+		if(skillTestMod >= 5)
+			skillTestMod = 3; 
+		else if(skillTestMod <= -5)
+			skillTestMod = -3;
+		else 
+			skillTestMod /= 2;
 		
 		this.spotterUnit = spotterUnit;
 		
@@ -821,31 +822,22 @@ public class Spot implements Serializable {
 		int speedModSpotter = getSpeedModSpotter(spotterUnitSpeed);
 
 		// Concealment
-		String concealment = targetUnit.concealment;
+		String concealment = "None";
 		
-		for(Hex hex : gameWindow.hexes) {
-			
-			if(targetUnit.X == hex.xCord && targetUnit.Y == hex.yCord) {
-				
-				//System.out.println("Hex Found, concealment:  "+hex.concealment);
-				
-				if (hex.concealment == 1) {
-					concealment = "Level 1";
-				} else if (hex.concealment == 2) {
-					concealment = "Level 2";
-				}else if (hex.concealment == 3) {
-					concealment = "Level 3";
-				}else if (hex.concealment == 4) {
-					concealment = "Level 4";
-				}else if (hex.concealment == 5) {
-					concealment = "Level 5";
-				} 
-				
-				break; 
-			}
-				
-			
-		}
+		
+		int concealmentValue = CalculateLOS.getConcelamentValue(spotterUnit, targetUnit);
+		
+		if (concealmentValue == 1) {
+			concealment = "Level 1";
+		} else if (concealmentValue == 2) {
+			concealment = "Level 2";
+		}else if (concealmentValue == 3) {
+			concealment = "Level 3";
+		}else if (concealmentValue == 4) {
+			concealment = "Level 4";
+		}else if (concealmentValue >= 5) {
+			concealment = "Level 5";
+		} 
 		
 		int concealmentMod = getConcealmentMod(concealment);
 		
@@ -1310,13 +1302,13 @@ public class Spot implements Serializable {
 		if (concealment.equals("Level 1")) {
 			mod = 1;
 		} else if (concealment.equals("Level 2")) {
-			mod = 2;
-		} else if (concealment.equals("Level 3")) {
 			mod = 3;
-		} else if (concealment.equals("Level 4")) {
+		} else if (concealment.equals("Level 3")) {
 			mod = 4;
-		} else if (concealment.equals("Level 5")) {
+		} else if (concealment.equals("Level 4")) {
 			mod = 5;
+		} else if (concealment.equals("Level 5")) {
+			mod = 8;
 		}
 
 		return mod;

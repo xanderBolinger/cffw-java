@@ -3,6 +3,7 @@ package Items;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Conflict.SmokeStats.SmokeType;
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 
@@ -178,6 +179,10 @@ public class Weapons implements Serializable {
 		Weapons weapon25 = new Weapons();
 		weapon25.EE3();
 		weapons.add(weapon25);
+		
+		Weapons westarM5 = new Weapons();
+		westarM5.WestarM5();
+		weapons.add(westarM5);
 
 		Weapons m1 = new Weapons();
 		m1.M1();
@@ -218,6 +223,10 @@ public class Weapons implements Serializable {
 		Weapons handGrenade5 = new Weapons();
 		handGrenade5.rgd5();
 		weapons.add(handGrenade5);
+		
+		Weapons smokeGrenade = new Weapons();
+		smokeGrenade.nacht5SmokeGrenade();
+		weapons.add(smokeGrenade);
 
 		Weapons launcher1 = new Weapons();
 		launcher1.RPS6();
@@ -2673,6 +2682,49 @@ public class Weapons implements Serializable {
 
 	}
 
+	public void nacht5SmokeGrenade() {
+		this.name = "Nacht-5 Smoke Grenade";
+		this.type = "Grenade";
+		this.damage = 8;
+		this.damageBonus = 0;
+		this.damageMultiplier = 5;
+		this.armorPiercing = 2;
+		this.collateralDamage = 50;
+		this.energyWeapon = false;
+
+		// Starts from 0, no C
+		this.pen.add(0);
+		this.pen.add(0);
+		this.pen.add(0);
+		this.pen.add(0);
+		this.pen.add(0);
+		this.pen.add(0);
+
+		this.dc.add(0);
+		this.dc.add(0);
+		this.dc.add(0);
+		this.dc.add(0);
+		this.dc.add(0);
+		this.dc.add(0);
+
+		this.bshc.add("0");
+		this.bshc.add("0");
+		this.bshc.add("0");
+		this.bshc.add("0");
+		this.bshc.add("0");
+		this.bshc.add("0");
+
+		this.bc.add(0);
+		this.bc.add(0);
+		this.bc.add(0);
+		this.bc.add(0);
+		this.bc.add(0);
+		this.bc.add(0);
+		
+		pcAmmoTypes.add(new PCAmmo(SmokeType.SMOKE_GRENADE));
+
+	}
+	
 	public void classAThermalDetonator() {
 		this.name = "Class-A Thermal Detonator";
 		this.type = "Grenade";
@@ -3770,6 +3822,7 @@ public class Weapons implements Serializable {
 		}
 
 		if (!found) {
+			System.err.println("Weapon not found for weapon name: "+name);
 			weapon = weapons.get(0);
 		}
 

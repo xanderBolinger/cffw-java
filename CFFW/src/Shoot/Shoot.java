@@ -17,6 +17,7 @@ import Conflict.GameWindow;
 import Conflict.InjuryLog;
 import CorditeExpansion.FullAuto;
 import CorditeExpansion.FullAuto.FullAutoResults;
+import HexGrid.CalculateLOS;
 import Injuries.Explosion;
 import Injuries.ResolveHits;
 import Items.Item;
@@ -668,6 +669,9 @@ public class Shoot {
 
 	public void setVisibilityALM() {
 		visibilityALM = PCUtility.findVisibiltyALM(targetUnit, shooter, pcHexRange);
+		
+		visibilityALM += CalculateLOS.getConcealmentAlm(shooterUnit, targetUnit);
+		
 	}
 
 	public void setSizeALM() {

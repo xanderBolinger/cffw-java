@@ -1,8 +1,10 @@
 package Conflict;
 
+import java.io.Serializable;
+
 import CorditeExpansion.Cord;
 
-public class SmokeStats {
+public class SmokeStats implements Serializable {
 
 	public int diameter; 
 	public int duration;

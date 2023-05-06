@@ -16,7 +16,9 @@ public class Item implements Serializable {
 	
 	
 	public enum ItemType {
-		NONE,ClassAThermalDetonator,DC15A,DC20,M5,DC15X,Z6,DC17M,DC17MRocket,DC17MSniper,DC40,RPS6,HEAT,HE,ION,SmallArmsAmmo,
+		NONE,ClassAThermalDetonator,Nacht5SmokeGrenade,
+		
+		DC15A,DC20,M5,DC15X,Z6,DC17M,DC17MRocket,DC17MSniper,DC40,RPS6,HEAT,HE,ION,SmallArmsAmmo,
 		
 		EWEBWeapon,EWEBTripod,EWEBBattery,
 		
@@ -55,6 +57,7 @@ public class Item implements Serializable {
 				new Item(ItemType.EWEBBattery),
 				
 				new Item(ItemType.ClassAThermalDetonator),
+				new Item(ItemType.Nacht5SmokeGrenade),
 				
 				new Item(ItemType.B2RR, ItemType.HE),
 				new Item(ItemType.B2RR, ItemType.HEAT),
@@ -206,6 +209,9 @@ public class Item implements Serializable {
 	public void setWeapon(ItemType itemType) throws Exception {
 		if(ItemType.ClassAThermalDetonator == itemType) {
 			weapon = new Weapons().findWeapon("Class-A Thermal Detonator");
+			itemWeight = 2; 
+		} else if(ItemType.Nacht5SmokeGrenade == itemType) {
+			weapon = new Weapons().findWeapon("Nacht-5 Smoke Grenade");
 			itemWeight = 2; 
 		} else if(ItemType.DC15A == itemType) {
 			weapon = new Weapons().findWeapon("DC15A");
