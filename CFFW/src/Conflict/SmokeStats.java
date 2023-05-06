@@ -53,7 +53,7 @@ public class SmokeStats {
 	}
 	
 	public int getElapsedActionsAfterDuration() {
-		if(duration <= elapsedActions)
+		if(duration >= elapsedActions)
 			return 0;
 		
 		return elapsedActions - duration;

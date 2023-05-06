@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
 import Company.Company;
+import Conflict.SmokeStats.SmokeType;
+import CorditeExpansion.Cord;
 import CreateGame.SetupWindow;
 import HexGrid.CalculateLOS;
 import HexGrid.HexGrid;
@@ -679,6 +681,18 @@ public class GameWindow implements Serializable {
 			public void actionPerformed(ActionEvent e) {
 				game.wind.setStats();
 				lblWind.setText(game.wind.toString());
+				
+				/*game.smoke.deploySmoke(new Cord(2,2), new SmokeStats(SmokeType.SMOKE_GRENADE));
+				
+				game.smoke.deploySmoke(new Cord(3,3), new SmokeStats(SmokeType.SMOKE_GRENADE));
+				game.smoke.deploySmoke(new Cord(3,3), new SmokeStats(SmokeType.SMOKE_GRENADE));
+				game.smoke.deploySmoke(new Cord(3,3), new SmokeStats(SmokeType.SMOKE_GRENADE));
+				
+				game.smoke.deploySmoke(new Cord(4,4), new SmokeStats(SmokeType.Howitzer155mm));
+				
+				game.smoke.deploySmoke(new Cord(5,5), new SmokeStats(SmokeType.Howitzer155mm));
+				game.smoke.deploySmoke(new Cord(5,5), new SmokeStats(SmokeType.Howitzer155mm));*/
+				
 			}
 		});
 		btnWind.setBounds(418, 53, 118, 23);
@@ -2120,6 +2134,9 @@ public class GameWindow implements Serializable {
 			advancePhase();
 		}
 
+		game.smoke.advanceTime();
+		game.wind.advanceTime();
+		
 	}
 
 	public void advancePhase() {

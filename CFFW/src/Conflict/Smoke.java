@@ -42,7 +42,66 @@ public class Smoke {
 				100);
 
 	}
+	
+	public String getSmokeStats(Cord cord) {
+		String rslts = "";
+		
+		for(SmokeStats smoke : deployedSmoke) {
+			if(!smoke.deployedHex.compare(cord)) {
+				continue;
+			}
 
+			if(!rslts.equals(""))
+				rslts += "<br>";
+			else 
+				rslts += "Smoke: <br>";
+			
+			int row = elapsedTimeRow(smoke.getElapsedActionsAfterDuration());
+
+			String result = smokeEffectsTable.get(row).get(8 - smoke.diameter);
+			
+			rslts += "Diameter: "+smoke.diameter+", Duration: "+smoke.duration+", Elapsed Actions: "
+					+smoke.getElapsedActionsTotal()+", Table: "+result;
+			
+		}
+		
+		return rslts;
+	}
+
+	public int getConcealment(Cord cord) {
+		int concealment = 0;
+		
+		for(SmokeStats smoke : deployedSmoke) {
+			if(!smoke.deployedHex.compare(cord)) {
+				continue;
+			}
+
+			concealment += concealment(smoke.diameter, smoke.getElapsedActionsAfterDuration());
+			
+		}
+		
+		return concealment;
+		
+	}
+	
+	public int getAlm(Cord cord) {
+		int alm = 0; 
+		
+		for(SmokeStats smoke : deployedSmoke) {
+			if(!smoke.deployedHex.compare(cord)) {
+				continue;
+			}
+
+			alm += almPenalty(smoke.diameter, smoke.getElapsedActionsAfterDuration());
+			
+		}
+		
+		
+		if(alm < -14)
+			return -14;
+		return alm;
+	}
+	
 	public void advanceTime() {
 		for(SmokeStats smoke : deployedSmoke) {
 			smoke.increaseElapsedActions();
@@ -100,7 +159,7 @@ public class Smoke {
 
 		if (result.equals("B")) {
 
-			return 2;
+			return( (diameter / 3) <= 0 ? 1 : (diameter / 3));
 
 		} else {
 

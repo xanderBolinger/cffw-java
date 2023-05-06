@@ -16,6 +16,10 @@ public class CalculateLOS {
 		if(hexes.size() > 2) {
 			hexes.remove(0);
 			hexes.remove(hexes.size()-1);
+		} else {
+			
+			unit.lineOfSight.add(targetUnit);
+			return;
 		}
 		
 		int concealment = 0; 
@@ -25,6 +29,8 @@ public class CalculateLOS {
 			if(foundHex == null)
 				continue; 
 			concealment += foundHex.concealment;
+			concealment += GameWindow.gameWindow.game.smoke.getConcealment(hex);
+			
 		}
 		
 		if(concealment >= 5)

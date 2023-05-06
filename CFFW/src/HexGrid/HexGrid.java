@@ -26,6 +26,7 @@ import Conflict.Game;
 import Conflict.GameWindow;
 import Conflict.OpenUnit;
 import Conflict.SelectedUnitsWindow;
+import Conflict.SmokeStats;
 import CorditeExpansion.CeKeyListener;
 import CorditeExpansion.Cord;
 import CorditeExpansion.CorditeExpansionGame;
@@ -92,22 +93,23 @@ public class HexGrid implements Serializable {
 	private double zoom = 1.0; // zoom factor
 	public ArrayList<Unit> initOrder;
 	public GameWindow gameWindow;
-	public static Hex copiedHex = null; 
+	public static Hex copiedHex = null;
 	private JMenuItem mntmChangeMap;
 	private JMenuItem mntmShowBlufor;
 	private JMenuItem mntmShowOpfor;
 	private JMenuItem mntmShowBoth;
 	private JLayeredPane layeredPane;
 	private JButton btnNewButton;
-	public static boolean losThreadShowing = false; 
-	public static boolean deployBluforUnknown = false; 
-	public static boolean deployOpforUnknown = false; 
+	public static boolean losThreadShowing = false;
+	public static boolean deployBluforUnknown = false;
+	public static boolean deployOpforUnknown = false;
 	public static boolean deployUnknown = false;
 	private JMenuItem mntmHideU;
 	private JMenuItem mntmInitEmptyHexes;
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
+
 	/**
 	 * Create the application.
 	 */
@@ -126,9 +128,9 @@ public class HexGrid implements Serializable {
 		HexKeyListener.addKeyListeners();
 		frame.setBounds(100, 100, 701, 701);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
+
 		panel = new Panel(hexRows, hexCols);
-		//frame.getContentPane().setLayout(null);
+		// frame.getContentPane().setLayout(null);
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(Box.createRigidArea(new Dimension(10, 46)));
@@ -136,7 +138,7 @@ public class HexGrid implements Serializable {
 		frame.setVisible(true);
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
-		
+
 		JMenuItem mntmSaveMap = new JMenuItem("Save Hexes");
 		mntmSaveMap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -144,7 +146,7 @@ public class HexGrid implements Serializable {
 			}
 		});
 		mnFile.add(mntmSaveMap);
-		
+
 		JMenuItem mntmLoadMap = new JMenuItem("Load Hexes");
 		mntmLoadMap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -164,7 +166,7 @@ public class HexGrid implements Serializable {
 			}
 		});
 		mnEdit.add(mntmChangeMap);
-		
+
 		mntmShowBlufor = new JMenuItem("Show BLUFOR");
 		mntmShowBlufor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -172,7 +174,7 @@ public class HexGrid implements Serializable {
 			}
 		});
 		mnEdit.add(mntmShowBlufor);
-		
+
 		mntmShowOpfor = new JMenuItem("Show OPFOR");
 		mntmShowOpfor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -180,7 +182,7 @@ public class HexGrid implements Serializable {
 			}
 		});
 		mnEdit.add(mntmShowOpfor);
-		
+
 		mntmShowBoth = new JMenuItem("Show BOTH");
 		mntmShowBoth.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -188,57 +190,55 @@ public class HexGrid implements Serializable {
 			}
 		});
 		mnEdit.add(mntmShowBoth);
-		
+
 		mntmHideU = new JMenuItem("Toggle U");
 		mntmHideU.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(panel.hideU) {
+				if (panel.hideU) {
 					panel.hideU = false;
 				} else {
-					panel.hideU = true; 
+					panel.hideU = true;
 				}
 			}
 		});
 		mnEdit.add(mntmHideU);
-		
+
 		mntmInitEmptyHexes = new JMenuItem("Init Empty Hexes");
 		mntmInitEmptyHexes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				for(int i = 0; i < panel.hexMap.size(); i++) {
-					
-					for(int j = 0; j < panel.hexMap.get(i).size(); j++) {
-						
-						if(GameWindow.gameWindow.findHex(i, j) == null) {
+
+				for (int i = 0; i < panel.hexMap.size(); i++) {
+
+					for (int j = 0; j < panel.hexMap.get(i).size(); j++) {
+
+						if (GameWindow.gameWindow.findHex(i, j) == null) {
 							GameWindow.gameWindow.hexes.add(new Hex(i, j, new ArrayList<Feature>(), 0, 0, 0));
 						}
-						
+
 					}
-					
+
 				}
-				
+
 			}
 		});
 		mnEdit.add(mntmInitEmptyHexes);
-		
+
 		layeredPane = new JLayeredPane();
 		menuBar.add(layeredPane);
 		layeredPane.setLayout(null);
-		
-		
-		
+
 		btnNewButton = new JButton("");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				losThread();
 			}
 		});
-		System.out.println("Path: "+ExcelUtility.path);
+		System.out.println("Path: " + ExcelUtility.path);
 		btnNewButton.setBackground(SystemColor.text);
-		btnNewButton.setIcon(new ImageIcon(ExcelUtility.path+"\\Icons\\threadIcon.png"));
+		btnNewButton.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\threadIcon.png"));
 		btnNewButton.setBounds(0, 0, 45, 45);
 		layeredPane.add(btnNewButton);
-		
+
 		btnNewButton_1 = new JButton("");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -246,10 +246,10 @@ public class HexGrid implements Serializable {
 			}
 		});
 		btnNewButton_1.setBackground(SystemColor.text);
-		btnNewButton_1.setIcon(new ImageIcon(ExcelUtility.path+"\\Icons\\unknown_blufor_icon.png"));
+		btnNewButton_1.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\unknown_blufor_icon.png"));
 		btnNewButton_1.setBounds(55, 0, 45, 45);
 		layeredPane.add(btnNewButton_1);
-		
+
 		btnNewButton_2 = new JButton("");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -257,10 +257,10 @@ public class HexGrid implements Serializable {
 			}
 		});
 		btnNewButton_2.setBackground(SystemColor.text);
-		btnNewButton_2.setIcon(new ImageIcon(ExcelUtility.path+"\\Icons\\unknown_opfor_icon.png"));
+		btnNewButton_2.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\unknown_opfor_icon.png"));
 		btnNewButton_2.setBounds(110, 0, 45, 45);
 		layeredPane.add(btnNewButton_2);
-		
+
 		btnNewButton_3 = new JButton("");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -268,7 +268,7 @@ public class HexGrid implements Serializable {
 			}
 		});
 		btnNewButton_3.setBackground(SystemColor.text);
-		btnNewButton_3.setIcon(new ImageIcon(ExcelUtility.path+"\\Icons\\unknown_icon.png"));
+		btnNewButton_3.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\unknown_icon.png"));
 		btnNewButton_3.setBounds(165, 0, 45, 45);
 		layeredPane.add(btnNewButton_3);
 
@@ -369,7 +369,7 @@ public class HexGrid implements Serializable {
 	}
 
 	public void losThread() {
-		if(losThreadShowing) {
+		if (losThreadShowing) {
 			losThreadShowing = false;
 			panel.hideLOSThread();
 		} else {
@@ -377,26 +377,26 @@ public class HexGrid implements Serializable {
 			panel.showLOSThread();
 		}
 	}
-	
+
 	public void deployBluforUnknown() {
 		deployBluforUnknown = !deployBluforUnknown;
-		System.out.println("set deploy blufor: "+deployBluforUnknown);
-		deployUnknown = false; 
+		System.out.println("set deploy blufor: " + deployBluforUnknown);
+		deployUnknown = false;
 		deployOpforUnknown = false;
 	}
-	
+
 	public void deployUnknown() {
 		deployUnknown = !deployUnknown;
-		deployBluforUnknown = false; 
+		deployBluforUnknown = false;
 		deployOpforUnknown = false;
 	}
-	
+
 	public void deployOpforUnknown() {
 		deployOpforUnknown = !deployOpforUnknown;
-		deployBluforUnknown = false; 
+		deployBluforUnknown = false;
 		deployUnknown = false;
 	}
-	
+
 	class DrawnString {
 		public String text;
 		public Point position;
@@ -411,18 +411,18 @@ public class HexGrid implements Serializable {
 	public class DeployedUnit {
 		private Image unitImage;
 		public Unit unit;
-		//String callsign;
+		// String callsign;
 		int xCord;
 		int yCord;
-		
-		public boolean moved = false; 
-		
+
+		public boolean moved = false;
+
 		public DeployedUnit(Unit unit, double zoom) {
 			this.unit = unit;
-			
+
 			this.xCord = unit.X;
 			this.yCord = unit.Y;
-			
+
 			try {
 				setImage();
 			} catch (IOException e) {
@@ -433,62 +433,62 @@ public class HexGrid implements Serializable {
 
 		public String getCallsign() {
 			String results = unit.callsign;
-			
-			if(GameWindow.exhaustedUnit(unit) && moved) {
+
+			if (GameWindow.exhaustedUnit(unit) && moved) {
 				results += "Et/M";
-			} else if(GameWindow.exhaustedUnit(unit)) {
+			} else if (GameWindow.exhaustedUnit(unit)) {
 				results += "Et";
 			} else if (GameWindow.mostlyExhausted(unit) && moved) {
 				results += " pE/M";
-			} else if(GameWindow.mostlyExhausted(unit)) {
+			} else if (GameWindow.mostlyExhausted(unit)) {
 				results += " pE";
-			} else if(moved) {
+			} else if (moved) {
 				results += " M";
-			} 
-			
-			for(Trooper trooper : unit.individuals) {
-				if(trooper.alive && (trooper.disabledLegs > 0 || !trooper.conscious)) {
+			}
+
+			for (Trooper trooper : unit.individuals) {
+				if (trooper.alive && (trooper.disabledLegs > 0 || !trooper.conscious)) {
 					results += " IM";
-					break; 
+					break;
 				}
 			}
-			
-			
+
 			return results;
 		}
-		
-		public void setImage() throws IOException {
-			
-			// TODO: make it so side + type string == file name 
 
-			//System.out.println("Set Image");
-			if(unit.unitType == UnitType.ARMOR && unit.side.equals("BLUFOR")) {
-				//System.out.println("Set Image Pass 1");
+		public void setImage() throws IOException {
+
+			// TODO: make it so side + type string == file name
+
+			// System.out.println("Set Image");
+			if (unit.unitType == UnitType.ARMOR && unit.side.equals("BLUFOR")) {
+				// System.out.println("Set Image Pass 1");
 				unitImage = ImageIO.read(new File("Unit Images/BLUFOR_ARMOR.png"));
-			} else if(unit.unitType == UnitType.INFANTRY && unit.side.equals("BLUFOR")) {
-				//System.out.println("Set Image Pass 2");
+			} else if (unit.unitType == UnitType.INFANTRY && unit.side.equals("BLUFOR")) {
+				// System.out.println("Set Image Pass 2");
 				unitImage = ImageIO.read(new File("Unit Images/BLUFOR_INFANTRY.png"));
-			} else if(unit.unitType == UnitType.INFANTRY && unit.side.equals("OPFOR")) {
+			} else if (unit.unitType == UnitType.INFANTRY && unit.side.equals("OPFOR")) {
 				unitImage = ImageIO.read(new File("Unit Images/OPFOR_INFANTRY.png"));
-			} else if(unit.unitType == UnitType.ARMOR && unit.side.equals("OPFOR")) {
+			} else if (unit.unitType == UnitType.ARMOR && unit.side.equals("OPFOR")) {
 				unitImage = ImageIO.read(new File("Unit Images/OPFOR_ARMOR.png"));
 			} else {
 				unitImage = ImageIO.read(new File("Unit Images/BLUFOR_INFANTRY.png"));
 			}
-			
-			
-			if(unit.side.equals("BLUFOR")) {
-				unitImage = unitImage.getScaledInstance((int)(20.0*zoom), (int)(12.0*zoom), Image.SCALE_SMOOTH);
+
+			if (unit.side.equals("BLUFOR")) {
+				unitImage = unitImage.getScaledInstance((int) (20.0 * zoom), (int) (12.0 * zoom), Image.SCALE_SMOOTH);
 			} else {
-				unitImage = unitImage.getScaledInstance((int)(18.0*zoom), (int)(18.0*zoom), Image.SCALE_SMOOTH);
+				unitImage = unitImage.getScaledInstance((int) (18.0 * zoom), (int) (18.0 * zoom), Image.SCALE_SMOOTH);
 			}
-			
+
 		}
-		
-		/*originalBluforInfantry = ImageIO.read(new File("Unit Images/BLUFOR_INFANTRY.png"));
-		originalOpforInfantry = ImageIO.read(new File("Unit Images/OPFOR_INFANTRY.png"));*/
-		
-		
+
+		/*
+		 * originalBluforInfantry = ImageIO.read(new
+		 * File("Unit Images/BLUFOR_INFANTRY.png")); originalOpforInfantry =
+		 * ImageIO.read(new File("Unit Images/OPFOR_INFANTRY.png"));
+		 */
+
 	}
 
 	public class Panel extends JPanel {
@@ -501,14 +501,13 @@ public class HexGrid implements Serializable {
 		public DeployedUnit selectedUnit = null;
 		public int selectedUnitIndex = 0;
 		public ArrayList<DeployedUnit> deployedUnits = new ArrayList<>();
-		
-		
+
 		Point pressedCursorPoint;
 		Point selectedPoint;
 		Point currentCursorPoint;
 		boolean dragging = false;
 		double s = 17;
-		//double s = 30;
+		// double s = 30;
 		int cordX = 0;
 		int cordY = 0;
 		int rows;
@@ -535,81 +534,77 @@ public class HexGrid implements Serializable {
 		int opforUnitHeight = 18;
 		int opforUnitWidthConst = 18;
 		int opforUnitHeightConst = 18;
-		
+
 		public ShownType shownType = ShownType.BOTH;
-		
-		public FPSCounter fpscnt; //added line (step 1).
-		
-		boolean changedUnits = true; 
-		public boolean hideU = false; 
-		
+
+		public FPSCounter fpscnt; // added line (step 1).
+
+		boolean changedUnits = true;
+		public boolean hideU = false;
+
 		Polygon losThread = new Polygon();
-		
-		
+
 		Panel(int hexRows, int hexCols) {
-			
-			this.rows = hexRows+1;
+
+			this.rows = hexRows + 1;
 			this.columns = hexCols;
-			
-			
-			int hexes = hexRows * hexCols; 
-			
-			if(hexes < (10*10))
+
+			int hexes = hexRows * hexCols;
+
+			if (hexes < (10 * 10))
 				s = 30;
-			else if(hexes < (20*20))
+			else if (hexes < (20 * 20))
 				s = 25;
-			else 
+			else
 				s = 17;
-			
-			//System.out.println("S: "+s);
+
+			// System.out.println("S: "+s);
 			// set a preferred size for the custom panel.
 			setPreferredSize(new Dimension(420, 420));
-		
+
 			makeHexes(rows, columns);
-		
+
 			try {
 				// originalImage = ImageIO.read(new File("Map Images/CondorValley.png"));
-				//originalImage = ImageIO.read(new File("Map Images/refuge.png"));
-				originalImage = ImageIO.read(new File("Map Images/"+GameWindow.gameWindow.game.mapImageFileName));
+				// originalImage = ImageIO.read(new File("Map Images/refuge.png"));
+				originalImage = ImageIO.read(new File("Map Images/" + GameWindow.gameWindow.game.mapImageFileName));
 				backgroundImageWidth = (int) (s * (columns / 2 * 3));
 				backgroundImageHeight = (int) (s * 1.7175 * rows);
 				backgroundImageHeight -= backgroundImageHeight / rows / 2;
 				backgroundImage = originalImage.getScaledInstance(backgroundImageWidth, backgroundImageHeight,
 						Image.SCALE_SMOOTH);
-		
+
 				originalBluforInfantry = ImageIO.read(new File("Unit Images/BLUFOR_INFANTRY.png"));
 				bluforInfantryImage = originalBluforInfantry.getScaledInstance(bluforUnitWidth, bluforUnitHeight,
 						Image.SCALE_SMOOTH);
-		
+
 				originalOpforInfantry = ImageIO.read(new File("Unit Images/OPFOR_INFANTRY.png"));
 				opforInfantryImage = originalOpforInfantry.getScaledInstance(opforUnitWidth, opforUnitHeight,
 						Image.SCALE_SMOOTH);
-		
+
 				refreshDeployedUnits();
-				
-				
+
 				new Timer(20, new TimerListener()).start();
-				
-				fpscnt = new FPSCounter(); //added line (step 2).
-				fpscnt.start(); //added line (step 3).
+
+				fpscnt = new FPSCounter(); // added line (step 2).
+				fpscnt.start(); // added line (step 3).
 				/*
 				 * deployedUnits.add(new DeployedUnit("Test Unit 1", bluforInfantryImage, 10,
 				 * 10)); deployedUnits.add(new DeployedUnit("Test Unit 2", bluforInfantryImage,
 				 * 10, 10));
 				 */
-		
+
 				// save imageInByte as blob in database
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
 			}
-		
-			TraceLine.GetHexes(new Cord(0,0), new Cord(0,3), this);
-			System.out.println("---");
-			TraceLine.GetHexes(new Cord(1,1), new Cord(0,0), this);
-			System.out.println("---");
-			TraceLine.GetHexes(new Cord(4,4), new Cord(0,0), this);
-		}
 
+			TraceLine.GetHexes(new Cord(0, 0), new Cord(0, 3), this);
+			System.out.println("---");
+			TraceLine.GetHexes(new Cord(1, 1), new Cord(0, 0), this);
+			System.out.println("---");
+			TraceLine.GetHexes(new Cord(4, 4), new Cord(0, 0), this);
+		}
 
 		class PanelPopUp extends JPopupMenu {
 			JMenuItem move;
@@ -618,21 +613,19 @@ public class HexGrid implements Serializable {
 			int moveX;
 			int moveY;
 
-			
 			public DeployedUnit getDeployedUnit(Unit unit) {
-				
-				
-				for(DeployedUnit deployedUnit : deployedUnits) {
-					
-					if(deployedUnit.unit.compareTo(unit)) {
-						return deployedUnit; 
+
+				for (DeployedUnit deployedUnit : deployedUnits) {
+
+					if (deployedUnit.unit.compareTo(unit)) {
+						return deployedUnit;
 					}
-					
+
 				}
-				
-				return null; 
+
+				return null;
 			}
-			
+
 			public PanelPopUp(int xCord, int yCord) {
 
 				for (DeployedUnit deployedUnit : deployedUnits) {
@@ -646,14 +639,14 @@ public class HexGrid implements Serializable {
 								gameWindow.listIniativeOrder.setSelectedIndex(initOrder.indexOf(deployedUnit.unit));
 								Unit unit = initOrder.get(gameWindow.listIniativeOrder.getSelectedIndex());
 								// System.out.println("Open unit moral: "+unit.moral);
-								
-								if(gameWindow.currentlyOpenUnit != null) {
+
+								if (gameWindow.currentlyOpenUnit != null) {
 									gameWindow.currentlyOpenUnit.f.dispose();
 								}
-								
+
 								gameWindow.currentlyOpenUnit = new OpenUnit(unit, gameWindow,
 										gameWindow.listIniativeOrder.getSelectedIndex());
-								
+
 							}
 						});
 
@@ -662,8 +655,8 @@ public class HexGrid implements Serializable {
 					}
 
 				}
-				
-				if(selectedUnit != null) {
+
+				if (selectedUnit != null) {
 					move = new JMenuItem("Move " + selectedUnit.getCallsign() + " to " + xCord + ":" + yCord);
 					moveX = xCord;
 					moveY = yCord;
@@ -672,23 +665,23 @@ public class HexGrid implements Serializable {
 
 					move.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
-							
+
 							DeployedUnit deployedUnit = getDeployedUnit(unit);
-							
-							if(unit.speed.equals("None") || (GameWindow.hexDif(moveX, moveY, unit) > 1 && unit.speed.equals("Walk"))) {
+
+							if (unit.speed.equals("None")
+									|| (GameWindow.hexDif(moveX, moveY, unit) > 1 && unit.speed.equals("Walk"))) {
 								new MovementSpeedDialogBox(unit, moveX, moveY, deployedUnit);
 							} else {
 								unit.move(gameWindow, moveX, moveY, null);
-								deployedUnit.moved = true; 
-								//System.out.println("Moved equal true: "+deployedUnit.getCallsign());
+								deployedUnit.moved = true;
+								// System.out.println("Moved equal true: "+deployedUnit.getCallsign());
 								refreshDeployedUnits();
 							}
-							
-							
+
 						}
 					});
 				}
-				
+
 				addLOS();
 				removeLOS();
 				selectedUnitsItem(xCord, yCord);
@@ -702,8 +695,7 @@ public class HexGrid implements Serializable {
 			public PanelPopUp(int xCord, int yCord, Unit unit) {
 				if (selectedUnit == null)
 					return;
-				
-				
+
 				JMenuItem item = new JMenuItem("Open " + unit.callsign);
 
 				item.addActionListener(new ActionListener() {
@@ -711,20 +703,19 @@ public class HexGrid implements Serializable {
 						gameWindow.listIniativeOrder.setSelectedIndex(initOrder.indexOf(unit));
 						Unit unit = initOrder.get(gameWindow.listIniativeOrder.getSelectedIndex());
 						// System.out.println("Open unit moral: "+unit.moral);
-						
-						if(gameWindow.currentlyOpenUnit != null) {
+
+						if (gameWindow.currentlyOpenUnit != null) {
 							gameWindow.currentlyOpenUnit.f.dispose();
 						}
-						
+
 						gameWindow.currentlyOpenUnit = new OpenUnit(unit, gameWindow,
 								gameWindow.listIniativeOrder.getSelectedIndex());
-						
+
 					}
 				});
 
 				add(item);
-				
-				
+
 				addLOS();
 				removeLOS();
 				selectedUnitsItem(xCord, yCord);
@@ -734,300 +725,292 @@ public class HexGrid implements Serializable {
 				SetWalk();
 				SetRush();
 			}
-			
+
 			public void SetWalk() {
-				if(selectedUnits.size() < 1 && selectedUnit == null) {
+				if (selectedUnits.size() < 1 && selectedUnit == null) {
 					System.out.println("set walk return");
-					return; 
+					return;
 				}
 				System.out.println("Set walk");
-				
+
 				JMenuItem item = new JMenuItem("Set Walk");
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						
+
 						SetSpeed("Walk");
-						
-						
+
 					}
 				});
 
 				add(item);
 
 			}
-			
+
 			public void SetRush() {
-				
-				if(selectedUnits.size() < 1 && selectedUnit == null) {
-					//System.out.println("remove los return");
-					return; 
+
+				if (selectedUnits.size() < 1 && selectedUnit == null) {
+					// System.out.println("remove los return");
+					return;
 				}
-				
+
 				JMenuItem item = new JMenuItem("Set Rush");
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						
+
 						SetSpeed("Rush");
-						
-						
+
 					}
 				});
 
 				add(item);
-				
+
 			}
-			
+
 			public void SetNone() {
-				if(selectedUnits.size() < 1 && selectedUnit == null) {
-					//System.out.println("remove los return");
-					return; 
+				if (selectedUnits.size() < 1 && selectedUnit == null) {
+					// System.out.println("remove los return");
+					return;
 				}
-				
+
 				JMenuItem item = new JMenuItem("Set None");
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						
+
 						SetSpeed("None");
-						
-						
+
 					}
 				});
 
 				add(item);
 			}
-			
+
 			public void SetSpeed(String speed) {
-				if(selectedUnit != null) {
+				if (selectedUnit != null) {
 					selectedUnit.unit.speed = speed;
 					Unit unit = selectedUnit.unit;
 					unit.speed = speed;
-					if(gameWindow.findHex(unit.X, unit.Y) != null)
+					if (gameWindow.findHex(unit.X, unit.Y) != null)
 						gameWindow.findHex(unit.X, unit.Y).usedPositions -= unit.individualsInCover;
-					
-					unit.individualsInCover = 0; 
-					for(Trooper trooper : unit.individuals) {
-						if(!trooper.inBuilding(gameWindow)) 
-							trooper.inCover = false; 
-						
+
+					unit.individualsInCover = 0;
+					for (Trooper trooper : unit.individuals) {
+						if (!trooper.inBuilding(gameWindow))
+							trooper.inCover = false;
+
 					}
-					
-					unit.soughtCover = false; 
-					if(!unit.behavior.equals("No Contact")) {
-						unit.timeSinceContact = 0;				
+
+					unit.soughtCover = false;
+					if (!unit.behavior.equals("No Contact")) {
+						unit.timeSinceContact = 0;
 						unit.seekCover(gameWindow.findHex(unit.X, unit.Y), gameWindow);
 					}
 				}
-				
-				for(DeployedUnit depUnit : selectedUnits) {
+
+				for (DeployedUnit depUnit : selectedUnits) {
 					Unit unit = depUnit.unit;
 					unit.speed = speed;
-					if(gameWindow.findHex(unit.X, unit.Y) != null)
+					if (gameWindow.findHex(unit.X, unit.Y) != null)
 						gameWindow.findHex(unit.X, unit.Y).usedPositions -= unit.individualsInCover;
-					
-					unit.individualsInCover = 0; 
-					for(Trooper trooper : unit.individuals) {
-						if(!trooper.inBuilding(gameWindow)) 
-							trooper.inCover = false; 
-						
+
+					unit.individualsInCover = 0;
+					for (Trooper trooper : unit.individuals) {
+						if (!trooper.inBuilding(gameWindow))
+							trooper.inCover = false;
+
 					}
-					
-					unit.soughtCover = false; 
-					if(!unit.behavior.equals("No Contact")) {
-						unit.timeSinceContact = 0;				
+
+					unit.soughtCover = false;
+					if (!unit.behavior.equals("No Contact")) {
+						unit.timeSinceContact = 0;
 						unit.seekCover(gameWindow.findHex(unit.X, unit.Y), gameWindow);
 					}
 				}
 				selectedUnit = null;
 				selectedUnits.clear();
 			}
-			
+
 			public void removeLOS() {
-				
-				//System.out.println("remove, selectedunits Side: "+selectedUnits.size());
-				
-				if(selectedUnits.size() < 2 || sameSide()) {
-					//System.out.println("remove los return");
-					return; 
+
+				// System.out.println("remove, selectedunits Side: "+selectedUnits.size());
+
+				if (selectedUnits.size() < 2 || sameSide()) {
+					// System.out.println("remove los return");
+					return;
 				}
-				
+
 				JMenuItem item = new JMenuItem("Remove Units from LOS");
 
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						
-						for(DeployedUnit dp : selectedUnits) {
-							
+
+						for (DeployedUnit dp : selectedUnits) {
+
 							Unit unit = dp.unit;
-							
-							for(DeployedUnit dp2 : selectedUnits) {
-								if(dp2.unit.side.equals(unit.side) || !unit.lineOfSight.contains(dp2.unit))
-										continue; 
-								
+
+							for (DeployedUnit dp2 : selectedUnits) {
+								if (dp2.unit.side.equals(unit.side) || !unit.lineOfSight.contains(dp2.unit))
+									continue;
+
 								unit.lineOfSight.remove(dp2.unit);
 							}
-							
+
 						}
-						
+
 						selectedUnit = selectedUnits.get(0);
 						selectedUnits.clear();
-						
+
 					}
 				});
 
 				add(item);
-				
+
 			}
-			
+
 			public void addLOS() {
-				
-				//System.out.println("add Los, selectedunits Side: "+selectedUnits.size());
-				
-				if(selectedUnits.size() < 2 || sameSide()) {
-					//System.out.println("add los return");
-					return; 
+
+				// System.out.println("add Los, selectedunits Side: "+selectedUnits.size());
+
+				if (selectedUnits.size() < 2 || sameSide()) {
+					// System.out.println("add los return");
+					return;
 				}
-				
+
 				JMenuItem item = new JMenuItem("Add Units to LOS");
 
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						
-						for(DeployedUnit dp : selectedUnits) {
-							
+
+						for (DeployedUnit dp : selectedUnits) {
+
 							Unit unit = dp.unit;
-							
-							for(DeployedUnit dp2 : selectedUnits) {
-								if(dp2.unit.side.equals(unit.side) || unit.lineOfSight.contains(dp2.unit))
-										continue; 
-								
+
+							for (DeployedUnit dp2 : selectedUnits) {
+								if (dp2.unit.side.equals(unit.side) || unit.lineOfSight.contains(dp2.unit))
+									continue;
+
 								unit.lineOfSight.add(dp2.unit);
 							}
-							
+
 						}
-						
+
 						selectedUnit = selectedUnits.get(0);
 						selectedUnits.clear();
-						
+
 					}
 				});
 
 				add(item);
-				
+
 			}
-			
+
 			public boolean sameSide() {
-				
-				boolean opfor = false; 
-				boolean blufor = false; 
-				for(DeployedUnit dp : selectedUnits) {
-					if(dp.unit.side.equals("BLUFOR")) 
-						blufor = true; 
-					else 
-						opfor = true; 
-					
-					if(opfor && blufor)
-						return false; 
+
+				boolean opfor = false;
+				boolean blufor = false;
+				for (DeployedUnit dp : selectedUnits) {
+					if (dp.unit.side.equals("BLUFOR"))
+						blufor = true;
+					else
+						opfor = true;
+
+					if (opfor && blufor)
+						return false;
 				}
-				
-				return true; 
+
+				return true;
 			}
-			
+
 			public void selectedUnitsItem(int x, int y) {
-				
-				if(GameWindow.gameWindow.getUnitsInHex("None", x, y).size() < 1 && selectedUnits.size() < 2) {
-					return; 
+
+				if (GameWindow.gameWindow.getUnitsInHex("None", x, y).size() < 1 && selectedUnits.size() < 2) {
+					return;
 				}
-				
+
 				JMenuItem item = new JMenuItem("Selected Units");
 
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						
-						if(selectedUnits.size() > 1) {
+
+						if (selectedUnits.size() > 1) {
 							new SelectedUnitsWindow(x, y, selectedUnits);
-						} else {	
+						} else {
 							new SelectedUnitsWindow(x, y);
-						}						
-						
+						}
+
 					}
 				});
-				
+
 				add(item);
-				
+
 			}
-			
+
 			public void attackWindowItem(Hex hex) {
-				if(hex == null)
+				if (hex == null)
 					return;
-				
+
 				JMenuItem item = new JMenuItem("Attack Hex");
 
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						
+
 						new AttackHexWindow(hex);
-						
+
 					}
 				});
-				
-				for(Unit unit : GameWindow.gameWindow.initiativeOrder) {
-					if(hex.xCord == unit.X && hex.yCord == unit.Y) {
+
+				for (Unit unit : GameWindow.gameWindow.initiativeOrder) {
+					if (hex.xCord == unit.X && hex.yCord == unit.Y) {
 						add(item);
-						break; 
+						break;
 					}
 				}
-				
+
 			}
-			
-			// Adds a button that will prompt user to create a new hex 
+
+			// Adds a button that will prompt user to create a new hex
 			public void newHexItem(int x, int y) {
-				
-				if(GameWindow.gameWindow.findHex(x, y) != null) {
-					
+
+				if (GameWindow.gameWindow.findHex(x, y) != null) {
+
 					JMenuItem openItem = new JMenuItem("Open Hex");
-					
-					
+
 					openItem.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
-							
-							///copiedHex = GameWindow.gameWindow.findHex(x, y); 
-							
+
+							/// copiedHex = GameWindow.gameWindow.findHex(x, y);
+
 							new HexWindow(x, y);
-							
+
 						}
 					});
-					
+
 					add(openItem);
-					
-					
+
 					JMenuItem copyItem = new JMenuItem("Copy Hex");
-					
-					
+
 					copyItem.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
-							
-							copiedHex = GameWindow.gameWindow.findHex(x, y); 
-							
+
+							copiedHex = GameWindow.gameWindow.findHex(x, y);
+
 						}
 					});
-					
+
 					add(copyItem);
 				} else {
 					JMenuItem item = new JMenuItem("New Hex");
-					
+
 					item.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
-							
+
 							new HexWindow(GameWindow.gameWindow, x, y);
 						}
 					});
-					
+
 					add(item);
 				}
-				
-				
+
 			}
-			
 
 		}
 
@@ -1035,74 +1018,74 @@ public class HexGrid implements Serializable {
 		double zoom = 1.0;
 
 		public void refreshDeployedUnits() {
-			
-			//System.out.println("Refresh Deployed Units");
-			
+
+			// System.out.println("Refresh Deployed Units");
+
 			ArrayList<Unit> movedUnits = new ArrayList<>();
-			
-			for(DeployedUnit deployedUnit : deployedUnits) {
-				if(deployedUnit.moved) {
+
+			for (DeployedUnit deployedUnit : deployedUnits) {
+				if (deployedUnit.moved) {
 					movedUnits.add(deployedUnit.unit);
-				} 
+				}
 			}
-			
+
 			deployedUnits.clear();
-			// If unit in init order not in dp 
+			// If unit in init order not in dp
 			for (Unit unit : initOrder) {
 
-				
-				//System.out.println("add");
+				// System.out.println("add");
 				DeployedUnit deployedUnit = new DeployedUnit(unit, zoom);
-				if(movedUnits.contains(unit)) {
-					deployedUnit.moved = true; 
+				if (movedUnits.contains(unit)) {
+					deployedUnit.moved = true;
 				}
-				
+
 				deployedUnits.add(deployedUnit);
 				if (selectedUnit != null && selectedUnit.unit.callsign.equals(deployedUnit.unit.callsign)) {
 					selectedUnit = deployedUnit;
-					
+
 				}
 
 			}
-			
+
 		}
 
 		public void mousePressed(MouseEvent e) {
 			dragging = false;
 			pressedCursorPoint = e.getPoint();
-			//System.out.println("Pressed Cursor Point, X: "+pressedCursorPoint.x+", Y:"+pressedCursorPoint.y);
+			// System.out.println("Pressed Cursor Point, X: "+pressedCursorPoint.x+",
+			// Y:"+pressedCursorPoint.y);
 			currentCursorPoint = null;
-			
+
 			int[] points = getHexFromPoint(e.getPoint());
 			if (points == null)
 				return;
-			
-			if(deployBluforUnknown) {
-				//System.out.println("deploy blufor");
-				Chit chit = new Chit(ExcelUtility.path+"\\Icons\\unknown_blufor_icon.png", 20, 20);
+
+			if (deployBluforUnknown) {
+				// System.out.println("deploy blufor");
+				Chit chit = new Chit(ExcelUtility.path + "\\Icons\\unknown_blufor_icon.png", 20, 20);
 				chit.xCord = points[0];
 				chit.yCord = points[1];
 				GameWindow.gameWindow.game.chits.add(chit);
 				chit.number = GameWindow.gameWindow.game.chitCounter;
 				GameWindow.gameWindow.game.chitCounter++;
-			} else if(deployOpforUnknown) {
-				Chit chit = new Chit(ExcelUtility.path+"\\Icons\\unknown_opfor_icon.png", 20, 20);
+			} else if (deployOpforUnknown) {
+				Chit chit = new Chit(ExcelUtility.path + "\\Icons\\unknown_opfor_icon.png", 20, 20);
 				chit.xCord = points[0];
 				chit.yCord = points[1];
 				GameWindow.gameWindow.game.chits.add(chit);
 				chit.number = GameWindow.gameWindow.game.chitCounter;
 				GameWindow.gameWindow.game.chitCounter++;
-			} else if(deployUnknown) {
-				Chit chit = new Chit(ExcelUtility.path+"\\Icons\\unknown_icon.png", 20, 20);
+			} else if (deployUnknown) {
+				Chit chit = new Chit(ExcelUtility.path + "\\Icons\\unknown_icon.png", 20, 20);
 				chit.xCord = points[0];
 				chit.yCord = points[1];
 				GameWindow.gameWindow.game.chits.add(chit);
 				chit.number = GameWindow.gameWindow.game.chitCounter;
 				GameWindow.gameWindow.game.chitCounter++;
 			}
-			
+
 			checkChitClick(e.getPoint());
-			
+
 		}
 
 		public void mouseDragged(MouseEvent e) {
@@ -1110,61 +1093,57 @@ public class HexGrid implements Serializable {
 			currentCursorPoint = e.getPoint();
 			// System.out.println("Current Cursor Point, X: "+currentCursorPoint.x+", Y:
 			// "+currentCursorPoint.y);
-			//repaint();
-			
-			if(e.getButton() == MouseEvent.BUTTON1 && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)) {
+			// repaint();
+
+			if (e.getButton() == MouseEvent.BUTTON1 && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)) {
 				for (int i = 0; i < hexMap.size(); i++) {
 
 					for (int j = 0; j < hexMap.get(0).size(); j++) {
 
 						Polygon hex = hexMap.get(i).get(j);
-											
+
 						if (!hex.contains(e.getPoint())) {
-							continue; 
+							continue;
 						}
-						
+
 						Hex pastedHex = GameWindow.gameWindow.findHex(i, j);
-						
-						if(pastedHex != null) {
-							 GameWindow.gameWindow.hexes.remove(pastedHex);
+
+						if (pastedHex != null) {
+							GameWindow.gameWindow.hexes.remove(pastedHex);
 						}
-						
-						copiedHex.coverPositions = 0; 
-						
-						for(Feature feature : copiedHex.features) {
+
+						copiedHex.coverPositions = 0;
+
+						for (Feature feature : copiedHex.features) {
 							int cover = HexWindow.getCoverPostitions(feature.featureType);
-							feature.coverPositions = cover; 
+							feature.coverPositions = cover;
 							copiedHex.coverPositions += feature.coverPositions;
 						}
-						
+
 						Hex newHex = new Hex(i, j, copiedHex);
-						
-						newHex.usedPositions = 0; 
-						
-						
-						for(Unit unit : GameWindow.gameWindow.initiativeOrder) {
-							
-							if(unit.X == i && unit.Y == j) {
+
+						newHex.usedPositions = 0;
+
+						for (Unit unit : GameWindow.gameWindow.initiativeOrder) {
+
+							if (unit.X == i && unit.Y == j) {
 								unit.seekCover(newHex, GameWindow.gameWindow);
 							}
-							
+
 						}
-						
-						GameWindow.gameWindow.hexes.add(newHex);	
+
+						GameWindow.gameWindow.hexes.add(newHex);
 						System.out.println("Copied");
-						
+
 					}
 				}
 			}
-			
-			
-			
+
 		}
 
 		public void mouseReleased(MouseEvent e) {
 			dragging = false;
-			
-			
+
 			int[] points = getHexFromPoint(e.getPoint());
 
 			if (points == null) {
@@ -1174,41 +1153,42 @@ public class HexGrid implements Serializable {
 			}
 
 			// System.out.println("Mouse Pressed");
-			
-			if(Keyboard.isKeyPressed(KeyEvent.VK_SHIFT) && Chit.isAChitSelected()) {
-				//System.out.println("Chit unselected,  Released Point: ("+e.getX()+", "+e.getY()+")"
-				//		+", Selected Point: ("+selectedPoint.getX()+", "+selectedPoint.getY()+")");
+
+			if (Keyboard.isKeyPressed(KeyEvent.VK_SHIFT) && Chit.isAChitSelected()) {
+				// System.out.println("Chit unselected, Released Point: ("+e.getX()+",
+				// "+e.getY()+")"
+				// +", Selected Point: ("+selectedPoint.getX()+", "+selectedPoint.getY()+")");
 				Chit.getSelectedChit().shifted = true;
 				Polygon hex = hexMap.get(Chit.getSelectedChit().xCord).get(Chit.getSelectedChit().yCord);
 				int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
 				int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
-				
+
 				Chit.getSelectedChit().shiftX = (int) (e.getX() - hexCenterX);
 				Chit.getSelectedChit().shiftY = (int) (e.getY() - hexCenterY);
-				//Chit.getSelectedChit().shiftX = (int) (e.getX() - selectedPoint.getX());
-				//Chit.getSelectedChit().shiftY = (int) (e.getY() - selectedPoint.getY());
-				//System.out.println("Chit Shifted");
+				// Chit.getSelectedChit().shiftX = (int) (e.getX() - selectedPoint.getX());
+				// Chit.getSelectedChit().shiftY = (int) (e.getY() - selectedPoint.getY());
+				// System.out.println("Chit Shifted");
 			} else if (Chit.isAChitSelected()) {
-				//System.out.println("Chit Moved");
+				// System.out.println("Chit Moved");
 				Chit.moveSelectedChit(points[0], points[1]);
 			}
-			
+
 			selectedPoint = null;
 			Chit.unselectChit();
 		}
 
 		public Cord getCenterFromCoordinates(int x, int y) {
-				
-			//System.out.println("Get Center: "+x+", "+y);
+
+			// System.out.println("Get Center: "+x+", "+y);
 			Polygon hex = hexMap.get(x).get(y);
-			
+
 			int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
 			int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
-			//System.out.println("At, "+hexCenterX+", "+hexCenterY);
+			// System.out.println("At, "+hexCenterX+", "+hexCenterY);
 			return new Cord(hexCenterX, hexCenterY);
-			
+
 		}
-		
+
 		public int[] getHexFromPoint(Point point) {
 
 			// System.out.println("Get hex from point");
@@ -1228,13 +1208,14 @@ public class HexGrid implements Serializable {
 
 			return null;
 		}
-		
+
 		public void checkChitClick(Point point) {
-			
+
 			for (Chit chit : GameWindow.gameWindow.game.chits) {
 				Rectangle imageBounds = new Rectangle(chit.xPoint, chit.yPoint, chit.getWidth(), chit.getHeight());
 				if (imageBounds.contains(point)) {
-					//System.out.println("Clicked Chit, chit.xPoint: " + chit.xPoint + ", clicked x point: " + point.x);
+					// System.out.println("Clicked Chit, chit.xPoint: " + chit.xPoint + ", clicked x
+					// point: " + point.x);
 					selectedPoint = point;
 					Chit.setSelectedChit(chit, point.x - chit.xPoint, point.y - chit.yPoint);
 					chit.shifted = false;
@@ -1245,28 +1226,28 @@ public class HexGrid implements Serializable {
 			}
 
 		}
-		
+
 		public void mouseWheelMoved(double zoom) {
 			this.zoom = zoom;
-			//repaint();
+			// repaint();
 		}
 
 		// Checks for hovering tooltip and displays message to user
 		public void mouseMoved(MouseEvent e) {
-			
-			//System.out.println("Mouse Moved: ("+e.getPoint().x+", "+e.getPoint().y+")");
 
-			if(HexGrid.losThreadShowing && losThread.npoints >= 1) {
-				
-				if(losThread.npoints > 1) {
-					losThread.xpoints[1] = e.getPoint().x; 
-					losThread.ypoints[1] = e.getPoint().y; 
+			// System.out.println("Mouse Moved: ("+e.getPoint().x+", "+e.getPoint().y+")");
+
+			if (HexGrid.losThreadShowing && losThread.npoints >= 1) {
+
+				if (losThread.npoints > 1) {
+					losThread.xpoints[1] = e.getPoint().x;
+					losThread.ypoints[1] = e.getPoint().y;
 				} else {
 					losThread.addPoint(e.getPoint().x, e.getPoint().y);
 				}
-				
+
 			}
-			
+
 			for (int i = 0; i < hexMap.size(); i++) {
 
 				for (int j = 0; j < hexMap.get(0).size(); j++) {
@@ -1281,10 +1262,11 @@ public class HexGrid implements Serializable {
 						for (DeployedUnit deployedUnit : deployedUnits) {
 
 							if (deployedUnit.xCord == i && deployedUnit.yCord == j) {
-								toolTip += 
-										"<br>" + deployedUnit.getCallsign() + ", EXH: " + GameWindow.exhaustedUnit(deployedUnit.unit) + " ORG " + deployedUnit.unit.organization
-										+ " A: " + deployedUnit.unit.active() + " W: "
-										+ deployedUnit.unit.woundedActive() + " I: " + deployedUnit.unit.inactive() + " Speed: "+deployedUnit.unit.speed;
+								toolTip += "<br>" + deployedUnit.getCallsign() + ", EXH: "
+										+ GameWindow.exhaustedUnit(deployedUnit.unit) + " ORG "
+										+ deployedUnit.unit.organization + " A: " + deployedUnit.unit.active() + " W: "
+										+ deployedUnit.unit.woundedActive() + " I: " + deployedUnit.unit.inactive()
+										+ " Speed: " + deployedUnit.unit.speed;
 							}
 
 						}
@@ -1303,11 +1285,12 @@ public class HexGrid implements Serializable {
 									toolTip += feature.toString() + "<br>";
 
 								}
-								
-								for(Building building : hex.buildings) {
+
+								for (Building building : hex.buildings) {
 									toolTip += building.toString() + "<br>";
 								}
-								
+
+								toolTip += gameWindow.game.smoke.getSmokeStats(new Cord(hex.xCord, hex.yCord));
 
 								break;
 
@@ -1325,29 +1308,28 @@ public class HexGrid implements Serializable {
 			}
 
 		}
-	
 
 		// Gets clicked hex
 		// If hex contains units, selects first unit
 		public void mouseLeftClick(MouseEvent e) {
 
-			
-			if(HexGrid.losThreadShowing) {
-				
-				if(losThread.npoints >= 1) {
+			if (HexGrid.losThreadShowing) {
+
+				if (losThread.npoints >= 1) {
 					hideLOSThread();
-				} else if(losThread.npoints == 0 ) {
+				} else if (losThread.npoints == 0) {
 					losThread.addPoint(e.getPoint().x, e.getPoint().y);
 				}
-				
-				selectedUnit = null; 
+
+				selectedUnit = null;
 				selectedUnits.clear();
-				return; 
+				return;
 			}
-			
-			if(e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1 && Keyboard.isKeyPressed(KeyEvent.VK_SHIFT) ) {
-				//System.out.println("Double clicked select 2");
-				
+
+			if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1
+					&& Keyboard.isKeyPressed(KeyEvent.VK_SHIFT)) {
+				// System.out.println("Double clicked select 2");
+
 				for (int i = 0; i < hexMap.size(); i++) {
 
 					for (int j = 0; j < hexMap.get(0).size(); j++) {
@@ -1355,37 +1337,34 @@ public class HexGrid implements Serializable {
 						Polygon hex = hexMap.get(i).get(j);
 
 						if (hex.contains(e.getPoint())) {
-							
+
 							String typeShown = "None";
-							if(shownType == ShownType.BLUFOR) {
+							if (shownType == ShownType.BLUFOR) {
 								typeShown = "BLUFOR";
-							} else if(shownType == ShownType.OPFOR) {
+							} else if (shownType == ShownType.OPFOR) {
 								typeShown = "OPFOR";
-							} 
-							
-							//System.out.println("Shown Type: "+shownType.toString());
-							ArrayList<Unit> units = GameWindow.gameWindow.getUnitsInHex(typeShown, i, j);
-							//System.out.println("Units Size: "+units.size());
-							for(Unit unit : units) {
-								selectedUnits.add(getDeployedUnit(unit));
-								//System.out.println("Add selected unit");
 							}
-							
-							//System.out.println("Double clicked select, selected Units: "+selectedUnits.size());
-							
+
+							// System.out.println("Shown Type: "+shownType.toString());
+							ArrayList<Unit> units = GameWindow.gameWindow.getUnitsInHex(typeShown, i, j);
+							// System.out.println("Units Size: "+units.size());
+							for (Unit unit : units) {
+								selectedUnits.add(getDeployedUnit(unit));
+								// System.out.println("Add selected unit");
+							}
+
+							// System.out.println("Double clicked select, selected Units:
+							// "+selectedUnits.size());
+
 							selectedUnitIndex = 0;
-							return; 
-							
+							return;
+
 						}
 					}
 				}
-				
-				
-				
-				
-			} 
-			
-			
+
+			}
+
 			// System.out.println("Left Clicked");
 
 			for (int i = 0; i < hexMap.size(); i++) {
@@ -1395,50 +1374,50 @@ public class HexGrid implements Serializable {
 					Polygon hex = hexMap.get(i).get(j);
 
 					if (hex.contains(e.getPoint())) {
-						
-						if(copiedHex != null && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)) {
-							
+
+						if (copiedHex != null && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)) {
+
 							Hex pastedHex = GameWindow.gameWindow.findHex(i, j);
-							
-							if(pastedHex != null) {
-								 GameWindow.gameWindow.hexes.remove(pastedHex);
+
+							if (pastedHex != null) {
+								GameWindow.gameWindow.hexes.remove(pastedHex);
 							}
-							
-							copiedHex.coverPositions = 0; 
-							
-							for(Feature feature : copiedHex.features) {
+
+							copiedHex.coverPositions = 0;
+
+							for (Feature feature : copiedHex.features) {
 								int cover = HexWindow.getCoverPostitions(feature.featureType);
-								feature.coverPositions = cover; 
+								feature.coverPositions = cover;
 								copiedHex.coverPositions += feature.coverPositions;
 							}
-							
+
 							Hex newHex = new Hex(i, j, copiedHex);
-							
-							newHex.usedPositions = 0; 
-							
-							
-							for(Unit unit : GameWindow.gameWindow.initiativeOrder) {
-								
-								if(unit.X == i && unit.Y == j) {
+
+							newHex.usedPositions = 0;
+
+							for (Unit unit : GameWindow.gameWindow.initiativeOrder) {
+
+								if (unit.X == i && unit.Y == j) {
 									unit.seekCover(newHex, GameWindow.gameWindow);
 								}
-								
+
 							}
-							
-							GameWindow.gameWindow.hexes.add(newHex);							
-							
-							GameWindow.gameWindow.conflictLog.addNewLine("Pasted! X: "+i+", Y: "+j);
-							
+
+							GameWindow.gameWindow.hexes.add(newHex);
+
+							GameWindow.gameWindow.conflictLog.addNewLine("Pasted! X: " + i + ", Y: " + j);
+
 							GameWindow.gameWindow.CalcLOS();
-							
+
 						}
-						
+
 						if (selectedUnit != null) {
-							if(e.getClickCount() != 2 && e.getButton() == MouseEvent.BUTTON1 && !Keyboard.isKeyPressed(KeyEvent.VK_CONTROL) ) {
+							if (e.getClickCount() != 2 && e.getButton() == MouseEvent.BUTTON1
+									&& !Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)) {
 								selectedUnitIndex++;
-							} 
-	
-							selectedUnit = null; 
+							}
+
+							selectedUnit = null;
 						}
 
 						int unitsInHex = unitsInHex(i, j);
@@ -1450,45 +1429,46 @@ public class HexGrid implements Serializable {
 						int count = 0;
 						for (DeployedUnit deployedUnit : deployedUnits) {
 
-							if(!HexGridUtility.canShow(shownType, deployedUnit.unit)) {
-								continue; 
+							if (!HexGridUtility.canShow(shownType, deployedUnit.unit)) {
+								continue;
 							}
-							
+
 							if (deployedUnit.xCord == i && deployedUnit.yCord == j) {
 								count++;
 
 								if (count == unitsInHex - selectedUnitIndex) {
 									selectedUnit = deployedUnit;
-									
-									if(e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1 && !Keyboard.isKeyPressed(KeyEvent.VK_SHIFT)) {
-										gameWindow.listIniativeOrder.setSelectedIndex(initOrder.indexOf(selectedUnit.unit));
+
+									if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1
+											&& !Keyboard.isKeyPressed(KeyEvent.VK_SHIFT)) {
+										gameWindow.listIniativeOrder
+												.setSelectedIndex(initOrder.indexOf(selectedUnit.unit));
 										Unit unit = initOrder.get(gameWindow.listIniativeOrder.getSelectedIndex());
 										// System.out.println("Open unit moral: "+unit.moral);
-										
-										if(gameWindow.currentlyOpenUnit != null) {
+
+										if (gameWindow.currentlyOpenUnit != null) {
 											gameWindow.currentlyOpenUnit.f.dispose();
 										}
-										
+
 										gameWindow.currentlyOpenUnit = new OpenUnit(unit, gameWindow,
 												gameWindow.listIniativeOrder.getSelectedIndex());
 									}
-									
-									if(Keyboard.isKeyPressed(KeyEvent.VK_SHIFT) && !selectedUnits.contains(deployedUnit)) {
+
+									if (Keyboard.isKeyPressed(KeyEvent.VK_SHIFT)
+											&& !selectedUnits.contains(deployedUnit)) {
 										selectedUnits.add(deployedUnit);
 									}
-									
-									if(Keyboard.isKeyPressed(KeyEvent.VK_SHIFT) && !selectedUnits.contains(selectedUnit))
+
+									if (Keyboard.isKeyPressed(KeyEvent.VK_SHIFT)
+											&& !selectedUnits.contains(selectedUnit))
 										selectedUnits.add(selectedUnit);
-									
+
 									return;
 								}
 
 							}
 
 						}
-						
-						
-						
 
 						break;
 
@@ -1497,20 +1477,18 @@ public class HexGrid implements Serializable {
 				}
 
 			}
-			
-			if(!Keyboard.isKeyPressed(KeyEvent.VK_SHIFT)) {
+
+			if (!Keyboard.isKeyPressed(KeyEvent.VK_SHIFT)) {
 				selectedUnits.clear();
-				selectedUnit = null;				
+				selectedUnit = null;
 			}
-			
+
 			selectedUnitIndex = 0;
 
 		}
 
 		public void mouseRightClick(MouseEvent e) {
-			
-			
-			
+
 			// System.out.println("Right clicked");
 
 			// Checks for which hex was clicked
@@ -1520,20 +1498,20 @@ public class HexGrid implements Serializable {
 
 					Polygon hex = hexMap.get(i).get(j);
 
-					// If hex found 
+					// If hex found
 					if (hex.contains(e.getPoint())) {
 
 						// System.out.println("Hex: "+i+":"+j);
 
-						if((selectedUnit != null || selectedUnits.size() > 0) && Keyboard.isKeyPressed(KeyEvent.VK_SHIFT)) {
-							for(DeployedUnit dp : selectedUnits) {
-								dp.unit.move(GameWindow.gameWindow, i, j, null);								
+						if ((selectedUnit != null || selectedUnits.size() > 0)
+								&& Keyboard.isKeyPressed(KeyEvent.VK_SHIFT)) {
+							for (DeployedUnit dp : selectedUnits) {
+								dp.unit.move(GameWindow.gameWindow, i, j, null);
 							}
-							
-							
-							if(selectedUnit != null)
+
+							if (selectedUnit != null)
 								selectedUnit.unit.move(GameWindow.gameWindow, i, j, null);
-							
+
 							GameWindow.gameWindow.hexGrid.refreshDeployedUnits();
 							selectedUnits.clear();
 						}
@@ -1542,15 +1520,12 @@ public class HexGrid implements Serializable {
 							// System.out.println("Pop up menu 1");
 							PanelPopUp menu = new PanelPopUp(i, j, selectedUnit.unit);
 							menu.show(e.getComponent(), e.getX(), e.getY());
-						} else  {
+						} else {
 							// System.out.println("Pop up menu 2");
 							PanelPopUp menu = new PanelPopUp(i, j);
 							menu.show(e.getComponent(), e.getX(), e.getY());
 						}
 
-						
-						
-						
 						return;
 
 					}
@@ -1568,9 +1543,7 @@ public class HexGrid implements Serializable {
 			Polygon p = new Polygon();
 
 			p.addPoint((int) (X + (s / 2)), (int) (Y - a));
-			
-			
-			
+
 			p.addPoint((int) (X + s), (int) (Y));
 			p.addPoint((int) (X + (s / 2)), (int) (Y + a));
 			p.addPoint((int) (X - (s / 2)), (int) (Y + a));
@@ -1614,8 +1587,8 @@ public class HexGrid implements Serializable {
 		// corner of the first shape
 		public void makeHexes(int rows, int columns) {
 
-			//System.out.println("Make Hexes");
-			
+			// System.out.println("Make Hexes");
+
 			if (shapeList.size() > 0)
 				shapeList.clear();
 
@@ -1658,37 +1631,35 @@ public class HexGrid implements Serializable {
 			return count;
 		}
 
-		
 		public void showLOSThread() {
-			//System.out.println("Show LOS Thread.");
-			HexGrid.losThreadShowing = true; 
+			// System.out.println("Show LOS Thread.");
+			HexGrid.losThreadShowing = true;
 		}
-		
+
 		public void hideLOSThread() {
-			//System.out.println("Hide LOS Thread.");
+			// System.out.println("Hide LOS Thread.");
 			HexGrid.losThreadShowing = false;
 			losThread.reset();
 		}
-		
-		
+
 		public DeployedUnit getDeployedUnit(Unit unit) {
-			
-			for(DeployedUnit dp : deployedUnits) {
-				
-				if(unit.compareTo(dp.unit)) {
+
+			for (DeployedUnit dp : deployedUnits) {
+
+				if (unit.compareTo(dp.unit)) {
 					return dp;
 				}
-				
+
 			}
-			
-			return null; 
-			
+
+			return null;
+
 		}
-		
+
 		public int[] getHexFromPoint(int x, int y) {
-			
-			//System.out.println("Get hex from point");
-			
+
+			// System.out.println("Get hex from point");
+
 			for (int i = 0; i < hexMap.size(); i++) {
 
 				for (int j = 0; j < hexMap.get(0).size(); j++) {
@@ -1696,15 +1667,15 @@ public class HexGrid implements Serializable {
 					Polygon hex = hexMap.get(i).get(j);
 
 					if (hex.contains(new Point(x, y))) {
-						int[] arr={i, j};
-						return arr; 
+						int[] arr = { i, j };
+						return arr;
 					}
 				}
 			}
-			
-			return null; 
+
+			return null;
 		}
-		
+
 		public void drawChits(Graphics2D g2) {
 
 			for (int i = 0; i < GameWindow.gameWindow.game.chits.size(); i++) {
@@ -1712,16 +1683,15 @@ public class HexGrid implements Serializable {
 				Chit chit = GameWindow.gameWindow.game.chits.get(i);
 				Polygon hex = hexMap.get(chit.xCord).get(chit.yCord);
 
-				if(chit.shifted)
+				if (chit.shifted)
 					chit.drawChit(zoom, g2, hex, chit.shiftX, chit.shiftY);
 				else
 					chit.drawChit(zoom, g2, hex);
 
-				
-				String s = "Unit #"+chit.number;
+				String s = "Unit #" + chit.number;
 				int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2 + chit.shiftX;
 				int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2 + chit.shiftY;
-				
+
 				Font currentFont = g2.getFont();
 
 				Font newFont = currentFont.deriveFont((float) (currentFont.getSize()));
@@ -1729,17 +1699,16 @@ public class HexGrid implements Serializable {
 				FontMetrics metrics = g2.getFontMetrics(newFont);
 
 				// Determine the X coordinate for the text
-				int x = (hexCenterX - chit.getWidth() / 2)
-						+ (chit.getWidth() - metrics.stringWidth(s)) / 2;
+				int x = (hexCenterX - chit.getWidth() / 2) + (chit.getWidth() - metrics.stringWidth(s)) / 2;
 				// Determine the Y coordinate for the text (note we add the ascent, as in java
 				// 2d 0 is top of the screen)
-				int y = (int) ((hexCenterY - chit.getHeight() / 1.5) + -metrics.getHeight() / 2
-						+ metrics.getAscent()) - (int) (3 * zoom);
+				int y = (int) ((hexCenterY - chit.getHeight() / 1.5) + -metrics.getHeight() / 2 + metrics.getAscent())
+						- (int) (3 * zoom);
 				g2.setColor(Color.GREEN);
 				g2.setColor(Color.MAGENTA);
 				g2.setStroke(new BasicStroke(1f));
 				g2.draw(losThread);
-				
+
 				g2.setColor(Color.BLACK);
 				FontMetrics fm = g2.getFontMetrics();
 				Rectangle2D rect = fm.getStringBounds(s, g2);
@@ -1749,11 +1718,10 @@ public class HexGrid implements Serializable {
 				g2.setColor(Color.RED);
 			}
 		}
-		
+
 		public void drawUnit(DeployedUnit deployedUnit, Graphics g, Graphics2D g2, int count) {
 			// Displays unit card
 
-			
 			Polygon hex = hexMap.get(deployedUnit.xCord).get(deployedUnit.yCord);
 
 			// If a unit is already in this hex, shifts the chit down and to the right
@@ -1769,8 +1737,7 @@ public class HexGrid implements Serializable {
 				width = opforUnitWidth;
 				height = opforUnitHeight;
 			}
-			
-			
+
 			/*
 			 * if(zoom != oldZoom) { selectedUnit.unitImage =
 			 * bluforInfantryImage.getScaledInstance(bluforUnitWidth, bluforUnitHeight, 1);
@@ -1779,15 +1746,14 @@ public class HexGrid implements Serializable {
 
 			int unitsInHex = unitsInHex(deployedUnit.xCord, deployedUnit.yCord);
 
-			g2.drawImage(deployedUnit.unitImage,
-					(hexCenterX - width / 2) - (3 * (unitsInHex - count)),
+			g2.drawImage(deployedUnit.unitImage, (hexCenterX - width / 2) - (3 * (unitsInHex - count)),
 					(hexCenterY - height / 2) + (3 * (unitsInHex - count)), null);
 
 			if ((selectedUnit != null && selectedUnit.unit.callsign.equals(deployedUnit.unit.callsign))
 					|| selectedUnits.contains(deployedUnit)) {
 
 				if (deployedUnit.unit.side.equals("OPFOR")) {
-				//if (selectedUnit.unit.side.equals("OPFOR")) {
+					// if (selectedUnit.unit.side.equals("OPFOR")) {
 
 					Polygon diamond = new Polygon();
 
@@ -1814,8 +1780,7 @@ public class HexGrid implements Serializable {
 					int topLeftCornerY = hexCenterY - height / 2;
 					g2.setColor(Color.YELLOW);
 					g2.setStroke(new BasicStroke(2f));
-					g2.draw(new Rectangle(topLeftCornerX, topLeftCornerY, width,
-							height));
+					g2.draw(new Rectangle(topLeftCornerX, topLeftCornerY, width, height));
 				}
 
 			}
@@ -1850,10 +1815,11 @@ public class HexGrid implements Serializable {
 
 			}
 
-			String s = deployedUnit.getCallsign() + ":: "+GameWindow.gameWindow.initiativeOrder.indexOf(deployedUnit.unit);
+			String s = deployedUnit.getCallsign() + ":: "
+					+ GameWindow.gameWindow.initiativeOrder.indexOf(deployedUnit.unit);
 
 			s = commandStatus(deployedUnit.unit, s);
-			
+
 			/*
 			 * double textSizeMod = 0.8;
 			 * 
@@ -1879,19 +1845,17 @@ public class HexGrid implements Serializable {
 			int y = (int) ((hexCenterY - deployedUnit.unitImage.getHeight(null) / 1.5) + -metrics.getHeight() / 2
 					+ metrics.getAscent()) - (int) (3 * zoom);
 
-			
-			
 			if (count == unitsInHex(deployedUnit.xCord, deployedUnit.yCord)) {
 				g2.setColor(Color.MAGENTA);
 				g2.setStroke(new BasicStroke(1f));
 				g2.draw(losThread);
-				
+
 				g2.setColor(Color.BLACK);
 				FontMetrics fm = g2.getFontMetrics();
 				Rectangle2D rect = fm.getStringBounds(s, g2);
 				g2.fillRect(x, y - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
 				g2.setColor(Color.MAGENTA);
-				
+
 				g2.drawString(s, x, y);
 			}
 
@@ -1928,68 +1892,65 @@ public class HexGrid implements Serializable {
 		}
 
 		public String commandStatus(Unit unit, String s) {
-			if(unit.individuals.size() <=0 || unit.getLeader() == null)
+			if (unit.individuals.size() <= 0 || unit.getLeader() == null)
 				return "EMPTY:: " + s;
-			
+
 			String status = "";
-			
-			if(unit.entirelyMechanical())
+
+			if (unit.entirelyMechanical())
 				return s;
-			
-			if(unit.suppression > 50) {
+
+			if (unit.suppression > 50) {
 				status += "SUPPRESSED:: ";
 			} else if (unit.suppression > 10) {
 				status += "PINNED:: ";
-			} 
-			
-			if(unit.organization < 25 || unit.getLeader().leaderType == LeaderType.NONE) {
+			}
+
+			if (unit.organization < 25 || unit.getLeader().leaderType == LeaderType.NONE) {
 				status += "LOST COHESION:: ";
-			} else if(unit.organization < 50) {
+			} else if (unit.organization < 50) {
 				status += "DISORIENTED:: ";
 			}
-			
-			
-			
+
 			return status + s;
-			
+
 		}
-		
+
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			
-			
-			
-			
-			//System.out.println("Paint!");
-			
-			//System.out.println("shapeList: "+shapeList.size()+", Deployed Units: "+deployedUnits.size());
-			
+
+			// System.out.println("Paint!");
+
+			// System.out.println("shapeList: "+shapeList.size()+", Deployed Units:
+			// "+deployedUnits.size());
+
 			Graphics2D g2 = (Graphics2D) g;
 			g2.setStroke(STROKE);
 			Toolkit toolkit = Toolkit.getDefaultToolkit();
 			Dimension screenSize = toolkit.getScreenSize();
-			g2.setClip(0,0,screenSize.width,screenSize.height);
-			/*g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-			RenderingHints rh4 = new RenderingHints(RenderingHints.KEY_INTERPOLATION,
-					RenderingHints.VALUE_INTERPOLATION_BICUBIC);*/
-			//g2.setRenderingHints(rh4);
-			
+			g2.setClip(0, 0, screenSize.width, screenSize.height);
+			/*
+			 * g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+			 * RenderingHints.VALUE_ANTIALIAS_ON); RenderingHints rh4 = new
+			 * RenderingHints(RenderingHints.KEY_INTERPOLATION,
+			 * RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+			 */
+			// g2.setRenderingHints(rh4);
+
 			System.setProperty("sun.java2d.opengl", "true");
 			RenderingHints rh3 = new RenderingHints(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
 			g2.setRenderingHints(rh3);
-			RenderingHints rh2 = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+			RenderingHints rh2 = new RenderingHints(RenderingHints.KEY_ANTIALIASING,
+					RenderingHints.VALUE_ANTIALIAS_OFF);
 			g2.setRenderingHints(rh2);
 			RenderingHints rh = new RenderingHints(RenderingHints.KEY_TEXT_ANTIALIASING,
 					RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
 			g2.setRenderingHints(rh);
 
-			
-			
-			
 			if (zoom != oldZoom) {
 				s = Math.round(s / oldZoom * zoom);
-				System.out.println("S: "+s+", Zoom: "+zoom);
+				System.out.println("S: " + s + ", Zoom: " + zoom);
 				backgroundImageWidth = (int) Math.round(s * (columns / 2 * 3));
 				backgroundImageHeight = (int) Math.round(s * 1.7175 * rows);
 				backgroundImageHeight -= backgroundImageHeight / rows / 2;
@@ -1999,7 +1960,8 @@ public class HexGrid implements Serializable {
 				opforUnitHeight = (int) Math.round(opforUnitHeightConst * zoom);
 			}
 
-			if (pressedCursorPoint != null && currentCursorPoint != null && dragging && !Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)) {
+			if (pressedCursorPoint != null && currentCursorPoint != null && dragging
+					&& !Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)) {
 
 				backgroundImageX = shapeList.get(0).getBounds().x + 11;
 				backgroundImageY = shapeList.get(0).getBounds().y;
@@ -2014,13 +1976,12 @@ public class HexGrid implements Serializable {
 				g2.drawImage(backgroundImage, backgroundImageX, backgroundImageY, null);
 
 			} else {
-				//makeHexes(rows, columns);
-				
+				// makeHexes(rows, columns);
+
 				backgroundImageX = shapeList.get(0).getBounds().x + 11;
 				backgroundImageY = shapeList.get(0).getBounds().y;
 				g2.drawImage(backgroundImage, backgroundImageX, backgroundImageY, null);
-				
-				
+
 			}
 
 			for (Polygon shape : shapeList) {
@@ -2052,24 +2013,27 @@ public class HexGrid implements Serializable {
 				} else {
 					g2.draw(shape);
 				}
-				
 
 			}
-			//System.out.println("Columns: "+columns);
-			//System.out.println("Rows: "+rows);
-			//System.out.println("Hex Map Size: "+hexMap.size()+", row size: "+hexMap.get(0).size());
+
+			drawSmokeMarkers(g2);
+
+			// System.out.println("Columns: "+columns);
+			// System.out.println("Rows: "+rows);
+			// System.out.println("Hex Map Size: "+hexMap.size()+", row size:
+			// "+hexMap.get(0).size());
 			for (int i = 0; i < rows; i++) {
 
 				for (int j = 0; j < columns; j++) {
-					//System.out.println("i: "+i+" j: "+j);
+					// System.out.println("i: "+i+" j: "+j);
 					Polygon hex = hexMap.get(i).get(j);
-					
-					
+
 					Color color = g2.getColor();
 					g2.setColor(Color.GREEN);
-					if(gameWindow.hexes.size() != columns * rows && !hideU && gameWindow.findHex(i, j) == null) {
-						//g2.drawString("U", hex.xpoints[0],hex.ypoints[0]);
-						g2.drawString("U", (int) (hex.xpoints[0]-(hex.getBounds().width*0.5)), (int)(hex.ypoints[0]+(hex.getBounds().height*0.3)));
+					if (gameWindow.hexes.size() != columns * rows && !hideU && gameWindow.findHex(i, j) == null) {
+						// g2.drawString("U", hex.xpoints[0],hex.ypoints[0]);
+						g2.drawString("U", (int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
+								(int) (hex.ypoints[0] + (hex.getBounds().height * 0.3)));
 					}
 					g2.setColor(color);
 
@@ -2077,19 +2041,20 @@ public class HexGrid implements Serializable {
 
 					for (DeployedUnit deployedUnit : deployedUnits) {
 
-						if(deployedUnit.unit.callsign.equals("ghost1")) {
-							
-							//System.out.println("Ghost 1 in delpoyed units, i: "+i+", j: "+j+", xCord: "+deployedUnit.xCord+", yCord: "+deployedUnit.yCord);							
+						if (deployedUnit.unit.callsign.equals("ghost1")) {
+
+							// System.out.println("Ghost 1 in delpoyed units, i: "+i+", j: "+j+", xCord:
+							// "+deployedUnit.xCord+", yCord: "+deployedUnit.yCord);
 						}
-						
+
 						if (selectedUnit != null && deployedUnit.unit.callsign.equals(selectedUnit.unit.callsign))
 							continue;
 
-						if (deployedUnit.xCord == i && deployedUnit.yCord == j && HexGridUtility.canShow(shownType, deployedUnit.unit)) {
-
+						if (deployedUnit.xCord == i && deployedUnit.yCord == j
+								&& HexGridUtility.canShow(shownType, deployedUnit.unit)) {
 
 							drawUnit(deployedUnit, g, g2, count);
-							
+
 							count++;
 
 						}
@@ -2099,11 +2064,11 @@ public class HexGrid implements Serializable {
 					if (selectedUnit != null && selectedUnit.xCord == i && selectedUnit.yCord == j) {
 
 						drawUnit(selectedUnit, g, g2, count);
-						
+
 						for (Unit unit : selectedUnit.unit.lineOfSight) {
-							
-							if(!HexGridUtility.canShow(shownType, unit))
-								continue; 
+
+							if (!HexGridUtility.canShow(shownType, unit))
+								continue;
 
 							for (DeployedUnit targetUnit : deployedUnits) {
 
@@ -2112,9 +2077,9 @@ public class HexGrid implements Serializable {
 
 								if (targetUnit.unit.callsign.equals(unit.callsign)) {
 
-									if(selectedUnits.contains(targetUnit))
-										continue; 
-									
+									if (selectedUnits.contains(targetUnit))
+										continue;
+
 									hex = hexMap.get(targetUnit.xCord).get(targetUnit.yCord);
 
 									int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
@@ -2125,19 +2090,13 @@ public class HexGrid implements Serializable {
 										Polygon diamond = new Polygon();
 
 										// Top point
-										diamond.addPoint(hexCenterX, (int) (hexCenterY
-												- opforUnitHeight / 2 - 3));
+										diamond.addPoint(hexCenterX, (int) (hexCenterY - opforUnitHeight / 2 - 3));
 										// Left point
-										diamond.addPoint(
-												(int) (hexCenterX - opforUnitWidth / 2 - 3),
-												hexCenterY);
+										diamond.addPoint((int) (hexCenterX - opforUnitWidth / 2 - 3), hexCenterY);
 										// Bottom point
-										diamond.addPoint(hexCenterX, (int) (hexCenterY
-												+ opforUnitHeight / 2 + 3));
+										diamond.addPoint(hexCenterX, (int) (hexCenterY + opforUnitHeight / 2 + 3));
 										// Right point
-										diamond.addPoint(
-												(int) (hexCenterX + opforUnitWidth / 2 + 3),
-												hexCenterY);
+										diamond.addPoint((int) (hexCenterX + opforUnitWidth / 2 + 3), hexCenterY);
 
 										g2.setColor(Color.MAGENTA);
 										g2.setStroke(new BasicStroke(2f));
@@ -2147,27 +2106,25 @@ public class HexGrid implements Serializable {
 
 										g2.setColor(Color.MAGENTA);
 										g2.setStroke(new BasicStroke(3f));
-										
+
 										Polygon outline = new Polygon();
-										
-										
+
 										// Top Left point
-										outline.addPoint(
-												hexCenterX-bluforUnitWidth/2,
-												hexCenterY+ bluforUnitHeight/2);
-										
+										outline.addPoint(hexCenterX - bluforUnitWidth / 2,
+												hexCenterY + bluforUnitHeight / 2);
+
 										// Bottom left point
-										outline.addPoint(hexCenterX-bluforUnitWidth/2, 
-												hexCenterY - bluforUnitHeight/2);
-										
+										outline.addPoint(hexCenterX - bluforUnitWidth / 2,
+												hexCenterY - bluforUnitHeight / 2);
+
 										// Bottom Right point
-										outline.addPoint(hexCenterX+bluforUnitWidth/2, 
-												hexCenterY - bluforUnitHeight/2);
-										
+										outline.addPoint(hexCenterX + bluforUnitWidth / 2,
+												hexCenterY - bluforUnitHeight / 2);
+
 										// Top Right Point
-										outline.addPoint(hexCenterX +bluforUnitWidth/2,
-												hexCenterY + bluforUnitHeight/2);
-										
+										outline.addPoint(hexCenterX + bluforUnitWidth / 2,
+												hexCenterY + bluforUnitHeight / 2);
+
 										g2.draw(outline);
 										g2.setStroke(new BasicStroke(2f));
 									}
@@ -2184,43 +2141,78 @@ public class HexGrid implements Serializable {
 				}
 
 			}
-			
-			
+
 			translateSelectedChit();
 
 			drawChitShadow(g2);
-			
+
 			drawChits(g2);
-			
-			if(HexGrid.losThreadShowing && losThread.npoints > 1) {
-				
-				//System.out.println("Thread: ("+losThread.xpoints[0]+", "+losThread.ypoints[0]+"), "+"( "+losThread.xpoints[1]+", "+losThread.ypoints[1]+")");
-				
-				int x1 = losThread.xpoints[0], y1 = losThread.ypoints[0], x2 = losThread.xpoints[1], y2 = losThread.ypoints[1];
-				
-				
-				
-				
-				if(getHexFromPoint(x1, y1) != null && getHexFromPoint(x2, y2) != null) {
+
+			if (HexGrid.losThreadShowing && losThread.npoints > 1) {
+
+				// System.out.println("Thread: ("+losThread.xpoints[0]+",
+				// "+losThread.ypoints[0]+"), "+"( "+losThread.xpoints[1]+",
+				// "+losThread.ypoints[1]+")");
+
+				int x1 = losThread.xpoints[0], y1 = losThread.ypoints[0], x2 = losThread.xpoints[1],
+						y2 = losThread.ypoints[1];
+
+				if (getHexFromPoint(x1, y1) != null && getHexFromPoint(x2, y2) != null) {
 					drawThread(g2, x1, y1, x2, y2);
-				} else if(getHexFromPoint(x1-5, y1-3) != null && getHexFromPoint(x2 + 5, y2 + 5) != null) {
-					drawThread(g2, x1-5, y1-3, x2 + 5, y2 + 5);
+				} else if (getHexFromPoint(x1 - 5, y1 - 3) != null && getHexFromPoint(x2 + 5, y2 + 5) != null) {
+					drawThread(g2, x1 - 5, y1 - 3, x2 + 5, y2 + 5);
 				}
-				
+
 			}
 
 			pressedCursorPoint = currentCursorPoint;
 			oldZoom = zoom;
-			
+
 		}
-		
+
+		private void drawSmokeMarkers(Graphics2D g2) {
+			// Draw smoke markers
+			if (GameWindow.gameWindow != null && GameWindow.gameWindow.game != null
+					&& GameWindow.gameWindow.game.smoke != null) {
+				for (SmokeStats smoke : GameWindow.gameWindow.game.smoke.deployedSmoke) {
+
+					Cord cord = getCenterFromCoordinates(smoke.deployedHex.xCord, smoke.deployedHex.yCord);
+					int x = cord.xCord;
+
+					Polygon hex = hexMap.get(smoke.deployedHex.xCord).get(smoke.deployedHex.yCord);
+
+					int hexCenterY = hex.getBounds().y + hex.getBounds().height / 3;
+
+					int y = hexCenterY;
+
+					String s = "Smoke";
+					g2.setColor(Color.MAGENTA);
+					g2.setStroke(new BasicStroke(1f));
+					g2.draw(losThread);
+
+					g2.setColor(Color.BLACK);
+					FontMetrics fm = g2.getFontMetrics();
+					Rectangle2D rect = fm.getStringBounds(s, g2);
+					x = x - (int) rect.getWidth() / 2;
+					g2.fillRect(x, y - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
+					g2.setColor(Color.MAGENTA);
+
+					g2.drawString(s, x, y);
+				}
+			}
+
+			g2.setColor(Color.green);
+			g2.setStroke(new BasicStroke((float) (2f * zoom)));
+
+		}
+
 		public void translateSelectedChit() {
 			if (pressedCursorPoint != null && currentCursorPoint != null && dragging && Chit.isAChitSelected()) {
 				Chit.translateChit(currentCursorPoint.x - pressedCursorPoint.x,
 						currentCursorPoint.y - pressedCursorPoint.y);
 			}
 		}
-		
+
 		public void drawChitShadow(Graphics2D g2) {
 			if (currentCursorPoint == null || !Chit.isAChitSelected())
 				return;
@@ -2236,46 +2228,45 @@ public class HexGrid implements Serializable {
 			setOpacity(1f, g2);
 
 		}
-		
+
 		public void setOpacity(float alpha, Graphics2D g2) {
 			AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
 			g2.setComposite(ac);
 		}
-		
+
 		public void drawThread(Graphics2D g2, int x1, int y1, int x2, int y2) {
-			// Draw line between two points 
-			//System.out.println("Draw");
+			// Draw line between two points
+			// System.out.println("Draw");
 			g2.setColor(Color.MAGENTA);
 			g2.setStroke(new BasicStroke(1f));
 			g2.draw(losThread);
-			
+
 			g2.setColor(Color.BLACK);
-			String rslts = "Range: "; 
-			rslts += GameWindow.hexDif(getHexFromPoint(x1, y1)[0], getHexFromPoint(x1, y1)[1], getHexFromPoint(x2, y2)[0], getHexFromPoint(x2, y2)[1]);
+			String rslts = "Range: ";
+			rslts += GameWindow.hexDif(getHexFromPoint(x1, y1)[0], getHexFromPoint(x1, y1)[1],
+					getHexFromPoint(x2, y2)[0], getHexFromPoint(x2, y2)[1]);
 			FontMetrics fm = g2.getFontMetrics();
 			Rectangle2D rect = fm.getStringBounds(rslts, g2);
 			g2.fillRect(x2 + 5, y2 - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
 			g2.setColor(Color.MAGENTA);
 			g2.drawString(rslts, x2 + 5, y2);
 		}
-		
-		private class TimerListener implements ActionListener {
-	        @Override
-	        public void actionPerformed(ActionEvent e) { 
-	        	
-	        	
-	        	repaint();
-	        	
-	        	if(changedUnits) {
-	        		refreshDeployedUnits();
-	        		changedUnits = false; 
-	        	}
-	        	
-	        	fpscnt.frame();
-	        	//System.out.println("FPS: "+fpscnt.get());	
-	        }
-	    }
 
+		private class TimerListener implements ActionListener {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				repaint();
+
+				if (changedUnits) {
+					refreshDeployedUnits();
+					changedUnits = false;
+				}
+
+				fpscnt.frame();
+				// System.out.println("FPS: "+fpscnt.get());
+			}
+		}
 
 	}
 }
