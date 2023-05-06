@@ -91,6 +91,7 @@ public class GameWindow implements Serializable {
 	private JSpinner spinnerHexSize;
 	public int hexCols;
 	public int hexRows;
+	private JLabel lblWind;
 
 	/**
 	 * Launch the application.
@@ -570,36 +571,6 @@ public class GameWindow implements Serializable {
 		btnSetHex.setBounds(600, 40, 74, 23);
 		f.getContentPane().add(btnSetHex);
 
-		// System.out.println("Init order size: "+initiativeOrder.size());
-		// Opens active unit
-		if (initiativeOrder != null && initiativeOrder.size() > 0) {
-
-			// Updates Lavels
-			setUnitlabel();
-			setRound();
-			setPhase();
-			setActions();
-
-			if (openUnit) {
-				Unit unit = initiativeOrder.get(activeUnit);
-				openUnit(unit, activeUnit);
-			}
-
-			// System.out.println("Load Active Unit: "+activeUnit);
-		}
-
-		if (game.getDaylightCondition().equals(""))
-			comboBoxVisibility.setSelectedIndex(0);
-
-		// Creates hex grid
-		// System.out.println("Create hex grid");
-		this.hexGrid = new HexGrid(initiativeOrder, gameWindow, hexRows, hexCols);
-		if (hexGrid != null && hexGrid.panel.deployedUnits.size() > 0) {
-			hexGrid.panel.selectedUnit = hexGrid.panel.deployedUnits.get(activeUnit);
-		}
-
-		spinnerHexSize.setValue(hexSize);
-
 		JButton btnNewButton_3 = new JButton("CQB Check");
 		btnNewButton_3.addMouseListener(new MouseAdapter() {
 			@Override
@@ -667,10 +638,9 @@ public class GameWindow implements Serializable {
 		JButton btnNextAction = new JButton("Next Action");
 		btnNextAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
+
 				new AlertWindow("Loading Next Action");
-				
+
 				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
 					@Override
@@ -682,11 +652,12 @@ public class GameWindow implements Serializable {
 					@Override
 					protected void done() {
 						guiUpdateNextActiveUnit();
-						//openUnit(initiativeOrder.get(activeUnit), activeUnit);
+						// openUnit(initiativeOrder.get(activeUnit), activeUnit);
 						hexGrid.frame.toFront();
 						hexGrid.frame.requestFocus();
 						new AlertWindow("Finished Loading Next Action");
 						conflictLog.addQueuedText();
+						lblWind.setText(game.wind.toString());
 					}
 
 				};
@@ -697,6 +668,52 @@ public class GameWindow implements Serializable {
 		});
 		btnNextAction.setBounds(418, 132, 128, 23);
 		f.getContentPane().add(btnNextAction);
+
+		lblWind = new JLabel("Wind: ");
+		lblWind.setFont(new Font("Calibri", Font.BOLD, 13));
+		lblWind.setBounds(418, 26, 118, 17);
+		f.getContentPane().add(lblWind);
+
+		JButton btnWind = new JButton("Wind");
+		btnWind.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				game.wind.setStats();
+				lblWind.setText(game.wind.toString());
+			}
+		});
+		btnWind.setBounds(418, 53, 118, 23);
+		f.getContentPane().add(btnWind);
+
+		// System.out.println("Init order size: "+initiativeOrder.size());
+		// Opens active unit
+		if (initiativeOrder != null && initiativeOrder.size() > 0) {
+
+			// Updates Lavels
+			setUnitlabel();
+			setRound();
+			setPhase();
+			setActions();
+
+			if (openUnit) {
+				Unit unit = initiativeOrder.get(activeUnit);
+				openUnit(unit, activeUnit);
+			}
+
+			// System.out.println("Load Active Unit: "+activeUnit);
+		}
+
+		if (game.getDaylightCondition().equals(""))
+			comboBoxVisibility.setSelectedIndex(0);
+
+		// Creates hex grid
+		// System.out.println("Create hex grid");
+		this.hexGrid = new HexGrid(initiativeOrder, gameWindow, hexRows, hexCols);
+		if (hexGrid != null && hexGrid.panel.deployedUnits.size() > 0) {
+			hexGrid.panel.selectedUnit = hexGrid.panel.deployedUnits.get(activeUnit);
+		}
+
+		spinnerHexSize.setValue(hexSize);
+		lblWind.setText(game.wind.toString());
 
 	}
 
@@ -755,6 +772,7 @@ public class GameWindow implements Serializable {
 			hexGrid.refreshDeployedUnits();
 		}
 
+		
 	}
 
 	// Loops through companies
@@ -1693,7 +1711,7 @@ public class GameWindow implements Serializable {
 	public void spotCycle() {
 
 		conflictLog.addNewLineToQueue("Spot Cycle: ");
-		
+
 		ExecutorService es = Executors.newFixedThreadPool(16);
 
 		for (Iterator<Unit> iteratorInitOrder = initiativeOrder.iterator(); iteratorInitOrder.hasNext();) {
@@ -2085,25 +2103,25 @@ public class GameWindow implements Serializable {
 		advanceTime();
 		markUnmoved();
 		timedEvents();
-		
-		game.setCurrentAction(game.getCurrentAction()+1);
-		
-		int maxAction = 3; 
-		
-		for(Unit unit : initiativeOrder) {
-			for(Trooper trooper : unit.getTroopers()) {
-				if(game.getPhase() == 1 ? (trooper.P1 > maxAction) : (trooper.P2 > maxAction)) {
+
+		game.setCurrentAction(game.getCurrentAction() + 1);
+
+		int maxAction = 3;
+
+		for (Unit unit : initiativeOrder) {
+			for (Trooper trooper : unit.getTroopers()) {
+				if (game.getPhase() == 1 ? (trooper.P1 > maxAction) : (trooper.P2 > maxAction)) {
 					maxAction = game.getPhase() == 1 ? trooper.P1 : trooper.P2;
 				}
 			}
 		}
-		
-		if(game.getCurrentAction() > maxAction) {
+
+		if (game.getCurrentAction() > maxAction) {
 			advancePhase();
 		}
-		
+
 	}
-	
+
 	public void advancePhase() {
 		// Check for end of round or phase
 		if (game.getPhase() == 1) {
@@ -2122,16 +2140,16 @@ public class GameWindow implements Serializable {
 
 		}
 	}
-	
+
 	public void markUnmoved() {
 		for (DeployedUnit deployedUnit : hexGrid.panel.deployedUnits) {
 			deployedUnit.moved = false;
 		}
 	}
-	
+
 	public void timedEvents() {
 		int currentAction = game.getCurrentAction();
-		
+
 		if (currentAction == 1 || currentAction == 2 || currentAction == 3) {
 			advanceTimeFireMissions();
 			spotCycle();
@@ -2141,52 +2159,51 @@ public class GameWindow implements Serializable {
 	public void advanceTime() {
 		ExecutorService es = Executors.newFixedThreadPool(16);
 
-		for(Unit unit : initiativeOrder) {
+		for (Unit unit : initiativeOrder) {
 			es.submit(() -> {
-				
+
 				advanceTimeUnit(unit);
-				
+
 			});
-			
+
 			try {
 				TimeUnit.MILLISECONDS.sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		es.shutdown();
 	}
-	
+
 	public void advanceTimeFireMissions() {
-		
+
 		ExecutorService es = Executors.newFixedThreadPool(16);
 
-		for(Unit unit : initiativeOrder) {
+		for (Unit unit : initiativeOrder) {
 			es.submit(() -> {
 				// Fire Missions
 				for (FireMission fireMission : unit.fireMissions) {
 					// System.out.println("Calling Advance Time Fire Mission");
 					fireMission.advanceTime();
 				}
-				
+
 			});
-			
+
 			try {
 				TimeUnit.MILLISECONDS.sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		es.shutdown();
-		
+
 	}
-	
+
 	public void advanceTimeUnit(Unit unit) {
-		
+
 		int actions = game.getCurrentAction();
-		
 
 		ArrayList<Trooper> troopers = unit.getTroopers();
 
@@ -2268,21 +2285,20 @@ public class GameWindow implements Serializable {
 
 	public void CalcLOS() {
 		System.out.println("Calc los");
-		
-		for(Unit unit : initiativeOrder) {
-			
+
+		for (Unit unit : initiativeOrder) {
+
 			unit.lineOfSight.clear();
-			
-			for(Unit targetUnit : initiativeOrder) {
-				if(unit.side.equals(targetUnit.side))
+
+			for (Unit targetUnit : initiativeOrder) {
+				if (unit.side.equals(targetUnit.side))
 					continue;
-				
+
 				CalculateLOS.calc(unit, targetUnit);
-				
+
 			}
-			
+
 		}
-		
+
 	}
-	
 }

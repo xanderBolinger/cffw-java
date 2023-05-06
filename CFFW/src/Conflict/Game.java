@@ -13,6 +13,8 @@ public class Game implements Serializable {
 	public String mapImageFileName = "refuge_33x33.png"; 
 	public ArrayList<Chit> chits;
 	public int chitCounter;
+	
+	public Wind wind;
 	// public timne object 
 
 	public Game(int phase, int round, int currentAction) {
@@ -21,6 +23,7 @@ public class Game implements Serializable {
 		this.currentAction = currentAction;
 		chits = new ArrayList<>();
 		chitCounter = 1;
+		wind = new Wind();
 	} 
 	
 	// SETTERS 
