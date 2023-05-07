@@ -18,7 +18,7 @@ public class Item implements Serializable {
 	public enum ItemType {
 		NONE,ClassAThermalDetonator,Nacht5SmokeGrenade,
 		
-		DC15A,DC20,M5,DC15X,Z6,DC17M,DC17MRocket,DC17MSniper,DC40,RPS6,HEAT,HE,ION,SmallArmsAmmo,
+		DC15A,DC20,M5,DC15X,Z6,DC17M,DC17MRocket,DC17MSniper,DC40,RPS6,HEAT,HE,ION,SMOKE,SmallArmsAmmo,
 		
 		EWEBWeapon,EWEBTripod,EWEBBattery,
 		
@@ -66,6 +66,7 @@ public class Item implements Serializable {
 				new Item(ItemType.DC40, ItemType.HE),
 				new Item(ItemType.DC40, ItemType.HEAT),
 				new Item(ItemType.DC40, ItemType.ION),
+				new Item(ItemType.DC40, ItemType.SMOKE),
 				new Item(ItemType.RPS6, ItemType.HE),
 				new Item(ItemType.RPS6, ItemType.HEAT),
 				
@@ -161,6 +162,9 @@ public class Item implements Serializable {
 			itemWeight = 0.2;
 		} else if(ItemType.DC40 == weaponType && ItemType.ION == ammoType) {
 			ammo = new PCAmmo("ION");
+			itemWeight = 0.2;
+		} else if(ItemType.DC40 == weaponType && ItemType.SMOKE == ammoType) {
+			ammo = new PCAmmo("SMOKE");
 			itemWeight = 0.2;
 		} else if(ItemType.B2RR == weaponType && ItemType.HEAT == ammoType) {
 			ammo = new PCAmmo("HEAT");

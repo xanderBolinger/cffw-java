@@ -28,7 +28,7 @@ public class PCAmmo implements Serializable {
 	public int shots = 0;
 	
 	public PCAmmo(SmokeType smokeType) {
-		name = "Smoke";
+		name = "SMOKE";
 		smoke = true;
 		this.smokeType = smokeType;
 	}

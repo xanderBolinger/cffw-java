@@ -3392,6 +3392,7 @@ public class Weapons implements Serializable {
 		ion.ionDamage.add(50);
 		pcAmmoTypes.add(ion);
 		
+		pcAmmoTypes.add(new PCAmmo(SmokeType.SMOKE_GRENADE));
 		
 		// Aim time
 		this.aimTime.add(-23);

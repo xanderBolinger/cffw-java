@@ -2,6 +2,8 @@ package Items;
 
 import java.util.ArrayList;
 
+import Conflict.SmokeStats.SmokeType;
+
 public class WeaponsStats {
 	
 	public ArrayList<Weapons> weapons = new ArrayList<>();
@@ -126,7 +128,7 @@ public class WeaponsStats {
 
 		PCAmmo heat = new PCAmmo(name, pen, dc, bshc, bc, 288, 10);
 		weapon.pcAmmoTypes.add(heat);
-		
+		weapon.pcAmmoTypes.add(new PCAmmo(SmokeType.SMOKE_GRENADE));
 		
 		// Ce stats
 		weapon.ceStats.baseErgonomics = 30;
