@@ -1064,6 +1064,7 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
+			inventory.addItems(ItemType.Nacht5SmokeGrenade, 2);
 			
 
 		} else if (input.equals("Clone Rifleman")) { // Rifleman
@@ -1117,6 +1118,7 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.DC40, 1);
 			inventory.addItems(ItemType.DC40, ItemType.HEAT, 6);
 			inventory.addItems(ItemType.DC40, ItemType.ION, 4);
+			inventory.addItems(ItemType.DC40, ItemType.SMOKE, 4);
 
 		} else if (input.equals("Clone Autorifleman")) { // Autorifleman
 			// Creates attributes
@@ -1575,6 +1577,8 @@ public class Trooper implements Serializable {
 
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 3);
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
+			inventory.addItems(ItemType.Nacht5SmokeGrenade, 2);
 
 			// B1 Rifleman
 		} else if (input.equals("B1 Rifleman")) {
@@ -1834,6 +1838,8 @@ public class Trooper implements Serializable {
 
 			inventory.addItems(ItemType.E5, 1);
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 2);
+			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
+			inventory.addItems(ItemType.Nacht5SmokeGrenade, 2);
 
 			// B1 Rifleman
 		} else if (input.equals("Commando Droid Rifleman")) {
