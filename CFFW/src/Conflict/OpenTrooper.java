@@ -1507,8 +1507,7 @@ public class OpenTrooper implements Serializable {
 
 		comboBoxGrenade = new JComboBox();
 		comboBoxGrenade.setBounds(10, 514, 136, 20);
-		comboBoxGrenade.setModel(new DefaultComboBoxModel(new String[] { "None", "Class-A Thermal Detonator",
-				"Class-A Haywire Grenade", "M9 Frag", "Type-1 Plasma Grenade" }));
+		comboBoxGrenade.setModel(new DefaultComboBoxModel(new String[] {"None", "Class-A Thermal Detonator", "Class-A Haywire Grenade", "M9 Frag", "Type-1 Plasma Grenade", "RGD-5", "Nacht-5 Smoke Grenade"}));
 		comboBoxGrenade.setSelectedIndex(0);
 		panelActions.add(comboBoxGrenade);
 

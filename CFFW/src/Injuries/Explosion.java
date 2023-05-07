@@ -6,6 +6,7 @@ import Artillery.Artillery.Shell;
 import Conflict.GameWindow;
 import Conflict.InjuryLog;
 import Conflict.SmokeStats;
+import Conflict.SmokeStats.SmokeType;
 import CorditeExpansion.Cord;
 import Items.PCAmmo;
 import Items.Weapons;
@@ -47,8 +48,15 @@ public class Explosion {
 	// If a friendly side should be exempt from the explosion such as in grenade tosses, allows specification of friendly side 
 	public void explodeHex(int x, int y, String friendlySide) {
 		
-		if(pcAmmo != null && pcAmmo.smoke == true) {
-			GameWindow.gameWindow.game.smoke.deploySmoke(new Cord(x,y), new SmokeStats(pcAmmo.smokeType));
+		if((pcAmmo != null && pcAmmo.smoke == true) || 
+				(weapon != null && weapon.type.equals("Grenade") && weapon.pcAmmoTypes.get(0).smoke) ||
+				(shell != null && shell.smoke)) {
+			System.out.println("Explode Hex Smoke");
+			
+			SmokeType smokeType = weapon != null ? weapon.pcAmmoTypes.get(0).smokeType : (pcAmmo != null ? pcAmmo.smokeType : shell.smokeType);
+			
+			GameWindow.gameWindow.game.smoke.deploySmoke(new Cord(x,y), new SmokeStats(smokeType));
+			return;
 		}
 		
 		System.out.println("Explode Hex");

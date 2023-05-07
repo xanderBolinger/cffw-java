@@ -180,6 +180,7 @@ public class Inventory implements Serializable {
 	public boolean containsItem(String itemName) {
 		Item removalItem = null;
 		boolean itemFound = false;
+		System.out.println("Search Item: "+itemName);
 		for (Container container : containers) {
 
 			for (Item item : container.items) {

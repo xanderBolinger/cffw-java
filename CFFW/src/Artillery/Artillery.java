@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import Conflict.SmokeStats.SmokeType;
+
 
 public class Artillery implements Serializable {
 	
@@ -76,7 +78,7 @@ public class Artillery implements Serializable {
 	}
 	
 	public enum ShellType implements Serializable {
-		M107HE,AV7HEAT,M81HE,M81ION
+		M107HE,AV7HEAT,M81HE,M81ION,M107Smoke,AV7Smoke,M81Smoke
 	}
 	
 	public Artillery(BatteryType batteryType, int crewQuality) {
@@ -104,6 +106,7 @@ public class Artillery implements Serializable {
 			deployTime = 60; 
 			
 			shells.add(new Shell(ShellType.M107HE));
+			shells.add(new Shell(ShellType.M107Smoke));
 		} else if(BatteryType.AV7 == batteryType) {
 			batteryName = "AV7";
 			this.batteryType = batteryType; 
@@ -125,6 +128,7 @@ public class Artillery implements Serializable {
 			deployTime = 60; 
 			
 			shells.add(new Shell(ShellType.AV7HEAT));
+			shells.add(new Shell(ShellType.AV7Smoke));
 		} else if(BatteryType.M81  == batteryType) {
 			batteryName = "M81";
 			this.batteryType = batteryType; 
@@ -147,6 +151,7 @@ public class Artillery implements Serializable {
 			
 			shells.add(new Shell(ShellType.M81HE));
 			shells.add(new Shell(ShellType.M81ION));
+			shells.add(new Shell(ShellType.M81Smoke));
 		}
 		
 	}
@@ -163,6 +168,9 @@ public class Artillery implements Serializable {
 		public ArrayList<Integer> bc = new ArrayList<Integer>();
 		public ArrayList<Integer> ionDamage = new ArrayList<Integer>();
 		public String shellName; 
+		
+		public boolean smoke = false; 
+		public SmokeType smokeType;
 		
 		public Shell(ShellType shellType) {
 			
@@ -315,7 +323,19 @@ public class Artillery implements Serializable {
 				ionDamage.add(23);
 				ionDamage.add(15);
 				ionDamage.add(5);
-			}
+			} else if(shellType == ShellType.M81Smoke) {
+				shellName = "Smoke";
+				smoke = true; 
+				smokeType = SmokeType.Mortar81mm;
+			} else if(shellType == ShellType.AV7Smoke) {
+				shellName = "Smoke";
+				smoke = true; 
+				smokeType = SmokeType.Howitzer155mm;
+			} else if(shellType == ShellType.M107Smoke) {
+				shellName = "Smoke";
+				smoke = true; 
+				smokeType = SmokeType.Howitzer105mm;
+			} 
 			
 		}
 		
