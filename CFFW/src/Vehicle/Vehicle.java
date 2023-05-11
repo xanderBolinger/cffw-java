@@ -1,4 +1,4 @@
-package Vehicles;
+package Vehicle;
 
 public class Vehicle {
 

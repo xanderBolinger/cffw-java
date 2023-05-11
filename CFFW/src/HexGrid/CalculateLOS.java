@@ -13,14 +13,21 @@ public class CalculateLOS {
 		
 		ArrayList<Cord> hexes = TraceLine.GetHexes(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y), GameWindow.gameWindow.hexGrid.panel);
 
+		Cord spotterCord;
+		Cord targetCord; 
+		
 		if(hexes.size() > 2) {
-			hexes.remove(0);
-			hexes.remove(hexes.size()-1);
+			spotterCord = hexes.remove(0);
+			targetCord = hexes.remove(hexes.size()-1);
 		} else {
+			
 			
 			unit.lineOfSight.add(targetUnit);
 			return;
 		}
+		
+		int spotterElevation = GameWindow.gameWindow.findHex(spotterCord.xCord, spotterCord.yCord).elevation;
+		int targetElevation = GameWindow.gameWindow.findHex(targetCord.xCord, targetCord.yCord).elevation;
 		
 		int concealment = 0; 
 		
@@ -28,6 +35,13 @@ public class CalculateLOS {
 			Hex foundHex = GameWindow.gameWindow.findHex(hex.xCord, hex.yCord);
 			if(foundHex == null)
 				continue; 
+			
+			double slopeToTarget = ((double)targetElevation - (double)spotterElevation) / ((double)hexes.size() + 2.0 - 1.0);
+			double slopeToObstacle = ((double)GameWindow.gameWindow.findHex(hex.xCord, hex.yCord).elevation - (double)spotterElevation) / ((double)hexes.indexOf(hex)+2.0 - 1.0);
+			
+			if(slopeToObstacle < slopeToTarget)
+				continue;
+
 			concealment += foundHex.concealment;
 			concealment += GameWindow.gameWindow.game.smoke.getConcealment(hex);
 			
@@ -75,6 +89,9 @@ public class CalculateLOS {
 	}
 	
 	public static int getConcealmentAlm(Unit shooterUnit, Unit targetUnit) {
+		if(GameWindow.gameWindow == null)
+			return 0;
+		
 		ArrayList<Cord> hexes = TraceLine.GetHexes(new Cord(shooterUnit.X, shooterUnit.Y), new Cord(targetUnit.X, targetUnit.Y), GameWindow.gameWindow.hexGrid.panel);
 		
 		if(hexes.size() != 1)
