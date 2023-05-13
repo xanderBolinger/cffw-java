@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -30,9 +31,16 @@ import UtilityClasses.ExcelUtility;
 public class JsonSaveRunner {
 
 	public static void main(String[] args) {
-
-		Trooper trooper = new Trooper("Clone Squad Leader", "Clone Trooper Phase 1");
-		System.out.println(saveTrooper(new TrooperJson(trooper)));
+		try {
+			String fileContents = loadFile();
+			System.out.println(fileContents);
+			Trooper trooper = loadTrooper(fileContents);
+			System.out.println("Trooper name: "+trooper.name);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		//Trooper trooper = new Trooper("Clone Squad Leader", "Clone Trooper Phase 1");
+		//System.out.println(saveTrooper(new TrooperJson(trooper)));
 		
 		/*
 		 * 
@@ -111,8 +119,10 @@ public class JsonSaveRunner {
 		int result = fileChooser.showOpenDialog(new JPanel());
 		if (result == JFileChooser.APPROVE_OPTION) {
 			File selectedFile = fileChooser.getSelectedFile();
-			Path path = Path.of(selectedFile.getAbsolutePath());
-			return Files.readString(path);
+			//return readUsingFiles(selecteFile.);
+			return new String(Files.readAllBytes(Paths.get(selectedFile.getAbsolutePath())));
+			//Path path = Path.of(selectedFile.getAbsolutePath());
+			//return Files.readString(path);
 			// System.out.println("Selected file: " + selectedFile.getAbsolutePath());
 			// Path path = Path.of(selectedFile.getAbsolutePath());
 			// System.out.println("Content: "+Files.readString(path));

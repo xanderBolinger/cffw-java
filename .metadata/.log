@@ -152,3 +152,415 @@ Binding(ALT+SHIFT+R,
 		,,true),null),
 	org.eclipse.ui.defaultAcceleratorConfiguration,
 	org.eclipse.ui.contexts.window,,,system)
+!SESSION 2023-05-12 13:43:08.344 -----------------------------------------------
+eclipse.buildId=4.24.0.I20220607-0700
+java.version=17.0.4.1
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.core.resources 2 10035 2023-05-12 13:44:38.509
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.jface 2 0 2023-05-12 13:44:41.270
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2023-05-12 13:44:41.271
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@5aa2758a,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolinworkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@1a916120,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2023-05-12 13:44:41.271
+!MESSAGE A conflict occurred for ALT+SHIFT+R:
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.edit.text.java.rename.element,Rename - Refactoring ,
+		Rename the selected element,
+		Category(org.eclipse.jdt.ui.category.refactoring,Refactor - Java,Java Refactoring Actions,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@2d732cda,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.ui.edit.rename,Rename,
+		Rename the selected item,
+		Category(org.eclipse.ui.category.file,File,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@755fdfad,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:17.745
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:17.746
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:17.747
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:17.747
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:17.747
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:17.748
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:17.748
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:17.748
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:17.749
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:17.749
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:17.749
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:17.750
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:17.750
+!MESSAGE Compile error during code evaluation: Vehicle.Vehicle cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:29.089
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:29.090
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:29.090
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:29.090
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:29.090
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:29.092
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:29.092
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:29.092
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:29.093
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:29.093
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:29.093
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:29.093
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:29:29.093
+!MESSAGE Compile error during code evaluation: Vehicle.Vehicle cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:02.576
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:02.576
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:02.577
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:02.577
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:02.577
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:02.578
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:02.578
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:02.578
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:02.578
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:02.579
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:02.579
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:02.579
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:02.579
+!MESSAGE Compile error during code evaluation: Vehicle.Vehicle cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:25.895
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:25.896
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:25.896
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:25.896
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:25.896
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:25.897
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:25.897
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:25.898
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:25.898
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:25.898
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:25.898
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:25.899
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:25.899
+!MESSAGE Compile error during code evaluation: Vehicle.Vehicle cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:33.093
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:33.094
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:33.094
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:33.095
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:33.095
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:33.095
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:33.096
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:33.096
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:33.097
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:33.097
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:33.097
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:33.098
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:33.098
+!MESSAGE Compile error during code evaluation: Vehicle.Vehicle cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:55.187
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:55.187
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:55.188
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:55.188
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:55.188
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:55.189
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:55.189
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:55.189
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:55.189
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:55.190
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:55.190
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:55.190
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:30:55.191
+!MESSAGE Compile error during code evaluation: Vehicle.Vehicle cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:04.658
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:04.658
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:04.658
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:04.659
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:04.659
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:04.659
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:04.659
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:04.660
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:04.660
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:04.660
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:04.660
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:04.661
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:04.661
+!MESSAGE Compile error during code evaluation: Vehicle.Vehicle cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:12.337
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:12.337
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:12.338
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:12.338
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:12.338
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:12.338
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:12.339
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:12.339
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:12.339
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:12.340
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:12.340
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:12.340
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:31:12.340
+!MESSAGE Compile error during code evaluation: Vehicle.Vehicle cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.625
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.626
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.626
+!MESSAGE Compile error during code evaluation: Vehicle.Utilities cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.627
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.627
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.627
+!MESSAGE Compile error during code evaluation: Trooper.Trooper cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.628
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.628
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.628
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.629
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.629
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.629
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.630
+!MESSAGE Compile error during code evaluation: Vehicle.Vehicle cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.630
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.630
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.631
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type
+
+!ENTRY org.eclipse.debug.core 2 0 2023-05-12 17:50:57.631
+!MESSAGE Compile error during code evaluation: Vehicle.Data cannot be resolved to a type

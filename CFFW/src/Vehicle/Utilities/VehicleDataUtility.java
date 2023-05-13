@@ -2,7 +2,7 @@ package Vehicle.Utilities;
 
 public class VehicleDataUtility {
 
-	public enum CrewPosition {
+	public enum CrewPositionType {
 		
 		GUNNER,DRIVER,LOADER,COMMANDER
 		
