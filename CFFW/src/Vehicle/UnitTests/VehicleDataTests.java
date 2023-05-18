@@ -14,6 +14,7 @@ import Vehicle.Vehicle;
 import Vehicle.Data.CrewCompartment;
 import Vehicle.Data.CrewMember;
 import Vehicle.Data.CrewPosition;
+import Vehicle.Utilities.VehicleXmlReader;
 import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
 
 public class VehicleDataTests {
@@ -74,6 +75,14 @@ public class VehicleDataTests {
 		assertEquals(vehicle.getCrewPosition("Copilot").getPositionName(), "Copilot");
 		assertEquals(vehicle.getCrewPosition("Topgunner").getPositionName(), "Topgunner");
 
+	}
+	
+	@Test
+	public void readVehicleTest() {
+		
+		var vehicle = VehicleXmlReader.readVehicle("TX130");
+		
+		
 	}
 
 }
