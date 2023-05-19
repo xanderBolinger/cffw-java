@@ -2,11 +2,15 @@ package Vehicle.Utilities;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -20,116 +24,177 @@ import HexGrid.HexDirectionUtility.HexDirection;
 import Vehicle.Vehicle;
 import Vehicle.Data.CrewCompartment;
 import Vehicle.Data.CrewPosition;
+import Vehicle.Data.ShieldGenerator;
 import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import java.io.File;
 
 public class VehicleXmlReader {
 
-	static final String COMPARTMENT = "compartment";
-	static final String NAME = "name";
-	static final String SHIELDED = "shielded";
-	static final String POSITION = "position";
-	static final String MASTERY = "mastery";
-	static final String SUPPORT = "support";
-	static final String SKILL = "skill";
-
-	public static Vehicle readVehicle(String vehicleName) {
+	public static Vehicle readVehicle(String vehicleCallSign, String vehicleType)
+			throws Exception {
+		var vehicleData = getVehicleData(vehicleType);
+		var vehicleNode = (Element) vehicleData.getElementsByTagName("vehicle_data").item(0);
+		boolean shielded = Boolean.parseBoolean(
+				(vehicleNode).getAttribute("shielded"));
 		
+		var vehicle = new Vehicle(vehicleType, getCrewCompartments(vehicleData));
+		
+		if(shielded) {
+			int maxValue = Integer.parseInt(vehicleNode.getAttribute("maxValue"));
+			int rechargeRate = Integer.parseInt(vehicleNode.getAttribute("rechargeRate"));
+			vehicle.AddShieldGenerator(new ShieldGenerator(maxValue,maxValue,rechargeRate));
+		}
+		
+		vehicle.setVehicleCallsign(vehicleCallSign);
+		return vehicle;
+	}
+
+	
+	private static List<CrewCompartment> getCrewCompartments(Document vehicleData) throws Exception {
 		List<CrewCompartment> compartments = new ArrayList<CrewCompartment>();
 
-		CrewCompartment compartmentToAdd = null;
-		String compartmentName = "";
-		boolean shielded = false;
+
+		NodeList compartmentList = vehicleData.getElementsByTagName("compartment");
+		for (int i = 0; i < compartmentList.getLength(); i++) {
+            Element compartmentData = (Element) compartmentList.item(i);
+            
+            // Get the compartment name and shielded attribute
+            String compartmentName = compartmentData.getAttribute("name");
+            
+            // Get the crew_positions element
+            Element crewPositionsData = (Element) compartmentData.getElementsByTagName("crew_positions").item(0);
+            
+            var crewPositions = getCrewPositions(crewPositionsData);
+            
+            boolean shielded = Boolean.parseBoolean(compartmentData.getAttribute("shielded"));
+            
+            var compartment = new CrewCompartment(compartmentName, crewPositions);
+            
+            if(shielded) {
+            	Element shieldData = (Element) compartmentData.getElementsByTagName("shield_generator").item(0);
+            	var maxValue = Integer.parseInt(shieldData.getAttribute("maxValue"));
+            	var rechargeRate = Integer.parseInt(shieldData.getAttribute("rechargeRate"));
+            	var shieldGenerator = new ShieldGenerator(maxValue, maxValue, rechargeRate);
+            	compartment.AddShieldGenerator(shieldGenerator);
+            } 
+            compartments.add(compartment);
+            
+        }
 		
-		List<CrewPosition> crewPositions = new ArrayList<>();
-		
-		String positionName;
-		List<CrewPositionType> positionTypes = new ArrayList<>();
-		List<HexDirection> viewDirections = new ArrayList<>();
-		
-		try {
-			XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-			InputStream in = new FileInputStream("Vehicles/"+vehicleName+".xml");
-			XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
-
-			while (eventReader.hasNext()) {
-				XMLEvent event = eventReader.nextEvent();
-
-				if (event.isStartElement()) {
-					StartElement startElement = event.asStartElement();
-					// If we have an item element, we create a new item
-					String elementName = startElement.getName().getLocalPart();
-					//System.out.println("Start Element name: "+elementName);
-					switch (elementName) {
-
-					case COMPARTMENT:
-						
-						Iterator<Attribute> attributes = startElement.getAttributes();
-						while (attributes.hasNext()) {
-							Attribute attribute = attributes.next();
-							if (attribute.getName().toString().equals(NAME)) {
-								compartmentName = attribute.getValue();
-							}
-							if (attribute.getName().toString().equals(SHIELDED)) {
-								shielded = Boolean.getBoolean(attribute.getValue());
-							}
-						}
-						
-						break;
-					
-					/*case ABILITY:
-
-						ability = new Ability();
-						ability.rank = 1;
-
-						Iterator<Attribute> attributes = startElement.getAttributes();
-						while (attributes.hasNext()) {
-							Attribute attribute = attributes.next();
-							if (attribute.getName().toString().equals(NAME)) {
-								ability.name = attribute.getValue();
-							}
-						}
-
-						break;
-					case SPECIAL:
-						event = eventReader.nextEvent();
-						if(!event.isEndElement())
-							ability.special = event.asCharacters().getData();
-						break;
-					case MASTERY:
-						event = eventReader.nextEvent();
-						if(!event.isEndElement())
-							ability.mastery = event.asCharacters().getData();
-						break;
-					case SUPPORT:
-						event = eventReader.nextEvent();
-						break;
-					case SKILL:
-						event = eventReader.nextEvent();
-						//System.out.println("Skill: "+event.asCharacters().getData());
-						if(!event.isEndElement())
-							ability.skillSupport.add(event.asCharacters().getData());
-						break;*/
-					}
-				}
-
-				// If we reach the end of an item element, we add it to the list
-				if (event.isEndElement()) {
-					EndElement endElement = event.asEndElement();
-					var elementName = endElement.getName();
-					//System.out.println("End Element name: "+elementName);
-					if (endElement.getName().getLocalPart().equals(COMPARTMENT)) {
-						//items.add(ability);
-					}
-				}
-				
-
-			}
-		} catch (FileNotFoundException | XMLStreamException e) {
-			e.printStackTrace();
-		}
-
-		return new Vehicle(vehicleName, null);
+		return compartments;
 	}
 	
-}
+	
+	private static List<CrewPosition> getCrewPositions(Element crewPositionsData) throws Exception {
+		List<CrewPosition> crewPositions = new ArrayList<>();
+		
+		// Get all the position elements
+        NodeList positionList = crewPositionsData.getElementsByTagName("position");
+        for (int j = 0; j < positionList.getLength(); j++) {
+            Element position = (Element) positionList.item(j);
+            crewPositions.add(getCrewPosition(position));
+        }
+		
+		return crewPositions;
+	}
+	
+	private static CrewPosition getCrewPosition(Element position) throws Exception {
+		
+		// Get the position name
+        String positionName = position.getAttribute("name");
+        
+        //System.out.println("\tPosition Name: " + positionName);
+        
+        // Get the position_types element
+        Element positionTypeNodes = (Element) position.getElementsByTagName("position_types").item(0);
+        
+        var positionTypes = getCrewPositionTypes(positionTypeNodes);
+        
+        // Get the view_directions element
+        Element viewDirectionNodes = (Element) position.getElementsByTagName("view_directions").item(0);
+        
+        var viewDirections = getPositionViewDirections(viewDirectionNodes);
+        
+        
+        return new CrewPosition(positionName, positionTypes, viewDirections);
+	}
+	
+	
+	private static List<CrewPositionType> getCrewPositionTypes(Element positionTypeNodes) throws Exception {
+		
+		List<CrewPositionType> crewPositionTypes = new ArrayList<>();
+		
+		// Get all the type elements
+        NodeList typeList = positionTypeNodes.getElementsByTagName("type");
+        for (int k = 0; k < typeList.getLength(); k++) {
+            Element type = (Element) typeList.item(k);
+            
+            // Get the type value
+            String typeValue = type.getTextContent();
+            
+            crewPositionTypes.add(getPositionType(typeValue));
+        }
+        
+        return crewPositionTypes;
+	}
+	
+	private static List<HexDirection> getPositionViewDirections(Element viewDirectionNodes) throws Exception {
+		
+		List<HexDirection> viewDirections = new ArrayList<>();
+		
+		// Get all the direction elements
+        NodeList directionList = viewDirectionNodes.getElementsByTagName("direction");
+        for (int k = 0; k < directionList.getLength(); k++) {
+            Element direction = (Element) directionList.item(k);
+            
+            // Get the direction value
+            String directionValue = direction.getTextContent();
+            
+            viewDirections.add(getDirection(directionValue));
+            
+        }
+        
+        return viewDirections;
+	}
+	
+	
+	private static CrewPositionType getPositionType(String positionType) throws Exception {
+		
+		for(var dir : CrewPositionType.values()) {
+			if(dir.toString().equals(positionType)) 
+				return dir;
+		}
+		
+		throw new Exception("Crew position type not found for position: "+positionType);
+	}
+	
+	private static HexDirection getDirection(String hexDirection) throws Exception {
+		
+		for(var dir : HexDirection.getDirections()) {
+			if(dir.toString().equals(hexDirection)) 
+				return dir;
+		}
+		
+		throw new Exception("Hex direction not found for direction: "+hexDirection);
+	}
+	
+	
+	private static Document getVehicleData(String vehicleType)
+			throws ParserConfigurationException, SAXException, IOException {
 
+		File file = new File("Vehicles/" + vehicleType + ".xml");
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document doc = db.parse(file);
+		doc.getDocumentElement().normalize();
+
+		return doc;
+	}
+
+}

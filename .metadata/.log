@@ -945,3 +945,392 @@ org.eclipse.core.runtime.OperationCanceledException
 	at org.eclipse.jdt.internal.ui.text.java.hover.BestMatchHover.getHoverInfo2(BestMatchHover.java:130)
 	at org.eclipse.jdt.internal.ui.text.java.hover.JavaEditorTextHoverProxy.getHoverInfo2(JavaEditorTextHoverProxy.java:89)
 	at org.eclipse.jface.text.TextViewerHoverManager$1.run(TextViewerHoverManager.java:155)
+!SESSION 2023-05-19 11:56:10.983 -----------------------------------------------
+eclipse.buildId=4.24.0.I20220607-0700
+java.version=17.0.4.1
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.core.resources 2 10035 2023-05-19 11:56:51.883
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.jface 2 0 2023-05-19 11:56:55.006
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2023-05-19 11:56:55.006
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@1e205025,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolinworkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@c10f7a8,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2023-05-19 11:56:55.006
+!MESSAGE A conflict occurred for ALT+SHIFT+R:
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.edit.text.java.rename.element,Rename - Refactoring ,
+		Rename the selected element,
+		Category(org.eclipse.jdt.ui.category.refactoring,Refactor - Java,Java Refactoring Actions,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@64096a41,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.ui.edit.rename,Rename,
+		Rename the selected item,
+		Category(org.eclipse.ui.category.file,File,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@33de9d85,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.eclipse.jdt.core 4 4 2023-05-19 13:29:59.866
+!MESSAGE Exception occurred during compilation unit conversion:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package Vehicle.Utilities;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.EndElement;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
+
+import CharacterBuilder.Ability;
+import HexGrid.HexDirectionUtility.HexDirection;
+import Vehicle.Vehicle;
+import Vehicle.Data.CrewCompartment;
+import Vehicle.Data.CrewPosition;
+import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import java.io.File;
+
+public class VehicleXmlReader {
+
+	static final String COMPARTMENT = "compartment";
+	static final String NAME = "name";
+	static final String SHIELDED = "shielded";
+	static final String POSITION = "position";
+	static final String MASTERY = "mastery";
+	static final String SUPPORT = "support";
+	static final String SKILL = "skill";
+
+	public static Vehicle readVehicle(String vehicleCallSign, String vehicleType)
+			throws Exception {
+		var vehicleData = getVehicleData(vehicleType);
+
+		
+		//int nodes = crewCompartmentNodes.getLength();
+		
+
+		/*for (int i = 0; i < compartmentData.getLength(); i++) {
+			var compartmentNode = compartmentData.item(i);
+			var crewPositionNodes = compartmentNode.getChildNodes().item(0).getChildNodes();
+			
+			var crewPositions = getCrewPositions(crewPositionNodes);
+			
+			
+			
+		}*/
+
+		var vehicle = new Vehicle(vehicleCallSign, compartments);
+
+		return vehicle;
+	}
+
+	
+	private static List<CrewCompartments> getCrewCompartments()
+	
+	
+	private static List<CrewPosition> getCrewPositions(Element crewPositionsData) throws Exception {
+		List<CrewPosition> crewPositions = new ArrayList<>();
+		
+		// Get all the position elements
+        NodeList positionList = crewPositionsData.getElementsByTagName("position");
+        for (int j = 0; j < positionList.getLength(); j++) {
+            Element position = (Element) positionList.item(j);
+            crewPositions.add(getCrewPosition(position));
+        }
+		
+		return crewPositions;
+	}
+	
+	private static CrewPosition getCrewPosition(Element position) throws Exception {
+		
+		// Get the position name
+        String positionName = position.getAttribute("name");
+        
+        //System.out.println("\tPosition Name: " + positionName);
+        
+        // Get the position_types element
+        Element positionTypeNodes = (Element) position.getElementsByTagName("position_types").item(0);
+        
+        var positionTypes = getCrewPositionTypes(positionTypeNodes);
+        
+        // Get the view_directions element
+        Element viewDirectionNodes = (Element) position.getElementsByTagName("view_directions").item(0);
+        
+        var viewDirections = getPositionViewDirections(viewDirectionNodes);
+        
+        
+        return new CrewPosition(positionName, positionTypes, viewDirections);
+	}
+	
+	
+	private static List<CrewPositionType> getCrewPositionTypes(Element positionTypeNodes) throws Exception {
+		
+		List<CrewPositionType> crewPositionTypes = new ArrayList<>();
+		
+		// Get all the type elements
+        NodeList typeList = positionTypeNodes.getElementsByTagName("type");
+        for (int k = 0; k < typeList.getLength(); k++) {
+            Element type = (Element) typeList.item(k);
+            
+            // Get the type value
+            String typeValue = type.getTextContent();
+            
+            crewPositionTypes.add(getPositionType(typeValue));
+        }
+        
+        return crewPositionTypes;
+	}
+	
+	private static List<HexDirection> getPositionViewDirections(Element viewDirectionNodes) throws Exception {
+		
+		List<HexDirection> viewDirections = new ArrayList<>();
+		
+		// Get all the direction elements
+        NodeList directionList = viewDirectionNodes.getElementsByTagName("direction");
+        for (int k = 0; k < directionList.getLength(); k++) {
+            Element direction = (Element) directionList.item(k);
+            
+            // Get the direction value
+            String directionValue = direction.getTextContent();
+            
+            viewDirections.add(getDirection(directionValue));
+            
+            //System.out.println("\t\tDirection: " + directionValue);
+        }
+        
+        return viewDirections;
+	}
+	
+	
+	private static CrewPositionType getPositionType(String positionType) throws Exception {
+		
+		for(var dir : CrewPositionType.values()) {
+			if(dir.toString().equals(positionType)) 
+				return dir;
+			
+		}
+		
+		throw new Exception("Crew position type not found for position: "+positionType);
+	}
+	
+	private static HexDirection getDirection(String hexDirection) throws Exception {
+		
+		for(var dir : HexDirection.getDirections()) {
+			if(dir.toString().equals(hexDirection)) 
+				return dir;
+			
+		}
+		
+		throw new Exception("Hex direction not found for direction: "+hexDirection);
+	}
+	
+	
+	private static Document getVehicleData(String vehicleType)
+			throws ParserConfigurationException, SAXException, IOException {
+
+		File file = new File("Vehicles/" + vehicleType + ".xml");
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document doc = db.parse(file);
+		doc.getDocumentElement().normalize();
+
+		return doc;
+	}
+
+	/*
+	 * public static Vehicle readVehicle(String vehicleName) {
+	 * 
+	 * List<CrewCompartment> compartments = new ArrayList<CrewCompartment>();
+	 * 
+	 * CrewCompartment compartmentToAdd = null; String compartmentName = ""; boolean
+	 * shielded = false;
+	 * 
+	 * List<CrewPosition> crewPositions = new ArrayList<>();
+	 * 
+	 * String positionName; List<CrewPositionType> positionTypes = new
+	 * ArrayList<>(); List<HexDirection> viewDirections = new ArrayList<>();
+	 * 
+	 * try { XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+	 * InputStream in = new FileInputStream("Vehicles/"+vehicleName+".xml");
+	 * XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
+	 * 
+	 * while (eventReader.hasNext()) { XMLEvent event = eventReader.nextEvent();
+	 * 
+	 * if (event.isStartElement()) { StartElement startElement =
+	 * event.asStartElement(); // If we have an item element, we create a new item
+	 * String elementName = startElement.getName().getLocalPart();
+	 * //System.out.println("Start Element name: "+elementName); switch
+	 * (elementName) {
+	 * 
+	 * case COMPARTMENT:
+	 * 
+	 * Iterator<Attribute> attributes = startElement.getAttributes(); while
+	 * (attributes.hasNext()) { Attribute attribute = attributes.next(); if
+	 * (attribute.getName().toString().equals(NAME)) { compartmentName =
+	 * attribute.getValue(); } if (attribute.getName().toString().equals(SHIELDED))
+	 * { shielded = Boolean.getBoolean(attribute.getValue()); } }
+	 * 
+	 * break;
+	 * 
+	 * case ABILITY:
+	 * 
+	 * ability = new Ability(); ability.rank = 1;
+	 * 
+	 * Iterator<Attribute> attributes = startElement.getAttributes(); while
+	 * (attributes.hasNext()) { Attribute attribute = attributes.next(); if
+	 * (attribute.getName().toString().equals(NAME)) { ability.name =
+	 * attribute.getValue(); } }
+	 * 
+	 * break; case SPECIAL: event = eventReader.nextEvent();
+	 * if(!event.isEndElement()) ability.special = event.asCharacters().getData();
+	 * break; case MASTERY: event = eventReader.nextEvent();
+	 * if(!event.isEndElement()) ability.mastery = event.asCharacters().getData();
+	 * break; case SUPPORT: event = eventReader.nextEvent(); break; case SKILL:
+	 * event = eventReader.nextEvent();
+	 * //System.out.println("Skill: "+event.asCharacters().getData());
+	 * if(!event.isEndElement())
+	 * ability.skillSupport.add(event.asCharacters().getData()); break; } }
+	 * 
+	 * // If we reach the end of an item element, we add it to the list if
+	 * (event.isEndElement()) { EndElement endElement = event.asEndElement(); var
+	 * elementName = endElement.getName();
+	 * //System.out.println("End Element name: "+elementName); if
+	 * (endElement.getName().getLocalPart().equals(COMPARTMENT)) {
+	 * //items.add(ability); } }
+	 * 
+	 * 
+	 * } } catch (FileNotFoundException | XMLStreamException e) {
+	 * e.printStackTrace(); }
+	 * 
+	 * return new Vehicle(vehicleName, null); }
+	 */
+
+}
+
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3314)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:725)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3390)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1534)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:540)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:201)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:597)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1142)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1319)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:132)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:94)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:91)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:158)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:207)
+
+!ENTRY org.eclipse.jdt.ui 4 2 2023-05-19 13:29:59.866
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.ui".
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3314)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:725)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3390)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1534)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:540)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:201)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:597)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1142)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1319)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:132)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:94)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:91)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:158)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:207)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2023-05-19 13:29:59.867
+!MESSAGE Error in JDT Core during reconcile
+!STACK 0
+java.lang.IllegalArgumentException
+	at org.eclipse.jdt.core.dom.ASTNode.setSourceRange(ASTNode.java:3314)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:725)
+	at org.eclipse.jdt.core.dom.ASTConverter.buildBodyDeclarations(ASTConverter.java:208)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:3390)
+	at org.eclipse.jdt.core.dom.ASTConverter.convert(ASTConverter.java:1534)
+	at org.eclipse.jdt.core.dom.AST.convertCompilationUnit(AST.java:540)
+	at org.eclipse.jdt.internal.core.CompilationUnit.buildStructure(CompilationUnit.java:201)
+	at org.eclipse.jdt.internal.core.Openable.generateInfos(Openable.java:266)
+	at org.eclipse.jdt.internal.core.JavaElement.openWhenClosed(JavaElement.java:597)
+	at org.eclipse.jdt.internal.core.CompilationUnit.makeConsistent(CompilationUnit.java:1142)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:173)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:94)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:740)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:806)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1319)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:132)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:94)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:45)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:91)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:158)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:94)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:107)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:76)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:207)

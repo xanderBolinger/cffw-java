@@ -18,6 +18,15 @@ public class CrewCompartment {
 		this.crewPositions = crewPositions;
 	}
 	
+	public void AddShieldGenerator(ShieldGenerator shieldGenerator) {
+		shielded = true;
+		this.shieldGenerator = shieldGenerator;
+	}
+	
+	public ShieldGenerator getShieldGenerator() {
+		return shieldGenerator;
+	}
+	
 	public String getCompartmentName() {
 		return compartmentName;
 	}

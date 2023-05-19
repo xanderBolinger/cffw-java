@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <vehicle>
-    <vehicle_data>
+    <vehicle_data shielded="true" maxValue="1000" rechargeRate="150">
         <crew_compartments>
-            <compartment name="OPERATORS" shielded="false">
+            <compartment name="OPERATORS" shielded="true">
                 <crew_positions>
                     <position name="Pilot">
                         <position_types>
@@ -48,8 +48,9 @@
                     </position>
 
                 </crew_positions>
+                <shield_generator maxValue="100" rechargeRate="25"></shield_generator>
             </compartment>
-            <compartment name="EXTERNAL GUNNERS" shielded="false">
+            <compartment name="EXTERNAL GUNNER" shielded="false">
                 <crew_positions>
                     <position name="Topgunner">
                         <position_types>
