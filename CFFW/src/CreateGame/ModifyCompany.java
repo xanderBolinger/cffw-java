@@ -4,11 +4,13 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
 import Company.Company;
+import OperationExporter.OperationUnitExporter;
 import Unit.Unit;
 import UtilityClasses.SwingUtility;
 
@@ -80,7 +82,7 @@ public class ModifyCompany {
 		
 		JLabel lblNewLabel = new JLabel("Select Company");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel.setBounds(10, 24, 317, 19);
+		lblNewLabel.setBounds(10, 24, 192, 19);
 		frame.getContentPane().add(lblNewLabel);
 		
 		comboBoxCompanies = new JComboBox();
@@ -118,6 +120,19 @@ public class ModifyCompany {
 		});
 		btnAdd.setBounds(546, 20, 89, 23);
 		frame.getContentPane().add(btnAdd);
+		
+		JButton btnExport = new JButton("Export");
+		btnExport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				for(var company : getSelectedCompanies()) {
+					OperationUnitExporter.exportCompany(company);
+				}
+				
+			}
+		});
+		btnExport.setBounds(212, 24, 115, 23);
+		frame.getContentPane().add(btnExport);
 		frame.setVisible(true);
 		
 		setCompanyList();
@@ -125,6 +140,15 @@ public class ModifyCompany {
 		
 	}
 	
+	public List<Company> getSelectedCompanies() {
+		var companies = new ArrayList<Company>();
+		
+		for(var index : companyList.getSelectedIndices()) {
+			companies.add(this.companies.get(index));
+		}
+		
+		return companies;
+	}
 	
 	public void setCompanyList() {
 		
@@ -170,5 +194,4 @@ public class ModifyCompany {
 		SwingUtility.setComboBox(comboBoxCompanies, content, false, 0);
 		
 	}
-	
 }

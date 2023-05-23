@@ -16,6 +16,7 @@ import Individuals.AddIndividual;
 import Individuals.EditIndividual;
 import Items.BulkInventoryWindow;
 import Medical.MedicalWindow;
+import OperationExporter.OperationUnitExporter;
 import Trooper.Trooper;
 import Unit.AddUnit;
 import Unit.EditUnit;
@@ -82,6 +83,7 @@ public class EditCompany implements Serializable {
 	private JSpinner spinnerPlatoon;
 	private JSpinner spinnerSquad;
 	private JButton Formation;
+	
 	public EditCompany(Company company, SetupWindow setupWindow, int index) {
 		EditCompany window = this;
 		this.company = company;
@@ -249,6 +251,11 @@ public class EditCompany implements Serializable {
 		});
 		
 		JButton btnExportToExcel = new JButton("Export");
+		btnExportToExcel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				OperationUnitExporter.exportCompanyToUserLocation(company);
+			}
+		});
 		btnExportToExcel.setBounds(10, 176, 95, 23);
 		btnExportToExcel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -256,12 +263,12 @@ public class EditCompany implements Serializable {
 				
 				//System.out.println("pass123");
 				
-				try {
+				/*try {
 					exportToExcel(company);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}*/
 				
 			}
 		});

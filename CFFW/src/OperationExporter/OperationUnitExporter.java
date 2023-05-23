@@ -1,12 +1,21 @@
 package OperationExporter;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import Company.Company;
+import Unit.Unit;
+import Vehicle.Vehicle;
 
 public class OperationUnitExporter {
 	static class UnitJSON {
@@ -20,6 +29,31 @@ public class OperationUnitExporter {
 			this.identifier = identifier;
 			this.troopers = new ArrayList<>();
 			this.vehicles = new ArrayList<>();
+		}
+		
+		public UnitJSON(Unit unit) {
+			name = unit.callsign;
+			identifier = unit.identifier;
+			troopers = new ArrayList<>();
+			vehicles = new ArrayList<>();
+			for(var individual : unit.individuals) {
+				troopers.add(new TrooperJSON(individual.identifier, individual.name, individual.sl));
+			}
+			
+		}
+		
+		public UnitJSON(Vehicle vehicle) {
+			name = vehicle.getVehicleCallsign();
+			identifier = vehicle.identifier;
+			troopers = new ArrayList<>();
+			vehicles = new ArrayList<>();
+			
+			for(var individual : vehicle.getTroopers()) {
+				troopers.add(new TrooperJSON(individual.identifier, individual.name, individual.sl));
+			}
+			
+			vehicles.add(new VehicleJSON(vehicle));
+			
 		}
 
 		public void addTrooper(TrooperJSON trooper) {
@@ -62,6 +96,17 @@ public class OperationUnitExporter {
 			this.transportCapacity = transportCapacity;
 			this.identifier = identifier;
 		}
+		
+		public VehicleJSON(Vehicle vehicle) {
+			this.callsign = vehicle.getVehicleCallsign();
+			this.vehicleType = vehicle.getVehicleType();
+			this.vehicleClass = vehicle.getVehicleClass();
+			this.repulsorCraft = vehicle.getRepulsorCraft();
+			this.disabled = vehicle.getVehicleDisabled();
+			this.transportCapacity = vehicle.getTroopCapacity();
+			this.identifier = vehicle.identifier;
+		}
+		
 	}
 
 	static class OperationUnit {
@@ -79,20 +124,97 @@ public class OperationUnitExporter {
 			units.add(unit);
 		}
 
-		public void exportToJsonFile(String filename) {
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			String json = gson.toJson(this);
+	}
 
-			try (FileWriter writer = new FileWriter(filename)) {
+	public static void exportCompanyToUserLocation(Company company) {
+		
+		OperationUnit ou = new OperationUnit(company.getName(), company.getSide());
+		
+		for(var unit : company.getUnits()) {
+			
+			ou.addUnit(new UnitJSON(unit));
+			
+		}
+		
+		for(var vehicle : company.vehicles) {
+			ou.addUnit(new UnitJSON(vehicle));
+		}
+		
+		
+		exportToJsonFile(ou, true);
+		
+	}
+	
+	public static void exportCompany(Company company) {
+		
+		OperationUnit ou = new OperationUnit(company.getName(), company.getSide());
+		
+		for(var unit : company.getUnits()) {
+			
+			ou.addUnit(new UnitJSON(unit));
+			
+		}
+		
+		for(var vehicle : company.vehicles) {
+			ou.addUnit(new UnitJSON(vehicle));
+		}
+		
+		
+		exportToJsonFile(ou);
+		
+	}
+	
+	public static void exportToJsonFile(OperationUnit operationUnit) {
+	    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	    String json = gson.toJson(operationUnit);
+	    String fileName = operationUnit.unitName + ".json";
+	    // Prompt the user for the destination directory
+	    //Scanner scanner = new Scanner(System.in);
+	    //System.out.print("Enter the destination directory path: ");
+	    //String destinationDirectory = scanner.nextLine();
+	    //scanner.close();
+
+	    String filePath = Paths.get("X:\\Users\\Xander\\GitHub\\HolotableHDRP\\Assets\\Resources\\OperationUnits", fileName).toString();
+
+	    try (FileWriter writer = new FileWriter(filePath)) {
+	        writer.write(json);
+	        System.out.println("JSON file created: " + filePath);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	// Desktop
+	// X:\Users\Xander\GitHub\HolotableHDRP\Assets\Resources
+	public static void exportToJsonFile(OperationUnit operationUnit, boolean chooseFileLocation) {
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String json = gson.toJson(operationUnit);
+
+		// Create a file chooser and set the default directory
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Select the destination directory");
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+		// Set the default directory to the user's home directory
+		fileChooser.setCurrentDirectory(new File("X:\\Users\\Xander\\GitHub\\HolotableHDRP\\Assets\\Resources\\OperationUnits"));
+
+		// Show the file chooser dialog and get the user's selection
+		int returnValue = fileChooser.showSaveDialog(null);
+		if (returnValue == JFileChooser.APPROVE_OPTION) {
+			String destinationDirectory = fileChooser.getSelectedFile().getAbsolutePath();
+			String filePath = Paths.get(destinationDirectory, operationUnit.unitName+".json").toString();
+
+			try (FileWriter writer = new FileWriter(filePath)) {
 				writer.write(json);
-				System.out.println("JSON file created: " + filename);
+				System.out.println("JSON file created: " + filePath);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		} else {
+			System.out.println("No destination directory selected. JSON export cancelled.");
 		}
 	}
 
-	
 	public static void main(String[] args) {
 		OperationUnit operationUnit = new OperationUnit("OperationUnit1", "BLUFOR");
 
@@ -109,6 +231,6 @@ public class OperationUnitExporter {
 		operationUnit.addUnit(unit1);
 		operationUnit.addUnit(unit2);
 
-		operationUnit.exportToJsonFile("output.json");
+		exportToJsonFile(operationUnit);
 	}
 }
