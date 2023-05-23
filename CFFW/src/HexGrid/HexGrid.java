@@ -1678,6 +1678,8 @@ public class HexGrid implements Serializable {
 
 		public void drawChits(Graphics2D g2) {
 
+			
+			
 			for (int i = 0; i < GameWindow.gameWindow.game.chits.size(); i++) {
 
 				Chit chit = GameWindow.gameWindow.game.chits.get(i);
@@ -1719,6 +1721,39 @@ public class HexGrid implements Serializable {
 			}
 		}
 
+		public void spamDrawTest(DeployedUnit deployedUnit, Graphics g, Graphics2D g2, int count) {
+			for(int i = 0; i < 100; i++) {
+				for(int j = 0; j < 100; j++) {
+					Polygon hex = hexMap.get(i).get(j);
+
+					// If a unit is already in this hex, shifts the chit down and to the right
+
+					int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
+					int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
+
+					int width = bluforUnitWidth;
+					int height = bluforUnitHeight;
+
+					if (deployedUnit.unit.side.equals("OPFOR")) {
+						// System.out.println("PASS6");
+						width = opforUnitWidth;
+						height = opforUnitHeight;
+					}
+
+					/*
+					 * if(zoom != oldZoom) { selectedUnit.unitImage =
+					 * bluforInfantryImage.getScaledInstance(bluforUnitWidth, bluforUnitHeight, 1);
+					 * }
+					 */
+
+					int unitsInHex = unitsInHex(deployedUnit.xCord, deployedUnit.yCord);
+
+					g2.drawImage(deployedUnit.unitImage, (hexCenterX - width / 2) - (3 * (unitsInHex - count)),
+							(hexCenterY - height / 2) + (3 * (unitsInHex - count)), null);
+				}
+			}
+		}
+		
 		public void drawUnit(DeployedUnit deployedUnit, Graphics g, Graphics2D g2, int count) {
 			// Displays unit card
 
@@ -1749,6 +1784,9 @@ public class HexGrid implements Serializable {
 			g2.drawImage(deployedUnit.unitImage, (hexCenterX - width / 2) - (3 * (unitsInHex - count)),
 					(hexCenterY - height / 2) + (3 * (unitsInHex - count)), null);
 
+			//spamDrawTest(deployedUnit, g, g2, count);
+			
+			
 			if ((selectedUnit != null && selectedUnit.unit.callsign.equals(deployedUnit.unit.callsign))
 					|| selectedUnits.contains(deployedUnit)) {
 
