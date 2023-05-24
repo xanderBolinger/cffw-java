@@ -1,8 +1,3 @@
-/CeHexGrid/
-/CharacterBuilder/
-/CloseCombat/
-/CommandLineInterface/
-/Company/
 /Conflict/
 /CorditeExpansion/
 /CorditeExpansionActions/
@@ -13,6 +8,7 @@
 /CreateGame/
 /FatigueSystem/
 /HexGrid/
+/HexGridIcons/
 /Hexes/
 /Individuals/
 /Injuries/
@@ -31,5 +27,3 @@
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
-/HexImages/
-/HexGridIcons/
