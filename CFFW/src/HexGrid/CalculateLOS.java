@@ -26,8 +26,13 @@ public class CalculateLOS {
 			return;
 		}
 		
-		int spotterElevation = GameWindow.gameWindow.findHex(spotterCord.xCord, spotterCord.yCord).elevation;
-		int targetElevation = GameWindow.gameWindow.findHex(targetCord.xCord, targetCord.yCord).elevation;
+		// Calculations assumes spotter is at x 1 
+		// target x is always greater than spotter therefore spotter is x1 and y1 while target is x2 and y2 
+		// The number of hexes in between target and spotter plus 1 gets target x 
+		
+		int spotterElevation = GameWindow.gameWindow.findHex(spotterCord.xCord, spotterCord.yCord).elevation+1;
+		int targetElevation = GameWindow.gameWindow.findHex(targetCord.xCord, targetCord.yCord).elevation+1;
+		double slopeToTarget = ((double)targetElevation - (double)spotterElevation) / ((double)hexes.size() + 1.0 - 1.0);
 		
 		int concealment = 0; 
 		
@@ -35,15 +40,57 @@ public class CalculateLOS {
 			Hex foundHex = GameWindow.gameWindow.findHex(hex.xCord, hex.yCord);
 			if(foundHex == null)
 				continue; 
+						
+			double currentHexElevation = (double)GameWindow.gameWindow.findHex(hex.xCord, hex.yCord).elevation;
 			
-			double slopeToTarget = ((double)targetElevation - (double)spotterElevation) / ((double)hexes.size() + 2.0 - 1.0);
-			double slopeToObstacle = ((double)GameWindow.gameWindow.findHex(hex.xCord, hex.yCord).elevation - (double)spotterElevation) / ((double)hexes.indexOf(hex)+2.0 - 1.0);
+			boolean buildings = false;
+			int buildingFloors = 0;
 			
-			if(slopeToObstacle < slopeToTarget)
-				continue;
-
-			concealment += foundHex.concealment;
-			concealment += GameWindow.gameWindow.game.smoke.getConcealment(hex);
+			for(var building : foundHex.buildings) {
+				buildings = true;
+				if(building.floors.size() > buildingFloors)
+					buildingFloors = building.floors.size();
+			}
+			
+			double slopeToBrush = (currentHexElevation - (double)spotterElevation) / ((double)hexes.indexOf(hex)+1.0 - 1.0);
+			double slopeToTrees = (currentHexElevation+2 - (double)spotterElevation) / ((double)hexes.indexOf(hex)+1.0 - 1.0);
+			double slopeToBuilding = (currentHexElevation+buildingFloors+1 - (double)spotterElevation) / ((double)hexes.indexOf(hex)+1.0 - 1.0);
+			
+			int brushConcealment = 0;
+			int treeConcealment = GameWindow.gameWindow.game.smoke.getConcealment(hex);
+			// "Light Forest", "Medium Forest", "Heavy Forest", "Brush", "Heavy Brush", "Light Rock", "Medium Rock", "Heavy Rock", "Light Urban Sprawl", "Dense Urban Sprawl", "Rubble", "Small Depression", "Large Depression"
+			for(var feature : foundHex.features) {
+				if(feature.featureType == "Light Forest")
+					treeConcealment += 1;
+				else if( feature.featureType == "Medium Forest")
+					treeConcealment += 2;
+				else if(feature.featureType == "Heavy Forest")
+					treeConcealment += 3;
+			}
+			brushConcealment = foundHex.concealment - treeConcealment;
+			
+			
+			if(targetElevation >= spotterElevation) {
+				
+				if(slopeToTrees >= slopeToTarget)
+					concealment += treeConcealment;
+				if(slopeToBrush >= slopeToTarget)
+					concealment += brushConcealment;
+				if(slopeToBuilding >= slopeToTarget && buildings) {
+					concealment = 5;
+					break;
+				}
+			} else {
+				if(slopeToTrees <= slopeToTarget)
+					concealment += treeConcealment;
+				if(slopeToBrush <= slopeToTarget)
+					concealment += brushConcealment;
+				if(slopeToBuilding <= slopeToTarget && buildings) {
+					concealment = 5;
+					break;
+				}
+			}
+		
 			
 		}
 		

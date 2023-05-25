@@ -109,6 +109,8 @@ public class HexGrid implements Serializable {
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
+	public boolean elevationPaste = false;
+	private JButton btnToggleElv;
 
 	/**
 	 * Create the application.
@@ -236,7 +238,7 @@ public class HexGrid implements Serializable {
 		System.out.println("Path: " + ExcelUtility.path);
 		btnNewButton.setBackground(SystemColor.text);
 		btnNewButton.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\threadIcon.png"));
-		btnNewButton.setBounds(0, 0, 45, 45);
+		btnNewButton.setBounds(220, 0, 45, 45);
 		layeredPane.add(btnNewButton);
 
 		btnNewButton_1 = new JButton("");
@@ -271,6 +273,18 @@ public class HexGrid implements Serializable {
 		btnNewButton_3.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\unknown_icon.png"));
 		btnNewButton_3.setBounds(165, 0, 45, 45);
 		layeredPane.add(btnNewButton_3);
+		
+		btnToggleElv = new JButton("E");
+		btnToggleElv.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				elevationPaste = !elevationPaste;
+				System.out.println("Toggle Elevation Paste: "+elevationPaste);
+			}
+		});
+		btnToggleElv.setBackground(Color.WHITE);
+		btnToggleElv.setBounds(0, 0, 45, 45);
+		layeredPane.add(btnToggleElv);
 
 		panel.addMouseListener(new MouseAdapter() {
 
@@ -1120,6 +1134,8 @@ public class HexGrid implements Serializable {
 							copiedHex.coverPositions += feature.coverPositions;
 						}
 
+						
+						
 						Hex newHex = new Hex(i, j, copiedHex);
 
 						newHex.usedPositions = 0;
@@ -1278,6 +1294,7 @@ public class HexGrid implements Serializable {
 
 								toolTip += "<br>---------";
 								toolTip += "<br>";
+								toolTip += "Elevation: " + hex.elevation + "<br>";
 								toolTip += "Concealment: " + hex.concealment + "<br>";
 								toolTip += "Total Cover Positions: " + hex.coverPositions + "<br>";
 								for (Feature feature : hex.features) {
@@ -1390,6 +1407,13 @@ public class HexGrid implements Serializable {
 								feature.coverPositions = cover;
 								copiedHex.coverPositions += feature.coverPositions;
 							}
+							
+							if(elevationPaste) {
+								System.out.println("pasted evelation");
+								pastedHex.elevation = copiedHex.elevation;
+								copiedHex = pastedHex;
+							}
+							
 
 							Hex newHex = new Hex(i, j, copiedHex);
 
@@ -2070,7 +2094,13 @@ public class HexGrid implements Serializable {
 					g2.setColor(Color.GREEN);
 					if (gameWindow.hexes.size() != columns * rows && !hideU && gameWindow.findHex(i, j) == null) {
 						// g2.drawString("U", hex.xpoints[0],hex.ypoints[0]);
-						g2.drawString("U", (int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
+						g2.drawString("U", 
+								(int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
+								(int) (hex.ypoints[0] + (hex.getBounds().height * 0.3)));
+					} else if(elevationPaste && gameWindow.findHex(i, j) != null) {
+						g2.setColor(Color.RED);
+						g2.drawString("" + gameWindow.findHex(i,j).elevation, 
+								(int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
 								(int) (hex.ypoints[0] + (hex.getBounds().height * 0.3)));
 					}
 					g2.setColor(color);
