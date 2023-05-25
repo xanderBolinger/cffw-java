@@ -49,7 +49,8 @@ public class Explosion {
 	public void explodeHex(int x, int y, String friendlySide) {
 		
 		if((pcAmmo != null && pcAmmo.smoke == true) || 
-				(weapon != null && weapon.type.equals("Grenade") && weapon.pcAmmoTypes.get(0).smoke) ||
+				(weapon != null && weapon.type.equals("Grenade") &&  weapon.pcAmmoTypes != null && weapon.pcAmmoTypes.size() > 0 &&
+				weapon.pcAmmoTypes.get(0).smoke) ||
 				(shell != null && shell.smoke)) {
 			System.out.println("Explode Hex Smoke");
 			

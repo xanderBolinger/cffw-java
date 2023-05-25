@@ -234,6 +234,31 @@ public class Shoot {
 		resolveSuppressiveHits();
 	}
 	
+	public void suppressiveFireFree(int shots) {
+		
+		System.out.println("Shoot suppressive free");
+		
+		if(pcAmmo != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, shots)) {
+			shotResults = "Not enough ammunition.";
+			return;
+		} else if (pcAmmo == null && !ammoCheckSuppressive(shots)) {
+			shotResults = "Not enough ammunition.";
+			return;
+		}
+
+		for (int i = 0; i < shots; i++) {
+			suppressiveShotRoll(DiceRoller.randInt(0, 99));
+		}
+
+		shotResults = "Suppresive fire from " + shooterUnit.callsign + " to " 
+				+ targetUnit.callsign + ": " + suppressiveHits + " hits.";
+		
+		//spentCombatActions = shooter.combatActions;
+		//this.shots = shooter.combatActions;
+		resolveHits();
+		resolveSuppressiveHits();
+	}
+	
 	public void setShotResults(boolean fullAuto) {
 		
 		if(target != null) {

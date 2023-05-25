@@ -1264,7 +1264,7 @@ public class BulkWindow {
 											else 
 												shoot.shot(false);
 											
-											shoot.suppressiveFire(
+											shoot.suppressiveFireFree(
 													shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
 										
 										
@@ -4051,13 +4051,14 @@ public class BulkWindow {
 									else 
 										shoot.shot(false);
 									
-									shoot.suppressiveFire(
+									shoot.suppressiveFireFree(
 											shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
 								}
 
 								GameWindow.gameWindow.conflictLog.addNewLineToQueue("Results: " + shoot.shotResults);
 
 								valleyValidTargetCheck(shoot, bulkTrooper);
+								
 								shots++;
 								System.out.println(
 										"Volley CA test: " + (shoot.spentCombatActions < shoot.shooter.combatActions));
