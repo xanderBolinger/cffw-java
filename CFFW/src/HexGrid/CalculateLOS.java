@@ -20,7 +20,11 @@ public class CalculateLOS {
 		if(getConcealment(unit, targetUnit, true) >= 5)
 			return;
 		
-		unit.lineOfSight.add(targetUnit);
+		if(!unit.lineOfSight.contains(targetUnit))
+			unit.lineOfSight.add(targetUnit);
+		
+		if(!targetUnit.lineOfSight.contains(unit))
+			targetUnit.lineOfSight.add(unit);
 		
 	}
 	
