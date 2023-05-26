@@ -9,6 +9,7 @@ import Artillery.Artillery.BatteryStatus;
 import Artillery.Artillery.Shot;
 import Conflict.GameWindow;
 import Conflict.InjuryLog;
+import CorditeExpansion.Cord;
 import Injuries.Explosion;
 import Injuries.ResolveHits;
 import Trooper.Trooper;
@@ -371,6 +372,8 @@ public class FireMission implements Serializable {
 		GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Check For Impacts");
 		GameWindow.gameWindow.conflictLog.addNewLine("Airborn Shots Count: "+airborneShots.size());
 		
+		HexGrid.HexGrid.impactHexes.clear();
+		
 		ArrayList<Shot> removedShots = new ArrayList<>();
 		for(Shot shot : airborneShots) {
 			if(shot.actionsSpentInAir >= shot.actionsToImpact) {
@@ -418,10 +421,12 @@ public class FireMission implements Serializable {
 		}
 		
 		
-		new AlertWindow("Fire Mision: "+fireMissionDisplayName+" X: "+impactX+", Y: "+impactY+", "+units);
+		//new AlertWindow("Fire Mision: "+fireMissionDisplayName+" X: "+impactX+", Y: "+impactY+", "+units);
 		
 		int x = impactX;
 		int y = impactY; 
+		
+		HexGrid.HexGrid.impactHexes.add(new Cord(x,y));
 		
 		InjuryLog.InjuryLog.addAlreadyInjured();
 				

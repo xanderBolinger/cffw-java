@@ -84,7 +84,8 @@ import java.awt.Component;
 import java.awt.SystemColor;
 
 public class HexGrid implements Serializable {
-
+	public static ArrayList<Cord> impactHexes = new ArrayList<>();
+	
 	public transient JFrame frame;
 	public transient Panel panel;
 	private static final Color FILL_COLOR = Color.BLUE;
@@ -506,7 +507,7 @@ public class HexGrid implements Serializable {
 	}
 
 	public class Panel extends JPanel {
-
+		
 		private ArrayList<Polygon> shapeList = new ArrayList<>();
 		private ArrayList<ArrayList<Polygon>> hexMap = new ArrayList<>();
 		private ArrayList<DrawnString> drawnStrings = new ArrayList<>();
@@ -2079,7 +2080,8 @@ public class HexGrid implements Serializable {
 			}
 
 			drawSmokeMarkers(g2);
-
+			drawImpactMarkers(g2);
+			
 			// System.out.println("Columns: "+columns);
 			// System.out.println("Rows: "+rows);
 			// System.out.println("Hex Map Size: "+hexMap.size()+", row size:
@@ -2238,6 +2240,43 @@ public class HexGrid implements Serializable {
 
 		}
 
+		
+		private void drawImpactMarkers(Graphics2D g2) {
+			// Draw smoke markers
+			if (GameWindow.gameWindow != null && GameWindow.gameWindow.game != null
+					&& GameWindow.gameWindow.game.smoke != null) {
+				for (Cord impactHex : HexGrid.impactHexes) {
+
+					Cord cord = getCenterFromCoordinates(impactHex.xCord, impactHex.yCord);
+					int x = cord.xCord;
+
+					Polygon hex = hexMap.get(impactHex.xCord).get(impactHex.yCord);
+
+					int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
+
+					int y = hexCenterY;
+
+					String s = "Impact";
+					g2.setColor(Color.MAGENTA);
+					g2.setStroke(new BasicStroke(1f));
+					g2.draw(losThread);
+
+					g2.setColor(Color.BLACK);
+					FontMetrics fm = g2.getFontMetrics();
+					Rectangle2D rect = fm.getStringBounds(s, g2);
+					x = x - (int) rect.getWidth() / 2;
+					g2.fillRect(x, y - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
+					g2.setColor(Color.MAGENTA);
+
+					g2.drawString(s, x, y);
+				}
+			}
+
+			g2.setColor(Color.green);
+			g2.setStroke(new BasicStroke((float) (2f * zoom)));
+
+		}
+		
 		private void drawSmokeMarkers(Graphics2D g2) {
 			// Draw smoke markers
 			if (GameWindow.gameWindow != null && GameWindow.gameWindow.game != null

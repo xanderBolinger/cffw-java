@@ -640,7 +640,7 @@ public class GameWindow implements Serializable {
 		JButton btnNextAction = new JButton("Next Action");
 		btnNextAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				HexGrid.impactHexes.clear();
 				new AlertWindow("Loading Next Action");
 
 				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
