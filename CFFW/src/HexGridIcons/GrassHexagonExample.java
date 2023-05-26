@@ -3,14 +3,21 @@ package HexGridIcons;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.LineBorder;
 
 import UtilityClasses.ExcelUtility;
 
@@ -20,12 +27,13 @@ public class GrassHexagonExample extends JPanel {
     private static final int HEX_SIZE = 100;
     
     private static final String GRASS_IMAGE_PATH = ExcelUtility.path + "\\HexImages\\Grass1.png";
-    private BufferedImage grassImage;
+    private Image grassImage;
 
     public GrassHexagonExample() {
         try {
             // Load the grass image
             grassImage = ImageIO.read(new File(GRASS_IMAGE_PATH));
+            grassImage = grassImage.getScaledInstance(HEX_SIZE*2, HEX_SIZE*2, Image.SCALE_SMOOTH);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,10 +49,11 @@ public class GrassHexagonExample extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Create a hexagon-shaped polygon
-        Polygon hexagon = createHexagonPolygon();
-
+        Polygon hex = createHexagonPolygon();
+        
+		
         // Draw the grass hexagon
-        drawGrassHexagon(g2d, hexagon);
+        drawGrassHexagon(g2d, hex);
     }
 
     private Polygon createHexagonPolygon() {
@@ -66,13 +75,15 @@ public class GrassHexagonExample extends JPanel {
         return new Polygon(xPoints, yPoints, 6);
     }
 
-    private void drawGrassHexagon(Graphics2D g2d, Polygon hexagon) {
-        g2d.setColor(Color.GREEN);
-        g2d.fill(hexagon);
+    private void drawGrassHexagon(Graphics2D g2d, Polygon hex) {
+    	int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
+		int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
+        g2d.setColor(Color.RED);
+        g2d.fill(hex);
 
         // Calculate the grass image position within the hexagon
-        int grassImageX = hexagon.xpoints[0] + (HEX_SIZE - grassImage.getWidth()) / 2;
-        int grassImageY = hexagon.ypoints[0] + (HEX_SIZE - grassImage.getHeight()) / 2;
+        int grassImageX = hexCenterX - hex.getBounds().width / 2;
+        int grassImageY = hexCenterY - hex.getBounds().height / 2 - 10;
 
         // Draw the grass image on top of the hexagon
         g2d.drawImage(grassImage, grassImageX, grassImageY, null);

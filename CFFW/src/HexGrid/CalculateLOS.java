@@ -64,9 +64,16 @@ public class CalculateLOS {
 					buildingFloors = building.floors.size();
 			}
 			
+			double slopeToCurrentHex = (currentHexElevation+1 - (double)spotterElevation) / ((double)hexes.indexOf(hex)+2.0 - 1.0);
 			double slopeToBrush = (currentHexElevation+1 - (double)spotterElevation) / ((double)hexes.indexOf(hex)+2.0 - 1.0);
 			double slopeToTrees = (currentHexElevation+3 - (double)spotterElevation) / ((double)hexes.indexOf(hex)+2.0 - 1.0);
 			double slopeToBuilding = (currentHexElevation+buildingFloors+1 - (double)spotterElevation) / ((double)hexes.indexOf(hex)+2.0 - 1.0);
+			
+			if(((spotterElevation > targetElevation && slopeToCurrentHex >= slopeToTarget) || (spotterElevation < targetElevation && slopeToCurrentHex < slopeToTarget)
+					) && currentHexElevation+1 != targetElevation) {
+				concealment = 5;
+				break;
+			}
 			
 			int brushConcealment = 0;
 			int treeConcealment = GameWindow.gameWindow.game.smoke.getConcealment(hex);
