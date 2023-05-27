@@ -411,10 +411,13 @@ public class OpenUnit implements Serializable {
 				}
 				
 				for(Trooper trooper : unit.individuals) {
-					if(!trooper.inCover && comboBoxBehavior.getSelectedIndex() != 0 && !trooper.manualStance)
-						trooper.stance = "Prone";
-					else if(! trooper.manualStance && comboBoxBehavior.getSelectedIndex() < 1)
+					
+					if(unit.behavior.equals("No Contact") || !unit.speed.equals("None")) {
 						trooper.stance = "Standing";
+					} else {
+						trooper.stance = "Prone";
+					}
+					
 				}
 
 				refreshIndividuals(); 

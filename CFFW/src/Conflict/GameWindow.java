@@ -612,13 +612,6 @@ public class GameWindow implements Serializable {
 						unit.seekCover(gameWindow.findHex(unit.X, unit.Y), gameWindow);
 					}
 
-					for (Trooper trooper : unit.individuals) {
-						if (!trooper.inCover && !trooper.manualStance)
-							trooper.stance = "Prone";
-						else if (!trooper.manualStance)
-							trooper.stance = "Standing";
-					}
-
 				}
 
 				conflictLog.addNewLine("Set Contact.");

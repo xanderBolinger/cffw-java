@@ -250,7 +250,7 @@ public class Shoot {
 			suppressiveShotRoll(DiceRoller.randInt(0, 99));
 		}
 
-		shotResults = "Suppresive fire from " + shooterUnit.callsign + " to " 
+		shotResults += "Suppresive fire from " + shooterUnit.callsign + " to " 
 				+ targetUnit.callsign + ": " + suppressiveHits + " hits.";
 		
 		//spentCombatActions = shooter.combatActions;
@@ -574,9 +574,9 @@ public class Shoot {
 	public void setStanceALM() {
 
 		if (wep.staticWeapon && wep.assembled) {
-			stanceALM = 5;
-		} else if (shooter.inCover || shooter.stance == "Prone" && !wep.staticWeapon) {
-			stanceALM = wep.bipod + 6;
+			stanceALM = 7;
+		} else if (shooter.inCover || (shooter.stance == "Prone" && !wep.staticWeapon)) {
+			stanceALM = 4;
 		} else if (shooter.stance == "Crouched") {
 			stanceALM = 3;
 		}

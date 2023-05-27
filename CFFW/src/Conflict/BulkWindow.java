@@ -151,6 +151,7 @@ public class BulkWindow {
 	private JComboBox comboBoxGrenadeUnit;
 	private JComboBox comboBoxLauncher;
 	private JComboBox comboBoxAmmoTypeLauncher;
+	private JCheckBox chckbxSingleShot;
 
 	/**
 	 * Create the application.
@@ -829,7 +830,9 @@ public class BulkWindow {
 		comboBoxStance.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				for (BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
+				System.err.println("Deprecated button.");
+				
+				/*for (BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
 					Trooper trooper = bulkTrooper.trooper;
 
 					if (comboBoxStance.getSelectedItem().toString().equals(trooper.stance)) {
@@ -856,7 +859,7 @@ public class BulkWindow {
 
 				}
 
-				PCFireGuiUpdates();
+				PCFireGuiUpdates();*/
 
 			}
 		});
@@ -1264,8 +1267,9 @@ public class BulkWindow {
 											else 
 												shoot.shot(false);
 											
-											shoot.suppressiveFireFree(
-													shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+											if(chckbxSingleShot.isSelected())
+												shoot.suppressiveFireFree(
+														shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
 										
 										
 										}
@@ -1279,7 +1283,7 @@ public class BulkWindow {
 										valleyValidTargetCheck(shoot, bulkTrooper);
 
 										GameWindow.gameWindow.conflictLog
-												.addNewLineToQueue("Results: " + shoot.shotResults);
+												.addNewLineToQueue("Shot Results: " + shoot.shotResults);
 										// System.out.println("Supp results: "+shoot.shotResults);
 
 									} catch (Exception e) {
@@ -2519,6 +2523,12 @@ public class BulkWindow {
 		comboBoxGrenadeUnit.setSelectedIndex(-1);
 		comboBoxGrenadeUnit.setBounds(154, 595, 136, 20);
 		frame.getContentPane().add(comboBoxGrenadeUnit);
+		
+		chckbxSingleShot = new JCheckBox("Single Shot");
+		chckbxSingleShot.setForeground(Color.BLACK);
+		chckbxSingleShot.setBackground(Color.WHITE);
+		chckbxSingleShot.setBounds(998, 499, 89, 23);
+		frame.getContentPane().add(chckbxSingleShot);
 		frame.setVisible(true);
 	}
 
@@ -4051,11 +4061,12 @@ public class BulkWindow {
 									else 
 										shoot.shot(false);
 									
-									shoot.suppressiveFireFree(
-											shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+									if(chckbxSingleShot.isSelected())
+										shoot.suppressiveFireFree(
+												shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
 								}
 
-								GameWindow.gameWindow.conflictLog.addNewLineToQueue("Results: " + shoot.shotResults);
+								GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shot Results: " + shoot.shotResults);
 
 								valleyValidTargetCheck(shoot, bulkTrooper);
 								
