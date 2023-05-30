@@ -3633,7 +3633,7 @@ public class BulkWindow {
 
 	public boolean validTarget(Trooper target) {
 
-		if (target == null || !target.alive || !target.conscious || target.HD) {
+		if (target == null || !target.alive || !target.conscious) {
 			return false;
 		}
 

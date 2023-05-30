@@ -574,9 +574,9 @@ public class Shoot {
 	public void setStanceALM() {
 
 		if (wep.staticWeapon && wep.assembled) {
-			stanceALM = 7;
+			stanceALM = 10;
 		} else if (shooter.inCover || (shooter.stance == "Prone" && !wep.staticWeapon)) {
-			stanceALM = 4;
+			stanceALM = 7;
 		} else if (shooter.stance == "Crouched") {
 			stanceALM = 3;
 		}

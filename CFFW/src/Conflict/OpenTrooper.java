@@ -1230,7 +1230,7 @@ public class OpenTrooper implements Serializable {
 						GameWindow.gameWindow.conflictLog.addQueuedText();
 						guiUpdates();
 
-						if (shoot.target == null || !shoot.target.alive || !shoot.target.conscious || shoot.target.HD) {
+						if (shoot.target == null || !shoot.target.alive || !shoot.target.conscious) {
 							refreshTargets();
 						}
 
@@ -6436,7 +6436,7 @@ public class OpenTrooper implements Serializable {
 			for (int j = 0; j < spotAction.spottedIndividuals.size(); j++) {
 
 				// Checks if target individual is alive or hunkered down
-				if (spotAction.spottedIndividuals.get(j).alive && spotAction.spottedIndividuals.get(j).HD == false) {
+				if (spotAction.spottedIndividuals.get(j).alive) {
 
 					// Adds individual to spotted list
 					if (!spottedIndividuals.contains(spotAction.spottedIndividuals.get(j))) {

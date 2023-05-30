@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import Hexes.Hex;
+import Trooper.Trooper;
 import Unit.Unit;
 
 public class CalculateLOS {
@@ -27,6 +28,32 @@ public class CalculateLOS {
 			targetUnit.lineOfSight.add(unit);
 		
 	}
+	
+	public static void checkSpottedTroopers(Unit unit) {
+		
+		for(var trooper : unit.individuals) {
+			
+			for(var spot : trooper.spotted) {
+				var list = new ArrayList<Trooper>();
+				for(var spottedTrooper : spot.spottedIndividuals) {
+					
+					if(!unit.lineOfSight.contains(spottedTrooper.returnTrooperUnit(GameWindow.gameWindow))) {
+						
+						list.add(spottedTrooper);
+						
+					}
+					
+				} 
+				
+				for(var spottedTrooper : list) {
+					spot.spottedIndividuals.remove(spottedTrooper);
+				}
+				
+			}
+			
+		}
+		
+	} 
 	
 	private static int getConcealment(Unit unit, Unit targetUnit, boolean lineOfSight) {
 		ArrayList<Cord> hexes = TraceLine.GetHexes(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y), GameWindow.gameWindow.hexGrid.panel);

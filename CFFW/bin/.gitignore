@@ -1,3 +1,8 @@
+/HexGrid/
+/HexGridIcons/
+/Hexes/
+/Individuals/
+/Injuries/
 /Items/
 /JUnitTests/
 /Main.class
@@ -13,5 +18,5 @@
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
-/HexGrid/
 /Conflict/
+/Actions/

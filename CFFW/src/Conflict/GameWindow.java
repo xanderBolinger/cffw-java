@@ -2295,20 +2295,35 @@ public class GameWindow implements Serializable {
 
 	public void CalcLOS() {
 		System.out.println("Calc los");
-
+		final long startTime = System.currentTimeMillis();
+		ExecutorService es = Executors.newFixedThreadPool(16);
+		for (Unit unit : initiativeOrder) {
+			es.submit(() -> {
+				unit.lineOfSight.clear();
+	
+				
+				
+				for (Unit targetUnit : initiativeOrder) {
+					if (unit.side.equals(targetUnit.side))
+						continue;
+					
+						CalculateLOS.calc(unit, targetUnit);
+					
+	
+	
+				}
+			
+			});
+		}
+		
+		es.shutdown();
+		
 		for (Unit unit : initiativeOrder) {
 
-			unit.lineOfSight.clear();
-
-			for (Unit targetUnit : initiativeOrder) {
-				if (unit.side.equals(targetUnit.side))
-					continue;
-
-				CalculateLOS.calc(unit, targetUnit);
-
-			}
+			CalculateLOS.checkSpottedTroopers(unit);
 
 		}
-
+		final long endTime = System.currentTimeMillis();
+		System.out.println("Total CalcLOS execution time: " + (endTime - startTime));
 	}
 }
