@@ -10,6 +10,152 @@ public class WeaponsStats {
 	
 	public WeaponsStats() {
 		T4GMG();
+		GoblinJavelin();
+		ShortBow();
+	}
+	
+	public void ShortBow() {
+		Weapons weapon = new Weapons();
+		
+		weapon.name = "Short Bow";
+		weapon.targetROF = 8;
+		weapon.suppressiveROF = 2;
+		weapon.type = "Bow";
+		weapon.equipedTroopers = new ArrayList<>();
+		weapon.scopeMagnification = "";
+		weapon.weaponBonus = 10;
+		weapon.damage = 16;
+		weapon.damageBonus = 0;
+		weapon.damageMultiplier = 0;
+		weapon.armorPiercing = 3;
+		weapon.tracers = false;
+		weapon.assembled = false;
+		weapon.assembleCost = 6;
+		weapon.assembleProgress = 0;
+		weapon.ammoCapacity = 1;
+		weapon.ammoLoaded = 1;
+		weapon.loadTime = 6;
+		weapon.loadProgress = 0;
+		weapon.sab = 0;
+		weapon.fullAutoROF = 1;
+		weapon.tracers = false;
+		weapon.light = false;
+		weapon.laser = false;
+		weapon.staticWeapon = false;
+		weapon.irLaser = false;
+
+		weapon.aimTime.add(-11);
+		weapon.aimTime.add(-10);
+		weapon.aimTime.add(-9);
+		weapon.aimTime.add(-8);
+		weapon.aimTime.add(-7);
+
+		// 10 20 40 70 100 200 300 400
+		// PEN
+		weapon.pen.add(2);
+		weapon.pen.add(2);
+		weapon.pen.add(2);
+		weapon.pen.add(1);
+		weapon.pen.add(1);
+		weapon.pen.add(1);
+		weapon.pen.add(1);
+		weapon.pen.add(1);
+		// DC
+		weapon.dc.add(2);
+		weapon.dc.add(2);
+		weapon.dc.add(2);
+		weapon.dc.add(2);
+		weapon.dc.add(1);
+		weapon.dc.add(1);
+		weapon.dc.add(1);
+		weapon.dc.add(1);
+		// BA
+		weapon.ba.add(37);
+		weapon.ba.add(33);
+		weapon.ba.add(29);
+		weapon.ba.add(22);
+		weapon.ba.add(10);
+		weapon.ba.add(4);
+		weapon.ba.add(1);
+		weapon.ba.add(0);
+		
+		// Ce stats
+		weapon.ceStats.baseErgonomics = 80;
+		weapon.ceStats.reloadTime = 5;
+		weapon.loadTime = 5;
+		weapons.add(weapon);
+	}
+	
+	public void GoblinJavelin() {
+		Weapons weapon = new Weapons();
+		
+		weapon.name = "Goblin Javelin";
+		weapon.targetROF = 8;
+		weapon.suppressiveROF = 2;
+		weapon.type = "Throw";
+		weapon.equipedTroopers = new ArrayList<>();
+		weapon.scopeMagnification = "";
+		weapon.weaponBonus = 10;
+		weapon.damage = 16;
+		weapon.damageBonus = 0;
+		weapon.damageMultiplier = 0;
+		weapon.armorPiercing = 3;
+		weapon.tracers = false;
+		weapon.assembled = false;
+		weapon.assembleCost = 6;
+		weapon.assembleProgress = 0;
+		weapon.ammoCapacity = 1;
+		weapon.ammoLoaded = 1;
+		weapon.loadTime = 6;
+		weapon.loadProgress = 0;
+		weapon.sab = 0;
+		weapon.fullAutoROF = 1;
+		weapon.tracers = false;
+		weapon.light = false;
+		weapon.laser = false;
+		weapon.staticWeapon = false;
+		weapon.irLaser = false;
+
+		weapon.aimTime.add(-15);
+		weapon.aimTime.add(-13);
+		weapon.aimTime.add(-12);
+		weapon.aimTime.add(-11);
+		weapon.aimTime.add(-10);
+
+		// 10 20 40 70 100 200 300 400
+		// PEN
+		weapon.pen.add(2);
+		weapon.pen.add(2);
+		weapon.pen.add(2);
+		weapon.pen.add(1);
+		weapon.pen.add(1);
+		weapon.pen.add(1);
+		weapon.pen.add(1);
+		weapon.pen.add(1);
+		// DC
+		weapon.dc.add(3);
+		weapon.dc.add(2);
+		weapon.dc.add(2);
+		weapon.dc.add(2);
+		weapon.dc.add(2);
+		weapon.dc.add(1);
+		weapon.dc.add(1);
+		weapon.dc.add(1);
+		// BA
+		weapon.ba.add(20);
+		weapon.ba.add(15);
+		weapon.ba.add(8);
+		weapon.ba.add(0);
+		weapon.ba.add(0);
+		weapon.ba.add(0);
+		weapon.ba.add(0);
+		weapon.ba.add(0);
+		
+		// Ce stats
+		weapon.ceStats.baseErgonomics = 80;
+		weapon.ceStats.reloadTime = 3;
+		weapon.loadTime = 3;
+		weapons.add(weapon);
 	}
 	
 	public void T4GMG() {

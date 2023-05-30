@@ -140,7 +140,7 @@ public class CorditeExpansionWindow extends JFrame {
 				CorditeExpansionGame.actionOrder = actionOrder;
 				
 				try {
-					fourSwMilitia();
+					//fourSwMilitia();
 					//omegaSquad();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -409,7 +409,7 @@ public class CorditeExpansionWindow extends JFrame {
 				CorditeExpansionGame.actionOrder = actionOrder;
 				
 				try {
-					fourSwMilitia();
+					//fourSwMilitia();
 					//omegaSquad();
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -28,7 +28,9 @@ public class Item implements Serializable {
 		
 		E5,E5S,E5C,B2RR,
 		
-		M870
+		M870,
+		
+		GoblinJavelin,ShortBow
 	}
 	
 	public Item() throws Exception {
@@ -52,6 +54,9 @@ public class Item implements Serializable {
 				new Item(ItemType.B2RR),
 				new Item(ItemType.M870),
 				
+				new Item(ItemType.GoblinJavelin),
+				new Item(ItemType.ShortBow),
+				
 				new Item(ItemType.EWEBWeapon),
 				new Item(ItemType.EWEBTripod),
 				new Item(ItemType.EWEBBattery),
@@ -69,6 +74,9 @@ public class Item implements Serializable {
 				new Item(ItemType.DC40, ItemType.SMOKE),
 				new Item(ItemType.RPS6, ItemType.HE),
 				new Item(ItemType.RPS6, ItemType.HEAT),
+				
+				new Item(ItemType.GoblinJavelin, ItemType.SmallArmsAmmo),
+				new Item(ItemType.ShortBow, ItemType.SmallArmsAmmo),
 				
 				new Item(ItemType.DC15A, ItemType.SmallArmsAmmo),
 				new Item(ItemType.DC20, ItemType.SmallArmsAmmo),
@@ -187,6 +195,18 @@ public class Item implements Serializable {
 			itemWeight = 1;
 		}
 		
+		else if((ItemType.GoblinJavelin == weaponType) 
+				&& ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("Goblin Javelin", 1);
+			itemWeight = 1;
+		}
+		
+		else if((ItemType.ShortBow == weaponType) 
+				&& ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("Quiver", 40);
+			itemWeight = 4;
+		}
+		
 		else {
 			throw new Exception("Could not create ammo. Ammo type: "+ammoType+", Weapon type: "+weaponType+", not accounted for.");
 		}
@@ -298,6 +318,16 @@ public class Item implements Serializable {
 		else if(ItemType.M870 == itemType) {
 			weapon = new Weapons().findWeapon("M870");
 			itemWeight = 9; 
+		} 
+		
+		else if(ItemType.GoblinJavelin == itemType) {
+			weapon = new Weapons().findWeapon("Goblin Javelin");
+			itemWeight = 0; 
+		} 
+		
+		else if(ItemType.ShortBow == itemType) {
+			weapon = new Weapons().findWeapon("Short Bow");
+			itemWeight = 2; 
 		} 
 		
 		else {
