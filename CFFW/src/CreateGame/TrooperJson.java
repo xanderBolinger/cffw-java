@@ -110,7 +110,7 @@ public class TrooperJson {
 
 		//System.out.println("Name Pass 1: "+trooper.name);
 		
-		trooper.identifier = identifier;
+		trooper.identifier = Trooper.getIdentifier();
 		trooper.HD = false;
 
 		trooper.rank = rank;

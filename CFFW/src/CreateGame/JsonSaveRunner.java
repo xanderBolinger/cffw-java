@@ -30,17 +30,13 @@ import UtilityClasses.ExcelUtility;
 
 public class JsonSaveRunner {
 
-	public static void main(String[] args) {
-		try {
-			String fileContents = loadFile();
-			System.out.println(fileContents);
-			Trooper trooper = loadTrooper(fileContents);
-			System.out.println("Trooper name: "+trooper.name);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		//Trooper trooper = new Trooper("Clone Squad Leader", "Clone Trooper Phase 1");
-		//System.out.println(saveTrooper(new TrooperJson(trooper)));
+	public static void main(String[] args) throws IOException {
+		String fileContents = loadFileFromName("Alpha CT-62-8075.json");
+		System.out.println(fileContents);
+		Trooper trooper = loadTrooper(fileContents);
+		System.out.println("Trooper name: "+trooper.name);
+		//var fileNames = getFileNames();
+		//System.out.println("Files: "+fileNames.toString());
 		
 		/*
 		 * 
@@ -111,6 +107,34 @@ public class JsonSaveRunner {
 		}
 	}
 
+	public static String loadFileFromName(String fileName) throws IOException {
+		String path = ExcelUtility.path+"//Character JSONS//"+fileName;
+		return new String(Files.readAllBytes(Paths.get(new File(path).getAbsolutePath())));
+	}
+	
+	public static ArrayList<String> getFileNames() {
+        ArrayList<String> fileNames = new ArrayList<>();
+
+        File folder = new File(ExcelUtility.path+"//Character JSONS//");
+        if (!folder.exists() || !folder.isDirectory()) {
+            System.out.println("Invalid folder path");
+            return fileNames;
+        }
+
+        File[] files = folder.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile()) {
+                    String fileName = file.getName();
+                    fileNames.add(fileName);
+                }
+            }
+        }
+
+        return fileNames;
+    }
+
+	
 	public static String loadFile() throws IOException {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new File(ExcelUtility.path));

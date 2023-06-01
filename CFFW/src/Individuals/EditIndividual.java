@@ -9,6 +9,7 @@ import CreateGame.TrooperJson;
 import Injuries.Injuries;
 import Unit.EditUnit;
 import Unit.Unit;
+import UtilityClasses.SwingUtility;
 import UtilityClasses.TrooperUtility;
 
 import java.awt.Color;
@@ -46,6 +47,8 @@ import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class EditIndividual implements Serializable {
 
@@ -159,6 +162,7 @@ public class EditIndividual implements Serializable {
 	private JSpinner spinnerKO;
 	private JSpinner spinnerFighterRanks;
 	public Trooper trooper;
+	private JComboBox comboBoxJson;
 
 	/**
 	 * Launch the application.
@@ -223,7 +227,11 @@ public class EditIndividual implements Serializable {
 			public void actionPerformed(ActionEvent e) {
 
 				try {
-					loadTrooper();
+					if(comboBoxJson.getSelectedIndex() <= 0) {
+						loadTrooper();
+					} else {
+						loadTrooperByName(comboBoxJson.getSelectedItem().toString());
+					}
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
@@ -244,37 +252,52 @@ public class EditIndividual implements Serializable {
 				}
 			}
 		});
+		
+		comboBoxJson = new JComboBox();
+		comboBoxJson.setModel(new DefaultComboBoxModel(new String[] {"Select"}));
+		comboBoxJson.setSelectedIndex(0);
 		GroupLayout gl_panelIndividual = new GroupLayout(panelIndividual);
-		gl_panelIndividual.setHorizontalGroup(gl_panelIndividual.createParallelGroup(Alignment.LEADING)
-				.addComponent(tabbedPane2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 938, Short.MAX_VALUE)
-				.addGroup(gl_panelIndividual.createSequentialGroup().addContainerGap()
-						.addComponent(lblP1, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(lblP2, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(lblWep, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(lblAmmo, GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap()));
-		gl_panelIndividual.setVerticalGroup(gl_panelIndividual.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_panelIndividual.createSequentialGroup().addContainerGap().addGroup(gl_panelIndividual
-						.createParallelGroup(Alignment.LEADING)
+		gl_panelIndividual.setHorizontalGroup(
+			gl_panelIndividual.createParallelGroup(Alignment.LEADING)
+				.addComponent(tabbedPane2, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 936, Short.MAX_VALUE)
+				.addGroup(gl_panelIndividual.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblP1, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblP2, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblWep, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblAmmo, GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(comboBoxJson, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton_1_1, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton_1, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 213, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		gl_panelIndividual.setVerticalGroup(
+			gl_panelIndividual.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelIndividual.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelIndividual.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblP1, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_panelIndividual.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblP2, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblWep, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
+							.addComponent(lblP2, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblWep, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_panelIndividual.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblAmmo, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
-								.addComponent(btnNewButton).addComponent(btnNewButton_1)
-								.addComponent(btnNewButton_1_1)))
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(tabbedPane2, GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE).addGap(0)));
+							.addComponent(lblAmmo, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnNewButton)
+							.addComponent(btnNewButton_1)
+							.addComponent(btnNewButton_1_1)
+							.addComponent(comboBoxJson, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(tabbedPane2, GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)
+					.addGap(0))
+		);
 
 		JPanel panelStats = new JPanel();
 		panelStats.setBackground(Color.DARK_GRAY);
@@ -2692,6 +2715,9 @@ public class EditIndividual implements Serializable {
 		setEdit(trooper);
 		setEditSkills(trooper);
 		refreshInjuries(trooper);
+		
+		SwingUtility.setComboBox(comboBoxJson, JsonSaveRunner.getFileNames(), false, 0);
+		
 	}
 
 	public void loadTrooper() throws IOException {
@@ -2704,6 +2730,16 @@ public class EditIndividual implements Serializable {
 		refreshInjuries(trooper);
 	}
 
+	public void loadTrooperByName(String fileName) throws IOException {
+		this.trooper = JsonSaveRunner.loadTrooper(JsonSaveRunner.loadFileFromName(fileName));
+		// Calls methods
+		// Sets all fields on both pages
+		setDetails(trooper);
+		setEdit(trooper);
+		setEditSkills(trooper);
+		refreshInjuries(trooper);
+	}
+	
 	// Sets all of the fields and lists on the first details page
 	public void setDetails(Trooper individual) {
 		lblName.setText("Name: " + individual.name);
@@ -3405,5 +3441,4 @@ public class EditIndividual implements Serializable {
 	public void openCharacterBuilder() {
 		new CharacterBuilderWindow(this.trooper);
 	}
-
 }
