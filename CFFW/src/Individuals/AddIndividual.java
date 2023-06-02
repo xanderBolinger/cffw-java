@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.swing.DefaultComboBoxModel;
@@ -17,7 +18,10 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import Company.EditCompany;
+import CreateGame.JsonSaveRunner;
 import Trooper.Trooper;
+import UtilityClasses.SwingUtility;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -32,6 +36,7 @@ public class AddIndividual implements Serializable {
 	private JTextPane textPaneTrooper;
 	private JLabel lblCount;
 	private JSpinner spinnerNumber;
+	private JComboBox comboBoxJson;
 
 	/**
 	 * Launch the application.
@@ -178,10 +183,17 @@ public class AddIndividual implements Serializable {
 		JButton btnGenerateTrooper = new JButton("Generate Trooper");
 		btnGenerateTrooper.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Trooper individual;
+				Trooper individual = null;
 				
 				// Generates individual
-				if(comboBoxFaction.getSelectedItem().toString().equals("Clone Trooper Phase 1") || comboBoxFaction.getSelectedItem().toString().equals("CIS Battle Droid")) {
+				if(comboBoxJson.getSelectedIndex() > 0) {
+					try {
+						individual = JsonSaveRunner.loadTrooper(JsonSaveRunner.loadFileFromName(comboBoxJson.getSelectedItem().toString()));
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+				else if(comboBoxFaction.getSelectedItem().toString().equals("Clone Trooper Phase 1") || comboBoxFaction.getSelectedItem().toString().equals("CIS Battle Droid")) {
 					individual = new Trooper(comboBoxRole.getSelectedItem().toString(),
 							comboBoxFaction.getSelectedItem().toString());
 				} else {
@@ -215,10 +227,18 @@ public class AddIndividual implements Serializable {
 						
 						
 						for(int i = 1; i <= (int) spinnerNumber.getValue(); i++) {
-							Trooper individual;
+							Trooper individual = null;
 							
 							// Generates individual
-							if(comboBoxFaction.getSelectedItem().toString().equals("Clone Trooper Phase 1") || comboBoxFaction.getSelectedItem().toString().equals("CIS Battle Droid")) {
+							// Generates individual
+							if(comboBoxJson.getSelectedIndex() > 0) {
+								try {
+									individual = JsonSaveRunner.loadTrooper(JsonSaveRunner.loadFileFromName(comboBoxJson.getSelectedItem().toString()));
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+							}
+							else if(comboBoxFaction.getSelectedItem().toString().equals("Clone Trooper Phase 1") || comboBoxFaction.getSelectedItem().toString().equals("CIS Battle Droid")) {
 								individual = new Trooper(comboBoxRole.getSelectedItem().toString(),
 										comboBoxFaction.getSelectedItem().toString());
 							} else {
@@ -265,15 +285,19 @@ public class AddIndividual implements Serializable {
 		lblCount = new JLabel("Count:");
 		
 		spinnerNumber = new JSpinner();
+		
+		comboBoxJson = new JComboBox();
+		comboBoxJson.setModel(new DefaultComboBoxModel(new String[] {"Select"}));
+		comboBoxJson.setSelectedIndex(0);
 
 		GroupLayout groupLayout = new GroupLayout(f.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(textPaneTrooper, GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE))
+							.addComponent(textPaneTrooper, GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(groupLayout.createSequentialGroup()
@@ -291,9 +315,12 @@ public class AddIndividual implements Serializable {
 									.addComponent(lblCount)
 									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addComponent(spinnerNumber, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
-								.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, 256, GroupLayout.PREFERRED_SIZE))
-							.addGap(54)))
-					.addGap(9))
+								.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, 256, GroupLayout.PREFERRED_SIZE))))
+					.addGap(63))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(comboBoxJson, GroupLayout.PREFERRED_SIZE, 220, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(278, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -308,12 +335,17 @@ public class AddIndividual implements Serializable {
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(comboBoxFaction, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(comboBoxRole, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addComponent(textPaneTrooper, GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(comboBoxJson, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+					.addComponent(textPaneTrooper, GroupLayout.PREFERRED_SIZE, 189, GroupLayout.PREFERRED_SIZE)
 					.addGap(6))
 		);
 		f.getContentPane().setLayout(groupLayout);
 		f.setVisible(true);
+		
+		
+		SwingUtility.setComboBox(comboBoxJson, JsonSaveRunner.getFileNames(), true, 0);
+		
 	}
-
 }

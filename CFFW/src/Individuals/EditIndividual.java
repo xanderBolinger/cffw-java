@@ -2716,7 +2716,7 @@ public class EditIndividual implements Serializable {
 		setEditSkills(trooper);
 		refreshInjuries(trooper);
 		
-		SwingUtility.setComboBox(comboBoxJson, JsonSaveRunner.getFileNames(), false, 0);
+		SwingUtility.setComboBox(comboBoxJson, JsonSaveRunner.getFileNames(), true, 0);
 		
 	}
 

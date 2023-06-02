@@ -203,8 +203,8 @@ public class Item implements Serializable {
 		
 		else if((ItemType.ShortBow == weaponType) 
 				&& ItemType.SmallArmsAmmo == ammoType) {
-			ammo = new PCAmmo("Quiver", 40);
-			itemWeight = 4;
+			ammo = new PCAmmo("Arrow", 1);
+			itemWeight = 0.01;
 		}
 		
 		else {

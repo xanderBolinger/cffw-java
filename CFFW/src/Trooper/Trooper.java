@@ -209,7 +209,7 @@ public class Trooper implements Serializable {
 	public Inventory inventory = new Inventory(this);
 	public int encumberanceModifier = 0;
 
-	public transient StatBlock ceStatBlock;
+	public StatBlock ceStatBlock;
 
 	public class MaximumSpeed implements Serializable {
 
@@ -3396,15 +3396,7 @@ public class Trooper implements Serializable {
 		return leaderType+ trooper;
 	}
 
-	public static String getIdentifier() {
-		int count = 10;
-		StringBuilder builder = new StringBuilder();
-		while (count-- != 0) {
-			int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
-			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
-		}
-		return builder.toString();
-	}
+	
 
 	/*
 	 * public int getPD() { int pd = 0;
