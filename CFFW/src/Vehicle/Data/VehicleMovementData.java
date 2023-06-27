@@ -8,6 +8,9 @@ import CorditeExpansion.Cord;
 import HexGrid.HexDirectionUtility.HexDirection;
 import Hexes.Feature;
 import Hexes.Hex;
+import Vehicle.VehicleMovement;
+import Vehicle.HullDownPositions.HullDownPosition;
+import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
 
 public class VehicleMovementData {
 	public Cord location;
@@ -25,6 +28,9 @@ public class VehicleMovementData {
 	public int hullTurnRateFullSpeed;
 	public int hullTurnRateHalfSpeed;
 	public int hullTurnRateNoSpeed;
+	
+	public HullDownPosition hullDownPosition;
+	public HullDownStatus hullDownStatus;
 	
 	public VehicleMovementData() {
 		
@@ -44,6 +50,47 @@ public class VehicleMovementData {
 		}
 		
 		return movementSpeeds.get("Soil");
+	}
+	
+	public void enterHullDownPosition(HullDownPosition hullDownPosition) {
+		this.hullDownPosition = hullDownPosition;
+		
+		if(hullDownPosition.hiddenHullDown)
+			hullDownStatus = HullDownStatus.HIDDEN;
+		else if(hullDownPosition.turretDown)
+			hullDownStatus = HullDownStatus.TURRET_DOWN;
+		else 
+			hullDownStatus = HullDownStatus.HULL_DOWN;
+		
+	}
+	
+	public void inchBack() {
+		if(!hullDownPosition.hiddenHullDown && !hullDownPosition.turretDown) {
+			hullDownPosition = null;
+		}
+			
+		try {
+			var status = VehicleMovement.MoveBackward(hullDownStatus);
+			
+			if(status == hullDownStatus)
+				hullDownPosition = null;
+			else 
+				hullDownStatus = status;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void inchForward() {
+		
+		try {
+			var status = VehicleMovement.MoveForward(hullDownStatus);
+			hullDownStatus = status;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

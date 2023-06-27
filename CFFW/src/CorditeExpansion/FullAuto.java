@@ -28,7 +28,7 @@ public class FullAuto {
 		int elevationTn = PCUtility.getOddsOfHitting(false, eal);
 		int penalty = FireAction.shotPenalty(statBlock);
 		
-		int roll = DiceRoller.randInt(0, 99);
+		int roll = DiceRoller.roll(0, 99);
 				
 		if(roll < elevationTn) {
 			rslts = "Elevation Hit, Roll: "+roll+", TN: "+elevationTn+", Penalty: "+penalty;
@@ -41,7 +41,7 @@ public class FullAuto {
 				rslts += ", Burst Hits: "+hits;
 			} else {
 				int tn = getNumericResults(autofireTable);
-				int secondRoll = DiceRoller.randInt(0, 99);
+				int secondRoll = DiceRoller.roll(0, 99);
 				
 				if(secondRoll <= tn) {
 					rslts += ", Burst Hit: roll: "+secondRoll+", tn: "+tn;

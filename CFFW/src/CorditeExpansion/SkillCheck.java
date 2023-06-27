@@ -88,7 +88,7 @@ public class SkillCheck {
 	
 	public int getMargin(int tn, boolean spendSuccess, boolean spendFailure) {
 		
-		roll = DiceRoller.randInt(0, 99);
+		roll = DiceRoller.roll(0, 99);
 		
 		
 		for(int i = 0; i < bonus; i++)

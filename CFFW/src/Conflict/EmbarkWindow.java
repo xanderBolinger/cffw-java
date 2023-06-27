@@ -318,7 +318,7 @@ public class EmbarkWindow {
 			
 			Floor floor = selectedBuilding.floors.get(setFloorNum-1);
 			//System.out.println("Floor rooms: "+floor.rooms.size());
-			SpinnerModel  model1 = new SpinnerNumberModel(DiceRoller.randInt(1, floor.rooms.size()), 1, floor.rooms.size(), 1);
+			SpinnerModel  model1 = new SpinnerNumberModel(DiceRoller.roll(1, floor.rooms.size()), 1, floor.rooms.size(), 1);
 			spinnerEmbarkedIndividualRoom.setModel(model1);
 		} else {
 			SpinnerModel  model1 = new SpinnerNumberModel(0, 0, 0, 0);
@@ -330,7 +330,7 @@ public class EmbarkWindow {
 			
 			Floor floor = selectedBuilding.floors.get(addFloorNum-1);
 			
-			SpinnerModel  model1 =  new SpinnerNumberModel(DiceRoller.randInt(1, floor.rooms.size()), 1, floor.rooms.size(), 1);
+			SpinnerModel  model1 =  new SpinnerNumberModel(DiceRoller.roll(1, floor.rooms.size()), 1, floor.rooms.size(), 1);
 			spinnerIndividualRoom.setModel(model1);
 		} else {
 			SpinnerModel  model1 = new SpinnerNumberModel(0, 0, 0, 0);

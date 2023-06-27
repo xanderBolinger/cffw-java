@@ -56,7 +56,7 @@ public class DamageTests {
 		// 2 0 6
 		assertEquals("1p", ExcelUtility.getStringFromSheet(0, 0, "Formatted Excel Files\\incapacitationtime.xlsx",
 				true, true));
-		DiceRoller.randInt(0, 0);
+		DiceRoller.roll(0, 0);
 		assertEquals(2, Damage.incapacitationImpulses(0));
 		assertEquals(47 * 2, Damage.incapacitationImpulses(50));
 		

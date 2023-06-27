@@ -459,7 +459,7 @@ public class StaticWeaponWindow {
 								
 								if(chckbxSingleShot.isSelected())
 									shoot.suppressiveFireFree(
-											shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+											shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
 							
 							}
 							

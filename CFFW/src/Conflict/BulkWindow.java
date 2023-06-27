@@ -194,7 +194,7 @@ public class BulkWindow {
 		if (sides.size() > 1) {
 			System.out.println("Sort troopers");
 			for (Trooper trooper : troopers) {
-				trooper.kills = DiceRoller.randInt(0, 9);
+				trooper.kills = DiceRoller.roll(0, 9);
 			}
 			Collections.sort(troopers, new Comparator<Trooper>() {
 				public int compare(Trooper b1, Trooper b2) {
@@ -1257,7 +1257,7 @@ public class BulkWindow {
 										else if (chckbxFullAuto.isSelected()) {
 											shoot.burst();
 											shoot.suppressiveFire(
-													shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+													shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
 										} else {
 											
 											
@@ -1269,7 +1269,7 @@ public class BulkWindow {
 											
 											if(chckbxSingleShot.isSelected())
 												shoot.suppressiveFireFree(
-														shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+														shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
 										
 										
 										}
@@ -1416,7 +1416,7 @@ public class BulkWindow {
 											Unit shooterUnit = bulkTrooper.trooper.returnTrooperUnit(GameWindow.gameWindow);
 											
 											bulkTrooper.shoot = ShootUtility.setTargetUnit(shooterUnit, 
-													shooterUnit.lineOfSight.get(DiceRoller.randInt(0, shooterUnit.lineOfSight.size()-1)),
+													shooterUnit.lineOfSight.get(DiceRoller.roll(0, shooterUnit.lineOfSight.size()-1)),
 													bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, ShootUtility.getPcAmmoIndex(bulkTrooper.trooper));
 											
 											if(bulkTrooper.shootReset) {
@@ -3714,7 +3714,7 @@ public class BulkWindow {
 					bulkTrooper.trooper.number + " " + bulkTrooper.trooper.name + " targetTrooperArray is empty.");
 		}
 
-		targetTrooper = targetTrooperArray.get(DiceRoller.randInt(0, targetTrooperArray.size() - 1));
+		targetTrooper = targetTrooperArray.get(DiceRoller.roll(0, targetTrooperArray.size() - 1));
 
 		for (Trooper trooper : targetUnit.individuals) {
 			if (!targetTrooper.inCover)
@@ -4053,7 +4053,7 @@ public class BulkWindow {
 									shoot.suppressiveFire(shoot.wep.suppressiveROF);
 								else if (chckbxFullAuto.isSelected()) {
 									shoot.burst();
-									shoot.suppressiveFire(shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+									shoot.suppressiveFire(shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
 								} else {
 									
 									if(shoot.wep.launcherHomingInfantry)
@@ -4063,7 +4063,7 @@ public class BulkWindow {
 									
 									if(chckbxSingleShot.isSelected())
 										shoot.suppressiveFireFree(
-												shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+												shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
 								}
 
 								GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shot Results: " + shoot.shotResults);

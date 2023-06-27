@@ -93,8 +93,8 @@ public class Skill implements Serializable {
 		if(type.equals("Basic")) {
 			
 			if(supported) {
-				int roll = DiceRoller.randInt(1, 6);
-				int roll2 = DiceRoller.randInt(1, 6);
+				int roll = DiceRoller.roll(1, 6);
+				int roll2 = DiceRoller.roll(1, 6);
 				
 				if(roll > roll2) {
 					advancement = roll;
@@ -103,15 +103,15 @@ public class Skill implements Serializable {
 				}
 				
 			} else {
-				advancement = DiceRoller.randInt(1, 6);
+				advancement = DiceRoller.roll(1, 6);
 			}
 			
 		} else if (type.equals("Trained")) {
 			
 			if(supported) {
-				advancement = DiceRoller.randInt(1, 6);
+				advancement = DiceRoller.roll(1, 6);
 			} else {
-				int roll = DiceRoller.randInt(1, 6);
+				int roll = DiceRoller.roll(1, 6);
 				roll -= 2; 
 				if(roll < 0) {
 					advancement = 1; 
@@ -123,7 +123,7 @@ public class Skill implements Serializable {
 		} else {
 			
 			if(supported) {
-				int roll = DiceRoller.randInt(1, 6);
+				int roll = DiceRoller.roll(1, 6);
 				roll -= 2; 
 				if(roll < 0) {
 					advancement = 0; 
@@ -131,8 +131,8 @@ public class Skill implements Serializable {
 					advancement = roll;
 				}
 			} else {
-				int roll = DiceRoller.randInt(1, 6);
-				int roll2 = DiceRoller.randInt(1, 6);
+				int roll = DiceRoller.roll(1, 6);
+				int roll2 = DiceRoller.roll(1, 6);
 				
 				if(roll < roll2) {
 					advancement = roll;

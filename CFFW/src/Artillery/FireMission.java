@@ -404,7 +404,7 @@ public class FireMission implements Serializable {
 		}
 		
 		accuracy /= 10; 
-		int scatterDistance = (int) (accuracy * scatterModifier()) + DiceRoller.randInt(0, fireMissionRadius);
+		int scatterDistance = (int) (accuracy * scatterModifier()) + DiceRoller.roll(0, fireMissionRadius);
 		
 		int impactX; 
 		int impactY; 

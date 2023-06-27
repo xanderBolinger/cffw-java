@@ -902,7 +902,7 @@ public class Armor implements Serializable {
 	
 	public int getModifiedProtectionFactor(int hitLocation, int bPF, boolean open) throws Exception {
 		
-		int glanceRoll = DiceRoller.randInt(0, 9);
+		int glanceRoll = DiceRoller.roll(0, 9);
 		//System.out.println("glance roll: "+glanceRoll);
 		try {
 			return (int) ExcelUtility.getNumberFromSheet(glanceRoll, bPF, "Formatted Excel Files\\protectionfactortable.xlsx", true, true);

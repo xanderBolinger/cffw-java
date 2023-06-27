@@ -230,7 +230,7 @@ public class Damage {
 	}
 
 	public static int incapacitationImpulses(int physicalDamage) throws Exception {
-		int roll = DiceRoller.randInt(0, 9);
+		int roll = DiceRoller.roll(0, 9);
 
 		if (physicalDamage > 1000)
 			physicalDamage = 1000;
@@ -245,7 +245,7 @@ public class Damage {
 	}
 	
 	public static int incapacitationImpulsesFlashbang() throws Exception {
-		int roll = DiceRoller.randInt(0, 9);
+		int roll = DiceRoller.roll(0, 9);
 		int physicalDamage = 0;
 
 		String incapStr = ExcelUtility.getStringFromSheet(roll, physicalDamage,
@@ -310,7 +310,7 @@ public class Damage {
 	}
 
 	public static void statusCheck(int physicalDamage, Trooper trooper) {
-		int KO = trooper.KO, roll = DiceRoller.randInt(0, 99);
+		int KO = trooper.KO, roll = DiceRoller.roll(0, 99);
 
 		// System.out.println("Roll: "+roll);
 
@@ -383,7 +383,7 @@ public class Damage {
 	}
 
 	public static int getHitLocation() {
-		return DiceRoller.randInt(0, 99);
+		return DiceRoller.roll(0, 99);
 	}
 
 	public static int shieldEpen(int hitLocation, int pen, boolean open, Trooper trooper) {
@@ -446,7 +446,7 @@ public class Damage {
 		
 		try {
 	        int hitChance = Integer.parseInt(bshc);
-	        int hitRoll = DiceRoller.randInt(0, 99);
+	        int hitRoll = DiceRoller.roll(0, 99);
 	        if(hitRoll <= hitChance)
 	        	shrapHits++;
 	        else {

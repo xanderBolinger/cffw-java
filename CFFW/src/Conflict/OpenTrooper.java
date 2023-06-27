@@ -1198,11 +1198,11 @@ public class OpenTrooper implements Serializable {
 							else if (chckbxFullAuto.isSelected()) {
 								shoot.burst();
 								if(!chckbxSingleShot.isSelected())
-									shoot.suppressiveFireFree(shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+									shoot.suppressiveFireFree(shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
 							} else {
 								shoot.shot(chckbxHoming.isSelected());
 								if(!chckbxSingleShot.isSelected())
-									shoot.suppressiveFireFree(shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+									shoot.suppressiveFireFree(shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
 							}
 							System.out.println("Open Trooper Shoot");
 							GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shot Results: " + shoot.shotResults);
@@ -2415,7 +2415,7 @@ public class OpenTrooper implements Serializable {
 											.size() - 1);
 
 					int TN = PCUtility.getOddsOfHitting(true, EAL);
-					int roll = DiceRoller.randInt(0, 99);
+					int roll = DiceRoller.roll(0, 99);
 
 					GameWindow.addTrooperEntryToLog(trooper, "fires rocket into hex, X: "
 							+ (int) spinnerLauncherX.getValue() + ", Y: " + (int) spinnerLauncherY.getValue());

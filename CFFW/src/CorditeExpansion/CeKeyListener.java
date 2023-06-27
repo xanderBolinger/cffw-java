@@ -217,7 +217,7 @@ public class CeKeyListener {
 				|| CorditeExpansionGame.selectedTrooper.ceStatBlock.hesitating)
 			return;
 
-		int roll = DiceRoller.randInt(1, 6);
+		int roll = DiceRoller.roll(1, 6);
 		StatBlock stat = CorditeExpansionGame.selectedTrooper.ceStatBlock;
 
 		if (roll <= stat.adaptabilityFactor) {

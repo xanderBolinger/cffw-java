@@ -57,7 +57,7 @@ public class PcGrenadeThrow {
 			visibilityALM = 0;
 			int EAL = hexSizeALM + grenadeAimALM + visibilityALM + throwerSl + rangeALM + ealBonus;
 			
-			int roll = DiceRoller.randInt(0, 99);
+			int roll = DiceRoller.roll(0, 99);
 			int tn = PCUtility.getOddsOfHitting(true, EAL);
 			String rslt = "\nRoll: "+roll+", TN: "+tn+", EAL: "+EAL+", "+"Range ALM: "+rangeALM+", Hex Size ALM: "+hexSizeALM+", Visibilty ALM:"
 					+ " "+visibilityALM+", Aim ALM: "+grenadeAimALM+", SL: "+throwerSl+", Roll Bonus: "+rollBonus+", EAL Bonus: "+ealBonus+"\n\n";
@@ -67,7 +67,7 @@ public class PcGrenadeThrow {
 		
 				// Explode Room 
 				for(Trooper target : room.occupants) {
-					explosion.explodeTrooper(target, DiceRoller.randInt(0, room.diameter));
+					explosion.explodeTrooper(target, DiceRoller.roll(0, room.diameter));
 				}
 				
 			} else {
@@ -83,7 +83,7 @@ public class PcGrenadeThrow {
 			// Explode Room 
 			for(Trooper target : room.occupants) {
 				//System.out.println("Explode Trooper");
-				explosion.explodeTrooper(target, DiceRoller.randInt(0, room.diameter));
+				explosion.explodeTrooper(target, DiceRoller.roll(0, room.diameter));
 			}
 		}
 		
@@ -110,7 +110,7 @@ public class PcGrenadeThrow {
 			int rangePCHexes;
 			
 			if(hexDiff == 0) {
-				rangePCHexes = DiceRoller.randInt(5, 10);
+				rangePCHexes = DiceRoller.roll(5, 10);
 			} else {
 				rangePCHexes = hexDiff * 20; 
 			}
@@ -123,7 +123,7 @@ public class PcGrenadeThrow {
 			x = targetUnit.X;
 			y = targetUnit.Y;
 			
-			int roll = DiceRoller.randInt(0, 99);
+			int roll = DiceRoller.roll(0, 99);
 			int tn = PCUtility.getOddsOfHitting(true, EAL);
 			String rslt = "Roll: "+roll+", TN: "+tn+", EAL: "+EAL+", "+"Range ALM: "+rangeALM+" Hex Size ALM: "+hexSizeALM+", Visibilty ALM:"
 					+ " "+visibilityALM+", Aim ALM: "+grenadeAimALM+", SL: "+throwerSl+", Roll Bonus: "+rollBonus+", EAL Bonus: "+ealBonus+"\n\n";

@@ -3891,35 +3891,35 @@ public class Weapons implements Serializable {
 	public static int getShotgunHitLocation(int roll, int salm) {
 
 		if (salm <= -12) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 1) : -DiceRoller.randInt(0, 1);
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.roll(0, 1) : -DiceRoller.roll(0, 1);
 		} else if (salm <= -10) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 2) : -DiceRoller.randInt(0, 2);
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.roll(0, 2) : -DiceRoller.roll(0, 2);
 		} else if (salm <= -6) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 3) : -DiceRoller.randInt(0, 3);
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.roll(0, 3) : -DiceRoller.roll(0, 3);
 		} else if (salm <= -4) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 4) : -DiceRoller.randInt(0, 4);
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.roll(0, 4) : -DiceRoller.roll(0, 4);
 		} else if (salm <= -2) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 6) : -DiceRoller.randInt(0, 6);
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.roll(0, 6) : -DiceRoller.roll(0, 6);
 		} else if (salm <= 0) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 8) : -DiceRoller.randInt(0, 8);
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.roll(0, 8) : -DiceRoller.roll(0, 8);
 		} else if (salm <= 2) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 11) : -DiceRoller.randInt(0, 11);
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.roll(0, 11) : -DiceRoller.roll(0, 11);
 		} else if (salm <= 4) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 14) : -DiceRoller.randInt(0, 14);
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.roll(0, 14) : -DiceRoller.roll(0, 14);
 		} else if (salm <= 6) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 19) : -DiceRoller.randInt(0, 19);
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.roll(0, 19) : -DiceRoller.roll(0, 19);
 		} else if (salm <= 8) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 25) : -DiceRoller.randInt(0, 25);
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.roll(0, 25) : -DiceRoller.roll(0, 25);
 		} else if (salm <= 10) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 34) : -DiceRoller.randInt(0, 34);
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.roll(0, 34) : -DiceRoller.roll(0, 34);
 		} else if (salm <= 12) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 45) : -DiceRoller.randInt(0, 45);
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.roll(0, 45) : -DiceRoller.roll(0, 45);
 		} else if (salm <= 14) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 60) : -DiceRoller.randInt(0, 60);
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.roll(0, 60) : -DiceRoller.roll(0, 60);
 		} else if (salm <= 16) {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 79) : -DiceRoller.randInt(0, 79);
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.roll(0, 79) : -DiceRoller.roll(0, 79);
 		} else {
-			roll += DiceRoller.plusMinus() ? roll + DiceRoller.randInt(0, 100) : -DiceRoller.randInt(0, 100);
+			roll += DiceRoller.plusMinus() ? roll + DiceRoller.roll(0, 100) : -DiceRoller.roll(0, 100);
 		}
 
 		while (roll > 99 || roll < 0) {

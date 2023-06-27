@@ -68,8 +68,8 @@ public class Explosion {
 			for(Trooper trooper : unit.individuals) {
 				
 				if(!excludeTroopers.contains(trooper) && !trooper.inBuilding(GameWindow.gameWindow)) {
-					int roll1 = DiceRoller.randInt(0, 10);
-					int roll2 = DiceRoller.randInt(0, 10);
+					int roll1 = DiceRoller.roll(0, 10);
+					int roll2 = DiceRoller.roll(0, 10);
 					explodeTrooper(trooper, (roll1 < roll2 ? roll1 : roll2));
 				}
 						
@@ -115,11 +115,11 @@ public class Explosion {
 				if(!excludeTroopers.contains(trooper) && !trooper.inBuilding(GameWindow.gameWindow)) {
 					
 					
-					int roll1 = DiceRoller.randInt(0, 5);
-					int roll2 = DiceRoller.randInt(0, 5);
+					int roll1 = DiceRoller.roll(0, 5);
+					int roll2 = DiceRoller.roll(0, 5);
 					
-					int roll3 = DiceRoller.randInt(0, 10);
-					int roll4 = DiceRoller.randInt(0, 10);
+					int roll3 = DiceRoller.roll(0, 10);
+					int roll4 = DiceRoller.roll(0, 10);
 					explodeTrooper(trooper, (roll1 < roll2 ? roll1 : roll2) + (roll3 < roll4 ? roll3 : roll4));
 				}
 						
@@ -190,7 +190,7 @@ public class Explosion {
 			String newBshc = bshc.replace("*", "");
 			shrapHits = Integer.parseInt(newBshc);
 		} else {
-			int roll = DiceRoller.randInt(0, 99);
+			int roll = DiceRoller.roll(0, 99);
 			if(roll <= Integer.parseInt(bshc)) {
 				shrapHits++; 
 			}

@@ -1444,7 +1444,7 @@ public class ResolveHits implements Serializable {
 
 	public void dc10KOTest(int dc, String location) {
 		if (dc == 10 && !location.toLowerCase().contains("glance") && !location.toLowerCase().contains("head")) {
-			int dc10Roll = DiceRoller.randInt(0, 99);
+			int dc10Roll = DiceRoller.roll(0, 99);
 			if (dc10Roll <= 60) {
 				trooper.conscious = false;
 			}

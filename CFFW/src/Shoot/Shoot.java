@@ -222,7 +222,7 @@ public class Shoot {
 		}
 
 		for (int i = 0; i < shots; i++) {
-			suppressiveShotRoll(DiceRoller.randInt(0, 99));
+			suppressiveShotRoll(DiceRoller.roll(0, 99));
 		}
 
 		shotResults = "Suppresive fire from " + shooterUnit.callsign + " to " 
@@ -247,7 +247,7 @@ public class Shoot {
 		}
 
 		for (int i = 0; i < shots; i++) {
-			suppressiveShotRoll(DiceRoller.randInt(0, 99));
+			suppressiveShotRoll(DiceRoller.roll(0, 99));
 		}
 
 		shotResults += "Suppresive fire from " + shooterUnit.callsign + " to " 
@@ -359,13 +359,13 @@ public class Shoot {
 		if (roll <= suppressiveTn) {
 			System.out.println("Plus Suppressive Hits 2");
 			suppressiveHits++;
-			if (DiceRoller.randInt(0, 99) <= 0)
+			if (DiceRoller.roll(0, 99) <= 0)
 				hits++;
 		}
 	}
 
 	public void singleShotRoll(boolean homing) {
-		shotRoll = DiceRoller.randInt(0, 99);
+		shotRoll = DiceRoller.roll(0, 99);
 
 		if (shotRoll <= (!homing ? singleTn : wep.homingHitChance)) {
 			hits++;
@@ -377,7 +377,7 @@ public class Shoot {
 	}
 
 	public void burstRoll() {
-		shotRoll = DiceRoller.randInt(0, 99);
+		shotRoll = DiceRoller.roll(0, 99);
 
 		for (int i = 0; i < wep.fullAutoROF; i++) {
 			suppressiveShotRoll(shotRoll);
@@ -396,7 +396,7 @@ public class Shoot {
 					hits = FullAuto.getNumericResults(autofireResults);
 				} else {
 					int tn = FullAuto.getNumericResults(autofireResults);
-					burstRoll = DiceRoller.randInt(0, 99);
+					burstRoll = DiceRoller.roll(0, 99);
 					if (burstRoll <= tn) {
 						hits++;
 					}
@@ -449,7 +449,7 @@ public class Shoot {
 			Trooper target = this.target;
 			
 			if(this.target == null) {
-				target = targetUnit.individuals.get(DiceRoller.randInt(0, targetUnit.individuals.size()-1));
+				target = targetUnit.individuals.get(DiceRoller.roll(0, targetUnit.individuals.size()-1));
 			}
 			
 			ResolveHits resolveHits = new ResolveHits(target, hits, wep,
@@ -657,7 +657,7 @@ public class Shoot {
 		int count = 1;
 
 		for (Trooper trooper : targetUnit.individuals) {
-			int roll = DiceRoller.randInt(1, 3);
+			int roll = DiceRoller.roll(1, 3);
 			if (trooper.compareTo(target)) {
 				// System.out.println("Roll: "+roll+", Count: "+count);
 				if ((action == 1 && count == 1) || (action == 2 && count == 2) || (action == 3 && count == 3)
@@ -742,7 +742,7 @@ public class Shoot {
 		} else if (target.pcRanges.containsKey(shooter)) {
 			pcHexRange = target.pcRanges.get(shooter);
 		} else {
-			int range = DiceRoller.randInt(1, 10);
+			int range = DiceRoller.roll(1, 10);
 			shooter.pcRanges.put(target, range);
 			pcHexRange = range;
 		}

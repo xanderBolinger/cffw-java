@@ -61,27 +61,27 @@ public class Wind implements Serializable {
 	}
 	
 	public void setSpeed() {
-		int windRoll = DiceRoller.randInt(1, 100);
+		int windRoll = DiceRoller.roll(1, 100);
 
 		if (windRoll <= 60) {
-			speedMph = DiceRoller.randInt(0, 16);
+			speedMph = DiceRoller.roll(0, 16);
 		} else if (windRoll <= 95) {
-			speedMph = DiceRoller.randInt(17, 39);
+			speedMph = DiceRoller.roll(17, 39);
 		} else {
-			speedMph = DiceRoller.randInt(40, 60);
+			speedMph = DiceRoller.roll(40, 60);
 		}
 	}
 	
 	public void setDirection() {
-		windDirection = WindDirection.values()[DiceRoller.randInt(0, WindDirection.values().length - 1)];
+		windDirection = WindDirection.values()[DiceRoller.roll(0, WindDirection.values().length - 1)];
 	}
 	
 	public void advanceTime() {
 		
-		int windRoll = DiceRoller.randInt(1, 100);
+		int windRoll = DiceRoller.roll(1, 100);
 		if(windRoll == 1)
 			setSpeed();
-		windRoll = DiceRoller.randInt(1, 100);
+		windRoll = DiceRoller.roll(1, 100);
 		
 		if(windRoll <= 3) {
 			setDirection();

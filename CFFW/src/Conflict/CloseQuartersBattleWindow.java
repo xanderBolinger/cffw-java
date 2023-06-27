@@ -379,7 +379,7 @@ public class CloseQuartersBattleWindow {
 		String[][] trooperArray = new String[cqbTroopers.size()][cqbTroopers.size()];
 
 		for (int i = 0; i < cqbTroopers.size(); i++) {
-			int af = cqbTroopers.get(i).adaptabilityFactor - DiceRoller.randInt(1, 6);
+			int af = cqbTroopers.get(i).adaptabilityFactor - DiceRoller.roll(1, 6);
 			if(!cqbTroopers.get(i).attackingInCloseCombat) {
 				af++; 
 			}
