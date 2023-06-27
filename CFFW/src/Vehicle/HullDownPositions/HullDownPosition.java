@@ -3,17 +3,17 @@ package Vehicle.HullDownPositions;
 public class HullDownPosition {
 
 	public enum HullDownStatus {
-		HIDDEN,HULL_DOWN,TURRET_DOWN
+		HIDDEN,TURRET_DOWN,HULL_DOWN,PARTIAL_HULL_DOWN
 	}
-	
-	public boolean turretDown;
-	public boolean partialHullDown;
-	public boolean hiddenHullDown;
-	
- 
+
+	public HullDownStatus minimumHullDownStatus;
+	public HullDownStatus maximumHullDownStatus;
 	public int capacity;
 	
-	
+	public HullDownPosition(HullDownStatus minimumHullDownStatus, HullDownStatus maximumHullDownStatus) {
+		this.minimumHullDownStatus = minimumHullDownStatus;
+		this.maximumHullDownStatus = maximumHullDownStatus;
+	}
 	
 	
 }

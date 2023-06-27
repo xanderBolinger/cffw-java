@@ -6,6 +6,7 @@ import java.util.Map;
 
 import CorditeExpansion.Cord;
 import UtilityClasses.DiceRoller;
+import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
 
 public class HullDownPositionRecords {
 
@@ -29,17 +30,17 @@ public class HullDownPositionRecords {
                 	
                 	int capacityRoll = DiceRoller.roll(1, 3);
                 	
-                	HullDownPosition newPosition = new HullDownPosition();
+                	HullDownPosition newPosition = new HullDownPosition(HullDownStatus.HIDDEN, HullDownStatus.PARTIAL_HULL_DOWN);
                 	newPosition.capacity = capacityRoll;
                 	
                 	int typeRoll = DiceRoller.roll(1,4);
                 	
                 	if(typeRoll == 1) {
-                		newPosition.hiddenHullDown = true;
+                		newPosition.minimumHullDownStatus = HullDownStatus.TURRET_DOWN;
                 	} else if(typeRoll == 2) {
-                		newPosition.turretDown = true;
+                		newPosition.minimumHullDownStatus = HullDownStatus.HULL_DOWN;
                 	} else if(typeRoll == 3) {
-                		newPosition.partialHullDown = true;
+                		newPosition.minimumHullDownStatus = HullDownStatus.PARTIAL_HULL_DOWN;
                 	}
                 	
                 	positions.put(new Cord(randomX, randomY), newPosition);

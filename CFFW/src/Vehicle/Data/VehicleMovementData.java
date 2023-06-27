@@ -52,41 +52,39 @@ public class VehicleMovementData {
 		return movementSpeeds.get("Soil");
 	}
 	
+	public boolean hullDown() {
+		return hullDownPosition != null;
+	}
+	
 	public void enterHullDownPosition(HullDownPosition hullDownPosition) {
 		this.hullDownPosition = hullDownPosition;
+		this.hullDownStatus = hullDownPosition.minimumHullDownStatus;
 		
-		if(hullDownPosition.hiddenHullDown)
-			hullDownStatus = HullDownStatus.HIDDEN;
-		else if(hullDownPosition.turretDown)
-			hullDownStatus = HullDownStatus.TURRET_DOWN;
-		else 
-			hullDownStatus = HullDownStatus.HULL_DOWN;
+		
+	}
+	
+	public void exitHullDownPosition() {
+		
+		if(hullDownStatus != hullDownPosition.minimumHullDownStatus && hullDownStatus != hullDownPosition.maximumHullDownStatus)
+			return;
+		hullDownPosition = null;
 		
 	}
 	
 	public void inchBack() {
-		if(!hullDownPosition.hiddenHullDown && !hullDownPosition.turretDown) {
-			hullDownPosition = null;
-		}
-			
+
 		try {
-			var status = VehicleMovement.MoveBackward(hullDownStatus);
-			
-			if(status == hullDownStatus)
-				hullDownPosition = null;
-			else 
-				hullDownStatus = status;
-			
+			hullDownStatus = VehicleMovement.MoveBackward(hullDownStatus, hullDownPosition.minimumHullDownStatus);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	public void inchForward() {
 		
 		try {
-			var status = VehicleMovement.MoveForward(hullDownStatus);
-			hullDownStatus = status;
+			hullDownStatus = VehicleMovement.MoveForward(hullDownStatus, hullDownPosition.maximumHullDownStatus);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
