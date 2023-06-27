@@ -3,6 +3,7 @@ package Vehicle;
 import java.util.ArrayList;
 import java.util.List;
 
+import CorditeExpansion.Cord;
 import HexGrid.HexDirectionUtility.HexDirection;
 import Trooper.Trooper;
 import Unit.Unit;
@@ -10,6 +11,7 @@ import Vehicle.Data.CrewCompartment;
 import Vehicle.Data.CrewMember;
 import Vehicle.Data.CrewPosition;
 import Vehicle.Data.ShieldGenerator;
+import Vehicle.Data.VehicleMovementData;
 import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
 
 public class Vehicle {
@@ -22,6 +24,10 @@ public class Vehicle {
 	List<CrewCompartment> crewCompartments;
 	ShieldGenerator shieldGenerator;
 	public String identifier;
+	
+	public VehicleMovementData movementData;
+	
+	
 
 	public Vehicle(String vehicleTypeName, List<CrewCompartment> crewCompartments) {
 		this.vehicleTypeName = vehicleTypeName;

@@ -25,6 +25,7 @@ import Vehicle.Vehicle;
 import Vehicle.Data.CrewCompartment;
 import Vehicle.Data.CrewPosition;
 import Vehicle.Data.ShieldGenerator;
+import Vehicle.Data.VehicleMovementData;
 import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
 
 import org.w3c.dom.Document;
@@ -52,9 +53,43 @@ public class VehicleXmlReader {
 		}
 		
 		vehicle.setVehicleCallsign(vehicleCallSign);
+		vehicle.movementData = getVehicleMovementData(vehicleData);
+		
 		return vehicle;
 	}
 
+	
+	private static VehicleMovementData getVehicleMovementData(Document vehicleData) throws Exception {
+		
+		var vmd = new VehicleMovementData();
+		
+		setMovementDataFeatures(vmd, vehicleData);
+		
+		vmd.acceleration = Integer.parseInt(vehicleData.getElementsByTagName("acceleration").item(0).getTextContent());
+		vmd.deceleration = Integer.parseInt(vehicleData.getElementsByTagName("deceleration").item(0).getTextContent());
+		
+		vmd.hullTurnRateFullSpeed = Integer.parseInt(vehicleData.getElementsByTagName("hull_turn_rate_full_speed").item(0).getTextContent());
+		vmd.hullTurnRateHalfSpeed = Integer.parseInt(vehicleData.getElementsByTagName("hull_turn_rate_half_speed").item(0).getTextContent());
+		vmd.hullTurnRateNoSpeed = Integer.parseInt(vehicleData.getElementsByTagName("hull_turn_rate_no_speed").item(0).getTextContent());
+		
+		var boostElement = (Element) vehicleData.getElementsByTagName("boost").item(0);
+		
+		vmd.boostRecovery = Integer.parseInt(boostElement.getAttribute("recovery"));
+		vmd.boostAcceleration =  Integer.parseInt(boostElement.getTextContent());
+		
+		return vmd;
+	}
+	
+	private static void setMovementDataFeatures(VehicleMovementData vmd, Document vehicleData) {
+		NodeList terrainList = vehicleData.getElementsByTagName("terrain");
+		for (int i = 0; i < terrainList.getLength(); i++) {
+            Element terrain = (Element) terrainList.item(i);
+            String feature = terrain.getAttribute("feature");
+            int value = Integer.parseInt(terrain.getTextContent());
+            vmd.movementSpeeds.put(feature, value);
+        }
+	}
+	
 	
 	private static List<CrewCompartment> getCrewCompartments(Document vehicleData) throws Exception {
 		List<CrewCompartment> compartments = new ArrayList<CrewCompartment>();

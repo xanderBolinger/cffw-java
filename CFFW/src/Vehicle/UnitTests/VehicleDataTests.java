@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import HexGrid.HexDirectionUtility.HexDirection;
+import Hexes.Feature;
+import Hexes.Hex;
 import Trooper.Trooper;
 import Vehicle.Vehicle;
 import Vehicle.Data.CrewCompartment;
@@ -116,6 +118,23 @@ public class VehicleDataTests {
 			assertEquals(vehicle.getCrewPosition("Pilot").getPositionName(), "Pilot");
 			assertEquals(vehicle.getCrewPosition("Copilot").getPositionName(), "Copilot");
 			assertEquals(vehicle.getCrewPosition("Topgunner").getPositionName(), "Topgunner");
+			
+			var vmd = vehicle.movementData;
+			var feature = new Feature("Mud", 0);
+			var myList = new ArrayList<Feature>();
+			myList.add(feature);
+			var mudHex = new Hex(0,0,myList,0,0,0);
+			assertEquals(5, vmd.movementSpeeds.size());
+			assertEquals(14, vmd.GetMoveSpeed(mudHex));
+			assertEquals(3, vmd.hullTurnRateNoSpeed);
+			assertEquals(2, vmd.hullTurnRateHalfSpeed);
+			assertEquals(1, vmd.hullTurnRateFullSpeed);
+			assertEquals(6, vmd.acceleration);
+			assertEquals(6, vmd.deceleration);
+			assertEquals(8, vmd.boostAcceleration);
+			assertEquals(false, vmd.boostUsed);
+			assertEquals(8, vmd.boostAcceleration);
+			assertEquals(2, vmd.boostRecovery);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
