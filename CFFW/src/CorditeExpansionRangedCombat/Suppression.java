@@ -72,7 +72,7 @@ public class Suppression {
 			int removed = 0; 
 			
 			for(int i = 0; i < statBlock.skillStatBlock.success; i++) {
-				int roll = DiceRoller.randInt(1, 3);
+				int roll = DiceRoller.roll(1, 3);
 				removed += roll;
 			}
 			

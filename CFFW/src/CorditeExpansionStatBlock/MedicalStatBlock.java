@@ -45,7 +45,7 @@ public class MedicalStatBlock {
 		if(timeSpentInjured < criticalTime)
 			return;
 		
-		int roll = DiceRoller.randInt(0, 99);
+		int roll = DiceRoller.roll(0, 99);
 		//System.out.println("Roll: "+roll+", recovery: "+recoveryChance);
 		if(roll <= recoveryChance) {
 			

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import HexGrid.HexDirectionUtility.HexDirection;
+import Trooper.Trooper;
 
 public class CrewCompartment {
 
@@ -16,6 +17,15 @@ public class CrewCompartment {
 	public CrewCompartment(String compartmentName, List<CrewPosition> crewPositions) {
 		this.compartmentName = compartmentName;
 		this.crewPositions = crewPositions;
+	}
+	
+	public void AddShieldGenerator(ShieldGenerator shieldGenerator) {
+		shielded = true;
+		this.shieldGenerator = shieldGenerator;
+	}
+	
+	public ShieldGenerator getShieldGenerator() {
+		return shieldGenerator;
 	}
 	
 	public String getCompartmentName() {
@@ -31,6 +41,19 @@ public class CrewCompartment {
 		
 		return false;
 	}
+	
+	public List<Trooper> getTroopers() {
+		var troopers = new ArrayList<Trooper>();
+		
+		for(var position : crewPositions) {
+			
+			if(position.crewMemeber != null && position.crewMemeber.crewMember != null)
+				troopers.add(position.crewMemeber.crewMember);
+			
+		}
+	
+		return troopers; 
+	}
 
 	public CrewPosition getCrewPosition(String positionName) throws Exception {
 		
@@ -41,6 +64,10 @@ public class CrewCompartment {
 		
 		
 		throw new Exception("Position not found in compartment: "+compartmentName+", position: "+positionName);
+	}
+	
+	public int getCrewCount() {
+		return crewPositions.size();
 	}
 	
 }

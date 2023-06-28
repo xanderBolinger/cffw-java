@@ -84,7 +84,8 @@ import java.awt.Component;
 import java.awt.SystemColor;
 
 public class HexGrid implements Serializable {
-
+	public static ArrayList<Cord> impactHexes = new ArrayList<>();
+	
 	public transient JFrame frame;
 	public transient Panel panel;
 	private static final Color FILL_COLOR = Color.BLUE;
@@ -109,6 +110,8 @@ public class HexGrid implements Serializable {
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
+	public boolean elevationPaste = false;
+	private JButton btnToggleElv;
 
 	/**
 	 * Create the application.
@@ -236,7 +239,7 @@ public class HexGrid implements Serializable {
 		System.out.println("Path: " + ExcelUtility.path);
 		btnNewButton.setBackground(SystemColor.text);
 		btnNewButton.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\threadIcon.png"));
-		btnNewButton.setBounds(0, 0, 45, 45);
+		btnNewButton.setBounds(220, 0, 45, 45);
 		layeredPane.add(btnNewButton);
 
 		btnNewButton_1 = new JButton("");
@@ -271,6 +274,18 @@ public class HexGrid implements Serializable {
 		btnNewButton_3.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\unknown_icon.png"));
 		btnNewButton_3.setBounds(165, 0, 45, 45);
 		layeredPane.add(btnNewButton_3);
+		
+		btnToggleElv = new JButton("E");
+		btnToggleElv.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				elevationPaste = !elevationPaste;
+				System.out.println("Toggle Elevation Paste: "+elevationPaste);
+			}
+		});
+		btnToggleElv.setBackground(Color.WHITE);
+		btnToggleElv.setBounds(0, 0, 45, 45);
+		layeredPane.add(btnToggleElv);
 
 		panel.addMouseListener(new MouseAdapter() {
 
@@ -492,7 +507,7 @@ public class HexGrid implements Serializable {
 	}
 
 	public class Panel extends JPanel {
-
+		
 		private ArrayList<Polygon> shapeList = new ArrayList<>();
 		private ArrayList<ArrayList<Polygon>> hexMap = new ArrayList<>();
 		private ArrayList<DrawnString> drawnStrings = new ArrayList<>();
@@ -1120,6 +1135,8 @@ public class HexGrid implements Serializable {
 							copiedHex.coverPositions += feature.coverPositions;
 						}
 
+						
+						
 						Hex newHex = new Hex(i, j, copiedHex);
 
 						newHex.usedPositions = 0;
@@ -1278,6 +1295,7 @@ public class HexGrid implements Serializable {
 
 								toolTip += "<br>---------";
 								toolTip += "<br>";
+								toolTip += "Elevation: " + hex.elevation + "<br>";
 								toolTip += "Concealment: " + hex.concealment + "<br>";
 								toolTip += "Total Cover Positions: " + hex.coverPositions + "<br>";
 								for (Feature feature : hex.features) {
@@ -1390,6 +1408,13 @@ public class HexGrid implements Serializable {
 								feature.coverPositions = cover;
 								copiedHex.coverPositions += feature.coverPositions;
 							}
+							
+							if(elevationPaste) {
+								System.out.println("pasted evelation");
+								pastedHex.elevation = copiedHex.elevation;
+								copiedHex = pastedHex;
+							}
+							
 
 							Hex newHex = new Hex(i, j, copiedHex);
 
@@ -1678,6 +1703,8 @@ public class HexGrid implements Serializable {
 
 		public void drawChits(Graphics2D g2) {
 
+			
+			
 			for (int i = 0; i < GameWindow.gameWindow.game.chits.size(); i++) {
 
 				Chit chit = GameWindow.gameWindow.game.chits.get(i);
@@ -1719,6 +1746,39 @@ public class HexGrid implements Serializable {
 			}
 		}
 
+		public void spamDrawTest(DeployedUnit deployedUnit, Graphics g, Graphics2D g2, int count) {
+			for(int i = 0; i < 100; i++) {
+				for(int j = 0; j < 100; j++) {
+					Polygon hex = hexMap.get(i).get(j);
+
+					// If a unit is already in this hex, shifts the chit down and to the right
+
+					int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
+					int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
+
+					int width = bluforUnitWidth;
+					int height = bluforUnitHeight;
+
+					if (deployedUnit.unit.side.equals("OPFOR")) {
+						// System.out.println("PASS6");
+						width = opforUnitWidth;
+						height = opforUnitHeight;
+					}
+
+					/*
+					 * if(zoom != oldZoom) { selectedUnit.unitImage =
+					 * bluforInfantryImage.getScaledInstance(bluforUnitWidth, bluforUnitHeight, 1);
+					 * }
+					 */
+
+					int unitsInHex = unitsInHex(deployedUnit.xCord, deployedUnit.yCord);
+
+					g2.drawImage(deployedUnit.unitImage, (hexCenterX - width / 2) - (3 * (unitsInHex - count)),
+							(hexCenterY - height / 2) + (3 * (unitsInHex - count)), null);
+				}
+			}
+		}
+		
 		public void drawUnit(DeployedUnit deployedUnit, Graphics g, Graphics2D g2, int count) {
 			// Displays unit card
 
@@ -1749,6 +1809,9 @@ public class HexGrid implements Serializable {
 			g2.drawImage(deployedUnit.unitImage, (hexCenterX - width / 2) - (3 * (unitsInHex - count)),
 					(hexCenterY - height / 2) + (3 * (unitsInHex - count)), null);
 
+			//spamDrawTest(deployedUnit, g, g2, count);
+			
+			
 			if ((selectedUnit != null && selectedUnit.unit.callsign.equals(deployedUnit.unit.callsign))
 					|| selectedUnits.contains(deployedUnit)) {
 
@@ -2017,7 +2080,8 @@ public class HexGrid implements Serializable {
 			}
 
 			drawSmokeMarkers(g2);
-
+			drawImpactMarkers(g2);
+			
 			// System.out.println("Columns: "+columns);
 			// System.out.println("Rows: "+rows);
 			// System.out.println("Hex Map Size: "+hexMap.size()+", row size:
@@ -2032,7 +2096,13 @@ public class HexGrid implements Serializable {
 					g2.setColor(Color.GREEN);
 					if (gameWindow.hexes.size() != columns * rows && !hideU && gameWindow.findHex(i, j) == null) {
 						// g2.drawString("U", hex.xpoints[0],hex.ypoints[0]);
-						g2.drawString("U", (int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
+						g2.drawString("U", 
+								(int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
+								(int) (hex.ypoints[0] + (hex.getBounds().height * 0.3)));
+					} else if(elevationPaste && gameWindow.findHex(i, j) != null) {
+						g2.setColor(Color.RED);
+						g2.drawString("" + gameWindow.findHex(i,j).elevation, 
+								(int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
 								(int) (hex.ypoints[0] + (hex.getBounds().height * 0.3)));
 					}
 					g2.setColor(color);
@@ -2170,6 +2240,43 @@ public class HexGrid implements Serializable {
 
 		}
 
+		
+		private void drawImpactMarkers(Graphics2D g2) {
+			// Draw smoke markers
+			if (GameWindow.gameWindow != null && GameWindow.gameWindow.game != null
+					&& GameWindow.gameWindow.game.smoke != null) {
+				for (Cord impactHex : HexGrid.impactHexes) {
+
+					Cord cord = getCenterFromCoordinates(impactHex.xCord, impactHex.yCord);
+					int x = cord.xCord;
+
+					Polygon hex = hexMap.get(impactHex.xCord).get(impactHex.yCord);
+
+					int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
+
+					int y = hexCenterY;
+
+					String s = "Impact";
+					g2.setColor(Color.MAGENTA);
+					g2.setStroke(new BasicStroke(1f));
+					g2.draw(losThread);
+
+					g2.setColor(Color.BLACK);
+					FontMetrics fm = g2.getFontMetrics();
+					Rectangle2D rect = fm.getStringBounds(s, g2);
+					x = x - (int) rect.getWidth() / 2;
+					g2.fillRect(x, y - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
+					g2.setColor(Color.MAGENTA);
+
+					g2.drawString(s, x, y);
+				}
+			}
+
+			g2.setColor(Color.green);
+			g2.setStroke(new BasicStroke((float) (2f * zoom)));
+
+		}
+		
 		private void drawSmokeMarkers(Graphics2D g2) {
 			// Draw smoke markers
 			if (GameWindow.gameWindow != null && GameWindow.gameWindow.game != null

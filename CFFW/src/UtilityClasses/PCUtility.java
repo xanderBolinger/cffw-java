@@ -243,6 +243,8 @@ public class PCUtility {
 			trooper.weaponPercent += "Launcher: ";
 		} else if(skill.equals("Throw")) {
 			sl += trooper.skills.getSkill("Throw").value;
+		} else if(skill.equals("Bow")) {
+			sl += trooper.skills.getSkill("Bow").value;
 		} else {
 			sl += trooper.skills.getSkill("Rifle").value;
 			trooper.weaponPercent += "Rifle: ";

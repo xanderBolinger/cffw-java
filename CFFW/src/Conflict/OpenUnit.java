@@ -411,10 +411,13 @@ public class OpenUnit implements Serializable {
 				}
 				
 				for(Trooper trooper : unit.individuals) {
-					if(!trooper.inCover && comboBoxBehavior.getSelectedIndex() != 0 && !trooper.manualStance)
-						trooper.stance = "Prone";
-					else if(! trooper.manualStance && comboBoxBehavior.getSelectedIndex() < 1)
+					
+					if(unit.behavior.equals("No Contact") || !unit.speed.equals("None")) {
 						trooper.stance = "Standing";
+					} else {
+						trooper.stance = "Prone";
+					}
+					
 				}
 
 				refreshIndividuals(); 
@@ -1085,7 +1088,7 @@ public class OpenUnit implements Serializable {
 				if(unit.individuals.size() <= 0)
 					return;
 				
-				int roll = DiceRoller.randInt(1, 100);
+				int roll = DiceRoller.roll(1, 100);
 				int preModifiers = roll;
 				/*
 					1-10: 2 bonus dice

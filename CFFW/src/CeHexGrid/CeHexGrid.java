@@ -132,7 +132,7 @@ public class CeHexGrid extends JPanel {
 		makeHexes(rows, columns);
 
 		try {
-			originalImage = ImageIO.read(new File("CeImages/Maps/ceGameWindowMaps.png"));
+			originalImage = ImageIO.read(new File("CeImages/Maps/battlemap1.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

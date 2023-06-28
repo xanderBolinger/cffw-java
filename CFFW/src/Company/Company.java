@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import Trooper.Trooper;
 import Unit.Unit;
+import Vehicle.Vehicle;
 
 public class Company implements Serializable {
 	// Basic infomration
@@ -22,6 +23,7 @@ public class Company implements Serializable {
 	// Roster and units arrays
 	private ArrayList<Trooper> roster = new ArrayList<Trooper>();
 	private ArrayList<Unit> units = new ArrayList<Unit>();
+	public ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 	// Notes
 	private String notes;
 	// Activated

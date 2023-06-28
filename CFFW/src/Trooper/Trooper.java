@@ -209,7 +209,7 @@ public class Trooper implements Serializable {
 	public Inventory inventory = new Inventory(this);
 	public int encumberanceModifier = 0;
 
-	public StatBlock ceStatBlock;
+	public transient StatBlock ceStatBlock;
 
 	public class MaximumSpeed implements Serializable {
 
@@ -3395,6 +3395,8 @@ public class Trooper implements Serializable {
 		
 		return leaderType+ trooper;
 	}
+
+	
 
 	/*
 	 * public int getPD() { int pd = 0;

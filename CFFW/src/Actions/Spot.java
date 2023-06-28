@@ -44,6 +44,9 @@ public class Spot implements Serializable {
 	public String visibilityModifications = ""; 
 	public String resultsString = ""; 
 	
+	
+	private transient Unit canSpotSpotterUnit;
+	
 	// Basic constructor 
 	public Spot() {
 		
@@ -73,6 +76,8 @@ public class Spot implements Serializable {
 			
 		}*/
 		
+		
+		
 		this.spotterUnit = spotterUnit;
 		
 		//System.out.println("\n\nSpotting\n\n");
@@ -99,8 +104,14 @@ public class Spot implements Serializable {
 		int size = 0;
 		
 		for(Unit unit : targets) {
-
+			boolean sameHex = spotterUnit.X == unit.X && spotterUnit.Y == unit.Y;
+			
 			for(Trooper trooper : unit.individuals) {
+				if(sameHex && trooper.alive && trooper.conscious) {
+					size++; 
+					continue;
+				}
+				
 				if(!trooper.HD && trooper.alive && trooper.conscious)
 					size++; 
 			}
@@ -117,9 +128,14 @@ public class Spot implements Serializable {
 		ArrayList<Trooper> targetTroopers = new ArrayList<Trooper>();
 		
 		for(Unit unit : targets) {
-			
+			boolean sameHex = spotterUnit.X == unit.X && spotterUnit.Y == unit.Y;
 			if(unit.getSize() > 0) {
 				for(Trooper trooper : unit.getTroopers()) {
+					if(sameHex && trooper.alive && trooper.conscious) {
+						targetTroopers.add(trooper);
+						continue;
+					}
+					
 					if(!trooper.HD && trooper.alive && trooper.conscious)
 						targetTroopers.add(trooper);
 					
@@ -315,7 +331,7 @@ public class Spot implements Serializable {
 				System.out.println("Alive: "+targetTroopers.get(roll).alive);
 				System.out.println("Conscious: "+targetTroopers.get(roll).conscious);
 				System.out.println("\n");*/
-				if (rolls.contains(roll) || targetTroopers.get(roll).HD || targetTroopers.get(roll).unspottable || successesRoll + spottingDiff >= targetNumber || !targetTroopers.get(roll).alive || !targetTroopers.get(roll).conscious) {
+				if (rolls.contains(roll) || targetTroopers.get(roll).unspottable || successesRoll + spottingDiff >= targetNumber || !targetTroopers.get(roll).alive || !targetTroopers.get(roll).conscious) {
 					duplicate = true;
 				} else {
 					rolls.add(roll);
@@ -339,7 +355,7 @@ public class Spot implements Serializable {
 					System.out.println("Conscious: "+targetTroopers.get(roll).conscious);
 					System.out.println("\n");*/
 					
-					if (rolls.contains(roll2) || targetTroopers.get(roll2).HD || targetTroopers.get(roll2).unspottable || successesRoll + spottingDiff >= targetNumber 
+					if (rolls.contains(roll2) || targetTroopers.get(roll2).unspottable || successesRoll + spottingDiff >= targetNumber 
 							|| !targetTroopers.get(roll2).alive || !targetTroopers.get(roll2).conscious) {
 						duplicate = true;
 					} else {
@@ -438,9 +454,17 @@ public class Spot implements Serializable {
 		int size = 0;
 		
 		for(Unit unit : targets) {
-			for(Trooper trooper : unit.individuals)
+			for(Trooper trooper : unit.individuals) {
+				boolean sameHex = spotterUnit.X == unit.X && spotterUnit.Y == unit.Y;
+				if(sameHex && trooper.alive && trooper.conscious) {
+					size++;
+					continue; 
+				}
+				
 				if(!trooper.HD && trooper.alive && trooper.conscious)
 					size++; 
+				
+			}
 		}
 		
 		//System.out.println("Target Unit Size: "+size);
@@ -457,6 +481,12 @@ public class Spot implements Serializable {
 			
 			if(unit.getSize() > 0) {
 				for(Trooper trooper : unit.getTroopers()) {
+					boolean sameHex = spotterUnit.X == unit.X && spotterUnit.Y == unit.Y;
+					if(sameHex && trooper.alive && trooper.conscious) {
+						targetTroopers.add(trooper);
+						continue; 
+					}
+					
 					if(!trooper.HD && trooper.alive && trooper.conscious)
 						targetTroopers.add(trooper);
 					
@@ -664,7 +694,7 @@ public class Spot implements Serializable {
 				System.out.println("Alive: "+targetTroopers.get(roll).alive);
 				System.out.println("Conscious: "+targetTroopers.get(roll).conscious);
 				System.out.println("\n");*/
-				if (rolls.contains(roll) || targetTroopers.get(roll).HD || targetTroopers.get(roll).unspottable || successesRoll + spottingDiff >= targetNumber || !targetTroopers.get(roll).alive || !targetTroopers.get(roll).conscious) {
+				if (rolls.contains(roll) || targetTroopers.get(roll).unspottable || successesRoll + spottingDiff >= targetNumber || !targetTroopers.get(roll).alive || !targetTroopers.get(roll).conscious) {
 					duplicate = true;
 				} else {
 					rolls.add(roll);
@@ -691,7 +721,7 @@ public class Spot implements Serializable {
 					System.out.println("Conscious: "+targetTroopers.get(roll).conscious);
 					System.out.println("\n");*/
 					
-					if (rolls.contains(roll2) || targetTroopers.get(roll2).HD || targetTroopers.get(roll2).unspottable || successesRoll + spottingDiff >= targetNumber 
+					if (rolls.contains(roll2) || targetTroopers.get(roll2).unspottable || successesRoll + spottingDiff >= targetNumber 
 							|| !targetTroopers.get(roll2).alive 
 							|| !targetTroopers.get(roll2).conscious) {
 						duplicate = true;
@@ -794,9 +824,17 @@ public class Spot implements Serializable {
 		// Gets target unit troopers
 		ArrayList<Trooper> targets = new ArrayList<>();
 		
-		for(Trooper trooper : targetUnit.individuals)
+		boolean sameHex = spotterUnit.X == targetUnit.X && spotterUnit.Y == targetUnit.Y;
+		for(Trooper trooper : targetUnit.individuals) {
+			if(sameHex && trooper.alive && trooper.conscious) {
+				targets.add(trooper);
+				continue;
+			}
+			
 			if(!trooper.HD && trooper.alive && trooper.conscious)
 				targets.add(trooper);
+			
+		}
 		
 
 		// Size of target unit
@@ -958,7 +996,7 @@ public class Spot implements Serializable {
 						if(trooper.HD || !trooper.alive || !trooper.conscious)
 							continue; 
 						
-						if(trooper.weaponLightOn)
+						if(trooper.weaponIRLaserOn)
 							IRlaser = true; 
 						
 						if(trooper.weaponLightOn) 
@@ -1052,7 +1090,7 @@ public class Spot implements Serializable {
 				System.out.println("Alive: "+targets.get(roll).alive);
 				System.out.println("Conscious: "+targets.get(roll).conscious);
 				System.out.println("\n");*/
-				
+				this.canSpotSpotterUnit = spotterUnit;
 				if (rolls.contains(roll) || !canSpot(targets.get(roll),  successesRoll, spottingDiff, targetNumber)) {
 					duplicate = true;
 				} else {
@@ -1095,6 +1133,7 @@ public class Spot implements Serializable {
 					//System.out.println("Trooper: "+targets.get(roll2));
 					//System.out.println("Can Spot: "+canSpot(targets.get(roll2),  successesRoll, spottingDiff, targetNumber)+", Contains: "+rolls.contains(roll2));
 					
+					this.canSpotSpotterUnit = spotterUnit;
 					if (rolls.contains(roll2) || !canSpot(targets.get(roll2),  successesRoll, spottingDiff, targetNumber)) {
 						duplicate = true;
 					} else {
@@ -1164,9 +1203,13 @@ public class Spot implements Serializable {
 	
 	// Returns true if the trooper can be spotted 
 	public boolean canSpot(Trooper trooper, int successesRoll, int spottingDiff, int targetNumber) {
+		boolean sameHex = false;
+		if(canSpotSpotterUnit != null) {
+			sameHex = canSpotSpotterUnit.X == trooper.returnTrooperUnit(GameWindow.gameWindow).X &&
+					canSpotSpotterUnit.Y == trooper.returnTrooperUnit(GameWindow.gameWindow).Y;
+		}
 		
-		
-		if(trooper.HD || trooper.unspottable || successesRoll - spottingDiff >= targetNumber 
+		if((trooper.HD && !sameHex) || trooper.unspottable || successesRoll - spottingDiff >= targetNumber 
 				|| !trooper.alive || !trooper.conscious) {
 			return false; 
 		} else 
@@ -1210,7 +1253,8 @@ public class Spot implements Serializable {
 		// Checks if every individual in target unit is inside a spotted individuals list or cannot be spotted 
 		for(Trooper trooper : targetUnit.individuals) {
 			//System.out.println("Already Spotted: "+alreadySpotted(spotter, trooper, targetUnit, newSpottedTroopers)+", Can Spot: "+canSpot(trooper, successesRoll, spottingDiff, targetNumber));
-			if(!canSpot(trooper, successesRoll, spottingDiff, targetNumber) || alreadySpotted(spotter, trooper, targetUnit, newSpottedTroopers)) 
+			canSpotSpotterUnit = spotter.returnTrooperUnit(GameWindow.gameWindow);
+			if(!canSpot( trooper, successesRoll, spottingDiff, targetNumber) || alreadySpotted(spotter, trooper, targetUnit, newSpottedTroopers)) 
 				continue; 
 			else 
 				spottedAll = false; 
@@ -1228,6 +1272,7 @@ public class Spot implements Serializable {
 		
 		// Checks if every individual in target unit is inside a spotted individuals list or cannot be spotted 
 		for(Trooper trooper : targetTroopers) {
+			canSpotSpotterUnit = spotter.returnTrooperUnit(GameWindow.gameWindow);
 			if(!canSpot(trooper, successesRoll, spottingDiff, targetNumber) || alreadySpotted(spotter, trooper, null, null)) 
 				continue; 
 			else 

@@ -2,18 +2,25 @@ package Vehicle.UnitTests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
+import org.xml.sax.SAXException;
 
 import HexGrid.HexDirectionUtility.HexDirection;
+import Hexes.Feature;
+import Hexes.Hex;
 import Trooper.Trooper;
 import Vehicle.Vehicle;
 import Vehicle.Data.CrewCompartment;
 import Vehicle.Data.CrewMember;
 import Vehicle.Data.CrewPosition;
+import Vehicle.Utilities.VehicleXmlReader;
 import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
 
 public class VehicleDataTests {
@@ -74,6 +81,66 @@ public class VehicleDataTests {
 		assertEquals(vehicle.getCrewPosition("Copilot").getPositionName(), "Copilot");
 		assertEquals(vehicle.getCrewPosition("Topgunner").getPositionName(), "Topgunner");
 
+	}
+	
+	@Test
+	public void readVehicleTest() {
+		
+		try {
+			var vehicle = VehicleXmlReader.readVehicle("Test Callsign","TX130");
+			assertEquals(1000, vehicle.getShieldGenerator().getMaxValue());
+			assertEquals(150, vehicle.getShieldGenerator().getRechargeRate());
+			
+			vehicle.setVehicleCallsign("Hitman");
+			
+			var operators = vehicle.getCrewCompartment("OPERATORS");
+			
+			assertEquals(100, operators.getShieldGenerator().getMaxValue());
+			assertEquals(25, operators.getShieldGenerator().getRechargeRate());
+			
+			var pilotPosition = operators.getCrewPosition("Pilot");
+			var copilotPosition = operators.getCrewPosition("Copilot");
+			var external = vehicle.getCrewCompartment("EXTERNAL GUNNER");
+			var topgunnerPosition = external.getCrewPosition("Topgunner");
+			
+			assertEquals(vehicle.getVehicleCallsign(), "Hitman");
+
+			assertEquals(vehicle.getVehicleType(), "TX130");
+			assertEquals(operators.getCompartmentName(), "OPERATORS");
+			assertEquals(pilotPosition.getPositionName(), "Pilot");
+			assertEquals(pilotPosition.getFieldOfView().size(), 12);
+			assertEquals(copilotPosition.getPositionName(), "Copilot");
+			assertEquals(copilotPosition.getFieldOfView().size(), 12);
+			assertEquals(external.getCompartmentName(), "EXTERNAL GUNNER");
+			assertEquals(topgunnerPosition.getPositionName(), "Topgunner");
+			assertEquals(topgunnerPosition.getFieldOfView().size(), 12);
+
+			assertEquals(vehicle.getCrewPosition("Pilot").getPositionName(), "Pilot");
+			assertEquals(vehicle.getCrewPosition("Copilot").getPositionName(), "Copilot");
+			assertEquals(vehicle.getCrewPosition("Topgunner").getPositionName(), "Topgunner");
+			
+			var vmd = vehicle.movementData;
+			var feature = new Feature("Mud", 0);
+			var myList = new ArrayList<Feature>();
+			myList.add(feature);
+			var mudHex = new Hex(0,0,myList,0,0,0);
+			assertEquals(5, vmd.movementSpeeds.size());
+			assertEquals(14, vmd.GetMoveSpeed(mudHex));
+			assertEquals(3, vmd.hullTurnRateNoSpeed);
+			assertEquals(2, vmd.hullTurnRateHalfSpeed);
+			assertEquals(1, vmd.hullTurnRateFullSpeed);
+			assertEquals(6, vmd.acceleration);
+			assertEquals(6, vmd.deceleration);
+			assertEquals(8, vmd.boostAcceleration);
+			assertEquals(false, vmd.boostUsed);
+			assertEquals(8, vmd.boostAcceleration);
+			assertEquals(2, vmd.boostRecovery);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 }

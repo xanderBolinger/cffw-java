@@ -35,7 +35,7 @@ public class TLHStats implements Serializable {
 		// Rolls 4 dice
 		ArrayList<Integer> rolls = new ArrayList<Integer>();
 		for (int i = 0; i < 3; i++) {
-			int roll = DiceRoller.randInt(1, 4);
+			int roll = DiceRoller.roll(1, 4);
 			rolls.add(roll);
 		}
 	

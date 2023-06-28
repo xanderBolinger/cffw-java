@@ -32,6 +32,7 @@ import Shoot.Shoot;
 import Trooper.Trooper;
 import Trooper.generateSquad;
 import Unit.Unit;
+import UtilityClasses.DiceRoller;
 import UtilityClasses.PCUtility;
 import UtilityClasses.ShootUtility;
 
@@ -125,6 +126,7 @@ public class StaticWeaponWindow {
 	private JLabel lblAmmunition;
 	private JComboBox comboBoxPcAmmo;
 	private JCheckBox chckbxHoming;
+	private JCheckBox chckbxSingleShot;
 
 	public StaticWeaponWindow(Unit unit, GameWindow window, OpenUnit openUnit) {
 		this.unit = unit;
@@ -329,7 +331,9 @@ public class StaticWeaponWindow {
 											.returnTrooperUnit(GameWindow.gameWindow),
 									shoot, gunner, targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1), wepName,
 									ammoIndex);
-
+							shoot.wep.assembled = unit.staticWeapons.get(selectedWeaponIndex).assembled;
+							shoot.recalc();
+							
 							if (comboBoxAimTime.getSelectedIndex() == 0 && shoot != null)
 								shoot.autoAim();
 
@@ -393,7 +397,9 @@ public class StaticWeaponWindow {
 						shoot = ShootUtility.setTargetUnit(unit,
 								unit.lineOfSight.get(comboBoxSuppressiveFireTargets.getSelectedIndex() - 1), shoot, gunner,
 								wepName, ammoIndex);
-
+						shoot.wep.assembled = unit.staticWeapons.get(selectedWeaponIndex).assembled;
+						shoot.recalc();
+						
 						if (comboBoxAimTime.getSelectedIndex() == 0 && shoot != null)
 							shoot.autoAim();
 
@@ -444,9 +450,19 @@ public class StaticWeaponWindow {
 								shoot.suppressiveFire(shoot.wep.suppressiveROF);
 							else if (chckbxFullAuto.isSelected())
 								shoot.burst();
-							else
-								shoot.shot(chckbxHoming.isSelected());
-
+							else {
+								
+								if(shoot.wep.launcherHomingInfantry)
+									shoot.shot(chckbxHoming.isSelected());
+								else 
+									shoot.shot(false);
+								
+								if(chckbxSingleShot.isSelected())
+									shoot.suppressiveFireFree(
+											shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
+							
+							}
+							
 							GameWindow.gameWindow.conflictLog.addNewLineToQueue("Results: " + shoot.shotResults);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -990,6 +1006,12 @@ public class StaticWeaponWindow {
 		});
 		btnFree.setBounds(142, 700, 87, 23);
 		f.getContentPane().add(btnFree);
+		
+		chckbxSingleShot = new JCheckBox("Single Shot");
+		chckbxSingleShot.setForeground(Color.WHITE);
+		chckbxSingleShot.setBackground(Color.DARK_GRAY);
+		chckbxSingleShot.setBounds(130, 448, 103, 23);
+		f.getContentPane().add(chckbxSingleShot);
 
 		// Get the screen size
 		Toolkit toolkit = Toolkit.getDefaultToolkit();

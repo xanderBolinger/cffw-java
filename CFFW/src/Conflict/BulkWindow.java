@@ -151,6 +151,7 @@ public class BulkWindow {
 	private JComboBox comboBoxGrenadeUnit;
 	private JComboBox comboBoxLauncher;
 	private JComboBox comboBoxAmmoTypeLauncher;
+	private JCheckBox chckbxSingleShot;
 
 	/**
 	 * Create the application.
@@ -193,7 +194,7 @@ public class BulkWindow {
 		if (sides.size() > 1) {
 			System.out.println("Sort troopers");
 			for (Trooper trooper : troopers) {
-				trooper.kills = DiceRoller.randInt(0, 9);
+				trooper.kills = DiceRoller.roll(0, 9);
 			}
 			Collections.sort(troopers, new Comparator<Trooper>() {
 				public int compare(Trooper b1, Trooper b2) {
@@ -829,7 +830,9 @@ public class BulkWindow {
 		comboBoxStance.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				for (BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
+				System.err.println("Deprecated button.");
+				
+				/*for (BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
 					Trooper trooper = bulkTrooper.trooper;
 
 					if (comboBoxStance.getSelectedItem().toString().equals(trooper.stance)) {
@@ -856,7 +859,7 @@ public class BulkWindow {
 
 				}
 
-				PCFireGuiUpdates();
+				PCFireGuiUpdates();*/
 
 			}
 		});
@@ -1254,7 +1257,7 @@ public class BulkWindow {
 										else if (chckbxFullAuto.isSelected()) {
 											shoot.burst();
 											shoot.suppressiveFire(
-													shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+													shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
 										} else {
 											
 											
@@ -1264,8 +1267,9 @@ public class BulkWindow {
 											else 
 												shoot.shot(false);
 											
-											shoot.suppressiveFire(
-													shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+											if(chckbxSingleShot.isSelected())
+												shoot.suppressiveFireFree(
+														shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
 										
 										
 										}
@@ -1279,7 +1283,7 @@ public class BulkWindow {
 										valleyValidTargetCheck(shoot, bulkTrooper);
 
 										GameWindow.gameWindow.conflictLog
-												.addNewLineToQueue("Results: " + shoot.shotResults);
+												.addNewLineToQueue("Shot Results: " + shoot.shotResults);
 										// System.out.println("Supp results: "+shoot.shotResults);
 
 									} catch (Exception e) {
@@ -1412,7 +1416,7 @@ public class BulkWindow {
 											Unit shooterUnit = bulkTrooper.trooper.returnTrooperUnit(GameWindow.gameWindow);
 											
 											bulkTrooper.shoot = ShootUtility.setTargetUnit(shooterUnit, 
-													shooterUnit.lineOfSight.get(DiceRoller.randInt(0, shooterUnit.lineOfSight.size()-1)),
+													shooterUnit.lineOfSight.get(DiceRoller.roll(0, shooterUnit.lineOfSight.size()-1)),
 													bulkTrooper.shoot, bulkTrooper.trooper, bulkTrooper.trooper.wep, ShootUtility.getPcAmmoIndex(bulkTrooper.trooper));
 											
 											if(bulkTrooper.shootReset) {
@@ -2519,6 +2523,12 @@ public class BulkWindow {
 		comboBoxGrenadeUnit.setSelectedIndex(-1);
 		comboBoxGrenadeUnit.setBounds(154, 595, 136, 20);
 		frame.getContentPane().add(comboBoxGrenadeUnit);
+		
+		chckbxSingleShot = new JCheckBox("Single Shot");
+		chckbxSingleShot.setForeground(Color.BLACK);
+		chckbxSingleShot.setBackground(Color.WHITE);
+		chckbxSingleShot.setBounds(998, 499, 89, 23);
+		frame.getContentPane().add(chckbxSingleShot);
 		frame.setVisible(true);
 	}
 
@@ -3623,7 +3633,7 @@ public class BulkWindow {
 
 	public boolean validTarget(Trooper target) {
 
-		if (target == null || !target.alive || !target.conscious || target.HD) {
+		if (target == null || !target.alive || !target.conscious) {
 			return false;
 		}
 
@@ -3704,7 +3714,7 @@ public class BulkWindow {
 					bulkTrooper.trooper.number + " " + bulkTrooper.trooper.name + " targetTrooperArray is empty.");
 		}
 
-		targetTrooper = targetTrooperArray.get(DiceRoller.randInt(0, targetTrooperArray.size() - 1));
+		targetTrooper = targetTrooperArray.get(DiceRoller.roll(0, targetTrooperArray.size() - 1));
 
 		for (Trooper trooper : targetUnit.individuals) {
 			if (!targetTrooper.inCover)
@@ -4043,7 +4053,7 @@ public class BulkWindow {
 									shoot.suppressiveFire(shoot.wep.suppressiveROF);
 								else if (chckbxFullAuto.isSelected()) {
 									shoot.burst();
-									shoot.suppressiveFire(shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+									shoot.suppressiveFire(shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
 								} else {
 									
 									if(shoot.wep.launcherHomingInfantry)
@@ -4051,13 +4061,15 @@ public class BulkWindow {
 									else 
 										shoot.shot(false);
 									
-									shoot.suppressiveFire(
-											shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+									if(chckbxSingleShot.isSelected())
+										shoot.suppressiveFireFree(
+												shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
 								}
 
-								GameWindow.gameWindow.conflictLog.addNewLineToQueue("Results: " + shoot.shotResults);
+								GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shot Results: " + shoot.shotResults);
 
 								valleyValidTargetCheck(shoot, bulkTrooper);
+								
 								shots++;
 								System.out.println(
 										"Volley CA test: " + (shoot.spentCombatActions < shoot.shooter.combatActions));

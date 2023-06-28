@@ -30,7 +30,7 @@ public class StabalizeAction implements CeAction {
 		}
 		
 		// stabalize check
-		int roll = DiceRoller.randInt(1, 100);
+		int roll = DiceRoller.roll(1, 100);
 		
 		int bonus = 0; 
 		

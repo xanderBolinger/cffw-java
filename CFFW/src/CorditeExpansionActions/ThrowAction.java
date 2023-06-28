@@ -55,7 +55,7 @@ public class ThrowAction implements CeAction {
 		
 		int odds = PCUtility.getOddsOfHitting(true, eal);
 		
-		int roll = DiceRoller.randInt(0, 99);
+		int roll = DiceRoller.roll(0, 99);
 		
 		if(roll <= odds) {
 			FloatingTextManager.addFloatingText(targetCord, "Throw Hit");
@@ -64,7 +64,7 @@ public class ThrowAction implements CeAction {
 			int diff = Math.abs(eal - missEal);
 			int distance = getScatterDistance(diff);
 			FloatingTextManager.addFloatingText(targetCord, "Throw Miss, scatter dist: "+
-					distance+", direction: "+DiceRoller.randInt(1, 12));
+					distance+", direction: "+DiceRoller.roll(1, 12));
 		}
 		
 	}

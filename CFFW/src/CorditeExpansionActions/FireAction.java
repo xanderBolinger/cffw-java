@@ -100,7 +100,7 @@ public class FireAction implements CeAction {
 		int range = statBlock.getDistance(cord);
 		int odds = PCUtility.getOddsOfHitting(true, eal);
 		int penalty = shotPenalty(statBlock);
-		int roll = DiceRoller.randInt(0, 99);
+		int roll = DiceRoller.roll(0, 99);
 		int hits = 0; 
 		
 		if(roll + penalty < odds) {
@@ -159,10 +159,10 @@ public class FireAction implements CeAction {
 				trooper.ceStatBlock.rangedStatBlock.suppression.increaseSuppression(suppression);
 				FloatingTextManager.addFloatingText(trooper.ceStatBlock.cord, "Suppression: "+suppression);
 				
-				if(DiceRoller.randInt(0, 99) <= 11) {
+				if(DiceRoller.roll(0, 99) <= 11) {
 					Damage.applyHit(statBlock.rangedStatBlock.weapon.name, statBlock.rangedStatBlock.weapon.getPen(range), 
 							statBlock.rangedStatBlock.weapon.getDc(range), 
-							!target.ceStatBlock.inCover, target, DiceRoller.randInt(0, 99));
+							!target.ceStatBlock.inCover, target, DiceRoller.roll(0, 99));
 				}
 				
 			}
@@ -212,7 +212,7 @@ public class FireAction implements CeAction {
 				continue;
 			}
 			
-			int hitLocation = calledShots != null ? calledShots.getHitLocation() : DiceRoller.randInt(0, 99);
+			int hitLocation = calledShots != null ? calledShots.getHitLocation() : DiceRoller.roll(0, 99);
 			applyHit(range, hitLocation);
 		}
 		
@@ -260,7 +260,7 @@ public class FireAction implements CeAction {
 		
 		int odds = PCUtility.getOddsOfHitting(true, eal);
 		int penalty = shotPenalty(statBlock);
-		int roll = DiceRoller.randInt(0, 99);
+		int roll = DiceRoller.roll(0, 99);
 		
 		int suppression = 1;
 		
@@ -293,7 +293,7 @@ public class FireAction implements CeAction {
 		}	
 		
 		int range = statBlock.getDistance(target.ceStatBlock);
-		int hitLocation = calledShots != null ? calledShots.getHitLocation() : DiceRoller.randInt(0, 99);
+		int hitLocation = calledShots != null ? calledShots.getHitLocation() : DiceRoller.roll(0, 99);
 		if(statBlock.rangedStatBlock.weapon.shotgun) {
 			//System.out.println("Pass Shotgun");
 			applyShotgunHits(range, Weapons.getShotgunTableInteger(statBlock.rangedStatBlock.weapon.salm, range), hitLocation);
@@ -308,7 +308,7 @@ public class FireAction implements CeAction {
 		if(!statBlock.rangedStatBlock.blindFiring)
 			return true;
 		
-		int blindRoll = DiceRoller.randInt(0, 99);
+		int blindRoll = DiceRoller.roll(0, 99);
 		int tn = 1; 
 		
 		if(target.ceStatBlock.stance == Stance.STANDING) {
@@ -333,7 +333,7 @@ public class FireAction implements CeAction {
 		int hits = 0;
 		try {
 	        int hitChance = Integer.parseInt(bphc);
-	        int hitRoll = DiceRoller.randInt(0, 99);
+	        int hitRoll = DiceRoller.roll(0, 99);
 	        if(hitRoll <= hitChance)
 	        	hits++;
 	        else {

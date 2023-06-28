@@ -61,6 +61,7 @@ public class XmlReader {
 							}
 						}
 
+						
 						break;
 					case SPECIAL:
 						event = eventReader.nextEvent();

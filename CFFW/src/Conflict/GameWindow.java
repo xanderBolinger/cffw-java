@@ -612,13 +612,6 @@ public class GameWindow implements Serializable {
 						unit.seekCover(gameWindow.findHex(unit.X, unit.Y), gameWindow);
 					}
 
-					for (Trooper trooper : unit.individuals) {
-						if (!trooper.inCover && !trooper.manualStance)
-							trooper.stance = "Prone";
-						else if (!trooper.manualStance)
-							trooper.stance = "Standing";
-					}
-
 				}
 
 				conflictLog.addNewLine("Set Contact.");
@@ -640,7 +633,7 @@ public class GameWindow implements Serializable {
 		JButton btnNextAction = new JButton("Next Action");
 		btnNextAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				HexGrid.impactHexes.clear();
 				new AlertWindow("Loading Next Action");
 
 				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
@@ -2302,20 +2295,35 @@ public class GameWindow implements Serializable {
 
 	public void CalcLOS() {
 		System.out.println("Calc los");
-
+		final long startTime = System.currentTimeMillis();
+		ExecutorService es = Executors.newFixedThreadPool(16);
+		for (Unit unit : initiativeOrder) {
+			es.submit(() -> {
+				unit.lineOfSight.clear();
+	
+				
+				
+				for (Unit targetUnit : initiativeOrder) {
+					if (unit.side.equals(targetUnit.side))
+						continue;
+					
+						CalculateLOS.calc(unit, targetUnit);
+					
+	
+	
+				}
+			
+			});
+		}
+		
+		es.shutdown();
+		
 		for (Unit unit : initiativeOrder) {
 
-			unit.lineOfSight.clear();
-
-			for (Unit targetUnit : initiativeOrder) {
-				if (unit.side.equals(targetUnit.side))
-					continue;
-
-				CalculateLOS.calc(unit, targetUnit);
-
-			}
+			CalculateLOS.checkSpottedTroopers(unit);
 
 		}
-
+		final long endTime = System.currentTimeMillis();
+		System.out.println("Total CalcLOS execution time: " + (endTime - startTime));
 	}
 }

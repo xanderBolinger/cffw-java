@@ -324,6 +324,7 @@ public class OpenTrooper implements Serializable {
 	private JCheckBox chkbxOverRideInventory;
 	private JLabel lblArmorPage_1;
 	private JLabel lblEncumberance;
+	private JCheckBox chckbxSingleShot;
 
 	/**
 	 * Launch the application.
@@ -1196,13 +1197,15 @@ public class OpenTrooper implements Serializable {
 								shoot.suppressiveFire(shoot.wep.suppressiveROF);
 							else if (chckbxFullAuto.isSelected()) {
 								shoot.burst();
-								shoot.suppressiveFire(shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+								if(!chckbxSingleShot.isSelected())
+									shoot.suppressiveFireFree(shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
 							} else {
 								shoot.shot(chckbxHoming.isSelected());
-								shoot.suppressiveFire(shoot.wep.suppressiveROF / 2 + DiceRoller.randInt(1, 3));
+								if(!chckbxSingleShot.isSelected())
+									shoot.suppressiveFireFree(shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
 							}
 							System.out.println("Open Trooper Shoot");
-							GameWindow.gameWindow.conflictLog.addNewLineToQueue("Results: " + shoot.shotResults);
+							GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shot Results: " + shoot.shotResults);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -1227,7 +1230,7 @@ public class OpenTrooper implements Serializable {
 						GameWindow.gameWindow.conflictLog.addQueuedText();
 						guiUpdates();
 
-						if (shoot.target == null || !shoot.target.alive || !shoot.target.conscious || shoot.target.HD) {
+						if (shoot.target == null || !shoot.target.alive || !shoot.target.conscious) {
 							refreshTargets();
 						}
 
@@ -2134,7 +2137,9 @@ public class OpenTrooper implements Serializable {
 		comboBoxStance.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (comboBoxStance.getSelectedItem().toString().equals(trooper.stance)) {
+				System.err.println("Deprecated button.");
+				
+				/*if (comboBoxStance.getSelectedItem().toString().equals(trooper.stance)) {
 					return;
 				}
 
@@ -2149,7 +2154,7 @@ public class OpenTrooper implements Serializable {
 					spentCA++;
 				}
 				PCShots();
-				PCFireGuiUpdates();
+				PCFireGuiUpdates();*/
 			}
 		});
 		comboBoxStance.setModel(new DefaultComboBoxModel(new String[] { "Standing", "Crouched", "Prone" }));
@@ -2410,7 +2415,7 @@ public class OpenTrooper implements Serializable {
 											.size() - 1);
 
 					int TN = PCUtility.getOddsOfHitting(true, EAL);
-					int roll = DiceRoller.randInt(0, 99);
+					int roll = DiceRoller.roll(0, 99);
 
 					GameWindow.addTrooperEntryToLog(trooper, "fires rocket into hex, X: "
 							+ (int) spinnerLauncherX.getValue() + ", Y: " + (int) spinnerLauncherY.getValue());
@@ -2517,6 +2522,12 @@ public class OpenTrooper implements Serializable {
 		chkbxOverRideInventory.setBackground(Color.DARK_GRAY);
 		chkbxOverRideInventory.setBounds(113, 182, 165, 23);
 		panelActions.add(chkbxOverRideInventory);
+		
+		chckbxSingleShot = new JCheckBox("Single Shot");
+		chckbxSingleShot.setForeground(Color.WHITE);
+		chckbxSingleShot.setBackground(Color.DARK_GRAY);
+		chckbxSingleShot.setBounds(257, 323, 177, 23);
+		panelActions.add(chckbxSingleShot);
 
 		JPanel panelIndividualEdit = new JPanel();
 		panelIndividualEdit.setBackground(Color.DARK_GRAY);
@@ -6425,7 +6436,7 @@ public class OpenTrooper implements Serializable {
 			for (int j = 0; j < spotAction.spottedIndividuals.size(); j++) {
 
 				// Checks if target individual is alive or hunkered down
-				if (spotAction.spottedIndividuals.get(j).alive && spotAction.spottedIndividuals.get(j).HD == false) {
+				if (spotAction.spottedIndividuals.get(j).alive) {
 
 					// Adds individual to spotted list
 					if (!spottedIndividuals.contains(spotAction.spottedIndividuals.get(j))) {
@@ -7162,5 +7173,4 @@ public class OpenTrooper implements Serializable {
 				(int) spinnerConsecutiveEALBonus.getValue());
 		guiUpdates();
 	}
-
 }

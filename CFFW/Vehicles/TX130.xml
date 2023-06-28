@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <vehicle>
-    <vehicle_data>
+    <vehicle_data shielded="true" maxValue="1000" rechargeRate="150">
         <crew_compartments>
-            <compartment name="OPERATORS" shielded="false">
+            <compartment name="OPERATORS" shielded="true">
                 <crew_positions>
                     <position name="Pilot">
                         <position_types>
@@ -48,8 +48,9 @@
                     </position>
 
                 </crew_positions>
+                <shield_generator maxValue="100" rechargeRate="25"></shield_generator>
             </compartment>
-            <compartment name="EXTERNAL GUNNERS" shielded="false">
+            <compartment name="EXTERNAL GUNNER" shielded="false">
                 <crew_positions>
                     <position name="Topgunner">
                         <position_types>
@@ -73,5 +74,18 @@
                 </crew_positions>
             </compartment>
         </crew_compartments>
+        <movement_data>
+            <hull_turn_rate_no_speed>3</hull_turn_rate_no_speed>
+            <hull_turn_rate_half_speed>2</hull_turn_rate_half_speed>
+            <hull_turn_rate_full_speed>1</hull_turn_rate_full_speed>
+            <acceleration>6</acceleration>
+            <deceleration>6</deceleration>
+            <boost recovery="2">8</boost>
+            <terrain feature="Paved Road">14</terrain>
+            <terrain feature="Dirt Road">14</terrain>
+            <terrain feature="Mud">14</terrain>
+            <terrain feature="Deep Mud">14</terrain>
+            <terrain feature="Soil">14</terrain>
+        </movement_data>
     </vehicle_data>
 </vehicle>

@@ -8,14 +8,20 @@ import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
 
 public class CrewPosition {
 
+	public CrewMember crewMemeber;
 	String positionName;
-	CrewMember crewMemeber;
 	List<CrewPositionType> positionTypes;
 	List<HexDirection> fieldOfView;
 	
 	public CrewPosition(String positionName, CrewMember crewMember, List<CrewPositionType> positionTypes, List<HexDirection> fieldOfView) {
 		this.positionName = positionName;
 		this.crewMemeber = crewMember;
+		this.positionTypes = positionTypes;
+		this.fieldOfView = fieldOfView;
+	}
+	
+	public CrewPosition(String positionName, List<CrewPositionType> positionTypes, List<HexDirection> fieldOfView) {
+		this.positionName = positionName;
 		this.positionTypes = positionTypes;
 		this.fieldOfView = fieldOfView;
 	}

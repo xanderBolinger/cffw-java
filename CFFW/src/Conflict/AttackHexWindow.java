@@ -333,7 +333,7 @@ public class AttackHexWindow {
 	}
 	
 	public void applyHit(Weapons weapon) {
-		int index = DiceRoller.randInt(0, getTargets().size() - 1);
+		int index = DiceRoller.roll(0, getTargets().size() - 1);
 		System.out.println("Random Index: "+index);
 		Trooper target = getTargets().get(index);
 		

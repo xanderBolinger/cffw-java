@@ -23,7 +23,8 @@ public class ReloadAction implements CeAction {
 			return;
 		}
 		
-		if(spentReloadTime >= trooper.ceStatBlock.rangedStatBlock.weapon.ceStats.reloadTime) {
+		if(spentReloadTime >= 
+				 trooper.ceStatBlock.rangedStatBlock.weapon.ceStats.reloadTime) {
 			trooper.ceStatBlock.rangedStatBlock.reload(trooper);
 			completed = true;
 			return;

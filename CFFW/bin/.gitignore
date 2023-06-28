@@ -1,3 +1,16 @@
+/HexGrid/
+/HexGridIcons/
+/Hexes/
+/Individuals/
+/Injuries/
+/Items/
+/JUnitTests/
+/Main.class
+/MainCETest.class
+/Medical/
+/OperationExporter/
+/SaveCompanies/
+/Shoot/
 /Trooper/
 /Unit/
 /UtilityClasses/
@@ -5,5 +18,3 @@
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
-/CreateGame/
-/HexGrid/

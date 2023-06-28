@@ -339,7 +339,7 @@ public class Unit implements Serializable {
 	// Sets the stance for the trooper
 	public void setStance(Trooper targetTrooper, GameWindow game) {
 		
-		boolean moving = false; 
+		/*boolean moving = false; 
 		
 		if(speed.equals("Rush")) {
 			targetTrooper.stance = "Standing";
@@ -438,7 +438,7 @@ public class Unit implements Serializable {
 				}
 			} 
 			
-		}
+		}*/
 		
 	}
 	
@@ -548,6 +548,17 @@ public class Unit implements Serializable {
 		individualsInCover = troopersGoingIntoCover;
 		hex.usedPositions += troopersGoingIntoCover;
 		//System.out.println("Invdividuals in cover: "+individualsInCover);
+		
+		for(var trooper : individuals) {
+			
+			if(behavior.equals("No Contact") || !speed.equals("None")) {
+				trooper.stance = "Standing";
+			} else {
+				trooper.stance = "Prone";
+			}
+			
+		}
+		
 	}
 	
 	

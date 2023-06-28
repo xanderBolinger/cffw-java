@@ -12,7 +12,7 @@ public class DiceRoller {
 	
 	public static int d6_exploding() {
 		
-		int value = randInt(1,6);
+		int value = roll(1,6);
 		
 		if(value == 6)
 			return d6_exploding(value);
@@ -23,7 +23,7 @@ public class DiceRoller {
 	
 	private static int d6_exploding(int value) {
 		
-		value += randInt(1,6);
+		value += roll(1,6);
 		
 		if(value == 6)
 			return d6_exploding(value);
@@ -32,7 +32,7 @@ public class DiceRoller {
 		
 	}
 	
-	public static int randInt(int min, int max) {	    
+	public static int roll(int min, int max) {	    
 
 	    int randomNum = rand.nextInt((max - min) + 1) + min;
 
@@ -40,7 +40,7 @@ public class DiceRoller {
 	}
 	
 	public static boolean plusMinus() {
-		return DiceRoller.randInt(1, 2) == 1 ? true : false;
+		return DiceRoller.roll(1, 2) == 1 ? true : false;
 	}
 	
 	/*

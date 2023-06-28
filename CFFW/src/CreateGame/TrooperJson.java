@@ -14,7 +14,8 @@ import Trooper.Skills;
 import Trooper.Trooper;
 
 public class TrooperJson {
-
+	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	
 	public ArrayList<Ability> abilities;
 	public Skills skills;
 	public String input;
@@ -110,7 +111,7 @@ public class TrooperJson {
 
 		//System.out.println("Name Pass 1: "+trooper.name);
 		
-		trooper.identifier = identifier;
+		trooper.identifier = getIdentifier();
 		trooper.HD = false;
 
 		trooper.rank = rank;
@@ -141,6 +142,16 @@ public class TrooperJson {
 		System.out.println("Load Trooper Name: "+trooper.name+", Name Field: "+this.name);
 		
 		return trooper;
+	}
+	
+	public static String getIdentifier() {
+		int count = 10;
+		StringBuilder builder = new StringBuilder();
+		while (count-- != 0) {
+			int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+		}
+		return builder.toString();
 	}
 	
 }

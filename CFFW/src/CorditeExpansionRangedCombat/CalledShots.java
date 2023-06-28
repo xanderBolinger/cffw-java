@@ -181,7 +181,7 @@ public class CalledShots {
 			number.add(i);
 		}
 		
-		return number.get(DiceRoller.randInt(0, number.size()-1));
+		return number.get(DiceRoller.roll(0, number.size()-1));
 	}
 	
 	public int getEal() {
