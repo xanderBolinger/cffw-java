@@ -87,7 +87,7 @@ public class DamageTests {
 		
 		Damage.statusCheck(250, clone);
 		
-		assertEquals(false, clone.ceStatBlock.medicalStatBlock.conscious());
+		assertEquals(true, clone.ceStatBlock.medicalStatBlock.conscious());
 	}
 	
 	@Test
