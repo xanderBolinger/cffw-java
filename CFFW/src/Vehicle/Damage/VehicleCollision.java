@@ -1,5 +1,6 @@
 package Vehicle.Damage;
 
+import Hexes.Hex;
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 
@@ -9,6 +10,27 @@ public class VehicleCollision {
 		
 		Legs,Arms,Body,Head
 		
+	}
+	
+	public static void HiddenObstaclesCheck(Hex hex) {
+		
+		
+	}
+	
+	public static int HiddenObstacleCollisionChance() {
+		
+	}
+	
+	public static int getRapidSlowdownMagnitude(int speed) {
+		if(speed < 4)
+			return 1; 
+		else if(speed < 6)
+			return 2; 
+		else if(speed <= 7)
+			return 3;
+		else if(speed <= 8)
+			return 4;
+		return 5;
 	}
 	
 	
@@ -51,8 +73,16 @@ public class VehicleCollision {
 		
 	}
 	
-	public static void applyArmorProtection(Trooper trooper) {
+	// TODO: make return PF to armor value for blunt table 
+	public static int applyArmorProtection(Trooper trooper, int damageMagnitude, int hitLocationRoll) {
+		if(trooper.armor == null)
+			return damageMagnitude;
 		
+		int pf = 0; 
+		
+		pf = trooper.armor.getBPF(hitLocationRoll, true);
+		
+		return damageMagnitude - pf / 10;
 	}
 	
 	
