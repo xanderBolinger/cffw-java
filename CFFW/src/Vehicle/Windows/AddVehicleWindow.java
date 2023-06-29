@@ -115,7 +115,7 @@ public class AddVehicleWindow {
 		
 		for(var pos : selectedVehicle.getCrewPositions()) {
 			vehicleCrew.add(pos.getPositionName()+(pos.crewMemeber == null ? ", EMPTY" : 
-				pos.crewMemeber.crewMember.name +", PD: "+pos.crewMemeber.crewMember.physicalDamage
+				" "+pos.crewMemeber.crewMember.name +", PD: "+pos.crewMemeber.crewMember.physicalDamage
 				+", Alive: "+pos.crewMemeber.crewMember.alive+", Conscious: "+pos.crewMemeber.crewMember.conscious));
 		}
 		
@@ -434,7 +434,7 @@ public class AddVehicleWindow {
 					
 				}
 				
-				refreshVehicleLists();
+				refreshSelectedVehicle();
 				refreshRoster();
 			}
 		});
@@ -459,7 +459,7 @@ public class AddVehicleWindow {
 					
 				}
 				
-				refreshVehicleLists();
+				refreshSelectedVehicle();
 				refreshRoster();
 			}
 		});
@@ -498,7 +498,7 @@ public class AddVehicleWindow {
 				
 				
 				
-				refreshVehicleLists();
+				refreshSelectedVehicle();
 				refreshRoster();
 				
 			}
