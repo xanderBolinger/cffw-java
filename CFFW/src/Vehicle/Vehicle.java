@@ -27,7 +27,7 @@ public class Vehicle {
 	
 	public VehicleMovementData movementData;
 	
-	
+	public Vehicle() {} // empty constructor for testing 
 
 	public Vehicle(String vehicleTypeName, List<CrewCompartment> crewCompartments) {
 		this.vehicleTypeName = vehicleTypeName;

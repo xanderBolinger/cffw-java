@@ -19,7 +19,7 @@ public class VehicleCollision {
 		
 	}
 	
-	public static void hiddenObstaclesCheck(Hex hex, Vehicle vehicle) {
+	public static boolean hiddenObstaclesCheck(Hex hex, Vehicle vehicle) {
 		
 		int obstacles = hex.coverPositions / 3;
 		
@@ -28,9 +28,16 @@ public class VehicleCollision {
 		int roll = DiceRoller.roll(0, 99);
 		
 		if(roll > hitChance) {
-			return;
+			return false;
 		}
 		
+		applyHit(vehicle);
+
+		
+		return true;
+	}
+	
+	private static void applyHit(Vehicle vehicle) {
 		int impactDamage = getRapidSlowdownImpactDamage(vehicle.movementData.speed);
 		
 		for(var trooper : vehicle.getTroopers()) {
@@ -55,7 +62,6 @@ public class VehicleCollision {
 				trooper.calculateInjury(null, null);
 			}
 		}
-
 	}
 	
 	public static int hiddenObstacleCollisionChance(int obstacles) {

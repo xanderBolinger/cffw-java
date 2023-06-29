@@ -1,10 +1,31 @@
 package Vehicle;
 
+import Conflict.GameWindow;
+import HexGrid.HexDirectionUtility;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
 
 public class VehicleMovement {
 
-	public static HullDownStatus MoveForward(HullDownStatus status, HullDownStatus maximumHullDownStatus) throws Exception {
+	
+	public static void moveVehicle(Vehicle vehicle) {
+		
+		var md = vehicle.movementData;
+		
+		for(int i = 0; i < md.speed; i++) {
+			var cord = HexDirectionUtility.getHexInDirection(md.facing, md.location, md.movedClockwise);
+			var hex = GameWindow.gameWindow.findHex(cord.xCord, cord.yCord);
+			md.movedClockwise = !md.movedClockwise;
+			if(hex == null)
+				continue;
+
+			md.enterHex(hex);
+		}
+
+	}
+	
+
+	
+	public static HullDownStatus moveForwardHD(HullDownStatus status, HullDownStatus maximumHullDownStatus) throws Exception {
 		if(status == maximumHullDownStatus)
 			return status;
 		
@@ -23,7 +44,7 @@ public class VehicleMovement {
 
 	}
 
-	public static HullDownStatus MoveBackward(HullDownStatus status, HullDownStatus minimumHullDownStatus) throws Exception {
+	public static HullDownStatus moveBackwardHD(HullDownStatus status, HullDownStatus minimumHullDownStatus) throws Exception {
 		if(status == minimumHullDownStatus)
 			return status;
 		
@@ -42,8 +63,5 @@ public class VehicleMovement {
 
 	}
 
-	public static void FindWay(int clearLaneChance, int manueverLaneChance, int noLaneChance) {
-
-	}
-
+	
 }

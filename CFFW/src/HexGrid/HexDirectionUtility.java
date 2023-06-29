@@ -21,13 +21,47 @@ public class HexDirectionUtility {
 			return directions;
 			
 		}
+
 		
-		public static HexDirection getMapDirectionFromFacing() {
-			return HexDirection.A;
-		}
 		
 	}
 	
+	public static HexDirection getFaceInDirection(HexDirection facing, boolean clockwise) {
+		
+		switch(facing) {
+		
+		case A: 
+			return clockwise ? HexDirection.AB : HexDirection.FA;
+		case AB:
+			return clockwise ? HexDirection.B : HexDirection.A;
+		case B:
+			return clockwise ? HexDirection.BC : HexDirection.AB;
+		case BC:
+			return clockwise ? HexDirection.C : HexDirection.BC;
+		case C:
+			return clockwise ? HexDirection.CD : HexDirection.BC;
+		case CD:
+			return clockwise ? HexDirection.D : HexDirection.C;
+		case D:
+			return clockwise ? HexDirection.DE : HexDirection.CD;
+		case DE:
+			return clockwise ? HexDirection.E : HexDirection.D;
+		case E:
+			return clockwise ? HexDirection.EF : HexDirection.DE;
+		case EF:
+			return clockwise ? HexDirection.F : HexDirection.E;
+		case F:
+			return clockwise ? HexDirection.FA : HexDirection.EF;
+		case FA:
+			return clockwise ? HexDirection.A : HexDirection.F;
+		default:
+			break;
+		
+		}
+		
+		return null;
+		
+	}
 	
 	public static List<Cord> getHexNeighbours(Cord pos) {
         List<Cord> neighbors = new ArrayList<>();
@@ -87,7 +121,38 @@ public class HexDirectionUtility {
     }
 
 	
-	
+    public static Cord getHexInDirection(HexDirection dir, Cord pos, boolean clockwise) {
+        List<Cord> neighbors = getHexNeighbours(pos);
+
+        switch (dir) {
+            case A:
+                return neighbors.get(0);
+            case B:
+                return neighbors.get(1);
+            case C:
+                return neighbors.get(2);
+            case D:
+                return neighbors.get(3);
+            case E:
+                return neighbors.get(4);
+            case F:
+                return neighbors.get(5);
+            case AB:
+            	return !clockwise ? neighbors.get(0) : neighbors.get(1);
+            case BC:
+            	return !clockwise ? neighbors.get(1) : neighbors.get(2);
+            case CD:
+            	return !clockwise ? neighbors.get(2) : neighbors.get(3);
+            case DE:
+            	return !clockwise ? neighbors.get(3) : neighbors.get(4);
+            case EF:
+            	return !clockwise ? neighbors.get(4) : neighbors.get(5);
+            case FA:
+            	return !clockwise ? neighbors.get(5) : neighbors.get(0);
+            default:
+                throw new IllegalArgumentException("Hex direction not found, dir: " + dir + ", pos: " + pos);
+        }
+    }
 	
 	
 	

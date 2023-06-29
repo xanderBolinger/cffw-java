@@ -125,10 +125,8 @@ public class VehicleDataTests {
 			myList.add(feature);
 			var mudHex = new Hex(0,0,myList,0,0,0);
 			assertEquals(5, vmd.movementSpeeds.size());
-			assertEquals(14, vmd.GetMoveSpeed(mudHex));
-			assertEquals(3, vmd.hullTurnRateNoSpeed);
-			assertEquals(2, vmd.hullTurnRateHalfSpeed);
-			assertEquals(1, vmd.hullTurnRateFullSpeed);
+			assertEquals(14, vmd.getMaxMoveSpeed(mudHex));
+			assertEquals(3, vmd.hullTurnRate);
 			assertEquals(6, vmd.acceleration);
 			assertEquals(6, vmd.deceleration);
 			assertEquals(8, vmd.boostAcceleration);

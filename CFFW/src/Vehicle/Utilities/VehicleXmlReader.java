@@ -53,24 +53,22 @@ public class VehicleXmlReader {
 		}
 		
 		vehicle.setVehicleCallsign(vehicleCallSign);
-		vehicle.movementData = getVehicleMovementData(vehicleData);
+		vehicle.movementData = getVehicleMovementData(vehicleData, vehicle);
 		
 		return vehicle;
 	}
 
 	
-	private static VehicleMovementData getVehicleMovementData(Document vehicleData) throws Exception {
+	private static VehicleMovementData getVehicleMovementData(Document vehicleData, Vehicle vehicle) throws Exception {
 		
-		var vmd = new VehicleMovementData();
+		var vmd = new VehicleMovementData(vehicle);
 		
 		setMovementDataFeatures(vmd, vehicleData);
 		
 		vmd.acceleration = Integer.parseInt(vehicleData.getElementsByTagName("acceleration").item(0).getTextContent());
 		vmd.deceleration = Integer.parseInt(vehicleData.getElementsByTagName("deceleration").item(0).getTextContent());
-		
-		vmd.hullTurnRateFullSpeed = Integer.parseInt(vehicleData.getElementsByTagName("hull_turn_rate_full_speed").item(0).getTextContent());
-		vmd.hullTurnRateHalfSpeed = Integer.parseInt(vehicleData.getElementsByTagName("hull_turn_rate_half_speed").item(0).getTextContent());
-		vmd.hullTurnRateNoSpeed = Integer.parseInt(vehicleData.getElementsByTagName("hull_turn_rate_no_speed").item(0).getTextContent());
+
+		vmd.hullTurnRate = Integer.parseInt(vehicleData.getElementsByTagName("hull_turn_rate").item(0).getTextContent());
 		
 		var boostElement = (Element) vehicleData.getElementsByTagName("boost").item(0);
 		

@@ -75,9 +75,7 @@
             </compartment>
         </crew_compartments>
         <movement_data>
-            <hull_turn_rate_no_speed>3</hull_turn_rate_no_speed>
-            <hull_turn_rate_half_speed>2</hull_turn_rate_half_speed>
-            <hull_turn_rate_full_speed>1</hull_turn_rate_full_speed>
+            <hull_turn_rate>6</hull_turn_rate>
             <acceleration>6</acceleration>
             <deceleration>6</deceleration>
             <boost recovery="2">8</boost>

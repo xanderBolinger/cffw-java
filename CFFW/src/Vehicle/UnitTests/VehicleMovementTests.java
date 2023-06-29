@@ -2,16 +2,23 @@ package Vehicle.UnitTests;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
+import HexGrid.HexDirectionUtility.HexDirection;
+import Hexes.Feature;
+import Hexes.Hex;
 import Items.PersonalShield;
 import Items.PersonalShield.ShieldType;
 import Trooper.Trooper;
+import Vehicle.Vehicle;
 import Vehicle.Damage.VehicleCollision;
 import Vehicle.Damage.VehicleCollision.CollisionHitLocation;
 import Vehicle.Data.VehicleMovementData;
 import Vehicle.HullDownPositions.HullDownPosition;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
+import Vehicle.Utilities.VehicleXmlReader;
 
 public class VehicleMovementTests {
 
@@ -19,7 +26,7 @@ public class VehicleMovementTests {
 	@Test
 	public void EnterHullDownPositionTest() {
 		
-		var data = new VehicleMovementData();
+		var data = new VehicleMovementData(new Vehicle());
 		var hullDownPosition = new HullDownPosition(HullDownStatus.HIDDEN, HullDownStatus.PARTIAL_HULL_DOWN);
 		
 		data.enterHullDownPosition(hullDownPosition);
@@ -30,7 +37,7 @@ public class VehicleMovementTests {
 	@Test 
 	public void MovementHullDownTest() {
 		
-		var data = new VehicleMovementData();
+		var data = new VehicleMovementData(new Vehicle());
 		var hullDownPosition = new HullDownPosition(HullDownStatus.HIDDEN, HullDownStatus.PARTIAL_HULL_DOWN);
 		
 		data.enterHullDownPosition(hullDownPosition);
@@ -120,6 +127,60 @@ public class VehicleMovementTests {
 		assertEquals(193, trooper.personalShield.currentShieldStrength);
 		assertEquals(true, pd <= 0);
 		
+	}
+	
+	@Test
+	public void changeSpeed() throws Exception {
+		var vehicle = VehicleXmlReader.readVehicle("Test Callsign","TX130");
+		var md = vehicle.movementData;
+		Hex hex = new Hex(0, 1, new ArrayList<Feature>(), 0, 0, 0);
+		
+		md.accelerate(6, hex);
+		
+		assertEquals(6, md.speed);
+		
+		md.accelerate(13, hex);
+		
+		assertEquals(6, md.speed);
+		
+		md.decelerate(0);
+		
+		assertEquals(0, md.speed);
+		
+	}
+	
+	@Test
+	public void changeFacing() throws Exception {
+		var vehicle = VehicleXmlReader.readVehicle("Test Callsign","TX130");
+		var md = vehicle.movementData;
+		
+		md.changeFacing(true);
+		
+		assertEquals(1, md.changedFaces);
+		assertEquals(HexDirection.AB, md.facing);
+		
+		md.changeFacing(true);
+		md.changeFacing(true);
+		md.changeFacing(true);
+		md.changeFacing(true);
+		md.changeFacing(true);
+		
+		assertEquals(6, md.changedFaces);
+		assertEquals(HexDirection.D, md.facing);
+		
+	}
+	
+	@Test
+	public void enterHex() throws Exception {
+		
+		var vehicle = VehicleXmlReader.readVehicle("Test Callsign","TX130");
+		var md = vehicle.movementData;
+		Hex hex = new Hex(0, 1, new ArrayList<Feature>(), 0, 0, 0);
+		assertEquals(0, md.location.xCord);
+		assertEquals(0, md.location.yCord);
+		md.enterHex(hex);
+		assertEquals(0, md.location.xCord);
+		assertEquals(1, md.location.yCord);
 	}
 	
 }
