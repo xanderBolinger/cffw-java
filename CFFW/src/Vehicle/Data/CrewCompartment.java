@@ -1,12 +1,13 @@
 package Vehicle.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import HexGrid.HexDirectionUtility.HexDirection;
 import Trooper.Trooper;
 
-public class CrewCompartment {
+public class CrewCompartment implements Serializable {
 
 	String compartmentName;
 	List<CrewPosition> crewPositions;
@@ -64,6 +65,10 @@ public class CrewCompartment {
 		
 		
 		throw new Exception("Position not found in compartment: "+compartmentName+", position: "+positionName);
+	}
+	
+	public List<CrewPosition> getCrewPositions() {
+		return crewPositions;
 	}
 	
 	public int getCrewCount() {

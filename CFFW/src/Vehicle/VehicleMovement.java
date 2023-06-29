@@ -1,10 +1,13 @@
 package Vehicle;
 
+import java.io.Serializable;
+
 import Conflict.GameWindow;
 import HexGrid.HexDirectionUtility;
+import Vehicle.HullDownPositions.HullDownPosition.HullDownDecision;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
 
-public class VehicleMovement {
+public class VehicleMovement implements Serializable {
 
 	
 	public static void moveVehicle(Vehicle vehicle) {
@@ -21,8 +24,27 @@ public class VehicleMovement {
 			md.enterHex(hex);
 		}
 
+		switch(md.hullDownDecision) {
+		case ENTER:
+			md.enterHullDownPosition(md.selectedHullDownPosition);
+			break;
+		case EXIT:
+			md.exitHullDownPosition();
+			break;
+		case INCH_BACKWARD:
+			md.inchBack();
+			break;
+		case INCH_FORWARD:
+			md.inchForward();
+			break;
+		case NOTHING:
+			break;
+		default:
+			break;
+		}
+		
+		md.hullDownDecision = HullDownDecision.NOTHING;
 	}
-	
 
 	
 	public static HullDownStatus moveForwardHD(HullDownStatus status, HullDownStatus maximumHullDownStatus) throws Exception {

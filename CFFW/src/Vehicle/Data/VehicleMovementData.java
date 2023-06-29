@@ -1,5 +1,6 @@
 package Vehicle.Data;
 
+import java.io.Serializable;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,9 +14,10 @@ import Vehicle.Vehicle;
 import Vehicle.VehicleMovement;
 import Vehicle.Damage.VehicleCollision;
 import Vehicle.HullDownPositions.HullDownPosition;
+import Vehicle.HullDownPositions.HullDownPosition.HullDownDecision;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
 
-public class VehicleMovementData {
+public class VehicleMovementData implements Serializable {
 	public Cord location;
 	public HexDirection facing;
 	public Map<String, Integer> movementSpeeds;  
@@ -36,6 +38,8 @@ public class VehicleMovementData {
 	
 	public HullDownPosition hullDownPosition;
 	public HullDownStatus hullDownStatus;
+	public HullDownDecision hullDownDecision;
+	public HullDownPosition selectedHullDownPosition;
 	
 	Vehicle vehicle;
 	

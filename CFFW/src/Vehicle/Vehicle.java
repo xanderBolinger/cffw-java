@@ -1,7 +1,10 @@
 package Vehicle;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.jupiter.api.Disabled;
 
 import CorditeExpansion.Cord;
 import HexGrid.HexDirectionUtility.HexDirection;
@@ -14,15 +17,17 @@ import Vehicle.Data.ShieldGenerator;
 import Vehicle.Data.VehicleMovementData;
 import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
 
-public class Vehicle {
+public class Vehicle implements Serializable {
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	String vehicleCallsign;
 	String vehicleTypeName;
 	String vehicleClass;
 	boolean repulsorCraft;
-	boolean disabled;
+	public boolean knockedOut;
 	List<CrewCompartment> crewCompartments;
 	ShieldGenerator shieldGenerator;
+
+	public boolean active;
 	public String identifier;
 	
 	public VehicleMovementData movementData;
@@ -33,6 +38,7 @@ public class Vehicle {
 		this.vehicleTypeName = vehicleTypeName;
 		this.crewCompartments = crewCompartments;
 		this.identifier = identifier();
+		active = true;
 	}
 
 	public void AddShieldGenerator(ShieldGenerator shieldGenerator) {
@@ -64,6 +70,20 @@ public class Vehicle {
 		}
 		
 		throw new Exception("Crew compartment not found: "+compartmentName);
+	}
+	
+	public ArrayList<CrewPosition> getCrewPositions() {
+		
+		ArrayList<CrewPosition> positions = new ArrayList<CrewPosition>();
+		
+		for(var compartment : crewCompartments) {
+			for(var pos : compartment.getCrewPositions()) {
+				positions.add(pos);
+			}
+		}
+		
+		return positions;
+		
 	}
 	
 	public CrewPosition getCrewPosition(String positionName) throws Exception {
@@ -98,6 +118,10 @@ public class Vehicle {
 		return capacity;
 	}
 
+	public String getVehicleClass() {
+		return vehicleClass;
+	}
+	
 	String identifier() {
 		int count = 10;
 		StringBuilder builder = new StringBuilder();
@@ -121,12 +145,14 @@ public class Vehicle {
 		return repulsorCraft;
 	}
 	
-	public String getVehicleClass() {
-		return vehicleClass;
-	}
 	
 	public boolean getVehicleDisabled() {
-		return disabled;
+		return knockedOut;
+	}
+	
+	@Override
+	public String toString() {
+		return vehicleCallsign+":: " + vehicleTypeName + ", Knocked-out: "+knockedOut;
 	}
 	
 }

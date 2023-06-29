@@ -1,5 +1,6 @@
 package Vehicle.Damage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
@@ -11,7 +12,7 @@ import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 import Vehicle.Vehicle;
 
-public class VehicleCollision {
+public class VehicleCollision implements Serializable {
 
 	public enum CollisionHitLocation {
 		

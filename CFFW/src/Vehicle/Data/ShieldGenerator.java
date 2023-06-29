@@ -1,6 +1,8 @@
 package Vehicle.Data;
 
-public class ShieldGenerator {
+import java.io.Serializable;
+
+public class ShieldGenerator implements Serializable {
 
 	int currentValue;
 	int maxValue;

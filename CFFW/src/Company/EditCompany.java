@@ -22,6 +22,7 @@ import Unit.AddUnit;
 import Unit.EditUnit;
 import Unit.Unit;
 import UtilityClasses.Keyboard;
+import Vehicle.Windows.AddVehicleWindow;
 
 import javax.swing.JTextField;
 import javax.swing.DefaultListModel;
@@ -235,8 +236,8 @@ public class EditCompany implements Serializable {
 		JButton button = new JButton("Units");
 		button.setBounds(10, 72, 80, 23);
 
-		JButton btnActivatedeactivate = new JButton("Activate/Deactivate");
-		btnActivatedeactivate.setBounds(522, 52, 252, 23);
+		JButton btnActivatedeactivate = new JButton("A/D");
+		btnActivatedeactivate.setBounds(432, 11, 80, 23);
 		btnActivatedeactivate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -463,7 +464,7 @@ public class EditCompany implements Serializable {
 				new BulkInventoryWindow(units, roster);
 			}
 		});
-		btnBulkInventory.setBounds(522, 102, 252, 23);
+		btnBulkInventory.setBounds(522, 70, 252, 23);
 		f.getContentPane().add(btnBulkInventory);
 		
 		JButton btnMedical = new JButton("Medical");
@@ -472,7 +473,7 @@ public class EditCompany implements Serializable {
 				new MedicalWindow(units, roster);
 			}
 		});
-		btnMedical.setBounds(522, 127, 252, 23);
+		btnMedical.setBounds(522, 95, 252, 23);
 		f.getContentPane().add(btnMedical);
 		
 		Formation = new JButton("Formations");
@@ -481,8 +482,18 @@ public class EditCompany implements Serializable {
 				new FormationWindow(company);
 			}
 		});
-		Formation.setBounds(522, 77, 252, 23);
+		Formation.setBounds(522, 45, 252, 23);
 		f.getContentPane().add(Formation);
+		
+		JButton btnVehicles = new JButton("Vehicles");
+		btnVehicles.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				new AddVehicleWindow(company);
+			}
+		});
+		btnVehicles.setBounds(522, 127, 252, 23);
+		f.getContentPane().add(btnVehicles);
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

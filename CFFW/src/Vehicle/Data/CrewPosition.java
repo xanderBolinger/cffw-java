@@ -1,12 +1,13 @@
 package Vehicle.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import HexGrid.HexDirectionUtility.HexDirection;
 import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
 
-public class CrewPosition {
+public class CrewPosition implements Serializable {
 
 	public CrewMember crewMemeber;
 	String positionName;
