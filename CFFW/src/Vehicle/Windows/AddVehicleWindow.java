@@ -26,6 +26,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class AddVehicleWindow {
 
@@ -42,6 +44,7 @@ public class AddVehicleWindow {
 	private JList rosterList;
 	private JComboBox comboBoxPosition;
 	private JLabel lblSelectedVehicle;
+	private JSpinner spinnerAmount;
 	
 
 	/**
@@ -79,7 +82,7 @@ public class AddVehicleWindow {
 
 		for (int i = 0; i < listOfFiles.length; i++) {
 		  if (listOfFiles[i].isFile()) {
-		    vehicleNames.add(listOfFiles[i].getName());
+		    vehicleNames.add(listOfFiles[i].getName().replaceFirst("[.][^.]+$", ""));
 		  } else if (listOfFiles[i].isDirectory()) {
 		    System.out.println("Directory " + listOfFiles[i].getName());
 		  }
@@ -123,7 +126,7 @@ public class AddVehicleWindow {
 		ArrayList<String> positions = new ArrayList<String>();
 
 		for(var pos : selectedVehicle.getCrewPositions()) {
-			positions.add(pos.getPositionName()+(pos.crewMemeber == null ? ", EMPTY" : "OCCUPIED"));
+			positions.add(pos.getPositionName()+(pos.crewMemeber == null ? ", EMPTY" : ", OCCUPIED"));
 		}
 		
 		SwingUtility.setComboBox(comboBoxPosition, positions, false, 0);
@@ -175,7 +178,7 @@ public class AddVehicleWindow {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 762, 787);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -227,9 +230,15 @@ public class AddVehicleWindow {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
-					var vic = VehicleXmlReader.readVehicle(textFieldCallsign.getText(), comboBoxVehicleType.getSelectedItem().toString());
-					company.vehicles.add(vic);
+					
+					for(int i = 0; i < (int)spinnerAmount.getValue(); i++) {
+						var vic = VehicleXmlReader.readVehicle(textFieldCallsign.getText() + (i > 0 ? i : ""),
+								comboBoxVehicleType.getSelectedItem().toString());
+						company.vehicles.add(vic);
+					}
+					
 					refreshLists();
+					
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
@@ -343,7 +352,7 @@ public class AddVehicleWindow {
 				refreshRoster();
 			}
 		});
-		btnNewButton_1_2.setBounds(302, 710, 133, 23);
+		btnNewButton_1_2.setBounds(302, 650, 133, 23);
 		frame.getContentPane().add(btnNewButton_1_2);
 		
 		JButton btnNewButton_1_1_1 = new JButton("<--");
@@ -352,18 +361,19 @@ public class AddVehicleWindow {
 				if(rosterList.getSelectedIndex() < 0 || selectedVehicle == null)
 					return;
 				
-				var trooper = company.getRoster().remove(rosterList.getSelectedIndex());
-				var crewMember = selectedVehicle.getCrewPositions().get(comboBoxPosition.getSelectedIndex()).crewMemeber;
+				var pos = selectedVehicle.getCrewPositions().get(comboBoxPosition.getSelectedIndex());
 				
-				if(crewMember == null)
-					crewMember = new CrewMember(trooper);
+				if(pos.crewMemeber == null) {
+					var trooper = company.getRoster().remove(rosterList.getSelectedIndex());
+					pos.crewMemeber = new CrewMember(trooper);					
+				}
 				
 				refreshSelectedVehicle();
 				refreshRoster();
 				
 			}
 		});
-		btnNewButton_1_1_1.setBounds(302, 676, 133, 23);
+		btnNewButton_1_1_1.setBounds(302, 622, 133, 23);
 		frame.getContentPane().add(btnNewButton_1_1_1);
 		
 		JLabel lblInactiveVehicles = new JLabel("Inactive Vehicles");
@@ -389,12 +399,12 @@ public class AddVehicleWindow {
 		frame.getContentPane().add(lblAddCrew);
 		
 		comboBoxPosition = new JComboBox();
-		comboBoxPosition.setBounds(302, 629, 133, 22);
+		comboBoxPosition.setBounds(302, 596, 133, 22);
 		frame.getContentPane().add(comboBoxPosition);
 		
 		JLabel lblSelectPosition = new JLabel("Select Position");
 		lblSelectPosition.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblSelectPosition.setBounds(302, 595, 133, 23);
+		lblSelectPosition.setBounds(302, 574, 133, 23);
 		frame.getContentPane().add(lblSelectPosition);
 		
 		JScrollPane scrollPane_1_1 = new JScrollPane();
@@ -403,5 +413,99 @@ public class AddVehicleWindow {
 		
 		rosterList = new JList();
 		scrollPane_1_1.setViewportView(rosterList);
+		
+		JButton btnNewButton_1_2_1 = new JButton("Fill");
+		btnNewButton_1_2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedVehicle == null)
+					return;
+				
+				for(var pos : selectedVehicle.getCrewPositions()) {
+					if(company.getRoster().size() < 1)
+						break;
+					
+					var crewMemeber = pos.crewMemeber.crewMember;
+					
+					if(crewMemeber != null)
+						continue;
+					
+					var trooper = company.getRoster().remove(0);
+					pos.crewMemeber = new CrewMember(trooper);
+					
+				}
+				
+				refreshVehicleLists();
+				refreshRoster();
+			}
+		});
+		btnNewButton_1_2_1.setBounds(302, 678, 133, 23);
+		frame.getContentPane().add(btnNewButton_1_2_1);
+		
+		JButton btnNewButton_1_2_1_1 = new JButton("Empty");
+		btnNewButton_1_2_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedVehicle == null)
+					return;
+				
+				for(var pos : selectedVehicle.getCrewPositions()) {
+					
+					var crewMemeber = pos.crewMemeber.crewMember;
+					
+					if(crewMemeber == null)
+						continue;
+					
+					pos.crewMemeber = null;
+					company.getRoster().add(crewMemeber);
+					
+				}
+				
+				refreshVehicleLists();
+				refreshRoster();
+			}
+		});
+		btnNewButton_1_2_1_1.setBounds(302, 707, 133, 23);
+		frame.getContentPane().add(btnNewButton_1_2_1_1);
+		
+		JLabel lblAddVehicle_1_1_1 = new JLabel("Amount");
+		lblAddVehicle_1_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblAddVehicle_1_1_1.setBounds(302, 284, 73, 14);
+		frame.getContentPane().add(lblAddVehicle_1_1_1);
+		
+		spinnerAmount = new JSpinner();
+		spinnerAmount.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+		spinnerAmount.setBounds(385, 284, 50, 20);
+		frame.getContentPane().add(spinnerAmount);
+		
+		JButton btnNewButton_1_2_1_2 = new JButton("Fill All");
+		btnNewButton_1_2_1_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				for(var vic : activeVehicles) {
+					for(var pos : vic.getCrewPositions()) {
+						if(company.getRoster().size() < 1)
+							break;
+						
+						var crewMemeber = pos.crewMemeber.crewMember;
+						
+						if(crewMemeber != null)
+							continue;
+						
+						var trooper = company.getRoster().remove(0);
+						pos.crewMemeber = new CrewMember(trooper);
+						
+					}
+				}
+				
+				
+				
+				refreshVehicleLists();
+				refreshRoster();
+				
+			}
+		});
+		btnNewButton_1_2_1_2.setBounds(594, 569, 133, 23);
+		frame.getContentPane().add(btnNewButton_1_2_1_2);
+		
+		frame.setVisible(true);
 	}
 }
