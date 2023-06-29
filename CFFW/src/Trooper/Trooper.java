@@ -2313,12 +2313,14 @@ public class Trooper implements Serializable {
 			} else if (injury.location.equals("Shoulder") || injury.location.equals("Arm Flesh")
 					|| injury.location.equals("Arm Bone") || injury.location.equals("Elbow")
 					|| injury.location.equals("Forearm Flesh") || injury.location.equals("Forearm Bone")
-					|| injury.location.equals("Hand")) {
+					|| injury.location.equals("Hand")
+					|| injury.location.equals("Rapid Deceleration: "+"Arms")) {
 				disabledArms++;
 				log.addToLineInQueue(":: Disabled Arm");
 			} else if (injury.location.equals("Thigh Flesh") || injury.location.equals("Thigh Bone")
 					|| injury.location.equals("Knee") || injury.location.equals("Shin Flesh")
-					|| injury.location.equals("Shin Bone") || injury.location.equals("Ankle - Foot")) {
+					|| injury.location.equals("Shin Bone") || injury.location.equals("Ankle - Foot")
+					|| injury.location.equals("Rapid Deceleration: "+"Legs")) {
 				disabledLegs++;
 				log.addToLineInQueue(":: Disabled Leg");
 			}

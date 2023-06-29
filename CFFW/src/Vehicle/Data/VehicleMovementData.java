@@ -16,6 +16,8 @@ public class VehicleMovementData {
 	public Cord location;
 	public HexDirection facing;
 	public Map<String, Integer> movementSpeeds;  
+	
+	public int speed;
 	public int acceleration;
 	public int deceleration;
 	

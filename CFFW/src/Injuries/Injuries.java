@@ -66,7 +66,7 @@ public class Injuries implements Serializable{
 		if(wep == null) {
 			return "Injury: "+location+", PD: "+pd+", Disabled: "+disabled + (recovered == true ? " RECOVERED" : ", HT: "+ht+", Recovery: "+PCUtility.convertTime(tpMinutes));
 		} else {
-			return "Injury: "+location+", PD: "+pd+", Disabled: "+disabled+(recovered == true ? " RECOVERED" : ", HT: "+ht+", Recovery: "+PCUtility.convertTime(tpMinutes));
+			return "Injury: "+location+", Weapon: "+wep.name+", PD: "+pd+", Disabled: "+disabled+(recovered == true ? " RECOVERED" : ", HT: "+ht+", Recovery: "+PCUtility.convertTime(tpMinutes));
 		}
 		
 		

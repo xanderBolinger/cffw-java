@@ -1,12 +1,3 @@
-/Conflict/
-/CorditeExpansion/
-/CorditeExpansionActions/
-/CorditeExpansionCharacters/
-/CorditeExpansionDamage/
-/CorditeExpansionRangedCombat/
-/CorditeExpansionStatBlock/
-/CreateGame/
-/FatigueSystem/
 /HexGrid/
 /HexGridIcons/
 /Hexes/
@@ -27,3 +18,4 @@
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
+/Conflict/
