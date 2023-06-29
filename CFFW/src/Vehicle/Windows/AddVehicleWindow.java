@@ -424,7 +424,7 @@ public class AddVehicleWindow {
 					if(company.getRoster().size() < 1)
 						break;
 					
-					var crewMemeber = pos.crewMemeber.crewMember;
+					var crewMemeber = pos.crewMemeber;
 					
 					if(crewMemeber != null)
 						continue;
@@ -449,13 +449,13 @@ public class AddVehicleWindow {
 				
 				for(var pos : selectedVehicle.getCrewPositions()) {
 					
-					var crewMemeber = pos.crewMemeber.crewMember;
+					var crewMemeber = pos.crewMemeber;
 					
 					if(crewMemeber == null)
 						continue;
 					
+					company.getRoster().add(pos.crewMemeber.crewMember);
 					pos.crewMemeber = null;
-					company.getRoster().add(crewMemeber);
 					
 				}
 				
@@ -485,7 +485,7 @@ public class AddVehicleWindow {
 						if(company.getRoster().size() < 1)
 							break;
 						
-						var crewMemeber = pos.crewMemeber.crewMember;
+						var crewMemeber = pos.crewMemeber;
 						
 						if(crewMemeber != null)
 							continue;
