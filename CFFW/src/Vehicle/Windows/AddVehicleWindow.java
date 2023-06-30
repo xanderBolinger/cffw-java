@@ -110,6 +110,9 @@ public class AddVehicleWindow {
 	}
 	
 	private void refreshSelectedVehicle() {
+		if(selectedVehicle == null)
+			return;
+		
 		lblSelectedVehicle.setText("Selected Vehicle: "+selectedVehicle.toString());
 
 		ArrayList<String> vehicleCrew = new ArrayList<String>();

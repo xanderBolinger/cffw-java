@@ -75,8 +75,8 @@ public class VehicleCombatWindow {
 	
 	public void setVehicles() {
 		vehicles = new ArrayList<Vehicle>();
-		
-		for(var company : GameWindow.gameWindow.companies) {
+		var companies = GameWindow.gameWindow.companies;
+		for(var company : companies) {
 			for(var vic : company.vehicles) {
 				if(!vic.active)
 					continue;
@@ -93,7 +93,6 @@ public class VehicleCombatWindow {
 		for(var vic : vehicles) {
 			vehicleStrings.add(vic.toString());
 		}
-		
 		
 		SwingUtility.setList(vehicleList, vehicleStrings);
 		

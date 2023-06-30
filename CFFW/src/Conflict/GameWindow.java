@@ -726,6 +726,10 @@ public class GameWindow implements Serializable {
 
 		spinnerHexSize.setValue(hexSize);
 		lblWind.setText(game.wind.toString());
+		
+		
+		vehicleCombatWindow = new VehicleCombatWindow();
+		vehicleManager = new VehicleManager();
 
 	}
 

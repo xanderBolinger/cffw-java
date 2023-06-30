@@ -1,10 +1,11 @@
 package CorditeExpansion;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import CeHexGrid.Chit.Facing;
 
-public class Cord {
+public class Cord implements Serializable {
 	public int xCord;
 	public int yCord;
 
