@@ -17,6 +17,7 @@ public class VehicleManager implements Serializable {
 		for(var company : GameWindow.gameWindow.companies) {
 			for(var vic : company.vehicles) {
 				VehicleMovement.moveVehicle(vic);
+				vic.movementData.changedFaces = 0;
 			}
 		}
 		

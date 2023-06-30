@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import Vehicle.Vehicle;
 import Vehicle.VehicleManager;
+import Vehicle.VehicleMovement;
 import Vehicle.Data.CrewMember.Action;
 
 import javax.swing.JScrollPane;
@@ -28,6 +29,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class VehicleCombatWindow {
 
@@ -48,6 +51,11 @@ public class VehicleCombatWindow {
 	
 	ArrayList<Vehicle> vehicles;
 	Vehicle selectedVehicle;
+	private JButton btnNewButton_2;
+	private JButton btnNewButton_3;
+	private JButton btnNewButton_4;
+	private JButton btnNewButton_5;
+	private JSpinner spinnerChange;
 	
 	/**
 	 * Create the application.
@@ -206,6 +214,7 @@ public class VehicleCombatWindow {
 				.crewMemeber.currentAction 
 					= Action.values()[comboBoxAction.getSelectedIndex()];
 				
+				refreshSelectedVehicle();
 			}
 		});
 		btnNewButton_1.setBounds(406, 213, 144, 23);
@@ -248,7 +257,7 @@ public class VehicleCombatWindow {
 		
 		JLabel lblVehicleNotes = new JLabel("Vehicle Notes");
 		lblVehicleNotes.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblVehicleNotes.setBounds(404, 274, 197, 16);
+		lblVehicleNotes.setBounds(406, 349, 197, 16);
 		frame.getContentPane().add(lblVehicleNotes);
 		
 		textAreaNotes = new JTextArea();
@@ -258,8 +267,82 @@ public class VehicleCombatWindow {
 				System.out.println("key typed");
 			}
 		});
-		textAreaNotes.setBounds(406, 301, 439, 219);
+		textAreaNotes.setBounds(406, 376, 439, 203);
 		frame.getContentPane().add(textAreaNotes);
+		
+		btnNewButton_2 = new JButton("Rotate Left");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedVehicle == null)
+					return;
+				
+				
+				selectedVehicle.movementData.changeFacing(false);
+				
+				refreshSelectedVehicle();
+			}
+		});
+		btnNewButton_2.setBounds(406, 282, 144, 23);
+		frame.getContentPane().add(btnNewButton_2);
+		
+		btnNewButton_3 = new JButton("Rotate Right");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedVehicle == null)
+					return;
+				
+				
+				selectedVehicle.movementData.changeFacing(true);
+				
+				refreshSelectedVehicle();
+			}
+		});
+		btnNewButton_3.setBounds(406, 309, 144, 23);
+		frame.getContentPane().add(btnNewButton_3);
+		
+		btnNewButton_4 = new JButton("Accelerate");
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedVehicle == null)
+					return;
+				
+				var md = selectedVehicle.movementData;
+				var cord = md.location;
+				
+				var hex = GameWindow.gameWindow.findHex(cord.xCord, cord.yCord);
+						
+				if(hex == null)
+					return;
+						
+				md.accelerate(md.speed + (int)spinnerChange.getValue(), hex);
+				
+				refreshSelectedVehicle();
+				
+			}
+		});
+		btnNewButton_4.setBounds(560, 282, 132, 23);
+		frame.getContentPane().add(btnNewButton_4);
+		
+		btnNewButton_5 = new JButton("Decelerate");
+		btnNewButton_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedVehicle == null)
+					return;
+				
+				var md = selectedVehicle.movementData;
+						
+				md.decelerate(md.speed-(int)spinnerChange.getValue());
+				
+				refreshSelectedVehicle();
+			}
+		});
+		btnNewButton_5.setBounds(560, 309, 132, 23);
+		frame.getContentPane().add(btnNewButton_5);
+		
+		spinnerChange = new JSpinner();
+		spinnerChange.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+		spinnerChange.setBounds(702, 310, 52, 20);
+		frame.getContentPane().add(spinnerChange);
 		
 		
 		
