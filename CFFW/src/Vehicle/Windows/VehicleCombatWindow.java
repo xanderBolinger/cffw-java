@@ -186,6 +186,7 @@ public class VehicleCombatWindow {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GameWindow.gameWindow.vehicleManager.nextTurn();
+				refreshSelectedVehicle();
 			}
 		});
 		btnNewButton.setBounds(406, 590, 118, 23);
@@ -195,6 +196,7 @@ public class VehicleCombatWindow {
 		btnNextPhase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				GameWindow.gameWindow.vehicleManager.nextPhase();
+				refreshSelectedVehicle();
 			}
 		});
 		btnNextPhase.setBounds(534, 590, 118, 23);
