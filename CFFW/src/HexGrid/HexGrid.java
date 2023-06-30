@@ -43,6 +43,7 @@ import Unit.Unit;
 import Unit.Unit.UnitType;
 import UtilityClasses.Keyboard;
 import UtilityClasses.SwingUtility.FPSCounter;
+import Vehicle.Vehicle;
 import UtilityClasses.ExcelUtility;
 import UtilityClasses.HexGridUtility;
 import UtilityClasses.HexGridUtility.ShownType;
@@ -619,8 +620,64 @@ public class HexGrid implements Serializable {
 			TraceLine.GetHexes(new Cord(1, 1), new Cord(0, 0), this);
 			System.out.println("---");
 			TraceLine.GetHexes(new Cord(4, 4), new Cord(0, 0), this);
+			
+			
 		}
 
+		public void updateVehicleChits() {
+			
+			for(var vic : GameWindow.gameWindow.vehicleCombatWindow.vehicles) {
+				if(checkVehicleChit(vic.identifier))
+					continue;
+				
+				GameWindow.gameWindow.game.chits.add(new Chit(ExcelUtility.path 
+						+ "\\Unit Images\\"+(bluforVehicle(vic) ? "BLUFOR" : "OPFOR")+"_ARMOR.png", 20, 20));
+			}
+			
+			ArrayList<Chit> removeChits = new ArrayList<Chit>();
+			
+			for(var chit : GameWindow.gameWindow.game.chits) {
+				
+				if(!chit.vehicle)
+					continue;
+				
+				boolean found = false; 
+				
+				for(var vic : GameWindow.gameWindow.vehicleCombatWindow.vehicles) {
+					if(vic.identifier.equals(chit.vicIdentifier))
+						found = true;
+				}
+				
+				if(!found)
+					removeChits.add(chit);
+				
+			}
+			
+			for(var chit : removeChits) {
+				GameWindow.gameWindow.game.chits.remove(chit);
+			}
+			
+		}
+		
+		private boolean bluforVehicle(Vehicle vic) {
+			
+			for(var c : GameWindow.gameWindow.companies) {
+				if(c.vehicles.contains(vic) && c.getSide().equals("BLUFOR"))
+					return true;
+			}
+			
+			return false;
+		}
+		
+		private boolean checkVehicleChit(String idenfitier) {
+			for(var chit : GameWindow.gameWindow.game.chits) {
+				if(chit.vehicle && chit.vicIdentifier.equals(idenfitier))
+					return true;
+			}
+			
+			return false;
+		}
+		
 		class PanelPopUp extends JPopupMenu {
 			JMenuItem move;
 			ArrayList<JMenuItem> openItems = new ArrayList<>();

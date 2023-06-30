@@ -49,7 +49,7 @@ public class VehicleCombatWindow {
 	private JLabel lblHullTurnRate;
 	private JTextArea textAreaNotes;
 	
-	ArrayList<Vehicle> vehicles;
+	public ArrayList<Vehicle> vehicles;
 	Vehicle selectedVehicle;
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
@@ -92,6 +92,7 @@ public class VehicleCombatWindow {
 			}
 		}
 		
+		GameWindow.gameWindow.hexGrid.panel.updateVehicleChits();
 	}
 	
 	public void refreshVehicleList() {
@@ -178,7 +179,7 @@ public class VehicleCombatWindow {
 		
 		lblSelectedVehicle = new JLabel("Selected Vehicle");
 		lblSelectedVehicle.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblSelectedVehicle.setBounds(404, 13, 197, 16);
+		lblSelectedVehicle.setBounds(404, 13, 441, 16);
 		frame.getContentPane().add(lblSelectedVehicle);
 		
 		JButton btnNewButton = new JButton("Next Turn");

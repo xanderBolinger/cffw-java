@@ -25,6 +25,7 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import CeHexGrid.Chit.Facing;
+import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import UtilityClasses.ExcelUtility;
 
@@ -45,6 +46,9 @@ public class Chit implements Serializable {
 	public int yCord = 0;
 	public int xPoint = 0; 
 	public int yPoint = 0;
+	
+	public boolean vehicle;
+	public String vicIdentifier;
 	
 	public Facing facing = Facing.A;
 	
@@ -362,6 +366,15 @@ public class Chit implements Serializable {
 	public static void moveSelectedChit(int x, int y) {
 		selectedChit.xCord = x; 
 		selectedChit.yCord = y; 
+		
+		if(selectedChit.vehicle) {
+			for(var vic : GameWindow.gameWindow.vehicleCombatWindow.vehicles) {
+				if(vic.identifier.equals(selectedChit.vicIdentifier))
+				vic.movementData.location = new Cord(x,y);
+				break;
+			}
+		}
+		
 	}
 	
 	public static void translateChit(int x, int y) {

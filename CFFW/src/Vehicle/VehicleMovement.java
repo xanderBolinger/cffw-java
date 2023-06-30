@@ -2,8 +2,11 @@ package Vehicle;
 
 import java.io.Serializable;
 
+import CeHexGrid.Chit;
+import CeHexGrid.Chit.Facing;
 import Conflict.GameWindow;
 import HexGrid.HexDirectionUtility;
+import HexGrid.HexDirectionUtility.HexDirection;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownDecision;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
 
@@ -44,8 +47,48 @@ public class VehicleMovement implements Serializable {
 		}
 		
 		md.hullDownDecision = HullDownDecision.NOTHING;
+		
+		updateChit(vehicle);
+		
+	}
+	
+	private static void updateChit(Vehicle vehicle) {
+		if(GameWindow.gameWindow == null || GameWindow.gameWindow.game == null || GameWindow.gameWindow.game.chits == null) {
+			return;
+		}
+		
+		try {
+			var chit = findChit(vehicle.identifier);
+			var md = vehicle.movementData;
+			chit.facing = convertFacing(md.facing);
+			chit.xCord = md.location.xCord;
+			chit.yCord = md.location.yCord;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+	}
+	
+	private static Chit findChit(String identifier) throws Exception {
+		
+		for(var c : GameWindow.gameWindow.game.chits) {
+			if(c.vehicle && c.vicIdentifier.equals(identifier))
+				return c;
+		}
+		
+		throw new Exception("Chit not found for vic callsign: "+identifier);
 	}
 
+	private static Facing convertFacing(HexDirection facing) throws Exception {
+		
+		for(var f : Facing.values()) {
+			if(f.toString().equals(facing.toString()))
+				return f;
+		}
+		
+		
+		throw new Exception("Converted chit facing not found for hex direction: "+facing);
+	}
 	
 	public static HullDownStatus moveForwardHD(HullDownStatus status, HullDownStatus maximumHullDownStatus) throws Exception {
 		if(status == maximumHullDownStatus)
