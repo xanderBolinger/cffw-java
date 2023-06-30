@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import Company.Company;
+import Conflict.GameWindow;
 import UtilityClasses.ExcelUtility;
 import UtilityClasses.SwingUtility;
 import Vehicle.Vehicle;
@@ -171,6 +172,14 @@ public class AddVehicleWindow {
 		SwingUtility.setList(vehicleList, activeVehiclesStrings);
 	}
 	
+	private void updateCombatWindow() {
+		if(GameWindow.gameWindow == null)
+			return;
+		var w = GameWindow.gameWindow.vehicleCombatWindow;
+		w.setVehicles();
+		w.refreshVehicleList();
+		w.unselectVehicle();
+	}
 
 	/**
 	 * Initialize the contents of the frame.
@@ -267,6 +276,8 @@ public class AddVehicleWindow {
 				
 				refreshLists();
 				
+				
+				updateCombatWindow();
 			}
 		});
 		btnRemove.setBounds(302, 43, 133, 23);
@@ -281,6 +292,8 @@ public class AddVehicleWindow {
 				for(var vic : getSelectedVehicles(true))
 					vic.knockedOut = !vic.knockedOut;
 				refreshLists();
+				
+				updateCombatWindow();
 			}
 		});
 		btnToggleDisable.setBounds(302, 77, 133, 23);
@@ -295,7 +308,7 @@ public class AddVehicleWindow {
 				}
 				
 				refreshLists();
-				
+				updateCombatWindow();
 			}
 		});
 		btnNewButton_1.setBounds(302, 502, 133, 23);
@@ -310,7 +323,7 @@ public class AddVehicleWindow {
 				}
 				
 				refreshLists();
-				
+				updateCombatWindow();
 			}
 		});
 		btnNewButton_1_1.setBounds(302, 469, 133, 23);
@@ -350,6 +363,7 @@ public class AddVehicleWindow {
 				
 				refreshSelectedVehicle();
 				refreshRoster();
+				updateCombatWindow();
 			}
 		});
 		btnNewButton_1_2.setBounds(302, 650, 133, 23);
@@ -370,7 +384,7 @@ public class AddVehicleWindow {
 				
 				refreshSelectedVehicle();
 				refreshRoster();
-				
+				updateCombatWindow();
 			}
 		});
 		btnNewButton_1_1_1.setBounds(302, 622, 133, 23);
@@ -436,6 +450,7 @@ public class AddVehicleWindow {
 				
 				refreshSelectedVehicle();
 				refreshRoster();
+				updateCombatWindow();
 			}
 		});
 		btnNewButton_1_2_1.setBounds(302, 678, 133, 23);
@@ -461,6 +476,7 @@ public class AddVehicleWindow {
 				
 				refreshSelectedVehicle();
 				refreshRoster();
+				updateCombatWindow();
 			}
 		});
 		btnNewButton_1_2_1_1.setBounds(302, 707, 133, 23);
@@ -500,7 +516,7 @@ public class AddVehicleWindow {
 				
 				refreshSelectedVehicle();
 				refreshRoster();
-				
+				updateCombatWindow();
 			}
 		});
 		btnNewButton_1_2_1_2.setBounds(594, 569, 133, 23);

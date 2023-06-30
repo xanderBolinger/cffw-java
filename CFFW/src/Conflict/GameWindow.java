@@ -28,6 +28,8 @@ import Trooper.Trooper;
 import Unit.Unit;
 import UtilityClasses.HexGridUtility;
 import UtilityClasses.PCUtility;
+import Vehicle.VehicleManager;
+import Vehicle.Windows.VehicleCombatWindow;
 
 import javax.swing.JList;
 import javax.swing.JButton;
@@ -95,6 +97,9 @@ public class GameWindow implements Serializable {
 	public int hexRows;
 	private JLabel lblWind;
 
+	public VehicleManager vehicleManager;
+	public VehicleCombatWindow vehicleCombatWindow;
+	
 	/**
 	 * Launch the application.
 	 */

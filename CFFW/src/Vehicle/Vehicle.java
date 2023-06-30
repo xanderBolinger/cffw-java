@@ -27,6 +27,9 @@ public class Vehicle implements Serializable {
 	List<CrewCompartment> crewCompartments;
 	ShieldGenerator shieldGenerator;
 
+	
+	public String notes;
+	
 	public boolean active;
 	public String identifier;
 	
