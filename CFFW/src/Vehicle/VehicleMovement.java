@@ -7,6 +7,7 @@ import CeHexGrid.Chit.Facing;
 import Conflict.GameWindow;
 import HexGrid.HexDirectionUtility;
 import HexGrid.HexDirectionUtility.HexDirection;
+import Vehicle.Data.VehicleMovementData;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownDecision;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
 
@@ -27,6 +28,16 @@ public class VehicleMovement implements Serializable {
 			md.enterHex(hex);
 		}
 
+		updateHullDown(md);
+		
+		updateChit(vehicle);
+		
+	}
+	
+	private static void updateHullDown(VehicleMovementData md) {
+		if(md.hullDownDecision == null)
+			return;
+		
 		switch(md.hullDownDecision) {
 		case ENTER:
 			md.enterHullDownPosition(md.selectedHullDownPosition);
@@ -47,9 +58,6 @@ public class VehicleMovement implements Serializable {
 		}
 		
 		md.hullDownDecision = HullDownDecision.NOTHING;
-		
-		updateChit(vehicle);
-		
 	}
 	
 	private static void updateChit(Vehicle vehicle) {
@@ -71,7 +79,8 @@ public class VehicleMovement implements Serializable {
 	
 	private static Chit findChit(String identifier) throws Exception {
 		
-		for(var c : GameWindow.gameWindow.game.chits) {
+		var chits = GameWindow.gameWindow.game.chits;
+		for(var c : chits) {
 			if(c.vehicle && c.vicIdentifier.equals(identifier))
 				return c;
 		}

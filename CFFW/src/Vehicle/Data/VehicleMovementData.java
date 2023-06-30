@@ -48,6 +48,7 @@ public class VehicleMovementData implements Serializable {
 		movementSpeeds = new HashMap<String, Integer>();
 		facing = HexDirection.A;
 		location = new Cord(0,0);
+		hullDownDecision = HullDownDecision.NOTHING;
 	}
 	
 	public void changeFacing(boolean clockwise) {

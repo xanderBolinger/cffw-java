@@ -92,7 +92,7 @@ public class VehicleCombatWindow {
 			}
 		}
 		
-		GameWindow.gameWindow.hexGrid.panel.updateVehicleChits();
+		GameWindow.gameWindow.hexGrid.panel.updateVehicleChits(this);
 	}
 	
 	public void refreshVehicleList() {

@@ -49,6 +49,7 @@ public class Chit implements Serializable {
 	
 	public boolean vehicle;
 	public String vicIdentifier;
+	public String vicCallsign;
 	
 	public Facing facing = Facing.A;
 	

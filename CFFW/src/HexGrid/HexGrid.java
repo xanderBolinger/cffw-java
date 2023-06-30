@@ -44,6 +44,7 @@ import Unit.Unit.UnitType;
 import UtilityClasses.Keyboard;
 import UtilityClasses.SwingUtility.FPSCounter;
 import Vehicle.Vehicle;
+import Vehicle.Windows.VehicleCombatWindow;
 import UtilityClasses.ExcelUtility;
 import UtilityClasses.HexGridUtility;
 import UtilityClasses.HexGridUtility.ShownType;
@@ -624,14 +625,18 @@ public class HexGrid implements Serializable {
 			
 		}
 
-		public void updateVehicleChits() {
+		public void updateVehicleChits(VehicleCombatWindow cw) {
 			
-			for(var vic : GameWindow.gameWindow.vehicleCombatWindow.vehicles) {
+			for(var vic : cw.vehicles) {
 				if(checkVehicleChit(vic.identifier))
 					continue;
 				
-				GameWindow.gameWindow.game.chits.add(new Chit(ExcelUtility.path 
-						+ "\\Unit Images\\"+(bluforVehicle(vic) ? "BLUFOR" : "OPFOR")+"_ARMOR.png", 20, 20));
+				var chit = new Chit(ExcelUtility.path 
+						+ "\\Unit Images\\"+(bluforVehicle(vic) ? "BLUFOR" : "OPFOR")+"_ARMOR.png", 20, 12);
+				chit.vehicle = true; 
+				chit.vicIdentifier = vic.identifier;
+				chit.vicCallsign = vic.getVehicleCallsign();
+				GameWindow.gameWindow.game.chits.add(chit);
 			}
 			
 			ArrayList<Chit> removeChits = new ArrayList<Chit>();
@@ -643,7 +648,7 @@ public class HexGrid implements Serializable {
 				
 				boolean found = false; 
 				
-				for(var vic : GameWindow.gameWindow.vehicleCombatWindow.vehicles) {
+				for(var vic : cw.vehicles) {
 					if(vic.identifier.equals(chit.vicIdentifier))
 						found = true;
 				}
@@ -1773,6 +1778,10 @@ public class HexGrid implements Serializable {
 					chit.drawChit(zoom, g2, hex);
 
 				String s = "Unit #" + chit.number;
+				
+				if(chit.vehicle)
+					s = chit.vicCallsign;
+				
 				int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2 + chit.shiftX;
 				int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2 + chit.shiftY;
 
