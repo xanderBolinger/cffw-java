@@ -631,8 +631,9 @@ public class HexGrid implements Serializable {
 				if(checkVehicleChit(vic.identifier))
 					continue;
 				
+				var blufor = bluforVehicle(vic);
 				var chit = new Chit(ExcelUtility.path 
-						+ "\\Unit Images\\"+(bluforVehicle(vic) ? "BLUFOR" : "OPFOR")+"_ARMOR.png", 20, 12);
+						+ "\\Unit Images\\"+(blufor ? "BLUFOR" : "OPFOR")+"_ARMOR.png", 20, (blufor ? 12 : 20));
 				chit.vehicle = true; 
 				chit.vicIdentifier = vic.identifier;
 				chit.vicCallsign = vic.getVehicleCallsign();

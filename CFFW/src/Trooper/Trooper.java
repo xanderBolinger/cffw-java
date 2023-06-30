@@ -2262,9 +2262,13 @@ public class Trooper implements Serializable {
 	// method called when trooper is outright killed from an injury
 	public void dead(Unit returnedTrooperUnit, ConflictLog log) {
 		alive = false;
+		
+		
 		if (log != null)
 			log.addToLineInQueue(":: Dead");
-
+		if(returnedTrooperUnit == null)
+			return;
+		
 		// Apply death
 		int unitSize = returnedTrooperUnit.getSize();
 		int moraleLoss = 100 / unitSize;
@@ -2389,19 +2393,7 @@ public class Trooper implements Serializable {
 			conscious = false;
 			log.addToLineInQueue(":: Unconscious");
 			// Apply death
-			int unitSize = returnedTrooperUnit.getSize();
-			int moraleLoss = 100 / unitSize;
-			if (returnedTrooperUnit.organization - 5 < 1) {
-				returnedTrooperUnit.organization = 0;
-			} else {
-				returnedTrooperUnit.organization -= 5;
-			}
-
-			if (returnedTrooperUnit.moral - (moraleLoss / 2) <= 0) {
-				returnedTrooperUnit.moral = 0;
-			} else {
-				returnedTrooperUnit.moral -= moraleLoss / 2;
-			}
+			unconscious(returnedTrooperUnit);
 
 			// Sets incapacitation time
 			FileInputStream excelFile;
@@ -2485,7 +2477,7 @@ public class Trooper implements Serializable {
 				e.printStackTrace();
 			}
 
-		} else {
+		} else if(returnedTrooperUnit != null) {
 
 			// No moral or organization loss from being mechanical
 
@@ -2506,6 +2498,25 @@ public class Trooper implements Serializable {
 
 	}
 
+	private void unconscious(Unit returnedTrooperUnit) {
+		if(returnedTrooperUnit == null)
+			return;
+		
+		int unitSize = returnedTrooperUnit.getSize();
+		int moraleLoss = 100 / unitSize;
+		if (returnedTrooperUnit.organization - 5 < 1) {
+			returnedTrooperUnit.organization = 0;
+		} else {
+			returnedTrooperUnit.organization -= 5;
+		}
+
+		if (returnedTrooperUnit.moral - (moraleLoss / 2) <= 0) {
+			returnedTrooperUnit.moral = 0;
+		} else {
+			returnedTrooperUnit.moral -= moraleLoss / 2;
+		}
+	}
+	
 	public void stunned(Game game, ConflictLog log) {
 		log.addToLineInQueue(":: Stunned");
 
@@ -2779,7 +2790,7 @@ public class Trooper implements Serializable {
 
 		}
 
-		return window.initiativeOrder.get(0);
+		return null;
 	}
 
 	public void hunkerDown(GameWindow game) {

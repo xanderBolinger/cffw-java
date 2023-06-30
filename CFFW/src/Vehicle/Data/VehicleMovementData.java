@@ -5,6 +5,7 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
+import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import HexGrid.HexDirectionUtility;
 import HexGrid.HexDirectionUtility.HexDirection;
@@ -61,9 +62,13 @@ public class VehicleMovementData implements Serializable {
 	}
 	
 	public void enterHex(Hex hex) {
-		if(VehicleCollision.hiddenObstaclesCheck(hex, vehicle))
+		if(VehicleCollision.hiddenObstaclesCheck(hex, vehicle)) {
 			speed = 0;
-		location = new Cord(hex.xCord, hex.yCord);
+			if(GameWindow.gameWindow != null && GameWindow.gameWindow.conflictLog != null)
+				GameWindow.gameWindow.conflictLog.addNewLine(vehicle.getVehicleCallsign()+"'s path has been blocked and they are no longer moving.");
+		} else {
+			location = new Cord(hex.xCord, hex.yCord);
+		}
 	}
 	
 	public void accelerate(int desiredSpeed, Hex hex) {

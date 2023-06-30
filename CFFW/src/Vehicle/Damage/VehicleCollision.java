@@ -45,7 +45,7 @@ public class VehicleCollision implements Serializable {
 			int injuries = getNumberOfInjuries();
 			for(int i = 0; i < injuries; i++) {
 				var collisionHitLocation = CollisionHitLocation.values()
-						[DiceRoller.roll(0, CollisionHitLocation.values().length)];
+						[DiceRoller.roll(0, CollisionHitLocation.values().length-1)];
 				int hitLocationRoll = getHitLocationZoneOpen(collisionHitLocation);
 				int damageCol = getDamageCol(trooper, impactDamage, hitLocationRoll);
 				int pd = getInjuryPhysicalDamage(damageCol, collisionHitLocation);
