@@ -23,6 +23,8 @@ public class Item implements Serializable {
 	public boolean thermalShroud;
 	public boolean camouflage;
 	public int camoMod;
+	public boolean nightVision;
+	public int nightVisionEffectiveness;
 	
 	public enum ItemType {
 		NONE,ClassAThermalDetonator,Nacht5SmokeGrenade,
@@ -43,7 +45,8 @@ public class Item implements Serializable {
 		
 		GhillieSuit,
 		Microbinoculars,ThermalMicrobinoculars,
-		ThermalShroud,MobileStealthField,StationaryStealthField
+		ThermalShroud,MobileStealthField,StationaryStealthField,
+		NVG_Gen3,NVG_Gen4,NVG_Gen5,
 	}
 	
 	public Item() throws Exception {
@@ -54,6 +57,9 @@ public class Item implements Serializable {
 				new Item(ItemType.MobileStealthField),
 				new Item(ItemType.StationaryStealthField),
 				new Item(ItemType.GhillieSuit),
+				new Item(ItemType.NVG_Gen3),
+				new Item(ItemType.NVG_Gen4),
+				new Item(ItemType.NVG_Gen5),
 				
 				new Item(ItemType.DC15A),
 				new Item(ItemType.DC20),
@@ -293,6 +299,24 @@ public class Item implements Serializable {
 			camoMod = 3;
 			itemWeight = 6;
 		}
+		else if(ItemType.NVG_Gen3 == itemType) {
+			nightVision = true;
+			nightVisionEffectiveness = 3;
+			itemWeight = 2;
+		}
+		
+		else if(ItemType.NVG_Gen4 == itemType) {
+			nightVision = true;
+			nightVisionEffectiveness = 4;
+			itemWeight = 2;
+		}
+		
+		else if(ItemType.NVG_Gen5 == itemType) {
+			nightVision = true;
+			nightVisionEffectiveness = 5;
+			itemWeight = 2;
+		}
+		
 		
 		else if(ItemType.DC15A == itemType) {
 			weapon = new Weapons().findWeapon("DC15A");

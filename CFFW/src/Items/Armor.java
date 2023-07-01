@@ -32,6 +32,8 @@ public class Armor implements Serializable {
 	public int armorWeight; 
 	
 	public int visibilityModifier;
+	public boolean nightVision;
+	public int nightVisionEffectiveness;
 	
 	public Armor() {
 		this.bPF = 0; 

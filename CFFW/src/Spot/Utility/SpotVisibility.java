@@ -21,39 +21,36 @@ import UtilityClasses.DiceRoller;
 public class SpotVisibility {
 
 	public static String visibilityModifications;
-	
+
 	public static int getThermalMod(Trooper spotter, int distanceYards, ArrayList<Unit> spotableUnits) {
-		
+
 		boolean shrouded = true;
-		
-		for(var unit : spotableUnits) {
-			for(var trooper : unit.individuals) {
-				for(var item : trooper.inventory.getItemsArray()) {
-					if(!item.thermalShroud)
+
+		for (var unit : spotableUnits) {
+			for (var trooper : unit.individuals) {
+				for (var item : trooper.inventory.getItemsArray()) {
+					if (!item.thermalShroud)
 						shrouded = false;
 				}
 			}
 		}
-		
-		if(shrouded) {
+
+		if (shrouded) {
 			visibilityModifications += "Thermal Vision(Shrouded, 0); ";
 			return 0;
 		}
-		
+
 		int visibilityMod = 0;
 
-		
-		for(var item : spotter.inventory.getItemsArray()) {
-		
-			if(item.thermalOptic && item.maxThermalRangeYards >= distanceYards
-					&& item.thermalValue < visibilityMod) {
+		for (var item : spotter.inventory.getItemsArray()) {
+
+			if (item.thermalOptic && item.maxThermalRangeYards >= distanceYards && item.thermalValue < visibilityMod) {
 				visibilityMod = item.thermalValue;
 			}
-			
+
 		}
-		
-		
-		visibilityModifications += "Thermal Vision("+visibilityMod+"); ";
+
+		visibilityModifications += "Thermal Vision(" + visibilityMod + "); ";
 		return visibilityMod;
 	}
 
@@ -157,6 +154,16 @@ public class SpotVisibility {
 		return visibilityMod;
 	}
 
+	public static int getNightVisionEffectiveness(Trooper spotter) {
+		int nightVisionEffectiveness = spotter.armor == null || !spotter.armor.nightVision ? 0 : spotter.armor.nightVisionEffectiveness; 
+		for(var item : spotter.inventory.getItemsArray()) {
+			if(item.nightVision && item.nightVisionEffectiveness > nightVisionEffectiveness)
+				nightVisionEffectiveness = item.nightVisionEffectiveness;
+		}
+		
+		return nightVisionEffectiveness;
+	}
+	
 	public static int getNightTimeMods(Trooper spotter, Unit spotterUnit, int xCord, int yCord, String weather,
 			ArrayList<Unit> spotableUnits) {
 
@@ -166,51 +173,51 @@ public class SpotVisibility {
 		unit.X = xCord;
 		unit.Y = yCord;
 
-		if (weather.substring(0, 4).equals("Night")) {
+		if (!weather.substring(0, 4).equals("Night")) {
+			spotter.nightVisionInUse = false;
+			spotter.weaponLightOn = false; 
+			spotter.weaponIRLaserOn = false;
+			return 0;
+		}
+		
+		int nightVisionEffectiveness = getNightVisionEffectiveness(spotter);
+		if(nightVisionEffectiveness > 0) {
+			spotter.nightVisionInUse = true;
+			spotter.nightVision = true;
+			spotter.nightVisionEffectiveness = nightVisionEffectiveness;
+		} else {
+			spotter.nightVisionInUse = false;
+			spotter.nightVision = false;
+		}
+		
+		// Checks if any target units have a IR laser or flashlight on
+		boolean targetsUsingflashLight = false;
+		boolean targetsUsingIRlaser = false;
 
-			// Checks if any target units have a IR laser or flashlight on
-			boolean flashLight = false;
-			boolean IRlaser = false;
+		for (Unit spottedUnit : spotableUnits) {
 
-			for (Unit spottedUnit : spotableUnits) {
-
-				for (Trooper trooper : spottedUnit.individuals) {
-
-					if (trooper.weaponLightOn)
-						IRlaser = true;
-
-					if (trooper.weaponLightOn)
-						flashLight = true;
-
-				}
-
-			}
-
-			if (flashLight)
-				visibilityMod -= 5;
-
-			if (spotter.nightVisionInUse) {
-
-				if (spotter.nightVisionEffectiveness == 1) {
-					visibilityMod -= 1;
-				} else if (spotter.nightVisionEffectiveness == 2) {
-					visibilityMod -= 2;
-				} else if (spotter.nightVisionEffectiveness == 3) {
-					visibilityMod -= 3;
-				} else if (spotter.nightVisionEffectiveness == 4) {
-					visibilityMod -= 4;
-				}
-
-				if (IRlaser)
-					visibilityMod -= 4;
-
-			} else if (!spotter.nightVisionInUse && spotter.weaponLightOn
-					&& GameWindow.hexDif(spotterUnit, unit) <= 1) {
-				visibilityMod -= 4;
+			for (Trooper trooper : spottedUnit.individuals) {
+				if (trooper.weaponIRLaserOn || trooper.weaponLaserOn)
+					targetsUsingIRlaser = true;
+				if (trooper.weaponLightOn)
+					targetsUsingflashLight = true;
 			}
 
 		}
 
+		if (targetsUsingflashLight)
+			visibilityMod -= 5;
+		if(targetsUsingIRlaser && nightVisionEffectiveness > 0)
+			visibilityMod -= 5;
+
+		if (spotter.nightVisionInUse) {
+			visibilityMod -= getWeatherMod(weather) < nightVisionEffectiveness ? 
+					getWeatherMod(weather) : nightVisionEffectiveness;
+		} else if (!spotter.nightVisionInUse && spotter.weaponLightOn && GameWindow.hexDif(spotterUnit, unit) <= 1) {
+			visibilityMod -= 3;
+		}
+
+		visibilityModifications += "Night Time Modifiers: ";
 		return visibilityMod;
 
 	}
@@ -236,54 +243,54 @@ public class SpotVisibility {
 	public static int camoMod(ArrayList<Unit> spotableUnits) {
 		int mod = 0;
 		int count = 0;
-		
-		for(var unit : spotableUnits) {
-			for(var trooper : unit.individuals) {
+
+		for (var unit : spotableUnits) {
+			for (var trooper : unit.individuals) {
 				mod += trooper.spottingDifficulty;
-				
-				for(var item : trooper.inventory.getItemsArray()) {
-					if(item.camouflage)
+
+				for (var item : trooper.inventory.getItemsArray()) {
+					if (item.camouflage)
 						mod += item.camoMod;
 				}
-				
+
 				count++;
 			}
 		}
-		
+
 		mod /= count;
-		visibilityModifications += "Camo Mod: "+mod +"; ";
-		
+		visibilityModifications += "Camo Mod: " + mod + "; ";
+
 		return mod;
 	}
-	
+
 	public static int stealthFieldMod(ArrayList<Unit> spotableUnits) {
-		int mod = 0; 
+		int mod = 0;
 		int count = 0;
-		
-		for(var unit : spotableUnits) {
-			for(var trooper : unit.getTroopers()) {
-				for(var item : trooper.inventory.getItemsArray()) {
-					if(!item.cloakField || (!unit.speed.equals("None") && item.movementDisabled)) {
+
+		for (var unit : spotableUnits) {
+			for (var trooper : unit.getTroopers()) {
+				for (var item : trooper.inventory.getItemsArray()) {
+					if (!item.cloakField || (!unit.speed.equals("None") && item.movementDisabled)) {
 						count++;
 						continue;
 					}
-					
+
 					count++;
 					mod += item.cloakSlm / (trooper.firedWeapons ? 2 : 1);
 				}
 			}
 		}
-		
+
 		mod /= count;
-		visibilityModifications += "Stealth Field Mod: "+mod+"; ";
+		visibilityModifications += "Stealth Field Mod: " + mod + "; ";
 		return mod;
 	}
 
-	public static int getVisibilityMod(Trooper spotter, Unit spotterUnit,
-			String weather, int xCord, int yCord, ArrayList<Unit> spotableUnits) {
-		
+	public static int getVisibilityMod(Trooper spotter, Unit spotterUnit, String weather, int xCord, int yCord,
+			ArrayList<Unit> spotableUnits) {
+
 		visibilityModifications = "";
-		
+
 		int visibilityMod = 0;
 		visibilityMod += getThermalMod(spotter, GameWindow.hexDif(xCord, yCord, spotterUnit) * 20, spotableUnits);
 		visibilityMod += getMagnificationMod(spotter);
