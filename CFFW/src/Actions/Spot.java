@@ -145,7 +145,7 @@ public class Spot implements Serializable {
 					size, successesRoll, targetNumber, spotableUnits);
 
 			resultsString += "Target Size: " + size + ", Average PC Size: " + PCSize + ", Target Unit Speed: " + "N/A"
-					+ ", Spotter Unit Speed: " + "N/A" + ", Target Concealment: " + spotableUnits.get(0).concealment
+					+ ", Spotter Unit Speed: " + spotter.returnTrooperUnit(GameWindow.gameWindow).speed + ", Target Concealment: " + spotableUnits.get(0).concealment
 					+ ", Hex Range: " + GameWindow.hexDif(spotableUnits.get(0), spotterUnit) + "\n"
 					+ "Visibility Modifications: " + visibilityModifications + "\n PC Spot Modifiers: "
 					+ "Skill Test Mod: " + skillMod + ", Target Size Mod: " + targetSizeMod + ", Target Speed Mod: "

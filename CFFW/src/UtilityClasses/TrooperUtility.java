@@ -172,6 +172,9 @@ public class TrooperUtility {
 		return -1.0;
 
 	}
+	
+	
+	
 
 	public static int calculateCACFFW(double ms, int isf) {
 		// System.out.println("Calc CA ms: "+ms+", isf: "+isf);

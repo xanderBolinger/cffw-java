@@ -473,7 +473,6 @@ public class HexGrid implements Serializable {
 				}
 			}
 
-			System.out.println("Get Callsign for Unit: "+unit.callsign+", Results: "+results);
 			return results;
 		}
 

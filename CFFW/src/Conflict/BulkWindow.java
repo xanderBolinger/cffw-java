@@ -2502,6 +2502,22 @@ public class BulkWindow {
 		});
 		btnClearSpotted_1.setBounds(784, 40, 249, 23);
 		frame.getContentPane().add(btnClearSpotted_1);
+		
+		JButton button_7_1_1 = new JButton("Print Stats");
+		button_7_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				for(var trooper : getSelectedTroopers()) {
+					System.out.println(trooper.returnTrooperUnit(gameWindow).callsign
+							+":: "+trooper.number+", "+trooper.name+", ISF: "+trooper.isf+", MS: "
+							+trooper.maximumSpeed+", CA: "+trooper.combatActions+", SL: "+trooper.sl);
+				}
+				
+			}
+		});
+		button_7_1_1.setForeground(Color.BLACK);
+		button_7_1_1.setBounds(850, 614, 136, 25);
+		frame.getContentPane().add(button_7_1_1);
 		frame.setVisible(true);
 	}
 
