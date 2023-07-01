@@ -59,11 +59,9 @@ public class Trooper implements Serializable {
 	// Command Tactics Det. Motives Intimidate Persuade Digi. Systems Long Gun
 	// Pistol Launcher Heavy Subgun Explosives First Aid Navigation Swim Throw
 
-	
 	public LeaderType leaderType = LeaderType.NONE;
 	public ArrayList<Trooper> subordinates = new ArrayList<Trooper>();
-	
-	
+
 	// Skill Level
 	public String weaponPercent;
 	public int sl;
@@ -265,7 +263,7 @@ public class Trooper implements Serializable {
 
 	public Trooper(String input, String faction) {
 		inventory.addContainer(ContainerType.Belt);
-		//System.out.println("New Trooper, input: " + input + ", faction: " + faction);
+		// System.out.println("New Trooper, input: " + input + ", faction: " + faction);
 
 		if (faction.equals("Clone Trooper Phase 1")) {
 			this.faction = "Clone Trooper Phase 1";
@@ -1029,8 +1027,8 @@ public class Trooper implements Serializable {
 		this.armor.Phase1CloneArmor();
 		this.criticalTime = 0;
 		nightVision = true;
-		nightVisionEffectiveness = 3; 
-		
+		nightVisionEffectiveness = 3;
+
 		TLHStats attributes = new TLHStats(2, 2, -2, 2, 1, 1, 2);
 
 		// in 20 second increments
@@ -1065,7 +1063,6 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 			inventory.addItems(ItemType.Nacht5SmokeGrenade, 2);
-			
 
 		} else if (input.equals("Clone Rifleman")) { // Rifleman
 			// Creates attributes
@@ -1548,8 +1545,8 @@ public class Trooper implements Serializable {
 		this.CloseCombat = false;
 		this.entirelyMechanical = true;
 		nightVision = true;
-		nightVisionEffectiveness = 2; 
-		
+		nightVisionEffectiveness = 2;
+
 		// B1 Sergeant
 		if (input.equals("B1 Squad Leader")) {
 			// Sets name
@@ -2262,13 +2259,12 @@ public class Trooper implements Serializable {
 	// method called when trooper is outright killed from an injury
 	public void dead(Unit returnedTrooperUnit, ConflictLog log) {
 		alive = false;
-		
-		
+
 		if (log != null)
 			log.addToLineInQueue(":: Dead");
-		if(returnedTrooperUnit == null)
+		if (returnedTrooperUnit == null)
 			return;
-		
+
 		// Apply death
 		int unitSize = returnedTrooperUnit.getSize();
 		int moraleLoss = 100 / unitSize;
@@ -2317,14 +2313,13 @@ public class Trooper implements Serializable {
 			} else if (injury.location.equals("Shoulder") || injury.location.equals("Arm Flesh")
 					|| injury.location.equals("Arm Bone") || injury.location.equals("Elbow")
 					|| injury.location.equals("Forearm Flesh") || injury.location.equals("Forearm Bone")
-					|| injury.location.equals("Hand")
-					|| injury.location.equals("Rapid Deceleration: "+"Arms")) {
+					|| injury.location.equals("Hand") || injury.location.equals("Rapid Deceleration: " + "Arms")) {
 				disabledArms++;
 				log.addToLineInQueue(":: Disabled Arm");
 			} else if (injury.location.equals("Thigh Flesh") || injury.location.equals("Thigh Bone")
 					|| injury.location.equals("Knee") || injury.location.equals("Shin Flesh")
 					|| injury.location.equals("Shin Bone") || injury.location.equals("Ankle - Foot")
-					|| injury.location.equals("Rapid Deceleration: "+"Legs")) {
+					|| injury.location.equals("Rapid Deceleration: " + "Legs")) {
 				disabledLegs++;
 				log.addToLineInQueue(":: Disabled Leg");
 			}
@@ -2477,7 +2472,7 @@ public class Trooper implements Serializable {
 				e.printStackTrace();
 			}
 
-		} else if(returnedTrooperUnit != null) {
+		} else if (returnedTrooperUnit != null) {
 
 			// No moral or organization loss from being mechanical
 
@@ -2499,9 +2494,9 @@ public class Trooper implements Serializable {
 	}
 
 	private void unconscious(Unit returnedTrooperUnit) {
-		if(returnedTrooperUnit == null)
+		if (returnedTrooperUnit == null)
 			return;
-		
+
 		int unitSize = returnedTrooperUnit.getSize();
 		int moraleLoss = 100 / unitSize;
 		if (returnedTrooperUnit.organization - 5 < 1) {
@@ -2516,7 +2511,7 @@ public class Trooper implements Serializable {
 			returnedTrooperUnit.moral -= moraleLoss / 2;
 		}
 	}
-	
+
 	public void stunned(Game game, ConflictLog log) {
 		log.addToLineInQueue(":: Stunned");
 
@@ -2555,7 +2550,7 @@ public class Trooper implements Serializable {
 			recoveryRollMod = 0;
 			alive = false;
 			conscious = false;
-			//advanceTime(game, log);
+			// advanceTime(game, log);
 			return;
 		}
 
@@ -2579,20 +2574,21 @@ public class Trooper implements Serializable {
 			}
 
 			// System.out.println("WR: "+woundRow+" PD: "+physicalDamage);
-			
+
 			int aidColumn = 1;
-			
-			if(traumaCenter) {
-				aidColumn = 9; 
-			} else if(fieldHospital) {
-				aidColumn = 7; 
-			} else if(aidStation) {
-				aidColumn = 5; 
-			} else if(recivingFirstAid) {
+
+			if (traumaCenter) {
+				aidColumn = 9;
+			} else if (fieldHospital) {
+				aidColumn = 7;
+			} else if (aidStation) {
+				aidColumn = 5;
+			} else if (recivingFirstAid) {
 				aidColumn = 3;
 			}
-			
-			recoveryRoll = (int) worksheet.getRow(woundRow).getCell(aidColumn+1).getNumericCellValue() + recoveryRollMod;
+
+			recoveryRoll = (int) worksheet.getRow(woundRow).getCell(aidColumn + 1).getNumericCellValue()
+					+ recoveryRollMod;
 
 			String ctp = worksheet.getRow(woundRow).getCell(aidColumn).getStringCellValue();
 			// System.out.println("CTP No First Aid: "+ctp);
@@ -2640,33 +2636,30 @@ public class Trooper implements Serializable {
 
 	}
 
-	
-	
 	public void advanceTime(GameWindow game, ConflictLog log) {
 		if (physicalDamage <= 0 || !alive)
 			return;
 
 		timePassed++;
 
-		if(recoveryMade) {
-			
-			for(Injuries injury : injuries) {
-				if(injury.recovered)
-					continue; 
-				
-				injury.tpMinutes++; 
-				
-				if(injury.tpMinutes / 60 / 24 >= injury.ht) {
+		if (recoveryMade) {
+
+			for (Injuries injury : injuries) {
+				if (injury.recovered)
+					continue;
+
+				injury.tpMinutes++;
+
+				if (injury.tpMinutes / 60 / 24 >= injury.ht) {
 					injury.recovered = true;
-					//System.out.println("set recovered");
+					// System.out.println("set recovered");
 					physicalDamage -= injury.pd;
 				}
-				
-			
+
 			}
-			
+
 		}
-		
+
 		if (timePassed >= criticalTime && recoveryMade == false && !entirelyMechanical) {
 
 			Random rand = new Random();
@@ -2697,18 +2690,20 @@ public class Trooper implements Serializable {
 				if (log != null)
 					log.addNewLineToQueue(
 							number + " " + name + ": died to their wounds. RR: " + recoveryRoll + ", Roll: " + roll);
-				else 
-					System.out.println(number + " " + name + ": died to their wounds. RR: " + recoveryRoll + ", Roll: " + roll);
-				
+				else
+					System.out.println(
+							number + " " + name + ": died to their wounds. RR: " + recoveryRoll + ", Roll: " + roll);
+
 				alive = false;
 
 			} else {
 				if (log != null)
 					log.addNewLineToQueue(
 							number + " " + name + ": has stabilized. RR: " + recoveryRoll + ", Roll: " + roll);
-				else 
-					System.out.println(number + " " + name + ": has stabilized. RR: " + recoveryRoll + ", Roll: " + roll);
-				
+				else
+					System.out
+							.println(number + " " + name + ": has stabilized. RR: " + recoveryRoll + ", Roll: " + roll);
+
 				recoveryRoll = -1;
 				criticalTime = -1;
 				timePassed = -1;
@@ -2779,8 +2774,13 @@ public class Trooper implements Serializable {
 
 	public Unit returnTrooperUnit(GameWindow window) {
 
+		return returnTrooperUnit(window.initiativeOrder);
+	}
+
+	public Unit returnTrooperUnit(ArrayList<Unit> units) {
+
 		// System.out.println("Conflict: weather: "+window.visibility);
-		for (Unit unit : window.initiativeOrder) {
+		for (Unit unit : units) {
 
 			for (Trooper trooper : unit.getTroopers()) {
 				if (trooper.compareTo(this)) {
@@ -3016,9 +3016,9 @@ public class Trooper implements Serializable {
 
 		rslt += " Command Avg/SL: " + (average / 2) + "/" + PCUtility.getSL(average);
 
-		String leaderType = this.leaderType == LeaderType.NONE ? "" : this.leaderType.toString()+":: ";
-		
-		return leaderType+ rslt;
+		String leaderType = this.leaderType == LeaderType.NONE ? "" : this.leaderType.toString() + ":: ";
+
+		return leaderType + rslt;
 	}
 
 	public String toStringImprovedEquipped(Game game) {
@@ -3086,9 +3086,9 @@ public class Trooper implements Serializable {
 		rslt += "Ammo: " + ammo + ", ";
 		rslt += "Weapon: " + wep;
 
-		String leaderType = this.leaderType == LeaderType.NONE ? "" : this.leaderType.toString()+":: ";
-		
-		return leaderType+ rslt;
+		String leaderType = this.leaderType == LeaderType.NONE ? "" : this.leaderType.toString() + ":: ";
+
+		return leaderType + rslt;
 	}
 
 	public void applyHit(Weapons weapon, int distanceToTrooper) {
@@ -3365,9 +3365,9 @@ public class Trooper implements Serializable {
 
 		rslt += " Command Avg/SL: " + (average / 2) + "/" + PCUtility.getSL(average);
 
-		String leaderType = this.leaderType == LeaderType.NONE ? "" : this.leaderType.toString()+":: ";
-		
-		return leaderType+ rslt;
+		String leaderType = this.leaderType == LeaderType.NONE ? "" : this.leaderType.toString() + ":: ";
+
+		return leaderType + rslt;
 	}
 
 	// Takes parameters from trooper class and returns string
@@ -3404,12 +3404,10 @@ public class Trooper implements Serializable {
 				+ skills.getSkill("Heavy").value + "; Command:" + skills.getSkill("Command").value + "; Weapon: " + wep
 				+ "; Ammo: " + ammo;
 
-		String leaderType = this.leaderType == LeaderType.NONE ? "" : this.leaderType.toString()+":: ";
-		
-		return leaderType+ trooper;
-	}
+		String leaderType = this.leaderType == LeaderType.NONE ? "" : this.leaderType.toString() + ":: ";
 
-	
+		return leaderType + trooper;
+	}
 
 	/*
 	 * public int getPD() { int pd = 0;

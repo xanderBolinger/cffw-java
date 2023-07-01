@@ -1,4 +1,3 @@
-/Items/
 /JUnitTests/
 /Main.class
 /MainCETest.class
@@ -6,6 +5,7 @@
 /OperationExporter/
 /SaveCompanies/
 /Shoot/
+/Spot/
 /Trooper/
 /Unit/
 /UtilityClasses/
@@ -13,7 +13,4 @@
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
-/Conflict/
-/CorditeExpansion/
-/CeHexGrid/
-/HexGrid/
+/Actions/
