@@ -695,6 +695,8 @@ public class Unit implements Serializable {
 				
 			}
 			
+			trooper.spottingDifficulty = 0;
+			
 		}
 		
 		Hex leftHex = null; 

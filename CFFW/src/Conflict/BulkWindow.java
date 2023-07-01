@@ -126,7 +126,6 @@ public class BulkWindow {
 	private JComboBox comboBoxOF;
 	private JComboBox comboBoxSpottingUnits;
 	private JComboBox comboBoxScanArea;
-	private JComboBox comboBoxAddUnit;
 	private JList listSpottedUnitsArray;
 	private JComboBox targetedFireFocus;
 	private JCheckBox chckbxUnspottable;
@@ -249,7 +248,7 @@ public class BulkWindow {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnClearSpotted.setBounds(784, 211, 249, 23);
+		btnClearSpotted.setBounds(784, 73, 249, 23);
 		btnClearSpotted.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -277,42 +276,6 @@ public class BulkWindow {
 
 			}
 		});
-
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(784, 149, 143, 20);
-		comboBox.setForeground(Color.BLACK);
-		// comboBox.setSelectedIndex(0);
-
-		JLabel label = new JLabel("Remove Spotted");
-		label.setBounds(782, 123, 226, 31);
-		label.setForeground(Color.BLACK);
-		label.setFont(new Font("Calibri", Font.PLAIN, 12));
-
-		JButton button = new JButton("Remove");
-		button.setBounds(944, 148, 89, 23);
-		button.setForeground(Color.BLACK);
-
-		JButton button_1 = new JButton("Spot Hex");
-		button_1.setBounds(944, 104, 89, 23);
-		button_1.setForeground(Color.BLACK);
-
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(944, 74, 89, 20);
-		comboBox_1.setForeground(Color.BLACK);
-		// comboBox_1.setSelectedIndex(0);
-
-		JSpinner spinner = new JSpinner();
-		spinner.setBounds(882, 105, 40, 20);
-		spinner.setForeground(Color.BLACK);
-
-		JSpinner spinner_1 = new JSpinner();
-		spinner_1.setBounds(808, 105, 40, 20);
-		spinner_1.setForeground(Color.BLACK);
-
-		JLabel label_1 = new JLabel("Y: ");
-		label_1.setBounds(858, 100, 30, 31);
-		label_1.setForeground(Color.BLACK);
-		label_1.setFont(new Font("Calibri", Font.PLAIN, 12));
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 205, 445, 351);
@@ -361,36 +324,6 @@ public class BulkWindow {
 		individualsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		scrollPane.setViewportView(individualsList);
 
-		comboBoxAddUnit = new JComboBox();
-		comboBoxAddUnit.setModel(new DefaultComboBoxModel(new String[] { "None" }));
-		comboBoxAddUnit.setSelectedIndex(0);
-		comboBoxAddUnit.setBounds(784, 74, 143, 20);
-		comboBoxAddUnit.setForeground(Color.BLACK);
-		// comboBox_2.setSelectedIndex(0);
-
-		JLabel label_2 = new JLabel("X: ");
-		label_2.setBounds(784, 100, 30, 31);
-		label_2.setForeground(Color.BLACK);
-		label_2.setFont(new Font("Calibri", Font.PLAIN, 12));
-
-		JButton btnAddSpotted = new JButton("Add Individual");
-		btnAddSpotted.setBounds(784, 180, 115, 23);
-		btnAddSpotted.setForeground(Color.BLACK);
-
-		JButton button_3 = new JButton("Add Whole Unit");
-		button_3.setBounds(909, 180, 124, 23);
-		button_3.setForeground(Color.BLACK);
-
-		JLabel label_3 = new JLabel("Individual");
-		label_3.setBounds(944, 43, 143, 31);
-		label_3.setForeground(Color.BLACK);
-		label_3.setFont(new Font("Calibri", Font.PLAIN, 12));
-
-		JLabel label_4 = new JLabel("Unit");
-		label_4.setBounds(784, 43, 143, 31);
-		label_4.setForeground(Color.BLACK);
-		label_4.setFont(new Font("Calibri", Font.PLAIN, 12));
-
 		JLabel label_5 = new JLabel("Add Spotted");
 		label_5.setBounds(784, 11, 162, 31);
 		label_5.setForeground(Color.BLACK);
@@ -398,20 +331,6 @@ public class BulkWindow {
 		frame.getContentPane().setLayout(null);
 		frame.getContentPane().add(btnClearSpotted);
 		frame.getContentPane().add(label_5);
-		frame.getContentPane().add(label_4);
-		frame.getContentPane().add(comboBoxAddUnit);
-		frame.getContentPane().add(label_3);
-		frame.getContentPane().add(comboBox_1);
-		frame.getContentPane().add(btnAddSpotted);
-		frame.getContentPane().add(button_3);
-		frame.getContentPane().add(spinner_1);
-		frame.getContentPane().add(label_2);
-		frame.getContentPane().add(label_1);
-		frame.getContentPane().add(spinner);
-		frame.getContentPane().add(button_1);
-		frame.getContentPane().add(comboBox);
-		frame.getContentPane().add(label);
-		frame.getContentPane().add(button);
 
 		JLabel label_6 = new JLabel("PEN");
 		label_6.setForeground(Color.BLACK);
@@ -2529,6 +2448,43 @@ public class BulkWindow {
 		chckbxSingleShot.setBackground(Color.WHITE);
 		chckbxSingleShot.setBounds(998, 499, 89, 23);
 		frame.getContentPane().add(chckbxSingleShot);
+		
+		JButton btnClearSpotted_1 = new JButton("Set Camoflauge");
+		btnClearSpotted_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				boolean moving = false; 
+				
+				for(var trooper : bulkTroopers) {
+					if(!trooper.trooper.returnTrooperUnit(gameWindow).speed.equals("None")) {
+						moving = true;
+						break;
+					}
+				}
+				
+				if(moving) {
+					GameWindow.gameWindow.conflictLog.addNewLine("Cannot Camouflage units, some units are moving");
+					return;
+				}
+				
+				int sum = 0;
+				
+				for(var trooper : bulkTroopers) {
+					var val = trooper.trooper.skills.getSkill("Camouflage").value / 10;
+					trooper.trooper.spottingDifficulty = val;
+					
+					sum += val; 
+					
+					if(!chckbxFreeAction.isSelected())
+						actionSpent(trooper.trooper);
+				}
+
+				GameWindow.gameWindow.conflictLog.addNewLine("Camouflaged troopers, average camo rating: "+(sum/bulkTroopers.size()));
+				refreshIndividualList();
+			}
+		});
+		btnClearSpotted_1.setBounds(784, 40, 249, 23);
+		frame.getContentPane().add(btnClearSpotted_1);
 		frame.setVisible(true);
 	}
 
@@ -4541,5 +4497,4 @@ public class BulkWindow {
 
 		return new GrenadeLists(grenades, targets, buildings);
 	}
-
 }

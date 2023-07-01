@@ -22,8 +22,9 @@ import Hexes.Building;
 import Hexes.Hex;
 import Items.Weapons;
 import Spot.Utility.SpotActionResults;
+import Spot.Utility.SpotModifiers;
 import Spot.Utility.SpotUtility;
-import Spot.Utility.SpotVisibilityUtility;
+import Spot.Utility.SpotVisibility;
 
 public class Spot implements Serializable {
 	// Unit spotted unit
@@ -103,29 +104,31 @@ public class Spot implements Serializable {
 		int size = SpotUtility.getTargetUnitSize(spotterUnit, spotableUnits);
 
 		// Speed
-		int speedModTarget = SpotUtility.getSpeedModTarget(spotableUnits);
-		int speedModSpotter = SpotUtility.getSpeedModSpotter(spotter.returnTrooperUnit(initiativeOrder).speed);		
+		int speedModTarget = SpotModifiers.getSpeedModTarget(spotableUnits);
+		int speedModSpotter = SpotModifiers.getSpeedModSpotter(spotter.returnTrooperUnit(initiativeOrder).speed);		
 		
 		ArrayList<Trooper> spotableTroopers = SpotUtility.getTargetTroopers(spotterUnit, spotableUnits);
 
 		// Concealment
-		int concealmentMod = SpotUtility.getConcealmentMod(spotableUnits, spotableTroopers);
+		int concealmentMod = SpotModifiers.getConcealmentMod(spotableUnits, spotableTroopers);
 
 		// Behavior
 
 		// Range
-		int rangeMod = SpotUtility.getRangeMod(spotableUnits.get(0), spotterUnit);
+		int rangeMod = SpotModifiers.getRangeMod(spotableUnits.get(0), spotterUnit);
 
 		// Skill
-		int skillMod = SpotUtility.getSkillMod(spotter);
+		int skillMod = SpotModifiers.getSkillMod(spotter);
 
 		// Calculation
-		PCSize = SpotUtility.getPcSize(spotableTroopers);
-		int targetSizeMod = SpotUtility.getTargetSizeMod(PCSize, spotableTroopers);
+		PCSize = SpotModifiers.getPcSize(spotableTroopers);
+		int targetSizeMod = SpotModifiers.getTargetSizeMod(PCSize, spotableTroopers);
 
-		int visibilityMod = SpotVisibilityUtility.getVisibilityMod(spotter, spotterUnit, visibilityModifications,
-				weather, xCord, yCord, initiativeOrder);
+		int visibilityMod = SpotVisibility.getVisibilityMod(spotter, spotterUnit, 
+				weather, xCord, yCord, spotableUnits);
 
+		visibilityModifications = SpotVisibility.visibilityModifications;
+		
 		SLM = SpotUtility.getSlm(speedModTarget, speedModSpotter, concealmentMod, rangeMod, visibilityMod, skillMod,
 				targetSizeMod);
 

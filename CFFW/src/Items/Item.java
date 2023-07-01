@@ -13,6 +13,14 @@ public class Item implements Serializable {
 	public ItemType ammoType = ItemType.NONE;
 	public double itemWeight = 0; 
 	
+	public int magnification;
+	public boolean thermalOptic;
+	public int thermalValue;
+	public int maxThermalRangeYards;
+	public boolean cloakField;
+	public boolean movementDisabled;
+	public int cloakSlm;
+	public boolean thermalShroud;
 	
 	
 	public enum ItemType {
@@ -30,11 +38,21 @@ public class Item implements Serializable {
 		
 		M870,
 		
-		GoblinJavelin,ShortBow
+		GoblinJavelin,ShortBow,
+		
+		Microbinoculars,ThermalMicrobinoculars,
+		ThermalShroud,MobileStealthField,StationaryStealthField
 	}
 	
 	public Item() throws Exception {
 		allItems = new ArrayList<>(Arrays.asList(
+				new Item(ItemType.Microbinoculars),
+				new Item(ItemType.ThermalMicrobinoculars),
+				new Item(ItemType.ThermalShroud),
+				new Item(ItemType.MobileStealthField),
+				new Item(ItemType.StationaryStealthField),
+				
+				
 				new Item(ItemType.DC15A),
 				new Item(ItemType.DC20),
 				new Item(ItemType.DC15X),
@@ -98,14 +116,14 @@ public class Item implements Serializable {
 	
 	public Item(ItemType itemType) throws Exception {
 		this.weaponType = itemType;
-		setWeapon(itemType);
+		setItem(itemType);
 	}
 	
 	public Item(ItemType weaponType, ItemType ammoType) throws Exception {
 		this.weaponType = weaponType;
 		this.ammoType = ammoType;
 		
-		setWeapon(weaponType);
+		setItem(weaponType);
 		
 		if((ItemType.EE3 == weaponType || 
 				ItemType.A310 == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
@@ -230,14 +248,47 @@ public class Item implements Serializable {
 		this.ammo = ammo; 
 	}
 	
-	public void setWeapon(ItemType itemType) throws Exception {
+	public void setItem(ItemType itemType) throws Exception {
+		
+		
+		
 		if(ItemType.ClassAThermalDetonator == itemType) {
 			weapon = new Weapons().findWeapon("Class-A Thermal Detonator");
 			itemWeight = 2; 
 		} else if(ItemType.Nacht5SmokeGrenade == itemType) {
 			weapon = new Weapons().findWeapon("Nacht-5 Smoke Grenade");
 			itemWeight = 2; 
-		} else if(ItemType.DC15A == itemType) {
+		} 
+		
+		else if(ItemType.Microbinoculars == itemType) {
+			itemWeight = 2; 
+			magnification = 24;
+		}
+		else if(ItemType.ThermalMicrobinoculars == itemType) {
+			thermalOptic = true;
+			maxThermalRangeYards = 400;
+			thermalValue = 7;
+			magnification = 12;
+			itemWeight = 4; 
+		}
+		else if(ItemType.MobileStealthField == itemType) {
+			itemWeight = 6; 
+			cloakField = true;
+			cloakSlm = 6; 
+		}
+		else if(ItemType.StationaryStealthField == itemType) {
+			itemWeight = 5; 
+			cloakField = true;
+			cloakSlm = 7; 
+			movementDisabled = true;
+		}
+		else if(ItemType.ThermalShroud == itemType) {
+			thermalShroud = true;
+			itemWeight = 2;
+		}
+		
+		
+		else if(ItemType.DC15A == itemType) {
 			weapon = new Weapons().findWeapon("DC15A");
 			itemWeight = 12; 
 		} else if(ItemType.DC20 == itemType) {

@@ -31,6 +31,8 @@ public class Armor implements Serializable {
 	public boolean hardBodyArmor = true;
 	public int armorWeight; 
 	
+	public int visibilityModifier;
+	
 	public Armor() {
 		this.bPF = 0; 
 		this.excludedZones = new ArrayList<ArrayList<Integer>>();
