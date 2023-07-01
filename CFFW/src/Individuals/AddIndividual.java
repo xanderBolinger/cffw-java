@@ -78,6 +78,10 @@ public class AddIndividual implements Serializable {
 					comboBoxRole.addItem("EOD");
 					comboBoxRole.addItem("Clone AT Specialist");
 					comboBoxRole.addItem("Clone Assistant AT Specialist");
+					comboBoxRole.addItem("Clone Sniper");
+					comboBoxRole.addItem("Clone Spotter");
+					comboBoxRole.addItem("Clone Special Operations Sniper");
+					comboBoxRole.addItem("Clone Special Operations Spotter");
 					comboBoxRole.addItem("Ranger");
 					comboBoxRole.addItem("Clone Platoon Leader");
 					comboBoxRole.addItem("Clone Captain");

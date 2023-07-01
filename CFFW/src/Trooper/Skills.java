@@ -365,6 +365,36 @@ public class Skills implements Serializable {
 			crack();
 			crackAtSpecalist();
 
+		} else if (input.equals("Clone Marksman")) { // Marksman
+			crack();
+			crackMarksman();
+			//line();
+			//lineMarksman();
+			
+		} else if (input.equals("Clone Sniper")) { // Marksman
+			crack();
+			crackMarksman();
+			//line();
+			//lineMarksman();
+			
+		} else if (input.equals("Clone Spotter")) { // Marksman
+			crack();
+			crackMarksman();
+			//line();
+			//lineMarksman();
+			
+		} else if (input.equals("Clone Special Operations Sniper")) { // Marksman
+			elite();
+			eliteSniper();
+			//line();
+			//lineMarksman();
+			
+		} else if (input.equals("Clone Special Operations Spotter")) { // Marksman
+			elite();
+			eliteSniper();
+			//line();
+			//lineMarksman();
+			
 		} else if (input.equals("EOD")) { // EOD
 			// Adds skill dice levels to the skills
 			// Soldier Training
@@ -1527,9 +1557,29 @@ public class Skills implements Serializable {
 	}
 	
 	public void crackMarksman() {
+		
 		Skill skill = getSkill("Rifle");
 		skill.newTrainingValue(5);
 		skill.rankUpTo(4);
+		
+		Skill spot = getSkill("Spot/Listen");
+		spot.newTrainingValue(4);
+		spot.rankUpTo(4);
+	}
+	
+	public void eliteSniper() {
+		
+		Skill camo = getSkill("Camouflage");
+		camo.newTrainingValue(5);
+		camo.rankUpTo(4);
+		
+		Skill skill = getSkill("Rifle");
+		skill.newTrainingValue(5);
+		skill.rankUpTo(5);
+		
+		Skill spot = getSkill("Spot/Listen");
+		spot.newTrainingValue(5);
+		spot.rankUpTo(5);
 	}
 	
 	public void untrained() {

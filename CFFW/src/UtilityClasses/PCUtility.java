@@ -514,22 +514,27 @@ public class PCUtility {
 		return locations;
 	}
 
+	public static double getStanceModifiedSize(String stance, double size) {
+		if (stance.equals("Standing")) {
+			// System.out.println("Standing");
+			size = size / 1;
+		} else if (stance.equals("Crouching")) {
+			// System.out.println("Crouching");
+			size = size / 1.75;
+		} else {
+			System.out.println("Pass Prone");
+			size = size / 3;
+		}
+		return size;
+	}
+	
 	// Takes trooper PC size in yards
 	// Modifies trooper size from stance
 	// Finds size ALM
 	// Returns size ALM
 	public static int findSizeALM(String stance, double size) {
 
-		if (stance.equals("Standing")) {
-			// System.out.println("Standing");
-			size = size / 1;
-		} else if (stance.equals("Crouching")) {
-			// System.out.println("Crouching");
-			size = size / 1.25;
-		} else {
-			// System.out.println("Prone");
-			size = size / 2;
-		}
+		size = getStanceModifiedSize(stance, size);
 
 		int sizeALM = 0;
 

@@ -1030,20 +1030,20 @@ public class Trooper implements Serializable {
 		nightVisionEffectiveness = 3;
 
 		TLHStats attributes = new TLHStats(2, 2, -2, 2, 1, 1, 2);
-
+		this.str = attributes.str;
+		this.wit = attributes.wit;
+		this.soc = attributes.soc;
+		this.wil = attributes.wil;
+		this.per = attributes.per;
+		this.hlt = attributes.hlt;
+		this.agi = attributes.agi;
+		
+		
 		// in 20 second increments
 		this.timePassed = 0;
 		this.recoveryRoll = 0;
 		if (input.equals("Clone Squad Leader")) { // Squad Leader
 			// Creates attributes
-
-			this.str = attributes.str;
-			this.wit = attributes.wit;
-			this.soc = attributes.soc;
-			this.wil = attributes.wil;
-			this.per = attributes.per;
-			this.hlt = attributes.hlt;
-			this.agi = attributes.agi;
 
 			this.rank = "Sergeant";
 			this.designation = "Squad Leader";
@@ -1065,15 +1065,6 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.Nacht5SmokeGrenade, 2);
 
 		} else if (input.equals("Clone Rifleman")) { // Rifleman
-			// Creates attributes
-
-			this.str = attributes.str;
-			this.wit = attributes.wit;
-			this.soc = attributes.soc;
-			this.wil = attributes.wil;
-			this.per = attributes.per;
-			this.hlt = attributes.hlt;
-			this.agi = attributes.agi;
 
 			this.rank = "Trooper";
 			this.designation = "Rifleman";
@@ -1090,15 +1081,6 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone Rifleman++")) { // Rifleman++
-			// Creates attributes
-			this.str = attributes.str;
-			this.wit = attributes.wit;
-			this.soc = attributes.soc;
-			this.wil = attributes.wil;
-			this.per = attributes.per;
-			this.hlt = attributes.hlt;
-			this.agi = attributes.agi;
-
 			this.rank = "Corporal";
 			this.designation = "Rifleman++";
 			this.vet = "";
@@ -1118,15 +1100,6 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.DC40, ItemType.SMOKE, 4);
 
 		} else if (input.equals("Clone Autorifleman")) { // Autorifleman
-			// Creates attributes
-			this.str = attributes.str;
-			this.wit = attributes.wit;
-			this.soc = attributes.soc;
-			this.wil = attributes.wil;
-			this.per = attributes.per;
-			this.hlt = attributes.hlt;
-			this.agi = attributes.agi;
-
 			this.rank = "Trooper";
 			this.designation = "Autorifleman";
 			this.vet = "";
@@ -1141,15 +1114,6 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.Z6, ItemType.SmallArmsAmmo, 1);
 
 		} else if (input.equals("Clone Assistant Autorifleman")) { // Assistant Autorifleman
-			// Creates attributes
-			this.str = attributes.str;
-			this.wit = attributes.wit;
-			this.soc = attributes.soc;
-			this.wil = attributes.wil;
-			this.per = attributes.per;
-			this.hlt = attributes.hlt;
-			this.agi = attributes.agi;
-
 			this.rank = "Trooper";
 			this.designation = "Assistant Autorifleman";
 			this.vet = "";
@@ -1166,15 +1130,6 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone Ammo Bearer")) { // Ammo Bearer
-			// Creates attributes
-			this.str = attributes.str;
-			this.wit = attributes.wit;
-			this.soc = attributes.soc;
-			this.wil = attributes.wil;
-			this.per = attributes.per;
-			this.hlt = attributes.hlt;
-			this.agi = attributes.agi;
-
 			this.rank = "Trooper";
 			this.designation = "Ammo Bearer";
 			this.vet = "";
@@ -1190,16 +1145,6 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone Marksman")) { // Marksman
-
-			// Creates attributes
-			this.str = attributes.str;
-			this.wit = attributes.wit;
-			this.soc = attributes.soc;
-			this.wil = attributes.wil;
-			this.per = attributes.per;
-			this.hlt = attributes.hlt;
-			this.agi = attributes.agi;
-
 			this.rank = "Trooper";
 			this.designation = "Marksman";
 			this.vet = "";
@@ -1216,15 +1161,6 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone Combat Life Saver")) { // Combat Life Saver
-			// Creates attributes
-			this.str = attributes.str;
-			this.wit = attributes.wit;
-			this.soc = attributes.soc;
-			this.wil = attributes.wil;
-			this.per = attributes.per;
-			this.hlt = attributes.hlt;
-			this.agi = attributes.agi;
-
 			this.rank = "Trooper";
 			this.designation = "Combat Life Saver";
 			this.vet = "";
@@ -1240,15 +1176,6 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("EOD")) { // EOD
-			// Creates attributes
-			this.str = attributes.str;
-			this.wit = attributes.wit;
-			this.soc = attributes.soc;
-			this.wil = attributes.wil;
-			this.per = attributes.per;
-			this.hlt = attributes.hlt;
-			this.agi = attributes.agi;
-
 			this.rank = "Trooper";
 			this.designation = "EOD";
 			this.vet = "";
@@ -1264,15 +1191,6 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone AT Specialist")) { // AT Specialist
-			// Creates attributes
-			this.str = attributes.str;
-			this.wit = attributes.wit;
-			this.soc = attributes.soc;
-			this.wil = attributes.wil;
-			this.per = attributes.per;
-			this.hlt = attributes.hlt;
-			this.agi = attributes.agi;
-
 			this.rank = "Trooper";
 			this.designation = "AT Specialist";
 			this.vet = "";
@@ -1290,15 +1208,6 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Clone Assistant AT Specialist")) { // Assistant AT specialist
-			// Creates attributes
-			this.str = attributes.str;
-			this.wit = attributes.wit;
-			this.soc = attributes.soc;
-			this.wil = attributes.wil;
-			this.per = attributes.per;
-			this.hlt = attributes.hlt;
-			this.agi = attributes.agi;
-
 			this.rank = "Trooper";
 			this.designation = "Assistant AT Specialist";
 			this.vet = "";
@@ -1315,16 +1224,6 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
 		} else if (input.equals("Ranger")) { // Ranger
-
-			// Creates attributes
-			this.str = attributes.str;
-			this.wit = attributes.wit;
-			this.soc = attributes.soc;
-			this.wil = attributes.wil;
-			this.per = attributes.per;
-			this.hlt = attributes.hlt;
-			this.agi = attributes.agi;
-
 			this.rank = "Trooper";
 			this.designation = "Ranger";
 			this.vet = "";
@@ -1339,16 +1238,47 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 
-		} else if (input.equals("Clone Platoon Leader")) { // Platoon Leader
-			// Creates attributes
-			this.str = attributes.str;
-			this.wit = attributes.wit;
-			this.soc = attributes.soc;
-			this.wil = attributes.wil;
-			this.per = attributes.per;
-			this.hlt = attributes.hlt;
-			this.agi = attributes.agi;
+		} else if (input.equals("Clone Sniper") || input.equals("Clone Special Operations Sniper")) { // Ranger
+			this.rank = "Trooper";
+			this.designation = input.equals("Clone Special Operations Sniper") ? "SF Sniper" : "Sniper";
+			this.vet = "";
+			this.wep = "DC20";
+			this.meleeWep = "Vibroknife";
+			this.ammo = 150;
+			this.eqiupment = "";
+			this.accomodations = "";
+			this.encumberance = 55;
 
+			inventory.addItems(ItemType.DC20, 1);
+			inventory.addItems(ItemType.DC20, ItemType.SmallArmsAmmo, 3);
+			inventory.addItems(ItemType.Microbinoculars, 1);
+			inventory.addItems(ItemType.ThermalMicrobinoculars, 1);
+			inventory.addItems(ItemType.ThermalShroud, 1);
+			inventory.addItems(ItemType.GhillieSuit, 1);
+			inventory.addItems(ItemType.ClassAThermalDetonator, 2);
+			inventory.addItems(ItemType.Nacht5SmokeGrenade, 2);
+
+		} else if (input.equals("Clone Spotter") || input.equals("Clone Special Operations Spotter")) { // Ranger
+			this.rank = "Trooper";
+			this.designation = input.equals("Clone Special Operations Spotter") ? "SF Spotter" : "Spotter";
+			this.vet = "";
+			this.wep = "DC15X";
+			this.meleeWep = "Vibroknife";
+			this.ammo = 150;
+			this.eqiupment = "";
+			this.accomodations = "";
+			this.encumberance = 55;
+
+			inventory.addItems(ItemType.DC15X, 1);
+			inventory.addItems(ItemType.DC15X, ItemType.SmallArmsAmmo, 3);
+			inventory.addItems(ItemType.Microbinoculars, 1);
+			inventory.addItems(ItemType.ThermalMicrobinoculars, 1);
+			inventory.addItems(ItemType.ThermalShroud, 1);
+			inventory.addItems(ItemType.GhillieSuit, 1);
+			inventory.addItems(ItemType.ClassAThermalDetonator, 2);
+			inventory.addItems(ItemType.Nacht5SmokeGrenade, 2);
+
+		} else if (input.equals("Clone Platoon Leader")) { // Platoon Leader
 			this.rank = "Sergeant First Class";
 			this.designation = "Platoon Sergeant ";
 			this.vet = "";
@@ -1576,6 +1506,7 @@ public class Trooper implements Serializable {
 			inventory.addItems(ItemType.E5, ItemType.SmallArmsAmmo, 3);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 			inventory.addItems(ItemType.Nacht5SmokeGrenade, 2);
+			inventory.addItems(ItemType.Microbinoculars, 1);
 
 			// B1 Rifleman
 		} else if (input.equals("B1 Rifleman")) {

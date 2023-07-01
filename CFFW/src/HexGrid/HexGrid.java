@@ -449,6 +449,9 @@ public class HexGrid implements Serializable {
 		}
 
 		public String getCallsign() {
+			
+			
+			
 			String results = unit.callsign;
 
 			if (GameWindow.exhaustedUnit(unit) && moved) {
@@ -470,6 +473,7 @@ public class HexGrid implements Serializable {
 				}
 			}
 
+			System.out.println("Get Callsign for Unit: "+unit.callsign+", Results: "+results);
 			return results;
 		}
 

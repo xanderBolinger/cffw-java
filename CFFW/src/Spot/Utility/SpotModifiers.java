@@ -4,26 +4,30 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import Conflict.GameWindow;
+import HexGrid.CalculateLOS;
 import Hexes.Building;
 import Trooper.Trooper;
 import Unit.Unit;
+import UtilityClasses.PCUtility;
 
 public class SpotModifiers {
 
 	
 	// Gets the concealment level and assigns the value to it
-	public static int getConcealmentMod(String concealment) {
+	public static int getConcealmentMod(int concealment) {
 		int mod = 0;
 
-		if (concealment.equals("Level 1")) {
+		if (concealment == 1) {
 			mod = 1;
-		} else if (concealment.equals("Level 2")) {
+		} else if (concealment == 2) {
 			mod = 3;
-		} else if (concealment.equals("Level 3")) {
+		} else if (concealment == 3) {
 			mod = 4;
-		} else if (concealment.equals("Level 4")) {
+		} else if (concealment == 4) {
 			mod = 5;
-		} else if (concealment.equals("Level 5")) {
+		} else if (concealment == 5) {
+			mod = 8;
+		} else if(concealment  >= 5) {
 			mod = 8;
 		}
 
@@ -59,8 +63,8 @@ public class SpotModifiers {
 		return skillTestMod;
 	}
 
-	public static int getConcealmentMod(ArrayList<Unit> spotableUnits, ArrayList<Trooper> spotableTroopers) {
-		String concealment = spotableUnits.get(0).concealment;
+	public static int getConcealmentMod(Trooper spotter, ArrayList<Unit> spotableUnits, ArrayList<Trooper> spotableTroopers) {
+		int concealment = CalculateLOS.getConcelamentValue(spotter.returnTrooperUnit(GameWindow.gameWindow), spotableUnits.get(0));
 		int concealmentMod = getConcealmentMod(concealment);
 		if (concealmentMod < Building.buildingConcealmentMod
 				&& Building.majorityEmbarked(GameWindow.gameWindow, spotableTroopers)) {
@@ -115,16 +119,7 @@ public class SpotModifiers {
 		double PCSize = 0;
 		for (Trooper targetTrooper : spotableTroopers) {
 
-			if (targetTrooper.stance.equals("Standing")) {
-				// System.out.println("Standing");
-				PCSize += targetTrooper.PCSize / 1;
-			} else if (targetTrooper.stance.equals("Crouching")) {
-				// System.out.println("Crouching");
-				PCSize += targetTrooper.PCSize / 1.25;
-			} else {
-				// System.out.println("Prone");
-				PCSize += targetTrooper.PCSize / 2;
-			}
+			PCSize += PCUtility.getStanceModifiedSize(targetTrooper.stance, targetTrooper.PCSize);
 
 		}
 
@@ -133,7 +128,7 @@ public class SpotModifiers {
 		return PCSize;
 	}
 
-	public static int getTargetSizeMod(double PCSize, ArrayList<Trooper> spotableTroopers) {
+	public static int getTargetSizeMod(double PCSize) {
 
 		if (PCSize <= -8) {
 			return 8;

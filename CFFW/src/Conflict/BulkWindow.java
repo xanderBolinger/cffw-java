@@ -2454,32 +2454,49 @@ public class BulkWindow {
 			public void actionPerformed(ActionEvent e) {
 				
 				boolean moving = false; 
-				
+				var bulkTroopers = getSelectedBulkTroopers();
+				var troopers = getSelectedTroopers();
 				for(var trooper : bulkTroopers) {
-					if(!trooper.trooper.returnTrooperUnit(gameWindow).speed.equals("None")) {
+					var unit = trooper.trooper.returnTrooperUnit(gameWindow);
+					if(!unit.speed.equals("None")) {
 						moving = true;
+						gameWindow.conflictLog.addNewLine("Cannot perform camouflage due to movement: "+unit.callsign);
 						break;
 					}
 				}
 				
 				if(moving) {
-					GameWindow.gameWindow.conflictLog.addNewLine("Cannot Camouflage units, some units are moving");
+					gameWindow.conflictLog.addNewLine("Cannot Camouflage units, some units are moving");
 					return;
 				}
 				
-				int sum = 0;
 				
-				for(var trooper : bulkTroopers) {
-					var val = trooper.trooper.skills.getSkill("Camouflage").value / 10;
-					trooper.trooper.spottingDifficulty = val;
-					
-					sum += val; 
-					
-					if(!chckbxFreeAction.isSelected())
-						actionSpent(trooper.trooper);
+				
+				ArrayList<Unit> units = new ArrayList<Unit>();
+				
+				for(var trooper : troopers) {
+					units.add(trooper.returnTrooperUnit(gameWindow));
 				}
-
-				GameWindow.gameWindow.conflictLog.addNewLine("Camouflaged troopers, average camo rating: "+(sum/bulkTroopers.size()));
+				
+				for(var unit : units) {
+					int sum = 0;
+					
+					for(var trooper : troopers) {
+						if(!unit.individuals.contains(trooper))
+							continue;
+						
+						var val = trooper.skills.getSkill("Camouflage").value / 10;
+						trooper.spottingDifficulty = val;
+						
+						sum += val; 
+						
+						if(!chckbxFreeAction.isSelected())
+							actionSpent(trooper);
+					}
+					
+					gameWindow.conflictLog.addNewLine(unit.callsign+": Camouflaged troopers, average camo rating: "+(sum/bulkTroopers.size()));
+				}
+				
 				refreshIndividualList();
 			}
 		});

@@ -110,7 +110,7 @@ public class Spot implements Serializable {
 		ArrayList<Trooper> spotableTroopers = SpotUtility.getTargetTroopers(spotterUnit, spotableUnits);
 
 		// Concealment
-		int concealmentMod = SpotModifiers.getConcealmentMod(spotableUnits, spotableTroopers);
+		int concealmentMod = SpotModifiers.getConcealmentMod(spotter, spotableUnits, spotableTroopers);
 
 		// Behavior
 
@@ -122,7 +122,7 @@ public class Spot implements Serializable {
 
 		// Calculation
 		PCSize = SpotModifiers.getPcSize(spotableTroopers);
-		int targetSizeMod = SpotModifiers.getTargetSizeMod(PCSize, spotableTroopers);
+		int targetSizeMod = SpotModifiers.getTargetSizeMod(PCSize);
 
 		int visibilityMod = SpotVisibility.getVisibilityMod(spotter, spotterUnit, 
 				weather, xCord, yCord, spotableUnits);
