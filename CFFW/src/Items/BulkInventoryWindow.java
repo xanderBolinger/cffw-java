@@ -135,10 +135,10 @@ public class BulkInventoryWindow extends JFrame {
 					for(Trooper trooper : getSelectedTroopers()) {
 						
 						if (item.isRound()) {
-							trooper.inventory.addItems(item.weaponType, item.ammoType,
+							trooper.inventory.addItems(item.itemType, item.ammoType,
 									(int) spinnerItemCount.getValue());
 						} else if (item.isWeapon()) {
-							trooper.inventory.addItems(item.weaponType, (int) spinnerItemCount.getValue());
+							trooper.inventory.addItems(item.itemType, (int) spinnerItemCount.getValue());
 						} else {
 							trooper.inventory.addItems(item.ammoType, (int) spinnerItemCount.getValue());
 						}

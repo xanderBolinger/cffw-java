@@ -5358,10 +5358,10 @@ public class OpenTrooper implements Serializable {
 					Item item = Item.allItems.get(listItems.getSelectedIndex());
 
 					if (item.isRound()) {
-						openTrooper.inventory.addItems(item.weaponType, item.ammoType,
+						openTrooper.inventory.addItems(item.itemType, item.ammoType,
 								(int) spinnerItemCount.getValue());
 					} else if (item.isWeapon()) {
-						openTrooper.inventory.addItems(item.weaponType, (int) spinnerItemCount.getValue());
+						openTrooper.inventory.addItems(item.itemType, (int) spinnerItemCount.getValue());
 					} else {
 						openTrooper.inventory.addItems(item.ammoType, (int) spinnerItemCount.getValue());
 					}

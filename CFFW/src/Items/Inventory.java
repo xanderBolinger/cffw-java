@@ -122,7 +122,7 @@ public class Inventory implements Serializable {
 				if (!item.isRound())
 					continue;
 
-				if (weaponType == item.weaponType && ammoType == item.ammoType) {
+				if (weaponType == item.itemType && ammoType == item.ammoType) {
 					removalItem = item;
 					removalContainer = container;
 
@@ -154,7 +154,7 @@ public class Inventory implements Serializable {
 
 			for (Item item : container.items) {
 
-				if (itemType == item.weaponType) {
+				if (itemType == item.itemType) {
 					removalItem = item;
 					removalContainer = container;
 

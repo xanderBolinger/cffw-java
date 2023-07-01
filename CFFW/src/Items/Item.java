@@ -9,7 +9,7 @@ public class Item implements Serializable {
 
 	public Weapons weapon; 
 	public PCAmmo ammo; 
-	public ItemType weaponType = ItemType.NONE;
+	public ItemType itemType = ItemType.NONE;
 	public ItemType ammoType = ItemType.NONE;
 	public double itemWeight = 0; 
 	
@@ -123,12 +123,12 @@ public class Item implements Serializable {
 	
 	
 	public Item(ItemType itemType) throws Exception {
-		this.weaponType = itemType;
+		this.itemType = itemType;
 		setItem(itemType);
 	}
 	
 	public Item(ItemType weaponType, ItemType ammoType) throws Exception {
-		this.weaponType = weaponType;
+		this.itemType = weaponType;
 		this.ammoType = ammoType;
 		
 		setItem(weaponType);
@@ -417,6 +417,8 @@ public class Item implements Serializable {
 	}
 	
 	public String getItemName() {
+		if(weapon == null && ammo == null)
+			return itemType.toString();
 		if(weapon == null || ammo == null)
 			return weapon != null ? weapon.name : ammo.name;
 		else
