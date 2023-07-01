@@ -171,9 +171,9 @@ public class Shoot {
 		
 		updateInjuryLog();
 		
-		if(wep == null || wep.tracers)
+		if(wep == null || wep.tracers) 
 			shooter.firedTracers = true;
-		
+		shooter.firedWeapons = true;
 	}
 	
 	public void burst() {
@@ -205,7 +205,7 @@ public class Shoot {
 		
 		if(wep == null || wep.tracers)
 			shooter.firedTracers = true;
-		
+		shooter.firedWeapons = true;
 	}
 
 	public void updateInjuryLog() {
@@ -242,6 +242,7 @@ public class Shoot {
 		
 		if(wep.tracers)
 			shooter.firedTracers = true;
+		shooter.firedWeapons = true;
 	}
 	
 	public void suppressiveFireFree(int shots) {
@@ -270,6 +271,7 @@ public class Shoot {
 		
 		if(wep == null || wep.tracers)
 			shooter.firedTracers = true;
+		shooter.firedWeapons = true;
 	}
 	
 	public void setShotResults(boolean fullAuto) {

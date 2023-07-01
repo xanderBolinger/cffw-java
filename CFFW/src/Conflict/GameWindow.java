@@ -1713,7 +1713,9 @@ public class GameWindow implements Serializable {
 				if (trooper.shields > 0) {
 					trooper.currentShields = trooper.shields;
 				}
-
+				
+				trooper.firedTracers = false;
+				trooper.firedWeapons = false;
 			}
 
 		}
@@ -2129,7 +2131,7 @@ public class GameWindow implements Serializable {
 				if (game.getPhase() == 1 ? (trooper.P1 > maxAction) : (trooper.P2 > maxAction)) {
 					maxAction = game.getPhase() == 1 ? trooper.P1 : trooper.P2;
 				}
-				trooper.firedTracers = false;
+				
 			}
 		}
 

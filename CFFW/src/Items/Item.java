@@ -21,7 +21,8 @@ public class Item implements Serializable {
 	public boolean movementDisabled;
 	public int cloakSlm;
 	public boolean thermalShroud;
-	
+	public boolean camouflage;
+	public int camoMod;
 	
 	public enum ItemType {
 		NONE,ClassAThermalDetonator,Nacht5SmokeGrenade,
@@ -40,6 +41,7 @@ public class Item implements Serializable {
 		
 		GoblinJavelin,ShortBow,
 		
+		GhillieSuit,
 		Microbinoculars,ThermalMicrobinoculars,
 		ThermalShroud,MobileStealthField,StationaryStealthField
 	}
@@ -51,7 +53,7 @@ public class Item implements Serializable {
 				new Item(ItemType.ThermalShroud),
 				new Item(ItemType.MobileStealthField),
 				new Item(ItemType.StationaryStealthField),
-				
+				new Item(ItemType.GhillieSuit),
 				
 				new Item(ItemType.DC15A),
 				new Item(ItemType.DC20),
@@ -267,7 +269,7 @@ public class Item implements Serializable {
 		else if(ItemType.ThermalMicrobinoculars == itemType) {
 			thermalOptic = true;
 			maxThermalRangeYards = 400;
-			thermalValue = 7;
+			thermalValue = -7;
 			magnification = 12;
 			itemWeight = 4; 
 		}
@@ -286,7 +288,11 @@ public class Item implements Serializable {
 			thermalShroud = true;
 			itemWeight = 2;
 		}
-		
+		else if(ItemType.GhillieSuit == itemType) {
+			camouflage = true;
+			camoMod = 3;
+			itemWeight = 6;
+		}
 		
 		else if(ItemType.DC15A == itemType) {
 			weapon = new Weapons().findWeapon("DC15A");

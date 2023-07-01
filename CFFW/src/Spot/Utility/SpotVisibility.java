@@ -22,15 +22,38 @@ public class SpotVisibility {
 
 	public static String visibilityModifications;
 	
-	public static int getThermalMod(Trooper spotter) {
+	public static int getThermalMod(Trooper spotter, int distanceYards, ArrayList<Unit> spotableUnits) {
+		
+		boolean shrouded = true;
+		
+		for(var unit : spotableUnits) {
+			for(var trooper : unit.individuals) {
+				for(var item : trooper.inventory.getItemsArray()) {
+					if(!item.thermalShroud)
+						shrouded = false;
+				}
+			}
+		}
+		
+		if(shrouded) {
+			visibilityModifications += "Thermal Vision(Shrouded, 0); ";
+			return 0;
+		}
+		
 		int visibilityMod = 0;
 
-		if (spotter.thermalVision) {
-			// System.out.println("Thermal vision: -7");
-			visibilityMod -= 7;
-			visibilityModifications += "Thermal Vision(-7); ";
+		
+		for(var item : spotter.inventory.getItemsArray()) {
+		
+			if(item.thermalOptic && item.maxThermalRangeYards >= distanceYards
+					&& item.thermalValue < visibilityMod) {
+				visibilityMod = item.thermalValue;
+			}
+			
 		}
-
+		
+		
+		visibilityModifications += "Thermal Vision("+visibilityMod+"); ";
 		return visibilityMod;
 	}
 
@@ -53,8 +76,8 @@ public class SpotVisibility {
 		for (var unit : spotableUnits) {
 			for (var trooper : unit.individuals) {
 				if (trooper.firedTracers) {
-					visibilityModifications += "Tracer Mod: -3; ";
-					return -3;
+					visibilityModifications += "Tracer Mod: -5; ";
+					return -5;
 				}
 			}
 		}
@@ -217,6 +240,12 @@ public class SpotVisibility {
 		for(var unit : spotableUnits) {
 			for(var trooper : unit.individuals) {
 				mod += trooper.spottingDifficulty;
+				
+				for(var item : trooper.inventory.getItemsArray()) {
+					if(item.camouflage)
+						mod += item.camoMod;
+				}
+				
 				count++;
 			}
 		}
@@ -224,7 +253,30 @@ public class SpotVisibility {
 		mod /= count;
 		visibilityModifications += "Camo Mod: "+mod +"; ";
 		
-		return mod * -1;
+		return mod;
+	}
+	
+	public static int stealthFieldMod(ArrayList<Unit> spotableUnits) {
+		int mod = 0; 
+		int count = 0;
+		
+		for(var unit : spotableUnits) {
+			for(var trooper : unit.getTroopers()) {
+				for(var item : trooper.inventory.getItemsArray()) {
+					if(!item.cloakField || (!unit.speed.equals("None") && item.movementDisabled)) {
+						count++;
+						continue;
+					}
+					
+					count++;
+					mod += item.cloakSlm / (trooper.firedWeapons ? 2 : 1);
+				}
+			}
+		}
+		
+		mod /= count;
+		visibilityModifications += "Stealth Field Mod: "+mod+"; ";
+		return mod;
 	}
 
 	public static int getVisibilityMod(Trooper spotter, Unit spotterUnit,
@@ -233,13 +285,14 @@ public class SpotVisibility {
 		visibilityModifications = "";
 		
 		int visibilityMod = 0;
-		visibilityMod += getThermalMod(spotter);
+		visibilityMod += getThermalMod(spotter, GameWindow.hexDif(xCord, yCord, spotterUnit) * 20, spotableUnits);
 		visibilityMod += getMagnificationMod(spotter);
 		visibilityMod += getWeatherMod(weather);
 		visibilityMod += getNightTimeMods(spotter, spotterUnit, xCord, yCord, weather, spotableUnits);
 		visibilityMod += armorModifier(spotableUnits);
 		visibilityMod += getTracerMod(spotableUnits);
 		visibilityMod += camoMod(spotableUnits);
+		visibilityMod += stealthFieldMod(spotableUnits);
 
 		return visibilityMod;
 	}
