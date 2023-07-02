@@ -677,6 +677,14 @@ public class Unit implements Serializable {
 
 	public void move(GameWindow gameWindow, int xCord, int yCord, OpenUnit openUnitWindow) {
 		
+		
+		
+		if(radius < 4 && speed.equals("Crawl")) {
+			radius++;
+			return;
+		}
+		radius = 0;
+		
 		soughtCover = false; 			
 		unembark(gameWindow);
 		

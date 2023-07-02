@@ -65,9 +65,14 @@ public class MovementSpeedDialogBox {
 		lblUnitXSpeed.setFont(new Font("Tahoma", Font.BOLD, 14));
 		frame.getContentPane().add(lblUnitXSpeed);
 		
-		JButton btnNewButton = new JButton("Close");
+		JButton btnNewButton = new JButton("Crawl");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				unit.speed = "Crawl";
+				unit.move(GameWindow.gameWindow, targetX, targetY, null);
+				deployedUnit.moved = true; 
+				//System.out.println("Moved equal true: "+deployedUnit.getCallsign());
+				GameWindow.gameWindow.hexGrid.refreshDeployedUnits();
 				frame.dispose();
 			}
 		});

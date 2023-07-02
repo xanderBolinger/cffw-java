@@ -769,6 +769,7 @@ public class HexGrid implements Serializable {
 				newHexItem(xCord, yCord);
 				attackWindowItem(GameWindow.gameWindow.findHex(xCord, yCord));
 				SetNone();
+				SetCrawl();
 				SetWalk();
 				SetRush();
 			}
@@ -803,9 +804,31 @@ public class HexGrid implements Serializable {
 				newHexItem(xCord, yCord);
 				attackWindowItem(GameWindow.gameWindow.findHex(xCord, yCord));
 				SetNone();
+				SetCrawl();
 				SetWalk();
 				SetRush();
 			}
+			
+			public void SetCrawl() {
+				if (selectedUnits.size() < 1 && selectedUnit == null) {
+					System.out.println("set Crawl return");
+					return;
+				}
+				System.out.println("Set Crawl");
+
+				JMenuItem item = new JMenuItem("Set Crawl");
+				item.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+
+						SetSpeed("Crawl");
+
+					}
+				});
+
+				add(item);
+
+			}
+			
 
 			public void SetWalk() {
 				if (selectedUnits.size() < 1 && selectedUnit == null) {

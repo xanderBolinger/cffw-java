@@ -105,9 +105,9 @@ public class SpotModifiers {
 		int mod = 0;
 
 		if (speed.equals("Walk")) {
-			mod = +2;
-		} else if (speed.equals("Crawl")) {
 			mod = +3;
+		} else if (speed.equals("Crawl")) {
+			mod = +1;
 		} else if (speed.equals("Rush")) {
 			mod = +5;
 		}

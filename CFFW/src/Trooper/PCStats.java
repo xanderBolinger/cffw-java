@@ -43,7 +43,6 @@ public class PCStats implements Serializable {
 		wep = wep.findWeapon(trooper.wep);
 
 		
-		
 		trooper.sl = PCUtility.getSL(wep.type, trooper);
 
 		// setSkillLevel(trooper);
@@ -59,7 +58,7 @@ public class PCStats implements Serializable {
 		
 		double fatiguePoints = trooper.fatigueSystem.fatiguePoints.get();
 		
-		if(fatiguePoints < 11) {
+		if(fatiguePoints < 11 && fatiguePoints > 5) {
 			CA -= 1;
 		} else if(fatiguePoints <= 15) {
 			CA -= 2;
