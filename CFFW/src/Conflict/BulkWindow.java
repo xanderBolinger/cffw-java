@@ -2780,7 +2780,7 @@ public class BulkWindow {
 
 		return false;
 	}
-
+	
 	// Creates bulk trooper classes and populates the arraylist
 	public void setIndividuals() {
 
@@ -2803,6 +2803,7 @@ public class BulkWindow {
 	// Sets bulk troopers for those in CQB
 	public void setIndividuals(ArrayList<Trooper> cqbt) {
 
+		
 		for (Trooper trooper : cqbt) {
 
 			// System.out.println("Trooper: "+trooper.name+", Code:
@@ -3519,7 +3520,10 @@ public class BulkWindow {
 
 		targetTrooper = getTargetTrooper(bulkTrooper);
 
+		System.out.println("Set valid target");
+		
 		if (validTarget(targetTrooper)) {
+			System.out.println("Bulk shoot set");
 			// PCShots(bulkTrooper, targetTrooper);
 			bulkTrooper.shoot = ShootUtility.setTarget(bulkTrooper.trooper.returnTrooperUnit(GameWindow.gameWindow), targetTrooper.returnTrooperUnit(gameWindow),
 					bulkTrooper.shoot, bulkTrooper.trooper, targetTrooper, bulkTrooper.trooper.wep, ShootUtility.getPcAmmoIndex(bulkTrooper.trooper));
