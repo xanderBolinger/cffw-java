@@ -4,8 +4,11 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import Conflict.Game;
+import Conflict.GameWindow;
 import HexGrid.HexDirectionUtility.HexDirection;
 import Hexes.Feature;
 import Hexes.Hex;
@@ -13,6 +16,7 @@ import Items.PersonalShield;
 import Items.PersonalShield.ShieldType;
 import Trooper.Trooper;
 import Vehicle.Vehicle;
+import Vehicle.VehicleMovement;
 import Vehicle.Damage.VehicleCollision;
 import Vehicle.Damage.VehicleCollision.CollisionHitLocation;
 import Vehicle.Data.VehicleMovementData;
@@ -22,6 +26,16 @@ import Vehicle.Utilities.VehicleXmlReader;
 
 public class VehicleMovementTests {
 
+	GameWindow gameWindow;
+	Game game;
+	
+	@Before
+	public void SetUp() {
+		game = new Game(1,1,1);
+		gameWindow = new GameWindow();
+		gameWindow.game = game;
+		game.chits = null;
+	}
 	
 	@Test
 	public void EnterHullDownPositionTest() {
@@ -185,5 +199,44 @@ public class VehicleMovementTests {
 		assertEquals(0, md.location.xCord);
 		assertEquals(1, md.location.yCord);
 	}
+	
+	@Test 
+	public void smokeLauncherTest() throws Exception {
+		
+		var vehicle = VehicleXmlReader.readVehicle("Test Callsign","TX130");
+		vehicle.smokeData.trailingSmokeActive = true;
+		var md = vehicle.movementData;
+		Hex hex = new Hex(0, 1, new ArrayList<Feature>(), 0, 0, 0);
+		assertEquals(0, md.location.xCord);
+		assertEquals(0, md.location.yCord);
+		md.enterHex(hex);
+		assertEquals(0, md.location.xCord);
+		assertEquals(1, md.location.yCord);
+		VehicleMovement.moveVehicle(vehicle);
+		assertEquals(6, GameWindow.gameWindow.game.smoke.deployedSmoke.get(0).diameter);
+		
+		VehicleMovement.moveVehicle(vehicle);
+		VehicleMovement.moveVehicle(vehicle);
+		VehicleMovement.moveVehicle(vehicle);
+		VehicleMovement.moveVehicle(vehicle);
+		VehicleMovement.moveVehicle(vehicle);
+		VehicleMovement.moveVehicle(vehicle);
+		VehicleMovement.moveVehicle(vehicle);
+		VehicleMovement.moveVehicle(vehicle);
+		VehicleMovement.moveVehicle(vehicle);
+		
+		VehicleMovement.moveVehicle(vehicle);
+		assertEquals(10, GameWindow.gameWindow.game.smoke.deployedSmoke.size());
+	
+		vehicle.smokeData.launchSmoke();
+		vehicle.smokeData.launchSmoke();
+		vehicle.smokeData.launchSmoke();
+		vehicle.smokeData.launchSmoke();
+		
+		assertEquals(22, GameWindow.gameWindow.game.smoke.deployedSmoke.size());
+	
+	}
+	
+	
 	
 }

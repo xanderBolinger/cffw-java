@@ -85,5 +85,11 @@
             <terrain feature="Deep Mud">14</terrain>
             <terrain feature="Soil">14</terrain>
         </movement_data>
+        <smoke_data>
+            <trailing_smoke>VehicleTrailingSmoke</trailing_smoke>
+            <trailing_smoke_turns>10</trailing_smoke_turns>
+            <launched_smoke>VehicleSmokeLauncher</launched_smoke>
+            <smoke_launches>3</smoke_launches>
+        </smoke_data>
     </vehicle_data>
 </vehicle>

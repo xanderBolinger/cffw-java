@@ -32,6 +32,10 @@ public class VehicleMovement implements Serializable {
 		
 		updateChit(vehicle);
 		
+		if(vehicle.smokeData.trailingSmokeActive) {
+			vehicle.smokeData.deployTrailingSmoke();
+		}
+		
 	}
 	
 	private static void updateHullDown(VehicleMovementData md) {

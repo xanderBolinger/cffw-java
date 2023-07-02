@@ -126,13 +126,18 @@ public class VehicleDataTests {
 			var mudHex = new Hex(0,0,myList,0,0,0);
 			assertEquals(5, vmd.movementSpeeds.size());
 			assertEquals(14, vmd.getMaxMoveSpeed(mudHex));
-			assertEquals(3, vmd.hullTurnRate);
+			assertEquals(6, vmd.hullTurnRate);
 			assertEquals(6, vmd.acceleration);
 			assertEquals(6, vmd.deceleration);
 			assertEquals(8, vmd.boostAcceleration);
 			assertEquals(false, vmd.boostUsed);
 			assertEquals(8, vmd.boostAcceleration);
 			assertEquals(2, vmd.boostRecovery);
+			
+			assertEquals(8, vehicle.smokeData.launchedSmoke.diameter);
+			assertEquals(6, vehicle.smokeData.trailingSmoke.diameter);
+			assertEquals(10, vehicle.smokeData.trailingSmokeTurns);
+			assertEquals(3, vehicle.smokeData.smokeLaunches);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

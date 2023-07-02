@@ -13,11 +13,25 @@ public class SmokeStats implements Serializable {
 	public Cord deployedHex;
 	
 	public enum SmokeType {
-		SMOKE_GRENADE, Howitzer155mm, Howitzer105mm, Mortar81mm, Mortal120mm
+		SMOKE_GRENADE, Howitzer155mm, Howitzer105mm, Mortar81mm, Mortal120mm,VehicleSmokeLauncher,VehicleTrailingSmoke
+	}
+	
+	public SmokeStats(String smokeType) throws Exception {
+		for(var e : SmokeType.values()) {
+			if(e.toString().equals(smokeType)) {
+				setSmokeStats(e);
+				return;
+			}
+		}
+
+		throw new Exception("Smoke type not found for smoke type: "+smokeType);
 	}
 	
 	public SmokeStats(SmokeType smokeType) {
-		
+		setSmokeStats(smokeType);
+	}
+	
+	private void setSmokeStats(SmokeType smokeType) {
 		switch(smokeType) {
 		case SMOKE_GRENADE:
 			diameter = 3; 
@@ -35,6 +49,14 @@ public class SmokeStats implements Serializable {
 			diameter = 8; 
 			duration = 12;
 			break;
+		case VehicleTrailingSmoke:
+			diameter = 6; 
+			duration = 10;
+			break;
+		case VehicleSmokeLauncher:
+			diameter = 8; 
+			duration = 12;
+			break;
 		case Howitzer105mm:
 			diameter = 8; 
 			duration = 12;
@@ -43,7 +65,6 @@ public class SmokeStats implements Serializable {
 			break;
 		
 		}
-		
 	}
 	
 	public void increaseElapsedActions() {

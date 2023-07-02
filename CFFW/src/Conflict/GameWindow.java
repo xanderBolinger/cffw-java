@@ -99,6 +99,9 @@ public class GameWindow implements Serializable {
 
 	public VehicleCombatWindow vehicleCombatWindow;
 	
+	
+	public GameWindow() { gameWindow = this; } // Empty constructor for testing
+	
 	/**
 	 * Launch the application.
 	 */
