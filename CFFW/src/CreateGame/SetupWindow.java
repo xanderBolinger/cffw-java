@@ -46,6 +46,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+
+import CeHexGrid.Chit;
+
 import javax.swing.JTextField;
 
 public class SetupWindow implements Serializable {
@@ -596,6 +599,7 @@ public class SetupWindow implements Serializable {
 			txtSaveName.setText(gameSave.gameName);
 			companies = gameSave.companies;
 			game = gameSave.game;
+			
 			Hexes hexes = gameSave.hexes;
 			InitOrder initOrder = gameSave.initOrder;
 			int activeUnit = gameSave.activeUnit;
@@ -632,4 +636,7 @@ public class SetupWindow implements Serializable {
 		}
 		
 	}
+	
+	
+	
 }

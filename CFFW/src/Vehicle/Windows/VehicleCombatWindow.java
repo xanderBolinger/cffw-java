@@ -126,7 +126,7 @@ public class VehicleCombatWindow {
 		if(md.hullDownPosition != null) {
 			lblHullDown.setText(md.hullDownPosition.toString()+", Status: "+md.hullDownStatus+", Decision: "+md.hullDownDecision);
 		} else {
-			lblHullDown.setText("Hull Down: ");
+			lblHullDown.setText("Hull Down: "+md.hullDownDecision);
 		}
 		
 		
@@ -273,7 +273,7 @@ public class VehicleCombatWindow {
 		
 		JLabel lblVehicleNotes = new JLabel("Vehicle Notes");
 		lblVehicleNotes.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblVehicleNotes.setBounds(406, 385, 197, 16);
+		lblVehicleNotes.setBounds(406, 410, 197, 16);
 		frame.getContentPane().add(lblVehicleNotes);
 		
 		textAreaNotes = new JTextArea();
@@ -283,7 +283,7 @@ public class VehicleCombatWindow {
 				System.out.println("key typed");
 			}
 		});
-		textAreaNotes.setBounds(406, 412, 439, 167);
+		textAreaNotes.setBounds(406, 437, 439, 142);
 		frame.getContentPane().add(textAreaNotes);
 		
 		btnNewButton_2 = new JButton("Rotate Left");
@@ -374,9 +374,9 @@ public class VehicleCombatWindow {
 			public void actionPerformed(ActionEvent e) {
 				if(selectedVehicle == null)
 					return;
-				
-				selectedVehicle.movementData.hullDownDecision = selectedVehicle.movementData.hullDownDecision == HullDownDecision.ENTER
-						? HullDownDecision.NOTHING : HullDownDecision.ENTER;
+				var md = selectedVehicle.movementData;
+				md.hullDownDecision = HullDownDecision.ENTER;
+				md.selectedHullDownPosition = HexGridHullDownUtility.getHullDownPosition(md.location.xCord, md.location.yCord);
 				refreshSelectedVehicle();
 			}
 		});
@@ -388,8 +388,7 @@ public class VehicleCombatWindow {
 			public void actionPerformed(ActionEvent e) {
 				if(selectedVehicle == null)
 					return;
-				selectedVehicle.movementData.hullDownDecision = selectedVehicle.movementData.hullDownDecision == HullDownDecision.EXIT
-						? HullDownDecision.NOTHING : HullDownDecision.EXIT;
+				selectedVehicle.movementData.hullDownDecision = HullDownDecision.EXIT;
 				refreshSelectedVehicle();
 			}
 		});
@@ -401,8 +400,7 @@ public class VehicleCombatWindow {
 			public void actionPerformed(ActionEvent e) {
 				if(selectedVehicle == null)
 					return;
-				selectedVehicle.movementData.hullDownDecision = selectedVehicle.movementData.hullDownDecision == HullDownDecision.INCH_FORWARD
-						? HullDownDecision.NOTHING : HullDownDecision.INCH_FORWARD;
+				selectedVehicle.movementData.hullDownDecision = HullDownDecision.INCH_FORWARD;
 				refreshSelectedVehicle();
 			}
 		});
@@ -410,8 +408,8 @@ public class VehicleCombatWindow {
 		frame.getContentPane().add(btnNewButton_8);
 		
 		lblHullDown = new JLabel("Hull Down:");
-		lblHullDown.setFont(new Font("Tahoma", Font.BOLD, 10));
-		lblHullDown.setBounds(406, 363, 439, 16);
+		lblHullDown.setFont(new Font("Tahoma", Font.BOLD, 9));
+		lblHullDown.setBounds(406, 383, 439, 16);
 		frame.getContentPane().add(lblHullDown);
 		
 		JButton btnNewButton_8_1 = new JButton("<--");
@@ -419,13 +417,24 @@ public class VehicleCombatWindow {
 			public void actionPerformed(ActionEvent e) {
 				if(selectedVehicle == null)
 					return;
-				selectedVehicle.movementData.hullDownDecision = selectedVehicle.movementData.hullDownDecision == HullDownDecision.INCH_BACKWARD
-						? HullDownDecision.NOTHING : HullDownDecision.INCH_BACKWARD;
+				selectedVehicle.movementData.hullDownDecision = HullDownDecision.INCH_BACKWARD;
 				refreshSelectedVehicle();
 			}
 		});
 		btnNewButton_8_1.setBounds(702, 338, 66, 23);
 		frame.getContentPane().add(btnNewButton_8_1);
+		
+		JButton btnNewButton_8_2 = new JButton("Clear");
+		btnNewButton_8_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedVehicle == null)
+					return;
+				selectedVehicle.movementData.hullDownDecision = HullDownDecision.NOTHING;
+				refreshSelectedVehicle();
+			}
+		});
+		btnNewButton_8_2.setBounds(406, 361, 144, 23);
+		frame.getContentPane().add(btnNewButton_8_2);
 		
 		
 		
