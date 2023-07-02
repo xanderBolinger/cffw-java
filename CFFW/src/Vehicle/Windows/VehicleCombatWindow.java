@@ -436,6 +436,7 @@ public class VehicleCombatWindow {
 		frame.getContentPane().add(btnNewButton_8_2);
 		
 		textAreaHullDown = new JTextArea();
+		textAreaHullDown.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		textAreaHullDown.setBounds(406, 395, 439, 38);
 		frame.getContentPane().add(textAreaHullDown);
 		
