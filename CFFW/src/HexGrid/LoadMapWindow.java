@@ -83,6 +83,7 @@ public class LoadMapWindow {
 						if(mapList.getSelectedIndex() == i) {
 							
 							LoadMap.loadMap(fileNames.get(i));
+							
 							break; 
 						}
 						

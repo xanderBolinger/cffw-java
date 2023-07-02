@@ -15,6 +15,7 @@ public class HullDownPosition implements Serializable {
 	public HullDownStatus minimumHullDownStatus;
 	public HullDownStatus maximumHullDownStatus;
 	public int capacity;
+	public int occupants;
 	
 	public HullDownPosition(HullDownStatus minimumHullDownStatus, HullDownStatus maximumHullDownStatus) {
 		this.minimumHullDownStatus = minimumHullDownStatus;

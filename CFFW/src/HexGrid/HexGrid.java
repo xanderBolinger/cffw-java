@@ -33,6 +33,7 @@ import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.ThrowAble;
 import CorditeExpansionActions.CeAction;
 import CorditeExpansionActions.TurnAction;
+import HexGrid.Vehicle.HexGridHullDownUtility;
 import CorditeExpansionActions.CeAction.ActionType;
 import Hexes.Building;
 import Hexes.Feature;
@@ -513,8 +514,8 @@ public class HexGrid implements Serializable {
 
 	public class Panel extends JPanel {
 		
+		public ArrayList<ArrayList<Polygon>> hexMap = new ArrayList<>();
 		private ArrayList<Polygon> shapeList = new ArrayList<>();
-		private ArrayList<ArrayList<Polygon>> hexMap = new ArrayList<>();
 		private ArrayList<DrawnString> drawnStrings = new ArrayList<>();
 
 		public ArrayList<DeployedUnit> selectedUnits = new ArrayList<>();
@@ -628,64 +629,6 @@ public class HexGrid implements Serializable {
 			
 		}
 
-		public void updateVehicleChits(VehicleCombatWindow cw) {
-			
-			for(var vic : cw.vehicles) {
-				if(checkVehicleChit(vic.identifier))
-					continue;
-				
-				var blufor = bluforVehicle(vic);
-				var chit = new Chit(ExcelUtility.path 
-						+ "\\Unit Images\\"+(blufor ? "BLUFOR" : "OPFOR")+"_ARMOR.png", 20, (blufor ? 12 : 20));
-				chit.vehicle = true; 
-				chit.vicIdentifier = vic.identifier;
-				chit.vicCallsign = vic.getVehicleCallsign();
-				GameWindow.gameWindow.game.chits.add(chit);
-			}
-			
-			ArrayList<Chit> removeChits = new ArrayList<Chit>();
-			
-			for(var chit : GameWindow.gameWindow.game.chits) {
-				
-				if(!chit.vehicle)
-					continue;
-				
-				boolean found = false; 
-				
-				for(var vic : cw.vehicles) {
-					if(vic.identifier.equals(chit.vicIdentifier))
-						found = true;
-				}
-				
-				if(!found)
-					removeChits.add(chit);
-				
-			}
-			
-			for(var chit : removeChits) {
-				GameWindow.gameWindow.game.chits.remove(chit);
-			}
-			
-		}
-		
-		private boolean bluforVehicle(Vehicle vic) {
-			
-			for(var c : GameWindow.gameWindow.companies) {
-				if(c.vehicles.contains(vic) && c.getSide().equals("BLUFOR"))
-					return true;
-			}
-			
-			return false;
-		}
-		
-		private boolean checkVehicleChit(String idenfitier) {
-			for(var chit : GameWindow.gameWindow.game.chits) {
-				if(chit.vehicle && chit.vicIdentifier.equals(idenfitier))
-					return true;
-			}
-			
-			return false;
-		}
 		
 		class PanelPopUp extends JPopupMenu {
 			JMenuItem move;
@@ -1455,6 +1398,11 @@ public class HexGrid implements Serializable {
 
 								toolTip += gameWindow.game.smoke.getSmokeStats(new Cord(hex.xCord, hex.yCord));
 
+								var hd = HexGridHullDownUtility.getHullDownPosition(i, j);
+								if(hd != null) {
+									toolTip += "Hull Down ("+hd.minimumHullDownStatus+", "+hd.maximumHullDownStatus+"): "+hd.occupants+"/"+hd.capacity;
+								}
+								
 								break;
 
 							}
@@ -2367,6 +2315,8 @@ public class HexGrid implements Serializable {
 
 			drawChits(g2);
 
+			HexGridHullDownUtility.showHullDownPositions(g2);
+			
 			if (HexGrid.losThreadShowing && losThread.npoints > 1) {
 
 				// System.out.println("Thread: ("+losThread.xpoints[0]+",

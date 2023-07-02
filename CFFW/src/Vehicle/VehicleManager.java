@@ -4,12 +4,24 @@ import java.io.Serializable;
 
 import Conflict.GameWindow;
 import Vehicle.Data.CrewMember.Action;
+import Vehicle.HullDownPositions.HullDownPositionRecords;
 
 public class VehicleManager implements Serializable {
 
 	public int turn = 1;
 	
 	public int phase = 1; 
+	
+	public HullDownPositionRecords hullDownPositions;
+	
+	public VehicleManager() {
+		
+	}
+	
+	public void generate() {
+		hullDownPositions = new HullDownPositionRecords();
+		hullDownPositions.generateHullDownPositions(GameWindow.gameWindow.hexCols, GameWindow.gameWindow.hexRows);
+	}
 	
 	public void nextTurn() {
 		turn = turn == 1 ? 2 : 1; 

@@ -20,6 +20,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTextPane;
 
 import Conflict.GameWindow;
+import HexGrid.Vehicle.HexGridVehicleUtility;
 import UtilityClasses.SwingUtility;
 
 import javax.swing.JTextArea;
@@ -92,7 +93,7 @@ public class VehicleCombatWindow {
 			}
 		}
 		
-		GameWindow.gameWindow.hexGrid.panel.updateVehicleChits(this);
+		HexGridVehicleUtility.updateVehicleChits(this);
 	}
 	
 	public void refreshVehicleList() {
@@ -185,7 +186,7 @@ public class VehicleCombatWindow {
 		JButton btnNewButton = new JButton("Next Turn");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GameWindow.gameWindow.vehicleManager.nextTurn();
+				GameWindow.gameWindow.game.vehicleManager.nextTurn();
 				refreshSelectedVehicle();
 			}
 		});
@@ -195,7 +196,7 @@ public class VehicleCombatWindow {
 		JButton btnNextPhase = new JButton("Next Phase");
 		btnNextPhase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GameWindow.gameWindow.vehicleManager.nextPhase();
+				GameWindow.gameWindow.game.vehicleManager.nextPhase();
 				refreshSelectedVehicle();
 			}
 		});

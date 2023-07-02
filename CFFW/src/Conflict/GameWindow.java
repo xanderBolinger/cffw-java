@@ -97,7 +97,6 @@ public class GameWindow implements Serializable {
 	public int hexRows;
 	private JLabel lblWind;
 
-	public VehicleManager vehicleManager;
 	public VehicleCombatWindow vehicleCombatWindow;
 	
 	/**
@@ -729,7 +728,7 @@ public class GameWindow implements Serializable {
 		
 		
 		vehicleCombatWindow = new VehicleCombatWindow();
-		vehicleManager = new VehicleManager();
+		
 
 	}
 
@@ -1000,6 +999,8 @@ public class GameWindow implements Serializable {
 		setRound();
 		setPhase();
 		setActions();
+		
+		
 
 	}
 

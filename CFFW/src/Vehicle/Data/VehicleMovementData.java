@@ -108,16 +108,19 @@ public class VehicleMovementData implements Serializable {
 	}
 	
 	public void enterHullDownPosition(HullDownPosition hullDownPosition) {
+		if(hullDownPosition.occupants >= hullDownPosition.capacity)
+			return;
+		
 		this.hullDownPosition = hullDownPosition;
 		this.hullDownStatus = hullDownPosition.minimumHullDownStatus;
-		
-		
+		this.hullDownPosition.occupants++;
 	}
 	
 	public void exitHullDownPosition() {
 		
 		if(hullDownStatus != hullDownPosition.minimumHullDownStatus && hullDownStatus != hullDownPosition.maximumHullDownStatus)
 			return;
+		hullDownPosition.occupants--;
 		hullDownPosition = null;
 		
 	}

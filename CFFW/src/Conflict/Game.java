@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import CeHexGrid.Chit;
+import Vehicle.VehicleManager;
 
 public class Game implements Serializable {
 	private int phase;
@@ -13,7 +14,7 @@ public class Game implements Serializable {
 	public String mapImageFileName = "refuge_33x33.png"; 
 	public ArrayList<Chit> chits;
 	public int chitCounter;
-	
+	public VehicleManager vehicleManager;
 	public Wind wind;
 	public Smoke smoke;
 	// public timne object 
@@ -26,6 +27,7 @@ public class Game implements Serializable {
 		chitCounter = 1;
 		wind = new Wind();
 		smoke = new Smoke();
+		vehicleManager = new VehicleManager();
 	} 
 	
 	// SETTERS 
