@@ -772,6 +772,8 @@ public class HexGrid implements Serializable {
 				SetCrawl();
 				SetWalk();
 				SetRush();
+				SetContact();
+				SetNoContact();
 			}
 
 			public PanelPopUp(int xCord, int yCord, Unit unit) {
@@ -807,7 +809,54 @@ public class HexGrid implements Serializable {
 				SetCrawl();
 				SetWalk();
 				SetRush();
+				SetContact();
+				SetNoContact();
 			}
+			
+			
+			public void SetContact() {
+				if (selectedUnits.size() < 1 && selectedUnit == null) {
+					System.out.println("Set Contact return");
+					return;
+				}
+				System.out.println("Set Contact");
+
+				JMenuItem item = new JMenuItem("Set Contact");
+				item.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+
+						SetBehavior("Contact");
+
+					}
+				});
+
+				add(item);
+
+			}
+			
+			public void SetNoContact() {
+				if (selectedUnits.size() < 1 && selectedUnit == null) {
+					System.out.println("Set No Contact return");
+					return;
+				}
+				System.out.println("Set No Contact");
+
+				JMenuItem item = new JMenuItem("Set No Contact");
+				item.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+
+						SetBehavior("No Contact");
+
+					}
+
+					
+				});
+
+				add(item);
+
+			}
+			
+			
 			
 			public void SetCrawl() {
 				if (selectedUnits.size() < 1 && selectedUnit == null) {
@@ -888,6 +937,13 @@ public class HexGrid implements Serializable {
 				add(item);
 			}
 
+			private void SetBehavior(String string) {
+				if(selectedUnit != null)
+					selectedUnit.unit.behavior = string;
+				for(var depUnit : deployedUnits)
+					depUnit.unit.behavior = string;
+			}
+			
 			public void SetSpeed(String speed) {
 				if (selectedUnit != null) {
 					selectedUnit.unit.speed = speed;

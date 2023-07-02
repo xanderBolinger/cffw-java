@@ -74,7 +74,7 @@ public class Unit implements Serializable {
 		this.moral = moral;
 		this.fatiuge = fatiuge;
 		this.cohesion = cohesion;
-		this.radius = radius;
+		this.radius = 0;
 		this.commandValue = commandValue;
 		
 		this.speed = "None";

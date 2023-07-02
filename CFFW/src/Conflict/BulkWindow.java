@@ -2810,7 +2810,7 @@ public class BulkWindow {
 			// System.out.println("CQB Target: "+trooper.closeCombatTarget.name+", Code:
 			// "+System.identityHashCode(trooper.closeCombatTarget));
 
-			if (trooper.alive == false || !trooper.conscious || trooperAlreadyAdded(trooper))
+			if (trooper.alive == false || !trooper.conscious || trooperAlreadyAdded(trooper)  || unit.equipped(trooper))
 				continue;
 
 			for (Unit losUnit : trooper.returnTrooperUnit(GameWindow.gameWindow).lineOfSight) {
