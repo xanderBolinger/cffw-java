@@ -60,7 +60,7 @@ public class VehicleCombatWindow {
 	private JButton btnNewButton_6;
 	private JButton btnNewButton_7;
 	private JButton btnNewButton_8;
-	private JLabel lblHullDown;
+	private JTextArea textAreaHullDown;
 	
 	/**
 	 * Create the application.
@@ -124,9 +124,9 @@ public class VehicleCombatWindow {
 		lblSpeed.setText("Speed: "+md.speed);
 		
 		if(md.hullDownPosition != null) {
-			lblHullDown.setText(md.hullDownPosition.toString()+", Status: "+md.hullDownStatus+", Decision: "+md.hullDownDecision);
+			textAreaHullDown.setText(md.hullDownPosition.toString()+", \nStatus: "+md.hullDownStatus+", Decision: "+md.hullDownDecision);
 		} else {
-			lblHullDown.setText("Hull Down: "+md.hullDownDecision);
+			textAreaHullDown.setText("Hull Down: "+md.hullDownDecision);
 		}
 		
 		
@@ -152,7 +152,7 @@ public class VehicleCombatWindow {
 		lblHullTurnRate.setText("Hull Turn Rate: ");
 		lblSidesTurned.setText("Sides Turned: ");
 		lblSpeed.setText("Speed: ");
-		lblHullDown.setText("Hull Down: ");
+		textAreaHullDown.setText("Hull Down: ");
 		selectedVehicle = null;
 		SwingUtility.setList(listCrew, new ArrayList<String>());
 	}
@@ -198,7 +198,9 @@ public class VehicleCombatWindow {
 		JButton btnNewButton = new JButton("Next Turn");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GameWindow.gameWindow.game.vehicleManager.nextTurn();
+				var vm = GameWindow.gameWindow.game.vehicleManager;
+				vm.nextTurn();
+				lblTurnPhase.setText("Turn: "+vm.turn+", Phase: "+vm.phase);
 				refreshSelectedVehicle();
 			}
 		});
@@ -208,7 +210,9 @@ public class VehicleCombatWindow {
 		JButton btnNextPhase = new JButton("Next Phase");
 		btnNextPhase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GameWindow.gameWindow.game.vehicleManager.nextPhase();
+				var vm = GameWindow.gameWindow.game.vehicleManager;
+				vm.nextPhase();
+				lblTurnPhase.setText("Turn: "+vm.turn+", Phase: "+vm.phase);
 				refreshSelectedVehicle();
 			}
 		});
@@ -273,7 +277,7 @@ public class VehicleCombatWindow {
 		
 		JLabel lblVehicleNotes = new JLabel("Vehicle Notes");
 		lblVehicleNotes.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblVehicleNotes.setBounds(406, 410, 197, 16);
+		lblVehicleNotes.setBounds(407, 444, 197, 16);
 		frame.getContentPane().add(lblVehicleNotes);
 		
 		textAreaNotes = new JTextArea();
@@ -283,7 +287,7 @@ public class VehicleCombatWindow {
 				System.out.println("key typed");
 			}
 		});
-		textAreaNotes.setBounds(406, 437, 439, 142);
+		textAreaNotes.setBounds(406, 471, 439, 108);
 		frame.getContentPane().add(textAreaNotes);
 		
 		btnNewButton_2 = new JButton("Rotate Left");
@@ -407,11 +411,6 @@ public class VehicleCombatWindow {
 		btnNewButton_8.setBounds(779, 338, 66, 23);
 		frame.getContentPane().add(btnNewButton_8);
 		
-		lblHullDown = new JLabel("Hull Down:");
-		lblHullDown.setFont(new Font("Tahoma", Font.BOLD, 9));
-		lblHullDown.setBounds(406, 383, 439, 16);
-		frame.getContentPane().add(lblHullDown);
-		
 		JButton btnNewButton_8_1 = new JButton("<--");
 		btnNewButton_8_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -435,6 +434,10 @@ public class VehicleCombatWindow {
 		});
 		btnNewButton_8_2.setBounds(406, 361, 144, 23);
 		frame.getContentPane().add(btnNewButton_8_2);
+		
+		textAreaHullDown = new JTextArea();
+		textAreaHullDown.setBounds(406, 395, 439, 38);
+		frame.getContentPane().add(textAreaHullDown);
 		
 		
 		
