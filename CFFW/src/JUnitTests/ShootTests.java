@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import Actions.Spot;
 import Items.Weapons;
 import Shoot.Shoot;
 import Trooper.Trooper;
@@ -200,8 +201,23 @@ public class ShootTests {
 	}
 	
 	@Test
-	public void suppression() {
+	public void suppressionNoneSpotted() {
 		
+		shoot = new Shoot(shooterUnit, targetUnit, shooter, null, shooter.wep, 0);
+		shoot.pcHexRange = 100; 
+		shoot.calculateModifiers();
+		shoot.setSuppressiveTn();
+		shoot.suppressiveFire(20);
+		assertEquals(5, targetUnit.suppression);
+		assertEquals(95, targetUnit.organization);
+		
+	}
+	
+	@Test
+	public void suppressionSpotted() {
+		var spot = new Spot();
+		spot.spottedIndividuals.add(target);
+		shooter.spotted.add(spot);
 		shoot = new Shoot(shooterUnit, targetUnit, shooter, null, shooter.wep, 0);
 		shoot.pcHexRange = 100; 
 		shoot.calculateModifiers();
@@ -240,8 +256,8 @@ public class ShootTests {
 		shoot.suppressiveHits = 5; 
 		shoot.resolveHits();
 		shoot.resolveSuppressiveHits();
-		assertEquals(2, targetUnit.suppression);
-		assertEquals(98, targetUnit.organization);
+		assertEquals(1, targetUnit.suppression);
+		assertEquals(99, targetUnit.organization);
 	}
 	
 	@Test
@@ -496,7 +512,7 @@ public class ShootTests {
 
 		shoot.target.stance = "Crouching";
 		shoot.setSizeALM();
-		assertEquals(5, shoot.sizeALM);
+		assertEquals(3, shoot.sizeALM);
 
 		shoot.target.inCover = true;
 		shoot.setSizeALM();

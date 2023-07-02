@@ -511,7 +511,7 @@ public class FireAction implements CeAction {
 			stance = "Prone";
 		}
 		
-		return PCUtility.findSizeALM(stance, target.PCSize);
+		return PCUtility.findSizeALM(stance, target.PCSize, target.inCover);
 	}
 
 	public int getSpeedAlm(StatBlock movingBlock, Cord cord) throws Exception {

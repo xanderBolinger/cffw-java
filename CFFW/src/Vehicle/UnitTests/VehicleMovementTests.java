@@ -28,7 +28,8 @@ public class VehicleMovementTests {
 		
 		var data = new VehicleMovementData(new Vehicle());
 		var hullDownPosition = new HullDownPosition(HullDownStatus.HIDDEN, HullDownStatus.PARTIAL_HULL_DOWN);
-		
+		data.selectedHullDownPosition = hullDownPosition;
+		hullDownPosition.capacity++;
 		data.enterHullDownPosition(hullDownPosition);
 		assertEquals(hullDownPosition, data.hullDownPosition);
 		assertEquals(HullDownStatus.HIDDEN, data.hullDownStatus);
@@ -39,6 +40,8 @@ public class VehicleMovementTests {
 		
 		var data = new VehicleMovementData(new Vehicle());
 		var hullDownPosition = new HullDownPosition(HullDownStatus.HIDDEN, HullDownStatus.PARTIAL_HULL_DOWN);
+		hullDownPosition.capacity++;
+		data.selectedHullDownPosition = hullDownPosition;
 		
 		data.enterHullDownPosition(hullDownPosition);
 		

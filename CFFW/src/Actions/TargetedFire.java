@@ -151,7 +151,7 @@ public class TargetedFire implements Serializable {
 		targetUnit.setStance(targetTrooper, game);
 		String stance = targetTrooper.stance;
 	
-		sizeALM = PCUtility.findSizeALM(stance, targetTrooper.PCSize);
+		sizeALM = PCUtility.findSizeALM(stance, targetTrooper.PCSize, targetTrooper.inCover);
 		
 		if(weapon.type.equals("Launcher")) {
 			sizeALM = 12; 

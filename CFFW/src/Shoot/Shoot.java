@@ -13,6 +13,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import Actions.Spot;
 import Conflict.GameWindow;
 import Conflict.InjuryLog;
 import CorditeExpansion.FullAuto;
@@ -489,6 +490,9 @@ public class Shoot {
 		if(suppressiveHits > 0)
 			explosionCheck();
 		
+		if(suppressiveHits > 1 && !canSeeAtLeastOneEnemy())
+			suppressiveHits /= 2;
+		
 		if (targetUnit.suppression + suppressiveHits < 100) {
 			targetUnit.suppression += suppressiveHits / 2;
 		} else {
@@ -505,6 +509,20 @@ public class Shoot {
 			suppressiveHits = 0; 
 		else 
 			suppressiveHits = 1;
+	}
+	
+	public boolean canSeeAtLeastOneEnemy() {
+		
+		for(Trooper trooper : shooterUnit.individuals) {
+			for(Spot spot : trooper.spotted) {
+				for(Trooper spottedTrooper : spot.spottedIndividuals) {
+					if(targetUnit.individuals.contains(spottedTrooper))
+						return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 
 	public void setSingleTn() {
@@ -715,12 +733,12 @@ public class Shoot {
 	}
 
 	public void setSizeALM() {
-		if (target == null || target.inCover) {
+		if (target == null) {
 			sizeALM = 0;
 			return;
 		}
 
-		sizeALM = PCUtility.findSizeALM(target.stance, target.PCSize);
+		sizeALM = PCUtility.findSizeALM(target.stance, target.PCSize, target.inCover);
 	}
 
 	public void setLaserLightALM() {

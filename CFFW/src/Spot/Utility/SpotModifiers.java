@@ -119,7 +119,7 @@ public class SpotModifiers {
 		double PCSize = 0;
 		for (Trooper targetTrooper : spotableTroopers) {
 
-			PCSize += PCUtility.getStanceModifiedSize(targetTrooper.stance, targetTrooper.PCSize);
+			PCSize += PCUtility.getStanceModifiedSize(targetTrooper.stance, targetTrooper.PCSize, targetTrooper.inCover);
 
 		}
 
