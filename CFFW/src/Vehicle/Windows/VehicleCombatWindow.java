@@ -5,9 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import Vehicle.Vehicle;
-import Vehicle.VehicleManager;
-import Vehicle.VehicleMovement;
 import Vehicle.Data.CrewMember.Action;
+import Vehicle.HullDownPositions.HullDownPosition.HullDownDecision;
 
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -20,6 +19,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTextPane;
 
 import Conflict.GameWindow;
+import HexGrid.Vehicle.HexGridHullDownUtility;
 import HexGrid.Vehicle.HexGridVehicleUtility;
 import UtilityClasses.SwingUtility;
 
@@ -57,6 +57,10 @@ public class VehicleCombatWindow {
 	private JButton btnNewButton_4;
 	private JButton btnNewButton_5;
 	private JSpinner spinnerChange;
+	private JButton btnNewButton_6;
+	private JButton btnNewButton_7;
+	private JButton btnNewButton_8;
+	private JLabel lblHullDown;
 	
 	/**
 	 * Create the application.
@@ -119,6 +123,13 @@ public class VehicleCombatWindow {
 		lblSidesTurned.setText("Sides Turned: "+md.changedFaces);
 		lblSpeed.setText("Speed: "+md.speed);
 		
+		if(md.hullDownPosition != null) {
+			lblHullDown.setText(md.hullDownPosition.toString()+", Status: "+md.hullDownStatus+", Decision: "+md.hullDownDecision);
+		} else {
+			lblHullDown.setText("Hull Down: ");
+		}
+		
+		
 		ArrayList<String> vehicleCrew = new ArrayList<String>();
 		
 		for(var pos : selectedVehicle.getCrewPositions()) {
@@ -141,6 +152,7 @@ public class VehicleCombatWindow {
 		lblHullTurnRate.setText("Hull Turn Rate: ");
 		lblSidesTurned.setText("Sides Turned: ");
 		lblSpeed.setText("Speed: ");
+		lblHullDown.setText("Hull Down: ");
 		selectedVehicle = null;
 		SwingUtility.setList(listCrew, new ArrayList<String>());
 	}
@@ -261,7 +273,7 @@ public class VehicleCombatWindow {
 		
 		JLabel lblVehicleNotes = new JLabel("Vehicle Notes");
 		lblVehicleNotes.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblVehicleNotes.setBounds(406, 349, 197, 16);
+		lblVehicleNotes.setBounds(406, 385, 197, 16);
 		frame.getContentPane().add(lblVehicleNotes);
 		
 		textAreaNotes = new JTextArea();
@@ -271,7 +283,7 @@ public class VehicleCombatWindow {
 				System.out.println("key typed");
 			}
 		});
-		textAreaNotes.setBounds(406, 376, 439, 203);
+		textAreaNotes.setBounds(406, 412, 439, 167);
 		frame.getContentPane().add(textAreaNotes);
 		
 		btnNewButton_2 = new JButton("Rotate Left");
@@ -311,6 +323,11 @@ public class VehicleCombatWindow {
 					return;
 				
 				var md = selectedVehicle.movementData;
+				
+				if(md.hullDownPosition != null) {
+					return;
+				}
+				
 				var cord = md.location;
 				
 				var hex = GameWindow.gameWindow.findHex(cord.xCord, cord.yCord);
@@ -334,7 +351,11 @@ public class VehicleCombatWindow {
 					return;
 				
 				var md = selectedVehicle.movementData;
-						
+				
+				if(md.hullDownPosition != null) {
+					return;
+				}
+				
 				md.decelerate(md.speed-(int)spinnerChange.getValue());
 				
 				refreshSelectedVehicle();
@@ -347,6 +368,64 @@ public class VehicleCombatWindow {
 		spinnerChange.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 		spinnerChange.setBounds(702, 310, 52, 20);
 		frame.getContentPane().add(spinnerChange);
+		
+		btnNewButton_6 = new JButton("Enter HD");
+		btnNewButton_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedVehicle == null)
+					return;
+				
+				selectedVehicle.movementData.hullDownDecision = selectedVehicle.movementData.hullDownDecision == HullDownDecision.ENTER
+						? HullDownDecision.NOTHING : HullDownDecision.ENTER;
+				refreshSelectedVehicle();
+			}
+		});
+		btnNewButton_6.setBounds(406, 338, 144, 23);
+		frame.getContentPane().add(btnNewButton_6);
+		
+		btnNewButton_7 = new JButton("Exit HD");
+		btnNewButton_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedVehicle == null)
+					return;
+				selectedVehicle.movementData.hullDownDecision = selectedVehicle.movementData.hullDownDecision == HullDownDecision.EXIT
+						? HullDownDecision.NOTHING : HullDownDecision.EXIT;
+				refreshSelectedVehicle();
+			}
+		});
+		btnNewButton_7.setBounds(560, 338, 132, 23);
+		frame.getContentPane().add(btnNewButton_7);
+		
+		btnNewButton_8 = new JButton("-->");
+		btnNewButton_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedVehicle == null)
+					return;
+				selectedVehicle.movementData.hullDownDecision = selectedVehicle.movementData.hullDownDecision == HullDownDecision.INCH_FORWARD
+						? HullDownDecision.NOTHING : HullDownDecision.INCH_FORWARD;
+				refreshSelectedVehicle();
+			}
+		});
+		btnNewButton_8.setBounds(779, 338, 66, 23);
+		frame.getContentPane().add(btnNewButton_8);
+		
+		lblHullDown = new JLabel("Hull Down:");
+		lblHullDown.setFont(new Font("Tahoma", Font.BOLD, 10));
+		lblHullDown.setBounds(406, 363, 439, 16);
+		frame.getContentPane().add(lblHullDown);
+		
+		JButton btnNewButton_8_1 = new JButton("<--");
+		btnNewButton_8_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedVehicle == null)
+					return;
+				selectedVehicle.movementData.hullDownDecision = selectedVehicle.movementData.hullDownDecision == HullDownDecision.INCH_BACKWARD
+						? HullDownDecision.NOTHING : HullDownDecision.INCH_BACKWARD;
+				refreshSelectedVehicle();
+			}
+		});
+		btnNewButton_8_1.setBounds(702, 338, 66, 23);
+		frame.getContentPane().add(btnNewButton_8_1);
 		
 		
 		

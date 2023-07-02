@@ -23,4 +23,9 @@ public class HullDownPosition implements Serializable {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return "Hull Down ("+minimumHullDownStatus+", "+maximumHullDownStatus+"): "+occupants+"/"+capacity;
+	}
+	
 }

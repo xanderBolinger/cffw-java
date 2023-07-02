@@ -1400,7 +1400,7 @@ public class HexGrid implements Serializable {
 
 								var hd = HexGridHullDownUtility.getHullDownPosition(i, j);
 								if(hd != null) {
-									toolTip += "Hull Down ("+hd.minimumHullDownStatus+", "+hd.maximumHullDownStatus+"): "+hd.occupants+"/"+hd.capacity;
+									toolTip += hd.toString();
 								}
 								
 								break;
