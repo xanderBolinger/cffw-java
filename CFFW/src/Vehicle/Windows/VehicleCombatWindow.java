@@ -160,7 +160,7 @@ public class VehicleCombatWindow {
 		lblLaunchesRemaining.setText("Remaining Launches: "+selectedVehicle.smokeData.remainingSmokeLaunches);
 		lblTrailingSmoke.setText("Trailing Smoke: "+selectedVehicle.smokeData.trailingSmoke.smokeType);
 		lblTurnsRemaining.setText("Turns Remaining: "+selectedVehicle.smokeData.remainingTrailingSmokeTurns);
-		lblTrailing.setText("Trailing: "+selectedVehicle.smokeData.trailingSmoke);
+		lblTrailing.setText("Trailing: "+selectedVehicle.smokeData.trailingSmokeActive);
 	}
 	
 	
@@ -485,6 +485,7 @@ public class VehicleCombatWindow {
 				
 				selectedVehicle.smokeData.launchSmoke();
 				GameWindow.gameWindow.conflictLog.addNewLine("Attempted Smoke Launch");
+				refreshSelectedVehicle();
 			}
 		});
 		btnLaunch.setBounds(306, 77, 118, 23);
@@ -502,6 +503,7 @@ public class VehicleCombatWindow {
 				
 				selectedVehicle.smokeData.toggleTrailingSmoke();
 				GameWindow.gameWindow.conflictLog.addNewLine("Toggle trailing smoke");
+				refreshSelectedVehicle();
 				
 			}
 		});

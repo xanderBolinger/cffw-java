@@ -18,6 +18,10 @@ public class VehicleMovement implements Serializable {
 		
 		var md = vehicle.movementData;
 		
+		if(vehicle.smokeData.trailingSmokeActive && md.speed == 0) {
+			vehicle.smokeData.deployTrailingSmoke();
+		}
+		
 		for(int i = 0; i < md.speed; i++) {
 			var cord = HexDirectionUtility.getHexInDirection(md.facing, md.location, md.movedClockwise);
 			var hex = GameWindow.gameWindow.findHex(cord.xCord, cord.yCord);
@@ -32,9 +36,6 @@ public class VehicleMovement implements Serializable {
 		
 		updateChit(vehicle);
 		
-		if(vehicle.smokeData.trailingSmokeActive) {
-			vehicle.smokeData.deployTrailingSmoke();
-		}
 		
 	}
 	

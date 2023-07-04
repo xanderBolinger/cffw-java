@@ -176,7 +176,7 @@ public class AddVehicleWindow {
 	}
 	
 	private void updateCombatWindow() {
-		if(GameWindow.gameWindow == null)
+		if(GameWindow.gameWindow == null || GameWindow.gameWindow.vehicleCombatWindow == null)
 			return;
 		var w = GameWindow.gameWindow.vehicleCombatWindow;
 		w.setVehicles();

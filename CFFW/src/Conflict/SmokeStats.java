@@ -32,11 +32,11 @@ public class SmokeStats implements Serializable {
 	}
 	
 	public SmokeStats(SmokeType smokeType) {
-		this.smokeType = smokeType;
 		setSmokeStats(smokeType);
 	}
 	
 	private void setSmokeStats(SmokeType smokeType) {
+		this.smokeType = smokeType;
 		switch(smokeType) {
 		case SMOKE_GRENADE:
 			diameter = 3; 

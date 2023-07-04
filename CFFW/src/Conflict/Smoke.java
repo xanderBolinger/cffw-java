@@ -123,8 +123,9 @@ public class Smoke implements Serializable {
 	}
 	
 	public void deploySmoke(Cord cord, SmokeStats smokeStats) {
-		smokeStats.deployedHex = cord;
-		deployedSmoke.add(smokeStats);
+		var smoke = new SmokeStats(smokeStats.smokeType);
+		smoke.deployedHex = new Cord(cord.xCord, cord.yCord);
+		deployedSmoke.add(smoke);
 	}
 	
 	

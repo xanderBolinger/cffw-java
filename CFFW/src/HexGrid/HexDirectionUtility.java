@@ -22,6 +22,36 @@ public class HexDirectionUtility {
 			
 		}
 
+		public static List<HexDirection> getNormalDirections() {
+			
+			List<HexDirection> directions = new ArrayList<>();
+			
+			for (HexDirection dir : HexDirection.values()) {
+				switch (dir) {
+	            case A:
+	                directions.add(dir);
+	                break;
+	            case B:
+	            	directions.add(dir);
+	                break;
+	            case C:
+	            	directions.add(dir);
+	                break;
+	            case D:
+	            	directions.add(dir);
+	                break;
+	            case E:
+	            	directions.add(dir);
+	                break;
+	            case F:
+	            	directions.add(dir);
+	                break;
+	        }
+			}
+			
+			return directions;
+			
+		}
 		
 		
 	}

@@ -68,6 +68,11 @@ public class VehicleMovementData implements Serializable {
 				GameWindow.gameWindow.conflictLog.addNewLine(vehicle.getVehicleCallsign()+"'s path has been blocked and they are no longer moving.");
 		} else {
 			location = new Cord(hex.xCord, hex.yCord);
+			
+		}
+		
+		if(vehicle.smokeData.trailingSmokeActive) {
+			vehicle.smokeData.deployTrailingSmoke();
 		}
 	}
 	

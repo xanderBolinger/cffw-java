@@ -16,6 +16,8 @@ public class Cord implements Serializable {
 		this.yCord = yCord;
 	}
 
+
+
 	public boolean compare(Cord newCord) {
 		if (xCord == newCord.xCord && yCord == newCord.yCord) {
 			return true;
