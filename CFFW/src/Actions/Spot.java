@@ -112,8 +112,10 @@ public class Spot implements Serializable {
 		// Concealment
 		int concealmentMod = SpotModifiers.getConcealmentMod(spotter, spotableUnits, spotableTroopers);
 
-		// Behavior
+		// Behavior 
 
+		// Fortifications 
+		
 		// Range
 		int rangeMod = SpotModifiers.getRangeMod(spotableUnits.get(0), spotterUnit);
 

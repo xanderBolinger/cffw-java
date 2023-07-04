@@ -131,7 +131,7 @@ public class VehicleCombatWindow {
 		lblHullTurnRate.setText("Hull Turn Rate: "+md.hullTurnRate);
 		lblSidesTurned.setText("Sides Turned: "+md.changedFaces);
 		lblSpeed.setText("Speed: "+md.speed);
-		
+		textAreaNotes.setText(selectedVehicle.notes);
 		refreshSmoke();
 		
 		if(md.hullDownPosition != null) {
@@ -174,6 +174,7 @@ public class VehicleCombatWindow {
 		lblSpeed.setText("Speed: ");
 		textAreaHullDown.setText("Hull Down: ");
 		selectedVehicle = null;
+		textAreaNotes.setText("");
 		SwingUtility.setList(listCrew, new ArrayList<String>());
 	}
 	
@@ -511,8 +512,10 @@ public class VehicleCombatWindow {
 		smoke.add(btnNextPhase_1_1);
 		textAreaNotes.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyTyped(KeyEvent e) {
-				System.out.println("key typed");
+			public void keyReleased(KeyEvent e) {
+				if(selectedVehicle == null)
+					return;
+				selectedVehicle.notes = textAreaNotes.getText();
 			}
 		});
 		

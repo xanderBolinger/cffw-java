@@ -16,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import Actions.Spot;
 import Conflict.GameWindow;
 import Conflict.InjuryLog;
+import CorditeExpansion.Cord;
 import CorditeExpansion.FullAuto;
 import CorditeExpansion.FullAuto.FullAutoResults;
 import HexGrid.CalculateLOS;
@@ -493,6 +494,10 @@ public class Shoot {
 		if(suppressiveHits > 1 && !canSeeAtLeastOneEnemy())
 			suppressiveHits /= 2;
 		
+		if(GameWindow.gameWindow != null && GameWindow.gameWindow.game != null)
+			applyFortificationModifiers();
+		
+		
 		if (targetUnit.suppression + suppressiveHits < 100) {
 			targetUnit.suppression += suppressiveHits / 2;
 		} else {
@@ -509,6 +514,15 @@ public class Shoot {
 			suppressiveHits = 0; 
 		else 
 			suppressiveHits = 1;
+	}
+	
+	private void applyFortificationModifiers() {
+		var level = GameWindow.gameWindow.game.fortifications.getTrenchesLevel(new Cord(targetUnit.X, targetUnit.Y));
+		if(level == 2) {
+			suppressiveHits /= 2;
+		} else if(level >= 3) {
+			suppressiveHits /= 3;
+		}
 	}
 	
 	public boolean canSeeAtLeastOneEnemy() {

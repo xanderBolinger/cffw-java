@@ -1,3 +1,4 @@
+/CeHexGrid/
 /CharacterBuilder/
 /CloseCombat/
 /CommandLineInterface/
@@ -11,6 +12,7 @@
 /CorditeExpansionStatBlock/
 /CreateGame/
 /FatigueSystem/
+/Fortifications/
 /HexGrid/
 /HexGridIcons/
 /Hexes/
@@ -21,6 +23,7 @@
 /Main.class
 /MainCETest.class
 /Medical/
+/Melee/
 /OperationExporter/
 /SaveCompanies/
 /Shoot/
@@ -32,5 +35,5 @@
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
-/Fortifications/
-/Melee/
+/Artillery/
+/Actions/

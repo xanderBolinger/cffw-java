@@ -170,6 +170,7 @@ public class Artillery implements Serializable {
 		public String shellName; 
 		
 		public boolean smoke = false; 
+		public boolean airBurst = false;
 		public SmokeType smokeType;
 		
 		public Shell(ShellType shellType) {

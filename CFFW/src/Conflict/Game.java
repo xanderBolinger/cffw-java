@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import CeHexGrid.Chit;
+import Fortifications.FortificationRecords;
 import Vehicle.VehicleManager;
 
 public class Game implements Serializable {
@@ -15,6 +16,7 @@ public class Game implements Serializable {
 	public ArrayList<Chit> chits;
 	public int chitCounter;
 	public VehicleManager vehicleManager;
+	public FortificationRecords fortifications;
 	public Wind wind;
 	public Smoke smoke;
 	// public timne object 
@@ -28,6 +30,7 @@ public class Game implements Serializable {
 		wind = new Wind();
 		smoke = new Smoke();
 		vehicleManager = new VehicleManager();
+		fortifications = new FortificationRecords();
 	} 
 	
 	// SETTERS 

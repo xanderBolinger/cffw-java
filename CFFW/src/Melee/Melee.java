@@ -2,6 +2,8 @@ package Melee;
 
 public class Melee {
 
+	// Should be robust enough to be a stand alone wargame revolving around mass melee combat
+	
 	// melee's last for shorts amount of time 
 	// individuals gain large amounts of fatigue
 	// In hand to hand combat there are low 2-3% casualty ratings,

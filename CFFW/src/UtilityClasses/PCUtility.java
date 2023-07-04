@@ -524,7 +524,7 @@ public class PCUtility {
 			// System.out.println("Crouching");
 			size = size / 1.75;
 		} else {
-			System.out.println("Pass Prone");
+			//System.out.println("Pass Prone");
 			size = size / 2;
 			
 		}

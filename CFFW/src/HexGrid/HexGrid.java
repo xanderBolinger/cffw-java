@@ -33,6 +33,7 @@ import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.ThrowAble;
 import CorditeExpansionActions.CeAction;
 import CorditeExpansionActions.TurnAction;
+import HexGrid.Fortifications.HexGridFortificationsUtility;
 import HexGrid.Vehicle.HexGridHullDownUtility;
 import CorditeExpansionActions.CeAction.ActionType;
 import Hexes.Building;
@@ -114,7 +115,10 @@ public class HexGrid implements Serializable {
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
 	public boolean elevationPaste = false;
+	public boolean createFortifications = false;
 	private JButton btnToggleElv;
+	private JButton btnFt;
+	private JSpinner spinnerFortificationLevel;
 
 	/**
 	 * Create the application.
@@ -278,7 +282,11 @@ public class HexGrid implements Serializable {
 		btnNewButton_3.setBounds(165, 0, 45, 45);
 		layeredPane.add(btnNewButton_3);
 		
+		Image mountainIcon = new ImageIcon(ExcelUtility.path + "\\Icons\\mountain_icon.png").getImage();
+		Image mountainIconScaled = mountainIcon.getScaledInstance(45, 45, java.awt.Image.SCALE_SMOOTH ) ;
 		btnToggleElv = new JButton("E");
+		btnToggleElv.setHorizontalAlignment(SwingConstants.CENTER);
+		btnToggleElv.setIcon(new ImageIcon(mountainIconScaled));
 		btnToggleElv.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent arg0) {
@@ -288,7 +296,29 @@ public class HexGrid implements Serializable {
 		});
 		btnToggleElv.setBackground(Color.WHITE);
 		btnToggleElv.setBounds(0, 0, 45, 45);
+		btnToggleElv.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
 		layeredPane.add(btnToggleElv);
+		
+		spinnerFortificationLevel = new JSpinner();
+		spinnerFortificationLevel.setModel(new SpinnerNumberModel(1, 1, 3, 1));
+		spinnerFortificationLevel.setBounds(328, 12, 45, 20);
+		layeredPane.add(spinnerFortificationLevel);
+		
+		btnFt = new JButton("Ft");
+		btnFt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createFortifications = !createFortifications;
+				GameWindow.gameWindow.conflictLog.addNewLine("Create Fortifications: "+createFortifications);
+			}
+		});
+		
+		Image fortificationIcon = new ImageIcon(ExcelUtility.path + "\\Icons\\fortifications_icon.jpg").getImage();
+		Image fortificationIconScaled = fortificationIcon.getScaledInstance(45, 45, java.awt.Image.SCALE_SMOOTH ) ;
+		btnFt.setIcon(new ImageIcon(fortificationIconScaled));
+		btnFt.setBackground(Color.WHITE);
+		btnFt.setBounds(275, 0, 45, 45);
+		btnFt.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
+		layeredPane.add(btnFt);
 
 		panel.addMouseListener(new MouseAdapter() {
 
@@ -1403,6 +1433,13 @@ public class HexGrid implements Serializable {
 									toolTip += hd.toString();
 								}
 								
+								var fortifications = HexGridFortificationsUtility.getFortifications(i, j);
+								if(fortifications.size() > 0)
+									toolTip += "Fortifications: <br>";
+								for(var fort : fortifications) {
+									toolTip += fort.toString();
+								}
+								
 								break;
 
 							}
@@ -1485,7 +1522,11 @@ public class HexGrid implements Serializable {
 					Polygon hex = hexMap.get(i).get(j);
 
 					if (hex.contains(e.getPoint())) {
-
+						var clickedHex = GameWindow.gameWindow.findHex(j, i);
+						if(clickedHex != null && createFortifications) {
+							GameWindow.gameWindow.game.fortifications.addTrench(new Cord(i,j), (int)spinnerFortificationLevel.getValue());
+						}
+						
 						if (copiedHex != null && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)) {
 
 							Hex pastedHex = GameWindow.gameWindow.findHex(i, j);
@@ -2316,6 +2357,7 @@ public class HexGrid implements Serializable {
 			drawChits(g2);
 
 			HexGridHullDownUtility.showHullDownPositions(g2);
+			HexGridFortificationsUtility.showFortifications(g2);
 			
 			if (HexGrid.losThreadShowing && losThread.npoints > 1) {
 

@@ -60,8 +60,8 @@ public class Explosion {
 			return;
 		}
 		
-		System.out.println("Explode Hex");
 		ArrayList<Unit> targetUnits = GameWindow.gameWindow.getUnitsInHexExcludingSide(friendlySide, x, y);
+		
 		
 		for(Unit unit : targetUnits) {
 			
@@ -69,8 +69,8 @@ public class Explosion {
 				
 				if(!excludeTroopers.contains(trooper) && !trooper.inBuilding(GameWindow.gameWindow)) {
 					int roll1 = DiceRoller.roll(0, 10);
-					int roll2 = DiceRoller.roll(0, 10);
-					explodeTrooper(trooper, (roll1 < roll2 ? roll1 : roll2));
+					//int roll2 = DiceRoller.roll(0, 10);
+					explodeTrooper(trooper, /*(roll1 < roll2 ? roll2 : roll1)*/roll1);
 				}
 						
 			}
@@ -179,7 +179,7 @@ public class Explosion {
 				bc = shell.bc.get(getExplsoionRangeColumn(rangePCHexes));				
 			}
 		} else {
-			GameWindow.gameWindow.conflictLog.addNewLine("Explode Trooper failed. No valid weapon.");
+			System.err.println("Explode Trooper failed. No valid weapon.");
 			return;
 		}
 		
@@ -199,20 +199,7 @@ public class Explosion {
 			
 		}
 		
-		System.out.println("BC Before: " + bc);
-		
-		if(target.inCover)
-			bc /= 2;
-		if(PCUtility.armorCoverage(target) && bc > target.armor.bPF && target.entirelyMechanical) 
-			bc /= 4;
-		else if(PCUtility.armorCoverage(target) && bc > target.armor.bPF) 
-			bc /= 2;
-		else if(PCUtility.armorCoverage(target) && bc <= target.armor.bPF) {
-			bc /= 100;
-		}
-		
-		System.out.println("BC After: " + bc);
-		
+		bc = blastConcussionModifiers(bc, target, rangePCHexes);
 		//GameWindow.gameWindow.conflictLog.addNewLineToQueue(GameWindow.getLogHead(target)+", Distance PC Hexes: "+rangePCHexes+", Explosion BC Damage: "+bc+", BSHC: "+bshc+bshcRslts);
 			
 		int ionDmg = 0;
@@ -271,6 +258,88 @@ public class Explosion {
 		target.calculateInjury(GameWindow.gameWindow, GameWindow.gameWindow.conflictLog);
 	}
 	
+	private int blastConcussionModifiers(int bc, Trooper target, int range) {
+		
+		if(PCUtility.armorCoverage(target) && bc > target.armor.bPF && target.entirelyMechanical) 
+			bc /= 4;
+		else if(PCUtility.armorCoverage(target) && bc > target.armor.bPF) 
+			bc /= 2;
+		else if(PCUtility.armorCoverage(target) && bc <= target.armor.bPF) {
+			bc /= 100;
+		}
+		
+		var unit = target.returnTrooperUnit(GameWindow.gameWindow);
+		var fortificationLevel = GameWindow.gameWindow.game.fortifications.getTrenchesLevel(new Cord(unit.X,unit.Y));
+		
+		if((!target.HD && !target.inCover) || !target.inCover)
+			return bc;
+		else if(!target.HD && target.inCover)
+			return bc / 2;
+			
+		
+		double modifiedBc = bc;
+		
+		if((shell != null && !shell.airBurst) || (pcAmmo != null && !pcAmmo.airBurst)) {
+			return (int)( modifiedBc * 0.01);
+		}
+		
+		if(fortificationLevel == 1 || fortificationLevel == 2) {
+			
+			if(range == 0) {
+				modifiedBc *= 3;
+			} else if(range == 1) {
+				modifiedBc *= 3;
+			} else if(range == 2) {
+				modifiedBc *= 2.3;
+			} else if(range == 3) {
+				modifiedBc *= 0.7;
+			} else if(range == 4) {
+				modifiedBc *= 0.5;
+			} else if(range == 5) {
+				modifiedBc *= 0.4;
+			} else if(range <= 7) {
+				modifiedBc *= 0.3;
+			} else if(range <= 13) {
+				modifiedBc *= 0.2;
+			} else if(range <= 25) {
+				modifiedBc *= 0.1;
+			} else if(range <= 60) {
+				modifiedBc *= 0.05;
+			} else if(range >= 61) {
+				modifiedBc *= 0.01;
+			}
+			
+		} else if(fortificationLevel >= 3) {
+			
+			if(range == 0) {
+				modifiedBc *= 3;
+			} else if(range == 1) {
+				modifiedBc *= 2.3;
+			} else if(range == 2) {
+				modifiedBc *= 0.8;
+			} else if(range == 3) {
+				modifiedBc *= 0.4;
+			} else if(range == 4) {
+				modifiedBc *= 0.3;
+			} else if(range == 5) {
+				modifiedBc *= 0.2;
+			} else if(range <= 7) {
+				modifiedBc *= 0.1;
+			} else if(range <= 13) {
+				modifiedBc *= 0.1;
+			} else if(range <= 25) {
+				modifiedBc *= 0.05;
+			} else if(range <= 60) {
+				modifiedBc *= 0.05;
+			} else if(range >= 61) {
+				modifiedBc *= 0.01;
+			}
+			
+		}
+		
+		return (int)modifiedBc;
+	}
+
 	// Called when a trooper is hit by shrapnel 
 	public void shrapHit(Trooper target, int explosionRangeColumn) {
 		

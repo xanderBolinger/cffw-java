@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import Conflict.GameWindow;
+import CorditeExpansion.Cord;
 import HexGrid.CalculateLOS;
 import Hexes.Building;
 import Trooper.Trooper;
@@ -73,6 +74,21 @@ public class SpotModifiers {
 		return concealmentMod;
 	}
 
+	public static int getFortificationMod(int x, int y) {
+		int mod = 0;
+		
+		var level = GameWindow.gameWindow.game.fortifications.getTrenchesLevel(new Cord(x, y));
+		
+		if(level == 2)
+			return 1;
+		if(level == 3)
+			return 2;
+		if(level >= 4)
+			return 3;
+		
+		return mod;
+	}
+	
 	public static int getSpeedModTarget(ArrayList<Unit> spotableUnits) {
 		int speedModTarget = 0;
 		for (var unit : spotableUnits) {
