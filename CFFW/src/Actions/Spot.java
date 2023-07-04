@@ -113,8 +113,10 @@ public class Spot implements Serializable {
 		int concealmentMod = SpotModifiers.getConcealmentMod(spotter, spotableUnits, spotableTroopers);
 
 		// Behavior 
-
+		// Accounted for through difference in target size from prone to standing
+		
 		// Fortifications 
+		int fortMod = SpotModifiers.getFortificationMod(xCord, yCord);
 		
 		// Range
 		int rangeMod = SpotModifiers.getRangeMod(spotableUnits.get(0), spotterUnit);
@@ -132,7 +134,7 @@ public class Spot implements Serializable {
 		visibilityModifications = SpotVisibility.visibilityModifications;
 		
 		SLM = SpotUtility.getSlm(speedModTarget, speedModSpotter, concealmentMod, rangeMod, visibilityMod, skillMod,
-				targetSizeMod);
+				targetSizeMod, fortMod);
 
 		try {
 			SpotActionResults results = SpotUtility.getResults(size, scanArea, SLM);
@@ -152,7 +154,7 @@ public class Spot implements Serializable {
 					+ "Visibility Modifications: " + visibilityModifications + "\n PC Spot Modifiers: "
 					+ "Skill Test Mod: " + skillMod + ", Target Size Mod: " + targetSizeMod + ", Target Speed Mod: "
 					+ speedModTarget + ", Spotter Speed Mod: " + speedModSpotter + ", Concealment Mod: "
-					+ concealmentMod + ", Range Mod: " + rangeMod + ", Visibility Mod: " + visibilityMod + "\n"
+					+ concealmentMod +", Fortification Mod: "+fortMod +", Range Mod: " + rangeMod + ", Visibility Mod: " + visibilityMod + "\n"
 					+ "SLM: " + SLM;
 
 			/*

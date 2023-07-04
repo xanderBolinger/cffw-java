@@ -461,12 +461,15 @@ public class Shoot {
 			return;
 		
 		while (hits > 0) {
-			System.out.println("hit");
-			
 			Trooper target = this.target;
 			
 			if(this.target == null) {
 				target = targetUnit.individuals.get(DiceRoller.roll(0, targetUnit.individuals.size()-1));
+			}
+
+			if(target.HD) {
+				hits--;
+				continue;
 			}
 			
 			ResolveHits resolveHits = new ResolveHits(target, hits, wep,

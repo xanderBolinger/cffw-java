@@ -107,9 +107,9 @@ public class SpotUtility {
 	
 
 	public static int getSlm(int speedModTarget, int speedModSpotter, int concealmentMod, int rangeMod,
-			int visibilityMod, int skillMod, int targetSizeMod) {
+			int visibilityMod, int skillMod, int targetSizeMod, int fortMod) {
 
-		return speedModTarget + speedModSpotter + concealmentMod + rangeMod + visibilityMod - skillMod + targetSizeMod;
+		return speedModTarget + speedModSpotter + concealmentMod + rangeMod + visibilityMod - skillMod + targetSizeMod + fortMod;
 	}
 
 	private static ArrayList<ArrayList<Integer>> getSpottingTable(String scanArea) {

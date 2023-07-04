@@ -2485,7 +2485,7 @@ public class BulkWindow {
 						if(!unit.individuals.contains(trooper))
 							continue;
 						
-						var val = trooper.skills.getSkill("Camouflage").value / 10;
+						var val = trooper.skills.getSkill("Camouflage").value / 20;
 						trooper.spottingDifficulty = val;
 						
 						sum += val; 
