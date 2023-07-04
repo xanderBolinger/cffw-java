@@ -32,6 +32,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.JTabbedPane;
+import javax.swing.JPanel;
+import java.awt.Label;
 
 public class VehicleCombatWindow {
 
@@ -61,6 +64,12 @@ public class VehicleCombatWindow {
 	private JButton btnNewButton_7;
 	private JButton btnNewButton_8;
 	private JTextArea textAreaHullDown;
+	private JPanel smoke;
+	private JLabel lblLaunchedSmoke;
+	private JLabel lblTurnsRemaining;
+	private JLabel lblTrailingSmoke;
+	private Label lblTrailing;
+	private JLabel lblLaunchesRemaining;
 	
 	/**
 	 * Create the application.
@@ -123,6 +132,8 @@ public class VehicleCombatWindow {
 		lblSidesTurned.setText("Sides Turned: "+md.changedFaces);
 		lblSpeed.setText("Speed: "+md.speed);
 		
+		refreshSmoke();
+		
 		if(md.hullDownPosition != null) {
 			textAreaHullDown.setText(md.hullDownPosition.toString()+", \nStatus: "+md.hullDownStatus+", Decision: "+md.hullDownDecision);
 		} else {
@@ -143,6 +154,15 @@ public class VehicleCombatWindow {
 		SwingUtility.setList(listCrew, vehicleCrew);
 		
 	}
+	
+	private void refreshSmoke() {
+		lblLaunchedSmoke.setText("Launched Smoke: "+selectedVehicle.smokeData.launchedSmoke.smokeType);
+		lblLaunchesRemaining.setText("Remaining Launches: "+selectedVehicle.smokeData.remainingSmokeLaunches);
+		lblTrailingSmoke.setText("Trailing Smoke: "+selectedVehicle.smokeData.trailingSmoke.smokeType);
+		lblTurnsRemaining.setText("Turns Remaining: "+selectedVehicle.smokeData.remainingTrailingSmokeTurns);
+		lblTrailing.setText("Trailing: "+selectedVehicle.smokeData.trailingSmoke);
+	}
+	
 	
 	public void unselectVehicle() {
 		lblSelectedVehicle.setText("Selected Vehicle: None");
@@ -274,21 +294,6 @@ public class VehicleCombatWindow {
 		lblSidesTurned = new JLabel("Sides Turned:");
 		lblSidesTurned.setBounds(685, 249, 92, 14);
 		frame.getContentPane().add(lblSidesTurned);
-		
-		JLabel lblVehicleNotes = new JLabel("Vehicle Notes");
-		lblVehicleNotes.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblVehicleNotes.setBounds(407, 444, 197, 16);
-		frame.getContentPane().add(lblVehicleNotes);
-		
-		textAreaNotes = new JTextArea();
-		textAreaNotes.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				System.out.println("key typed");
-			}
-		});
-		textAreaNotes.setBounds(406, 471, 439, 108);
-		frame.getContentPane().add(textAreaNotes);
 		
 		btnNewButton_2 = new JButton("Rotate Left");
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -439,6 +444,75 @@ public class VehicleCombatWindow {
 		textAreaHullDown.setFont(new Font("Monospaced", Font.PLAIN, 12));
 		textAreaHullDown.setBounds(406, 395, 439, 38);
 		frame.getContentPane().add(textAreaHullDown);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(406, 444, 439, 135);
+		frame.getContentPane().add(tabbedPane);
+		
+		JPanel notes = new JPanel();
+		tabbedPane.addTab("Notes", null, notes, null);
+		notes.setLayout(null);
+		
+		textAreaNotes = new JTextArea();
+		textAreaNotes.setBounds(0, 0, 434, 107);
+		notes.add(textAreaNotes);
+		
+		smoke = new JPanel();
+		tabbedPane.addTab("Smoke", null, smoke, null);
+		smoke.setLayout(null);
+		
+		lblLaunchedSmoke = new JLabel("Launched Smoke:");
+		lblLaunchedSmoke.setBounds(10, 61, 187, 14);
+		smoke.add(lblLaunchedSmoke);
+		
+		lblLaunchesRemaining = new JLabel("Launches Remaining:");
+		lblLaunchesRemaining.setBounds(10, 86, 187, 14);
+		smoke.add(lblLaunchesRemaining);
+		
+		lblTrailingSmoke = new JLabel("Trailing Smoke:");
+		lblTrailingSmoke.setBounds(10, 11, 187, 14);
+		smoke.add(lblTrailingSmoke);
+		
+		lblTurnsRemaining = new JLabel("Turns Reminaing:");
+		lblTurnsRemaining.setBounds(10, 36, 187, 14);
+		smoke.add(lblTurnsRemaining);
+		
+		JButton btnLaunch = new JButton("Launch");
+		btnLaunch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedVehicle == null)
+					return;
+				
+				selectedVehicle.smokeData.launchSmoke();
+				GameWindow.gameWindow.conflictLog.addNewLine("Attempted Smoke Launch");
+			}
+		});
+		btnLaunch.setBounds(306, 77, 118, 23);
+		smoke.add(btnLaunch);
+		
+		lblTrailing = new Label("Trailing:");
+		lblTrailing.setBounds(306, 3, 118, 22);
+		smoke.add(lblTrailing);
+		
+		JButton btnNextPhase_1_1 = new JButton("Toggle Trailing");
+		btnNextPhase_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedVehicle == null)
+					return;
+				
+				selectedVehicle.smokeData.toggleTrailingSmoke();
+				GameWindow.gameWindow.conflictLog.addNewLine("Toggle trailing smoke");
+				
+			}
+		});
+		btnNextPhase_1_1.setBounds(306, 32, 118, 23);
+		smoke.add(btnNextPhase_1_1);
+		textAreaNotes.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				System.out.println("key typed");
+			}
+		});
 		
 		
 		

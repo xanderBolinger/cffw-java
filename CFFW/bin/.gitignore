@@ -1,3 +1,7 @@
+/CharacterBuilder/
+/CloseCombat/
+/CommandLineInterface/
+/Company/
 /Conflict/
 /CorditeExpansion/
 /CorditeExpansionActions/
@@ -28,4 +32,5 @@
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
-/Actions/
+/Fortifications/
+/Melee/

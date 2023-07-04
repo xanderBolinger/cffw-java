@@ -6,6 +6,9 @@ import CorditeExpansion.Cord;
 
 public class SmokeStats implements Serializable {
 
+	
+	
+	public SmokeType smokeType;
 	public int diameter; 
 	public int duration;
 	private int elapsedActions = 0;
@@ -17,6 +20,7 @@ public class SmokeStats implements Serializable {
 	}
 	
 	public SmokeStats(String smokeType) throws Exception {
+		
 		for(var e : SmokeType.values()) {
 			if(e.toString().equals(smokeType)) {
 				setSmokeStats(e);
@@ -28,6 +32,7 @@ public class SmokeStats implements Serializable {
 	}
 	
 	public SmokeStats(SmokeType smokeType) {
+		this.smokeType = smokeType;
 		setSmokeStats(smokeType);
 	}
 	
