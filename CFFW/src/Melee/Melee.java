@@ -14,4 +14,18 @@ public class Melee {
 	// there systems for replacing wounded or fatigued soldiers 
 
 
+	// How is combat going to work?
+	
+	// Units in the same hex with each other can fight in melee combat
+	// Units have a facing 
+	// charges to the flank or rear are most demoralizing
+	
+	// Units have a resolve factor 
+	// The resolve factor is tested when a unit spends an action in melee combat 
+	
+	// In order to charge, a unit must make a successful command check
+	
+	
+	
+	
 }

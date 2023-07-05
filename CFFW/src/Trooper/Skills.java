@@ -107,8 +107,11 @@ public class Skills implements Serializable {
 
 	public Skills(Trooper trooper) {
 		getAttr(trooper);
-		calculateSkills();
+		calculateSkillsLegacy();
+		initBaseSkills();
+	}
 
+	public void initBaseSkills() {
 		// Add skills to skills array
 		skills.add(new Skill("Ballance", 0, ballance, "AGL", "wil", false, 0, 0, "Basic"));
 		skills.add(new Skill("Camouflage", 0, camouflage, "INT", "per", false, 0, 0, "Basic"));
@@ -154,7 +157,7 @@ public class Skills implements Serializable {
 		skills.add(new Skill("Navigation", 0, navigation, "INT", "per", false, 0, 0, "Trained"));
 		skills.add(new Skill("Swim", 0, swim, "STR", "htl", false, 0, 0, "Trained"));
 		skills.add(new Skill("Throw", 0, Throw, "AGL", "str", false, 0, 0, "Trained"));
-		
+
 		skills.add(new Skill("Knowledge Street Wise", 0, 0, wit, wis, "INT", "wis", false, 0, 0, "Trained"));
 		skills.add(new Skill("Knowledge Political", 0, 0, wit, wis, "INT", "wis", false, 0, 0, "Trained"));
 		skills.add(new Skill("Knowledge Nature", 0, 0, wit, wis, "INT", "wis", false, 0, 0, "Trained"));
@@ -164,7 +167,6 @@ public class Skills implements Serializable {
 		skills.add(new Skill("Knowledge Bestial", 0, 0, wit, wis, "INT", "wis", false, 0, 0, "Trained"));
 		skills.add(new Skill("Knowledge Magical", 0, 0, wit, wis, "INT", "wis", false, 0, 0, "Trained"));
 		skills.add(new Skill("Knowledge Alchemical", 0, 0, wit, wis, "INT", "wis", false, 0, 0, "Trained"));
-		
 
 		skills.add(new Skill("Advanced Medicine", 0, advancedMedicine, "INT", "per", false, 0, 0, "Expert"));
 		skills.add(new Skill("Craft/Construct/Engineer", 0, craft, "INT", "str", false, 0, 0, "Expert"));
@@ -187,7 +189,7 @@ public class Skills implements Serializable {
 		skills.add(new Skill("Long Range Optics", 0, longRangeOptics, "PER", "agl", false, 0, 0, "Expert"));
 		skills.add(new Skill("Negotiations", 0, negotiations, "SOC", "int", false, 0, 0, "Expert"));
 		skills.add(new Skill("Small Unit Tactics", 0, smallUnitTactics, "INT", "per", false, 0, 0, "Expert"));
-		
+
 		Skill preservation = new Skill("Preservation", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
 		Skill abjuration = new Skill("Abjuration", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
 		Skill alteration = new Skill("Alteration", 0, 0, wit, wil, "INT", "wil", false, 0, 0, "Expert");
@@ -221,81 +223,14 @@ public class Skills implements Serializable {
 		skills.add(psionics);
 		skills.add(runic);
 		skills.add(alchemical);
-	} 
-	
-	
-	
+	}
+
 	public Skills(String input, int attr[]) throws Exception {
 
 		getAttr(attr);
-		calculateSkills();
+		calculateSkillsLegacy();
+		initBaseSkills();
 
-		// Add skills to skills array
-		skills.add(new Skill("Ballance", 0, ballance, "AGL", "wil", false, 0, 0, "Basic"));
-		skills.add(new Skill("Camouflage", 0, camouflage, "INT", "per", false, 0, 0, "Basic"));
-		skills.add(new Skill("Climb", 0, climb, "STR", "agl", false, 0, 0, "Basic"));
-		skills.add(new Skill("Composure", 0, composure, "WIL", "htl", false, 0, 0, "Basic"));
-		skills.add(new Skill("Deception", 0, deception, "SOC", "int", false, 0, 0, "Basic"));
-		skills.add(new Skill("Dodge", 0, dodge, "AGL", "str", false, 0, 0, "Basic"));
-		skills.add(new Skill("Endurance", 0, endurance, "STR", "wil", false, 0, 0, "Basic"));
-		skills.add(new Skill("Expression", 0, expression, "HTL", "per", false, 0, 0, "Basic"));
-		skills.add(new Skill("Grapple", 0, grapple, "STR", "agl", false, 0, 0, "Basic"));
-		skills.add(new Skill("Hold", 0, hold, "STR", "agl", false, 0, 0, "Basic"));
-		skills.add(new Skill("Intuition", 0, intuition, "WIL", "per", false, 0, 0, "Basic"));
-		skills.add(new Skill("Jump/Leap", 0, jump, "STR", "per", false, 0, 0, "Basic"));
-		skills.add(new Skill("Lift/Pull", 0, lift, "STR", "int", false, 0, 0, "Basic"));
-		skills.add(new Skill("Resist Pain", 0, resistPain, "HTL", "wil", false, 0, 0, "Basic"));
-		skills.add(new Skill("Search", 0, search, "PER", "int", false, 0, 0, "Basic"));
-		skills.add(new Skill("Spot/Listen", 0, spotListen, "PER", "int", false, 0, 0, "Basic"));
-		skills.add(new Skill("Speed", 0, speed, "AGL", "htl", false, 0, 0, "Basic"));
-		skills.add(new Skill("Stealth", 0, stealth, "AGL", "int", false, 0, 0, "Basic"));
-
-		skills.add(new Skill("Bow", 0, bow, "AGL", "str", false, 0, 0, "Trained"));
-		skills.add(new Skill("Calm Other", 0, calm, "SOC", "int", false, 0, 0, "Trained"));
-		skills.add(new Skill("Diplomacy", 0, diplomacy, "SOC", "int", false, 0, 0, "Trained"));
-		skills.add(new Skill("Explosives", 0, explosives, "INT", "per", false, 0, 0, "Trained"));
-		skills.add(new Skill("Barter", 0, barter, "SOC", "int", false, 0, 0, "Trained"));
-		skills.add(new Skill("Command", 0, command, "INT", "soc", false, 0, 0, "Trained"));
-		skills.add(new Skill("Tactics", 0, tactics, "INT", "per", false, 0, 0, "Trained"));
-		skills.add(new Skill("Determine Motives", 0, detMotives, "SOC", "int", false, 0, 0, "Trained"));
-		skills.add(new Skill("Intimidate", 0, intimidate, "SOC", "str", false, 0, 0, "Trained"));
-		skills.add(new Skill("Investigation", 0, investigation, "INT", "per", false, 0, 0, "Trained"));
-		skills.add(new Skill("Persuade", 0, persuade, "SOC", "int", false, 0, 0, "Trained"));
-		skills.add(new Skill("Digi. Systems", 0, digiSystems, "INT", "per", false, 0, 0, "Trained"));
-		skills.add(new Skill("Rifle", 0, rifle, "AGL", "per", false, 0, 0, "Trained"));
-		skills.add(new Skill("Heavy", 0, heavy, "AGL", "per", false, 0, 0, "Trained"));
-		skills.add(new Skill("Subgun", 0, subgun, "AGL", "per", false, 0, 0, "Trained"));
-		skills.add(new Skill("Launcher", 0, launcher, "AGL", "per", false, 0, 0, "Trained"));
-		skills.add(new Skill("Pistol", 0, pistol, "AGL", "per", false, 0, 0, "Trained"));
-		skills.add(new Skill("Fighter", 0, fighter, "STR", "wil", false, 0, 0, "Trained"));
-		skills.add(new Skill("First Aid", 0, firstAid, "INT", "per", false, 0, 0, "Trained"));
-		skills.add(new Skill("Navigation", 0, navigation, "INT", "per", false, 0, 0, "Trained"));
-		skills.add(new Skill("Swim", 0, swim, "STR", "htl", false, 0, 0, "Trained"));
-		skills.add(new Skill("Throw", 0, Throw, "AGL", "str", false, 0, 0, "Trained"));
-
-		skills.add(new Skill("Advanced Medicine", 0, advancedMedicine, "INT", "per", false, 0, 0, "Expert"));
-		skills.add(new Skill("Craft/Construct/Engineer", 0, craft, "INT", "str", false, 0, 0, "Expert"));
-		skills.add(new Skill("Pilot", 0, pilot, "AGL", "per", false, 0, 0, "Expert"));
-		skills.add(new Skill("Animal Handling", 0, animalHandling, "SOC", "wil", false, 0, 0, "Expert"));
-		skills.add(new Skill("Ride", 0, ride, "AGL", "str", false, 0, 0, "Expert"));
-		skills.add(new Skill("Science", 0, science, "INT", "per", false, 0, 0, "Expert"));
-		skills.add(new Skill("Survival", 0, survival, "INT", "wil", false, 0, 0, "Expert"));
-		skills.add(new Skill("Clean Operations", 0, cleanOperations, "AGL", "per", false, 0, 0, "Expert"));
-		skills.add(new Skill("Covert Movement", 0, covertMovement, "AGL", "wil", false, 0, 0, "Expert"));
-		skills.add(new Skill("Recoil Control", 0, recoilControl, "STR", "wil", false, 0, 0, "Expert"));
-		skills.add(new Skill("Reload Drills", 0, reloadDrills, "AGL", "per", false, 0, 0, "Expert"));
-		skills.add(new Skill("Trigger Discipline", 0, silentOperations, "INT", "wil", false, 0, 0, "Expert"));
-		skills.add(new Skill("Silent Operations", 0, akSystems, "AGL", "per", false, 0, 0, "Expert"));
-		skills.add(new Skill("AK Systems", 0, akSystems, "AGL", "str", false, 0, 0, "Expert"));
-		skills.add(new Skill("Assault Operations", 0, assualtOperations, "STR", "wil", false, 0, 0, "Expert"));
-		skills.add(new Skill("Authority", 0, authority, "STR", "soc", false, 0, 0, "Expert"));
-		skills.add(new Skill("Raw Power", 0, rawPower, "STR", "htl", false, 0, 0, "Expert"));
-		skills.add(new Skill("AR Systems", 0, arSystems, "AGL", "per", false, 0, 0, "Expert"));
-		skills.add(new Skill("Long Range Optics", 0, longRangeOptics, "PER", "agl", false, 0, 0, "Expert"));
-		skills.add(new Skill("Negotiations", 0, negotiations, "SOC", "int", false, 0, 0, "Expert"));
-		skills.add(new Skill("Small Unit Tactics", 0, smallUnitTactics, "INT", "per", false, 0, 0, "Expert"));
-
-				
 		if (input.equals("Squad Leader")) { // Squad Leader
 			line();
 			lineSquadLeader();
@@ -349,9 +284,9 @@ public class Skills implements Serializable {
 		} else if (input.equals("Clone Marksman")) { // Marksman
 			crack();
 			crackMarksman();
-			//line();
-			//lineMarksman();
-			
+			// line();
+			// lineMarksman();
+
 		} else if (input.equals("Clone Combat Life Saver")) { // Combat Life Saver
 			crack();
 			crackMedic();
@@ -368,33 +303,33 @@ public class Skills implements Serializable {
 		} else if (input.equals("Clone Marksman")) { // Marksman
 			crack();
 			crackMarksman();
-			//line();
-			//lineMarksman();
-			
+			// line();
+			// lineMarksman();
+
 		} else if (input.equals("Clone Sniper")) { // Marksman
 			crack();
 			crackMarksman();
-			//line();
-			//lineMarksman();
-			
+			// line();
+			// lineMarksman();
+
 		} else if (input.equals("Clone Spotter")) { // Marksman
 			crack();
 			crackMarksman();
-			//line();
-			//lineMarksman();
-			
+			// line();
+			// lineMarksman();
+
 		} else if (input.equals("Clone Special Operations Sniper")) { // Marksman
 			elite();
 			eliteSniper();
-			//line();
-			//lineMarksman();
-			
+			// line();
+			// lineMarksman();
+
 		} else if (input.equals("Clone Special Operations Spotter")) { // Marksman
 			elite();
 			eliteSniper();
-			//line();
-			//lineMarksman();
-			
+			// line();
+			// lineMarksman();
+
 		} else if (input.equals("EOD")) { // EOD
 			// Adds skill dice levels to the skills
 			// Soldier Training
@@ -1474,165 +1409,154 @@ public class Skills implements Serializable {
 		setSkills();
 
 	}
-	
-	
+
 	public void lineSquadLeader() {
 		// Squad Leader Training
 		Skill smallUnitTactics = getSkill("Small Unit Tactics");
 		smallUnitTactics.supported = true;
 		smallUnitTactics.newTrainingValue(2);
 		smallUnitTactics.rankUpTo(3);
-		
+
 		Skill tactics = getSkill("Tactics");
 		tactics.supported = true;
 		tactics.newTrainingValue(2);
 		tactics.rankUpTo(3);
-		
+
 		Skill command = getSkill("Command");
 		command.supported = true;
 		command.newTrainingValue(2);
 		command.rankUpTo(3);
 
 	}
-	
+
 	public void crackSquadLeader() {
 		// Squad Leader Training
 		Skill smallUnitTactics = getSkill("Small Unit Tactics");
 		smallUnitTactics.supported = true;
 		smallUnitTactics.newTrainingValue(3);
 		smallUnitTactics.rankUpTo(3);
-		
+
 		Skill tactics = getSkill("Tactics");
 		tactics.supported = true;
 		tactics.newTrainingValue(3);
 		tactics.rankUpTo(3);
-		
+
 		Skill command = getSkill("Command");
 		command.supported = true;
 		command.newTrainingValue(3);
 		command.rankUpTo(3);
 
 	}
-	
+
 	public void lineAutorifleman() {
 		Skill skill = getSkill("Heavy");
 		skill.newTrainingValue(3);
 		skill.rankUpTo(4);
 	}
-	
+
 	public void lineAtSpecalist() {
 		Skill skill = getSkill("Launcher");
 		skill.newTrainingValue(3);
 		skill.rankUpTo(4);
 	}
-		
+
 	public void lineMedic() {
 		Skill skill = getSkill("First Aid");
 		skill.newTrainingValue(3);
 		skill.rankUpTo(4);
 	}
-	
+
 	public void lineMarksman() {
 		Skill skill = getSkill("Rifle");
 		skill.newTrainingValue(3);
 		skill.rankUpTo(4);
 	}
-	
+
 	public void crackAutorifleman() {
 		Skill skill = getSkill("Heavy");
 		skill.newTrainingValue(5);
 		skill.rankUpTo(4);
 	}
-	
+
 	public void crackAtSpecalist() {
 		Skill skill = getSkill("Launcher");
 		skill.newTrainingValue(5);
 		skill.rankUpTo(4);
 	}
-		
+
 	public void crackMedic() {
 		Skill skill = getSkill("First Aid");
 		skill.newTrainingValue(4);
 		skill.rankUpTo(4);
 	}
-	
+
 	public void crackMarksman() {
-		
+
 		Skill skill = getSkill("Rifle");
 		skill.newTrainingValue(5);
 		skill.rankUpTo(4);
-		
+
 		Skill spot = getSkill("Spot/Listen");
 		spot.newTrainingValue(4);
 		spot.rankUpTo(4);
 	}
-	
+
 	public void eliteSniper() {
-		
+
 		Skill camo = getSkill("Camouflage");
 		camo.newTrainingValue(5);
 		camo.rankUpTo(4);
-		
+
 		Skill skill = getSkill("Rifle");
 		skill.newTrainingValue(5);
 		skill.rankUpTo(5);
-		
+
 		Skill spot = getSkill("Spot/Listen");
 		spot.newTrainingValue(5);
 		spot.rankUpTo(5);
 	}
-	
+
 	public void untrained() {
 		// Soldier Training
-		/*getSkill("Climb").supported = true;
-		getSkill("Climb").trainingValue = 1;
-		getSkill("Climb").rankUp();
-
-		getSkill("Dodge").supported = true;
-		getSkill("Dodge").trainingValue = 1;
-		getSkill("Dodge").rankUp();
-
-		getSkill("Endurance").supported = true;
-		getSkill("Endurance").trainingValue = 1;
-		getSkill("Endurance").rankUp();
-
-		getSkill("Spot/Listen").supported = true;
-		getSkill("Spot/Listen").trainingValue = 1;
-		getSkill("Spot/Listen").rankUp();
-
-		getSkill("Stealth").supported = true;
-		getSkill("Stealth").trainingValue = 1;
-		getSkill("Stealth").rankUp();
-
-		getSkill("Camouflage").supported = true;
-		getSkill("Camouflage").trainingValue = 1;
-		getSkill("Camouflage").rankUp();
-
-		getSkill("Rifle").supported = true;
-		getSkill("Rifle").trainingValue = 1;
-		getSkill("Rifle").rankUp();
-
-		getSkill("Subgun").supported = true;
-		getSkill("Subgun").trainingValue = 1;
-		getSkill("Subgun").rankUp();
-
-		getSkill("Pistol").supported = true;
-		getSkill("Pistol").trainingValue = 1;
-		getSkill("Pistol").rankUp();
-
-		getSkill("Fighter").supported = true;
-		getSkill("Fighter").trainingValue = 1;
-		getSkill("Fighter").rankUp();
-
-		getSkill("Speed").supported = true;
-		getSkill("Speed").trainingValue = 1;
-		getSkill("Speed").rankUp();
-
-		getSkill("Throw").supported = true;
-		getSkill("Throw").trainingValue = 1;
-		getSkill("Throw").rankUp();*/
+		/*
+		 * getSkill("Climb").supported = true; getSkill("Climb").trainingValue = 1;
+		 * getSkill("Climb").rankUp();
+		 * 
+		 * getSkill("Dodge").supported = true; getSkill("Dodge").trainingValue = 1;
+		 * getSkill("Dodge").rankUp();
+		 * 
+		 * getSkill("Endurance").supported = true; getSkill("Endurance").trainingValue =
+		 * 1; getSkill("Endurance").rankUp();
+		 * 
+		 * getSkill("Spot/Listen").supported = true;
+		 * getSkill("Spot/Listen").trainingValue = 1; getSkill("Spot/Listen").rankUp();
+		 * 
+		 * getSkill("Stealth").supported = true; getSkill("Stealth").trainingValue = 1;
+		 * getSkill("Stealth").rankUp();
+		 * 
+		 * getSkill("Camouflage").supported = true; getSkill("Camouflage").trainingValue
+		 * = 1; getSkill("Camouflage").rankUp();
+		 * 
+		 * getSkill("Rifle").supported = true; getSkill("Rifle").trainingValue = 1;
+		 * getSkill("Rifle").rankUp();
+		 * 
+		 * getSkill("Subgun").supported = true; getSkill("Subgun").trainingValue = 1;
+		 * getSkill("Subgun").rankUp();
+		 * 
+		 * getSkill("Pistol").supported = true; getSkill("Pistol").trainingValue = 1;
+		 * getSkill("Pistol").rankUp();
+		 * 
+		 * getSkill("Fighter").supported = true; getSkill("Fighter").trainingValue = 1;
+		 * getSkill("Fighter").rankUp();
+		 * 
+		 * getSkill("Speed").supported = true; getSkill("Speed").trainingValue = 1;
+		 * getSkill("Speed").rankUp();
+		 * 
+		 * getSkill("Throw").supported = true; getSkill("Throw").trainingValue = 1;
+		 * getSkill("Throw").rankUp();
+		 */
 	}
-	
+
 	public void militia() {
 		// Soldier Training
 		getSkill("Climb").supported = true;
@@ -1647,7 +1571,6 @@ public class Skills implements Serializable {
 		getSkill("Endurance").trainingValue = 1;
 		getSkill("Endurance").rankUp();
 
-
 		getSkill("Spot/Listen").supported = true;
 		getSkill("Spot/Listen").trainingValue = 1;
 		getSkill("Spot/Listen").rankUp();
@@ -1663,7 +1586,6 @@ public class Skills implements Serializable {
 		getSkill("Rifle").supported = true;
 		getSkill("Rifle").trainingValue = 1;
 		getSkill("Rifle").rankUp();
-
 
 		getSkill("Subgun").supported = true;
 		getSkill("Subgun").trainingValue = 1;
@@ -1768,7 +1690,7 @@ public class Skills implements Serializable {
 		getSkill("Throw").trainingValue = 2;
 		getSkill("Throw").rankUp();
 	}
-	
+
 	public void line() {
 		// Soldier Training
 		getSkill("Climb").supported = true;
@@ -2071,6 +1993,110 @@ public class Skills implements Serializable {
 		getSkill("Throw").rankUp();
 	}
 
+	
+	public void superSoldier() {
+		getSkill("Climb").supported = true;
+		getSkill("Climb").trainingValue = 4;
+		getSkill("Climb").rankUp();
+		getSkill("Climb").rankUp();
+		getSkill("Climb").rankUp();
+
+		getSkill("Dodge").supported = true;
+		getSkill("Dodge").trainingValue = 4;
+		getSkill("Dodge").rankUp();
+		getSkill("Dodge").rankUp();
+		getSkill("Dodge").rankUp();
+
+		getSkill("Endurance").supported = true;
+		getSkill("Endurance").trainingValue = 5;
+		getSkill("Endurance").rankUp();
+		getSkill("Endurance").rankUp();
+		getSkill("Endurance").rankUp();
+		getSkill("Endurance").rankUp();
+
+		getSkill("Spot/Listen").supported = true;
+		getSkill("Spot/Listen").trainingValue = 5;
+		getSkill("Spot/Listen").rankUp();
+		getSkill("Spot/Listen").rankUp();
+		getSkill("Spot/Listen").rankUp();
+		getSkill("Spot/Listen").rankUp();
+
+		getSkill("Stealth").supported = true;
+		getSkill("Stealth").trainingValue = 5;
+		getSkill("Stealth").rankUp();
+		getSkill("Stealth").rankUp();
+		getSkill("Stealth").rankUp();
+
+		getSkill("Camouflage").supported = true;
+		getSkill("Camouflage").trainingValue = 5;
+		getSkill("Camouflage").rankUp();
+		getSkill("Camouflage").rankUp();
+		getSkill("Camouflage").rankUp();
+
+		getSkill("Rifle").supported = true;
+		getSkill("Rifle").trainingValue = 6;
+		getSkill("Rifle").rankUp();
+		getSkill("Rifle").rankUp();
+		getSkill("Rifle").rankUp();
+		getSkill("Rifle").rankUp();
+
+		getSkill("Subgun").supported = true;
+		getSkill("Subgun").trainingValue = 5;
+		getSkill("Subgun").rankUp();
+		getSkill("Subgun").rankUp();
+		getSkill("Subgun").rankUp();
+		getSkill("Subgun").rankUp();
+
+		getSkill("Heavy").supported = true;
+		getSkill("Heavy").trainingValue = 5;
+		getSkill("Heavy").rankUp();
+		getSkill("Heavy").rankUp();
+		getSkill("Heavy").rankUp();
+
+		getSkill("Launcher").supported = true;
+		getSkill("Launcher").trainingValue = 5;
+		getSkill("Launcher").rankUp();
+		getSkill("Launcher").rankUp();
+		getSkill("Launcher").rankUp();
+
+		getSkill("Pistol").supported = true;
+		getSkill("Pistol").trainingValue = 5;
+		getSkill("Pistol").rankUp();
+		getSkill("Pistol").rankUp();
+		getSkill("Pistol").rankUp();
+		getSkill("Pistol").rankUp();
+
+		getSkill("Explosives").supported = true;
+		getSkill("Explosives").trainingValue = 5;
+		getSkill("Explosives").rankUp();
+		getSkill("Explosives").rankUp();
+
+		getSkill("Fighter").supported = true;
+		getSkill("Fighter").trainingValue = 6;
+		getSkill("Fighter").rankUp();
+		getSkill("Fighter").rankUp();
+		getSkill("Fighter").rankUp();
+		getSkill("Fighter").rankUp();
+
+		getSkill("First Aid").supported = true;
+		getSkill("First Aid").trainingValue = 4;
+		getSkill("First Aid").rankUp();
+		getSkill("First Aid").rankUp();
+		getSkill("First Aid").rankUp();
+
+		getSkill("Navigation").supported = true;
+		getSkill("Navigation").trainingValue = 4;
+		getSkill("Navigation").rankUp();
+		getSkill("Navigation").rankUp();
+		getSkill("Navigation").rankUp();
+
+		getSkill("Throw").supported = true;
+		getSkill("Throw").trainingValue = 4;
+		getSkill("Throw").rankUp();
+		getSkill("Throw").rankUp();
+		getSkill("Throw").rankUp();
+	}
+	
 	// Finds skill from skill array list
 	// Returns skill
 	public Skill getSkill(String name) {
@@ -2080,7 +2106,7 @@ public class Skills implements Serializable {
 				return skill;
 		}
 
-		System.err.println("SKILL NOT FOUND. Get Skill in skills. String name not valid: ["+name+"]");
+		System.err.println("SKILL NOT FOUND. Get Skill in skills. String name not valid: [" + name + "]");
 		return null;
 	}
 
@@ -2157,7 +2183,7 @@ public class Skills implements Serializable {
 	// Sets the value of all the skills
 	// Adds the base attribute and the attribute modifier
 	// Sets the value of the skills public variables
-	public void calculateSkills() {
+	public void calculateSkillsLegacy() {
 		ballance = per + witMod;
 		bow = agi + strMod;
 		climb = str + witMod;
@@ -2306,7 +2332,7 @@ public class Skills implements Serializable {
 		this.htlMod = htlMod;
 		this.agiMod = agiMod;
 	}
-	
+
 	public void getAttr(Trooper trooper) {
 
 		// Attributes
@@ -2340,7 +2366,7 @@ public class Skills implements Serializable {
 		} else {
 			witMod = Integer.parseInt(Integer.toString(wit).substring(0, 1));
 		}
-		
+
 		if (wis < 10) {
 			wisMod = wis;
 		} else {
