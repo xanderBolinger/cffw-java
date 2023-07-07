@@ -106,6 +106,8 @@ public class StatBlock {
 		//System.out.println("Weapon Percent: "+weaponPercent+", Ergo: "+weapon.ceStats.baseErgonomics);
 		
 		chit = new Chit();
+		chit.labeled = true; 
+		chit.chitLabel = trooper.name;
 	}
 	
 	public void moveTrooper(Cord cord) {

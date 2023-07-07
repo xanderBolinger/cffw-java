@@ -1851,8 +1851,8 @@ public class HexGrid implements Serializable {
 
 				String s = "Unit #" + chit.number;
 				
-				if(chit.vehicle)
-					s = chit.vicCallsign;
+				if(chit.labeled)
+					s = chit.chitLabel;
 				
 				int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2 + chit.shiftX;
 				int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2 + chit.shiftY;

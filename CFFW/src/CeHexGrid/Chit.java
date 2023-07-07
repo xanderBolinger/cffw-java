@@ -47,9 +47,9 @@ public class Chit implements Serializable {
 	public int xPoint = 0; 
 	public int yPoint = 0;
 	
-	public boolean vehicle;
-	public String vicIdentifier;
-	public String vicCallsign;
+	public boolean labeled;
+	public String chitIdentifier;
+	public String chitLabel;
 	
 	public Facing facing = Facing.A;
 	
@@ -368,9 +368,9 @@ public class Chit implements Serializable {
 		selectedChit.xCord = x; 
 		selectedChit.yCord = y; 
 		
-		if(selectedChit.vehicle) {
+		if(selectedChit.labeled && GameWindow.gameWindow != null && GameWindow.gameWindow.vehicleCombatWindow != null) {
 			for(var vic : GameWindow.gameWindow.vehicleCombatWindow.vehicles) {
-				if(vic.identifier.equals(selectedChit.vicIdentifier)) {
+				if(vic.identifier.equals(selectedChit.chitIdentifier)) {
 					vic.movementData.location = new Cord(x,y);
 					break;
 				}

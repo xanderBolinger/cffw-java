@@ -86,7 +86,7 @@ public class VehicleMovement implements Serializable {
 		
 		var chits = GameWindow.gameWindow.game.chits;
 		for(var c : chits) {
-			if(c.vehicle && c.vicIdentifier.equals(identifier))
+			if(c.labeled && c.chitIdentifier.equals(identifier))
 				return c;
 		}
 		

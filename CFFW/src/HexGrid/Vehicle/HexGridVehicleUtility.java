@@ -18,9 +18,9 @@ public class HexGridVehicleUtility {
 			var blufor = bluforVehicle(vic);
 			var chit = new Chit(ExcelUtility.path 
 					+ "\\Unit Images\\"+(blufor ? "BLUFOR" : "OPFOR")+"_ARMOR.png", 20, (blufor ? 12 : 20));
-			chit.vehicle = true; 
-			chit.vicIdentifier = vic.identifier;
-			chit.vicCallsign = vic.getVehicleCallsign();
+			chit.labeled = true; 
+			chit.chitIdentifier = vic.identifier;
+			chit.chitLabel = vic.getVehicleCallsign();
 			
 			if(oldChit != null) {
 				chit.xCord = oldChit.xCord;
@@ -40,13 +40,13 @@ public class HexGridVehicleUtility {
 		
 		for(var chit : GameWindow.gameWindow.game.chits) {
 			
-			if(!chit.vehicle)
+			if(!chit.labeled)
 				continue;
 			
 			boolean found = false; 
 			
 			for(var vic : cw.vehicles) {
-				if(vic.identifier.equals(chit.vicIdentifier))
+				if(vic.identifier.equals(chit.chitIdentifier))
 					found = true;
 			}
 			
@@ -73,7 +73,7 @@ public class HexGridVehicleUtility {
 	
 	private static Chit getVehicleChit(String idenfitier) {
 		for(var chit : GameWindow.gameWindow.game.chits) {
-			if(chit.vehicle && chit.vicIdentifier.equals(idenfitier))
+			if(chit.labeled && chit.chitIdentifier.equals(idenfitier))
 				return chit;
 		}
 		

@@ -561,6 +561,10 @@ public class CeHexGrid extends JPanel {
 
 			chit.drawChit(zoom, g2, hex);
 
+			if(chit.labeled) {
+				drawChitLabel(g2, chit, hex);
+			}
+			
 			CeAction action = CorditeExpansionGame.actionOrder.getOrder().get(i).ceStatBlock.getTurnAction();
 
 			if (action != null && action.getActionType() == ActionType.TURN) {
@@ -568,6 +572,32 @@ public class CeHexGrid extends JPanel {
 				drawChevron(g2, hex, turnAction.getTargetFacing());
 			}
 		}
+	}
+	
+	public void drawChitLabel(Graphics2D g2, Chit chit, Polygon hex) {
+		int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
+		int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
+		Font currentFont = g2.getFont();
+
+		Font newFont = currentFont.deriveFont((float) (currentFont.getSize()));
+		g2.setFont(newFont);
+		FontMetrics metrics = g2.getFontMetrics(newFont);
+
+		// Determine the X coordinate for the text
+		int x = (hexCenterX - chit.chitImage.getWidth(null) / 2)
+				+ (chit.chitImage.getWidth(null) - metrics.stringWidth(chit.chitLabel)) / 2;
+		// Determine the Y coordinate for the text (note we add the ascent, as in java
+		// 2d 0 is top of the screen)
+		int y = (int) ((hexCenterY - chit.chitImage.getHeight(null) / 1.5) + -metrics.getHeight() / 2
+				+ metrics.getAscent()) - (int) (3 * zoom);
+
+		g2.setColor(Color.BLACK);
+		FontMetrics fm = g2.getFontMetrics();
+		Rectangle2D rect = fm.getStringBounds(chit.chitLabel, g2);
+		g2.fillRect(x, y - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
+		g2.setColor(Color.MAGENTA);
+		g2.drawString(chit.chitLabel, x, y);
+		
 	}
 	
 	public void drawThrowAbles(Graphics2D g2) {
@@ -645,6 +675,7 @@ public class CeHexGrid extends JPanel {
 		ArrayList<Chit> chits = new ArrayList<>();
 
 		for (Trooper trooper : CorditeExpansionGame.actionOrder.getOrder()) {
+			
 			chits.add(trooper.ceStatBlock.chit);
 		}
 
