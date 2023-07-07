@@ -50,15 +50,18 @@ public class PCStats implements Serializable {
 		trooper.isf = trooper.sl + (trooper.wit);
 		// System.out.println("trooper.wit: "+trooper.wit);
 		
-		int CA = TrooperUtility.calculateCA(mSpeed, trooper.isf);
+		int CA = TrooperUtility.calculateCACFFW(mSpeed, trooper.isf);
 		if(CFFW) {
 			CA = TrooperUtility.calculateCACFFW(mSpeed, trooper.isf);
 		}
-		//System.out.println("mSpeed: "+mSpeed+", ISF: "+trooper.isf+", CA: "+CA);
 		
 		double fatiguePoints = trooper.fatigueSystem.fatiguePoints.get();
 		
-		if(fatiguePoints < 11 && fatiguePoints > 5) {
+		
+		if(fatiguePoints < 5) {
+			CA -= 0;
+		}
+		else if(fatiguePoints < 11) {
 			CA -= 1;
 		} else if(fatiguePoints <= 15) {
 			CA -= 2;
@@ -82,6 +85,7 @@ public class PCStats implements Serializable {
 		
 		if(CA < 2)
 			CA = 2;
+		
 		
 		trooper.DALM = TrooperUtility.defensiveALM(trooper.isf);
 		trooper.combatActions = CA;
