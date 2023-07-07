@@ -19,6 +19,7 @@ public class RangedStatBlock {
 	public int maxAim;
 	public Trooper aimTarget; 
 	public ArrayList<Cord> aimHexes = new ArrayList<>();
+	public ArrayList<Weapons> weapons = new ArrayList<>();
 	public ShotTarget shotTarget = ShotTarget.NONE;
 	public boolean aiming = true;
 	public boolean fullAuto = false;
@@ -43,7 +44,7 @@ public class RangedStatBlock {
 		}
 		
 		reload(trooper);
-		
+		weapons.add(weapon);
 		
 	}
 	

@@ -73,6 +73,8 @@ public class CommandLineInterface {
 			new InjuryCommand(parameters);
 		} else if(command.equals("wep")) {
 			new WepCommand(parameters);
+		} else if(command.equals("weps")) {
+			new WepsCommand(parameters);
 		} else if(command.equals("encum")) {
 			new EncumCommand(parameters);
 		} else if(command.equals("stun")) {

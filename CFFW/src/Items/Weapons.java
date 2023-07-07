@@ -2610,7 +2610,18 @@ public class Weapons implements Serializable {
 		this.armorPiercing = 2;
 		this.collateralDamage = 50;
 		this.energyWeapon = false;
+		this.fuze = 2;
+		this.armTime = 3;
 
+		aimTime.add(-26);
+		aimTime.add(-18);
+		aimTime.add(-14);
+		aimTime.add(-12);
+		aimTime.add(-11);
+		aimTime.add(-11);
+		aimTime.add(-10);
+		aimTime.add(-10);
+		
 		// Starts from 0, no C
 		this.pen.add(5);
 		this.pen.add(4);
@@ -2650,6 +2661,17 @@ public class Weapons implements Serializable {
 		this.armorPiercing = 2;
 		this.collateralDamage = 50;
 		this.energyWeapon = true;
+		this.fuze = 2;
+		this.armTime = 3;
+
+		aimTime.add(-26);
+		aimTime.add(-18);
+		aimTime.add(-14);
+		aimTime.add(-12);
+		aimTime.add(-11);
+		aimTime.add(-11);
+		aimTime.add(-10);
+		aimTime.add(-10);
 
 		// Starts from 0, no C
 		this.pen.add(112);
@@ -2734,7 +2756,18 @@ public class Weapons implements Serializable {
 		this.armorPiercing = 2;
 		this.collateralDamage = 50;
 		this.energyWeapon = false;
+		this.fuze = 2;
+		this.armTime = 3;
 
+		aimTime.add(-26);
+		aimTime.add(-18);
+		aimTime.add(-14);
+		aimTime.add(-12);
+		aimTime.add(-11);
+		aimTime.add(-11);
+		aimTime.add(-10);
+		aimTime.add(-10);
+		
 		// Starts from 0, no C
 		this.pen.add(50);
 		this.pen.add(5);
@@ -2776,7 +2809,18 @@ public class Weapons implements Serializable {
 		this.collateralDamage = 50;
 		this.ionWeapon = true;
 		this.energyWeapon = true;
+		this.fuze = 2;
+		this.armTime = 3;
 
+		aimTime.add(-26);
+		aimTime.add(-18);
+		aimTime.add(-14);
+		aimTime.add(-12);
+		aimTime.add(-11);
+		aimTime.add(-11);
+		aimTime.add(-10);
+		aimTime.add(-10);
+		
 		this.pen.add(0);
 		this.pen.add(0);
 		this.pen.add(0);

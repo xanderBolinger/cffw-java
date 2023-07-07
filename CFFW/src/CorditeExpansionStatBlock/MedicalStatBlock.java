@@ -52,7 +52,7 @@ public class MedicalStatBlock {
 			stabalized = true; 
 		} else {
 			System.out.println("Death Check Alive = false");
-			alive = false;
+			//alive = false;
 		}
 	}
 	

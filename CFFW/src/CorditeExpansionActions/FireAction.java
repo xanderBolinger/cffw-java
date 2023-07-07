@@ -35,7 +35,7 @@ public class FireAction implements CeAction {
 	public FireAction(StatBlock statBlock, Trooper target) {
 		this.statBlock = statBlock;
 		this.target = target;
-		if(statBlock.rangedStatBlock.aimTarget == null)
+		if(statBlock.rangedStatBlock.aimTarget == null || !statBlock.rangedStatBlock.aimTarget.compareTo(target))
 			statBlock.rangedStatBlock.aimTarget = target;
 	}
 	
@@ -241,7 +241,7 @@ public class FireAction implements CeAction {
 		
 		System.out.println("Firing: "+statBlock.rangedStatBlock.weapon.name);
 		
-		if(statBlock.rangedStatBlock.aimTarget == null)
+		if(statBlock.rangedStatBlock.aimTarget == null || !statBlock.rangedStatBlock.aimTarget.compareTo(target))
 			statBlock.setAimTarget(target);
 		
 		int eal = calculateEAL(target.ceStatBlock.cord);

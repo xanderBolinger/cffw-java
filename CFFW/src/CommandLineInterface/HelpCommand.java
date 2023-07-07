@@ -15,7 +15,8 @@ public class HelpCommand implements Command {
 		CommandLineInterface.cli.print("injury - [injuryName{no spaces}, locationName{underscores as spaces}, pd{int}, disabling{yes or no}]");
 		CommandLineInterface.cli.print("stun - [sp{int} flashBang{yes or no}] applies stun damage and performs KO test");
 		CommandLineInterface.cli.print("encum - auto or number, sets trooper encumberance");
-		CommandLineInterface.cli.print("wep - [weaponName{underscores are spaces}] sets weapon name");
+		CommandLineInterface.cli.print("wep - [weaponName{underscores are spaces}, [new old{new/old in string}], [instance{index of weapon in weps}]] sets weapon name");
+		CommandLineInterface.cli.print("weps - prints selected characters list of weapons");
 		CommandLineInterface.cli.print("dist - [newMultiplier{int}] sets new distance multiplier mult * hex dist = distance hexes");
 	}
 
