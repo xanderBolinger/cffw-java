@@ -203,6 +203,7 @@ public class VehicleMovementTests {
 	@Test 
 	public void smokeLauncherTest() throws Exception {
 		
+		
 		var vehicle = VehicleXmlReader.readVehicle("Test Callsign","TX130");
 		vehicle.smokeData.trailingSmokeActive = true;
 		var md = vehicle.movementData;
