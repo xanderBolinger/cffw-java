@@ -1,6 +1,8 @@
 package Melee;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -59,14 +61,8 @@ public class MeleeHitLocation {
 		int avRow = GetAvRow(armorValue, fileName);
 		int damageColumn = GetDamageColumn(avRow, damagePoints, fileName);
 
-		Workbook workbook;
-		try {
-			FileInputStream file = new FileInputStream(ExcelUtility.path + "/MeleeHitTables/" + fileName);
-			workbook = WorkbookFactory.create(file);
-			file.close();
-		} catch (IOException e) {
-			throw new RuntimeException("Error loading workbook: " + e.getMessage());
-		}
+		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "/MeleeHitTables/" + fileName));
+		Workbook workbook = new XSSFWorkbook(excelFile);
 
 		Sheet sheet = workbook.getSheetAt(0);
 		int rowCount = sheet.getPhysicalNumberOfRows();
@@ -89,6 +85,7 @@ public class MeleeHitLocation {
 				Pair<Boolean, Pair<String, String>> cuttingResult = GetCuttingCellValue(fileName, damageColumn,
 						hitLocation);
 				if (cuttingResult.getFirst()) {
+					workbook.close();
 					return cuttingResult.getSecond();
 				}
 				break;
@@ -96,6 +93,7 @@ public class MeleeHitLocation {
 				Pair<Boolean, Pair<String, String>> stabbingResult = GetStabbingCellValue(fileName, damageColumn,
 						hitLocation);
 				if (stabbingResult.getFirst()) {
+					workbook.close();
 					return stabbingResult.getSecond();
 				}
 				break;
@@ -103,6 +101,7 @@ public class MeleeHitLocation {
 				Pair<Boolean, Pair<String, String>> bluntResult = GetBluntCellValue(fileName, damageColumn,
 						hitLocation);
 				if (bluntResult.getFirst()) {
+					workbook.close();
 					return bluntResult.getSecond();
 				}
 				break;
@@ -112,10 +111,12 @@ public class MeleeHitLocation {
 				Cell damageCell = row.getCell(damageColumn);
 				damageCell.setCellType(CellType.STRING);
 				String pdValue = damageCell.getStringCellValue();
+				workbook.close();
 				return new Pair<>(pdValue, hitLocation);
 			}
 		}
 
+		workbook.close();
 		throw new RuntimeException("Hit Location Table for: " + fileName + ", With AV: " + armorValue + " and Damage: "
 				+ damagePoints + " searching for Hit Location: " + hitLocation + " not found.");
 	}
@@ -207,7 +208,7 @@ public class MeleeHitLocation {
 			} else {
 				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 24, damageColumn), "Hip Socket"));
 			}
-		} else if ("Forearm".equals(hitLocation)) {
+		} else if ("Forearm".equals(hitLocation) || "Elbow".equals(hitLocation)) {
 			int roll = DiceRoller.roll(59, 74);
 
 			if (roll <= 66) {
@@ -253,7 +254,7 @@ public class MeleeHitLocation {
 				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 11, damageColumn), "Upper Chest"));
 			}
 		}
-		
+
 		if ("Hip".equals(hitLocation)) {
 			return new Pair<>(true, new Pair<>(GetCellValue(fileName, 14, damageColumn), "Pelvis"));
 		}
@@ -267,7 +268,7 @@ public class MeleeHitLocation {
 			return new Pair<>(true, new Pair<>(GetCellValue(fileName, 9, damageColumn), "Throat"));
 		}
 
-		if ("Forearm".equals(hitLocation)) {
+		if ("Forearm".equals(hitLocation) || "Elbow".equals(hitLocation)) {
 			int roll = DiceRoller.roll(1, 15);
 
 			if (roll <= 9) {
@@ -279,7 +280,7 @@ public class MeleeHitLocation {
 			}
 		}
 
-		if ("Chest".equals(hitLocation)) {
+		if ("Chest".equals(hitLocation) || "Ribcage".equals(hitLocation)) {
 			int roll = DiceRoller.roll(1, 3);
 
 			if (roll == 1) {
@@ -290,31 +291,35 @@ public class MeleeHitLocation {
 				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 11, damageColumn), "Upper Chest"));
 			}
 		}
+		
+		if ("Hip".equals(hitLocation)) {
+			return new Pair<>(true, new Pair<>(GetCellValue(fileName, 14, damageColumn), "Pelvis"));
+		}
 
 		return new Pair<>(false, new Pair<>("", ""));
 	}
 
 	private static String GetCellValue(String fileName, int rowIndex, int columnIndex) throws Exception {
-		try (Workbook workbook = new XSSFWorkbook(ExcelUtility.path + "/MeleeHitTables/" + fileName)) {
-			Sheet sheet = workbook.getSheetAt(0);
+		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "/MeleeHitTables/" + fileName));
+		Workbook workbook = new XSSFWorkbook(excelFile);
+		Sheet sheet = workbook.getSheetAt(0);
 
-			int rowCount = sheet.getPhysicalNumberOfRows();
+		int rowCount = sheet.getPhysicalNumberOfRows();
 
-			for (int i = 0; i < rowCount; i++) {
-				Row row = sheet.getRow(i);
+		for (int i = 0; i < rowCount; i++) {
+			Row row = sheet.getRow(i);
 
-				if (i == rowIndex) {
-					Cell cell = row.getCell(columnIndex);
-					if (cell != null) {
-						cell.setCellType(CellType.STRING);
-						return cell.getStringCellValue();
-					}
+			if (i == rowIndex) {
+				Cell cell = row.getCell(columnIndex);
+				if (cell != null) {
+					cell.setCellType(CellType.STRING);
+					workbook.close();
+					return cell.getStringCellValue();
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
+		workbook.close();
 		throw new Exception(
 				"Cell value not found for row: " + rowIndex + ", col: " + columnIndex + ", File name: " + fileName);
 	}
@@ -341,7 +346,8 @@ public class MeleeHitLocation {
 
 	}
 
-	public static MeleeHitLocationData GetLocationText(String fileName, int zone, int damageLevel, int subZoneRoll) {
+	public static MeleeHitLocationData GetLocationText(String fileName, int zone, int damageLevel, int subZoneRoll)
+			throws IOException {
 		String zoneName = "";
 		int bloodLossPD = 0;
 		int shockPD = 0;
@@ -349,122 +355,127 @@ public class MeleeHitLocation {
 		boolean knockDown = false;
 		int knockDownMod = 0;
 
-		try (Workbook workbook = new XSSFWorkbook(ExcelUtility.path + "/MeleeHitTables/" + fileName)) {
-			Sheet sheet = workbook.getSheetAt(0);
+		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "/MeleeHitTables/" + fileName));
+		Workbook workbook = new XSSFWorkbook(excelFile);
 
-			int rowCount = sheet.getPhysicalNumberOfRows();
+		Sheet sheet = workbook.getSheetAt(0);
 
-			for (int i = 0; i < rowCount; i++) {
-				Row row = sheet.getRow(i);
+		int rowCount = sheet.getPhysicalNumberOfRows();
 
-				boolean zoneFound = false;
-				Cell zoneCell = row.getCell(0);
-				if (zoneCell != null && zoneCell.getCellType() == CellType.NUMERIC) {
-					int zoneValue = (int) zoneCell.getNumericCellValue();
-					if (zone == zoneValue) {
-						zoneFound = true;
-					}
-				}
+		for (int i = 0; i < rowCount; i++) {
+			Row row = sheet.getRow(i);
 
-				if (zoneFound) {
-					Row paddingRow = sheet.getRow(i + 1);
-
-					for (int j = i + 2; j < rowCount; j++) {
-						Row subZoneRow = sheet.getRow(j);
-						boolean foundSubZone = false;
-
-						Cell subZoneCell = subZoneRow.getCell(1);
-						subZoneCell.setCellType(CellType.STRING);
-						if (subZoneCell != null && subZoneCell.getCellType() == CellType.STRING) {
-							String zones = subZoneCell.getStringCellValue();
-							List<String> zoneNumbers = Arrays.asList(zones.split(";"));
-							if (zoneNumbers.contains(String.valueOf(subZoneRoll))) {
-								zoneName = subZoneRow.getCell(2).getStringCellValue();
-
-								String zoneDamageLevel = subZoneRow.getCell(2 + damageLevel).getStringCellValue();
-								List<String> zoneDamageLevelValues = Arrays.asList(zoneDamageLevel.split(";"));
-
-								bloodLossPD = Integer.parseInt(zoneDamageLevelValues.get(0));
-								shockPD = Integer.parseInt(zoneDamageLevelValues.get(1));
-								painPoints = Integer.parseInt(zoneDamageLevelValues.get(2));
-
-								String knockDownValue = zoneDamageLevelValues.get(3);
-								knockDown = knockDownValue.equals("Y");
-								knockDownMod = Integer.parseInt(zoneDamageLevelValues.get(4));
-
-								foundSubZone = true;
-							}
-						}
-
-						if (foundSubZone) {
-							break;
-						}
-					}
-
-					break;
+			boolean zoneFound = false;
+			Cell zoneCell = row.getCell(0);
+			if (zoneCell != null && zoneCell.getCellType() == CellType.NUMERIC) {
+				int zoneValue = (int) zoneCell.getNumericCellValue();
+				if (zone == zoneValue) {
+					zoneFound = true;
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+
+			if (zoneFound) {
+				Row paddingRow = sheet.getRow(i + 1);
+
+				for (int j = i + 2; j < rowCount; j++) {
+					Row subZoneRow = sheet.getRow(j);
+					boolean foundSubZone = false;
+
+					Cell subZoneCell = subZoneRow.getCell(1);
+					subZoneCell.setCellType(CellType.STRING);
+					if (subZoneCell != null && subZoneCell.getCellType() == CellType.STRING) {
+						String zones = subZoneCell.getStringCellValue();
+						List<String> zoneNumbers = Arrays.asList(zones.split(";"));
+						if (zoneNumbers.contains(String.valueOf(subZoneRoll))) {
+							zoneName = subZoneRow.getCell(2).getStringCellValue();
+
+							String zoneDamageLevel = subZoneRow.getCell(2 + damageLevel).getStringCellValue();
+							List<String> zoneDamageLevelValues = Arrays.asList(zoneDamageLevel.split(";"));
+
+							bloodLossPD = Integer.parseInt(zoneDamageLevelValues.get(0));
+							shockPD = Integer.parseInt(zoneDamageLevelValues.get(1));
+							painPoints = Integer.parseInt(zoneDamageLevelValues.get(2));
+
+							String knockDownValue = zoneDamageLevelValues.get(3);
+							knockDown = knockDownValue.equals("Y");
+							knockDownMod = Integer.parseInt(zoneDamageLevelValues.get(4));
+
+							foundSubZone = true;
+						}
+					}
+
+					if (foundSubZone) {
+						break;
+					}
+				}
+
+				break;
+			}
 		}
 
+		workbook.close();
 		return new MeleeHitLocationData(zoneName, bloodLossPD, shockPD, painPoints, knockDown, knockDownMod);
 	}
 
 	public static int GetAvRow(int armorValue, String fileName) throws Exception {
-		try (Workbook workbook = new XSSFWorkbook(ExcelUtility.path + "/MeleeHitTables/" + fileName)) {
-			Sheet sheet = workbook.getSheetAt(0);
 
-			int rowCount = sheet.getPhysicalNumberOfRows();
+		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "/MeleeHitTables/" + fileName));
+		Workbook workbook = new XSSFWorkbook(excelFile);
 
-			for (int i = 0; i < rowCount; i++) {
-				Row row = sheet.getRow(i);
+		Sheet sheet = workbook.getSheetAt(0);
 
-				Cell cell = row.getCell(0);
-				if (cell != null && cell.getCellType() == CellType.NUMERIC) {
-					int cellArmorValue = (int) cell.getNumericCellValue();
-					if (armorValue >= cellArmorValue) {
-						return i;
-					}
+		int rowCount = sheet.getPhysicalNumberOfRows();
+
+		for (int i = 0; i < rowCount; i++) {
+			Row row = sheet.getRow(i);
+
+			Cell cell = row.getCell(0);
+			if (cell != null && cell.getCellType() == CellType.NUMERIC) {
+				int cellArmorValue = (int) cell.getNumericCellValue();
+				if (armorValue >= cellArmorValue) {
+					workbook.close();
+					return i;
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
+		workbook.close();
 		throw new Exception("GetAvRow for av: " + armorValue + ", File Name: " + fileName); // Indicate that the damage
 																							// column is not found
 	}
 
 	public static int GetDamageColumn(int avRow, int damagePoints, String fileName) throws Exception {
-		try (Workbook workbook = new XSSFWorkbook(ExcelUtility.path + "/MeleeHitTables/" + fileName)) {
-			Sheet sheet = workbook.getSheetAt(0);
 
-			int rowCount = sheet.getPhysicalNumberOfRows();
+		FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "/MeleeHitTables/" + fileName));
+		Workbook workbook = new XSSFWorkbook(excelFile);
 
-			for (int i = 0; i < rowCount; i++) {
-				Row row = sheet.getRow(i);
+		Sheet sheet = workbook.getSheetAt(0);
 
-				if (i == avRow) {
-					for (int j = 27; j >= 1; j--) {
-						Cell cell = row.getCell(j);
-						if (cell != null && cell.getCellType() == CellType.NUMERIC) {
-							int damageValue = (int) cell.getNumericCellValue();
-							if (damagePoints >= damageValue) {
-								return j;
-							}
+		int rowCount = sheet.getPhysicalNumberOfRows();
+
+		for (int i = 0; i < rowCount; i++) {
+			Row row = sheet.getRow(i);
+
+			if (i == avRow) {
+				for (int j = 27; j >= 1; j--) {
+					Cell cell = row.getCell(j);
+					if (cell != null && cell.getCellType() == CellType.NUMERIC) {
+						int damageValue = (int) cell.getNumericCellValue();
+						if (damagePoints >= damageValue) {
+							workbook.close();
+							return j;
 						}
+					}
 
-						if (j == 1) {
-							return 1;
-						}
+					if (j == 1) {
+						workbook.close();
+						return 1;
 					}
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
+		workbook.close();
 		throw new Exception("Damage column not found for av row: " + avRow + ", Damage Points: " + damagePoints
 				+ ", File Name: " + fileName); // Indicate that the damage column is not found
 	}
