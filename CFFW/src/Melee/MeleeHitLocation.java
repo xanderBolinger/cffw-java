@@ -1,5 +1,7 @@
 package Melee;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -7,9 +9,337 @@ import org.apache.commons.math3.util.Pair;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import UtilityClasses.DiceRoller;
 import UtilityClasses.ExcelUtility;
 
 public class MeleeHitLocation {
+
+	public enum MeleeDamageType {
+		CUTTING, PEIRICNG, BLUNT
+	}
+
+	public static Pair<MeleeHitLocationData, MeleeHitLocationPcResults> GetHitLocationResults(
+			MeleeDamageType damageType, int damagePoints, int damageLevel, int zone, int armorValue) throws Exception {
+
+		var subZoneRoll = DiceRoller.roll(1, 6);
+		var data = GetMeleeHitLocation(damageType, damageLevel, zone, subZoneRoll);
+		var pdText = GetPDText(armorValue, damagePoints, data.zoneName, damageType);
+		var pcRslts = GetPdFromCell(pdText.getFirst());
+
+		var pcHit = new MeleeHitLocationPcResults(pdText.getSecond(), pcRslts.getFirst(), pcRslts.getSecond());
+
+		return new Pair<MeleeHitLocationData, MeleeHitLocationPcResults>(data, pcHit);
+	}
+
+	private static String GetFileName(MeleeDamageType damageType) throws Exception {
+		String fileName;
+
+		switch (damageType) {
+		case CUTTING:
+			fileName = "PcDamageTableCutting.xlsx";
+			break;
+		case PEIRICNG:
+			fileName = "PcDamageTableStabbing.xlsx";
+			break;
+		case BLUNT:
+			fileName = "PcDamageTableBlunt.xlsx";
+			break;
+		default:
+			throw new Exception("Damage Type not found for damage type of: " + damageType);
+		}
+
+		return fileName;
+	}
+
+	public static Pair<String, String> GetPDText(int armorValue, int damagePoints, String hitLocation,
+			MeleeDamageType damageType) throws Exception {
+
+		String fileName = GetFileName(damageType);
+
+		int avRow = GetAvRow(armorValue, fileName);
+		int damageColumn = GetDamageColumn(avRow, damagePoints, fileName);
+
+		Workbook workbook;
+		try {
+			FileInputStream file = new FileInputStream(ExcelUtility.path + "/MeleeHitTables/" + fileName);
+			workbook = WorkbookFactory.create(file);
+			file.close();
+		} catch (IOException e) {
+			throw new RuntimeException("Error loading workbook: " + e.getMessage());
+		}
+
+		Sheet sheet = workbook.getSheetAt(0);
+		int rowCount = sheet.getPhysicalNumberOfRows();
+
+		for (int i = 0; i < rowCount; i++) {
+			Row row = sheet.getRow(i);
+
+			if (row == null) {
+				throw new RuntimeException(
+						"Hit Location Table for: " + fileName + ", With AV: " + armorValue + " and Damage: "
+								+ damagePoints + " searching for Hit Location: " + hitLocation + " not found.");
+			}
+
+			Cell cell = row.getCell(0);
+			cell.setCellType(CellType.STRING);
+			String cellValue = cell.getStringCellValue();
+
+			switch (damageType) {
+			case CUTTING:
+				Pair<Boolean, Pair<String, String>> cuttingResult = GetCuttingCellValue(fileName, damageColumn,
+						hitLocation);
+				if (cuttingResult.getFirst()) {
+					return cuttingResult.getSecond();
+				}
+				break;
+			case PEIRICNG:
+				Pair<Boolean, Pair<String, String>> stabbingResult = GetStabbingCellValue(fileName, damageColumn,
+						hitLocation);
+				if (stabbingResult.getFirst()) {
+					return stabbingResult.getSecond();
+				}
+				break;
+			case BLUNT:
+				Pair<Boolean, Pair<String, String>> bluntResult = GetBluntCellValue(fileName, damageColumn,
+						hitLocation);
+				if (bluntResult.getFirst()) {
+					return bluntResult.getSecond();
+				}
+				break;
+			}
+
+			if (cellValue.equals(hitLocation)) {
+				Cell damageCell = row.getCell(damageColumn);
+				damageCell.setCellType(CellType.STRING);
+				String pdValue = damageCell.getStringCellValue();
+				return new Pair<>(pdValue, hitLocation);
+			}
+		}
+
+		throw new RuntimeException("Hit Location Table for: " + fileName + ", With AV: " + armorValue + " and Damage: "
+				+ damagePoints + " searching for Hit Location: " + hitLocation + " not found.");
+	}
+
+	private static Pair<Boolean, Pair<String, String>> GetStabbingCellValue(String fileName, int damageColumn,
+			String hitLocation) throws Exception {
+		if ("Shoulder".equals(hitLocation)) {
+			int roll = DiceRoller.roll(20, 25);
+
+			if (roll <= 21) {
+				// Shoulder socket
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 12, damageColumn), "Shoulder Socket"));
+			} else {
+				// Shoulder scapula
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 13, damageColumn), "Shoulder Scapula"));
+			}
+		} else if ("Skull".equals(hitLocation)) {
+			return new Pair<>(true, new Pair<>(GetCellValue(fileName, 7, damageColumn), "Skull"));
+		} else if ("Face".equals(hitLocation)) {
+			int roll = DiceRoller.roll(6, 14);
+
+			if (roll <= 7) {
+				// Eye
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 8, damageColumn), "Eye"));
+			} else {
+				// Mouth
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 9, damageColumn), "Mouth"));
+			}
+		} else if ("Throat".equals(hitLocation)) {
+			int roll = DiceRoller.roll(15, 19);
+
+			if (roll <= 17) {
+				// Neck
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 10, damageColumn), "Neck"));
+			} else {
+				// Base of neck
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 11, damageColumn), "Base of Neck"));
+			}
+		} else if ("Chest".equals(hitLocation) || "Ribcage".equals(hitLocation)) {
+			int roll = DiceRoller.roll(26, 39);
+
+			if (roll <= 30) {
+				// Lung
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 14, damageColumn), "Lung"));
+			} else if (roll <= 32) {
+				// Heart
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 15, damageColumn), "Heart"));
+			} else if (roll <= 34) {
+				// Liver
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 16, damageColumn), "Liver"));
+			} else if (roll <= 36) {
+				// Liver-Spine
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 19, damageColumn), "Liver-Spine"));
+			} else if (roll <= 38) {
+				// Liver-Kidney
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 20, damageColumn), "Liver-Kidney"));
+			} else {
+				// Spine
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 22, damageColumn), "Spine"));
+			}
+		} else if ("Stomach".equals(hitLocation)) {
+			int roll = DiceRoller.roll(39, 54);
+			if (roll <= 39) {
+				// Stomach
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 17, damageColumn), "Stomach"));
+			}
+			if (roll <= 43) {
+				// Stomach Kidney
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 18, damageColumn), "Stomach Kidney"));
+			}
+			if (roll <= 46) {
+				// Intestines
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 21, damageColumn), "Instestines"));
+			}
+			if (roll <= 47) {
+				// Spine
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 22, damageColumn), "Spine"));
+			}
+			if (roll <= 54) {
+				// Intestines-Pelvis
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 23, damageColumn), "Intestines-Pelvis"));
+			}
+		} else if ("Pelvis".equals(hitLocation)) {
+			int roll = DiceRoller.roll(1, 3);
+			if (roll == 1) {
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 21, damageColumn), "Instestines"));
+			} else if (roll == 2) {
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 23, damageColumn), "Intestines-Pelvis"));
+			} else {
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 24, damageColumn), "Hip Socket"));
+			}
+		} else if ("Forearm".equals(hitLocation)) {
+			int roll = DiceRoller.roll(59, 74);
+
+			if (roll <= 66) {
+				// Upper arm
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 25, damageColumn), "Upper Arm"));
+			} else {
+				// Forearm
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 26, damageColumn), "Forearm"));
+			}
+		} else if ("Hip".equals(hitLocation))
+			return new Pair<>(true, new Pair<>(GetCellValue(fileName, 24, damageColumn), "Hip Socket"));
+
+		return new Pair<>(false, new Pair<>("", ""));
+
+	}
+
+	private static Pair<Boolean, Pair<String, String>> GetCuttingCellValue(String fileName, int damageColumn,
+			String hitLocation) throws Exception {
+		if ("Neck".equals(hitLocation)) {
+			return new Pair<>(true, new Pair<>(GetCellValue(fileName, 9, damageColumn), "Throat"));
+		}
+
+		if ("Forearm".equals(hitLocation) || "Elbow".equals(hitLocation)) {
+			int roll = DiceRoller.roll(1, 15);
+
+			if (roll <= 9) {
+				// Upper arm
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 15, damageColumn), "Upper Arm"));
+			} else {
+				// Forearm
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 16, damageColumn), "Forearm"));
+			}
+		}
+
+		if ("Chest".equals(hitLocation) || "Ribcage".equals(hitLocation)) {
+			int roll = DiceRoller.roll(1, 3);
+
+			if (roll == 1) {
+				// Lower chest
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 12, damageColumn), "Lower Chest"));
+			} else {
+				// Upper chest
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 11, damageColumn), "Upper Chest"));
+			}
+		}
+		
+		if ("Hip".equals(hitLocation)) {
+			return new Pair<>(true, new Pair<>(GetCellValue(fileName, 14, damageColumn), "Pelvis"));
+		}
+
+		return new Pair<>(false, new Pair<>("", ""));
+	}
+
+	private static Pair<Boolean, Pair<String, String>> GetBluntCellValue(String fileName, int damageColumn,
+			String hitLocation) throws Exception {
+		if ("Neck".equals(hitLocation)) {
+			return new Pair<>(true, new Pair<>(GetCellValue(fileName, 9, damageColumn), "Throat"));
+		}
+
+		if ("Forearm".equals(hitLocation)) {
+			int roll = DiceRoller.roll(1, 15);
+
+			if (roll <= 9) {
+				// Upper arm
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 15, damageColumn), "Upper Arm"));
+			} else {
+				// Forearm
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 16, damageColumn), "Forearm"));
+			}
+		}
+
+		if ("Chest".equals(hitLocation)) {
+			int roll = DiceRoller.roll(1, 3);
+
+			if (roll == 1) {
+				// Lower chest
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 12, damageColumn), "Lower Chest"));
+			} else {
+				// Upper chest
+				return new Pair<>(true, new Pair<>(GetCellValue(fileName, 11, damageColumn), "Upper Chest"));
+			}
+		}
+
+		return new Pair<>(false, new Pair<>("", ""));
+	}
+
+	private static String GetCellValue(String fileName, int rowIndex, int columnIndex) throws Exception {
+		try (Workbook workbook = new XSSFWorkbook(ExcelUtility.path + "/MeleeHitTables/" + fileName)) {
+			Sheet sheet = workbook.getSheetAt(0);
+
+			int rowCount = sheet.getPhysicalNumberOfRows();
+
+			for (int i = 0; i < rowCount; i++) {
+				Row row = sheet.getRow(i);
+
+				if (i == rowIndex) {
+					Cell cell = row.getCell(columnIndex);
+					if (cell != null) {
+						cell.setCellType(CellType.STRING);
+						return cell.getStringCellValue();
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		throw new Exception(
+				"Cell value not found for row: " + rowIndex + ", col: " + columnIndex + ", File name: " + fileName);
+	}
+
+	public static MeleeHitLocationData GetMeleeHitLocation(MeleeDamageType damageType, int damageLevel, int zone,
+			int subZoneRoll) throws Exception {
+		String fileName;
+
+		switch (damageType) {
+		case CUTTING:
+			fileName = "MeleeDamageTablesCutting.xlsx";
+			break;
+		case PEIRICNG:
+			fileName = "MeleeDamageTablesPuncture.xlsx";
+			break;
+		case BLUNT:
+			fileName = "MeleeDamageTablesBlunt.xlsx";
+			break;
+		default:
+			throw new Exception("Damage Type not found for damage type of: " + damageType);
+		}
+
+		return GetLocationText(fileName, zone, damageLevel, subZoneRoll);
+
+	}
 
 	public static MeleeHitLocationData GetLocationText(String fileName, int zone, int damageLevel, int subZoneRoll) {
 		String zoneName = "";
@@ -19,7 +349,7 @@ public class MeleeHitLocation {
 		boolean knockDown = false;
 		int knockDownMod = 0;
 
-		try (Workbook workbook = new XSSFWorkbook(ExcelUtility.path+"/MeleeHitTables/"+fileName)) {
+		try (Workbook workbook = new XSSFWorkbook(ExcelUtility.path + "/MeleeHitTables/" + fileName)) {
 			Sheet sheet = workbook.getSheetAt(0);
 
 			int rowCount = sheet.getPhysicalNumberOfRows();
@@ -79,6 +409,64 @@ public class MeleeHitLocation {
 		}
 
 		return new MeleeHitLocationData(zoneName, bloodLossPD, shockPD, painPoints, knockDown, knockDownMod);
+	}
+
+	public static int GetAvRow(int armorValue, String fileName) throws Exception {
+		try (Workbook workbook = new XSSFWorkbook(ExcelUtility.path + "/MeleeHitTables/" + fileName)) {
+			Sheet sheet = workbook.getSheetAt(0);
+
+			int rowCount = sheet.getPhysicalNumberOfRows();
+
+			for (int i = 0; i < rowCount; i++) {
+				Row row = sheet.getRow(i);
+
+				Cell cell = row.getCell(0);
+				if (cell != null && cell.getCellType() == CellType.NUMERIC) {
+					int cellArmorValue = (int) cell.getNumericCellValue();
+					if (armorValue >= cellArmorValue) {
+						return i;
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		throw new Exception("GetAvRow for av: " + armorValue + ", File Name: " + fileName); // Indicate that the damage
+																							// column is not found
+	}
+
+	public static int GetDamageColumn(int avRow, int damagePoints, String fileName) throws Exception {
+		try (Workbook workbook = new XSSFWorkbook(ExcelUtility.path + "/MeleeHitTables/" + fileName)) {
+			Sheet sheet = workbook.getSheetAt(0);
+
+			int rowCount = sheet.getPhysicalNumberOfRows();
+
+			for (int i = 0; i < rowCount; i++) {
+				Row row = sheet.getRow(i);
+
+				if (i == avRow) {
+					for (int j = 27; j >= 1; j--) {
+						Cell cell = row.getCell(j);
+						if (cell != null && cell.getCellType() == CellType.NUMERIC) {
+							int damageValue = (int) cell.getNumericCellValue();
+							if (damagePoints >= damageValue) {
+								return j;
+							}
+						}
+
+						if (j == 1) {
+							return 1;
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		throw new Exception("Damage column not found for av row: " + avRow + ", Damage Points: " + damagePoints
+				+ ", File Name: " + fileName); // Indicate that the damage column is not found
 	}
 
 	public static Pair<Integer, Boolean> GetPdFromCell(String damageCell) {

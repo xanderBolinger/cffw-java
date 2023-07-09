@@ -25,7 +25,8 @@ public class Melee {
 	
 	// In order to charge, a unit must make a successful command check
 	
-	
+	// Aggressive commanders make units better at charging and breaking the enemy 
+	// Standard bearers increase unit cohesion and make changing formations easier
 	
 	
 }
