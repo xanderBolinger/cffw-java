@@ -110,7 +110,13 @@ public class Trooper implements Serializable {
 	public boolean reacted;
 	public int size; // Amount of percent added or subtracted from the attack
 	public double PCSize = 2;
+	
 	public String wep;
+	
+	public String offHandWep;
+	public int closeCombatSkillLevel;
+	public int meleeCombatResolve;
+	
 	public Armor armor = new Armor();
 	public PersonalShield personalShield;
 	// public ArrayList<Armor> armorTypes = new ArrayList<>();

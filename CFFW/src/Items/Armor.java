@@ -4,6 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
+import Melee.MeleeArmor;
+import Melee.MeleeArmorData;
+import Melee.MeleeArmorLocationData;
+import Melee.MeleeArmorData.MeleeArmorType;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.ExcelUtility;
 import UtilityClasses.Location;
@@ -35,6 +39,8 @@ public class Armor implements Serializable {
 	public boolean nightVision;
 	public int nightVisionEffectiveness;
 	
+	public ArrayList<MeleeArmor> meleeArmorStats;
+	
 	public Armor() {
 		this.bPF = 0; 
 		this.excludedZones = new ArrayList<ArrayList<Integer>>();
@@ -49,6 +55,10 @@ public class Armor implements Serializable {
 		this.bPF = 0; 
 		this.excludedZones = new ArrayList<ArrayList<Integer>>();
 		this.excludedZonesOpen = new ArrayList<ArrayList<Integer>>();
+		meleeArmorStats = new ArrayList<MeleeArmor>();
+		
+		if(MeleeArmor.meleeArmorPieces == null)
+			new MeleeArmorData();
 		
 		if(type == ArmorType.PHASEONE) {
 			Phase1CloneArmor();
@@ -135,6 +145,13 @@ public class Armor implements Serializable {
 		a10.add(84);
 		excludedZonesOpen.add(a10);
 		armorWeight = 30;
+		
+		try {
+			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.PlasteelCombatArmor));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public void mediumDuraSteelMandoArmor() {
@@ -182,6 +199,12 @@ public class Armor implements Serializable {
 		a10.add(84);
 		a10.add(84);
 		excludedZonesOpen.add(a10);
+		
+		try {
+			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -231,6 +254,12 @@ public class Armor implements Serializable {
 		a10.add(84);
 		excludedZonesOpen.add(a10);
 		armorWeight = 35;
+		
+		try {
+			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.PlasteelCombatArmor));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void katarnArmor() {
@@ -280,6 +309,12 @@ public class Armor implements Serializable {
 		a10.add(84);
 		excludedZonesOpen.add(a10);
 		armorWeight = 35;
+		
+		try {
+			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void b1Armor() {
@@ -287,6 +322,11 @@ public class Armor implements Serializable {
 		armorName = "B1";
 		type = ArmorType.B1;
 		armorWeight = 20;
+		try {
+			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void b2Armor() {
@@ -294,6 +334,11 @@ public class Armor implements Serializable {
 		armorName = "B2";
 		type = ArmorType.B2;
 		armorWeight = 50;
+		try {
+			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void commandoDroidArmor() {
@@ -301,6 +346,11 @@ public class Armor implements Serializable {
 		armorName = "Commando Droid";
 		type = ArmorType.COMMANDODROID;
 		armorWeight = 20;
+		try {
+			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void magmaGuard() {
@@ -308,6 +358,11 @@ public class Armor implements Serializable {
 		armorName = "Margma Guard";
 		type = ArmorType.MAGMAGUARD;
 		armorWeight = 20;
+		try {
+			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void duraSteelHelmet() {
