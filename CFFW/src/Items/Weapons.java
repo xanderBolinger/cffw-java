@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import Conflict.SmokeStats.SmokeType;
+import Melee.MeleeWeapon;
+import Melee.MeleeWeaponData;
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 
@@ -73,9 +75,14 @@ public class Weapons implements Serializable {
 	public ArrayList<Integer> salm = new ArrayList<Integer>();
 
 	public CeWeaponStats ceStats = new CeWeaponStats();
+	
+	public MeleeWeapon meleeWeapon;
 
 	public void createWeapons() {
 
+		if(MeleeWeapon.meleeWeapons == null)
+			new MeleeWeaponData();
+		
 		Weapons weapon1 = new Weapons();
 		weapon1.DC15A();
 		weapons.add(weapon1);

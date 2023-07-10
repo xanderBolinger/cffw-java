@@ -29,4 +29,13 @@ public class Melee {
 	// Standard bearers increase unit cohesion and make changing formations easier
 	
 	
+	
+	// Resolve combat 
+	// Reach 
+	// PC size 
+	// ATN / DTN
+	// Skill 
+	// - Injuries 
+	// /= by number of bouts combatant is in 
+	
 }

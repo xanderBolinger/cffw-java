@@ -3,20 +3,99 @@ package Items;
 import java.util.ArrayList;
 
 import Conflict.SmokeStats.SmokeType;
+import Melee.MeleeWeapon;
+import Melee.MeleeWeaponData.MeleeWeaponType;
 
 public class WeaponsStats {
-	
+
 	public ArrayList<Weapons> weapons = new ArrayList<>();
-	
+
 	public WeaponsStats() {
 		T4GMG();
 		GoblinJavelin();
 		ShortBow();
+		ChainSword();
+		PowerSword();
+		Spear();
+		VibroKnife();
+		Gladius();
+	}
+
+	// ChainSword,VibroKnife,PowerSword,Spear,Gladius
+
+	public void ChainSword() {
+		Weapons weapon = new Weapons();
+		weapon.name = "Chain Sword";
+		
+		try {
+			weapon.meleeWeapon = MeleeWeapon.getMeleeWeapon(MeleeWeaponType.ChainSword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		weapon.type = "Melee";
+		weapons.add(weapon);
+	}
+
+	public void PowerSword() {
+		Weapons weapon = new Weapons();
+		weapon.name = "Power Sword";
+		
+		try {
+			weapon.meleeWeapon = MeleeWeapon.getMeleeWeapon(MeleeWeaponType.PowerSword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		weapon.type = "Melee";
+		weapons.add(weapon);
+	}
+
+	public void Spear() {
+		Weapons weapon = new Weapons();
+		weapon.name = "Spear";
+		
+		try {
+			weapon.meleeWeapon = MeleeWeapon.getMeleeWeapon(MeleeWeaponType.Spear);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		weapon.type = "Melee";
+		weapons.add(weapon);
+	}
+
+	public void Gladius() {
+		Weapons weapon = new Weapons();
+		weapon.name = "Gladius";
+		
+		try {
+			weapon.meleeWeapon = MeleeWeapon.getMeleeWeapon(MeleeWeaponType.Gladius);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		weapon.type = "Melee";
+		weapons.add(weapon);
+	}
+
+	public void VibroKnife() {
+		Weapons weapon = new Weapons();
+		weapon.name = "VibroKnife";
+		
+		try {
+			weapon.meleeWeapon = MeleeWeapon.getMeleeWeapon(MeleeWeaponType.VibroKnife);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		weapon.type = "Melee";
+		weapons.add(weapon);
 	}
 	
 	public void ShortBow() {
 		Weapons weapon = new Weapons();
-		
+
 		weapon.name = "Short Bow";
 		weapon.targetROF = 8;
 		weapon.suppressiveROF = 2;
@@ -78,17 +157,17 @@ public class WeaponsStats {
 		weapon.ba.add(4);
 		weapon.ba.add(1);
 		weapon.ba.add(0);
-		
+
 		// Ce stats
 		weapon.ceStats.baseErgonomics = 80;
 		weapon.ceStats.reloadTime = 5;
 		weapon.loadTime = 5;
 		weapons.add(weapon);
 	}
-	
+
 	public void GoblinJavelin() {
 		Weapons weapon = new Weapons();
-		
+
 		weapon.name = "Goblin Javelin";
 		weapon.targetROF = 8;
 		weapon.suppressiveROF = 2;
@@ -150,17 +229,17 @@ public class WeaponsStats {
 		weapon.ba.add(0);
 		weapon.ba.add(0);
 		weapon.ba.add(0);
-		
+
 		// Ce stats
 		weapon.ceStats.baseErgonomics = 80;
 		weapon.ceStats.reloadTime = 3;
 		weapon.loadTime = 3;
 		weapons.add(weapon);
 	}
-	
+
 	public void T4GMG() {
 		Weapons weapon = new Weapons();
-		
+
 		weapon.name = "T-4 GMG";
 		weapon.targetROF = 8;
 		weapon.suppressiveROF = 8;
@@ -274,7 +353,7 @@ public class WeaponsStats {
 
 		PCAmmo heat = new PCAmmo(name, pen, dc, bshc, bc, 288, 10);
 		weapon.pcAmmoTypes.add(heat);
-		
+
 		name = "ION";
 		pen = new ArrayList<Integer>();
 		pen.add(2);
@@ -308,7 +387,7 @@ public class WeaponsStats {
 		bc.add(7);
 		bc.add(2);
 
-		PCAmmo ion = new PCAmmo(name, pen, dc, bshc, bc, 2, 10);		
+		PCAmmo ion = new PCAmmo(name, pen, dc, bshc, bc, 2, 10);
 		ion.ionDamage.add(1200);
 		ion.ionDamage.add(600);
 		ion.ionDamage.add(200);
@@ -316,12 +395,12 @@ public class WeaponsStats {
 		ion.ionDamage.add(75);
 		ion.ionDamage.add(50);
 		weapon.pcAmmoTypes.add(ion);
-		
+
 		weapon.pcAmmoTypes.add(new PCAmmo(SmokeType.SMOKE_GRENADE));
-		
+
 		// Ce stats
 		weapon.ceStats.baseErgonomics = 30;
 		weapons.add(weapon);
 	}
-	
+
 }

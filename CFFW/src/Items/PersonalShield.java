@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
+import Melee.MeleeShield;
+import Melee.MeleeShieldData.MeleeShieldType;
 import UtilityClasses.Location;
 import UtilityClasses.PCUtility;
 
@@ -20,10 +22,12 @@ public class PersonalShield implements Serializable {
 	public String shieldName; 
 	public ShieldType shieldType; 
 	
-	public enum ShieldType {
-		NONE,MKIIBubbleShield,DCR1RifleShield,ELITEMINOR
-	}
+	public MeleeShield meleeShield;
 	
+	public enum ShieldType {
+		NONE,MKIIBubbleShield,DCR1RifleShield,ELITEMINOR,
+		StormShield
+	}
 	
 	public PersonalShield(ShieldType st) {
 		
@@ -33,6 +37,8 @@ public class PersonalShield implements Serializable {
 			DCR1RifleShield();
 		} else if(st == ShieldType.ELITEMINOR) {
 			eliteMinor();
+		} else if(st == ShieldType.StormShield) {
+			stormShield();
 		} else {
 			protectedZonesOpen.clear();
 			protectedZones.clear();
@@ -44,6 +50,18 @@ public class PersonalShield implements Serializable {
 		
 	}
 	
+	public void stormShield() {
+		currentShieldStrength = 200; 
+		maxShieldStrength = 200;
+		rechargeRate = 0.2; 
+		shieldName = "Storm Shield";
+		shieldType = ShieldType.StormShield;
+		try {
+			meleeShield = MeleeShield.getMeleeShield(MeleeShieldType.StormShield);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void MKIIBubbleShield() {
 		currentShieldStrength = 200; 
