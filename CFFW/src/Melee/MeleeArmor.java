@@ -35,6 +35,8 @@ public class MeleeArmor {
 	}
 	
 	public static MeleeArmor getArmorPiece(MeleeArmorType armorType) throws Exception {
+		if(meleeArmorPieces == null)
+			new MeleeArmorData();
 		
 		for(var piece : meleeArmorPieces) {
 			if(piece.armorType == armorType)

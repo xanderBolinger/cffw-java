@@ -2234,7 +2234,7 @@ public class Trooper implements Serializable {
 		 * Spine, Thigh Flesh, Thigh Bone, Knee, Shin Flesh, Shin Bone, Ankle - Foot
 		 */
 
-		log.addToLineInQueue(", " + injury.location + ", injury pd: " + injury.pd + ", total pd: " + physicalDamage);
+		log.addToLineInQueue(", " + injury.location + ", injury pd: " + injury.pd + ", Shock PD: "+injury.shockPd+ ", total pd: " + physicalDamage);
 
 		if (injury.disabled) {
 
@@ -2268,20 +2268,20 @@ public class Trooper implements Serializable {
 		int TN = 0;
 
 		// Rolls incapacitation test
-		if (physicalDamage > KO * 5) {
+		if (physicalDamage + injury.shockPd > KO * 5) {
 			TN = 60;
 			P2--;
-		} else if (physicalDamage > KO * 4) {
+		} else if (physicalDamage + injury.shockPd  > KO * 4) {
 			TN = 26;
-		} else if (physicalDamage > KO * 3) {
+		} else if (physicalDamage + injury.shockPd  > KO * 3) {
 			TN = 13;
-		} else if (physicalDamage > KO * 2) {
+		} else if (physicalDamage  + injury.shockPd > KO * 2) {
 			TN = 12;
 		} else {
 			TN = 0;
 		}
 
-		if (physicalDamage >= KO) {
+		if (injury.pd + injury.shockPd >= KO) {
 			log.addToLineInQueue(":: Stunned");
 
 			if (game.getPhase() == 1) {
@@ -2306,7 +2306,7 @@ public class Trooper implements Serializable {
 			// See SW - CFFW
 		} else if (entirelyMechanical) {
 
-			if (injury.pd > KO * 2) {
+			if (injury.pd + injury.shockPd > KO * 2) {
 
 				if (physicalDamage >= KO * 5) {
 					if (roll <= 33)

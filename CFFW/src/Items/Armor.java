@@ -100,6 +100,9 @@ public class Armor implements Serializable {
 	
 	
 	public void Phase1CloneArmor() {
+		if(MeleeArmor.meleeArmorPieces == null)
+			new MeleeArmorData();
+		
 		this.bPF = 25; 
 		armorName = "Phase 1";
 		type = ArmorType.PHASEONE;
@@ -155,6 +158,9 @@ public class Armor implements Serializable {
 	}
 	
 	public void mediumDuraSteelMandoArmor() {
+		if(MeleeArmor.meleeArmorPieces == null)
+			new MeleeArmorData();
+		
 		this.bPF = 30; 
 		armorName = "Durasteel Medium Mando";
 		type = ArmorType.DURASTEELMEDIUMMANDO;
@@ -209,6 +215,9 @@ public class Armor implements Serializable {
 	}
 	
 	public void Phase1ARC() {
+		if(MeleeArmor.meleeArmorPieces == null)
+			new MeleeArmorData();
+		
 		this.bPF = 30; 
 		armorName = "Phase 1 Arc";
 		type = ArmorType.PHASEONEARC;
@@ -263,6 +272,8 @@ public class Armor implements Serializable {
 	}
 	
 	public void katarnArmor() {
+		if(MeleeArmor.meleeArmorPieces == null)
+			new MeleeArmorData();
 		
 		this.bPF = 40; 
 		armorName = "Katarn MK1";
@@ -318,6 +329,9 @@ public class Armor implements Serializable {
 	}
 	
 	public void b1Armor() {
+		if(MeleeArmor.meleeArmorPieces == null)
+			new MeleeArmorData();
+		
 		this.bPF = 20; 
 		armorName = "B1";
 		type = ArmorType.B1;
@@ -330,6 +344,9 @@ public class Armor implements Serializable {
 	}
 	
 	public void b2Armor() {
+		if(MeleeArmor.meleeArmorPieces == null)
+			new MeleeArmorData();
+		
 		this.bPF = 30; 
 		armorName = "B2";
 		type = ArmorType.B2;
@@ -342,6 +359,9 @@ public class Armor implements Serializable {
 	}
 	
 	public void commandoDroidArmor() {
+		if(MeleeArmor.meleeArmorPieces == null)
+			new MeleeArmorData();
+		
 		this.bPF = 25; 
 		armorName = "Commando Droid";
 		type = ArmorType.COMMANDODROID;
@@ -354,6 +374,9 @@ public class Armor implements Serializable {
 	}
 	
 	public void magmaGuard() {
+		if(MeleeArmor.meleeArmorPieces == null)
+			new MeleeArmorData();
+		
 		this.bPF = 25; 
 		armorName = "Margma Guard";
 		type = ArmorType.MAGMAGUARD;
@@ -366,6 +389,9 @@ public class Armor implements Serializable {
 	}
 	
 	public void duraSteelHelmet() {
+		if(MeleeArmor.meleeArmorPieces == null)
+			new MeleeArmorData();
+		
 		this.bPF = 25; 
 		armorName = "Durasteel Helmet";
 		type = ArmorType.DURASTEELHELEMT;
@@ -402,6 +428,7 @@ public class Armor implements Serializable {
 	}*/
 	
 	public void odst() {
+		
 		this.armorName = "ODST";
 		type = ArmorType.ODST;
 		this.bPF = 25; 

@@ -25,8 +25,6 @@ public class MeleeArmorData {
 	
 	public void createArmor(MeleeArmorType meleeArmorType) throws Exception {
 		
-		MeleeArmor.meleeArmorPieces = new ArrayList<MeleeArmor>();
-		
 		switch(meleeArmorType) {
 		case CeramiteTacticalMarine:
 			MeleeArmor.meleeArmorPieces.add(new MeleeArmor(meleeArmorType, MeleeArmorLocationData.allBodyParts, 60, 0, 20, 20, true));

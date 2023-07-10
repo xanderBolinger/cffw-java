@@ -52,11 +52,11 @@ public class MeleeWeaponData {
 					40, 0, 60));
 			break;
 		default:
-			break;
+			throw new Exception("Melee weapon not found for melee weapon type: "+meleeWeaponType);
 		
 		}
 		
-		throw new Exception("Melee weapon not found for melee weapon type: "+meleeWeaponType);
+		
 	}
 	
 }

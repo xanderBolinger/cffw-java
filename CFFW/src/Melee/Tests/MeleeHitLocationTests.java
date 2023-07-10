@@ -12,14 +12,38 @@ import org.junit.Test;
 
 import Items.Optic;
 import Items.Weapons;
+import Melee.Combatant;
+import Melee.MeleeDamage;
 import Melee.MeleeHitLocation;
 import Melee.MeleeHitLocation.MeleeDamageType;
+import Trooper.generateSquad;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.PCUtility;
 import Items.Optic.OpticType;
 
 public class MeleeHitLocationTests {
 
+	@Test
+	public void applyMeleeHitTest() {
+		generateSquad squad = new generateSquad("Clone Trooper Phase 1", "Riflesquad");
+		
+		var troopers = squad.getSquad();
+		
+		var attacker = troopers.get(0);
+		attacker.meleeWep = "Chain Sword";
+		var target = troopers.get(1);
+		
+		var attackerCombatant = new Combatant(attacker);
+		var defenderCombatant = new Combatant(target);
+		
+		try {
+			MeleeDamage.applyMeleeHit(attackerCombatant, defenderCombatant, 5, MeleeDamageType.CUTTING);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	@Test
 	public void hitLocationBenchmarkTest() {
 		for(int x = 0; x < 1; x++) {
@@ -36,7 +60,7 @@ public class MeleeHitLocationTests {
 						// PCUtility.getOddsOfHitting(false, eal);
 						try {
 							var rslts = MeleeHitLocation.GetHitLocationResults(dmgType, DiceRoller.roll(1, 26),
-									DiceRoller.roll(1, 5), DiceRoller.roll(1, 7), DiceRoller.roll(0, 30));
+									DiceRoller.roll(1, 5), DiceRoller.roll(1, 7), DiceRoller.roll(1, 6), DiceRoller.roll(0, 30));
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

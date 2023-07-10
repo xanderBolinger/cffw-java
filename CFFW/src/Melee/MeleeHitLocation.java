@@ -21,9 +21,8 @@ public class MeleeHitLocation {
 	}
 
 	public static Pair<MeleeHitLocationData, MeleeHitLocationPcResults> GetHitLocationResults(
-			MeleeDamageType damageType, int damagePoints, int damageLevel, int zone, int armorValue) throws Exception {
+			MeleeDamageType damageType, int damagePoints, int damageLevel, int zone, int subZoneRoll, int armorValue) throws Exception {
 
-		var subZoneRoll = DiceRoller.roll(1, 6);
 		var data = GetMeleeHitLocation(damageType, damageLevel, zone, subZoneRoll);
 		var pdText = GetPDText(armorValue, damagePoints, data.zoneName, damageType);
 		var pcRslts = GetPdFromCell(pdText.getFirst());

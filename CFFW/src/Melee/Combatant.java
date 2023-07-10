@@ -8,4 +8,8 @@ public class Combatant {
 	public int shock;
 	public boolean knockedDown;
 	
+	public Combatant(Trooper trooper) {
+		this.trooper = trooper;
+	}
+	
 }

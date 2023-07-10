@@ -16,6 +16,7 @@ import UtilityClasses.PCUtility;
 
 public class Injuries implements Serializable{
 	public int pd; 
+	public int shockPd;
 	public String location; 
 	public boolean disabled; 
 	public boolean recovered = false; 
