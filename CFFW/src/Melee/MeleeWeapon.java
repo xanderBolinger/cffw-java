@@ -3,6 +3,7 @@ package Melee;
 import java.util.List;
 
 import Melee.MeleeArmorData.MeleeArmorType;
+import Melee.MeleeHitLocation.MeleeDamageType;
 import Melee.MeleeWeaponData.MeleeWeaponType;
 
 public class MeleeWeapon {
@@ -62,6 +63,21 @@ public class MeleeWeapon {
         this.cutApMod = cutApMod;
         this.bashApMod = bashApMod;
         this.stabApMod = stabApMod;
+    }
+    
+    public int getAtn(MeleeDamageType dmgType) {
+    	switch(dmgType) {
+		case BLUNT:
+			return attackTargetNumberBash;
+		case CUTTING:
+			return attackTargetNumberCut;
+		case PEIRICNG:
+			return attackTargetNumberStab;
+		default:
+			System.err.println("Default atn dmg reached, weird.");
+			return 0;
+    	
+    	}
     }
     
 	public static MeleeWeapon getMeleeWeapon(MeleeWeaponType weaponType) throws Exception {

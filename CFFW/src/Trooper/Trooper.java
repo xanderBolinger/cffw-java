@@ -114,7 +114,7 @@ public class Trooper implements Serializable {
 	public String wep;
 	
 	public String offHandWep;
-	public int closeCombatSkillLevel;
+	public int meleeCombatSkillLevel;
 	public int meleeCombatResolve;
 	public PersonalShield meleeShield;
 	

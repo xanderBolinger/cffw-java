@@ -16,11 +16,12 @@ public class MeleeArmor {
 	public int bluntMod;
 	public int cutMod;
 	public int stabMod;
-
+	public int encumberencePenalty;
+	
 	public boolean imperviousToChinks;
 
 	public MeleeArmor(MeleeArmorType armorType, List<String> protectedBodyParts, int armorValue, int bluntMod, int cutMod,
-			int stabMod, boolean imperviousToChinks) {
+			int stabMod, boolean imperviousToChinks, int encumberencePenalty) {
 		this.armorType = armorType;
 		this.protectedBodyParts = protectedBodyParts;
 		this.armorValue = armorValue;
@@ -28,6 +29,7 @@ public class MeleeArmor {
 		this.cutMod = cutMod;
 		this.stabMod = stabMod;
 		this.imperviousToChinks = imperviousToChinks;
+		this.encumberencePenalty = encumberencePenalty;
 	}
 	
 	public boolean protectedZone(String zone) {

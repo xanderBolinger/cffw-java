@@ -199,10 +199,6 @@ public class Weapons implements Serializable {
 		shotgun.M870();
 		weapons.add(shotgun);
 
-		Weapons weaponMelee1 = new Weapons();
-		weaponMelee1.vibroKnife();
-		weapons.add(weaponMelee1);
-
 		Weapons weaponStatic1 = new Weapons();
 		weaponStatic1.EWHB12();
 		weapons.add(weaponStatic1);
@@ -2366,27 +2362,6 @@ public class Weapons implements Serializable {
 
 		// Ce stats
 		ceStats.baseErgonomics = 50;
-
-	}
-
-	// MELEE WEAPONS \\
-	public void vibroKnife() {
-		this.name = "Vibroknife";
-		this.targetROF = 0;
-		this.suppressiveROF = 0;
-		this.type = "Melee";
-		this.weaponBonus = 0;
-		this.damage = 0;
-		this.damageBonus = 2;
-		this.damageMultiplier = 2;
-		this.armorPiercing = 2;
-		this.tracers = false;
-
-		// PEN
-		this.pen.add(30);
-
-		// DC
-		this.dc.add(1);
 
 	}
 

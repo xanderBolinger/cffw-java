@@ -81,7 +81,7 @@ public class WeaponsStats {
 
 	public void VibroKnife() {
 		Weapons weapon = new Weapons();
-		weapon.name = "VibroKnife";
+		weapon.name = "Vibroknife";
 		
 		try {
 			weapon.meleeWeapon = MeleeWeapon.getMeleeWeapon(MeleeWeaponType.VibroKnife);

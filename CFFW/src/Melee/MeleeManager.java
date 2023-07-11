@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class MeleeManager {
 
-	public ArrayList<MeleeCombatUnit> unitsInCombat;
-	public ArrayList<Bout> meleeCombatBouts;
+	public static ArrayList<MeleeCombatUnit> unitsInCombat;
+	public static ArrayList<Bout> meleeCombatBouts;
 	
 	
 	

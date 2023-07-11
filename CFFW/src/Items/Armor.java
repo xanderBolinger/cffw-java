@@ -45,6 +45,7 @@ public class Armor implements Serializable {
 		this.bPF = 0; 
 		this.excludedZones = new ArrayList<ArrayList<Integer>>();
 		this.excludedZonesOpen = new ArrayList<ArrayList<Integer>>();
+		meleeArmorStats = new ArrayList<MeleeArmor>();
 	}
 	
 	public enum ArmorType {
@@ -150,7 +151,7 @@ public class Armor implements Serializable {
 		armorWeight = 30;
 		
 		try {
-			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.PlasteelCombatArmor));
+			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.PlasteelCombatArmor));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -207,7 +208,7 @@ public class Armor implements Serializable {
 		excludedZonesOpen.add(a10);
 		
 		try {
-			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
+			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -265,7 +266,7 @@ public class Armor implements Serializable {
 		armorWeight = 35;
 		
 		try {
-			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.PlasteelCombatArmor));
+			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.PlasteelCombatArmor));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -322,7 +323,7 @@ public class Armor implements Serializable {
 		armorWeight = 35;
 		
 		try {
-			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
+			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -337,7 +338,7 @@ public class Armor implements Serializable {
 		type = ArmorType.B1;
 		armorWeight = 20;
 		try {
-			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
+			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -352,7 +353,7 @@ public class Armor implements Serializable {
 		type = ArmorType.B2;
 		armorWeight = 50;
 		try {
-			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
+			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -367,7 +368,7 @@ public class Armor implements Serializable {
 		type = ArmorType.COMMANDODROID;
 		armorWeight = 20;
 		try {
-			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
+			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -382,7 +383,7 @@ public class Armor implements Serializable {
 		type = ArmorType.MAGMAGUARD;
 		armorWeight = 20;
 		try {
-			MeleeArmor.meleeArmorPieces.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
+			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

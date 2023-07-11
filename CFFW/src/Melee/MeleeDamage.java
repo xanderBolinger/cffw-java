@@ -15,8 +15,8 @@ public class MeleeDamage {
 
 		Weapons meleeWeaponStats = new Weapons().findWeapon(attacker.trooper.meleeWep);
 		
-		int str = attacker.trooper.str / 9;
-		int to = target.trooper.hlt / 9;
+		int str = attacker.trooper.str / 3;
+		int to = target.trooper.hlt / 3;
 		
 		int weaponMod = -2;
 		int weapopnApMod = -2;
