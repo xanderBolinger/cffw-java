@@ -17,7 +17,6 @@ public class MeleeResolve {
 
 	// Decreases
 	public int chargeModifier;
-	public int flankModifier;
 	public int combatLossesModifier;
 	public int suppressionModifier;
 	public int nearbyRoutingModifier;
@@ -102,28 +101,34 @@ public class MeleeResolve {
 		
 	}
 
-	public void calcaulteChargeModifier(ArrayList<Double> chargeVelocities) {
+	public void calcaulteChargeModifier(ArrayList<ChargeData> chargeVelocities) {
 		chargeModifier = 0;
 		for(var c : chargeVelocities)
-			applyChargeModifier(c);
+			applyChargeModifier(c.velocity, c.flankCharge, c.rearCharge);
 	}
 	
-	private void applyChargeModifier(double chargeVelocity) {
+	private void applyChargeModifier(double chargeVelocity, boolean flankCharge, boolean rearCharge) {
 		if(chargeVelocity >= 3) {
-			chargeModifier += 25;
+			chargeModifier += 25 * (flankCharge ? 2 : 1) * (rearCharge ? 3 : 1);
 		} else if(chargeVelocity >= 2.5) {
-			chargeModifier += 15;
+			chargeModifier += 15 * (flankCharge ? 2 : 1) * (rearCharge ? 3 : 1);
 		} else if(chargeVelocity >= 2) {
-			chargeModifier += 10;
+			chargeModifier += 10 * (flankCharge ? 2 : 1) * (rearCharge ? 3 : 1);
 		} else if(chargeVelocity >= 1.5) {
-			chargeModifier += 8;
+			chargeModifier += 8 * (flankCharge ? 2 : 1) * (rearCharge ? 3 : 1);
 		} else if(chargeVelocity >= 1) {
-			chargeModifier += 5;
+			chargeModifier += 5 * (flankCharge ? 2 : 1) * (rearCharge ? 3 : 1);
 		} else if(chargeVelocity >= 0.5) {
-			chargeModifier += 3;
+			chargeModifier += 3 * (flankCharge ? 2 : 1) * (rearCharge ? 3 : 1);
 		}  else {
 			chargeModifier += 0;
 		}
 	}
+
+	
+	
+	
 	
 }
+
+

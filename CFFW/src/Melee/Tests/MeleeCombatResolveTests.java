@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
+import Melee.ChargeData;
 import Melee.MeleeCombatUnit;
 import Melee.MeleeResolve;
 import Trooper.Trooper;
@@ -15,14 +16,14 @@ public class MeleeCombatResolveTests {
 	@Test
 	public void chargeModifierTest() {
 		var resolve = new MeleeResolve();
-		var list = new ArrayList<Double>();
-		list.add(3.0);
-		list.add(2.5);
-		list.add(2.0);
-		list.add(1.5);
-		list.add(1.0);
-		list.add(0.5);
-		list.add(0.0);
+		var list = new ArrayList<ChargeData>();
+		list.add(new Melee.ChargeData(3.0, false,false));
+		list.add(new ChargeData(2.5, false,false));
+		list.add(new ChargeData(2.0, false,false));
+		list.add(new ChargeData(1.5, false,false));
+		list.add(new ChargeData(1.0, false,false));
+		list.add(new ChargeData(0.5, false,false));
+		list.add(new ChargeData(0.0, false,false));
 		resolve.calcaulteChargeModifier(list);
 		assertEquals(66, resolve.chargeModifier);
 	}
