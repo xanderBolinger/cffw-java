@@ -3,7 +3,7 @@ package Melee;
 import org.apache.commons.math3.util.Pair;
 
 import Items.Weapons;
-import Melee.MeleeHitLocation.MeleeDamageType;
+import Melee.Damage.MeleeHitLocation.MeleeDamageType;
 import Trooper.Trooper;
 
 public class MeleeCombatFactor {

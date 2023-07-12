@@ -4,7 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import Melee.Combatant;
 import Melee.MeleeCombatFactor;
-import Melee.MeleeHitLocation.MeleeDamageType;
+import Melee.Damage.MeleeHitLocation.MeleeDamageType;
 import Trooper.generateSquad;
 
 public class MeleeCombatFactorTests {

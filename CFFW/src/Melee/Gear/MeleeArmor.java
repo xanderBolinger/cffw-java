@@ -1,9 +1,9 @@
-package Melee;
+package Melee.Gear;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import Melee.MeleeArmorData.MeleeArmorType;
+import Melee.Gear.MeleeArmorData.MeleeArmorType;
 
 public class MeleeArmor {
 

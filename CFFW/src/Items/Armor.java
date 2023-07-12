@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
-import Melee.MeleeArmor;
-import Melee.MeleeArmorData;
-import Melee.MeleeArmorLocationData;
-import Melee.MeleeArmorData.MeleeArmorType;
+import Melee.Gear.MeleeArmor;
+import Melee.Gear.MeleeArmorData;
+import Melee.Gear.MeleeArmorLocationData;
+import Melee.Gear.MeleeArmorData.MeleeArmorType;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.ExcelUtility;
 import UtilityClasses.Location;

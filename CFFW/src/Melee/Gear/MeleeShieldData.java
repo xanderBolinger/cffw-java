@@ -1,4 +1,4 @@
-package Melee;
+package Melee.Gear;
 
 import java.util.ArrayList;
 

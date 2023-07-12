@@ -2,7 +2,8 @@ package Melee;
 
 import java.util.ArrayList;
 
-import Melee.MeleeHitLocation.MeleeDamageType;
+import Melee.Damage.MeleeDamage;
+import Melee.Damage.MeleeHitLocation.MeleeDamageType;
 import UtilityClasses.DiceRoller;
 
 public class MeleeCombatResolver {

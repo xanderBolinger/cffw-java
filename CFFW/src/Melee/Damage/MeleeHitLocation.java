@@ -1,4 +1,4 @@
-package Melee;
+package Melee.Damage;
 
 import java.io.File;
 import java.io.FileInputStream;

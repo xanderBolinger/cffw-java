@@ -1,6 +1,8 @@
 package Melee;
 
 import Items.Weapons;
+import Melee.Gear.MeleeShield;
+import Melee.Gear.MeleeWeapon;
 import Trooper.Trooper;
 
 public class Combatant {

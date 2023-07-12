@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
-import Melee.MeleeShield;
-import Melee.MeleeShieldData.MeleeShieldType;
+import Melee.Gear.MeleeShield;
+import Melee.Gear.MeleeShieldData.MeleeShieldType;
 import UtilityClasses.Location;
 import UtilityClasses.PCUtility;
 

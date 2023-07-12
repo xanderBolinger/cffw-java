@@ -1,11 +1,12 @@
-package Melee;
+package Melee.Damage;
 
 import org.apache.commons.math3.util.Pair;
 
 import Conflict.GameWindow;
 import Injuries.Injuries;
 import Items.Weapons;
-import Melee.MeleeHitLocation.MeleeDamageType;
+import Melee.Combatant;
+import Melee.Damage.MeleeHitLocation.MeleeDamageType;
 import UtilityClasses.DiceRoller;
 
 public class MeleeDamage {

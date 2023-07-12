@@ -1,4 +1,4 @@
-package Melee;
+package Melee.Damage;
 
 public class MeleeHitLocationPcResults {
 

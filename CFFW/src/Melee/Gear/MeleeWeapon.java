@@ -1,10 +1,11 @@
-package Melee;
+package Melee.Gear;
 
 import java.util.List;
 
-import Melee.MeleeArmorData.MeleeArmorType;
-import Melee.MeleeHitLocation.MeleeDamageType;
-import Melee.MeleeWeaponData.MeleeWeaponType;
+import Melee.Damage.MeleeHitLocation;
+import Melee.Damage.MeleeHitLocation.MeleeDamageType;
+import Melee.Gear.MeleeArmorData.MeleeArmorType;
+import Melee.Gear.MeleeWeaponData.MeleeWeaponType;
 
 public class MeleeWeapon {
 

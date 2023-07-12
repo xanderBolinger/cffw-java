@@ -1,8 +1,8 @@
-package Melee;
+package Melee.Gear;
 
 import java.util.List;
 
-import Melee.MeleeShieldData.MeleeShieldType;
+import Melee.Gear.MeleeShieldData.MeleeShieldType;
 
 public class MeleeShield {
 

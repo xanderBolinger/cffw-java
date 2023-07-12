@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import Conflict.SmokeStats.SmokeType;
-import Melee.MeleeWeapon;
-import Melee.MeleeWeaponData;
+import Melee.Gear.MeleeWeapon;
+import Melee.Gear.MeleeWeaponData;
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 

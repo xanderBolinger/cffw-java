@@ -3,8 +3,8 @@ package Items;
 import java.util.ArrayList;
 
 import Conflict.SmokeStats.SmokeType;
-import Melee.MeleeWeapon;
-import Melee.MeleeWeaponData.MeleeWeaponType;
+import Melee.Gear.MeleeWeapon;
+import Melee.Gear.MeleeWeaponData.MeleeWeaponType;
 
 public class WeaponsStats {
 

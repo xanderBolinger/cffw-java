@@ -1,8 +1,8 @@
-package Melee;
+package Melee.Gear;
 
 import java.util.ArrayList;
 
-import Melee.MeleeWeapon.WeaponSize;
+import Melee.Gear.MeleeWeapon.WeaponSize;
 
 public class MeleeWeaponData {
 
