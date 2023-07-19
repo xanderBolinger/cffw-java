@@ -1,6 +1,8 @@
 package Melee;
 
-public class ChargeData {
+import java.io.Serializable;
+
+public class ChargeData implements Serializable {
 	public double velocity;
 	public boolean flankCharge;
 	public boolean rearCharge;

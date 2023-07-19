@@ -1,6 +1,8 @@
 package Melee;
 
-public class Bout {
+import java.io.Serializable;
+
+public class Bout implements Serializable {
 
 	public Combatant combatantA;
 	public Combatant combatantB;

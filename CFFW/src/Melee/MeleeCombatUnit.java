@@ -1,11 +1,12 @@
 package Melee;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import Trooper.Trooper;
 import Unit.Unit;
 
-public class MeleeCombatUnit {
+public class MeleeCombatUnit implements Serializable {
 
 	public Unit unit;
 	public ArrayList<Trooper> individualsInMeleeCombat;

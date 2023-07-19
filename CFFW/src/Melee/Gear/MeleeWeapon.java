@@ -1,5 +1,6 @@
 package Melee.Gear;
 
+import java.io.Serializable;
 import java.util.List;
 
 import Melee.Damage.MeleeHitLocation;
@@ -7,7 +8,7 @@ import Melee.Damage.MeleeHitLocation.MeleeDamageType;
 import Melee.Gear.MeleeArmorData.MeleeArmorType;
 import Melee.Gear.MeleeWeaponData.MeleeWeaponType;
 
-public class MeleeWeapon {
+public class MeleeWeapon implements Serializable {
 
 	public static List<MeleeWeapon> meleeWeapons;
 	

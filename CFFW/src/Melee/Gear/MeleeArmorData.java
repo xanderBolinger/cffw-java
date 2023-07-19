@@ -1,9 +1,10 @@
 package Melee.Gear;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MeleeArmorData {
+public class MeleeArmorData implements Serializable {
 
 	public enum MeleeArmorType {
 		CeramiteTacticalMarine,DurasteelCombatArmor,PlasteelCombatArmor,GothicPlateArmor,HopliteBronzeArmor,Gambeson,KettleHelm,Curiass

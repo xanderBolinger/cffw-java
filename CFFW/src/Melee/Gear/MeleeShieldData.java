@@ -1,8 +1,9 @@
 package Melee.Gear;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MeleeShieldData {
+public class MeleeShieldData implements Serializable {
 
 	public enum MeleeShieldType {
 		StormShield

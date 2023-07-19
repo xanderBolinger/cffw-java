@@ -1,6 +1,8 @@
 package Melee.Damage;
 
-public class MeleeHitLocationData {
+import java.io.Serializable;
+
+public class MeleeHitLocationData implements Serializable {
 	public String zoneName;
     public int bloodLossPD;
     public int shockPD;

@@ -1,11 +1,13 @@
 package Melee;
 
+import java.io.Serializable;
+
 import Items.Weapons;
 import Melee.Gear.MeleeShield;
 import Melee.Gear.MeleeWeapon;
 import Trooper.Trooper;
 
-public class Combatant {
+public class Combatant implements Serializable {
 
 	public Trooper trooper;
 	public int shock;

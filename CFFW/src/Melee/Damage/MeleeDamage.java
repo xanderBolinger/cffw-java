@@ -1,5 +1,7 @@
 package Melee.Damage;
 
+import java.io.Serializable;
+
 import org.apache.commons.math3.util.Pair;
 
 import Conflict.GameWindow;
@@ -9,7 +11,7 @@ import Melee.Combatant;
 import Melee.Damage.MeleeHitLocation.MeleeDamageType;
 import UtilityClasses.DiceRoller;
 
-public class MeleeDamage {
+public class MeleeDamage implements Serializable {
 
 	public static void applyMeleeHit(Combatant attacker, Combatant target, int attackMarginOfSuccess,
 			MeleeDamageType damageType) throws Exception {
@@ -86,7 +88,7 @@ public class MeleeDamage {
 		
 		target.shock += hitRslts.getFirst().shockPD/20;
 		
-		if(GameWindow.gameWindow != null) {
+		if(GameWindow.gameWindow != null && GameWindow.gameWindow.conflictLog != null) {
 			
 			target.trooper.injured(GameWindow.gameWindow.conflictLog, injury, GameWindow.gameWindow.game, GameWindow.gameWindow);
 			target.trooper.calculateInjury(GameWindow.gameWindow, GameWindow.gameWindow.conflictLog);

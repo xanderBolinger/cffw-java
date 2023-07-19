@@ -1,12 +1,14 @@
 package Melee;
 
+import java.io.Serializable;
+
 import org.apache.commons.math3.util.Pair;
 
 import Items.Weapons;
 import Melee.Damage.MeleeHitLocation.MeleeDamageType;
 import Trooper.Trooper;
 
-public class MeleeCombatFactor {
+public class MeleeCombatFactor implements Serializable {
 
 	// Resolve combat
 	// Reach

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.ExcelUtility;
 
-public class MeleeHitLocation {
+public class MeleeHitLocation implements Serializable {
 
 	public enum MeleeDamageType {
 		CUTTING, PEIRICNG, BLUNT

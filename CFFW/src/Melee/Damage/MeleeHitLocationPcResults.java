@@ -1,6 +1,8 @@
 package Melee.Damage;
 
-public class MeleeHitLocationPcResults {
+import java.io.Serializable;
+
+public class MeleeHitLocationPcResults implements Serializable {
 
 	public String hitLocationName;
 	public boolean disabled;

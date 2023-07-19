@@ -1,12 +1,13 @@
 package Melee;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import Melee.Damage.MeleeDamage;
 import Melee.Damage.MeleeHitLocation.MeleeDamageType;
 import UtilityClasses.DiceRoller;
 
-public class MeleeCombatResolver {
+public class MeleeCombatResolver implements Serializable {
 
 	// Should be robust enough to be a stand alone wargame revolving around mass melee combat
 	

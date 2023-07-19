@@ -1,10 +1,11 @@
 package Melee.Gear;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import Melee.Gear.MeleeWeapon.WeaponSize;
 
-public class MeleeWeaponData {
+public class MeleeWeaponData implements Serializable {
 
 	public enum MeleeWeaponType {
 		ChainSword,VibroKnife,PowerSword,Spear,Gladius

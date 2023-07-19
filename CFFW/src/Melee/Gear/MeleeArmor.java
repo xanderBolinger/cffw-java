@@ -1,11 +1,12 @@
 package Melee.Gear;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import Melee.Gear.MeleeArmorData.MeleeArmorType;
 
-public class MeleeArmor {
+public class MeleeArmor implements Serializable {
 
 	public static ArrayList<MeleeArmor> meleeArmorPieces;
 

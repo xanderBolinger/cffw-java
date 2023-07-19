@@ -1,9 +1,10 @@
 package Melee.Gear;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MeleeArmorLocationData {
+public class MeleeArmorLocationData implements Serializable {
 	public static List<String> allBodyParts;
     public static List<String> headUpper;
     public static List<String> headLower;
