@@ -1138,7 +1138,7 @@ public class ResolveHits implements Serializable {
 			// System.out.println("PC Target Concealment: "+targetUnit.concealment);
 			String targetStatus = "";
 
-			if (trooper.inCover) {
+			if (trooper.inCover || trooper.stance.equals("Prone")) {
 				targetStatus = "Fire";
 			} else {
 				targetStatus = "Open";

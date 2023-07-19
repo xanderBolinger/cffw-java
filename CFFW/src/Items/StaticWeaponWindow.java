@@ -57,6 +57,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class StaticWeaponWindow {
 	private JList listStay;
@@ -158,8 +160,8 @@ public class StaticWeaponWindow {
 					
 					lblStaticWeapon.setText(
 							Integer.toString(listEquipedStatics.getSelectedIndex() + 1) + " " + staticWep.name);
-					System.out.println("Static Weapon Name: "+staticWep.name);
-					System.out.println("BC0: "+staticWeapon.pcAmmoTypes.get(0).bc.get(0));
+					//System.out.println("Static Weapon Name: "+staticWep.name);
+					//System.out.println("BC0: "+staticWeapon.pcAmmoTypes.get(0).bc.get(0));
 					if(staticWeapon.pcAmmoTypes.size() > 0) {
 						
 						comboBoxPcAmmo.removeAllItems();
@@ -174,7 +176,7 @@ public class StaticWeaponWindow {
 				}
 
 				//System.out.println("Selected Index: " + listEquipedStatics.getSelectedIndex());
-				
+				setGunner();
 				comboBoxTargets.setSelectedIndex(0);
 				comboBoxSuppressiveFireTargets.setSelectedIndex(0);
 				guiUpdates();
@@ -367,12 +369,19 @@ public class StaticWeaponWindow {
 		f.getContentPane().add(comboBoxTargets);
 
 		comboBoxSuppressiveFireTargets = new JComboBox();
-		comboBoxSuppressiveFireTargets.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		comboBoxSuppressiveFireTargets.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
 				if (comboBoxTargets.getSelectedIndex() != 0 || comboBoxSuppressiveFireTargets.getSelectedIndex() <= 0)
+				{
+					System.out.println("Suppress return 1");
 					return;
-				if(listEquipedStatics.getSelectedIndex() < 0)
+				}
+				if(listEquipedStatics.getSelectedIndex() < 0) {
+					System.out.println("Suppress return 2");
 					return;
+				}
+				
+				
 				
 				
 				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
@@ -380,33 +389,43 @@ public class StaticWeaponWindow {
 					@Override
 					protected Void doInBackground() throws Exception {
 
-						Shoot shoot = shots.get(listEquipedStatics.getSelectedIndex());
+						System.out.println("Do in background");
 						
-						String wepName = gunner.wep;
-						int ammoIndex = -1;
-						if (staticWeapon.pcAmmoTypes.size() > 0) {
-							wepName = staticWeapon.name;
-							ammoIndex = comboBoxPcAmmo.getSelectedIndex() > 0 ? comboBoxPcAmmo.getSelectedIndex() : 0;
-							if (ammoIndex < 0) {
-								GameWindow.gameWindow.conflictLog.addNewLine("Select valid ammo");
-								return null;
+						try {
+							Shoot shoot = shots.get(listEquipedStatics.getSelectedIndex());
+							
+							String wepName = gunner.wep;
+							int ammoIndex = -1;
+							if (staticWeapon.pcAmmoTypes.size() > 0) {
+								wepName = staticWeapon.name;
+								ammoIndex = comboBoxPcAmmo.getSelectedIndex() > 0 ? comboBoxPcAmmo.getSelectedIndex() : 0;
+								if (ammoIndex < 0) {
+									GameWindow.gameWindow.conflictLog.addNewLine("Select valid ammo");
+									System.out.println("Suppress return 3 select valid ammo");
+									return null;
+								}
 							}
+
+							setGunner();
+							shoot = ShootUtility.setTargetUnit(unit,
+									unit.lineOfSight.get(comboBoxSuppressiveFireTargets.getSelectedIndex() - 1), shoot, gunner,
+									wepName, ammoIndex);
+							shoot.wep.assembled = unit.staticWeapons.get(selectedWeaponIndex).assembled;
+							shoot.recalc();
+							
+							if (comboBoxAimTime.getSelectedIndex() == 0 && shoot != null)
+								shoot.autoAim();
+
+							if (shoot == null)
+								System.out.println("Shoot is null");
+
+							shots.set(listEquipedStatics.getSelectedIndex(), shoot);
+							System.out.println("Set shots");
+						} catch(Exception e2) {
+							e2.printStackTrace();
 						}
-
-						setGunner();
-						shoot = ShootUtility.setTargetUnit(unit,
-								unit.lineOfSight.get(comboBoxSuppressiveFireTargets.getSelectedIndex() - 1), shoot, gunner,
-								wepName, ammoIndex);
-						shoot.wep.assembled = unit.staticWeapons.get(selectedWeaponIndex).assembled;
-						shoot.recalc();
 						
-						if (comboBoxAimTime.getSelectedIndex() == 0 && shoot != null)
-							shoot.autoAim();
-
-						if (shoot == null)
-							System.out.println("Shoot is null");
-
-						shots.set(listEquipedStatics.getSelectedIndex(), shoot);
+						
 						
 						return null;
 					}
@@ -421,6 +440,11 @@ public class StaticWeaponWindow {
 				};
 
 				worker.execute();
+			}
+		});
+		comboBoxSuppressiveFireTargets.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		comboBoxSuppressiveFireTargets.setBounds(10, 409, 219, 23);
@@ -1029,7 +1053,9 @@ public class StaticWeaponWindow {
 		if (unit.staticWeapons.size() > 0) {
 			listEquipedStatics.setSelectedIndex(0);
 			onClickEquipedStatics(unit);
+			setGunner();
 		}
+		
 
 	}
 
@@ -1135,6 +1161,7 @@ public class StaticWeaponWindow {
 		
 		if(shots.size() != unit.staticWeapons.size()) {
 			for(int i = 0; i < unit.staticWeapons.size() - shots.size(); i++)
+				System.out.println("shots add null");
 				shots.add(null);
 		}
 		

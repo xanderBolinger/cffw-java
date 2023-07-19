@@ -246,6 +246,12 @@ public class BulkWindow {
 		JButton btnClearSpotted = new JButton("Remove All Spotted");
 		btnClearSpotted.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				for(var t : getSelectedTroopers()) {
+					t.spotted.clear();
+				}
+				
+				GameWindow.gameWindow.conflictLog.addNewLine("Cleared");
 			}
 		});
 		btnClearSpotted.setBounds(784, 73, 249, 23);
@@ -2530,6 +2536,12 @@ public class BulkWindow {
 		return indexes;
 	}
 
+	private boolean equipped(BulkTrooper bulkTrooper) {
+		var trooper = bulkTrooper.trooper;
+		var unit = trooper.returnTrooperUnit(gameWindow);
+		return unit.equipped(trooper);
+	}
+	
 	public void addExh() {
 		ArrayList<Integer> indexes = getIndexes();
 		int count = 1;
@@ -2539,7 +2551,8 @@ public class BulkWindow {
 				continue;
 
 			if (extTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)
-					&& count % (int) spinnerDivisor.getValue() == 0) {
+					&& count % (int) spinnerDivisor.getValue() == 0
+					&& !equipped(bulkTrooper)) {
 				// System.out.println("Count: "+count);
 				// System.out.println("Divisor: "+(int) spinnerDivisor.getValue());
 				indexes.add(bulkTroopers.indexOf(bulkTrooper));
@@ -2562,7 +2575,8 @@ public class BulkWindow {
 				continue;
 
 			if (extTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)
-					&& count % (int) spinnerDivisor.getValue() == 0) {
+					&& count % (int) spinnerDivisor.getValue() == 0
+					&& !equipped(bulkTrooper)) {
 				indexes.remove((Object) bulkTroopers.indexOf(bulkTrooper));
 				count++;
 			} else if (extTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)) {
@@ -2582,8 +2596,10 @@ public class BulkWindow {
 			if (indexes.contains(bulkTroopers.indexOf(bulkTrooper)))
 				continue;
 
+			
 			if (freshTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)
-					&& count % (int) spinnerDivisor.getValue() == 0 && bulkTrooper.targetTroopers.size() > 0) {
+					&& count % (int) spinnerDivisor.getValue() == 0 && bulkTrooper.targetTroopers.size() > 0
+					&& !equipped(bulkTrooper)) {
 				// System.out.println("Count: "+count);
 				// System.out.println("Divisor: "+(int) spinnerDivisor.getValue());
 				indexes.add(bulkTroopers.indexOf(bulkTrooper));
@@ -2606,8 +2622,10 @@ public class BulkWindow {
 			if (!indexes.contains(bulkTroopers.indexOf(bulkTrooper)))
 				continue;
 
+			
 			if (freshTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)
-					&& count % (int) spinnerDivisor.getValue() == 0 && bulkTrooper.targetTroopers.size() > 0) {
+					&& count % (int) spinnerDivisor.getValue() == 0 && bulkTrooper.targetTroopers.size() > 0
+							&& !equipped(bulkTrooper)) {
 				indexes.remove((Object) bulkTroopers.indexOf(bulkTrooper));
 				count++;
 			} else if (freshTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)
@@ -2629,7 +2647,8 @@ public class BulkWindow {
 				continue;
 
 			if (freshTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)
-					&& count % (int) spinnerDivisor.getValue() == 0 && bulkTrooper.trooper.storedAimTime.size() > 0) {
+					&& count % (int) spinnerDivisor.getValue() == 0 && bulkTrooper.trooper.storedAimTime.size() > 0
+					&& !equipped(bulkTrooper)) {
 				indexes.add(bulkTroopers.indexOf(bulkTrooper));
 				count++;
 			} else if (freshTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)
@@ -2651,7 +2670,8 @@ public class BulkWindow {
 				continue;
 
 			if (freshTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)
-					&& count % (int) spinnerDivisor.getValue() == 0 && bulkTrooper.trooper.storedAimTime.size() > 0) {
+					&& count % (int) spinnerDivisor.getValue() == 0 && bulkTrooper.trooper.storedAimTime.size() > 0
+					&& !equipped(bulkTrooper)) {
 				indexes.remove((Object) bulkTroopers.indexOf(bulkTrooper));
 				count++;
 			} else if (freshTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)
@@ -2673,7 +2693,8 @@ public class BulkWindow {
 				continue;
 
 			if (freshTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)
-					&& count % (int) spinnerDivisor.getValue() == 0) {
+					&& count % (int) spinnerDivisor.getValue() == 0
+					&& !equipped(bulkTrooper)) {
 				// System.out.println("Count: "+count);
 				// System.out.println("Divisor: "+(int) spinnerDivisor.getValue());
 				indexes.add(bulkTroopers.indexOf(bulkTrooper));
@@ -2696,7 +2717,8 @@ public class BulkWindow {
 				continue;
 
 			if (freshTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)
-					&& count % (int) spinnerDivisor.getValue() == 0) {
+					&& count % (int) spinnerDivisor.getValue() == 0
+					&& !equipped(bulkTrooper)) {
 				indexes.remove((Object) bulkTroopers.indexOf(bulkTrooper));
 				count++;
 			} else if (freshTrooper(bulkTrooper) && validTrooper(bulkTrooper.trooper)) {
@@ -2785,7 +2807,7 @@ public class BulkWindow {
 	public void setIndividuals() {
 
 		for (Trooper trooper : unit.individuals) {
-			if (trooper.alive == false || !trooper.conscious || trooperAlreadyAdded(trooper) || unit.equipped(trooper))
+			if (trooper.alive == false || !trooper.conscious || trooperAlreadyAdded(trooper))
 				continue;
 
 			for (Unit losUnit : trooper.returnTrooperUnit(GameWindow.gameWindow).lineOfSight) {
@@ -2811,7 +2833,7 @@ public class BulkWindow {
 			// System.out.println("CQB Target: "+trooper.closeCombatTarget.name+", Code:
 			// "+System.identityHashCode(trooper.closeCombatTarget));
 
-			if (trooper.alive == false || !trooper.conscious || trooperAlreadyAdded(trooper)  || unit.equipped(trooper))
+			if (trooper.alive == false || !trooper.conscious || trooperAlreadyAdded(trooper))
 				continue;
 
 			for (Unit losUnit : trooper.returnTrooperUnit(GameWindow.gameWindow).lineOfSight) {
@@ -3441,7 +3463,12 @@ public class BulkWindow {
 
 			String leaderType = trooper.leaderType == LeaderType.NONE ? "" : trooper.leaderType.toString() + ":: ";
 
-			return trooper.returnTrooperUnit(GameWindow.gameWindow).callsign + ":: " + leaderType + rslt;
+			String equipped = "";
+			
+			if(trooper.returnTrooperUnit(gameWindow).equipped(trooper))
+				equipped += "EQUIPPED: ";
+			
+			return equipped + trooper.returnTrooperUnit(GameWindow.gameWindow).callsign + ":: " + leaderType + rslt;
 
 		}
 

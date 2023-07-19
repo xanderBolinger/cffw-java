@@ -504,6 +504,7 @@ public class HexGrid implements Serializable {
 				}
 			}
 
+			
 			return results;
 		}
 

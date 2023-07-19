@@ -1289,14 +1289,19 @@ public class GameWindow implements Serializable {
 	// Takes a trooper, returns true if that unit has spent its AP for this action,
 	// returns false if a trooper has not
 	public static boolean exhaustedTrooper(Trooper trooper) {
+		if(!trooper.conscious)
+			return true;
+		else if(!trooper.alive)
+			return true;
+		
 		// System.out.println("Exuasted Trooper test: "+trooper.name);
 		if (GameWindow.gameWindow.game.getPhase() == 1) {
-			if (trooper.spentPhase1 < trooper.P1) {
+			if (trooper.spentPhase1 < trooper.P1 && trooper.spentPhase1 < GameWindow.gameWindow.game.getCurrentAction()) {
 				// System.out.println("Return False");
 				return false;
 			}
 		} else {
-			if (trooper.spentPhase2 < trooper.P2) {
+			if (trooper.spentPhase2 < trooper.P2 && trooper.spentPhase1 < GameWindow.gameWindow.game.getCurrentAction()) {
 				// System.out.println("Return False");
 				return false;
 			}
