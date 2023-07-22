@@ -127,8 +127,65 @@ public class MeleeResolve implements Serializable {
 	}
 
 	
+	public void calculateCombatLossesModifier(double percentLoss) {
+		combatLossesModifier = (int)(percentLoss * 100.0);
+	}
+	
+	public void calculateSuppressionModifier(Unit unit) {
+		suppressionModifier = unit.suppression;
+	}
 	
 	
+	public void calculateFatigueModifier(Unit unit) {
+		
+		double fatiguePoints = 0;
+		
+		for(var trooper : unit.individuals) {
+			double fp = trooper.fatigueSystem.fatiguePoints.get();
+			fatiguePoints += fp;
+		}
+		
+		fatiguePoints /= unit.individuals.size();
+		
+		int mod = 0;
+		
+		if(fatiguePoints < 5) {
+			mod -= 0;
+		}
+		else if(fatiguePoints < 11) {
+			mod -= 1;
+		} else if(fatiguePoints <= 15) {
+			mod -= 2;
+		} else if(fatiguePoints <= 19 ) {
+			mod -= 3;
+		} else if(fatiguePoints <= 23 ) {
+			mod -= 4;
+		} else if(fatiguePoints <= 27 ) {
+			mod -= 5;
+		} else if(fatiguePoints <= 31 ) {
+			mod -= 6;
+		} else if(fatiguePoints <= 32 ) {
+			mod -= 7;
+		} else if(fatiguePoints <= 33 ) {
+			mod -= 8;
+		} else if(fatiguePoints <= 34 ) {
+			mod -= 9;
+		} else if(fatiguePoints > 34) {
+			mod -= 9 + fatiguePoints - 34;
+		}
+	
+		mod *= -3;
+		fatigueModifier = mod;
+	}
+	
+	
+	public void calculateNearbyRoutingModifier(boolean nearbyRouting) {
+		nearbyRoutingModifier += nearbyRouting ? 6 : 0;
+	}
+	
+	public void calculateIndividualsFleeingModifier(boolean individualsFleeing) {
+		indiviualdsFleeingModifier += individualsFleeing ? 10 : 0;
+	}
 	
 }
 

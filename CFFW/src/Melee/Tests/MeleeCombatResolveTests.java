@@ -103,13 +103,43 @@ public class MeleeCombatResolveTests {
 		assertEquals(-30, resolve.numbersAdvantageModifier);
 	}
 	
+	@Test
+	public void combatLossesTest() {
+		
+		var resolve = new MeleeResolve();
+		
+		resolve.calculateCombatLossesModifier(0.01);
+
+		assertEquals(1, resolve.combatLossesModifier);
+		
+		resolve.calculateCombatLossesModifier(0.0);
+		
+		assertEquals(0, resolve.combatLossesModifier);
+		
+		resolve.calculateCombatLossesModifier(0.50);
+		
+		assertEquals(50, resolve.combatLossesModifier);
+		
+	}
+	
 	private void setTroopers(ArrayList<Trooper> troopers, int amount) {
 		troopers.clear();
 		for(int i = 0; i < amount; i++)  {
-			var trooper = new Trooper();
+			var trooper = new Trooper("Clone Rifleman", "Clone Trooper Phase 1");
 			trooper.meleeCombatSkillLevel = 1;
 			troopers.add(trooper);
 		}
+	}
+	
+	@Test
+	public void fatiguePointsModifierTest() {
+		var unit = new Unit();
+		unit.individuals = new ArrayList<Trooper>();
+		var resolve = new MeleeResolve();
+		setTroopers(unit.individuals, 10);
+		unit.individuals.get(0).fatigueSystem.fatiguePoints.set(100);
+		resolve.calculateFatigueModifier(unit);
+		assertEquals(3, resolve.fatigueModifier);
 	}
 	
 }
