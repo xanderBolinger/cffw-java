@@ -103,10 +103,13 @@ public class MeleeResolve implements Serializable {
 	public void calcaulteChargeModifier(ArrayList<ChargeData> chargeVelocities) {
 		chargeModifier = 0;
 		for(var c : chargeVelocities)
-			applyChargeModifier(c.velocity, c.flankCharge, c.rearCharge);
+			applyChargeModifier(c.velocity, c.flankCharge, c.rearCharge, c.incoming);
 	}
 	
-	private void applyChargeModifier(double chargeVelocity, boolean flankCharge, boolean rearCharge) {
+	private void applyChargeModifier(double chargeVelocity, boolean flankCharge, boolean rearCharge, boolean incoming) {
+		
+		var chargeModifier = 0.00;
+		
 		if(chargeVelocity >= 3) {
 			chargeModifier += 25 * (flankCharge ? 2 : 1) * (rearCharge ? 3 : 1);
 		} else if(chargeVelocity >= 2.5) {
@@ -122,6 +125,10 @@ public class MeleeResolve implements Serializable {
 		}  else {
 			chargeModifier += 0;
 		}
+		
+		if(incoming)
+			chargeModifier *= -1;
+		this.chargeModifier += chargeModifier;
 	}
 
 	

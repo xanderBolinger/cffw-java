@@ -17,13 +17,13 @@ public class MeleeCombatResolveTests {
 	public void chargeModifierTest() {
 		var resolve = new MeleeResolve();
 		var list = new ArrayList<ChargeData>();
-		list.add(new Melee.ChargeData(3.0, false,false));
-		list.add(new ChargeData(2.5, false,false));
-		list.add(new ChargeData(2.0, false,false));
-		list.add(new ChargeData(1.5, false,false));
-		list.add(new ChargeData(1.0, false,false));
-		list.add(new ChargeData(0.5, false,false));
-		list.add(new ChargeData(0.0, false,false));
+		list.add(new Melee.ChargeData(3.0, false,false, false));
+		list.add(new ChargeData(2.5, false,false, false));
+		list.add(new ChargeData(2.0, false,false, false));
+		list.add(new ChargeData(1.5, false,false, false));
+		list.add(new ChargeData(1.0, false,false, false));
+		list.add(new ChargeData(0.5, false,false, false));
+		list.add(new ChargeData(0.0, false,false, false));
 		resolve.calcaulteChargeModifier(list);
 		assertEquals(66, resolve.chargeModifier);
 	}
