@@ -31,14 +31,12 @@ public class MeleeResolve implements Serializable {
 	public MeleeResolve(MeleeCombatUnit meleeUnit) {
 		meleeUnit.unit.getCommandValue();
 		this.meleeUnit = meleeUnit;
+		baseMeleeResolve = meleeUnit.unit.commandValue;
 	}
 
-	public void enterCombat() {
-		
-	}
-
-	public void calculateResolve(ArrayList<Trooper> blufor, ArrayList<Trooper> opfor) {
-		calculateNumbersAdvantageModifier(blufor, opfor);
+	public int getResolve() {
+		return baseMeleeResolve + numbersAdvantageModifier + formationModifier + meleeSuccessModifier
+				+ chargeModifier - combatLossesModifier - suppressionModifier - nearbyRoutingModifier - indiviualdsFleeingModifier;
 	}
 
 	public void calculateNumbersAdvantageModifier(ArrayList<Trooper> blufor, ArrayList<Trooper> opfor) {
