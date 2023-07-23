@@ -56,6 +56,36 @@ public class HexDirectionUtility {
 		
 	}
 	
+	
+	public static boolean flanking(HexDirection facing1, HexDirection facing2) {
+		
+		var distance = getDistance(facing1, facing2, true) < getDistance(facing1, facing2, false) 
+				? getDistance(facing1, facing2, true) : getDistance(facing1, facing2, false);
+
+		return distance > 1 && distance <= 4;
+	}
+
+	public static boolean rear(HexDirection facing1, HexDirection facing2) {
+		
+		var distance = getDistance(facing1, facing2, true) < getDistance(facing1, facing2, false) 
+				? getDistance(facing1, facing2, true) : getDistance(facing1, facing2, false);
+
+		return distance == 0 || distance == 1;
+	}
+	
+	private static int getDistance(HexDirection facing1, HexDirection facing2, boolean clockwise) {
+		var nextDir = facing1;
+		int distance = 0;
+		while(true) {
+			var dir = getFaceInDirection(nextDir, clockwise);
+			if(dir == facing2)
+				break;
+			distance++;
+			nextDir = dir;
+		}
+		return distance;
+	}
+	
 	public static HexDirection getFaceInDirection(HexDirection facing, boolean clockwise) {
 		
 		switch(facing) {

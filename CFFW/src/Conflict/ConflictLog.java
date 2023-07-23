@@ -73,4 +73,16 @@ public class ConflictLog implements Serializable {
 		refreshConflictLog();
 	}
 	
+	public static void addToQueue(String text) {
+		if(GameWindow.gameWindow == null || GameWindow.gameWindow.conflictLog == null)
+			return;
+		GameWindow.gameWindow.conflictLog.addNewLineToQueue(text);
+	}
+	
+	public static void add(String text) {
+		if(GameWindow.gameWindow == null || GameWindow.gameWindow.conflictLog == null)
+			return;
+		GameWindow.gameWindow.conflictLog.addNewLine(text);
+	}
+	
 }

@@ -1,5 +1,9 @@
 package Melee;
 
+import HexGrid.HexDirectionUtility;
+import HexGrid.HexDirectionUtility.HexDirection;
+import UtilityClasses.DiceRoller;
+
 public class MeleeCombatCalculator {
 
 	
@@ -7,12 +11,22 @@ public class MeleeCombatCalculator {
 		
 		// if charging unit charges, 
 		// calls enter combat
-		
 		var chargeResult = chargingUnit.AttemptCharge();
 		
 		// TODO: Set charge velocities, addcharges here, remove charges else where, keep track of charges in melee combat unit class
-		chargingUnit.resolve.calcaulteChargeModifier(null);
+		int speed = DiceRoller.roll(1, 4);
+		boolean flanking = HexDirectionUtility.flanking(chargingUnit.facing, targetUnit.facing);
+		boolean rear = HexDirectionUtility.rear(chargingUnit.facing, targetUnit.facing);
+		var charge = new ChargeData((int)((double)speed * 0.5),
+				flanking,rear,false);
+		chargingUnit.activeCharges.add(charge);
+		var newCharge = new ChargeData(charge);
+		newCharge.incoming = true;
+		targetUnit.activeCharges.add(newCharge);
 		
+		chargingUnit.resolve.calcaulteChargeModifier(chargingUnit.activeCharges);
+		targetUnit.resolve.calcaulteChargeModifier(targetUnit.activeCharges);
+
 		if(chargeResult) {
 			enterCombat(chargingUnit, targetUnit);
 		}
@@ -24,6 +38,8 @@ public class MeleeCombatCalculator {
 	}
 	
 	public static void createBouts() {
+		
+		
 		
 	}
 	
