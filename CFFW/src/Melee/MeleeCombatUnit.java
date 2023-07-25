@@ -13,9 +13,11 @@ public class MeleeCombatUnit implements Serializable {
 	public HexDirection facing;
 	public MeleeResolve resolve;
 	public Unit unit;
-	public ArrayList<Trooper> individualsInMeleeCombat;
+	public ArrayList<Trooper> meleeCombatIndividuals;
 	public ArrayList<ChargeData> activeCharges;
 	public boolean inFormation;
+	
+	public int formationWidth;
 	public int formationRanks;
 	public boolean shieldWall;
 	public boolean spearWall;
@@ -27,7 +29,7 @@ public class MeleeCombatUnit implements Serializable {
 
 	public MeleeCombatUnit(Unit unit) {
 		resolve = new MeleeResolve();
-		individualsInMeleeCombat = new ArrayList<Trooper>();
+		meleeCombatIndividuals = new ArrayList<Trooper>();
 		activeCharges = new ArrayList<ChargeData>();
 		facing = HexDirection.A;
 	}

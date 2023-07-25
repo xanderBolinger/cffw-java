@@ -23,6 +23,8 @@ import HexGrid.HexGrid.DeployedUnit;
 import Hexes.Hex;
 import Hexes.HexWindow;
 import Items.PersonalShield;
+import Melee.MeleeCombatCalculator;
+import Melee.MeleeManager;
 import Shoot.Shoot;
 import Trooper.Trooper;
 import Unit.Unit;
@@ -103,7 +105,7 @@ public class GameWindow implements Serializable {
 	public GameWindow() { gameWindow = this; } // Empty constructor for testing
 	
 	/**
-	 * Launch the application.
+	 * @wbp.parser.constructor
 	 */
 	public GameWindow(ArrayList<Company> companiesFromSetupWindow, SetupWindow setupWindow, Game game, boolean openUnit,
 			int hexRows, int hexCols) {
@@ -732,7 +734,7 @@ public class GameWindow implements Serializable {
 		
 		vehicleCombatWindow = new VehicleCombatWindow();
 		
-
+		new MeleeManager();
 	}
 
 	// Opens active unit window
@@ -1731,6 +1733,8 @@ public class GameWindow implements Serializable {
 
 		game.setCurrentAction(1);
 
+		MeleeCombatCalculator.resolveMeleeCombatRound();
+		
 	}
 
 	// Loops through each unit
