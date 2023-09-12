@@ -617,7 +617,7 @@ public class HexGrid implements Serializable {
 
 			ProcHexManager.GetHexImages();
 			
-			this.rows = hexRows + 1;
+			this.rows = hexRows;
 			this.columns = hexCols;
 
 			int hexes = hexRows * hexCols;
