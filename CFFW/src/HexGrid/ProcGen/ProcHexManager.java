@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Polygon;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -18,17 +19,16 @@ import CreateGame.JsonSaveRunner;
 import UtilityClasses.ExcelUtility;
 
 public class ProcHexManager {
-	private static Image grassImage;
-    private static Image grassImageOriginal;
-    private static final String GRASS_IMAGE_PATH = ExcelUtility.path + "\\HexImages\\Grass1.png";
+	
+	private static ArrayList<HexImage> hexImages;
+    
+
     
     public static void GetHexImages() {
-    	try {
-            grassImage = ImageIO.read(new File(GRASS_IMAGE_PATH));
-            grassImageOriginal = ImageIO.read(new File(GRASS_IMAGE_PATH));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    	hexImages = new ArrayList<HexImage>();
+    	var img = new HexImage("BigBuilding");
+    	hexImages.add(img);
+    	
     }
     
 	public static void LoadMap() throws IOException {		
@@ -42,8 +42,9 @@ public class ProcHexManager {
 	}
 	
 	public static void GetScaledInstances(int width, int height) {
-		grassImage = grassImageOriginal.getScaledInstance(width, height, 
-				Image.SCALE_SMOOTH);
+		for(var img : hexImages) {
+			img.getScaledInstance(width, height);
+		}
 	}
 	
 	public static void PaintHex(Graphics2D g2d, Polygon hex, int x, int y) {
@@ -56,12 +57,27 @@ public class ProcHexManager {
         int grassImageX = hexCenterX - hex.getBounds().width / 2;
         int grassImageY = hexCenterY - hex.getBounds().height / 2;
 
-        g2d.drawImage(getHexImage(x,y), grassImageX, grassImageY, null);
+        Image img = null;
+		try {
+			img = getHexImage(x,y);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        
+        g2d.drawImage(img, grassImageX, grassImageY, null);
 	}
 	
-	private static Image getHexImage(int x, int y) {
+	private static Image getHexImage(int x, int y) throws Exception {
 		var hex = GameWindow.gameWindow.game.procGenMap.getHexType(x, y);
-		return grassImage;
+		
+		for(var hexImage : hexImages)
+			if(hexImage.imageName == hex)
+				return hexImage.image;
+			
+		
+		throw new Exception("Hex not found for hex type: "+hex);
 	}
+	
+	
 	
 }
