@@ -46,14 +46,17 @@ public class GrassHexagonExample extends JPanel {
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         // Create a hexagon-shaped polygon
         Polygon hex = createHexagonPolygon();
         
-		
+        //System.out.println("Hex Width: "+hex.getBounds().width);
+        
         // Draw the grass hexagon
         drawGrassHexagon(g2d, hex);
+        
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
     }
 
     private Polygon createHexagonPolygon() {
@@ -75,6 +78,7 @@ public class GrassHexagonExample extends JPanel {
         return new Polygon(xPoints, yPoints, 6);
     }
 
+    
     private void drawGrassHexagon(Graphics2D g2d, Polygon hex) {
     	int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
 		int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;

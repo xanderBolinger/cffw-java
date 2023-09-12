@@ -70,6 +70,7 @@ public class ChangeMapWindow {
 				String mapFileName = GameWindow.gameWindow.game.mapImageFileName;
 				
 				try {
+					GameWindow.gameWindow.game.backgroundMap = true;
 					LoadMap.loadMap(mapFileName.substring(0, mapFileName.lastIndexOf(".")));
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block

@@ -34,6 +34,7 @@ import CorditeExpansion.ThrowAble;
 import CorditeExpansionActions.CeAction;
 import CorditeExpansionActions.TurnAction;
 import HexGrid.Fortifications.HexGridFortificationsUtility;
+import HexGrid.ProcGen.ProcHexManager;
 import HexGrid.Vehicle.HexGridHullDownUtility;
 import CorditeExpansionActions.CeAction.ActionType;
 import Hexes.Building;
@@ -119,6 +120,7 @@ public class HexGrid implements Serializable {
 	private JButton btnToggleElv;
 	private JButton btnFt;
 	private JSpinner spinnerFortificationLevel;
+	private JMenuItem mntmLoadHexMap;
 
 	/**
 	 * Create the application.
@@ -183,6 +185,18 @@ public class HexGrid implements Serializable {
 				panel.shownType = ShownType.BLUFOR;
 			}
 		});
+		
+		mntmLoadHexMap = new JMenuItem("Load Proc Map");
+		mntmLoadHexMap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ProcHexManager.LoadMap();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		mnEdit.add(mntmLoadHexMap);
 		mnEdit.add(mntmShowBlufor);
 
 		mntmShowOpfor = new JMenuItem("Show OPFOR");
@@ -596,8 +610,13 @@ public class HexGrid implements Serializable {
 
 		Polygon losThread = new Polygon();
 
+		
+	    
+	    
 		Panel(int hexRows, int hexCols) {
 
+			ProcHexManager.GetHexImages();
+			
 			this.rows = hexRows + 1;
 			this.columns = hexCols;
 
@@ -1718,7 +1737,7 @@ public class HexGrid implements Serializable {
 			 */
 
 		}
-
+	
 		public Polygon scaleHex(Polygon hex, AffineTransform at) {
 
 			// Polygon mesh
@@ -2091,6 +2110,8 @@ public class HexGrid implements Serializable {
 			 * deployedUnit.unitImage.getWidth(null) / 2), (hexCenterY -
 			 * deployedUnit.unitImage.getHeight(null) / 2));
 			 */
+			
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		}
 
 		public String commandStatus(Unit unit, String s) {
@@ -2162,32 +2183,26 @@ public class HexGrid implements Serializable {
 				opforUnitHeight = (int) Math.round(opforUnitHeightConst * zoom);
 			}
 
-			if (pressedCursorPoint != null && currentCursorPoint != null && dragging
-					&& !Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)) {
-
-				backgroundImageX = shapeList.get(0).getBounds().x + 11;
-				backgroundImageY = shapeList.get(0).getBounds().y;
-				g2.drawImage(backgroundImage, backgroundImageX, backgroundImageY, null);
-
-			} else if (zoom != oldZoom) {
-
+			if (zoom != oldZoom) {
 				backgroundImage = originalImage.getScaledInstance(backgroundImageWidth, backgroundImageHeight, 1);
-				backgroundImageX = shapeList.get(0).getBounds().x + 11;
-				backgroundImageY = shapeList.get(0).getBounds().y;
+			} 
 
-				g2.drawImage(backgroundImage, backgroundImageX, backgroundImageY, null);
-
-			} else {
-				// makeHexes(rows, columns);
-
+			if(GameWindow.gameWindow.game.backgroundMap) {
 				backgroundImageX = shapeList.get(0).getBounds().x + 11;
 				backgroundImageY = shapeList.get(0).getBounds().y;
 				g2.drawImage(backgroundImage, backgroundImageX, backgroundImageY, null);
-
 			}
-
+			
+			/*for(int i = 0; i < shapeList.size(); i++) {
+				for(int j = 0; j < shapeList.get(i).size(); j++) {
+					
+					
+				}
+				
+			}*/
+			
 			for (Polygon shape : shapeList) {
-
+				
 				g2.setColor(BORDER_COLOR);
 				g2.setStroke(STROKE);
 
@@ -2195,25 +2210,37 @@ public class HexGrid implements Serializable {
 
 					shape.translate(currentCursorPoint.x - pressedCursorPoint.x,
 							currentCursorPoint.y - pressedCursorPoint.y);
-					g2.draw(shape);
+					
+					//ProcHexManager.PaintHex(g2, shape, grassImage);
+					
+					//g2.draw(shape);
+					
 				} else if (zoom != oldZoom) {
 
 					int baseX = shapeList.get(0).getBounds().x;
 					int baseY = shapeList.get(0).getBounds().y;
-
+					
 					makeHexes(rows, columns);
-
+					
+					ProcHexManager.GetScaledInstances(shapeList.get(0).getBounds().width, shapeList.get(0).getBounds().height);
+					
 					for (Polygon newShape : shapeList) {
 
 						newShape.translate(baseX - cordX, baseY - cordY);
-						g2.draw(newShape);
-
+						
+						//ProcHexManager.PaintHex(g2, shape, grassImage);
+						
+						//g2.draw(newShape);
+						
 					}
 
 					break;
 
 				} else {
-					g2.draw(shape);
+					
+					//ProcHexManager.PaintHex(g2, shape, grassImage);
+					
+					//g2.draw(shape);
 				}
 
 			}
@@ -2230,7 +2257,13 @@ public class HexGrid implements Serializable {
 				for (int j = 0; j < columns; j++) {
 					// System.out.println("i: "+i+" j: "+j);
 					Polygon hex = hexMap.get(i).get(j);
-
+					
+					ProcHexManager.PaintHex(g2, hex, i, j);
+					
+					g2.setColor(BORDER_COLOR);
+					g2.setStroke(STROKE);
+					g2.draw(hex);
+					
 					Color color = g2.getColor();
 					g2.setColor(Color.GREEN);
 					if (gameWindow.hexes.size() != columns * rows && !hideU && gameWindow.findHex(i, j) == null) {

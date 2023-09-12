@@ -2,9 +2,10 @@ package Conflict;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import CeHexGrid.Chit;
 import Fortifications.FortificationRecords;
+import HexGrid.ProcGen.ProcGenHexLoader.Map;
+import Hexes.Hex;
 import Vehicle.VehicleManager;
 
 public class Game implements Serializable {
@@ -13,6 +14,9 @@ public class Game implements Serializable {
 	private int currentAction;
 	private String daylightCondition = ""; 
 	public String mapImageFileName = "refuge_33x33.png"; 
+	
+	public boolean backgroundMap;
+	
 	public ArrayList<Chit> chits;
 	public int chitCounter;
 	public VehicleManager vehicleManager;
@@ -20,6 +24,7 @@ public class Game implements Serializable {
 	public Wind wind;
 	public Smoke smoke;
 	// public timne object 
+	public Map procGenMap;
 
 	public Game(int phase, int round, int currentAction) {
 		this.phase = phase; 
@@ -31,6 +36,7 @@ public class Game implements Serializable {
 		smoke = new Smoke();
 		vehicleManager = new VehicleManager();
 		fortifications = new FortificationRecords();
+		backgroundMap = true;
 	} 
 	
 	// SETTERS 
