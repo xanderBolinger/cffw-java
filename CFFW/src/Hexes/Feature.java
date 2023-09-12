@@ -16,10 +16,7 @@ public class Feature implements Serializable {
 		
 		this.featureType = featureType; 
 		this.coverPositions = coverPositions; 
-		
-		
-		
-		
+
 	}
 	
 	public String toString() {

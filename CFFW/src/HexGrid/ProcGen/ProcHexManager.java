@@ -23,12 +23,21 @@ public class ProcHexManager {
 	private static ArrayList<HexImage> hexImages;
     
 
-    
+    // Can switch to loop that will loop over directories and get specific tile sets for certain maps
     public static void GetHexImages() {
     	hexImages = new ArrayList<HexImage>();
-    	var img = new HexImage("BigBuilding");
+    	AddHexImage("BigBuilding");
+    	AddHexImage("Building");
+    	AddHexImage("Brush");
+    	AddHexImage("Clear");
+    	AddHexImage("HeavyWoods");
+    	AddHexImage("MediumWoods");
+    	AddHexImage("LightWoods");
+    }
+    
+    private static void AddHexImage(String imageName) {
+    	var img = new HexImage(imageName);
     	hexImages.add(img);
-    	
     }
     
 	public static void LoadMap() throws IOException {		
@@ -71,7 +80,7 @@ public class ProcHexManager {
 		var hex = GameWindow.gameWindow.game.procGenMap.getHexType(x, y);
 		
 		for(var hexImage : hexImages)
-			if(hexImage.imageName == hex)
+			if(hexImage.imageName.equals(hex))
 				return hexImage.image;
 			
 		

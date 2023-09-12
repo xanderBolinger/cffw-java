@@ -13,6 +13,8 @@ import Company.Company;
 import CreateGame.JsonSaveRunner;
 import Hexes.Feature;
 import Hexes.Hex;
+import Hexes.HexWindow;
+import UtilityClasses.DiceRoller;
 
 public class ProcGenHexLoader {
 
@@ -30,9 +32,48 @@ public class ProcGenHexLoader {
 	}
 	
 	private static Hex createHex(Tile tile) {
-		return new Hex(tile.x, tile.y, new ArrayList<Feature>(), 0,0,tile.elevation);
+		
+		var hex = new Hex(tile.x, tile.y, new ArrayList<Feature>(), 0,0,tile.elevation);
+		var features = createHexFeatures(tile, hex);
+		hex.features = features;
+		hex.setConcealment();
+		hex.setTotalPositions();
+		return hex;
 	}
 	
+	private static ArrayList<Feature> createHexFeatures(Tile tile, Hex hex) {
+		
+		ArrayList<Feature> features = new ArrayList<Feature>();
+		
+		if(tile.tileType.equals("Clear"))
+			return features;
+		else if(tile.tileType.contains("HeavyWoods")) {
+			int pos = HexWindow.getCoverPostitions("Heavy Woods");
+			features.add(new Feature("Heavy Woods", pos));
+		} else if(tile.tileType.contains("Medium Woods")) {
+			int pos = HexWindow.getCoverPostitions("Medium Woods");
+			features.add(new Feature("Medium Woods", pos));
+		} else if(tile.tileType.contains("Light Woods")) {
+			int pos = HexWindow.getCoverPostitions("Light Woods");
+			features.add(new Feature("Light Woods", pos));
+		} else if(tile.tileType.equals("Building")) {
+			int pos = HexWindow.getCoverPostitions("Light Urban Sprawl");
+			features.add(new Feature("Light Urban Sprawl", pos));
+			hex.addBuilding("Small Building", DiceRoller.roll(1, 2), DiceRoller.roll(2, 4), DiceRoller.roll(5, 8));
+		}  else if(tile.tileType.equals("BigBuilding")) {
+			int pos = HexWindow.getCoverPostitions("Dense Urban Sprawl");
+			features.add(new Feature("Dense Urban Sprawl", pos));
+			hex.addBuilding("Big Building", DiceRoller.roll(2, 4), DiceRoller.roll(4, 6), DiceRoller.roll(6, 8));
+		} 
+		
+		if(tile.tileType.contains("Brush")) {
+			features.add(new Feature("Brush", 0));
+		} else if(tile.tileType.contains("HeavyBrush")) {
+			features.add(new Feature("Heavy Brush", 0));
+		}
+		
+		return features;
+	}
 	
 	private static Map loadMap(String json) throws JsonMappingException, JsonProcessingException {
 		// return new Gson().fromJson(json, Company.class);
@@ -46,7 +87,7 @@ public class ProcGenHexLoader {
 		public String getHexType(int x, int y) {
 			for(var tile : tiles) {
 				if(tile.x == x && tile.y == y) 
-					return tile.hexType;
+					return tile.tileType;
 			}
 			return "";
 		}
@@ -57,7 +98,7 @@ public class ProcGenHexLoader {
 		public int x; 
 		public int y; 
 		public int elevation; 
-		public String hexType;
+		public String tileType;
 		
 	}
 	
