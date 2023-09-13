@@ -51,10 +51,10 @@ public class ProcGenHexLoader {
 			//System.out.println("create heavy woods");
 			int pos = HexWindow.getCoverPostitions("Heavy Forest");
 			features.add(new Feature("Heavy Woods", pos));
-		} else if(tile.tileType.contains("Medium Woods")) {
+		} else if(tile.tileType.contains("MediumWoods")) {
 			int pos = HexWindow.getCoverPostitions("Medium Forest");
 			features.add(new Feature("Medium Woods", pos));
-		} else if(tile.tileType.contains("Light Woods")) {
+		} else if(tile.tileType.contains("LightWoods")) {
 			int pos = HexWindow.getCoverPostitions("Light Forest");
 			features.add(new Feature("Light Woods", pos));
 		} else if(tile.tileType.equals("Building")) {

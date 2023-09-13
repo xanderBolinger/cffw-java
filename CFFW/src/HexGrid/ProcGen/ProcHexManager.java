@@ -29,6 +29,7 @@ public class ProcHexManager {
     	AddHexImage("BigBuilding");
     	AddHexImage("Building");
     	AddHexImage("Brush");
+    	AddHexImage("HeavyBrush");
     	AddHexImage("Clear");
     	AddHexImage("HeavyWoods");
     	AddHexImage("MediumWoods");
