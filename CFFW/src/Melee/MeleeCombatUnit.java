@@ -32,8 +32,8 @@ public class MeleeCombatUnit implements Serializable {
 		meleeCombatIndividuals = new ArrayList<Trooper>();
 		activeCharges = new ArrayList<ChargeData>();
 		facing = HexDirection.A;
+			
 	}
-	
 	
 	public boolean AttemptCharge() {
 		return DiceRoller.roll(0, 99) < resolve.getResolve();

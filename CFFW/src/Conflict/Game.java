@@ -17,6 +17,7 @@ public class Game implements Serializable {
 	
 	public boolean backgroundMap;
 	
+	
 	public ArrayList<Chit> chits;
 	public int chitCounter;
 	public VehicleManager vehicleManager;
