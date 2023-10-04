@@ -25,6 +25,7 @@ import Hexes.HexWindow;
 import Items.PersonalShield;
 import Melee.MeleeCombatCalculator;
 import Melee.MeleeManager;
+import Melee.Window.MeleeCombatWindow;
 import Shoot.Shoot;
 import Trooper.Trooper;
 import Unit.Unit;
@@ -731,10 +732,22 @@ public class GameWindow implements Serializable {
 		spinnerHexSize.setValue(hexSize);
 		lblWind.setText(game.wind.toString());
 		
+		JButton btnMelee = new JButton("Melee");
+		btnMelee.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new MeleeCombatWindow();
+			}
+		});
+		btnMelee.setBounds(433, 101, 113, 23);
+		f.getContentPane().add(btnMelee);
+		
 		
 		vehicleCombatWindow = new VehicleCombatWindow();
 		
-		new MeleeManager();
+		if(game.meleeManager == null)
+			game.meleeManager = new MeleeManager();
+		else 
+			MeleeManager.meleeManager = game.meleeManager;
 	}
 
 	// Opens active unit window
@@ -2154,6 +2167,9 @@ public class GameWindow implements Serializable {
 
 		game.smoke.advanceTime();
 		game.wind.advanceTime();
+		
+		MeleeCombatCalculator.resolveMeleeCombatRound();
+		
 		
 	}
 

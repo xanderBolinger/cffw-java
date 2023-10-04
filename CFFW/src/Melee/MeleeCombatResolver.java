@@ -3,6 +3,7 @@ package Melee;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Conflict.GameWindow;
 import Melee.Damage.MeleeDamage;
 import Melee.Damage.MeleeHitLocation.MeleeDamageType;
 import UtilityClasses.DiceRoller;
@@ -73,6 +74,19 @@ public class MeleeCombatResolver implements Serializable {
 		applyHits(bout, true, aHits, firstDamageType);
 		applyHits(bout, false, bHits, secondDamageType);
 		
+		if(GameWindow.gameWindow != null) {
+			
+			printBoutResults(bout.combatantA, aHits, firstDamageType);
+			printBoutResults(bout.combatantB, bHits, secondDamageType);
+		}
+		
+		
+	}
+	
+	private static void printBoutResults(Combatant combatant, int hits, MeleeDamageType dmgType) {
+		System.out.println(combatant.trooper.returnTrooperUnit(GameWindow.gameWindow).callsign+":: "
+				+combatant.trooper.number
+						+" "+combatant.trooper.name+", hits "+hits+" of "+dmgType);
 	}
 	
 	private static void applyHits(Bout bout, boolean firstCombatantAttacking, int hits, MeleeDamageType dmgType) {

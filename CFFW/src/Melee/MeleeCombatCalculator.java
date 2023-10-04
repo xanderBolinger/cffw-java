@@ -37,10 +37,10 @@ public class MeleeCombatCalculator {
 	}
 	
 	public static void enterCombat(MeleeCombatUnit unit1, MeleeCombatUnit unit2) {
-		if(!MeleeManager.unitsInCombat.contains(unit1)) 
-			MeleeManager.unitsInCombat.add(unit1);
-		if(!MeleeManager.unitsInCombat.contains(unit2)) 
-			MeleeManager.unitsInCombat.add(unit2);
+		if(!MeleeManager.meleeManager.unitsInCombat.contains(unit1)) 
+			MeleeManager.meleeManager.unitsInCombat.add(unit1);
+		if(!MeleeManager.meleeManager.unitsInCombat.contains(unit2)) 
+			MeleeManager.meleeManager.unitsInCombat.add(unit2);
 		
 		createBouts(unit1, unit2);
 	}
@@ -81,7 +81,7 @@ public class MeleeCombatCalculator {
 					targetUnit.meleeCombatIndividuals.size() - 1)));
 		}
 		
-		MeleeManager.meleeCombatBouts.add(new Bout(combatantA, combatantB));
+		MeleeManager.meleeManager.meleeCombatBouts.add(new Bout(combatantA, combatantB));
 		
 	}
 	
@@ -108,7 +108,7 @@ public class MeleeCombatCalculator {
 	
 	public static int trooperBouts(Trooper trooper) {
 		int count = 0;
-		for(var b : MeleeManager.meleeCombatBouts) {
+		for(var b : MeleeManager.meleeManager.meleeCombatBouts) {
 			if(trooper.compareTo(b.combatantA.trooper) 
 					|| trooper.compareTo(b.combatantB.trooper))
 				count++;
@@ -122,15 +122,17 @@ public class MeleeCombatCalculator {
 		calculateCombatResults();
 		
 		// Add fatigue 
-		for(var b : MeleeManager.meleeCombatBouts) {
+		for(var b : MeleeManager.meleeManager.meleeCombatBouts) {
 			b.combatantA.trooper.fatigueSystem.AddStrenuousActivityTime(60);
 			b.combatantB.trooper.fatigueSystem.AddStrenuousActivityTime(60);
 		}
 		
+		
+		System.out.println("Resolve melee combat round");
 	}
 
 	public static void calculateCombatResults() {
-		for(var b : MeleeManager.meleeCombatBouts)
+		for(var b : MeleeManager.meleeManager.meleeCombatBouts)
 			MeleeCombatResolver.resolveBout(b);
 	}
 	

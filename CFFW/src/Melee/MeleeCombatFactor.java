@@ -87,7 +87,7 @@ public class MeleeCombatFactor implements Serializable {
 	private static int numberOfBouts(Combatant combatant) {
 		int bouts = 0; 
 		
-		for(var bout : MeleeManager.meleeCombatBouts) {
+		for(var bout : MeleeManager.meleeManager.meleeCombatBouts) {
 			if(bout.combatantA.trooper.compareTo(combatant.trooper))
 				bouts++;
 			else if(bout.combatantB.trooper.compareTo(combatant.trooper))

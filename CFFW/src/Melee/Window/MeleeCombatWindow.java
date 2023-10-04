@@ -3,13 +3,25 @@ package Melee.Window;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JScrollPane;
+
+import Conflict.GameWindow;
+import Melee.MeleeCombatUnit;
+import Melee.MeleeManager;
+import Trooper.Trooper;
+import UtilityClasses.SwingUtility;
+
 import javax.swing.JList;
 import javax.swing.JButton;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MeleeCombatWindow {
 
@@ -26,6 +38,7 @@ public class MeleeCombatWindow {
 	 */
 	public MeleeCombatWindow() {
 		initialize();
+		setMeleeCombatUnitList();
 	}
 
 	/**
@@ -56,6 +69,13 @@ public class MeleeCombatWindow {
 		frame.getContentPane().add(scrollPane);
 		
 		listEligableMeleeCombatUnits = new JList();
+		listEligableMeleeCombatUnits.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				setMeleeCombatIndividuals();
+				setChargeTargets();
+				
+			}
+		});
 		scrollPane.setViewportView(listEligableMeleeCombatUnits);
 		
 		JLabel lblEligableTargetList = new JLabel("Eligable Target List:");
@@ -71,6 +91,13 @@ public class MeleeCombatWindow {
 		scrollPane_1.setViewportView(listTargetList);
 		
 		JButton btnNewButton = new JButton("Charge");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				
+			}
+		});
 		btnNewButton.setBounds(10, 411, 117, 28);
 		frame.getContentPane().add(btnNewButton);
 		
@@ -92,6 +119,29 @@ public class MeleeCombatWindow {
 		frame.getContentPane().add(lblMeleeCombatIndividuals);
 		
 		JButton btnToggleIndividual = new JButton("Toggle Individual");
+		btnToggleIndividual.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(getSelectedMeleeCombatUnits().size() < 1)
+					return;
+				
+				var unit = getSelectedMeleeCombatUnits().get(0);
+				
+				var indviduals = getSelectedMeleeCombatIndividuals();
+				
+				for(var i : indviduals) {
+					
+					if(unit.meleeCombatIndividuals.contains(i)) {
+						unit.meleeCombatIndividuals.remove(i);
+					} else {
+						unit.meleeCombatIndividuals.add(i);
+					}
+					
+				}
+				
+				
+				setMeleeCombatIndividuals();
+			}
+		});
 		btnToggleIndividual.setBounds(265, 411, 117, 28);
 		frame.getContentPane().add(btnToggleIndividual);
 		
@@ -100,6 +150,15 @@ public class MeleeCombatWindow {
 		frame.getContentPane().add(scrollPane_2);
 		
 		listMeleeCombatIndividuals = new JList();
+		listMeleeCombatIndividuals.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				
+				
+				
+				
+				
+			}
+		});
 		scrollPane_2.setViewportView(listMeleeCombatIndividuals);
 		
 		JButton btnEpicChallenge = new JButton("Epic Challenge");
@@ -120,4 +179,125 @@ public class MeleeCombatWindow {
 		
 		frame.setVisible(true);
 	}
+
+	public ArrayList<MeleeCombatUnit> getSelectedMeleeCombatUnits() {
+		ArrayList<MeleeCombatUnit> list = new ArrayList<MeleeCombatUnit>();
+		
+		for(var index : listEligableMeleeCombatUnits.getSelectedIndices()) {
+			
+			list.add(MeleeManager.meleeManager.meleeCombatUnits.get(index));
+			
+		}
+		
+		return list;
+	}
+	
+
+	public void setMeleeCombatUnitList() {
+			
+		ArrayList<String> combatUnitList = new ArrayList<String>();
+		
+		for(var unit : MeleeManager.meleeManager.meleeCombatUnits) {
+			combatUnitList.add(unit.unit.side+":: "+unit.unit.callsign);
+		}
+		
+		SwingUtility.setList(listEligableMeleeCombatUnits, combatUnitList);
+		
+	}
+	
+	public void setMeleeCombatIndividuals() {
+		ArrayList<String> individuals = new ArrayList<String>();
+		var selectedUnits = getSelectedMeleeCombatUnits();
+		
+		if(selectedUnits.size() > 0)
+			for(var individual : selectedUnits.get(0).unit.individuals) 
+				individuals.add(selectedUnits.get(0).unit.callsign +" "+individual.number+":: "+individual.name+
+						(selectedUnits.get(0).meleeCombatIndividuals.contains(individual) ? " ACTIVE":" INACTIVE"));
+
+		
+		SwingUtility.setList(listMeleeCombatIndividuals, individuals);
+		
+	}
+	
+	public void setChargeTargets() {
+		
+		ArrayList<String> chargeTargets = new ArrayList<String>();
+		var targets = getChargeTargets();
+		
+		if(targets.size() > 0)
+			for(var unit : targets) 
+				chargeTargets.add(unit.unit.side + ":: " +unit.unit.callsign);
+		
+		SwingUtility.setList(listTargetList, chargeTargets);
+	}
+	
+	private ArrayList<MeleeCombatUnit> getChargeTargets() {
+		
+		ArrayList<MeleeCombatUnit> targets = new ArrayList<MeleeCombatUnit>();
+		var selected = getSelectedMeleeCombatUnits();
+		
+		for(var combatUnit : selected) {
+			
+			var potentialTargets = validChargeTargets(combatUnit);
+
+			
+			for(var t : potentialTargets) {
+				
+				if(validTarget(t, selected)) {
+					targets.add(t);
+				}
+				
+			}
+
+		}
+		
+		return targets; 
+		
+	}
+	
+	private boolean validTarget(MeleeCombatUnit potentialTarget, ArrayList<MeleeCombatUnit> selected) {
+		
+		for(var otherUnit : selected) {
+			if(otherUnit.unit.compareTo(potentialTarget.unit)) {
+				continue;
+			}
+			
+			if(!validChargeTargets(otherUnit).contains(potentialTarget))
+				return false;
+			
+		}
+		
+		return true;
+	}
+	
+	private ArrayList<MeleeCombatUnit> validChargeTargets(MeleeCombatUnit chargingUnit) {
+		
+		ArrayList<MeleeCombatUnit> chargeTargets = new ArrayList<MeleeCombatUnit>();
+		
+		for(var meleeUnit : MeleeManager.meleeManager.meleeCombatUnits) 
+			if(GameWindow.hexDif(chargingUnit.unit, meleeUnit.unit) <= 1 && meleeUnit.unit.side != chargingUnit.unit.side)
+				chargeTargets.add(meleeUnit);
+
+			
+		return chargeTargets;
+	}
+	
+	
+	private ArrayList<Trooper> getSelectedMeleeCombatIndividuals() {
+		
+		if(getSelectedMeleeCombatUnits().size() < 1)
+			return new ArrayList<Trooper>();
+		
+		ArrayList<Trooper> selectedMeleeCombatIndividuals = new ArrayList<Trooper>();
+		
+		var unit = getSelectedMeleeCombatUnits().get(0);
+		
+		for(var index : listMeleeCombatIndividuals.getSelectedIndices()) {
+			selectedMeleeCombatIndividuals.add(unit.unit.individuals.get(index));
+		}
+		
+		return selectedMeleeCombatIndividuals;
+		
+	}
+	
 }

@@ -6,6 +6,8 @@ import CeHexGrid.Chit;
 import Fortifications.FortificationRecords;
 import HexGrid.ProcGen.ProcGenHexLoader.Map;
 import Hexes.Hex;
+import Melee.MeleeCombatUnit;
+import Melee.MeleeManager;
 import Vehicle.VehicleManager;
 
 public class Game implements Serializable {
@@ -17,7 +19,7 @@ public class Game implements Serializable {
 	
 	public boolean backgroundMap;
 	
-	
+	public MeleeManager meleeManager;
 	public ArrayList<Chit> chits;
 	public int chitCounter;
 	public VehicleManager vehicleManager;
