@@ -72,6 +72,10 @@ public class AddUnit implements Serializable {
 		f.setVisible(true);
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+		comboBoxSquad = new JComboBox();
+		comboBoxSquad.setBounds(191, 68, 175, 25);
+		comboBoxSquad.setModel(new DefaultComboBoxModel(new String[] {"Empty"}));
+		
 		comboBoxFaction = new JComboBox();
 		comboBoxFaction.setBounds(10, 68, 175, 25);
 		comboBoxFaction.addActionListener(new ActionListener() {
@@ -90,7 +94,7 @@ public class AddUnit implements Serializable {
 				
 				*/
 				
-
+				var faction = comboBoxFaction.getSelectedItem().toString();
 				comboBoxSquad.removeAllItems();
 				comboBoxSquad.addItem("Empty");
 				
@@ -119,8 +123,8 @@ public class AddUnit implements Serializable {
 				
 				} else if(comboBoxFaction.getSelectedItem().toString().equals("Cordite Expansion")) {
 					
-				} else {
-					var faction = comboBoxFaction.getSelectedItem().toString();
+				} else if(!faction.equals("Empty")) {
+					
 					try {
 						FactionManager.getFactionFromName(faction).squadInput(comboBoxSquad);
 					} catch (Exception e) {
@@ -137,9 +141,7 @@ public class AddUnit implements Serializable {
 				.setModel(new DefaultComboBoxModel(new String[] {"Empty", "Clone Trooper Phase 1", "CIS Battle Droid", "UNSC", "Covenant", "Cordite Expansion"}));
 		comboBoxFaction.setSelectedIndex(0);
 
-		comboBoxSquad = new JComboBox();
-		comboBoxSquad.setBounds(191, 68, 175, 25);
-		comboBoxSquad.setModel(new DefaultComboBoxModel(new String[] {"Empty"}));
+	
 
 		JTextPane textPaneUnit = new JTextPane();
 		textPaneUnit.setBounds(10, 152, 578, 111);

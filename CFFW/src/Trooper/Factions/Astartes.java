@@ -46,7 +46,7 @@ public class Astartes extends Faction {
 		trooper.nightVisionEffectiveness = 3;
 		
 		
-		TLHStats attributes = new TLHStats(4, 4, 0, 4, 4, 4, 4);
+		TLHStats attributes = new TLHStats(8, 8, 0, 8, 8, 8, 8);
 		trooper.str = attributes.str;
 		trooper.wit = attributes.wit;
 		trooper.soc = attributes.soc;
@@ -54,19 +54,22 @@ public class Astartes extends Faction {
 		trooper.per = attributes.per;
 		trooper.hlt = attributes.hlt;
 		trooper.agi = attributes.agi;
-
+		
+		
 		if (input.equals("Astartes")) { // Squad Leader
 			// Creates attributes
 
 			trooper.rank = "Sergeant";
 			trooper.designation = "Squad Leader";
 			trooper.wep = "DC15A";
-
+			trooper.ammo = 150;
 			trooper.inventory.addItems(ItemType.DC15A, 1);
 			trooper.inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
 			trooper.inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 			trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 2);
 
+		} else {
+			throw new Exception("Invalid Astartes Input for input: "+input);
 		}
 
 		// Pack mule
@@ -93,6 +96,7 @@ public class Astartes extends Faction {
 		// Creates skills
 		// Stores attributes in an array for the skill attr parameter
 		trooper.skills = getAstartesSkills(trooper);
+		trooper.skills.setSkills();
 		
 		// Create and set individual stats
 		IndividualStats individual = new IndividualStats(trooper.combatActions, trooper.sal, trooper.skills.getSkill("Pistol").value,
@@ -107,11 +111,15 @@ public class Astartes extends Faction {
 		// Sets identifier
 		trooper.identifier = trooper.identifier();
 
-
 	}
 
 	public Skills getAstartesSkills(Trooper trooper) {
-		Skills skills = new Skills(trooper);
+		int attr[] = { trooper.str, trooper.wit, trooper.soc, trooper.wil, 
+				trooper.per, 
+				trooper.hlt, 
+				trooper.agi };
+		
+		Skills skills = new Skills(trooper,attr);
 		
 		skills.superSoldier();
 		
@@ -127,6 +135,9 @@ public class Astartes extends Faction {
 	public void createSquad(String squad, ArrayList<Trooper> individuals) throws Exception {
 
 		if(squad.equals("Rifle Team")) {
+			individuals.add(new Trooper("Astartes", factionName));
+			individuals.add(new Trooper("Astartes", factionName));
+			individuals.add(new Trooper("Astartes", factionName));
 			individuals.add(new Trooper("Astartes", factionName));
 		}
 		

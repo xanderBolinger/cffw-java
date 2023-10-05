@@ -53,7 +53,7 @@ public class TLHStats implements Serializable {
 			sum += rolls.get(i);
 		}
 	
-		return sum + 4;
+		return sum + 4 + bonus;
    }
 
 }

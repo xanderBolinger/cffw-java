@@ -110,6 +110,12 @@ public class Skills implements Serializable {
 		calculateSkillsLegacy();
 		initBaseSkills();
 	}
+	
+	public Skills(Trooper trooper, int attr[]) {
+		getAttr(attr);
+		calculateSkillsLegacy();
+		initBaseSkills();
+	}
 
 	public void initBaseSkills() {
 		// Add skills to skills array
