@@ -3,6 +3,7 @@ package Melee;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Conflict.GameWindow;
 import HexGrid.HexDirectionUtility.HexDirection;
 import Trooper.Trooper;
 import Unit.Unit;
@@ -25,20 +26,25 @@ public class MeleeCombatUnit implements Serializable {
 	public boolean routing;
 	public boolean individualsRouting;
 	
+	public boolean charged;
+	
 	public MeleeCombatUnit() {} // empty constructor for testing
 
 	public MeleeCombatUnit(Unit unit) {
-		resolve = new MeleeResolve();
 		meleeCombatIndividuals = new ArrayList<Trooper>();
 		activeCharges = new ArrayList<ChargeData>();
 		facing = HexDirection.A;
 		this.unit = unit;
+		resolve = new MeleeResolve(this);
 	}
 	
 	public boolean AttemptCharge() {
-		return DiceRoller.roll(0, 99) < resolve.getResolve();
+		var roll = DiceRoller.roll(0, 99);
+		var resolveVal = resolve.getResolve();
+		if(GameWindow.gameWindow != null)
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue(unit.callsign+" Charge Roll: "+roll+", Resolve: "+resolveVal);
+		return roll <= resolveVal;
 	}
-	
 	
 	
 }

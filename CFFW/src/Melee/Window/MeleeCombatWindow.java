@@ -9,14 +9,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 
 import Conflict.GameWindow;
+import Melee.MeleeCombatCalculator;
 import Melee.MeleeCombatUnit;
 import Melee.MeleeManager;
 import Trooper.Trooper;
 import UtilityClasses.SwingUtility;
 
 import javax.swing.JList;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
@@ -39,6 +42,7 @@ public class MeleeCombatWindow {
 	public MeleeCombatWindow() {
 		initialize();
 		setMeleeCombatUnitList();
+		setMeleeCombatUnitStatuses();
 	}
 
 	/**
@@ -47,7 +51,7 @@ public class MeleeCombatWindow {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1000, 800);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		// Get the screen size
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = toolkit.getScreenSize();
@@ -93,8 +97,37 @@ public class MeleeCombatWindow {
 		JButton btnNewButton = new JButton("Charge");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
+				if(getSelectedMeleeCombatUnits().size() < 1 || listTargetList.getSelectedIndex() < 0)
+					return;
+
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+
+						var chargingUnits = getSelectedMeleeCombatUnits();
+						var targetUnits = getChargeTargets();
+						
+						var target = targetUnits.get(listTargetList.getSelectedIndex());
+						
+						for(var chargingUnit : chargingUnits) {
+							chargingUnit.formationWidth = chargingUnit.meleeCombatIndividuals.size();
+							MeleeCombatCalculator.charge(chargingUnit, target);
+							
+						}
+						return null;
+					}
+
+					@Override
+					protected void done() {
+
+						GameWindow.gameWindow.conflictLog.addQueuedText();
+
+					}
+					
+				};
+
+				worker.execute();
 				
 			}
 		});
@@ -180,6 +213,25 @@ public class MeleeCombatWindow {
 		frame.setVisible(true);
 	}
 
+	public void setMeleeCombatUnitStatuses() {
+		
+		for(var unit : MeleeManager.meleeManager.meleeCombatUnits) {
+			
+			for(var individual : unit.unit.individuals) {
+				
+				if(!unit.meleeCombatIndividuals.contains(individual))
+					unit.meleeCombatIndividuals.add(individual);
+				
+			}
+			
+			unit.formationRanks = 1; 
+			unit.formationWidth = unit.meleeCombatIndividuals.size();
+			
+			
+		}
+		
+	}
+	
 	public ArrayList<MeleeCombatUnit> getSelectedMeleeCombatUnits() {
 		ArrayList<MeleeCombatUnit> list = new ArrayList<MeleeCombatUnit>();
 		

@@ -2,6 +2,7 @@ package Melee;
 
 import java.util.ArrayList;
 
+import Conflict.GameWindow;
 import HexGrid.HexDirectionUtility;
 import HexGrid.HexDirectionUtility.HexDirection;
 import Trooper.Trooper;
@@ -12,27 +13,44 @@ public class MeleeCombatCalculator {
 	
 	public static void charge(MeleeCombatUnit chargingUnit, MeleeCombatUnit targetUnit) {
 		
-		// if charging unit charges, 
-		// calls enter combat
-		var chargeResult = chargingUnit.AttemptCharge();
+		if(chargingUnit.charged && GameWindow.gameWindow != null) {
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue(chargingUnit.unit.side + ":: "+chargingUnit.unit.callsign+" already charged this turn.");
+			return;
+		}
+		
+		chargingUnit.charged = true;
+		
+		
 		
 		// TODO: Set charge velocities, addcharges here, remove charges else where, keep track of charges in melee combat unit class
 		int speed = DiceRoller.roll(1, 4);
-		boolean flanking = HexDirectionUtility.flanking(chargingUnit.facing, targetUnit.facing);
-		boolean rear = HexDirectionUtility.rear(chargingUnit.facing, targetUnit.facing);
+		//boolean flanking = HexDirectionUtility.flanking(chargingUnit.facing, targetUnit.facing);
+		//boolean rear = HexDirectionUtility.rear(chargingUnit.facing, targetUnit.facing);
 		var charge = new ChargeData((int)((double)speed * 0.5),
-				flanking,rear,false);
+				false,false,false);
 		chargingUnit.activeCharges.add(charge);
 		var newCharge = new ChargeData(charge);
 		newCharge.incoming = true;
 		targetUnit.activeCharges.add(newCharge);
-		
+
+		chargingUnit.resolve.calculateSuppressionModifier(chargingUnit.unit);
+		chargingUnit.resolve.calculateFatigueModifier(chargingUnit.unit);
+		chargingUnit.resolve.calculateNumbersAdvantageModifier(chargingUnit.unit.individuals,targetUnit.unit.individuals);
 		chargingUnit.resolve.calcaulteChargeModifier(chargingUnit.activeCharges);
 		targetUnit.resolve.calcaulteChargeModifier(targetUnit.activeCharges);
 
+		// if charging unit charges, 
+		// calls enter combat
+		var chargeResult = chargingUnit.AttemptCharge();
+		
 		if(chargeResult) {
 			enterCombat(chargingUnit, targetUnit);
 		}
+		
+		if(GameWindow.gameWindow != null)
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue(chargingUnit.unit.side + ":: "+chargingUnit.unit.callsign+" charges "+
+					targetUnit.unit.side + ":: "+targetUnit.unit.callsign+", "+(chargeResult ? "CHARGE SUCCESS" : "CHARGE FAIL")+", "
+					+"flanking: "+false+", rear: "+false);
 		
 	}
 	
@@ -126,9 +144,12 @@ public class MeleeCombatCalculator {
 			b.combatantA.trooper.fatigueSystem.AddStrenuousActivityTime(60);
 			b.combatantB.trooper.fatigueSystem.AddStrenuousActivityTime(60);
 		}
+
+		// refresh units 
+		for(var u : MeleeManager.meleeManager.meleeCombatUnits) {
+			u.charged = false;
+		}
 		
-		
-		System.out.println("Resolve melee combat round");
 	}
 
 	public static void calculateCombatResults() {

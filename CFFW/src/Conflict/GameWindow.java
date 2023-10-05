@@ -2168,6 +2168,8 @@ public class GameWindow implements Serializable {
 		game.smoke.advanceTime();
 		game.wind.advanceTime();
 		
+		GameWindow.gameWindow.conflictLog.addNewLineToQueue("Resolve melee combat round: ");
+
 		MeleeCombatCalculator.resolveMeleeCombatRound();
 		
 		

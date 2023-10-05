@@ -84,7 +84,7 @@ public class MeleeCombatResolver implements Serializable {
 	}
 	
 	private static void printBoutResults(Combatant combatant, int hits, MeleeDamageType dmgType) {
-		System.out.println(combatant.trooper.returnTrooperUnit(GameWindow.gameWindow).callsign+":: "
+		GameWindow.gameWindow.conflictLog.addNewLineToQueue(combatant.trooper.returnTrooperUnit(GameWindow.gameWindow).callsign+":: "
 				+combatant.trooper.number
 						+" "+combatant.trooper.name+", hits "+hits+" of "+dmgType);
 	}
