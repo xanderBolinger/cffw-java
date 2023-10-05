@@ -20,6 +20,7 @@ public class WeaponsStats {
 		VibroKnife();
 		Gladius();
 	}
+	
 
 	// ChainSword,VibroKnife,PowerSword,Spear,Gladius
 

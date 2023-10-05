@@ -1067,9 +1067,9 @@ public class ResolveHits implements Serializable {
 			int pen = weapon.pen.get(rangeCol);
 			int dc = weapon.dc.get(rangeCol);
 
-			if (!weapon.energyWeapon && dc < 10 && isHardBodyArmor) {
-				dc++;
-			}
+			//if (!weapon.energyWeapon && dc < 10 && isHardBodyArmor) {
+			//	dc++;
+			//}
 
 			if (pen > 0 && dc > 0) {
 
@@ -1119,6 +1119,13 @@ public class ResolveHits implements Serializable {
 
 			}
 
+			if(weapon.pcAmmoTypes.size() > 0) {
+				var exp = new Explosion(weapon.pcAmmoTypes.get(0));
+				exp.explosiveImpact(trooper, weapon.pcAmmoTypes.get(0), weapon);
+				var unit = trooper.returnTrooperUnit(GameWindow.gameWindow);
+				exp.explodeHex(unit.X, unit.Y, "None");
+			}
+			
 		}
 
 	}

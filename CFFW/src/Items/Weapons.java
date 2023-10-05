@@ -678,6 +678,30 @@ public class Weapons implements Serializable {
 
 		// Ce stats
 		ceStats.baseErgonomics = 50;
+		
+		String name = "Linked";
+		ArrayList<Integer> pen = new ArrayList<Integer>();
+		pen.add(112);
+		pen.add(112);
+		pen.add(112);
+		pen.add(112);
+		pen.add(112);
+		pen.add(112);
+
+		ArrayList<Integer> dc = new ArrayList<Integer>();
+		dc.add(10);
+
+		ArrayList<String> bshc = new ArrayList<String>();
+		bshc.add("0");
+
+
+		ArrayList<Integer> bc = new ArrayList<Integer>();
+		bc.add(150);
+
+
+		PCAmmo heat = new PCAmmo(name, pen, dc, bshc, bc, 280, 10);
+		heat.linked = true;
+		pcAmmoTypes.add(heat);
 	}
 
 	public void WestarM5() {
