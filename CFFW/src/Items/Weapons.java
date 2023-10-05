@@ -265,6 +265,12 @@ public class Weapons implements Serializable {
 			weapons.add(weapon);
 		}
 		
+		HumanWarhammerWeapons hww = new HumanWarhammerWeapons();
+		
+		for(Weapons weapon : hww.weapons) {
+			weapons.add(weapon);
+		}
+		
 	}
 
 	public void DC15A() {

@@ -14,43 +14,11 @@ public class WeaponsStats {
 		T4GMG();
 		GoblinJavelin();
 		ShortBow();
-		ChainSword();
-		PowerSword();
 		Spear();
 		VibroKnife();
 		Gladius();
 	}
 	
-
-	// ChainSword,VibroKnife,PowerSword,Spear,Gladius
-
-	public void ChainSword() {
-		Weapons weapon = new Weapons();
-		weapon.name = "Chain Sword";
-		
-		try {
-			weapon.meleeWeapon = MeleeWeapon.getMeleeWeapon(MeleeWeaponType.ChainSword);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		weapon.type = "Melee";
-		weapons.add(weapon);
-	}
-
-	public void PowerSword() {
-		Weapons weapon = new Weapons();
-		weapon.name = "Power Sword";
-		
-		try {
-			weapon.meleeWeapon = MeleeWeapon.getMeleeWeapon(MeleeWeaponType.PowerSword);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		weapon.type = "Melee";
-		weapons.add(weapon);
-	}
 
 	public void Spear() {
 		Weapons weapon = new Weapons();
