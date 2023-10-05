@@ -71,22 +71,27 @@ public class MeleeCombatResolver implements Serializable {
 			bHits += d100() <= 3 ? 1 : 0;
 		}
 		
-		applyHits(bout, true, aHits, firstDamageType);
-		applyHits(bout, false, bHits, secondDamageType);
 		
-		if(GameWindow.gameWindow != null) {
+		if(GameWindow.gameWindow != null) {	
+			printBoutResults(bout.combatantA, bout.combatantB, aHits, firstDamageType);
 			
-			printBoutResults(bout.combatantA, aHits, firstDamageType);
-			printBoutResults(bout.combatantB, bHits, secondDamageType);
+			printBoutResults(bout.combatantB, bout.combatantA, bHits, secondDamageType);
 		}
 		
 		
+		applyHits(bout, true, aHits, firstDamageType);
+		applyHits(bout, false, bHits, secondDamageType);
+		
 	}
 	
-	private static void printBoutResults(Combatant combatant, int hits, MeleeDamageType dmgType) {
-		GameWindow.gameWindow.conflictLog.addNewLineToQueue(combatant.trooper.returnTrooperUnit(GameWindow.gameWindow).callsign+":: "
+	private static void printBoutResults(Combatant combatant, Combatant defendingCombatant, int hits, 
+			MeleeDamageType dmgType) {
+		GameWindow.gameWindow.conflictLog.addNewLineToQueue(combatant.trooper.returnTrooperUnit(GameWindow.gameWindow)
+				.callsign+":: "
 				+combatant.trooper.number
-						+" "+combatant.trooper.name+", hits "+hits+" of "+dmgType);
+						+" "+combatant.trooper.name+", hits "+hits+" of "+dmgType+", targeting: "
+				+defendingCombatant.trooper.returnTrooperUnit(GameWindow.gameWindow).callsign+":: "
+				+ defendingCombatant.trooper.number + defendingCombatant.trooper.name);
 	}
 	
 	private static void applyHits(Bout bout, boolean firstCombatantAttacking, int hits, MeleeDamageType dmgType) {

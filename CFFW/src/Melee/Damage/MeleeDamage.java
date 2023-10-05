@@ -89,7 +89,7 @@ public class MeleeDamage implements Serializable {
 		target.shock += hitRslts.getFirst().shockPD/20;
 		
 		if(GameWindow.gameWindow != null && GameWindow.gameWindow.conflictLog != null) {
-			
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue(target.trooper.number+", "+target.trooper.name+" is wounded:");
 			target.trooper.injured(GameWindow.gameWindow.conflictLog, injury, GameWindow.gameWindow.game, GameWindow.gameWindow);
 			target.trooper.calculateInjury(GameWindow.gameWindow, GameWindow.gameWindow.conflictLog);
 		} else {
