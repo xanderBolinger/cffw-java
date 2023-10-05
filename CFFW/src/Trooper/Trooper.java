@@ -40,6 +40,8 @@ import Items.Item.ItemType;
 import Items.PersonalShield.ShieldType;
 import Trooper.Trooper.BaseSpeed;
 import Trooper.Trooper.MaximumSpeed;
+import Trooper.Factions.Astartes;
+import Trooper.Factions.FactionManager;
 import Items.PersonalShield;
 import Items.Weapons;
 import Unit.Unit;
@@ -48,7 +50,9 @@ import UtilityClasses.TrooperUtility;
 
 public class Trooper implements Serializable {
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-	private String path = System.getProperty("user.dir") + "\\";
+	private String path = System.getProperty("user.dir") + "\\"; // note this does not update upon 
+	// loading saved troopers on a new machine. So it will have the dir of the old machine on it.
+	
 	// private String path = "X:\\OneDrive\\OneDrive - Colostate\\Xander
 	// Personal\\Code\\eclipse-workspace\\CFFW\\";
 	// Callsign Name Rank Designations Vet P1 P2 Injuries Wep Ammo RWS Spot Camo
@@ -272,7 +276,9 @@ public class Trooper implements Serializable {
 		inventory.addContainer(ContainerType.Belt);
 		// System.out.println("New Trooper, input: " + input + ", faction: " + faction);
 
-		if (faction.equals("Clone Trooper Phase 1")) {
+		if(FactionManager.factionExists(faction)) {
+			//.input(this, input);
+		} else if (faction.equals("Clone Trooper Phase 1")) {
 			this.faction = "Clone Trooper Phase 1";
 			try {
 				cloneTrooperPhase1(input);

@@ -1,12 +1,33 @@
-package Trooper;
+package Trooper.Factions;
 
 import java.util.Random;
 
+import javax.swing.JComboBox;
+
 import Items.Item.ItemType;
+import Trooper.IndividualStats;
+import Trooper.Skills;
+import Trooper.TLHStats;
+import Trooper.Trooper;
+import Trooper.Factions.FactionManager.FactionType;
 
-public class Astartes {
+public class Astartes extends Faction {
 
-	public void input(Trooper trooper, String input) throws Exception {
+	public Astartes() {
+		super(FactionType.Astartes, "Astartes");
+		
+	}
+
+
+	public void individualInput(JComboBox comboBox) {
+		comboBox.removeAllItems();
+		comboBox.addItem("Empty");
+
+		comboBox.addItem("Astartes");
+	}
+	
+	
+	public void setTrooper(Trooper trooper, String input) throws Exception {
 		trooper.conscious = true;
 		trooper.alive = true;
 		trooper.arms = 2;
@@ -18,7 +39,8 @@ public class Astartes {
 		trooper.criticalTime = 0;
 		trooper.nightVision = true;
 		trooper.nightVisionEffectiveness = 3;
-
+		
+		
 		TLHStats attributes = new TLHStats(4, 4, 0, 4, 4, 4, 4);
 		trooper.str = attributes.str;
 		trooper.wit = attributes.wit;
@@ -91,11 +113,12 @@ public class Astartes {
 		return skills;
 	}
 	
-	public static String generateAstartesName() {
+	private static String generateAstartesName() {
 		String[] array = { "Ajax" };
 		int rnd = new Random().nextInt(array.length);
 		return array[rnd];
 	}
+
 
 	
 	

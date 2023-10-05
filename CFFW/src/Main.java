@@ -21,6 +21,7 @@ import Items.Item.ItemType;
 import JUnitTests.AllTests;
 import JUnitTests.InventoryTest;
 import Shoot.Shoot;
+import Trooper.Factions.FactionManager;
 import UtilityClasses.TestUtility;
 
 import javax.swing.JButton;
@@ -77,6 +78,8 @@ public class Main {
 		resultReport(result);
 		Shoot.count = 0;
 		new SetupWindow();
+		
+		FactionManager.initalizeFactions();
 	}
 
 	public static void resultReport(Result result) {

@@ -1,4 +1,10 @@
 /Conflict/
+/Hexes/
+/Individuals/
+/Items/
+/Unit/
+/UtilityClasses/
+/Vehicle/
 /CorditeExpansion/
 /CorditeExpansionActions/
 /CorditeExpansionCharacters/
@@ -10,10 +16,7 @@
 /Fortifications/
 /HexGrid/
 /HexGridIcons/
-/Hexes/
-/Individuals/
 /Injuries/
-/Items/
 /JUnitTests/
 /Main.class
 /MainCETest.class
@@ -24,9 +27,6 @@
 /Shoot/
 /Spot/
 /Trooper/
-/Unit/
-/UtilityClasses/
-/Vehicle/
 /multiDimensionalArrayList.class
 /test/
 /testPackage/

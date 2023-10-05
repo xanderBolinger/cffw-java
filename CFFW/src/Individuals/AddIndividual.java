@@ -20,6 +20,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import Company.EditCompany;
 import CreateGame.JsonSaveRunner;
 import Trooper.Trooper;
+import Trooper.Factions.Astartes;
+import Trooper.Factions.FactionManager;
 import UtilityClasses.SwingUtility;
 
 import java.awt.event.ActionListener;
@@ -42,6 +44,17 @@ public class AddIndividual implements Serializable {
 	 * Launch the application.
 	 */
 	public AddIndividual(EditCompany window) {
+		init(window);
+		addFactions();
+	}
+	
+	void addFactions() {
+		
+		
+	}
+	
+	void init(EditCompany window) {
+		
 		final JFrame f = new JFrame("Add Individual");
 		f.setSize(524, 350);
 		f.getContentPane().setLayout(null);
@@ -62,7 +75,6 @@ public class AddIndividual implements Serializable {
 		comboBoxFaction = new JComboBox();
 		comboBoxFaction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
 				if(comboBoxFaction.getSelectedItem().toString().equals("Clone Trooper Phase 1")) {
 					comboBoxRole.removeAllItems();
 					comboBoxRole.addItem("Empty");
@@ -169,11 +181,21 @@ public class AddIndividual implements Serializable {
 					comboBoxRole.addItem("Line");
 					comboBoxRole.addItem("Crack");
 					comboBoxRole.addItem("Elite");
+				} else {
+					
+					try {
+						FactionManager.getFactionFromName(
+								comboBoxFaction.getSelectedItem().toString()
+								).individualInput(comboBoxRole);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
 				}
 			}
 		});
 		comboBoxFaction
-				.setModel(new DefaultComboBoxModel(new String[] {"Empty", "Clone Trooper Phase 1", "CIS Battle Droid", "UNSC", "Covenant", "Cordite Expansion"}));
+				.setModel(new DefaultComboBoxModel(new String[] {"Empty", "Clone Trooper Phase 1", "CIS Battle Droid", "UNSC", "Covenant", "Cordite Expansion", "Astartes"}));
 		comboBoxFaction.setSelectedIndex(0);
 
 		comboBoxRole = new JComboBox();
@@ -188,7 +210,7 @@ public class AddIndividual implements Serializable {
 		btnGenerateTrooper.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Trooper individual = null;
-				
+				var faction = comboBoxFaction.getSelectedItem().toString();
 				// Generates individual
 				if(comboBoxJson.getSelectedIndex() > 0) {
 					try {
@@ -200,10 +222,16 @@ public class AddIndividual implements Serializable {
 				else if(comboBoxFaction.getSelectedItem().toString().equals("Clone Trooper Phase 1") || comboBoxFaction.getSelectedItem().toString().equals("CIS Battle Droid")) {
 					individual = new Trooper(comboBoxRole.getSelectedItem().toString(),
 							comboBoxFaction.getSelectedItem().toString());
-				} else {
+				} else if(FactionManager.factionExists(faction)) {
+					
+					
+					
+				} 
+				
+				else {
 					individual = new Trooper(comboBoxRole.getSelectedItem().toString(),
 							comboBoxFaction.getSelectedItem().toString());
-				}
+				} 
 				
 				
 				
@@ -350,6 +378,7 @@ public class AddIndividual implements Serializable {
 		
 		
 		SwingUtility.setComboBox(comboBoxJson, JsonSaveRunner.getFileNames(), true, 0);
+		
 		
 	}
 }
