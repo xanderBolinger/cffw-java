@@ -49,8 +49,7 @@ public class AddIndividual implements Serializable {
 	}
 	
 	void addFactions() {
-		
-		
+		FactionManager.addFactions(comboBoxFaction);
 	}
 	
 	void init(EditCompany window) {
@@ -75,6 +74,9 @@ public class AddIndividual implements Serializable {
 		comboBoxFaction = new JComboBox();
 		comboBoxFaction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				var factionName = comboBoxFaction.getSelectedItem().toString();
+				
 				if(comboBoxFaction.getSelectedItem().toString().equals("Clone Trooper Phase 1")) {
 					comboBoxRole.removeAllItems();
 					comboBoxRole.addItem("Empty");
@@ -181,22 +183,18 @@ public class AddIndividual implements Serializable {
 					comboBoxRole.addItem("Line");
 					comboBoxRole.addItem("Crack");
 					comboBoxRole.addItem("Elite");
-				} else if(!comboBoxFaction.getSelectedItem()
-						.toString().equals("Empty")){
-					
+				} else if(!factionName.equals("Empty")){
 					try {
-						FactionManager.getFactionFromName(
-								comboBoxFaction.getSelectedItem().toString()
-								).individualInput(comboBoxRole);
+						FactionManager.getFactionFromName(factionName)
+							.individualInput(comboBoxRole);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
 				}
 			}
 		});
 		comboBoxFaction
-				.setModel(new DefaultComboBoxModel(new String[] {"Empty", "Clone Trooper Phase 1", "CIS Battle Droid", "UNSC", "Covenant", "Cordite Expansion", "Astartes"}));
+				.setModel(new DefaultComboBoxModel(new String[] {"Empty", "Clone Trooper Phase 1", "CIS Battle Droid", "UNSC", "Covenant", "Cordite Expansion"}));
 		comboBoxFaction.setSelectedIndex(0);
 
 		comboBoxRole = new JComboBox();

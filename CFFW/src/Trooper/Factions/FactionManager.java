@@ -2,6 +2,8 @@ package Trooper.Factions;
 
 import java.util.ArrayList;
 
+import javax.swing.JComboBox;
+
 public class FactionManager {
 
 	public static ArrayList<Faction> factions;
@@ -27,7 +29,13 @@ public class FactionManager {
 	}
 	
 	
-	
+	public static void addFactions(JComboBox dropDown) {
+		
+		for(var faction : factions) {
+			dropDown.addItem(faction.factionName);
+		}
+		
+	} 
 	
 	public static Faction getFactionFromName(String name) throws Exception {
 		
