@@ -1122,8 +1122,6 @@ public class ResolveHits implements Serializable {
 			if(weapon.pcAmmoTypes.size() > 0) {
 				var exp = new Explosion(weapon.pcAmmoTypes.get(0));
 				exp.explosiveImpact(trooper, weapon.pcAmmoTypes.get(0), weapon);
-				var unit = trooper.returnTrooperUnit(GameWindow.gameWindow);
-				exp.explodeHex(unit.X, unit.Y, "None");
 			}
 			
 		}
