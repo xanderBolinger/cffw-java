@@ -181,7 +181,8 @@ public class AddIndividual implements Serializable {
 					comboBoxRole.addItem("Line");
 					comboBoxRole.addItem("Crack");
 					comboBoxRole.addItem("Elite");
-				} else {
+				} else if(!comboBoxFaction.getSelectedItem()
+						.toString().equals("Empty")){
 					
 					try {
 						FactionManager.getFactionFromName(
@@ -222,12 +223,7 @@ public class AddIndividual implements Serializable {
 				else if(comboBoxFaction.getSelectedItem().toString().equals("Clone Trooper Phase 1") || comboBoxFaction.getSelectedItem().toString().equals("CIS Battle Droid")) {
 					individual = new Trooper(comboBoxRole.getSelectedItem().toString(),
 							comboBoxFaction.getSelectedItem().toString());
-				} else if(FactionManager.factionExists(faction)) {
-					
-					
-					
 				} 
-				
 				else {
 					individual = new Trooper(comboBoxRole.getSelectedItem().toString(),
 							comboBoxFaction.getSelectedItem().toString());

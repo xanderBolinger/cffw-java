@@ -277,7 +277,11 @@ public class Trooper implements Serializable {
 		// System.out.println("New Trooper, input: " + input + ", faction: " + faction);
 
 		if(FactionManager.factionExists(faction)) {
-			//.input(this, input);
+			try {
+				FactionManager.getFactionFromName(faction).setTrooper(this, input);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} else if (faction.equals("Clone Trooper Phase 1")) {
 			this.faction = "Clone Trooper Phase 1";
 			try {
