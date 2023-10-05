@@ -188,17 +188,14 @@ public class TrooperUtility {
 
 			Row row = worksheet.getRow(0);
 
-			if (isf <= 7) {
-
-				column = 1;
-
-			} else {
-
-				for (int i = 1; i < 19; i++) {
-					if (isf < row.getCell(i + 1).getNumericCellValue()) {
-						column = i;
-						break;
-					}
+			if(isf > 45)
+				isf = 45;
+			
+			for (int i = 1; i < 19; i++) {
+				var val = row.getCell(i).getNumericCellValue();
+				if (isf <= val) {
+					column = i;
+					break;
 				}
 			}
 

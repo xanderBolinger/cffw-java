@@ -46,7 +46,7 @@ public class Astartes extends Faction {
 		trooper.nightVisionEffectiveness = 3;
 		
 		
-		TLHStats attributes = new TLHStats(8, 8, 0, 8, 8, 8, 8);
+		TLHStats attributes = new TLHStats(11, 8, 0, 8, 8, 11, 8);
 		trooper.str = attributes.str;
 		trooper.wit = attributes.wit;
 		trooper.soc = attributes.soc;
