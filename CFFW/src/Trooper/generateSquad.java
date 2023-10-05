@@ -17,6 +17,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import Company.Formation.LeaderType;
+import Trooper.Factions.FactionManager;
 
 public class generateSquad implements Serializable {
 	private ArrayList<Trooper> individuals = new ArrayList<Trooper>();
@@ -41,6 +42,16 @@ public class generateSquad implements Serializable {
 		} else if (faction.equals("Covenant")) {
 			//System.out.println("Pass Create Squad");
 			createCovenant(type);
+		} else {
+			
+			try {
+				individuals.clear();
+				FactionManager.getFactionFromName(faction).createSquad(type, individuals);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
 		}
 
 	}

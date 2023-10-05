@@ -1,5 +1,7 @@
 package Trooper.Factions;
 
+import java.util.ArrayList;
+
 import javax.swing.JComboBox;
 
 import Trooper.Trooper;
@@ -15,6 +17,8 @@ public abstract class Faction {
 		factionName = name;
 	}
 	
+	public abstract void squadInput(JComboBox combo);
 	public abstract void individualInput(JComboBox combo);
 	public abstract void setTrooper(Trooper trooper, String trooperType) throws Exception;
+	public abstract void createSquad(String squad, ArrayList<Trooper> individuals) throws Exception;
 }

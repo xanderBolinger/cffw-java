@@ -23,6 +23,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import Company.EditCompany;
 import Trooper.Trooper;
 import Trooper.generateSquad;
+import Trooper.Factions.FactionManager;
 import Unit.Unit;
 import javax.swing.JSpinner;
 import java.awt.event.ActionListener;
@@ -45,6 +46,15 @@ public class AddUnit implements Serializable {
 
 	public AddUnit(EditCompany window) {
 		 
+		init(window);
+		addFactions();
+	}
+	
+	void addFactions() {
+		FactionManager.addFactions(comboBoxFaction);
+	}
+
+	void init(EditCompany window) {
 		final JFrame f = new JFrame("Add Unit");
 		f.setSize(604, 313);
 
@@ -81,18 +91,17 @@ public class AddUnit implements Serializable {
 				*/
 				
 
+				comboBoxSquad.removeAllItems();
+				comboBoxSquad.addItem("Empty");
 				
 				if(comboBoxFaction.getSelectedItem().toString().equals("Clone Trooper Phase 1")) {
-					comboBoxSquad.removeAllItems();
-					comboBoxSquad.addItem("Empty");
+					
 					comboBoxSquad.addItem("Riflesquad");
 					comboBoxSquad.addItem("Special Riflesquad");
 					comboBoxSquad.addItem("Platoon Squad");
 					comboBoxSquad.addItem("Company Squad");
 					comboBoxSquad.addItem("Commando Squad");
 				} else if(comboBoxFaction.getSelectedItem().toString().equals("CIS Battle Droid")) {
-					comboBoxSquad.removeAllItems();
-					comboBoxSquad.addItem("Empty");
 					comboBoxSquad.addItem("Droid Riflesquad");
 					comboBoxSquad.addItem("Droid Marksman");
 					comboBoxSquad.addItem("Droid AT Specalists");
@@ -100,21 +109,23 @@ public class AddUnit implements Serializable {
 					comboBoxSquad.addItem("Heavy Droid Riflesquad");
 					comboBoxSquad.addItem("Droid Integrated Squad");
 				} else if(comboBoxFaction.getSelectedItem().toString().equals("UNSC")) {
-					comboBoxSquad.removeAllItems();
-					comboBoxSquad.addItem("Empty");
 					comboBoxSquad.addItem("Riflesquad");
 				
 				} else if(comboBoxFaction.getSelectedItem().toString().equals("Covenant")) {
-					comboBoxSquad.removeAllItems();
-					comboBoxSquad.addItem("Empty");
 					comboBoxSquad.addItem("Unggoy Lance");
 					comboBoxSquad.addItem("Kig-Yar Lance - Marksman");
 					comboBoxSquad.addItem("Kig-Yar Lance - Shields");
 					comboBoxSquad.addItem("Unggoy Suicide Chargers");
 				
 				} else if(comboBoxFaction.getSelectedItem().toString().equals("Cordite Expansion")) {
-					comboBoxSquad.removeAllItems();
-					comboBoxSquad.addItem("Empty");
+					
+				} else {
+					var faction = comboBoxFaction.getSelectedItem().toString();
+					try {
+						FactionManager.getFactionFromName(faction).squadInput(comboBoxSquad);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 				
 				
@@ -293,4 +304,5 @@ public class AddUnit implements Serializable {
 		f.getContentPane().add(lblNumberOfUnits);
 		f.setVisible(true);
 	}
+	
 }

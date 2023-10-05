@@ -1,5 +1,6 @@
 package Trooper.Factions;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JComboBox;
@@ -17,7 +18,12 @@ public class Astartes extends Faction {
 		super(FactionType.Astartes, "Astartes");
 		
 	}
-
+	
+	public void squadInput(JComboBox dropDown) {
+		
+		dropDown.addItem("Rifle Team");
+		
+	}
 
 	public void individualInput(JComboBox comboBox) {
 		comboBox.removeAllItems();
@@ -25,7 +31,6 @@ public class Astartes extends Faction {
 
 		comboBox.addItem("Astartes");
 	}
-	
 	
 	public void setTrooper(Trooper trooper, String input) throws Exception {
 		trooper.conscious = true;
@@ -119,8 +124,13 @@ public class Astartes extends Faction {
 		return array[rnd];
 	}
 
+	public void createSquad(String squad, ArrayList<Trooper> individuals) throws Exception {
 
-	
+		if(squad.equals("Rifle Team")) {
+			individuals.add(new Trooper("Astartes", factionName));
+		}
+		
+	}
 	
 	
 }
