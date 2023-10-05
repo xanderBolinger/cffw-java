@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Conflict.GameWindow;
 import HexGrid.HexDirectionUtility;
 import HexGrid.HexDirectionUtility.HexDirection;
+import Melee.Window.MeleeCombatWindow;
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 
@@ -149,6 +150,14 @@ public class MeleeCombatCalculator {
 		for(var u : MeleeManager.meleeManager.meleeCombatUnits) {
 			u.charged = false;
 		}
+		
+		if(MeleeCombatWindow.meleeCombatWindow != null) {
+			var w = MeleeCombatWindow.meleeCombatWindow;
+			w.setBouts();
+			w.setChargeTargets();
+			w.setMeleeCombatIndividuals();
+		}
+		
 		
 	}
 

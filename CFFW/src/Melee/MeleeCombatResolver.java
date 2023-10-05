@@ -82,6 +82,14 @@ public class MeleeCombatResolver implements Serializable {
 		applyHits(bout, true, aHits, firstDamageType);
 		applyHits(bout, false, bHits, secondDamageType);
 		
+		if((!bout.combatantA.trooper.conscious || !bout.combatantA.trooper.alive || 
+				!bout.combatantB.trooper.conscious || !bout.combatantB.trooper.alive)
+				&& MeleeManager.meleeManager != null) {
+			
+			MeleeManager.meleeManager.meleeCombatBouts.remove(bout);
+			
+		}
+		
 	}
 	
 	private static void printBoutResults(Combatant combatant, Combatant defendingCombatant, int hits, 
@@ -94,7 +102,7 @@ public class MeleeCombatResolver implements Serializable {
 				+ defendingCombatant.trooper.number + defendingCombatant.trooper.name);
 	}
 	
-	private static void applyHits(Bout bout, boolean firstCombatantAttacking, int hits, MeleeDamageType dmgType) {
+	public static void applyHits(Bout bout, boolean firstCombatantAttacking, int hits, MeleeDamageType dmgType) {
 		for(int i = 0; i < hits; i++) {
 			try {
 				MeleeDamage.applyMeleeHit(firstCombatantAttacking ? bout.combatantA : bout.combatantB, 
@@ -109,7 +117,7 @@ public class MeleeCombatResolver implements Serializable {
 		return DiceRoller.roll(1, 100);
 	}
 	
-	private static MeleeDamageType getMeleeDamageType(Combatant combatant) {
+	public static MeleeDamageType getMeleeDamageType(Combatant combatant) {
 		if(combatant.meleeWeapon == null)
 			return MeleeDamageType.BLUNT;
 		var wep = combatant.meleeWeapon;
