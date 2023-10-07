@@ -23,7 +23,7 @@ public class Astartes extends Faction {
 	public void squadInput(JComboBox dropDown) {
 		
 		dropDown.addItem("Rifle Team");
-		
+		dropDown.addItem("Heavy Rifle Team");
 	}
 
 	public void individualInput(JComboBox comboBox) {
@@ -31,6 +31,7 @@ public class Astartes extends Faction {
 		comboBox.addItem("Empty");
 
 		comboBox.addItem("Astartes");
+		comboBox.addItem("Astartes Heavy Bolter");
 	}
 	
 	public void setTrooper(Trooper trooper, String input) throws Exception {
@@ -62,10 +63,23 @@ public class Astartes extends Faction {
 
 			trooper.rank = "Marine";
 			trooper.designation = "Astartes";
-			trooper.wep = "Bolter";
+			trooper.wep = "MKVb Bolter";
 			trooper.ammo = 120;
-			trooper.inventory.addItems(ItemType.Bolter, 1);
-			trooper.inventory.addItems(ItemType.Bolter, ItemType.SmallArmsAmmo, 5);
+			trooper.inventory.addItems(ItemType.MkvbBolter, 1);
+			trooper.inventory.addItems(ItemType.MkvbBolter, ItemType.SmallArmsAmmo, 5);
+			trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
+			trooper.inventory.addItems(ItemType.KrakGrenade, 2);
+			trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
+
+		} else if (input.equals("Astartes Heavy Bolter")) { // Squad Leader
+			// Creates attributes
+
+			trooper.rank = "Marine";
+			trooper.designation = "Astartes";
+			trooper.wep = "MKIV Heavy Bolter";
+			trooper.ammo = 200;
+			trooper.inventory.addItems(ItemType.MkivHeavyBolter, 1);
+			trooper.inventory.addItems(ItemType.MkivHeavyBolter, ItemType.SmallArmsAmmo, 1);
 			trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
 			trooper.inventory.addItems(ItemType.KrakGrenade, 2);
 			trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
@@ -75,7 +89,7 @@ public class Astartes extends Faction {
 		}
 
 		// Pack mule
-		trooper.encumberanceModifier -= 20;
+		trooper.encumberanceModifier -= 200;
 
 		trooper.inventory.setEncumberance();
 
@@ -147,6 +161,14 @@ public class Astartes extends Faction {
 			individuals.add(new Trooper("Astartes", factionName));
 			individuals.add(new Trooper("Astartes", factionName));
 			individuals.add(new Trooper("Astartes", factionName));
+		} else if(squad.equals("Heavy Rifle Team")) {
+			var t = new Trooper("Astartes", factionName);
+			t.leaderType = LeaderType.SL;
+			
+			individuals.add(t);
+			individuals.add(new Trooper("Astartes", factionName));
+			individuals.add(new Trooper("Astartes", factionName));
+			individuals.add(new Trooper("Astartes Heavy Bolter", factionName));
 		}
 		
 	}

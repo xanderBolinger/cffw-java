@@ -41,7 +41,7 @@ public class Item implements Serializable {
 		
 		M870,
 		
-		Bolter,
+		MkvbBolter,MkivHeavyBolter,
 		
 		KrakGrenade,AstartesFragGrenade,
 		
@@ -84,7 +84,8 @@ public class Item implements Serializable {
 				new Item(ItemType.B2RR),
 				new Item(ItemType.M870),
 				
-				new Item(ItemType.Bolter),
+				new Item(ItemType.MkvbBolter),
+				new Item(ItemType.MkivHeavyBolter),
 				new Item(ItemType.AstartesFragGrenade),
 				new Item(ItemType.KrakGrenade),
 				
@@ -229,10 +230,16 @@ public class Item implements Serializable {
 			itemWeight = 1;
 		}
 		
-		else if((ItemType.Bolter == weaponType) 
+		else if((ItemType.MkvbBolter == weaponType) 
 				&& ItemType.SmallArmsAmmo == ammoType) {
 			ammo = new PCAmmo("Bolts", 20);
 			itemWeight = 4;
+		}
+		
+		else if((ItemType.MkivHeavyBolter == weaponType) 
+				&& ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("Bolts", 200);
+			itemWeight = 40;
 		}
 		
 		else if((ItemType.GoblinJavelin == weaponType) 
@@ -425,9 +432,14 @@ public class Item implements Serializable {
 			itemWeight = 4; 
 		} 
 		
-		else if(ItemType.Bolter == itemType) {
-			weapon = new Weapons().findWeapon("Bolter");
+		else if(ItemType.MkvbBolter == itemType) {
+			weapon = new Weapons().findWeapon("MKVb Bolter");
 			itemWeight = 40; 
+		} 
+		
+		else if(ItemType.MkivHeavyBolter == itemType) {
+			weapon = new Weapons().findWeapon("MKIV Heavy Bolter");
+			itemWeight = 150; 
 		} 
 		
 		else if(ItemType.GoblinJavelin == itemType) {
