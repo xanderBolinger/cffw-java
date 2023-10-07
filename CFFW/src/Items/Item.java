@@ -43,6 +43,7 @@ public class Item implements Serializable {
 		
 		Bolter,
 		
+		KrakGrenade,AstartesFragGrenade,
 		
 		GoblinJavelin,ShortBow,
 		
@@ -84,6 +85,8 @@ public class Item implements Serializable {
 				new Item(ItemType.M870),
 				
 				new Item(ItemType.Bolter),
+				new Item(ItemType.AstartesFragGrenade),
+				new Item(ItemType.KrakGrenade),
 				
 				new Item(ItemType.GoblinJavelin),
 				new Item(ItemType.ShortBow),
@@ -410,6 +413,16 @@ public class Item implements Serializable {
 		else if(ItemType.M870 == itemType) {
 			weapon = new Weapons().findWeapon("M870");
 			itemWeight = 9; 
+		} 
+		
+		else if(ItemType.AstartesFragGrenade == itemType) {
+			weapon = new Weapons().findWeapon("Astartes Frag Grenade");
+			itemWeight = 4; 
+		} 
+		
+		else if(ItemType.KrakGrenade == itemType) {
+			weapon = new Weapons().findWeapon("Krak Grenade");
+			itemWeight = 4; 
 		} 
 		
 		else if(ItemType.Bolter == itemType) {

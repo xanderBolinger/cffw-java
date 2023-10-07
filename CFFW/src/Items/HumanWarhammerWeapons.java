@@ -15,12 +15,117 @@ public class HumanWarhammerWeapons {
 		// Ranged 
 		Bolter();
 		
+		// Grenade
+		FragGrenade();
+		KrakGrenade();
+		
 		// Melee 
 		ChainSword();
 		PowerSword();
+		
 	}
 	
 
+	public void KrakGrenade() {
+		Weapons weapon = new Weapons();
+		
+		weapon.name = "Krak Grenade";
+		weapon.type = "Grenade";
+		weapon.energyWeapon = false;
+		weapon.fuze = 2;
+		weapon.armTime = 3;
+
+		weapon.aimTime.add(-26);
+		weapon.aimTime.add(-18);
+		weapon.aimTime.add(-14);
+		weapon.aimTime.add(-12);
+		weapon.aimTime.add(-11);
+		weapon.aimTime.add(-11);
+		weapon.aimTime.add(-10);
+		weapon.aimTime.add(-10);
+		
+		// Starts from 0, no C
+		weapon.pen.add(142);
+		weapon.pen.add(5);
+		weapon.pen.add(5);
+		weapon.pen.add(5);
+		weapon.pen.add(4);
+		weapon.pen.add(3);
+
+		weapon.dc.add(10);
+		weapon.dc.add(10);
+		weapon.dc.add(9);
+		weapon.dc.add(9);
+		weapon.dc.add(8);
+		weapon.dc.add(6);
+
+		weapon.bshc.add("*6");
+		weapon.bshc.add("*1");
+		weapon.bshc.add("88");
+		weapon.bshc.add("64");
+		weapon.bshc.add("22");
+		weapon.bshc.add("11");
+
+		weapon.bc.add(23000);
+		weapon.bc.add(1013);
+		weapon.bc.add(251);
+		weapon.bc.add(55);
+		weapon.bc.add(22);
+		weapon.bc.add(14);
+		
+		weapons.add(weapon);
+	}
+	
+	public void FragGrenade() {
+		Weapons weapon = new Weapons();
+		
+		weapon.name = "Astartes Frag Grenade";
+		weapon.type = "Grenade";
+		weapon.energyWeapon = false;
+		weapon.fuze = 2;
+		weapon.armTime = 3;
+
+		weapon.aimTime.add(-26);
+		weapon.aimTime.add(-18);
+		weapon.aimTime.add(-14);
+		weapon.aimTime.add(-12);
+		weapon.aimTime.add(-11);
+		weapon.aimTime.add(-11);
+		weapon.aimTime.add(-10);
+		weapon.aimTime.add(-10);
+		
+		// Starts from 0, no C
+		weapon.pen.add(50);
+		weapon.pen.add(5);
+		weapon.pen.add(5);
+		weapon.pen.add(5);
+		weapon.pen.add(4);
+		weapon.pen.add(3);
+
+		weapon.dc.add(10);
+		weapon.dc.add(9);
+		weapon.dc.add(6);
+		weapon.dc.add(5);
+		weapon.dc.add(2);
+		weapon.dc.add(2);
+
+		weapon.bshc.add("*24");
+		weapon.bshc.add("*6");
+		weapon.bshc.add("*2");
+		weapon.bshc.add("88");
+		weapon.bshc.add("64");
+		weapon.bshc.add("22");
+
+		weapon.bc.add(18000);
+		weapon.bc.add(2213);
+		weapon.bc.add(551);
+		weapon.bc.add(105);
+		weapon.bc.add(32);
+		weapon.bc.add(24);
+		
+		weapons.add(weapon);
+	}
+	
 	public void Bolter() {
 		Weapons weapon = new Weapons();
 		weapon.name = "Bolter";

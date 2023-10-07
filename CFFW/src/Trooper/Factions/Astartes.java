@@ -5,6 +5,7 @@ import java.util.Random;
 
 import javax.swing.JComboBox;
 
+import Company.Formation.LeaderType;
 import Items.Item.ItemType;
 import Trooper.IndividualStats;
 import Trooper.Skills;
@@ -59,14 +60,15 @@ public class Astartes extends Faction {
 		if (input.equals("Astartes")) { // Squad Leader
 			// Creates attributes
 
-			trooper.rank = "Sergeant";
-			trooper.designation = "Squad Leader";
+			trooper.rank = "Marine";
+			trooper.designation = "Astartes";
 			trooper.wep = "Bolter";
 			trooper.ammo = 120;
 			trooper.inventory.addItems(ItemType.Bolter, 1);
 			trooper.inventory.addItems(ItemType.Bolter, ItemType.SmallArmsAmmo, 5);
-			trooper.inventory.addItems(ItemType.ClassAThermalDetonator, 1);
-			trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 2);
+			trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
+			trooper.inventory.addItems(ItemType.KrakGrenade, 2);
+			trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
 
 		} else {
 			throw new Exception("Invalid Astartes Input for input: "+input);
@@ -77,6 +79,9 @@ public class Astartes extends Faction {
 
 		trooper.inventory.setEncumberance();
 
+		trooper.meleeCombatSkillLevel = 8;
+		trooper.meleeWep = "Vibroknife";
+		
 		if (trooper.encumberance < 0) {
 			trooper.encumberance = 5;
 		}
@@ -135,7 +140,10 @@ public class Astartes extends Faction {
 	public void createSquad(String squad, ArrayList<Trooper> individuals) throws Exception {
 
 		if(squad.equals("Rifle Team")) {
-			individuals.add(new Trooper("Astartes", factionName));
+			var t = new Trooper("Astartes", factionName);
+			t.leaderType = LeaderType.SL;
+			
+			individuals.add(t);
 			individuals.add(new Trooper("Astartes", factionName));
 			individuals.add(new Trooper("Astartes", factionName));
 			individuals.add(new Trooper("Astartes", factionName));

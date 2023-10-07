@@ -1493,7 +1493,7 @@ public class Trooper implements Serializable {
 		this.entirelyMechanical = true;
 		nightVision = true;
 		nightVisionEffectiveness = 2;
-
+		meleeCombatSkillLevel = 2;
 		// B1 Sergeant
 		if (input.equals("B1 Squad Leader")) {
 			// Sets name
@@ -2030,6 +2030,8 @@ public class Trooper implements Serializable {
 
 		inventory.setEncumberance();
 
+		meleeCombatSkillLevel = 4;
+		
 		// Creates skills
 		// Stores attributes in an array for the skill attr parameter
 		int attr[] = { str, wit, soc, wil, per, hlt, agi };
