@@ -61,10 +61,10 @@ public class Astartes extends Faction {
 
 			trooper.rank = "Sergeant";
 			trooper.designation = "Squad Leader";
-			trooper.wep = "DC15A";
-			trooper.ammo = 150;
-			trooper.inventory.addItems(ItemType.DC15A, 1);
-			trooper.inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
+			trooper.wep = "Bolter";
+			trooper.ammo = 120;
+			trooper.inventory.addItems(ItemType.Bolter, 1);
+			trooper.inventory.addItems(ItemType.Bolter, ItemType.SmallArmsAmmo, 5);
 			trooper.inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 			trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 2);
 

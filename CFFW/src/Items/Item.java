@@ -41,6 +41,9 @@ public class Item implements Serializable {
 		
 		M870,
 		
+		Bolter,
+		
+		
 		GoblinJavelin,ShortBow,
 		
 		GhillieSuit,
@@ -79,6 +82,8 @@ public class Item implements Serializable {
 				new Item(ItemType.E5C),
 				new Item(ItemType.B2RR),
 				new Item(ItemType.M870),
+				
+				new Item(ItemType.Bolter),
 				
 				new Item(ItemType.GoblinJavelin),
 				new Item(ItemType.ShortBow),
@@ -219,6 +224,12 @@ public class Item implements Serializable {
 				&& ItemType.SmallArmsAmmo == ammoType) {
 			ammo = new PCAmmo("Buckshot", 7);
 			itemWeight = 1;
+		}
+		
+		else if((ItemType.Bolter == weaponType) 
+				&& ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("Bolts", 20);
+			itemWeight = 4;
 		}
 		
 		else if((ItemType.GoblinJavelin == weaponType) 
@@ -399,6 +410,11 @@ public class Item implements Serializable {
 		else if(ItemType.M870 == itemType) {
 			weapon = new Weapons().findWeapon("M870");
 			itemWeight = 9; 
+		} 
+		
+		else if(ItemType.Bolter == itemType) {
+			weapon = new Weapons().findWeapon("Bolter");
+			itemWeight = 40; 
 		} 
 		
 		else if(ItemType.GoblinJavelin == itemType) {
