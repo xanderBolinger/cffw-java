@@ -43,6 +43,8 @@ public class Item implements Serializable {
 		
 		MkvbBolter,MkivHeavyBolter,
 		
+		m36Lasgun,
+		
 		KrakGrenade,AstartesFragGrenade,
 		
 		GoblinJavelin,ShortBow,
@@ -86,6 +88,7 @@ public class Item implements Serializable {
 				
 				new Item(ItemType.MkvbBolter),
 				new Item(ItemType.MkivHeavyBolter),
+				new Item(ItemType.m36Lasgun),
 				new Item(ItemType.AstartesFragGrenade),
 				new Item(ItemType.KrakGrenade),
 				
@@ -240,6 +243,12 @@ public class Item implements Serializable {
 				&& ItemType.SmallArmsAmmo == ammoType) {
 			ammo = new PCAmmo("Bolts", 200);
 			itemWeight = 40;
+		}
+		
+		else if((ItemType.m36Lasgun == weaponType) 
+				&& ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("Charge", 150);
+			itemWeight = 4;
 		}
 		
 		else if((ItemType.GoblinJavelin == weaponType) 
