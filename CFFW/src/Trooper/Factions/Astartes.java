@@ -30,6 +30,8 @@ public class Astartes extends Faction {
 		comboBox.removeAllItems();
 		comboBox.addItem("Empty");
 		comboBox.addItem("Astartes");
+		comboBox.addItem("Astartes Sergeant");
+		comboBox.addItem("Astartes Standard");
 		comboBox.addItem("Astartes Heavy Bolter");
 		comboBox.addItem("Astartes Missile Launcher");
 	}
@@ -56,12 +58,19 @@ public class Astartes extends Faction {
 		trooper.hlt = attributes.hlt;
 		trooper.agi = attributes.agi;
 		
+		trooper.meleeCombatSkillLevel = 8;
+		trooper.meleeWep = "Vibroknife";
+		
 		if (input.equals("Astartes")) {
 			Rifleman(trooper);
 		} else if (input.equals("Astartes Heavy Bolter")) {
 			HeavyBolter(trooper);
 		} else if(input.equals("Astartes Missile Launcher")) {
 			MissileLauncher(trooper);
+		} else if(input.equals("Astartes Sergeant")) {
+			Sergeant(trooper);
+		} else if(input.equals("Astartes Standard")) {
+			Sergeant(trooper);
 		} else {
 			throw new Exception("Invalid Astartes Input for input: "+input);
 		}
@@ -70,8 +79,6 @@ public class Astartes extends Faction {
 
 		trooper.inventory.setEncumberance();
 
-		trooper.meleeCombatSkillLevel = 8;
-		trooper.meleeWep = "Vibroknife";
 		
 		if (trooper.encumberance < 0) {
 			trooper.encumberance = 5;
@@ -100,6 +107,32 @@ public class Astartes extends Faction {
 		trooper.identifier = trooper.identifier();
 	}
 	
+	public void Standard(Trooper trooper) throws Exception {
+		trooper.rank = "Marine";
+		trooper.designation = "Astartes Standard";
+		trooper.wep = "MKVb Bolter";
+		trooper.ammo = 120;
+		trooper.inventory.addItems(ItemType.MkvbBolter, 1);
+		trooper.inventory.addItems(ItemType.MkvbBolter, ItemType.SmallArmsAmmo, 5);
+		trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
+		trooper.inventory.addItems(ItemType.KrakGrenade, 2);
+		trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
+		trooper.inventory.addItems(ItemType.AstartesStandard, 1);
+	}
+	
+	public void Sergeant(Trooper trooper) throws Exception {
+		trooper.rank = "Marine";
+		trooper.designation = "Astartes Sergeant";
+		trooper.wep = "MKIII Ultima Pattern";
+		trooper.ammo = 120;
+		trooper.inventory.addItems(ItemType.MKIIIUltimaPattern, 1);
+		trooper.inventory.addItems(ItemType.MKIIIUltimaPattern, ItemType.SmallArmsAmmo, 5);
+		trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
+		trooper.inventory.addItems(ItemType.KrakGrenade, 2);
+		trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
+		trooper.meleeWep = "Chain Sword";
+	}
+	
 	public void Rifleman(Trooper trooper) throws Exception {
 		trooper.rank = "Marine";
 		trooper.designation = "Astartes";
@@ -114,7 +147,7 @@ public class Astartes extends Faction {
 	
 	public void HeavyBolter(Trooper trooper) throws Exception {
 		trooper.rank = "Marine";
-		trooper.designation = "Astartes";
+		trooper.designation = "Astartes Heavy Bolter";
 		trooper.wep = "MKIV Heavy Bolter";
 		trooper.ammo = 200;
 		trooper.inventory.addItems(ItemType.MkivHeavyBolter, 1);
@@ -126,8 +159,8 @@ public class Astartes extends Faction {
 
 	public void MissileLauncher(Trooper trooper) throws Exception {
 		trooper.rank = "Marine";
-		trooper.designation = "Astartes";
-		trooper.wep = "MKIV Heavy Bolter";
+		trooper.designation = "Astartes Missile Launcher";
+		trooper.wep = "MKVb Bolter";
 		trooper.ammo = 80;
 		trooper.inventory.addItems(ItemType.MkvbBolter, 1);
 		trooper.inventory.addItems(ItemType.MkvbBolter, ItemType.SmallArmsAmmo, 3);

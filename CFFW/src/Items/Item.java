@@ -29,7 +29,9 @@ public class Item implements Serializable {
 	public enum ItemType {
 		NONE, ClassAThermalDetonator, Nacht5SmokeGrenade,
 
-		DC15A, DC20, M5, DC15X, Z6, DC17M, DC17MRocket, DC17MSniper, DC40, RPS6, HEAT, HE, ION, SMOKE, SmallArmsAmmo,
+		DC15A, DC20, M5, DC15X, Z6, DC17M, DC17MRocket, DC17MSniper, DC40, RPS6,
+		
+		HEAT, HE, ION, SMOKE, SmallArmsAmmo,
 		Frag, Krak,
 
 		SoundStrikePattern,
@@ -44,11 +46,13 @@ public class Item implements Serializable {
 
 		M870,
 
-		MkvbBolter, MkivHeavyBolter,
+		MkvbBolter, MkivHeavyBolter,MKIIIUltimaPattern,
 
 		m36Lasgun,
 
 		KrakGrenade, AstartesFragGrenade,
+		
+		AstartesStandard,
 
 		GoblinJavelin, ShortBow,
 
@@ -70,8 +74,11 @@ public class Item implements Serializable {
 				new Item(ItemType.E5S), new Item(ItemType.E5C), new Item(ItemType.B2RR), new Item(ItemType.M870),
 
 				new Item(ItemType.MkvbBolter), new Item(ItemType.MkivHeavyBolter), new Item(ItemType.m36Lasgun),
+				new Item(ItemType.MKIIIUltimaPattern),
 				new Item(ItemType.AstartesFragGrenade), new Item(ItemType.KrakGrenade),
 
+				new Item(ItemType.AstartesStandard),
+				
 				new Item(ItemType.SoundStrikePattern), new Item(ItemType.SoundStrikePattern, ItemType.Krak),
 				new Item(ItemType.SoundStrikePattern, ItemType.Frag),
 
@@ -186,6 +193,11 @@ public class Item implements Serializable {
 		else if ((ItemType.MkivHeavyBolter == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
 			ammo = new PCAmmo("Bolts", 200);
 			itemWeight = 40;
+		}
+		
+		else if ((ItemType.MKIIIUltimaPattern == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("Bolts", 20);
+			itemWeight = 2;
 		}
 
 		else if ((ItemType.m36Lasgun == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
@@ -390,10 +402,19 @@ public class Item implements Serializable {
 			weapon = new Weapons().findWeapon("MKIV Heavy Bolter");
 			itemWeight = 150;
 		}
+		
+		else if (ItemType.AstartesStandard == itemType) {
+			itemWeight = 5;
+		}
 
 		else if (ItemType.m36Lasgun == itemType) {
 			weapon = new Weapons().findWeapon("M36 Lasgun");
 			itemWeight = 9;
+		}
+		
+		else if (ItemType.MKIIIUltimaPattern == itemType) {
+			weapon = new Weapons().findWeapon("MKIII Ultima Pattern");
+			itemWeight = 7;
 		}
 		
 		else if (ItemType.SoundStrikePattern == itemType) {

@@ -22,6 +22,9 @@ public class HumanWarhammerWeapons {
 		// Launchers 
 		SoundStrikePattern();
 		
+		// Pistol 
+		BoltPistol();
+		
 		// Grenade
 		FragGrenade();
 		KrakGrenade();
@@ -30,6 +33,93 @@ public class HumanWarhammerWeapons {
 		ChainSword();
 		PowerSword();
 		
+	}
+
+	public void Flamer() {
+		
+	}
+
+	public void MeltaGun() {
+		
+	}
+	
+	public void PlasmaGun() {
+		
+	}
+	
+	public void PlasmaPistol() {
+		
+	}
+	
+	public void BoltPistol() {
+		Weapons weapon = new Weapons();
+		weapon.name = "MKIII Ultima Pattern";
+		weapon.type = "Pistol";
+		weapon.fullAutoROF = 3;
+		weapon.light = true;
+		weapon.laser = true;
+		weapon.irLaser = true;
+
+		// Aim time
+		weapon.aimTime.add(-15);
+		weapon.aimTime.add(-11);
+		weapon.aimTime.add(-10);
+		weapon.aimTime.add(-9);
+		weapon.aimTime.add(-8);
+		weapon.aimTime.add(-7);
+
+		// 10 20 40 70 100 200 300 400
+		// PEN
+		weapon.pen.add(66);
+		weapon.pen.add(57);
+		weapon.pen.add(54);
+		weapon.pen.add(46);
+		weapon.pen.add(41);
+		weapon.pen.add(38);
+		weapon.pen.add(35);
+		weapon.pen.add(32);
+		// DC
+		weapon.dc.add(10);
+		weapon.dc.add(9);
+		weapon.dc.add(9);
+		weapon.dc.add(8);
+		weapon.dc.add(8);
+		weapon.dc.add(7);
+		weapon.dc.add(7);
+		weapon.dc.add(6);
+		
+		weapon.ba.add(43);
+		weapon.ba.add(37);
+		weapon.ba.add(33);
+		weapon.ba.add(28);
+		weapon.ba.add(23);
+		weapon.ba.add(19);
+		weapon.ba.add(15);
+		weapon.ba.add(9);
+
+		// Ce stats
+		weapon.ceStats.baseErgonomics = 50;
+		
+		String name = "Linked";
+		ArrayList<Integer> pen = new ArrayList<Integer>();
+		pen.add(66);
+
+		ArrayList<Integer> dc = new ArrayList<Integer>();
+		dc.add(10);
+
+		ArrayList<String> bshc = new ArrayList<String>();
+		bshc.add("0");
+
+
+		ArrayList<Integer> bc = new ArrayList<Integer>();
+		bc.add(60);
+
+
+		PCAmmo bolt = new PCAmmo(name, pen, dc, bshc, bc, 66, 10);
+		bolt.linked = true;
+		weapon.pcAmmoTypes.add(bolt);
+		
+		weapons.add(weapon);
 	}
 	
 	public void SoundStrikePattern() {
@@ -77,6 +167,7 @@ public class HumanWarhammerWeapons {
 		bc.add(7);
 
 		PCAmmo heat = new PCAmmo(name, pen, dc, bshc, bc, 7200, 10);
+		heat.linked = false;
 		weapon.pcAmmoTypes.add(heat);
 
 		name = "Frag";
@@ -113,6 +204,7 @@ public class HumanWarhammerWeapons {
 		bc.add(20);
 
 		PCAmmo he = new PCAmmo(name, pen, dc, bshc, bc, 8, 10);
+		he.linked = false;
 		weapon.pcAmmoTypes.add(he);
 
 		// Aim time
@@ -133,7 +225,7 @@ public class HumanWarhammerWeapons {
 		weapon.ba.add(1);
 
 		// Ce stats
-		weapon.ceStats.baseErgonomics = 50;
+		weapon.ceStats.baseErgonomics = 10;
 		weapons.add(weapon);
 	}
 

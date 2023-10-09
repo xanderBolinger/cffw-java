@@ -1758,7 +1758,7 @@ public class OpenTrooper implements Serializable {
 			}
 		});
 		comboBoxLauncher
-				.setModel(new DefaultComboBoxModel(new String[] { "None", "RPS-6", "DC40", "B2RR", "DC17 Rocket" }));
+				.setModel(new DefaultComboBoxModel(new String[] { "None", "RPS-6", "DC40", "B2RR", "DC17 Rocket", "Sound Strike Pattern" }));
 		comboBoxLauncher.setSelectedIndex(0);
 		panelActions.add(comboBoxLauncher);
 
