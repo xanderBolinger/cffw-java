@@ -17,21 +17,21 @@ public class Astartes extends Faction {
 
 	public Astartes() {
 		super(FactionType.Astartes, "Astartes");
-		
 	}
 	
 	public void squadInput(JComboBox dropDown) {
-		
 		dropDown.addItem("Rifle Team");
 		dropDown.addItem("Heavy Rifle Team");
+		dropDown.addItem("Launcher Rifle Team");
+		dropDown.addItem("Mixed Rifle Team");
 	}
 
 	public void individualInput(JComboBox comboBox) {
 		comboBox.removeAllItems();
 		comboBox.addItem("Empty");
-
 		comboBox.addItem("Astartes");
 		comboBox.addItem("Astartes Heavy Bolter");
+		comboBox.addItem("Astartes Missile Launcher");
 	}
 	
 	public void setTrooper(Trooper trooper, String input) throws Exception {
@@ -47,7 +47,6 @@ public class Astartes extends Faction {
 		trooper.nightVision = true;
 		trooper.nightVisionEffectiveness = 3;
 		
-		
 		TLHStats attributes = new TLHStats(11, 8, 0, 8, 8, 11, 8);
 		trooper.str = attributes.str;
 		trooper.wit = attributes.wit;
@@ -57,38 +56,16 @@ public class Astartes extends Faction {
 		trooper.hlt = attributes.hlt;
 		trooper.agi = attributes.agi;
 		
-		
-		if (input.equals("Astartes")) { // Squad Leader
-			// Creates attributes
-
-			trooper.rank = "Marine";
-			trooper.designation = "Astartes";
-			trooper.wep = "MKVb Bolter";
-			trooper.ammo = 120;
-			trooper.inventory.addItems(ItemType.MkvbBolter, 1);
-			trooper.inventory.addItems(ItemType.MkvbBolter, ItemType.SmallArmsAmmo, 5);
-			trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
-			trooper.inventory.addItems(ItemType.KrakGrenade, 2);
-			trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
-
-		} else if (input.equals("Astartes Heavy Bolter")) { // Squad Leader
-			// Creates attributes
-
-			trooper.rank = "Marine";
-			trooper.designation = "Astartes";
-			trooper.wep = "MKIV Heavy Bolter";
-			trooper.ammo = 200;
-			trooper.inventory.addItems(ItemType.MkivHeavyBolter, 1);
-			trooper.inventory.addItems(ItemType.MkivHeavyBolter, ItemType.SmallArmsAmmo, 1);
-			trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
-			trooper.inventory.addItems(ItemType.KrakGrenade, 2);
-			trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
-
+		if (input.equals("Astartes")) {
+			Rifleman(trooper);
+		} else if (input.equals("Astartes Heavy Bolter")) {
+			HeavyBolter(trooper);
+		} else if(input.equals("Astartes Missile Launcher")) {
+			MissileLauncher(trooper);
 		} else {
 			throw new Exception("Invalid Astartes Input for input: "+input);
 		}
 
-		// Pack mule
 		trooper.encumberanceModifier -= 200;
 
 		trooper.inventory.setEncumberance();
@@ -100,8 +77,6 @@ public class Astartes extends Faction {
 			trooper.encumberance = 5;
 		}
 
-		// According to the Jango Fett clone template special rule, sets the minimum
-		// health to ten
 		if (trooper.hlt < 18) {
 			trooper.hlt = 18;
 		}
@@ -112,26 +87,58 @@ public class Astartes extends Faction {
 		if (trooper.wit < 15)
 			trooper.wit = 15;
 
-		// Creates skills
-		// Stores attributes in an array for the skill attr parameter
 		trooper.skills = getAstartesSkills(trooper);
 		trooper.skills.setSkills();
 		
-		// Create and set individual stats
 		IndividualStats individual = new IndividualStats(trooper.combatActions, trooper.sal, trooper.skills.getSkill("Pistol").value,
 				trooper.skills.getSkill("Rifle").value, trooper.skills.getSkill("Launcher").value, trooper.skills.getSkill("Heavy").value,
 				trooper.skills.getSkill("Subgun").value, true);
-
-		
 		
 		trooper.name = generateAstartesName();
 		trooper.P1 = individual.P1;
 		trooper.P2 = individual.P2;
-		// Sets identifier
 		trooper.identifier = trooper.identifier();
-
+	}
+	
+	public void Rifleman(Trooper trooper) throws Exception {
+		trooper.rank = "Marine";
+		trooper.designation = "Astartes";
+		trooper.wep = "MKVb Bolter";
+		trooper.ammo = 120;
+		trooper.inventory.addItems(ItemType.MkvbBolter, 1);
+		trooper.inventory.addItems(ItemType.MkvbBolter, ItemType.SmallArmsAmmo, 5);
+		trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
+		trooper.inventory.addItems(ItemType.KrakGrenade, 2);
+		trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
+	}
+	
+	public void HeavyBolter(Trooper trooper) throws Exception {
+		trooper.rank = "Marine";
+		trooper.designation = "Astartes";
+		trooper.wep = "MKIV Heavy Bolter";
+		trooper.ammo = 200;
+		trooper.inventory.addItems(ItemType.MkivHeavyBolter, 1);
+		trooper.inventory.addItems(ItemType.MkivHeavyBolter, ItemType.SmallArmsAmmo, 1);
+		trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
+		trooper.inventory.addItems(ItemType.KrakGrenade, 2);
+		trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
 	}
 
+	public void MissileLauncher(Trooper trooper) throws Exception {
+		trooper.rank = "Marine";
+		trooper.designation = "Astartes";
+		trooper.wep = "MKIV Heavy Bolter";
+		trooper.ammo = 80;
+		trooper.inventory.addItems(ItemType.MkvbBolter, 1);
+		trooper.inventory.addItems(ItemType.MkvbBolter, ItemType.SmallArmsAmmo, 3);
+		trooper.inventory.addItems(ItemType.SoundStrikePattern, 1);
+		trooper.inventory.addItems(ItemType.SoundStrikePattern, ItemType.Krak, 2);
+		trooper.inventory.addItems(ItemType.SoundStrikePattern, ItemType.Frag, 2);
+		trooper.inventory.addItems(ItemType.AstartesFragGrenade, 1);
+		trooper.inventory.addItems(ItemType.KrakGrenade, 1);
+		trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
+	}
+	
 	public Skills getAstartesSkills(Trooper trooper) {
 		int attr[] = { trooper.str, trooper.wit, trooper.soc, trooper.wil, 
 				trooper.per, 
@@ -156,7 +163,6 @@ public class Astartes extends Faction {
 		if(squad.equals("Rifle Team")) {
 			var t = new Trooper("Astartes", factionName);
 			t.leaderType = LeaderType.SL;
-			
 			individuals.add(t);
 			individuals.add(new Trooper("Astartes", factionName));
 			individuals.add(new Trooper("Astartes", factionName));
@@ -164,14 +170,26 @@ public class Astartes extends Faction {
 		} else if(squad.equals("Heavy Rifle Team")) {
 			var t = new Trooper("Astartes", factionName);
 			t.leaderType = LeaderType.SL;
-			
 			individuals.add(t);
 			individuals.add(new Trooper("Astartes", factionName));
 			individuals.add(new Trooper("Astartes", factionName));
 			individuals.add(new Trooper("Astartes Heavy Bolter", factionName));
+		} else if(squad.equals("Mixed Rifle Team")) {
+			var t = new Trooper("Astartes", factionName);
+			t.leaderType = LeaderType.SL;
+			individuals.add(t);
+			individuals.add(new Trooper("Astartes", factionName));
+			individuals.add(new Trooper("Astartes Missile Launcher", factionName));
+			individuals.add(new Trooper("Astartes Heavy Bolter", factionName));
+		} else if(squad.equals("Launcher Rifle Team")) {
+			var t = new Trooper("Astartes", factionName);
+			t.leaderType = LeaderType.SL;
+			individuals.add(t);
+			individuals.add(new Trooper("Astartes", factionName));
+			individuals.add(new Trooper("Astartes Missile Launcher", factionName));
+			individuals.add(new Trooper("Astartes Missile Launcher", factionName));
 		}
 		
 	}
-	
 	
 }
