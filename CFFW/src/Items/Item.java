@@ -451,6 +451,11 @@ public class Item implements Serializable {
 			itemWeight = 150; 
 		} 
 		
+		else if(ItemType.m36Lasgun == itemType) {
+			weapon = new Weapons().findWeapon("M36 Lasgun");
+			itemWeight = 9; 
+		}
+		
 		else if(ItemType.GoblinJavelin == itemType) {
 			weapon = new Weapons().findWeapon("Goblin Javelin");
 			itemWeight = 0; 

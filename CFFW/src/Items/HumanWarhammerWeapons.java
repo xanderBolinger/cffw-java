@@ -19,6 +19,9 @@ public class HumanWarhammerWeapons {
 		// Lasguns
 		m36Lasgun();
 		
+		// Launchers 
+		SoundStrikePattern();
+		
 		// Grenade
 		FragGrenade();
 		KrakGrenade();
@@ -27,6 +30,111 @@ public class HumanWarhammerWeapons {
 		ChainSword();
 		PowerSword();
 		
+	}
+	
+	public void SoundStrikePattern() {
+		Weapons weapon = new Weapons();
+		weapon.name = "Sound Strike Pattern";
+		weapon.type = "Launcher";
+		weapon.launcherHomingInfantry = true;
+		weapon.launcherHomingVehicle = true;
+		weapon.homingHitChance = 75;
+		weapon.suppressiveROF = 1;
+
+		weapon.energyWeapon = false;
+
+		String name = "Krak";
+		ArrayList<Integer> pen = new ArrayList<Integer>();
+		pen.add(9);
+		pen.add(9);
+		pen.add(8);
+		pen.add(8);
+		pen.add(7);
+		pen.add(7);
+
+		ArrayList<Integer> dc = new ArrayList<Integer>();
+		dc.add(9);
+		dc.add(9);
+		dc.add(9);
+		dc.add(9);
+		dc.add(9);
+		dc.add(8);
+
+		ArrayList<String> bshc = new ArrayList<String>();
+		bshc.add("34");
+		bshc.add("12");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+
+		ArrayList<Integer> bc = new ArrayList<Integer>();
+		bc.add(2000);
+		bc.add(393);
+		bc.add(105);
+		bc.add(52);
+		bc.add(22);
+		bc.add(7);
+
+		PCAmmo heat = new PCAmmo(name, pen, dc, bshc, bc, 7200, 10);
+		weapon.pcAmmoTypes.add(heat);
+
+		name = "Frag";
+		pen = new ArrayList<Integer>();
+		pen.add(6);
+		pen.add(5);
+		pen.add(5);
+		pen.add(5);
+		pen.add(4);
+		pen.add(3);
+
+		dc = new ArrayList<Integer>();
+		dc.add(8);
+		dc.add(8);
+		dc.add(4);
+		dc.add(4);
+		dc.add(2);
+		dc.add(2);
+
+		bshc = new ArrayList<String>();
+		bshc.add("*23");
+		bshc.add("*6");
+		bshc.add("*1");
+		bshc.add("64");
+		bshc.add("22");
+		bshc.add("0");
+
+		bc = new ArrayList<Integer>();
+		bc.add(2400);
+		bc.add(414);
+		bc.add(114);
+		bc.add(85);
+		bc.add(60);
+		bc.add(20);
+
+		PCAmmo he = new PCAmmo(name, pen, dc, bshc, bc, 8, 10);
+		weapon.pcAmmoTypes.add(he);
+
+		// Aim time
+		weapon.aimTime.add(-27);
+		weapon.aimTime.add(-17);
+		weapon.aimTime.add(-10);
+		weapon.aimTime.add(-8);
+		weapon.aimTime.add(-5);
+		weapon.aimTime.add(-3);
+		weapon.aimTime.add(-2);
+		weapon.aimTime.add(-1);
+		weapon.aimTime.add(0);
+		weapon.aimTime.add(1);
+
+		weapon.ba.add(23);
+		weapon.ba.add(10);
+		weapon.ba.add(1);
+		weapon.ba.add(1);
+
+		// Ce stats
+		weapon.ceStats.baseErgonomics = 50;
+		weapons.add(weapon);
 	}
 
 	public void KrakGrenade() {
