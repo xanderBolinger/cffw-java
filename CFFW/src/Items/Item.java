@@ -26,7 +26,7 @@ public class Item implements Serializable {
 	public boolean nightVision;
 	public int nightVisionEffectiveness;
 
-	public enum ItemType {
+	public enum ItemType implements Serializable {
 		NONE, ClassAThermalDetonator, Nacht5SmokeGrenade,
 
 		DC15A, DC20, M5, DC15X, Z6, DC17M, DC17MRocket, DC17MSniper, DC40, RPS6,
@@ -211,7 +211,8 @@ public class Item implements Serializable {
 		}
 		
 		else if ((ItemType.AstartesFlamer == weaponType) && ItemType.FlameCharge == ammoType) {
-			//ammo = new PCAmmo("Charge", 1);
+			ammo = new PCAmmo("Charge");
+			ammo.linked = false;
 			itemWeight = 0.2;
 		}
 
@@ -418,6 +419,7 @@ public class Item implements Serializable {
 		}
 		
 		else if (ItemType.AstartesFlamer == itemType) {
+			weapon = new Weapons().findWeapon("Astartes Flamer");
 			itemWeight = 40;
 		}
 

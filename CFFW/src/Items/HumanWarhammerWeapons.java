@@ -1,5 +1,6 @@
 package Items;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import Conflict.SmokeStats.SmokeType;
@@ -7,7 +8,7 @@ import Items.FlameThrower.FlameThrowerType;
 import Melee.Gear.MeleeWeapon;
 import Melee.Gear.MeleeWeaponData.MeleeWeaponType;
 
-public class HumanWarhammerWeapons {
+public class HumanWarhammerWeapons  implements Serializable {
 
 	public ArrayList<Weapons> weapons = new ArrayList<>();
 
@@ -43,6 +44,9 @@ public class HumanWarhammerWeapons {
 		weapon.name = "Astartes Flamer";
 		weapon.type = "Launcher";
 		weapon.flameThrower = new FlameThrower(FlameThrowerType.AstartesFlamer);
+		var ammo = new PCAmmo("Charge");
+		ammo.linked = false;
+		weapon.pcAmmoTypes.add(ammo);
 		
 		weapons.add(weapon);
 	}

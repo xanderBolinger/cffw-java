@@ -227,8 +227,11 @@ public class Shoot {
 	}
 	
 	public void suppressiveFire(int shots) {
-		if(wep.flameThrower != null) {
+		if(wep.flameThrower != null && shooter.inventory.launcherAmmoCheck(wep, pcAmmo, 1)) {
 			FlameThrowerCalculator.FlameHex(targetUnit.X, targetUnit.Y, wep.flameThrower, 1);
+			return;
+		} else if(wep.flameThrower != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, 1)) {
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Flamer out of ammo");
 			return;
 		}
 		
@@ -626,9 +629,12 @@ public class Shoot {
 	}
 
 	public void setAimBonus() {
-		if(aimTime >= wep.aimTime.size() )
+		if(aimTime >= wep.aimTime.size())
 			aimTime = wep.aimTime.size() - 1;
-		
+		if(aimTime == -1) {
+			aimALM = 0;
+			return;
+		}
 		aimALM = wep.aimTime.get(aimTime) + shooter.sl;
 		System.out.println("AimALM: "+aimALM+", aim time: "+aimTime);
 	}

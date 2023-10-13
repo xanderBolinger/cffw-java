@@ -22,6 +22,7 @@ import JUnitTests.AllTests;
 import JUnitTests.InventoryTest;
 import Shoot.Shoot;
 import Trooper.Factions.FactionManager;
+import UtilityClasses.DiceRoller;
 import UtilityClasses.TestUtility;
 
 import javax.swing.JButton;
@@ -71,14 +72,12 @@ public class Main {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		
 		JUnitCore junit = new JUnitCore();
 		junit.addListener(new TextListener(System.out));
 		Result result = junit.run(AllTests.class);
 		resultReport(result);
 		Shoot.count = 0;
 		new SetupWindow();
-		
 		FactionManager.initalizeFactions();
 	}
 

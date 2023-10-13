@@ -1,5 +1,6 @@
 package Items;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
@@ -7,7 +8,7 @@ import Hexes.Hex;
 import Injuries.Injuries;
 import Trooper.Trooper;
 
-public class FlameThrower {
+public class FlameThrower implements Serializable {
 
 	public int contact;
 	public int inHex;
@@ -16,7 +17,7 @@ public class FlameThrower {
 	public FlameThrowerType flamerType;
 	
 	
-	public enum FlameThrowerType {
+	public enum FlameThrowerType implements Serializable {
 		AstartesFlamer
 	}
 	
