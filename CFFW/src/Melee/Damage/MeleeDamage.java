@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.apache.commons.math3.util.Pair;
 
 import Conflict.GameWindow;
+import Conflict.InjuryLog;
 import Injuries.Injuries;
 import Items.Weapons;
 import Melee.Combatant;
@@ -84,6 +85,7 @@ public class MeleeDamage implements Serializable {
 
 		Injuries injury = new Injuries(hitRslts.getFirst().bloodLossPD+hitRslts.getSecond().physicalDamage, 
 				hitRslts.getSecond().hitLocationName,hitRslts.getSecond().disabled, meleeWeaponStats);
+		
 		injury.shockPd = hitRslts.getFirst().shockPD;
 		
 		target.shock += hitRslts.getFirst().shockPD/20;
@@ -96,6 +98,8 @@ public class MeleeDamage implements Serializable {
 			System.err.println("Gamewindow is null for adding melee injury");
 		}
 		
+		if(InjuryLog.InjuryLog != null)
+			InjuryLog.InjuryLog.addTrooper(target.trooper);
 	}
 
 	public static int getDamageLevel(Combatant target, int damagePoints) {
