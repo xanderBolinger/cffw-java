@@ -50,6 +50,7 @@ public class Armor implements Serializable {
 	
 	public enum ArmorType {
 		NONE,PHASEONE,PHASEONEARC,KATARN,B1,B2,COMMANDODROID,MAGMAGUARD,DURASTEELMEDIUMMANDO,DURASTEELHELEMT,DURASTEELVEST, UNSCMARINE,ODST,GRUNT,ELITE,JACKAL
+		,MKVIII_Errant
 	}
 	
 	public Armor(ArmorType type) {
@@ -92,6 +93,8 @@ public class Armor implements Serializable {
 			jackal();
 		} else if(type == ArmorType.ELITE){
 			eliteMinor();
+		} else if(type == ArmorType.MKVIII_Errant){
+			mkviiiErrant();
 		} else {
 			armorName = "None";
 			type = ArmorType.NONE;
@@ -99,6 +102,19 @@ public class Armor implements Serializable {
 		
 	}
 	
+	public void mkviiiErrant() {
+		if(MeleeArmor.meleeArmorPieces == null)
+			new MeleeArmorData();
+		this.bPF = 45; 
+		armorName = "MKVIII Errant Armor";
+		type = ArmorType.MKVIII_Errant;
+		
+		try {
+			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.CeramiteTacticalMarine));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void Phase1CloneArmor() {
 		if(MeleeArmor.meleeArmorPieces == null)

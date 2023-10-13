@@ -20,6 +20,7 @@ public class Astartes extends Faction {
 	}
 	
 	public void squadInput(JComboBox dropDown) {
+		dropDown.addItem("Command Team");
 		dropDown.addItem("Rifle Team");
 		dropDown.addItem("Heavy Rifle Team");
 		dropDown.addItem("Launcher Rifle Team");
@@ -44,7 +45,7 @@ public class Astartes extends Faction {
 		trooper.disabledArms = 0;
 		trooper.disabledLegs = 0;
 		trooper.CloseCombat = false;
-		trooper.armor.Phase1CloneArmor();
+		trooper.armor.mkviiiErrant();
 		trooper.criticalTime = 0;
 		trooper.nightVision = true;
 		trooper.nightVisionEffectiveness = 3;
@@ -70,7 +71,7 @@ public class Astartes extends Faction {
 		} else if(input.equals("Astartes Sergeant")) {
 			Sergeant(trooper);
 		} else if(input.equals("Astartes Standard")) {
-			Sergeant(trooper);
+			Standard(trooper);
 		} else {
 			throw new Exception("Invalid Astartes Input for input: "+input);
 		}
@@ -193,7 +194,14 @@ public class Astartes extends Faction {
 
 	public void createSquad(String squad, ArrayList<Trooper> individuals) throws Exception {
 
-		if(squad.equals("Rifle Team")) {
+		if(squad.equals("Command Team")) {
+			var t = new Trooper("Astartes Sergeant", factionName);
+			t.leaderType = LeaderType.SL;
+			individuals.add(t);
+			individuals.add(new Trooper("Astartes Standard", factionName));
+			individuals.add(new Trooper("Astartes", factionName));
+			individuals.add(new Trooper("Astartes", factionName));
+		} else if(squad.equals("Rifle Team")) {
 			var t = new Trooper("Astartes", factionName);
 			t.leaderType = LeaderType.SL;
 			individuals.add(t);
