@@ -1098,4 +1098,14 @@ public class Armor implements Serializable {
 		
 	}
 	
+	public int percentUncovered() {
+		
+		int val = 0;
+		
+		for(var location : excludedZonesOpen) 
+			val += Math.abs(location.get(0) - location.get(1)) + 1;
+		
+		return val;
+	}
+	
 }

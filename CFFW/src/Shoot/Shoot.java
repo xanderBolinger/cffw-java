@@ -22,6 +22,7 @@ import CorditeExpansion.FullAuto.FullAutoResults;
 import HexGrid.CalculateLOS;
 import Injuries.Explosion;
 import Injuries.ResolveHits;
+import Items.FlameThrowerCalculator;
 import Items.Item;
 import Items.PCAmmo;
 import Items.Weapons;
@@ -143,6 +144,9 @@ public class Shoot {
 	}
 
 	public void shot(boolean homing) {
+		if(wep.flameThrower != null)
+			return;
+		
 		if(pcAmmo != null && pcAmmo.shots != -1 && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, 1)) {
 			shotResults = "Not enough ammunition.";
 			outOfAmmo = true;
@@ -181,6 +185,8 @@ public class Shoot {
 	}
 	
 	public void burst() {
+		if(wep.flameThrower != null)
+			return;
 		if(pcAmmo != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, wep.fullAutoROF)) {
 			shotResults = "Not enough ammunition.";
 			return;
@@ -221,6 +227,10 @@ public class Shoot {
 	}
 	
 	public void suppressiveFire(int shots) {
+		if(wep.flameThrower != null) {
+			FlameThrowerCalculator.FlameHex(targetUnit.X, targetUnit.Y, wep.flameThrower, 1);
+			return;
+		}
 		
 		System.out.println("Shoot suppressive");
 		

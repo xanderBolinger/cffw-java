@@ -200,4 +200,14 @@ public class PersonalShield implements Serializable {
 		}
 	}
 	
+	public int percentUncovered() {
+		
+		int val = 0;
+		
+		for(var location : protectedZonesOpen) 
+			val += Math.abs(location.get(0) - location.get(1)) + 1;
+		
+		return 100 - val;
+	}
+	
 }

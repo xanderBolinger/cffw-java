@@ -31,7 +31,7 @@ public class Item implements Serializable {
 
 		DC15A, DC20, M5, DC15X, Z6, DC17M, DC17MRocket, DC17MSniper, DC40, RPS6,
 		
-		HEAT, HE, ION, SMOKE, SmallArmsAmmo,
+		HEAT, HE, ION, SMOKE, SmallArmsAmmo,FlameCharge,
 		Frag, Krak,
 
 		SoundStrikePattern,
@@ -47,6 +47,8 @@ public class Item implements Serializable {
 		M870,
 
 		MkvbBolter, MkivHeavyBolter,MKIIIUltimaPattern,
+		
+		AstartesFlamer,
 
 		m36Lasgun,
 
@@ -78,6 +80,9 @@ public class Item implements Serializable {
 				new Item(ItemType.AstartesFragGrenade), new Item(ItemType.KrakGrenade),
 
 				new Item(ItemType.AstartesStandard),
+				
+				new Item(ItemType.AstartesFlamer),
+				new Item(ItemType.AstartesFlamer, ItemType.FlameCharge),
 				
 				new Item(ItemType.SoundStrikePattern), new Item(ItemType.SoundStrikePattern, ItemType.Krak),
 				new Item(ItemType.SoundStrikePattern, ItemType.Frag),
@@ -203,6 +208,11 @@ public class Item implements Serializable {
 		else if ((ItemType.m36Lasgun == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
 			ammo = new PCAmmo("Charge", 150);
 			itemWeight = 4;
+		}
+		
+		else if ((ItemType.AstartesFlamer == weaponType) && ItemType.FlameCharge == ammoType) {
+			//ammo = new PCAmmo("Charge", 1);
+			itemWeight = 0.2;
 		}
 
 		else if (ItemType.SoundStrikePattern == weaponType && ItemType.Krak == ammoType) {
@@ -405,6 +415,10 @@ public class Item implements Serializable {
 		
 		else if (ItemType.AstartesStandard == itemType) {
 			itemWeight = 5;
+		}
+		
+		else if (ItemType.AstartesFlamer == itemType) {
+			itemWeight = 40;
 		}
 
 		else if (ItemType.m36Lasgun == itemType) {

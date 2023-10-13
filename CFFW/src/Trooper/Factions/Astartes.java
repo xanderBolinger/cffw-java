@@ -35,6 +35,7 @@ public class Astartes extends Faction {
 		comboBox.addItem("Astartes Standard");
 		comboBox.addItem("Astartes Heavy Bolter");
 		comboBox.addItem("Astartes Missile Launcher");
+		comboBox.addItem("Astartes Flame Trooper");
 	}
 	
 	public void setTrooper(Trooper trooper, String input) throws Exception {
@@ -72,6 +73,8 @@ public class Astartes extends Faction {
 			Sergeant(trooper);
 		} else if(input.equals("Astartes Standard")) {
 			Standard(trooper);
+		} else if(input.equals("Astartes Flame Trooper")) {
+			Flamer(trooper);
 		} else {
 			throw new Exception("Invalid Astartes Input for input: "+input);
 		}
@@ -168,6 +171,18 @@ public class Astartes extends Faction {
 		trooper.inventory.addItems(ItemType.SoundStrikePattern, 1);
 		trooper.inventory.addItems(ItemType.SoundStrikePattern, ItemType.Krak, 2);
 		trooper.inventory.addItems(ItemType.SoundStrikePattern, ItemType.Frag, 2);
+		trooper.inventory.addItems(ItemType.AstartesFragGrenade, 1);
+		trooper.inventory.addItems(ItemType.KrakGrenade, 1);
+		trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
+	}
+	
+	public void Flamer(Trooper trooper) throws Exception {
+		trooper.rank = "Marine";
+		trooper.designation = "Astartes Flame Trooper";
+		trooper.wep = "Astartes Flamer";
+		trooper.ammo = 40;
+		trooper.inventory.addItems(ItemType.AstartesFlamer, 1);
+		trooper.inventory.addItems(ItemType.AstartesFlamer, ItemType.FlameCharge, 40);
 		trooper.inventory.addItems(ItemType.AstartesFragGrenade, 1);
 		trooper.inventory.addItems(ItemType.KrakGrenade, 1);
 		trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);

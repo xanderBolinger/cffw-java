@@ -3,6 +3,7 @@ package Items;
 import java.util.ArrayList;
 
 import Conflict.SmokeStats.SmokeType;
+import Items.FlameThrower.FlameThrowerType;
 import Melee.Gear.MeleeWeapon;
 import Melee.Gear.MeleeWeaponData.MeleeWeaponType;
 
@@ -25,6 +26,8 @@ public class HumanWarhammerWeapons {
 		// Pistol 
 		BoltPistol();
 		
+		Flamer();
+		
 		// Grenade
 		FragGrenade();
 		KrakGrenade();
@@ -36,7 +39,12 @@ public class HumanWarhammerWeapons {
 	}
 
 	public void Flamer() {
+		Weapons weapon = new Weapons();
+		weapon.name = "Astartes Flamer";
+		weapon.type = "Launcher";
+		weapon.flameThrower = new FlameThrower(FlameThrowerType.AstartesFlamer);
 		
+		weapons.add(weapon);
 	}
 
 	public void MeltaGun() {

@@ -27,6 +27,7 @@ public class Weapons implements Serializable {
 	public int sab;
 	public int fullAutoROF;
 	public String type;
+	public FlameThrower flameThrower;
 	public ArrayList<Trooper> equipedTroopers;
 	public ArrayList<Ammo> ammoTypes;
 	public ArrayList<PCAmmo> pcAmmoTypes = new ArrayList<PCAmmo>();
