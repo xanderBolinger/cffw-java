@@ -1118,11 +1118,6 @@ public class ResolveHits implements Serializable {
 				log.addNewLineToQueue("No damage, DC and/or PEN less than 0");
 
 			}
-
-			if(weapon.pcAmmoTypes.size() > 0) {
-				var exp = new Explosion(weapon.pcAmmoTypes.get(0));
-				exp.explosiveImpact(trooper, weapon.pcAmmoTypes.get(0), weapon);
-			}
 			
 		}
 

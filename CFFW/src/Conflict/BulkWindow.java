@@ -4081,7 +4081,7 @@ public class BulkWindow {
 									else 
 										shoot.shot(false);
 									
-									if(chckbxSingleShot.isSelected())
+									if(!chckbxSingleShot.isSelected())
 										shoot.suppressiveFireFree(
 												shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
 								}

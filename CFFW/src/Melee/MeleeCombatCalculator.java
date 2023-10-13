@@ -34,6 +34,7 @@ public class MeleeCombatCalculator {
 		newCharge.incoming = true;
 		targetUnit.activeCharges.add(newCharge);
 
+		chargingUnit.resolve.baseMeleeResolve = chargingUnit.unit.commandValue * 10;
 		chargingUnit.resolve.calculateSuppressionModifier(chargingUnit.unit);
 		chargingUnit.resolve.calculateFatigueModifier(chargingUnit.unit);
 		chargingUnit.resolve.calculateNumbersAdvantageModifier(chargingUnit.unit.individuals,targetUnit.unit.individuals);
@@ -162,8 +163,26 @@ public class MeleeCombatCalculator {
 	}
 
 	public static void calculateCombatResults() {
+		removeBoutsCheck();
 		for(var b : MeleeManager.meleeManager.meleeCombatBouts)
 			MeleeCombatResolver.resolveBout(b);
+		removeBoutsCheck();
+	}
+	
+	private static void removeBoutsCheck() {
+		var bouts = new ArrayList<Bout>(MeleeManager.meleeManager.meleeCombatBouts);
+		for(var b : bouts)
+			removeBout(b);
+	}
+	
+	private static void removeBout(Bout bout) {
+		if((!bout.combatantA.trooper.conscious || !bout.combatantA.trooper.alive || 
+				!bout.combatantB.trooper.conscious || !bout.combatantB.trooper.alive)
+				&& MeleeManager.meleeManager != null) {
+			
+			MeleeManager.meleeManager.meleeCombatBouts.remove(bout);
+			
+		}
 	}
 	
 }

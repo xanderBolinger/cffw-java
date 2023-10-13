@@ -82,6 +82,10 @@ public class MeleeCombatResolver implements Serializable {
 		applyHits(bout, true, aHits, firstDamageType);
 		applyHits(bout, false, bHits, secondDamageType);
 		
+		
+	}
+	
+	private static void removeBoutCheck(Bout bout) {
 		if((!bout.combatantA.trooper.conscious || !bout.combatantA.trooper.alive || 
 				!bout.combatantB.trooper.conscious || !bout.combatantB.trooper.alive)
 				&& MeleeManager.meleeManager != null) {
@@ -89,7 +93,6 @@ public class MeleeCombatResolver implements Serializable {
 			MeleeManager.meleeManager.meleeCombatBouts.remove(bout);
 			
 		}
-		
 	}
 	
 	private static void printBoutResults(Combatant combatant, Combatant defendingCombatant, int hits, 

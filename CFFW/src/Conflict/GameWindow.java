@@ -1745,8 +1745,6 @@ public class GameWindow implements Serializable {
 		}
 
 		game.setCurrentAction(1);
-
-		MeleeCombatCalculator.resolveMeleeCombatRound();
 		
 	}
 
@@ -2170,8 +2168,9 @@ public class GameWindow implements Serializable {
 		
 		GameWindow.gameWindow.conflictLog.addNewLineToQueue("Resolve melee combat round: ");
 
+		InjuryLog.InjuryLog.addAlreadyInjured();
 		MeleeCombatCalculator.resolveMeleeCombatRound();
-		
+		InjuryLog.InjuryLog.printResultsToLog();
 		
 	}
 

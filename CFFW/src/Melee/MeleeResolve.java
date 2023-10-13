@@ -31,7 +31,7 @@ public class MeleeResolve implements Serializable {
 	public MeleeResolve(MeleeCombatUnit meleeUnit) {
 		meleeUnit.unit.getCommandValue();
 		this.meleeUnit = meleeUnit;
-		baseMeleeResolve = meleeUnit.unit.commandValue;
+		baseMeleeResolve = meleeUnit.unit.commandValue * 10;
 	}
 
 	public int getResolve() {

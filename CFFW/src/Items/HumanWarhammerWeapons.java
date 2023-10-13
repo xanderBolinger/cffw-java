@@ -103,19 +103,38 @@ public class HumanWarhammerWeapons {
 		String name = "Linked";
 		ArrayList<Integer> pen = new ArrayList<Integer>();
 		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
 
 		ArrayList<Integer> dc = new ArrayList<Integer>();
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
 		dc.add(10);
 
 		ArrayList<String> bshc = new ArrayList<String>();
 		bshc.add("0");
-
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
 
 		ArrayList<Integer> bc = new ArrayList<Integer>();
 		bc.add(60);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
 
 
-		PCAmmo bolt = new PCAmmo(name, pen, dc, bshc, bc, 66, 10);
+		PCAmmo bolt = new PCAmmo(name, pen, dc, bshc, bc, 0, 0);
 		bolt.linked = true;
 		weapon.pcAmmoTypes.add(bolt);
 		
@@ -389,20 +408,38 @@ public class HumanWarhammerWeapons {
 		
 		String name = "Linked";
 		ArrayList<Integer> pen = new ArrayList<Integer>();
-		pen.add(60);
-
+		pen.add(0);
+		pen.add(0);
+		pen.add(0);
+		pen.add(0);
+		pen.add(0);
+		pen.add(0);
+		
 		ArrayList<Integer> dc = new ArrayList<Integer>();
-		dc.add(8);
-
+		dc.add(1);
+		dc.add(1);
+		dc.add(1);
+		dc.add(1);
+		dc.add(1);
+		dc.add(1);
+		
 		ArrayList<String> bshc = new ArrayList<String>();
 		bshc.add("0");
-
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
 
 		ArrayList<Integer> bc = new ArrayList<Integer>();
-		bc.add(65);
+		bc.add(35);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
 
-
-		PCAmmo bolt = new PCAmmo(name, pen, dc, bshc, bc, 60, 8);
+		PCAmmo bolt = new PCAmmo(name, pen, dc, bshc, bc, 0, 0);
 		bolt.linked = true;
 		weapon.pcAmmoTypes.add(bolt);
 		
@@ -479,16 +516,30 @@ public class HumanWarhammerWeapons {
 
 		ArrayList<Integer> dc = new ArrayList<Integer>();
 		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
 
 		ArrayList<String> bshc = new ArrayList<String>();
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
 		bshc.add("0");
 
 
 		ArrayList<Integer> bc = new ArrayList<Integer>();
 		bc.add(250);
+		bc.add(125);
+		bc.add(25);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
 
-
-		PCAmmo bolt = new PCAmmo(name, pen, dc, bshc, bc, 320, 10);
+		PCAmmo bolt = new PCAmmo(name, pen, dc, bshc, bc, 0, 0);
 		bolt.linked = true;
 		weapon.pcAmmoTypes.add(bolt);
 		
@@ -565,16 +616,29 @@ public class HumanWarhammerWeapons {
 
 		ArrayList<Integer> dc = new ArrayList<Integer>();
 		dc.add(10);
-
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		
 		ArrayList<String> bshc = new ArrayList<String>();
 		bshc.add("0");
-
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
 
 		ArrayList<Integer> bc = new ArrayList<Integer>();
 		bc.add(150);
+		bc.add(70);
+		bc.add(15);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
 
-
-		PCAmmo bolt = new PCAmmo(name, pen, dc, bshc, bc, 280, 10);
+		PCAmmo bolt = new PCAmmo(name, pen, dc, bshc, bc, 0, 0);
 		bolt.linked = true;
 		weapon.pcAmmoTypes.add(bolt);
 		

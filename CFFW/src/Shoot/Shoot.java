@@ -145,10 +145,12 @@ public class Shoot {
 	public void shot(boolean homing) {
 		if(pcAmmo != null && pcAmmo.shots != -1 && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, 1)) {
 			shotResults = "Not enough ammunition.";
+			outOfAmmo = true;
 			return;
 		} else if ((pcAmmo == null || pcAmmo.shots == -1) && !ammoCheckSingle()) {
 			System.out.println("shot return");
 			shotResults = "Not enough ammunition.";
+			outOfAmmo = true;
 			return;
 		}
 

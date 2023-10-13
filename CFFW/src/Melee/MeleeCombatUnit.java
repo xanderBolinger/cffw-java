@@ -40,6 +40,7 @@ public class MeleeCombatUnit implements Serializable {
 	
 	public boolean AttemptCharge() {
 		var roll = DiceRoller.roll(0, 99);
+		//resolve.calc
 		var resolveVal = resolve.getResolve();
 		if(GameWindow.gameWindow != null)
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue(unit.callsign+" Charge Roll: "+roll+", Resolve: "+resolveVal);

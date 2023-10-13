@@ -276,7 +276,7 @@ public class Trooper implements Serializable {
 		inventory.addContainer(ContainerType.Belt);
 		// System.out.println("New Trooper, input: " + input + ", faction: " + faction);
 
-		if(FactionManager.factionExists(faction)) {
+		if(FactionManager.factions != null && FactionManager.factionExists(faction)) {
 			try {
 				FactionManager.getFactionFromName(faction).setTrooper(this, input);
 			} catch (Exception e) {
