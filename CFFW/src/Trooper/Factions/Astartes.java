@@ -36,6 +36,10 @@ public class Astartes extends Faction {
 		comboBox.addItem("Astartes Heavy Bolter");
 		comboBox.addItem("Astartes Missile Launcher");
 		comboBox.addItem("Astartes Flame Trooper");
+		comboBox.addItem("Astartes Sergeant Flame Pistol");
+		comboBox.addItem("Astartes Sergeant Plasma Pistol");
+		comboBox.addItem("Astartes Plasmagun");
+		comboBox.addItem("Astartes Lascannon");
 	}
 	
 	public void setTrooper(Trooper trooper, String input) throws Exception {

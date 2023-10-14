@@ -48,9 +48,13 @@ public class Item implements Serializable {
 
 		MkvbBolter, MkivHeavyBolter,MKIIIUltimaPattern,
 		
-		AstartesFlamer,
+		AstartesMeltagun,
+		
+		AstartesFlamer,AstartesFlamePistol,
 
-		m36Lasgun,
+		m36Lasgun,AstartesLascannon,
+		
+		AstartesPlasmagun,AstartesPlasmaPistol,
 
 		KrakGrenade, AstartesFragGrenade,
 		
@@ -81,8 +85,20 @@ public class Item implements Serializable {
 
 				new Item(ItemType.AstartesStandard),
 				
+				new Item(ItemType.AstartesMeltagun),
+				new Item(ItemType.AstartesMeltagun, ItemType.SmallArmsAmmo),
+				
 				new Item(ItemType.AstartesFlamer),
 				new Item(ItemType.AstartesFlamer, ItemType.FlameCharge),
+				new Item(ItemType.AstartesFlamePistol),
+				new Item(ItemType.AstartesFlamePistol, ItemType.FlameCharge),
+				
+				new Item(ItemType.AstartesLascannon),
+				new Item(ItemType.AstartesLascannon, ItemType.SmallArmsAmmo),
+				new Item(ItemType.AstartesPlasmagun),
+				new Item(ItemType.AstartesPlasmagun, ItemType.SmallArmsAmmo),
+				new Item(ItemType.AstartesPlasmaPistol),
+				new Item(ItemType.AstartesPlasmaPistol, ItemType.SmallArmsAmmo),
 				
 				new Item(ItemType.SoundStrikePattern), new Item(ItemType.SoundStrikePattern, ItemType.Krak),
 				new Item(ItemType.SoundStrikePattern, ItemType.Frag),
@@ -204,6 +220,26 @@ public class Item implements Serializable {
 			ammo = new PCAmmo("Bolts", 20);
 			itemWeight = 2;
 		}
+		
+		else if ((ItemType.AstartesMeltagun == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("Charges", 10);
+			itemWeight = 4;
+		}
+
+		else if ((ItemType.AstartesPlasmagun == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("Charges", 20);
+			itemWeight = 4;
+		}
+		
+		else if ((ItemType.AstartesPlasmaPistol == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("Charges", 20);
+			itemWeight = 2;
+		}
+		
+		else if ((ItemType.AstartesLascannon == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("Charge Pack", 50);
+			itemWeight = 10;
+		}
 
 		else if ((ItemType.m36Lasgun == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
 			ammo = new PCAmmo("Charge", 150);
@@ -214,6 +250,12 @@ public class Item implements Serializable {
 			ammo = new PCAmmo("Charge");
 			ammo.linked = false;
 			itemWeight = 0.2;
+		}
+		
+		else if ((ItemType.AstartesFlamePistol == weaponType) && ItemType.FlameCharge == ammoType) {
+			ammo = new PCAmmo("Charge");
+			ammo.linked = false;
+			itemWeight = 0.1;
 		}
 
 		else if (ItemType.SoundStrikePattern == weaponType && ItemType.Krak == ammoType) {
@@ -418,6 +460,11 @@ public class Item implements Serializable {
 			itemWeight = 5;
 		}
 		
+		else if (ItemType.AstartesMeltagun == itemType) {
+			weapon = new Weapons().findWeapon("Astartes Meltagun");
+			itemWeight = 35;
+		}
+		
 		else if (ItemType.AstartesFlamer == itemType) {
 			weapon = new Weapons().findWeapon("Astartes Flamer");
 			itemWeight = 40;
@@ -436,6 +483,26 @@ public class Item implements Serializable {
 		else if (ItemType.SoundStrikePattern == itemType) {
 			weapon = new Weapons().findWeapon("Sound Strike Pattern");
 			itemWeight = 25;
+		}
+		
+		else if (ItemType.AstartesFlamePistol == itemType) {
+			weapon = new Weapons().findWeapon("Astartes Flame Pistol");
+			itemWeight = 15;
+		}
+		
+		else if (ItemType.AstartesPlasmagun == itemType) {
+			weapon = new Weapons().findWeapon("Astartes Plasmagun");
+			itemWeight = 30;
+		}
+		
+		else if (ItemType.AstartesPlasmaPistol == itemType) {
+			weapon = new Weapons().findWeapon("Astartes Plasma Pistol");
+			itemWeight = 18;
+		}
+		
+		else if (ItemType.AstartesLascannon == itemType) {
+			weapon = new Weapons().findWeapon("Astartes Pattern Lascannon");
+			itemWeight = 60;
 		}
 
 		else if (ItemType.GoblinJavelin == itemType) {

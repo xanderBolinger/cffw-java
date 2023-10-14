@@ -27,6 +27,8 @@ public class HumanWarhammerWeapons  implements Serializable {
 		// Pistol 
 		BoltPistol();
 		
+		Meltagun();
+		
 		Flamer();
 		
 		// Grenade
@@ -51,16 +53,388 @@ public class HumanWarhammerWeapons  implements Serializable {
 		weapons.add(weapon);
 	}
 
-	public void MeltaGun() {
+	public void Meltagun() {
+		Weapons weapon = new Weapons();
+		weapon.name = "Astartes Meltagun";
+		weapon.type = "Rifle";
+		weapon.fullAutoROF = 1;
+		weapon.light = true;
+		weapon.laser = true;
+		weapon.irLaser = true;
+
+		// Aim time
+		weapon.aimTime.add(-15);
+		weapon.aimTime.add(-11);
+		weapon.aimTime.add(-10);
+		weapon.aimTime.add(-9);
+		weapon.aimTime.add(-8);
+		weapon.aimTime.add(-7);
+
+		// 10 20 40 70 100 200 300 400
+		// PEN
+		weapon.pen.add(45000);
+		weapon.pen.add(33000);
+		weapon.pen.add(27000);
+		weapon.pen.add(11000);
+		weapon.pen.add(3000);
+		weapon.pen.add(1000);
+		weapon.pen.add(250);
+		weapon.pen.add(0);
+		// DC
+		weapon.dc.add(10);
+		weapon.dc.add(10);
+		weapon.dc.add(10);
+		weapon.dc.add(9);
+		weapon.dc.add(8);
+		weapon.dc.add(7);
+		weapon.dc.add(6);
+		weapon.dc.add(1);
 		
+		weapon.ba.add(43);
+		weapon.ba.add(36);
+		weapon.ba.add(25);
+		weapon.ba.add(14);
+		weapon.ba.add(9);
+		weapon.ba.add(6);
+		weapon.ba.add(2);
+		weapon.ba.add(0);
+
+		// Ce stats
+		weapon.ceStats.baseErgonomics = 50;
+		
+		String name = "Linked";
+		ArrayList<Integer> pen = new ArrayList<Integer>();
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+
+		ArrayList<Integer> dc = new ArrayList<Integer>();
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+
+		ArrayList<String> bshc = new ArrayList<String>();
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+
+		ArrayList<Integer> bc = new ArrayList<Integer>();
+		bc.add(1000);
+		bc.add(200);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+
+
+		PCAmmo bolt = new PCAmmo(name, pen, dc, bshc, bc, 0, 0);
+		bolt.linked = true;
+		weapon.pcAmmoTypes.add(bolt);
+		
+		
+		weapons.add(weapon);
 	}
 	
 	public void PlasmaGun() {
+		Weapons weapon = new Weapons();
+		weapon.name = "Astartes Plasmagun";
+		weapon.type = "Rifle";
+		weapon.fullAutoROF = 1;
+		weapon.light = true;
+		weapon.laser = true;
+		weapon.irLaser = true;
+
+		// Aim time
+		weapon.aimTime.add(-15);
+		weapon.aimTime.add(-11);
+		weapon.aimTime.add(-10);
+		weapon.aimTime.add(-9);
+		weapon.aimTime.add(-8);
+		weapon.aimTime.add(-7);
+
+		// 10 20 40 70 100 200 300 400
+		// PEN
+		weapon.pen.add(3000);
+		weapon.pen.add(1000);
+		weapon.pen.add(250);
+		weapon.pen.add(125);
+		weapon.pen.add(90);
+		weapon.pen.add(66);
+		weapon.pen.add(33);
+		weapon.pen.add(11);
+		// DC
+		weapon.dc.add(10);
+		weapon.dc.add(10);
+		weapon.dc.add(10);
+		weapon.dc.add(9);
+		weapon.dc.add(9);
+		weapon.dc.add(8);
+		weapon.dc.add(8);
+		weapon.dc.add(7);
 		
+		weapon.ba.add(43);
+		weapon.ba.add(36);
+		weapon.ba.add(25);
+		weapon.ba.add(14);
+		weapon.ba.add(9);
+		weapon.ba.add(6);
+		weapon.ba.add(2);
+		weapon.ba.add(0);
+
+		// Ce stats
+		weapon.ceStats.baseErgonomics = 50;
+		
+		String name = "Linked";
+		ArrayList<Integer> pen = new ArrayList<Integer>();
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+
+		ArrayList<Integer> dc = new ArrayList<Integer>();
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+
+		ArrayList<String> bshc = new ArrayList<String>();
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+
+		ArrayList<Integer> bc = new ArrayList<Integer>();
+		bc.add(500);
+		bc.add(100);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+
+
+		PCAmmo bolt = new PCAmmo(name, pen, dc, bshc, bc, 0, 0);
+		bolt.linked = true;
+		weapon.pcAmmoTypes.add(bolt);
+		
+		
+		weapons.add(weapon);
 	}
 	
 	public void PlasmaPistol() {
+		Weapons weapon = new Weapons();
+		weapon.name = "Astartes Plasma Pistol";
+		weapon.type = "Pistol";
+		weapon.fullAutoROF = 1;
+		weapon.light = true;
+		weapon.laser = true;
+		weapon.irLaser = true;
+
+		// Aim time
+		weapon.aimTime.add(-16);
+		weapon.aimTime.add(-12);
+		weapon.aimTime.add(-11);
+		weapon.aimTime.add(-10);
+		weapon.aimTime.add(-9);
+		weapon.aimTime.add(-8);
+
+		// 10 20 40 70 100 200 300 400
+		// PEN
+		weapon.pen.add(1000);
+		weapon.pen.add(250);
+		weapon.pen.add(1250);
+		weapon.pen.add(90);
+		weapon.pen.add(66);
+		weapon.pen.add(33);
+		weapon.pen.add(11);
+		weapon.pen.add(5);
+		// DC
+		weapon.dc.add(10);
+		weapon.dc.add(10);
+		weapon.dc.add(9);
+		weapon.dc.add(9);
+		weapon.dc.add(8);
+		weapon.dc.add(7);
+		weapon.dc.add(7);
+		weapon.dc.add(6);
 		
+		weapon.ba.add(36);
+		weapon.ba.add(25);
+		weapon.ba.add(14);
+		weapon.ba.add(9);
+		weapon.ba.add(5);
+		weapon.ba.add(2);
+		weapon.ba.add(1);
+		weapon.ba.add(0);
+
+		// Ce stats
+		weapon.ceStats.baseErgonomics = 50;
+		
+		String name = "Linked";
+		ArrayList<Integer> pen = new ArrayList<Integer>();
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+
+		ArrayList<Integer> dc = new ArrayList<Integer>();
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+
+		ArrayList<String> bshc = new ArrayList<String>();
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+
+		ArrayList<Integer> bc = new ArrayList<Integer>();
+		bc.add(250);
+		bc.add(66);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+
+
+		PCAmmo bolt = new PCAmmo(name, pen, dc, bshc, bc, 0, 0);
+		bolt.linked = true;
+		weapon.pcAmmoTypes.add(bolt);
+		
+		
+		weapons.add(weapon);
+	}
+	
+	public void FlamePistol() {
+		Weapons weapon = new Weapons();
+		weapon.name = "Astartes Flame Pistol";
+		weapon.type = "Launcher";
+		weapon.flameThrower = new FlameThrower(FlameThrowerType.AstartesFlamePistol);
+		var ammo = new PCAmmo("Charge");
+		ammo.linked = false;
+		weapon.pcAmmoTypes.add(ammo);
+		
+		weapons.add(weapon);
+	}
+	
+	public void Lascannon() {
+		Weapons weapon = new Weapons();
+		weapon.name = "Astartes Pattern Lascannon";
+		weapon.type = "Rifle";
+		weapon.fullAutoROF = 1;
+		weapon.light = true;
+		weapon.laser = true;
+		weapon.irLaser = true;
+
+		// Aim time
+		weapon.aimTime.add(-29);
+		weapon.aimTime.add(-24);
+		weapon.aimTime.add(-18);
+		weapon.aimTime.add(-13);
+		weapon.aimTime.add(-6);
+		weapon.aimTime.add(-4);
+		weapon.aimTime.add(-1);
+		weapon.aimTime.add(2);
+		weapon.aimTime.add(5);
+		weapon.aimTime.add(7);
+		weapon.aimTime.add(8);
+		weapon.aimTime.add(10);
+		weapon.aimTime.add(11);
+
+		// 10 20 40 70 100 200 300 400
+		// PEN
+		weapon.pen.add(33000);
+		weapon.pen.add(31000);
+		weapon.pen.add(25000);
+		weapon.pen.add(20000);
+		weapon.pen.add(15000);
+		weapon.pen.add(10000);
+		weapon.pen.add(6000);
+		weapon.pen.add(3000);
+		
+		// DC
+		weapon.dc.add(10);
+		weapon.dc.add(10);
+		weapon.dc.add(10);
+		weapon.dc.add(10);
+		weapon.dc.add(10);
+		weapon.dc.add(10);
+		weapon.dc.add(10);
+		weapon.dc.add(10);
+		
+		weapon.ba.add(72);
+		weapon.ba.add(65);
+		weapon.ba.add(58);
+		weapon.ba.add(55);
+		weapon.ba.add(53);
+		weapon.ba.add(51);
+		weapon.ba.add(49);
+		weapon.ba.add(45);
+
+		// Ce stats
+		weapon.ceStats.baseErgonomics = 50;
+		
+		String name = "Linked";
+		ArrayList<Integer> pen = new ArrayList<Integer>();
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+		pen.add(66);
+
+		ArrayList<Integer> dc = new ArrayList<Integer>();
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+
+		ArrayList<String> bshc = new ArrayList<String>();
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+
+		ArrayList<Integer> bc = new ArrayList<Integer>();
+		bc.add(2000);
+		bc.add(1000);
+		bc.add(500);
+		bc.add(75);
+		bc.add(25);
+		bc.add(11);
+
+
+		PCAmmo bolt = new PCAmmo(name, pen, dc, bshc, bc, 0, 0);
+		bolt.linked = true;
+		weapon.pcAmmoTypes.add(bolt);
+		
+		
+		weapons.add(weapon);
 	}
 	
 	public void BoltPistol() {

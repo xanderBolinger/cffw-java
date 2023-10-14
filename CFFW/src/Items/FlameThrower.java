@@ -18,7 +18,7 @@ public class FlameThrower implements Serializable {
 	
 	
 	public enum FlameThrowerType implements Serializable {
-		AstartesFlamer
+		AstartesFlamer,AstartesFlamePistol
 	}
 	
 	public FlameThrower(FlameThrowerType type) {
@@ -30,6 +30,11 @@ public class FlameThrower implements Serializable {
 				contact = 7000;
 				inHex = 250;
 				adjacent = 75;
+				break;
+			case AstartesFlamePistol:
+				contact = 5000;
+				inHex = 125;
+				adjacent = 50;
 				break;
 			default:
 				System.err.println("Flamer type not implemented for type: "+type);
