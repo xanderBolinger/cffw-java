@@ -65,6 +65,7 @@ public class HumanWarhammerWeapons  implements Serializable {
 		weapon.light = true;
 		weapon.laser = true;
 		weapon.irLaser = true;
+		weapon.suppressiveROF = 2;
 
 		// Aim time
 		weapon.aimTime.add(-15);
@@ -156,6 +157,7 @@ public class HumanWarhammerWeapons  implements Serializable {
 		weapon.light = true;
 		weapon.laser = true;
 		weapon.irLaser = true;
+		weapon.suppressiveROF = 3;
 
 		// Aim time
 		weapon.aimTime.add(-15);
@@ -247,6 +249,7 @@ public class HumanWarhammerWeapons  implements Serializable {
 		weapon.light = true;
 		weapon.laser = true;
 		weapon.irLaser = true;
+		weapon.suppressiveROF = 4;
 
 		// Aim time
 		weapon.aimTime.add(-16);
@@ -347,6 +350,7 @@ public class HumanWarhammerWeapons  implements Serializable {
 		weapon.name = "Astartes Pattern Lascannon";
 		weapon.type = "Rifle";
 		weapon.fullAutoROF = 1;
+		weapon.suppressiveROF = 2;
 		weapon.light = true;
 		weapon.laser = true;
 		weapon.irLaser = true;
@@ -449,6 +453,7 @@ public class HumanWarhammerWeapons  implements Serializable {
 		weapon.light = true;
 		weapon.laser = true;
 		weapon.irLaser = true;
+		weapon.suppressiveROF = 5;
 
 		// Aim time
 		weapon.aimTime.add(-15);
@@ -746,6 +751,7 @@ public class HumanWarhammerWeapons  implements Serializable {
 		weapon.scopeMagnification = "4x";
 		weapon.magnification = 4;
 		weapon.fullAutoROF = 6;
+		weapon.suppressiveROF = 10;
 		weapon.light = true;
 		weapon.laser = true;
 		weapon.irLaser = true;
@@ -845,6 +851,7 @@ public class HumanWarhammerWeapons  implements Serializable {
 		weapon.scopeMagnification = "4x";
 		weapon.magnification = 4;
 		weapon.fullAutoROF = 7;
+		weapon.suppressiveROF = 8;
 		weapon.light = true;
 		weapon.laser = true;
 		weapon.irLaser = true;
@@ -931,8 +938,8 @@ public class HumanWarhammerWeapons  implements Serializable {
 
 		PCAmmo bolt = new PCAmmo(name, pen, dc, bshc, bc, 0, 0);
 		bolt.linked = true;
+		bolt.shots = -1;
 		weapon.pcAmmoTypes.add(bolt);
-		
 		weapon.type = "Rifle";
 		weapons.add(weapon);
 	}
@@ -945,6 +952,7 @@ public class HumanWarhammerWeapons  implements Serializable {
 		weapon.scopeMagnification = "4x";
 		weapon.magnification = 4;
 		weapon.fullAutoROF = 4;
+		weapon.suppressiveROF = 6;
 		weapon.light = true;
 		weapon.laser = true;
 		weapon.irLaser = true;
@@ -1030,6 +1038,7 @@ public class HumanWarhammerWeapons  implements Serializable {
 
 		PCAmmo bolt = new PCAmmo(name, pen, dc, bshc, bc, 0, 0);
 		bolt.linked = true;
+		bolt.shots = -1;
 		weapon.pcAmmoTypes.add(bolt);
 		
 		weapon.type = "Rifle";

@@ -151,7 +151,7 @@ public class Shoot {
 			shotResults = "Not enough ammunition.";
 			outOfAmmo = true;
 			return;
-		} else if ((pcAmmo == null || pcAmmo.shots == -1) && !ammoCheckSingle()) {
+		} else if ((pcAmmo == null || pcAmmo.shots == -1 || pcAmmo.linked) && !ammoCheckSingle()) {
 			System.out.println("shot return");
 			shotResults = "Not enough ammunition.";
 			outOfAmmo = true;
