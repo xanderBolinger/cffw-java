@@ -28,6 +28,10 @@ public class HumanWarhammerWeapons  implements Serializable {
 		BoltPistol();
 		
 		Meltagun();
+		FlamePistol();
+		Lascannon();
+		PlasmaGun();
+		PlasmaPistol();
 		
 		Flamer();
 		

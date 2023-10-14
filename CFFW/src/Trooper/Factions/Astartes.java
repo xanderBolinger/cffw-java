@@ -40,6 +40,7 @@ public class Astartes extends Faction {
 		comboBox.addItem("Astartes Sergeant Plasma Pistol");
 		comboBox.addItem("Astartes Plasmagun");
 		comboBox.addItem("Astartes Lascannon");
+		comboBox.addItem("Astartes Meltagun");
 	}
 	
 	public void setTrooper(Trooper trooper, String input) throws Exception {
@@ -75,10 +76,20 @@ public class Astartes extends Faction {
 			MissileLauncher(trooper);
 		} else if(input.equals("Astartes Sergeant")) {
 			Sergeant(trooper);
-		} else if(input.equals("Astartes Standard")) {
+		} else if(input.equals("Astartes Sergeant Plasma Pistol")) {
+			SergeantPlasmaPistol(trooper);
+		} else if(input.equals("Astartes Sergeant Flame Pistol")) {
+			SergeantFlamePistol(trooper);
+		}  else if(input.equals("Astartes Standard")) {
 			Standard(trooper);
 		} else if(input.equals("Astartes Flame Trooper")) {
 			Flamer(trooper);
+		} else if(input.equals("Astartes Plasmagun")) {
+			Plasmagun(trooper);
+		} else if(input.equals("Astartes Meltagun")) {
+			Meltagun(trooper);
+		} else if(input.equals("Astartes Lascannon")) {
+			Lascannon(trooper);
 		} else {
 			throw new Exception("Invalid Astartes Input for input: "+input);
 		}
@@ -141,6 +152,32 @@ public class Astartes extends Faction {
 		trooper.meleeWep = "Chain Sword";
 	}
 	
+	public void SergeantFlamePistol(Trooper trooper) throws Exception {
+		trooper.rank = "Marine";
+		trooper.designation = "Astartes Sergeant Flame Pistol";
+		trooper.wep = "Astartes Flame Pistol";
+		trooper.ammo = 0;
+		trooper.inventory.addItems(ItemType.AstartesFlamePistol, 1);
+		trooper.inventory.addItems(ItemType.AstartesFlamePistol, ItemType.FlameCharge, 20);
+		trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
+		trooper.inventory.addItems(ItemType.KrakGrenade, 2);
+		trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
+		trooper.meleeWep = "Chain Sword";
+	}
+	
+	public void SergeantPlasmaPistol(Trooper trooper) throws Exception {
+		trooper.rank = "Marine";
+		trooper.designation = "Astartes Sergeant Plasma Pistol";
+		trooper.wep = "Astartes Plasma Pistol";
+		trooper.ammo = 0;
+		trooper.inventory.addItems(ItemType.AstartesPlasmaPistol, 1);
+		trooper.inventory.addItems(ItemType.AstartesPlasmaPistol, ItemType.SmallArmsAmmo, 4);
+		trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
+		trooper.inventory.addItems(ItemType.KrakGrenade, 2);
+		trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
+		trooper.meleeWep = "Chain Sword";
+	}
+	
 	public void Rifleman(Trooper trooper) throws Exception {
 		trooper.rank = "Marine";
 		trooper.designation = "Astartes";
@@ -160,6 +197,42 @@ public class Astartes extends Faction {
 		trooper.ammo = 200;
 		trooper.inventory.addItems(ItemType.MkivHeavyBolter, 1);
 		trooper.inventory.addItems(ItemType.MkivHeavyBolter, ItemType.SmallArmsAmmo, 1);
+		trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
+		trooper.inventory.addItems(ItemType.KrakGrenade, 2);
+		trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
+	}
+	
+	public void Plasmagun(Trooper trooper) throws Exception {
+		trooper.rank = "Marine";
+		trooper.designation = "Astartes Plasmagun";
+		trooper.wep = "Astartes Plasmagun";
+		trooper.ammo = 100;
+		trooper.inventory.addItems(ItemType.AstartesPlasmagun, 1);
+		trooper.inventory.addItems(ItemType.AstartesPlasmagun, ItemType.SmallArmsAmmo, 5);
+		trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
+		trooper.inventory.addItems(ItemType.KrakGrenade, 2);
+		trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
+	}
+	
+	public void Meltagun(Trooper trooper) throws Exception {
+		trooper.rank = "Marine";
+		trooper.designation = "Astartes Meltagun";
+		trooper.wep = "Astartes Meltagun";
+		trooper.ammo = 30;
+		trooper.inventory.addItems(ItemType.AstartesMeltagun, 1);
+		trooper.inventory.addItems(ItemType.AstartesMeltagun, ItemType.SmallArmsAmmo, 3);
+		trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
+		trooper.inventory.addItems(ItemType.KrakGrenade, 2);
+		trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
+	}
+	
+	public void Lascannon(Trooper trooper) throws Exception {
+		trooper.rank = "Marine";
+		trooper.designation = "Astartes Lascannon";
+		trooper.wep = "Astartes Pattern Lascannon";
+		trooper.ammo = 50;
+		trooper.inventory.addItems(ItemType.AstartesLascannon, 1);
+		trooper.inventory.addItems(ItemType.AstartesLascannon, ItemType.SmallArmsAmmo, 1);
 		trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
 		trooper.inventory.addItems(ItemType.KrakGrenade, 2);
 		trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
