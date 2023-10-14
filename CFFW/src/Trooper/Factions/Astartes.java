@@ -205,10 +205,10 @@ public class Astartes extends Faction {
 	public void Plasmagun(Trooper trooper) throws Exception {
 		trooper.rank = "Marine";
 		trooper.designation = "Astartes Plasmagun";
-		trooper.wep = "Astartes Plasmagun";
-		trooper.ammo = 100;
+		trooper.wep = "MKXII Ragefire Plasmagun";
+		trooper.ammo = 200;
 		trooper.inventory.addItems(ItemType.AstartesPlasmagun, 1);
-		trooper.inventory.addItems(ItemType.AstartesPlasmagun, ItemType.SmallArmsAmmo, 5);
+		trooper.inventory.addItems(ItemType.AstartesPlasmagun, ItemType.SmallArmsAmmo, 2);
 		trooper.inventory.addItems(ItemType.AstartesFragGrenade, 2);
 		trooper.inventory.addItems(ItemType.KrakGrenade, 2);
 		trooper.inventory.addItems(ItemType.Nacht5SmokeGrenade, 1);
@@ -229,7 +229,7 @@ public class Astartes extends Faction {
 	public void Lascannon(Trooper trooper) throws Exception {
 		trooper.rank = "Marine";
 		trooper.designation = "Astartes Lascannon";
-		trooper.wep = "Astartes Pattern Lascannon";
+		trooper.wep = "MKVII Mars Pattern Lascannon";
 		trooper.ammo = 50;
 		trooper.inventory.addItems(ItemType.AstartesLascannon, 1);
 		trooper.inventory.addItems(ItemType.AstartesLascannon, ItemType.SmallArmsAmmo, 1);

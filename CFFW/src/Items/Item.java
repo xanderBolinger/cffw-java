@@ -227,7 +227,7 @@ public class Item implements Serializable {
 		}
 
 		else if ((ItemType.AstartesPlasmagun == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
-			ammo = new PCAmmo("Charges", 20);
+			ammo = new PCAmmo("Charges", 100);
 			itemWeight = 4;
 		}
 		
@@ -491,7 +491,7 @@ public class Item implements Serializable {
 		}
 		
 		else if (ItemType.AstartesPlasmagun == itemType) {
-			weapon = new Weapons().findWeapon("Astartes Plasmagun");
+			weapon = new Weapons().findWeapon("MKXII Ragefire Plasmagun");
 			itemWeight = 30;
 		}
 		
@@ -501,7 +501,7 @@ public class Item implements Serializable {
 		}
 		
 		else if (ItemType.AstartesLascannon == itemType) {
-			weapon = new Weapons().findWeapon("Astartes Pattern Lascannon");
+			weapon = new Weapons().findWeapon("MKVII Mars Pattern Lascannon");
 			itemWeight = 60;
 		}
 

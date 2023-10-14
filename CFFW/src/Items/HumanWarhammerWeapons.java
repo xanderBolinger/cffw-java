@@ -29,8 +29,8 @@ public class HumanWarhammerWeapons  implements Serializable {
 		
 		Meltagun();
 		FlamePistol();
-		Lascannon();
-		PlasmaGun();
+		marsPatternLascannon();
+		RageFirePlasmagun();
 		PlasmaPistol();
 		
 		Flamer();
@@ -149,9 +149,9 @@ public class HumanWarhammerWeapons  implements Serializable {
 		weapons.add(weapon);
 	}
 	
-	public void PlasmaGun() {
+	public void RageFirePlasmagun() {
 		Weapons weapon = new Weapons();
-		weapon.name = "Astartes Plasmagun";
+		weapon.name = "MKXII Ragefire Plasmagun";
 		weapon.type = "Rifle";
 		weapon.fullAutoROF = 1;
 		weapon.light = true;
@@ -345,9 +345,9 @@ public class HumanWarhammerWeapons  implements Serializable {
 		weapons.add(weapon);
 	}
 	
-	public void Lascannon() {
+	public void marsPatternLascannon() {
 		Weapons weapon = new Weapons();
-		weapon.name = "Astartes Pattern Lascannon";
+		weapon.name = "MKVII Mars Pattern Lascannon";
 		weapon.type = "Rifle";
 		weapon.fullAutoROF = 1;
 		weapon.suppressiveROF = 2;
