@@ -279,7 +279,38 @@ public class Astartes extends Faction {
 	}
 	
 	private static String generateAstartesName() {
-		String[] array = { "Ajax" };
+		String[] array = { "Ajax",
+				"Nanael","Sabrael","Hermesiel",
+				"Avuxus","Catus","Helivius",
+				"Teliolux","Trajist","Hellgaze",
+				"Owoan","Gunnath","Paekir",
+				"Phorit","Antaban","Kanedth",
+				"Sabdek","Kanar","Aphael",
+				"Morael","Orioctus","Liciuxis",
+				"Invisius","Enotutus","Tarivius",
+				"Vulkehan","Gerhas","Nidold",
+				"Nasan","Abentre","Nykonea",
+				"Hadariel","Ansiel","Salathiel",
+				"Holoberos","Kyravius","Elyvius",
+				"Invidexus","Titumedes","Coratanus",
+				"Baltach","Arkabro","Bolus",
+				"Chilaro","Solos","Curpico",
+				"Skatasarro","Viburus","Barachiel",
+				"Ruhiel","Quabriel","Hadraniel",
+				"Ophaniel","Kordeos","Orteal",
+				"Belarith","Gahoc","Drakeil",
+				"Sharrowkyn","Sevatarion","Nykona",
+				"Jago","Ezekyle","Abaddon",
+				"Torgaddon","Tarik","Atlas",
+				"Julius","Cornelius","Marius",
+				"Vespasian","Vitellius","Galba",
+				"Erasmus","Pertinax","Odenathus",
+				"Bellesios","Hagror","Carzra",
+				"Rubiel","Hypescios","Corala",
+				"Kaerik","Sarperos","Mantar",
+				"Jerdan","Chuebus","Nykolsa",
+				"Darrioman","Amriel","Albos",
+				};
 		int rnd = new Random().nextInt(array.length);
 		return array[rnd];
 	}
