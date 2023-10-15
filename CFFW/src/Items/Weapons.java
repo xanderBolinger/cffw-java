@@ -272,6 +272,11 @@ public class Weapons implements Serializable {
 			weapons.add(weapon);
 		}
 		
+		AdditionalOrdnance ao = new AdditionalOrdnance();
+		
+		for(Weapons weapon : ao.weapons) {
+			weapons.add(weapon);
+		}
 	}
 
 	public void DC15A() {
