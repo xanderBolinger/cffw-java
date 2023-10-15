@@ -67,7 +67,7 @@ public class Explosion {
 			
 			for(Trooper trooper : unit.individuals) {
 				
-				if(!excludeTroopers.contains(trooper) && !trooper.inBuilding(GameWindow.gameWindow)) {
+				if(!excludeTroopers.contains(trooper)) {
 					int roll1 = DiceRoller.roll(0, 10);
 					//int roll2 = DiceRoller.roll(0, 10);
 					explodeTrooper(trooper, /*(roll1 < roll2 ? roll2 : roll1)*/roll1);
@@ -273,17 +273,18 @@ public class Explosion {
 		
 		if((!target.HD && !target.inCover) || !target.inCover)
 			return bc;
-		else if(!target.HD && target.inCover)
-			return bc / 2;
-			
+		else if(!target.HD && target.inCover && !target.inBuilding(GameWindow.gameWindow) && fortificationLevel == 0)
+			return (int)((double)bc / 1.5);
 		
 		double modifiedBc = bc;
 		
+		// ground burst
 		if((shell != null && !shell.airBurst) || (pcAmmo != null && !pcAmmo.airBurst)) {
 			return (int)( modifiedBc * 0.01);
 		}
 		
-		if(fortificationLevel == 1 || fortificationLevel == 2) {
+		// air burst 
+		if((fortificationLevel == 1 || fortificationLevel == 2) && !target.inBuilding(GameWindow.gameWindow)) {
 			
 			if(range == 0) {
 				modifiedBc *= 3;
@@ -309,7 +310,7 @@ public class Explosion {
 				modifiedBc *= 0.01;
 			}
 			
-		} else if(fortificationLevel >= 3) {
+		} else if(fortificationLevel >= 3 || target.inBuilding(GameWindow.gameWindow)) {
 			
 			if(range == 0) {
 				modifiedBc *= 3;
