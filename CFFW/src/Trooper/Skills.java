@@ -1184,7 +1184,7 @@ public class Skills implements Serializable {
 			getSkill("Stealth").supported = true;
 			getSkill("Stealth").value = 65;
 
-		} else if (input.equals("Commando Droid AT Specalist")) {
+		} else if (input.equals("Commando Droid AT Specialist")) {
 
 			// Soldier Training
 			getSkill("Endurance").supported = true;
@@ -1226,7 +1226,7 @@ public class Skills implements Serializable {
 			getSkill("Stealth").supported = true;
 			getSkill("Stealth").value = 65;
 
-		} else if (input.equals("Commando Droid AT Assistant")) {
+		} else if (input.equals("Commando Droid Assistant AT Specialist")) {
 
 			// Soldier Training
 			getSkill("Endurance").supported = true;
@@ -1499,6 +1499,17 @@ public class Skills implements Serializable {
 	public void crackMarksman() {
 
 		Skill skill = getSkill("Rifle");
+		skill.newTrainingValue(5);
+		skill.rankUpTo(4);
+
+		Skill spot = getSkill("Spot/Listen");
+		spot.newTrainingValue(4);
+		spot.rankUpTo(4);
+	}
+	
+	public void cloneCrewman() {
+
+		Skill skill = getSkill("Heavy");
 		skill.newTrainingValue(5);
 		skill.rankUpTo(4);
 

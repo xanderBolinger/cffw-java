@@ -21,6 +21,7 @@ import javax.swing.JTextPane;
 import Conflict.GameWindow;
 import HexGrid.Vehicle.HexGridHullDownUtility;
 import HexGrid.Vehicle.HexGridVehicleUtility;
+import UtilityClasses.PCUtility;
 import UtilityClasses.SwingUtility;
 
 import javax.swing.JTextArea;
@@ -146,6 +147,7 @@ public class VehicleCombatWindow {
 		for(var pos : selectedVehicle.getCrewPositions()) {
 			vehicleCrew.add(pos.getPositionName()+(pos.crewMemeber == null ? ", EMPTY" : 
 				" "+pos.crewMemeber.crewMember.name +", Action: "+pos.crewMemeber.currentAction 
+				+", SL: "+PCUtility.getSL("Heavy", pos.crewMemeber.crewMember)
 				+", PD: "+pos.crewMemeber.crewMember.physicalDamage
 				+", Alive: "+pos.crewMemeber.crewMember.alive 
 				+", Conscious: "+pos.crewMemeber.crewMember.conscious));

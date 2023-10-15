@@ -9,13 +9,14 @@ public class FactionManager {
 	public static ArrayList<Faction> factions;
 	
 	public enum FactionType {
-		Astartes
+		Astartes,PhaseOneClones
 	}
 	
 	
 	public static void initalizeFactions() {
 		factions = new ArrayList<Faction>();
 		factions.add(new Astartes());
+		factions.add(new PhaseOneClones());
 	}
 	
 	

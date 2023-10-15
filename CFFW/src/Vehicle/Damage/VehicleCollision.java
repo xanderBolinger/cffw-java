@@ -24,6 +24,7 @@ public class VehicleCollision implements Serializable {
 		
 		int obstacles = hex.coverPositions / 3;
 		
+		System.out.println("Obstacles: "+obstacles);
 		int hitChance = hiddenObstacleCollisionChance(obstacles);
 		
 		int roll = DiceRoller.roll(0, 99);

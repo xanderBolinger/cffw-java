@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import Company.Company;
 import Conflict.GameWindow;
 import UtilityClasses.ExcelUtility;
+import UtilityClasses.PCUtility;
 import UtilityClasses.SwingUtility;
 import Vehicle.Vehicle;
 import Vehicle.Data.CrewMember;
@@ -119,7 +120,8 @@ public class AddVehicleWindow {
 		
 		for(var pos : selectedVehicle.getCrewPositions()) {
 			vehicleCrew.add(pos.getPositionName()+(pos.crewMemeber == null ? ", EMPTY" : 
-				" "+pos.crewMemeber.crewMember.name +", PD: "+pos.crewMemeber.crewMember.physicalDamage
+				" "+pos.crewMemeber.crewMember.name +
+				", SL: "+PCUtility.getSL("Heavy", pos.crewMemeber.crewMember)+", PD: "+pos.crewMemeber.crewMember.physicalDamage
 				+", Alive: "+pos.crewMemeber.crewMember.alive+", Conscious: "+pos.crewMemeber.crewMember.conscious));
 		}
 		
@@ -147,7 +149,8 @@ public class AddVehicleWindow {
 		ArrayList<String> rosterStrings = new ArrayList<String>();
 		
 		for(var trooper : company.getRoster()) {
-			rosterStrings.add(trooper.name+", Role: "+trooper.designation+", PD: "+trooper.physicalDamage+", Concious: "+trooper.conscious+", Alive: "+trooper.alive);
+			rosterStrings.add(trooper.name+", Role: "+trooper.designation
+					+", SL: "+PCUtility.getSL("Heavy", trooper)+", PD: "+trooper.physicalDamage+", Concious: "+trooper.conscious+", Alive: "+trooper.alive);
 		}
 		
 		SwingUtility.setList(rosterList, rosterStrings);

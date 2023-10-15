@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<vehicle>
+    <vehicle_data shielded="false" maxValue="0" rechargeRate="0">
+        <crew_compartments>
+            <compartment name="OPERATORS" shielded="false">
+                <crew_positions>
+                    <position name="Pilot">
+                        <position_types>
+                            <type>DRIVER</type>
+                        </position_types>
+                        <view_directions>
+                            <direction>A</direction>
+                            <direction>AB</direction>
+                            <direction>B</direction>
+                            <direction>BC</direction>
+                            <direction>C</direction>
+                            <direction>CD</direction>
+                            <direction>D</direction>
+                            <direction>DE</direction>
+                            <direction>E</direction>
+                            <direction>EF</direction>
+                            <direction>F</direction>
+                            <direction>FA</direction>
+                        </view_directions>
+                    </position>
+                    <position name="Commander">
+                        <position_types>
+                            <type>COMMANDER</type>
+                        </position_types>
+                        <view_directions>
+                            <direction>A</direction>
+                            <direction>AB</direction>
+                            <direction>B</direction>
+                            <direction>BC</direction>
+                            <direction>C</direction>
+                            <direction>CD</direction>
+                            <direction>D</direction>
+                            <direction>DE</direction>
+                            <direction>E</direction>
+                            <direction>EF</direction>
+                            <direction>F</direction>
+                            <direction>FA</direction>
+                        </view_directions>
+                    </position>
+                    <position name="Main Gunner">
+                        <position_types>
+                            <type>GUNNER</type>
+                        </position_types>
+                        <view_directions>
+                            <direction>A</direction>
+                            <direction>AB</direction>
+                            <direction>B</direction>
+                            <direction>BC</direction>
+                            <direction>C</direction>
+                            <direction>CD</direction>
+                            <direction>D</direction>
+                            <direction>DE</direction>
+                            <direction>E</direction>
+                            <direction>EF</direction>
+                            <direction>F</direction>
+                            <direction>FA</direction>
+                        </view_directions>
+                    </position>
+                    <position name="Secondary Gunner">
+                        <position_types>
+                            <type>GUNNER</type>
+                        </position_types>
+                        <view_directions>
+                            <direction>A</direction>
+                            <direction>AB</direction>
+                            <direction>B</direction>
+                            <direction>BC</direction>
+                            <direction>C</direction>
+                            <direction>CD</direction>
+                            <direction>D</direction>
+                            <direction>DE</direction>
+                            <direction>E</direction>
+                            <direction>EF</direction>
+                            <direction>F</direction>
+                            <direction>FA</direction>
+                        </view_directions>
+                    </position>
+
+                </crew_positions>
+            </compartment>
+        </crew_compartments>
+        <movement_data>
+            <hull_turn_rate>4</hull_turn_rate>
+            <acceleration>4</acceleration>
+            <deceleration>4</deceleration>
+            <boost recovery="2">6</boost>
+            <terrain feature="Paved Road">12</terrain>
+            <terrain feature="Dirt Road">12</terrain>
+            <terrain feature="Mud">12</terrain>
+            <terrain feature="Deep Mud">12</terrain>
+            <terrain feature="Soil">12</terrain>
+        </movement_data>
+        <smoke_data>
+            <trailing_smoke>VehicleTrailingSmoke</trailing_smoke>
+            <trailing_smoke_turns>12</trailing_smoke_turns>
+            <launched_smoke>VehicleSmokeLauncher</launched_smoke>
+            <smoke_launches>4</smoke_launches>
+        </smoke_data>
+    </vehicle_data>
+</vehicle>
