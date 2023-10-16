@@ -12,8 +12,68 @@ public class AdditionalOrdnance {
 
 	public AdditionalOrdnance() {
 		HeavyBlasterCannon();
+		thirtyMmCannon();
 	}
 	
+	public void thirtyMmCannon() {
+		Weapons weapon = new Weapons();
+		
+		weapon.name = "30mm Cannon";
+		weapon.type = "Ordnance";
+		weapon.energyWeapon = false;
+
+		String name = "HEAT";
+		ArrayList<Integer> pen = new ArrayList<Integer>();
+		ArrayList<Integer> dc = new ArrayList<Integer>();
+		ArrayList<String> bshc = new ArrayList<String>();
+		ArrayList<Integer> bc = new ArrayList<Integer>();
+
+		pen.add(112); // 0
+		pen.add(112); // 1
+		pen.add(112); // 2
+		pen.add(112); // 3
+		pen.add(112); // 4
+		pen.add(112); // 5
+		pen.add(112); // 6
+		pen.add(112); // 8
+		pen.add(112); // 10
+
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+		dc.add(10);
+
+		bshc.add("*3");
+		bshc.add("*1");
+		bshc.add("70");
+		bshc.add("35");
+		bshc.add("10");
+		bshc.add("5");
+		bshc.add("3");
+		bshc.add("1");
+		bshc.add("0");
+
+		bc.add(260);
+		bc.add(50);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+
+		PCAmmo heat = new PCAmmo(name, pen, dc, bshc, bc, 113, 10);
+		heat.ordnance = true;
+		weapon.pcAmmoTypes.add(heat);
+		
+		weapons.add(weapon);
+	}
 
 	public void HeavyBlasterCannon() {
 		Weapons weapon = new Weapons();

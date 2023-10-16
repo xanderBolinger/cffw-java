@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<vehicle>
+    <vehicle_data shielded="true" maxValue="1000" rechargeRate="150">
+        <crew_compartments>
+            <compartment name="OPERATORS" shielded="true">
+                <crew_positions>
+                    <position name="Pilot">
+                        <position_types>
+                            <type>DRIVER</type>
+                            <type>GUNNER</type>
+                            <type>COMMANDER</type>
+                        </position_types>
+                        <view_directions>
+                            <direction>A</direction>
+                            <direction>AB</direction>
+                            <direction>B</direction>
+                            <direction>BC</direction>
+                            <direction>C</direction>
+                            <direction>CD</direction>
+                            <direction>D</direction>
+                            <direction>DE</direction>
+                            <direction>E</direction>
+                            <direction>EF</direction>
+                            <direction>F</direction>
+                            <direction>FA</direction>
+                        </view_directions>
+                    </position>
+                    <position name="Copilot">
+                        <position_types>
+                            <type>DRIVER</type>
+                            <type>GUNNER</type>
+                            <type>COMMANDER</type>
+                        </position_types>
+                        <view_directions>
+                            <direction>A</direction>
+                            <direction>AB</direction>
+                            <direction>B</direction>
+                            <direction>BC</direction>
+                            <direction>C</direction>
+                            <direction>CD</direction>
+                            <direction>D</direction>
+                            <direction>DE</direction>
+                            <direction>E</direction>
+                            <direction>EF</direction>
+                            <direction>F</direction>
+                            <direction>FA</direction>
+                        </view_directions>
+                    </position>
+
+                </crew_positions>
+                <shield_generator maxValue="100" rechargeRate="25"></shield_generator>
+            </compartment>
+            <compartment name="EXTERNAL GUNNER" shielded="false">
+                <crew_positions>
+                    <position name="Topgunner">
+                        <position_types>
+                            <type>GUNNER</type>
+                        </position_types>
+                        <view_directions>
+                            <direction>A</direction>
+                            <direction>AB</direction>
+                            <direction>B</direction>
+                            <direction>BC</direction>
+                            <direction>C</direction>
+                            <direction>CD</direction>
+                            <direction>D</direction>
+                            <direction>DE</direction>
+                            <direction>E</direction>
+                            <direction>EF</direction>
+                            <direction>F</direction>
+                            <direction>FA</direction>
+                        </view_directions>
+                    </position>
+                </crew_positions>
+            </compartment>
+        </crew_compartments>
+        <movement_data>
+            <hull_turn_rate>3</hull_turn_rate>
+            <acceleration>5</acceleration>
+            <deceleration>5</deceleration>
+            <boost recovery="2">8</boost>
+            <terrain feature="Paved Road">11</terrain>
+            <terrain feature="Dirt Road">9</terrain>
+            <terrain feature="Mud">8</terrain>
+            <terrain feature="Deep Mud">7</terrain>
+            <terrain feature="Soil">10</terrain>
+        </movement_data>
+        <smoke_data>
+            <trailing_smoke>VehicleTrailingSmoke</trailing_smoke>
+            <trailing_smoke_turns>10</trailing_smoke_turns>
+            <launched_smoke>VehicleSmokeLauncher</launched_smoke>
+            <smoke_launches>3</smoke_launches>
+        </smoke_data>
+    </vehicle_data>
+</vehicle>

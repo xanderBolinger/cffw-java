@@ -2245,8 +2245,7 @@ public class HexGrid implements Serializable {
 
 			}
 
-			drawSmokeMarkers(g2);
-			drawImpactMarkers(g2);
+			
 			
 			// System.out.println("Columns: "+columns);
 			// System.out.println("Rows: "+rows);
@@ -2412,6 +2411,9 @@ public class HexGrid implements Serializable {
 
 			pressedCursorPoint = currentCursorPoint;
 			oldZoom = zoom;
+			
+			drawSmokeMarkers(g2);
+			drawImpactMarkers(g2);
 
 		}
 

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<vehicle>
+    <vehicle_data shielded="false" maxValue="0" rechargeRate="0">
+        <crew_compartments>
+            <compartment name="OPERATORS" shielded="false">
+                <crew_positions>
+                    <position name="DroidBrain">
+                        <position_types>
+                            <type>DRIVER</type>
+                        </position_types>
+                        <view_directions>
+                            <direction>A</direction>
+                            <direction>AB</direction>
+                            <direction>B</direction>
+                            <direction>BC</direction>
+                            <direction>C</direction>
+                            <direction>CD</direction>
+                            <direction>D</direction>
+                            <direction>DE</direction>
+                            <direction>E</direction>
+                            <direction>EF</direction>
+                            <direction>F</direction>
+                            <direction>FA</direction>
+                        </view_directions>
+                    </position>
+                </crew_positions>
+            </compartment>
+        </crew_compartments>
+        <movement_data>
+            <hull_turn_rate>12</hull_turn_rate>
+            <acceleration>2</acceleration>
+            <deceleration>2</deceleration>
+            <boost recovery="2">2</boost>
+            <terrain feature="Paved Road">2</terrain>
+            <terrain feature="Dirt Road">2</terrain>
+            <terrain feature="Mud">2</terrain>
+            <terrain feature="Deep Mud">2</terrain>
+            <terrain feature="Soil">2</terrain>
+        </movement_data>
+        <smoke_data>
+            <trailing_smoke>VehicleTrailingSmoke</trailing_smoke>
+            <trailing_smoke_turns>0</trailing_smoke_turns>
+            <launched_smoke>VehicleSmokeLauncher</launched_smoke>
+            <smoke_launches>0</smoke_launches>
+        </smoke_data>
+    </vehicle_data>
+</vehicle>
