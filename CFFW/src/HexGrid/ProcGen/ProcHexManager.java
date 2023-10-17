@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JComponent;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -57,7 +58,7 @@ public class ProcHexManager {
 		}
 	}
 	
-	public static void PaintHex(Graphics2D g2d, Polygon hex, int x, int y) {
+	public static void PaintHex(Graphics2D g2d, Polygon hex, int x, int y, JComponent comp) {
 		if(GameWindow.gameWindow.game.backgroundMap)
 			return;
 		
@@ -74,7 +75,7 @@ public class ProcHexManager {
 			e.printStackTrace();
 		}
         
-        g2d.drawImage(img, grassImageX, grassImageY, null);
+        g2d.drawImage(img, grassImageX, grassImageY, comp);
 	}
 	
 	private static Image getHexImage(int x, int y) throws Exception {

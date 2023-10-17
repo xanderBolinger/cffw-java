@@ -2279,7 +2279,7 @@ public class HexGrid implements Serializable {
 					// System.out.println("i: "+i+" j: "+j);
 					Polygon hex = hexMap.get(i).get(j);
 					
-					ProcHexManager.PaintHex(g2, hex, i, j);
+					ProcHexManager.PaintHex(g2, hex, i, j, this);
 					
 					g2.setColor(BORDER_COLOR);
 					g2.setStroke(STROKE);
@@ -2303,12 +2303,6 @@ public class HexGrid implements Serializable {
 					int count = 1;
 
 					for (DeployedUnit deployedUnit : deployedUnits) {
-
-						if (deployedUnit.unit.callsign.equals("ghost1")) {
-
-							// System.out.println("Ghost 1 in delpoyed units, i: "+i+", j: "+j+", xCord:
-							// "+deployedUnit.xCord+", yCord: "+deployedUnit.yCord);
-						}
 
 						if (selectedUnit != null && deployedUnit.unit.callsign.equals(selectedUnit.unit.callsign))
 							continue;
