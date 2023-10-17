@@ -35,6 +35,7 @@ import CorditeExpansionActions.CeAction;
 import CorditeExpansionActions.TurnAction;
 import HexGrid.Fortifications.HexGridFortificationsUtility;
 import HexGrid.ProcGen.ProcHexManager;
+import HexGrid.Shields.ShieldManager;
 import HexGrid.Vehicle.HexGridHullDownUtility;
 import CorditeExpansionActions.CeAction.ActionType;
 import Hexes.Building;
@@ -117,10 +118,13 @@ public class HexGrid implements Serializable {
 	private JButton btnNewButton_3;
 	public boolean elevationPaste = false;
 	public boolean createFortifications = false;
+	public boolean createShields = false;
 	private JButton btnToggleElv;
 	private JButton btnFt;
 	private JSpinner spinnerFortificationLevel;
 	private JMenuItem mntmLoadHexMap;
+	private JButton btnShields;
+	private JSpinner spinnerShieldStrength;
 
 	/**
 	 * Create the application.
@@ -333,6 +337,22 @@ public class HexGrid implements Serializable {
 		btnFt.setBounds(275, 0, 45, 45);
 		btnFt.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
 		layeredPane.add(btnFt);
+		
+		btnShields = new JButton("Sd");
+		btnShields.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createShields = !createShields;
+				GameWindow.gameWindow.conflictLog.addNewLine("Create Shields: "+createShields);
+			}
+		});
+		btnShields.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
+		btnShields.setBackground(Color.WHITE);
+		btnShields.setBounds(383, 0, 45, 45);
+		layeredPane.add(btnShields);
+		
+		spinnerShieldStrength = new JSpinner();
+		spinnerShieldStrength.setBounds(438, 12, 45, 20);
+		layeredPane.add(spinnerShieldStrength);
 
 		panel.addMouseListener(new MouseAdapter() {
 
@@ -1545,6 +1565,8 @@ public class HexGrid implements Serializable {
 						var clickedHex = GameWindow.gameWindow.findHex(j, i);
 						if(clickedHex != null && createFortifications) {
 							GameWindow.gameWindow.game.fortifications.addTrench(new Cord(i,j), (int)spinnerFortificationLevel.getValue());
+						} else if(clickedHex != null && createShields) {
+							GameWindow.gameWindow.shieldManager.AddShield(clickedHex, (int)spinnerShieldStrength.getValue());
 						}
 						
 						if (copiedHex != null && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)) {
@@ -2391,6 +2413,7 @@ public class HexGrid implements Serializable {
 
 			HexGridHullDownUtility.showHullDownPositions(g2);
 			HexGridFortificationsUtility.showFortifications(g2);
+			GameWindow.gameWindow.shieldManager.showShields(g2);
 			
 			if (HexGrid.losThreadShowing && losThread.npoints > 1) {
 

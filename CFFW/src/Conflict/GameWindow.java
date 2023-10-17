@@ -20,6 +20,7 @@ import CreateGame.SetupWindow;
 import HexGrid.CalculateLOS;
 import HexGrid.HexGrid;
 import HexGrid.HexGrid.DeployedUnit;
+import HexGrid.Shields.ShieldManager;
 import Hexes.Hex;
 import Hexes.HexWindow;
 import Items.PersonalShield;
@@ -76,7 +77,8 @@ public class GameWindow implements Serializable {
 	public CloseQuartersBattle cqb = new CloseQuartersBattle(this);
 	public ConflictLog conflictLog;
 	public static GameWindow gameWindow;
-
+	public ShieldManager shieldManager;
+	
 	public SetupWindow setupWindow;
 	public JList listIniativeOrder;
 	public JFrame f = null;
@@ -110,6 +112,7 @@ public class GameWindow implements Serializable {
 	 */
 	public GameWindow(ArrayList<Company> companiesFromSetupWindow, SetupWindow setupWindow, Game game, boolean openUnit,
 			int hexRows, int hexCols) {
+		shieldManager = new ShieldManager();
 		this.hexCols = hexCols;
 		this.hexRows = hexRows;
 		this.game = game;
