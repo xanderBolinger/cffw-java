@@ -806,7 +806,7 @@ public class Skills implements Serializable {
 			getSkill("Spot/Listen").value = 60;
 
 			getSkill("Rifle").supported = true;
-			getSkill("Rifle").value = 60;
+			getSkill("Rifle").value = 65;
 
 			getSkill("Subgun").supported = true;
 			getSkill("Subgun").value = 50;
@@ -842,7 +842,7 @@ public class Skills implements Serializable {
 			getSkill("Spot/Listen").value = 65;
 
 			getSkill("Rifle").supported = true;
-			getSkill("Rifle").value = 65;
+			getSkill("Rifle").value = 75;
 
 			getSkill("Subgun").supported = true;
 			getSkill("Subgun").value = 50;
@@ -878,7 +878,7 @@ public class Skills implements Serializable {
 			getSkill("Spot/Listen").value = 60;
 
 			getSkill("Rifle").supported = true;
-			getSkill("Rifle").value = 60;
+			getSkill("Rifle").value = 65;
 
 			getSkill("Subgun").supported = true;
 			getSkill("Subgun").value = 50;
@@ -914,13 +914,13 @@ public class Skills implements Serializable {
 			getSkill("Spot/Listen").value = 60;
 
 			getSkill("Rifle").supported = true;
-			getSkill("Rifle").value = 60;
+			getSkill("Rifle").value = 65;
 
 			getSkill("Subgun").supported = true;
 			getSkill("Subgun").value = 50;
 
 			getSkill("Heavy").supported = true;
-			getSkill("Heavy").value = 50;
+			getSkill("Heavy").value = 65;
 
 			getSkill("Launcher").supported = true;
 			getSkill("Launcher").value = 65;
@@ -950,13 +950,13 @@ public class Skills implements Serializable {
 			getSkill("Spot/Listen").value = 65;
 
 			getSkill("Rifle").supported = true;
-			getSkill("Rifle").value = 50;
+			getSkill("Rifle").value = 65;
 
 			getSkill("Subgun").supported = true;
 			getSkill("Subgun").value = 50;
 
 			getSkill("Heavy").supported = true;
-			getSkill("Heavy").value = 60;
+			getSkill("Heavy").value = 65;
 
 			getSkill("Launcher").supported = true;
 			getSkill("Launcher").value = 50;
@@ -986,7 +986,7 @@ public class Skills implements Serializable {
 			getSkill("Spot/Listen").value = 65;
 
 			getSkill("Rifle").supported = true;
-			getSkill("Rifle").value = 55;
+			getSkill("Rifle").value = 65;
 
 			getSkill("Subgun").supported = true;
 			getSkill("Subgun").value = 55;
@@ -1022,16 +1022,16 @@ public class Skills implements Serializable {
 			getSkill("Spot/Listen").value = 60;
 
 			getSkill("Rifle").supported = true;
-			getSkill("Rifle").value = 65;
+			getSkill("Rifle").value = 70;
 
 			getSkill("Subgun").supported = true;
 			getSkill("Subgun").value = 55;
 
 			getSkill("Heavy").supported = true;
-			getSkill("Heavy").value = 55;
+			getSkill("Heavy").value = 70;
 
 			getSkill("Launcher").supported = true;
-			getSkill("Launcher").value = 55;
+			getSkill("Launcher").value = 70;
 
 			getSkill("Pistol").supported = true;
 			getSkill("Pistol").value = 55;
@@ -1068,7 +1068,7 @@ public class Skills implements Serializable {
 			getSkill("Spot/Listen").value = 65;
 
 			getSkill("Rifle").supported = true;
-			getSkill("Rifle").value = 70;
+			getSkill("Rifle").value = 75;
 
 			getSkill("Subgun").supported = true;
 			getSkill("Subgun").value = 70;
@@ -1110,7 +1110,7 @@ public class Skills implements Serializable {
 			getSkill("Spot/Listen").value = 65;
 
 			getSkill("Rifle").supported = true;
-			getSkill("Rifle").value = 70;
+			getSkill("Rifle").value = 75;
 
 			getSkill("Subgun").supported = true;
 			getSkill("Subgun").value = 70;
@@ -1152,7 +1152,7 @@ public class Skills implements Serializable {
 			getSkill("Spot/Listen").value = 65;
 
 			getSkill("Rifle").supported = true;
-			getSkill("Rifle").value = 75;
+			getSkill("Rifle").value = 85;
 
 			getSkill("Subgun").supported = true;
 			getSkill("Subgun").value = 70;

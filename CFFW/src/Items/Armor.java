@@ -352,7 +352,7 @@ public class Armor implements Serializable {
 		this.bPF = 20; 
 		armorName = "B1";
 		type = ArmorType.B1;
-		armorWeight = 20;
+		armorWeight = 15;
 		try {
 			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {
@@ -367,7 +367,7 @@ public class Armor implements Serializable {
 		this.bPF = 30; 
 		armorName = "B2";
 		type = ArmorType.B2;
-		armorWeight = 50;
+		armorWeight = 30;
 		try {
 			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {
