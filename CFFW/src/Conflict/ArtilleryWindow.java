@@ -63,6 +63,7 @@ public class ArtilleryWindow {
 	private transient JCheckBox chckbxLosI;
 	private JCheckBox chckbxPLvl;
 	private JSpinner spinnerRadius;
+	private JSpinner spinnerOrders;
 	
 	/**
 	 * Create the application.
@@ -511,8 +512,11 @@ public class ArtilleryWindow {
 					return;
 				}
 				
+				var shots = (int) spinnerShots.getValue();
+				var shotIndex = comboBoxShell.getSelectedIndex();
 				FireMission fireMission = unit.fireMissions.get(fireMissionList.getSelectedIndex());
-				fireMission.fireForEffect((int) spinnerShots.getValue(), comboBoxShell.getSelectedIndex());
+				fireMission.fireForEffect(shots, shotIndex);
+				fireMission.addOrders((int)spinnerOrders.getValue(), shots, shotIndex);
 				
 			}
 		});
@@ -549,14 +553,14 @@ public class ArtilleryWindow {
 		btnUpdate_1_1_1.setBounds(10, 353, 160, 26);
 		frame.getContentPane().add(btnUpdate_1_1_1);
 		
-		JLabel lblShots = new JLabel("Shots per Bat:");
+		JLabel lblShots = new JLabel("Shots");
 		lblShots.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblShots.setBounds(10, 246, 99, 26);
+		lblShots.setBounds(10, 246, 42, 26);
 		frame.getContentPane().add(lblShots);
 		
 		spinnerShots = new JSpinner();
 		spinnerShots.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		spinnerShots.setBounds(114, 251, 42, 20);
+		spinnerShots.setBounds(62, 251, 42, 20);
 		frame.getContentPane().add(spinnerShots);
 		
 		JButton btnUpdate_1_1_1_1 = new JButton("Plot/Spot Round");
@@ -681,6 +685,15 @@ public class ArtilleryWindow {
 		lblRadius.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblRadius.setBounds(10, 168, 55, 15);
 		frame.getContentPane().add(lblRadius);
+		
+		JLabel lblOrders = new JLabel("Orders");
+		lblOrders.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblOrders.setBounds(156, 219, 42, 26);
+		frame.getContentPane().add(lblOrders);
+		
+		spinnerOrders = new JSpinner();
+		spinnerOrders.setBounds(156, 251, 42, 20);
+		frame.getContentPane().add(spinnerOrders);
 		frame.setVisible(true);
 		
 		setFields();

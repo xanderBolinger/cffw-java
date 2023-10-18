@@ -74,11 +74,11 @@ public class Artillery implements Serializable {
 	}
 	
 	public enum BatteryType implements Serializable {
-		M107,AV7,M81,M60
+		M107,AV7,M81,M60,M120
 	}
 	
 	public enum ShellType implements Serializable {
-		M60HE,M60Smoke,M60ION,M107HE,AV7HEAT,M81HE,M81ION,M107Smoke,AV7Smoke,M81Smoke
+		M120HE,M120Smoke,M120ION,M60HE,M60Smoke,M60ION,M107HE,AV7HEAT,M81HE,M81ION,M107Smoke,AV7Smoke,M81Smoke
 	}
 	
 	public Artillery(BatteryType batteryType, int crewQuality) {
@@ -113,9 +113,9 @@ public class Artillery implements Serializable {
 			maximumRangeInTwoYardHexes = 2820; 
 			minimumRangeInTwoYardHexes = 270; 
 			
-			rangingAccuracy = 85; 
-			adjustmenAccuracy = 65; 
-			shellAccuracy = 50; 
+			rangingAccuracy = 66; 
+			adjustmenAccuracy = 51; 
+			shellAccuracy = 39; 
 			
 			shortTermROF = 1; 
 			sustainedROF = 1; 
@@ -129,15 +129,38 @@ public class Artillery implements Serializable {
 			
 			shells.add(new Shell(ShellType.AV7HEAT));
 			shells.add(new Shell(ShellType.AV7Smoke));
+		}  else if(BatteryType.M120  == batteryType) {
+			batteryName = "M120";
+			this.batteryType = batteryType; 
+			maximumRangeInTwoYardHexes = 11370; 
+			minimumRangeInTwoYardHexes = 0; 
+			
+			rangingAccuracy = 81; 
+			adjustmenAccuracy = 63; 
+			shellAccuracy = 48; 
+			
+			shortTermROF = 5; 
+			sustainedROF = 15; 
+			crew = 6; 
+			
+			batteryTargetSize = 7; 
+			
+			currentCrew = 0; 
+			
+			deployTime = 43; 
+			
+			shells.add(new Shell(ShellType.M120HE));
+			shells.add(new Shell(ShellType.M120ION));
+			shells.add(new Shell(ShellType.M120Smoke));
 		} else if(BatteryType.M81  == batteryType) {
 			batteryName = "M81";
 			this.batteryType = batteryType; 
 			maximumRangeInTwoYardHexes = 2180; 
 			minimumRangeInTwoYardHexes = 25; 
 			
-			rangingAccuracy = 65; 
-			adjustmenAccuracy = 59; 
-			shellAccuracy = 55; 
+			rangingAccuracy = 50; 
+			adjustmenAccuracy = 42; 
+			shellAccuracy = 40; 
 			
 			shortTermROF = 2; 
 			sustainedROF = 6; 
@@ -270,6 +293,87 @@ public class Artillery implements Serializable {
 				bc.add(53);
 				bc.add(15);
 				
+			} else if(shellType == ShellType.M120HE) {
+				shellName = "120mm HE";
+				pen.add(30);
+				pen.add(29);
+				pen.add(29);
+				pen.add(28);
+				pen.add(27);
+				pen.add(26);
+				pen.add(25);
+
+				
+				dc.add(9);
+				dc.add(9);
+				dc.add(9);
+				dc.add(9);
+				dc.add(9);
+				dc.add(9);
+				dc.add(8);
+
+				
+				bshc.add("*14");
+				bshc.add("*3");
+				bshc.add("87");
+				bshc.add("38");
+				bshc.add("21");
+				bshc.add("13");
+				bshc.add("5");
+				
+				bc.add(3000);
+				bc.add(530);
+				bc.add(95);
+				bc.add(43);
+				bc.add(25);
+				bc.add(17);
+				bc.add(13);
+				
+			} else if(shellType == ShellType.M120ION) {
+				shellName = "120mm ION";
+				pen.add(0);
+				pen.add(0);
+				pen.add(0);
+				pen.add(0);
+				pen.add(0);
+				pen.add(0);
+				pen.add(0);
+
+				dc.add(1);
+				dc.add(1);
+				dc.add(1);
+				dc.add(1);
+				dc.add(1);
+				dc.add(1);
+				dc.add(1);
+
+				bshc.add("0");
+				bshc.add("0");
+				bshc.add("0");
+				bshc.add("0");
+				bshc.add("0");
+				bshc.add("0");
+				bshc.add("0");
+				
+				bc.add(0);
+				bc.add(0);
+				bc.add(0);
+				bc.add(0);
+				bc.add(0);
+				bc.add(0);
+				bc.add(0);
+				
+				ionDamage.add(12000);
+				ionDamage.add(1000);
+				ionDamage.add(283);
+				ionDamage.add(154);
+				ionDamage.add(102);
+				ionDamage.add(55);
+				ionDamage.add(25);
+			} else if(shellType == ShellType.M120Smoke) {
+				shellName = "Smoke";
+				smoke = true; 
+				smokeType = SmokeType.Mortar120mm;
 			} else if(shellType == ShellType.M81HE) {
 				shellName = "81mm HE";
 				pen.add(9);

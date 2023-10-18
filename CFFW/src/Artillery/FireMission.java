@@ -54,6 +54,7 @@ public class FireMission implements Serializable {
 	public ArrayList<Integer> calculatedTargetPositionError = new ArrayList<Integer>(); 
 	public ArrayList<Integer> spottedPositionError = new ArrayList<Integer>();  
 	public ArrayList<Integer> plotTime = new ArrayList<Integer>();  
+	public ArrayList<ShotOrder> shotOrders = new ArrayList<ShotOrder>();
 	
 	public int fireMissionSpeed; 
 	public int randomFireMissionSpeed; 
@@ -247,16 +248,48 @@ public class FireMission implements Serializable {
 		GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Ordering Shot: actions to fire, "+actionsToFire+", Shot Count: "+shots);
 		//System.out.println("Ordering Shot: actions to fire, "+actionsToFire);
 		
+		pushShots(shots, shellIndex);
+		
+	}
+	
+	public void addOrders(int orders, int shots, int shotIndex) {
+		if(shotOrders == null)
+			 shotOrders = new ArrayList<ShotOrder>();
+		
+		
+		for(int i = 0; i < orders; i++) {
+			
+			shotOrders.add(new ShotOrder(shots, shotIndex));
+			
+		}
+		
+	}
+	
+	public void pushShotsOverTime() {
+		if(actionsToFire > 0) {
+			System.out.println("Cant push shots over time, actions to fire > 0");
+			return;
+		} else if(shotOrders.size() <= 0) {
+			System.out.println("Shot order size == 0");
+			return;
+		}
+		
+		var order = shotOrders.remove(0);
+		GameWindow.gameWindow.conflictLog.addNewLine("Push shots over time to queue:");
+		pushShots(order.shots, order.shellIndex);
+	}
+	
+	public void pushShots(int shots, int shellIndex) {
 		for(Artillery battery : batteries) {
 			
 			for(int i = 0; i < shots; i++) 
 				battery.queue.push(shellIndex);
 			
-			GameWindow.gameWindow.conflictLog.addNewLine("Queue Size: "+battery.queue.size());
+			GameWindow.gameWindow.conflictLog.addNewLine(fireMissionDisplayName+": Push Shots Queue Size: "+battery.queue.size());
 		}
+		
 	}
 	
-
 	
 	public boolean artilleryComputer() {
 		for(Artillery bat: batteries) {
@@ -337,6 +370,9 @@ public class FireMission implements Serializable {
 		if(airborneShots.size() > 0) {
 			checkForImpacts();
 		}
+		
+		pushShotsOverTime();
+		
 		
 	}
 	
