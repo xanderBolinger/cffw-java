@@ -74,11 +74,11 @@ public class Artillery implements Serializable {
 	}
 	
 	public enum BatteryType implements Serializable {
-		M107,AV7,M81
+		M107,AV7,M81,M60
 	}
 	
 	public enum ShellType implements Serializable {
-		M107HE,AV7HEAT,M81HE,M81ION,M107Smoke,AV7Smoke,M81Smoke
+		M60HE,M60Smoke,M60ION,M107HE,AV7HEAT,M81HE,M81ION,M107Smoke,AV7Smoke,M81Smoke
 	}
 	
 	public Artillery(BatteryType batteryType, int crewQuality) {
@@ -152,6 +152,29 @@ public class Artillery implements Serializable {
 			shells.add(new Shell(ShellType.M81HE));
 			shells.add(new Shell(ShellType.M81ION));
 			shells.add(new Shell(ShellType.M81Smoke));
+		} else if(BatteryType.M60  == batteryType) {
+			batteryName = "M60";
+			this.batteryType = batteryType; 
+			maximumRangeInTwoYardHexes = 990; 
+			minimumRangeInTwoYardHexes = 25; 
+			
+			rangingAccuracy = 32; 
+			adjustmenAccuracy = 29; 
+			shellAccuracy = 27; 
+			
+			shortTermROF = 2; 
+			sustainedROF = 4; 
+			crew = 2; 
+			
+			batteryTargetSize = 6; 
+			
+			currentCrew = 0; 
+			
+			deployTime = 36; 
+			
+			shells.add(new Shell(ShellType.M60HE));
+			shells.add(new Shell(ShellType.M60ION));
+			shells.add(new Shell(ShellType.M60Smoke));
 		}
 		
 	}
@@ -309,13 +332,13 @@ public class Artillery implements Serializable {
 				bshc.add("0");
 				bshc.add("0");
 				
-				bc.add(3000);
-				bc.add(530);
-				bc.add(95);
-				bc.add(43);
-				bc.add(25);
-				bc.add(17);
-				bc.add(13);
+				bc.add(0);
+				bc.add(0);
+				bc.add(0);
+				bc.add(0);
+				bc.add(0);
+				bc.add(0);
+				bc.add(0);
 				
 				ionDamage.add(9000);
 				ionDamage.add(800);
@@ -336,7 +359,86 @@ public class Artillery implements Serializable {
 				shellName = "Smoke";
 				smoke = true; 
 				smokeType = SmokeType.Howitzer105mm;
-			} 
+			} else if(shellType == ShellType.M60HE) {
+				shellName = "60mm HE";
+				pen.add(2);
+				pen.add(2);
+				pen.add(2);
+				pen.add(2);
+				pen.add(1);
+				pen.add(1);
+				pen.add(1);
+
+				dc.add(2);
+				dc.add(2);
+				dc.add(2);
+				dc.add(2);
+				dc.add(2);
+				dc.add(2);
+				dc.add(2);
+
+				bshc.add("*1");
+				bshc.add("27");
+				bshc.add("6");
+				bshc.add("3");
+				bshc.add("1");
+				bshc.add("1");
+				bshc.add("0");
+				
+				bc.add(739);
+				bc.add(155);
+				bc.add(20);
+				bc.add(9);
+				bc.add(5);
+				bc.add(3);
+				bc.add(1);
+				
+			} else if(shellType == ShellType.M60ION) {
+				shellName = "60mm ION";
+				pen.add(0);
+				pen.add(0);
+				pen.add(0);
+				pen.add(0);
+				pen.add(0);
+				pen.add(0);
+				pen.add(0);
+
+				dc.add(1);
+				dc.add(1);
+				dc.add(1);
+				dc.add(1);
+				dc.add(1);
+				dc.add(1);
+				dc.add(1);
+
+				bshc.add("0");
+				bshc.add("0");
+				bshc.add("0");
+				bshc.add("0");
+				bshc.add("0");
+				bshc.add("0");
+				bshc.add("0");
+				
+				bc.add(0);
+				bc.add(0);
+				bc.add(0);
+				bc.add(0);
+				bc.add(0);
+				bc.add(0);
+				bc.add(0);
+				
+				ionDamage.add(6000);
+				ionDamage.add(600);
+				ionDamage.add(123);
+				ionDamage.add(34);
+				ionDamage.add(13);
+				ionDamage.add(11);
+				ionDamage.add(3);
+			} else if(shellType == ShellType.M60Smoke) {
+				shellName = "Smoke";
+				smoke = true; 
+				smokeType = SmokeType.Mortar60mm;
+			}
 			
 		}
 		

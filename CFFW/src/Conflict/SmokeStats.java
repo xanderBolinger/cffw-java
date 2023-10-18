@@ -16,7 +16,7 @@ public class SmokeStats implements Serializable {
 	public Cord deployedHex;
 	
 	public enum SmokeType {
-		SMOKE_GRENADE, Howitzer155mm, Howitzer105mm, Mortar81mm, Mortal120mm,VehicleSmokeLauncher,VehicleTrailingSmoke
+		SMOKE_GRENADE, Howitzer155mm, Howitzer105mm, Mortar60mm, Mortar81mm, Mortal120mm,VehicleSmokeLauncher,VehicleTrailingSmoke
 	}
 	
 	public SmokeStats(String smokeType) throws Exception {
@@ -45,6 +45,10 @@ public class SmokeStats implements Serializable {
 		case Howitzer155mm:
 			diameter = 8; 
 			duration = 15;
+			break;
+		case Mortar60mm:
+			diameter = 3; 
+			duration = 6;
 			break;
 		case Mortar81mm:
 			diameter = 5; 
