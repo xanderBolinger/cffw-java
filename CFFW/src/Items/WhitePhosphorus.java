@@ -9,7 +9,7 @@ import UtilityClasses.DiceRoller;
 public class WhitePhosphorus {
 
 	public enum WPType {
-		Mortar60mm,Mortar81mm,Mortar120mm,Shell155mm
+		Mortar60mm,Mortar81mm,Mortar120mm,Shell155mm,WpGrenade
 	}
 	
 	// C 1 2 3 4 5 6 7 8 9
@@ -25,6 +25,10 @@ public class WhitePhosphorus {
 		this.wpType = wpType;
 		
 		switch(wpType) {
+		
+		case WpGrenade:
+			break;
+		
 		case Mortar120mm:
 			
 			baseWPHitChance.add("*38");
