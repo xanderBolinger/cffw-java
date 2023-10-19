@@ -16,9 +16,14 @@ public class FlameThrower implements Serializable {
 	
 	public FlameThrowerType flamerType;
 	
+	public boolean ionCloud = false;
 	
 	public enum FlameThrowerType implements Serializable {
-		AstartesFlamer,AstartesFlamePistol
+		AstartesFlamer,AstartesFlamePistol,Manual
+	}
+	
+	public FlameThrower() {
+		flamerType = FlameThrowerType.Manual;
 	}
 	
 	public FlameThrower(FlameThrowerType type) {

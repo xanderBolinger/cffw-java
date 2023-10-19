@@ -3,10 +3,10 @@ package Conflict;
 import java.io.Serializable;
 
 import CorditeExpansion.Cord;
+import Items.WhitePhosphorus;
+import Items.WhitePhosphorus.WPType;
 
 public class SmokeStats implements Serializable {
-
-	
 	
 	public SmokeType smokeType;
 	public int diameter; 
@@ -15,8 +15,15 @@ public class SmokeStats implements Serializable {
 	
 	public Cord deployedHex;
 	
+	public WhitePhosphorus wp;
+	
 	public enum SmokeType {
-		SMOKE_GRENADE, Howitzer155mm, Howitzer105mm, Mortar60mm, Mortar81mm, Mortar120mm,VehicleSmokeLauncher,VehicleTrailingSmoke
+		SMOKE_GRENADE, Howitzer155mm, Howitzer105mm, Mortar60mm, 
+		Mortar81mm, Mortar120mm,VehicleSmokeLauncher,
+		VehicleTrailingSmoke,
+		
+		Wp120mm
+	
 	}
 	
 	public SmokeStats(String smokeType) throws Exception {
@@ -70,6 +77,11 @@ public class SmokeStats implements Serializable {
 			diameter = 8; 
 			duration = 12;
 			break;
+		case Wp120mm:
+			diameter = 8;
+			duration = 12;
+			wp = new WhitePhosphorus(WPType.Mortar120mm);
+			break;
 		default:
 			break;
 		
@@ -78,6 +90,9 @@ public class SmokeStats implements Serializable {
 	
 	public void increaseElapsedActions() {
 		elapsedActions++;
+		
+		if(elapsedActions <= duration)
+			wp.flameHex(deployedHex);
 	}
 	
 	public int getElapsedActionsTotal() {

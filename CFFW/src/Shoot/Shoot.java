@@ -22,7 +22,7 @@ import CorditeExpansion.FullAuto.FullAutoResults;
 import HexGrid.CalculateLOS;
 import Injuries.Explosion;
 import Injuries.ResolveHits;
-import Items.FlameThrowerCalculator;
+import Items.FlameDamageCalculator;
 import Items.Item;
 import Items.PCAmmo;
 import Items.Weapons;
@@ -228,7 +228,7 @@ public class Shoot {
 	
 	public void suppressiveFire(int shots) {
 		if(wep.flameThrower != null && shooter.inventory.launcherAmmoCheck(wep, pcAmmo, 1)) {
-			FlameThrowerCalculator.FlameHex(targetUnit.X, targetUnit.Y, wep.flameThrower, 1);
+			FlameDamageCalculator.FlameHex(targetUnit.X, targetUnit.Y, wep.flameThrower, 1);
 			return;
 		} else if(wep.flameThrower != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, 1)) {
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Flamer out of ammo");

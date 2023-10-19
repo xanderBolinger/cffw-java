@@ -126,6 +126,11 @@ public class Smoke implements Serializable {
 		var smoke = new SmokeStats(smokeStats.smokeType);
 		smoke.deployedHex = new Cord(cord.xCord, cord.yCord);
 		deployedSmoke.add(smoke);
+		
+		if(smoke.wp != null) {
+			smoke.wp.deployHex(smoke.deployedHex);
+		} 
+		
 	}
 	
 	

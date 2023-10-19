@@ -6,7 +6,7 @@ import Injuries.Injuries;
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 
-public class FlameThrowerCalculator {
+public class FlameDamageCalculator {
 	
 	public static void FlameHex(int x, int y, FlameThrower flamer, int charges) {
 		var units = GameWindow.gameWindow.getUnitsInHex("None", x, y);
@@ -22,19 +22,23 @@ public class FlameThrowerCalculator {
 				else if(dist == 2)
 					damage = CalculateFlameDamage(flamer.adjacent*charges, trooper);
 				
-				if(damage > 0)
-					ApplyFlameDamage(damage, trooper);
+				
 				
 				GameWindow.gameWindow.conflictLog.addNewLineToQueue("Flamer: "+flamer.flamerType+", Charges: "+charges+", "
 						+ (damage > 0 ? "hit "+trooper.number+" "+trooper.name+" for "+damage+" damage. dist: "+dist
 								: "missed "+trooper.number+" "+trooper.name+", dist: "+dist));
-				
+				if(damage > 0)
+					ApplyFlameDamage(damage, trooper);
 			}
+			
+			unit.suppression += unit.suppression + 5 < 100 ? 0 : 5;
+			unit.organization -= unit.organization - 5 < 0 ? 0 : 5;
+			
 		}
 		
 	}
 	
-	private static int CalculateFlameDamage(int baseDamage, Trooper target) {
+	public static int CalculateFlameDamage(int baseDamage, Trooper target) {
 		
 		var armor = target.armor;
 		
@@ -69,7 +73,7 @@ public class FlameThrowerCalculator {
 		
 	}
 	
-	private static void ApplyFlameDamage(int damage, Trooper target) {
+	public static void ApplyFlameDamage(int damage, Trooper target) {
 		
 		target.injured(GameWindow.gameWindow.conflictLog, new Injuries(damage, "Flame Damage", false, null), 
 				GameWindow.gameWindow.game, GameWindow.gameWindow);
