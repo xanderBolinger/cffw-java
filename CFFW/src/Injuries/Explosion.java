@@ -278,10 +278,23 @@ public class Explosion {
 		
 		double modifiedBc = bc;
 		
+		// dug outs 
+		if(fortificationLevel == 3 && target.HD) {
+			return bc / 500;
+		} else if(fortificationLevel == 4 && target.HD) {
+			return bc / 1000;
+		}
+		
 		// ground burst
 		if((shell != null && !shell.airBurst) || (pcAmmo != null && !pcAmmo.airBurst)) {
-			return (int)( modifiedBc * 0.01);
-		}
+			// shell could land in fox hole, PC rules say there is a 14 percent chance the shell lands inside the fox hole or trench
+			if(range == 0)
+				return bc;
+			else if(!target.HD)
+				return bc / 2;
+			else 
+				return (int)( modifiedBc * 0.01);
+		} 
 		
 		// air burst 
 		if((fortificationLevel == 1 || fortificationLevel == 2) && !target.inBuilding(GameWindow.gameWindow)) {

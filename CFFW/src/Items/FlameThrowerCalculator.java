@@ -56,15 +56,14 @@ public class FlameThrowerCalculator {
 			armor.currentShieldValue -= tempDamage / 200;
 		} 
 		
-		if(percentUncovered == 0)
+		if(target.entirelyMechanical || armor.vaccumSealed)
+			baseDamage /= 25;
+		else if(percentUncovered == 0)
 			baseDamage /= 4;
 		else if(percentUncovered >= 90)
 			baseDamage /= 3; 
 		else if(percentUncovered >= 75)
 			baseDamage /= 2;
-		
-		if(target.entirelyMechanical)
-			baseDamage /= 10;
 		
 		return baseDamage; 
 		

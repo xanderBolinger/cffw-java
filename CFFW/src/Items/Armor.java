@@ -39,6 +39,8 @@ public class Armor implements Serializable {
 	public boolean nightVision;
 	public int nightVisionEffectiveness;
 	
+	public boolean vaccumSealed;
+	
 	public ArrayList<MeleeArmor> meleeArmorStats;
 	
 	public Armor() {
@@ -108,6 +110,7 @@ public class Armor implements Serializable {
 		this.bPF = 45; 
 		armorName = "MKVIII Errant Armor";
 		type = ArmorType.MKVIII_Errant;
+		vaccumSealed = true;
 		
 		try {
 			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.CeramiteTacticalMarine));
@@ -122,6 +125,7 @@ public class Armor implements Serializable {
 		
 		this.bPF = 25; 
 		armorName = "Phase 1";
+		vaccumSealed = true;
 		type = ArmorType.PHASEONE;
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
 		a1.add(34);
@@ -180,6 +184,7 @@ public class Armor implements Serializable {
 		
 		this.bPF = 30; 
 		armorName = "Durasteel Medium Mando";
+		vaccumSealed = true;
 		type = ArmorType.DURASTEELMEDIUMMANDO;
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
 		a1.add(34);
@@ -236,6 +241,7 @@ public class Armor implements Serializable {
 			new MeleeArmorData();
 		
 		this.bPF = 30; 
+		vaccumSealed = true;
 		armorName = "Phase 1 Arc";
 		type = ArmorType.PHASEONEARC;
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
@@ -294,6 +300,7 @@ public class Armor implements Serializable {
 		
 		this.bPF = 40; 
 		armorName = "Katarn MK1";
+		vaccumSealed = true;
 		type = ArmorType.KATARN;
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
 		a1.add(34);
