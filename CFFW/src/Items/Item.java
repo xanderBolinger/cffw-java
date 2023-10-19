@@ -29,7 +29,7 @@ public class Item implements Serializable {
 	public enum ItemType implements Serializable {
 		NONE, ClassAThermalDetonator, Nacht5SmokeGrenade,
 
-		DC15A, DC15S, DC20, M5, DC15X, Z6, DC17M, DC17MRocket, DC17MSniper, DC40, RPS6,
+		DC15A, DC15S, DC15LE, DC20, M5, DC15X, Z6, DC17M, DC17MRocket, DC17MSniper, DC40, RPS6,
 		
 		HEAT, HE, ION, SMOKE, SmallArmsAmmo,FlameCharge,
 		Frag, Krak,
@@ -73,7 +73,7 @@ public class Item implements Serializable {
 				new Item(ItemType.GhillieSuit), new Item(ItemType.NVG_Gen3), new Item(ItemType.NVG_Gen4),
 				new Item(ItemType.NVG_Gen5),
 
-				new Item(ItemType.DC15A), new Item(ItemType.DC15S), new Item(ItemType.DC20), new Item(ItemType.DC15X), new Item(ItemType.Z6),
+				new Item(ItemType.DC15A), new Item(ItemType.DC15LE), new Item(ItemType.DC15S), new Item(ItemType.DC20), new Item(ItemType.DC15X), new Item(ItemType.Z6),
 				new Item(ItemType.M5), new Item(ItemType.DC17M), new Item(ItemType.DC17MSniper),
 				new Item(ItemType.DC17MRocket), new Item(ItemType.RPS6), new Item(ItemType.DC40),
 				new Item(ItemType.A310), new Item(ItemType.EE3), new Item(ItemType.M1), new Item(ItemType.E5),
@@ -118,7 +118,8 @@ public class Item implements Serializable {
 				new Item(ItemType.GoblinJavelin, ItemType.SmallArmsAmmo),
 				new Item(ItemType.ShortBow, ItemType.SmallArmsAmmo),
 
-				new Item(ItemType.DC15A, ItemType.SmallArmsAmmo), new Item(ItemType.DC20, ItemType.SmallArmsAmmo),
+				new Item(ItemType.DC15A, ItemType.SmallArmsAmmo), new Item(ItemType.DC15LE, ItemType.SmallArmsAmmo),
+				new Item(ItemType.DC20, ItemType.SmallArmsAmmo),
 				new Item(ItemType.DC15X, ItemType.SmallArmsAmmo), new Item(ItemType.Z6, ItemType.SmallArmsAmmo),
 				new Item(ItemType.M5, ItemType.SmallArmsAmmo), new Item(ItemType.DC17M, ItemType.SmallArmsAmmo),
 				new Item(ItemType.DC17MSniper, ItemType.SmallArmsAmmo), new Item(ItemType.A310, ItemType.SmallArmsAmmo),
@@ -149,7 +150,7 @@ public class Item implements Serializable {
 		} else if (ItemType.DC20 == weaponType && ItemType.SmallArmsAmmo == ammoType) {
 			ammo = new PCAmmo("D1S Power Cell", 10);
 			itemWeight = 4;
-		} else if ((ItemType.Z6 == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
+		} else if ((ItemType.Z6 == weaponType || ItemType.DC15LE == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
 			ammo = new PCAmmo("R1 Power Cell", 100);
 			itemWeight = 4;
 		} else if ((ItemType.M1 == weaponType) && ItemType.SmallArmsAmmo == ammoType) {

@@ -536,6 +536,43 @@ public class Weapons implements Serializable {
 
 		// Ce stats
 		ceStats.baseErgonomics = 50;
+		
+		String name = "Linked";
+		ArrayList<Integer> pen = new ArrayList<Integer>();
+		pen.add(0);
+		pen.add(0);
+		pen.add(0);
+		pen.add(0);
+		pen.add(0);
+		pen.add(0);
+
+		ArrayList<Integer> dc = new ArrayList<Integer>();
+		dc.add(0);
+		dc.add(0);
+		dc.add(0);
+		dc.add(0);
+		dc.add(0);
+		dc.add(0);
+
+		ArrayList<String> bshc = new ArrayList<String>();
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+		bshc.add("0");
+
+		ArrayList<Integer> bc = new ArrayList<Integer>();
+		bc.add(95);
+		bc.add(45);
+		bc.add(15);
+		bc.add(0);
+		bc.add(0);
+		bc.add(0);
+
+
+		PCAmmo heat = new PCAmmo(name, pen, dc, bshc, bc, 0, 0);
+		heat.linked = true;
+		pcAmmoTypes.add(heat);
 	}
 
 	public void DC15AIon() {
