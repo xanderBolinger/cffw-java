@@ -129,6 +129,8 @@ public class StaticWeaponWindow {
 	private JComboBox comboBoxPcAmmo;
 	private JCheckBox chckbxHoming;
 	private JCheckBox chckbxSingleShot;
+	private JCheckBox chckbxMannualSup;
+	private JSpinner spinnerSuppressiveRof;
 
 	public StaticWeaponWindow(Unit unit, GameWindow window, OpenUnit openUnit) {
 		this.unit = unit;
@@ -394,7 +396,7 @@ public class StaticWeaponWindow {
 						try {
 							Shoot shoot = shots.get(listEquipedStatics.getSelectedIndex());
 							
-							String wepName = gunner.wep;
+							String wepName = staticWeapon.name;
 							int ammoIndex = -1;
 							if (staticWeapon.pcAmmoTypes.size() > 0) {
 								wepName = staticWeapon.name;
@@ -451,6 +453,10 @@ public class StaticWeaponWindow {
 		f.getContentPane().add(comboBoxSuppressiveFireTargets);
 
 		JButton btnFire = new JButton("Fire");
+		btnFire.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnFire.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -470,8 +476,12 @@ public class StaticWeaponWindow {
 						try {
 							System.out.println("Shoot");
 
-							if (comboBoxSuppressiveFireTargets.getSelectedIndex() > 0)
-								shoot.suppressiveFire(shoot.wep.suppressiveROF);
+							if (comboBoxSuppressiveFireTargets.getSelectedIndex() > 0){
+								var manSup = (int) spinnerSuppressiveRof.getValue();
+								shoot.suppressiveFire(
+										chckbxMannualSup.isSelected() && manSup <= 
+										shoot.wep.suppressiveROF  ? manSup : shoot.wep.suppressiveROF);
+							}
 							else if (chckbxFullAuto.isSelected())
 								shoot.burst();
 							else {
@@ -802,22 +812,9 @@ public class StaticWeaponWindow {
 		chckbxSustainedFullAuto = new JCheckBox("Sustained FAB");
 		chckbxSustainedFullAuto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (targetedFire != null) {
-
-					if (targetedFire.consecutiveShots) {
-						targetedFire.EAL -= 2;
-						targetedFire.ALMSum -= 2;
-						targetedFire.consecutiveShots = false;
-					}
-
-				}
-
-				Trooper gunner = findGunner();
-				if (gunner == null) {
-					window.conflictLog.addNewLine("No avaiable gunner.");
-					return;
-				}
-				PCShots(gunner);
+				
+				System.err.println("Sustained FAB not implemented");
+				
 			}
 		});
 		chckbxSustainedFullAuto.setForeground(Color.WHITE);
@@ -1013,7 +1010,7 @@ public class StaticWeaponWindow {
 		chckbxHoming = new JCheckBox("Homing");
 		chckbxHoming.setForeground(Color.WHITE);
 		chckbxHoming.setBackground(Color.DARK_GRAY);
-		chckbxHoming.setBounds(10, 448, 113, 23);
+		chckbxHoming.setBounds(10, 465, 113, 23);
 		f.getContentPane().add(chckbxHoming);
 		
 		JButton btnFree = new JButton("Free A/D");
@@ -1034,8 +1031,18 @@ public class StaticWeaponWindow {
 		chckbxSingleShot = new JCheckBox("Single Shot");
 		chckbxSingleShot.setForeground(Color.WHITE);
 		chckbxSingleShot.setBackground(Color.DARK_GRAY);
-		chckbxSingleShot.setBounds(130, 448, 103, 23);
+		chckbxSingleShot.setBounds(130, 465, 103, 23);
 		f.getContentPane().add(chckbxSingleShot);
+		
+		chckbxMannualSup = new JCheckBox("Manual Sup");
+		chckbxMannualSup.setForeground(Color.WHITE);
+		chckbxMannualSup.setBackground(Color.DARK_GRAY);
+		chckbxMannualSup.setBounds(10, 440, 113, 23);
+		f.getContentPane().add(chckbxMannualSup);
+		
+		spinnerSuppressiveRof = new JSpinner();
+		spinnerSuppressiveRof.setBounds(132, 442, 43, 20);
+		f.getContentPane().add(spinnerSuppressiveRof);
 
 		// Get the screen size
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -1540,284 +1547,6 @@ public class StaticWeaponWindow {
 		staticWeapon.ammoLoaded = (int) spinnerAmmunitionLoaded.getValue();
 
 		f.dispose();
-
-	}
-
-	// Sets possible shots based off of current Selected Aim Time
-	public void PCShots(Trooper gunner) {
-		if (comboBoxTargets.getSelectedIndex() < 1 || targetTroopers.size() < 1)
-			return;
-
-		//System.out.println("PC Shots");
-		Weapons staticWeapon = unit.staticWeapons.get(selectedWeaponIndex);
-		String trooperWep = gunner.wep;
-		gunner.wep = staticWeapon.name;
-		
-		Trooper shooterTrooper = gunner;
-		Trooper targetTrooper = findTarget();
-		Unit targetUnit = findTrooperUnit(targetTrooper);
-		Unit shooterUnit = findTrooperUnit(shooterTrooper);
-
-		int maxAim = 0;
-
-		if (comboBoxAimTime.getSelectedIndex() > 0) {
-
-			maxAim = comboBoxAimTime.getSelectedIndex() - 1;
-		}
-
-		setAction(gunner);
-
-		if (targetedFire == null) {
-			TargetedFire tf = new TargetedFire(shooterTrooper, targetTrooper, shooterUnit, targetUnit, window, maxAim,
-					TFCA + (int) spinnerConsecutiveEalBonus.getValue(), (int) spinnerEALBonus.getValue(),
-					(int) spinnerPercentBonus.getValue(), 0, gunner.wep);
-
-			
-			
-			if (chckbxFullAuto.isSelected()) {
-				tf.setFullAuto();
-			}
-
-			if (staticWeapon != null) {
-				int incapableTroopers = 0;
-
-				if (staticWeapon.equipedTroopers.size() > 0) {
-
-					for (Trooper trooper2 : staticWeapon.equipedTroopers) {
-
-						int disabledLimbs = trooper2.disabledArms + trooper2.disabledLegs;
-
-						if (!trooper2.conscious || !trooper2.alive || disabledLimbs > 1 || trooper2.HD) {
-							incapableTroopers++;
-						}
-
-					}
-
-				}
-
-				if (staticWeapon.equipedTroopers.size() - 1 - incapableTroopers > 0)
-					tf.allottedCA += staticWeapon.equipedTroopers.size() - 1 - incapableTroopers;
-			}
-
-			tf.spentCA = spentCA;
-			tempTF = tf;
-
-			/*
-			 * targetedFire = tf; reaction = null; possibleShots = true;
-			 */
-			/*
-			 * lblPossibleShots.setText("Possible Shots: "+(tf.possibleShots-tf.shotsTaken))
-			 * ; lblAimTime.setText("Aim Time: "+tf.spentAimTime);
-			 * lblTN.setText("Target Number: "+tf.TN);
-			 * lblTfSpentCa.setText("TF Spent CA: "+0);
-			 */
-		} else {
-
-			if (chckbxFullAuto.isSelected()) {
-				targetedFire.setFullAuto();
-			}
-
-			if (targetedFire.shotsTaken > 0 && !targetedFire.consecutiveShots && !chckbxFullAuto.isSelected()) {
-				targetedFire.EAL += 2;
-				targetedFire.ALMSum += 2;
-				targetedFire.consecutiveShots = true;
-			}
-
-			targetedFire.setTargetNumber();
-
-			/*
-			 * lblPossibleShots.setText("Possible Shots: "+(targetedFire.possibleShots-
-			 * targetedFire.shotsTaken));
-			 * lblAimTime.setText("Aim Time: "+targetedFire.spentAimTime);
-			 * targetedFire.setTargetNumber();
-			 * 
-			 * lblTfSpentCa.setText("TF Spent CA: "+targetedFire.spentCA);
-			 * lblTN.setText("Target Number: "+targetedFire.TN);
-			 */
-		}
-
-		// TargetedFire(Trooper shooterTrooper, Trooper targetTrooper, Unit shooterUnit
-		// , Unit targetUnit, GameWindow game, int maxAim)
-		gunner.wep = trooperWep; 
-	}
-
-	public void PCFireGuiUpdates(Trooper gunner) {
-		if(comboBoxTargets.getSelectedIndex() < 1)
-			return; 
-
-		if(targetedFire == null && tempTF != null) {
-			//System.out.println("TF Null, Temp TF Not Null");
-			lblPossibleShots.setText("Possible Shots: "+(tempTF.possibleShots-tempTF.shotsTaken));
-			lblAimTime.setText("Aim Time: "+tempTF.spentAimTime);
-			lblTN.setText("Target Number: "+tempTF.TN);
-			lblTfSpentCa.setText("TF Spent CA: "+tempTF.spentCA);
-		} else if(targetedFire != null) {
-			//System.out.println("TF Not Null");
-			//System.out.println("Possible Shots: "+targetedFire.possibleShots+", Shots Taken: "+targetedFire.shotsTaken);
-			lblPossibleShots.setText("Possible Shots: "+(targetedFire.possibleShots-targetedFire.shotsTaken));
-			lblAimTime.setText("Aim Time: "+targetedFire.spentAimTime);
-			lblTN.setText("Target Number: "+targetedFire.TN);
-			lblTfSpentCa.setText("TF Spent CA: "+targetedFire.spentCA);
-		}
-
-		spinnerAmmunitionLoaded.setValue(staticWeapon.ammoLoaded);
-		lblCombatActions.setText("TF CA: "+TFCA);		
-		window.conflictLog.addQueuedText();
-		window.refreshInitiativeOrder();
-		//refreshTargets(); 
-	}
-
-	public void PCFire(Trooper gunner) {
-		Weapons staticWeapon = unit.staticWeapons.get(selectedWeaponIndex);
-		String trooperWep = gunner.wep;
-		gunner.wep = staticWeapon.name;
-
-		// Checks for out of ammo
-		if (staticWeapon.ammoLoaded == 0) {
-			// textPaneTargetedFire.setText("OUT OF AMMO");
-			return;
-		}
-
-		if (staticWeapon.fullAutoROF == 0 && chckbxFullAuto.isSelected()) {
-			window.conflictLog.addNewLineToQueue("This weapon is not full auto capable.");
-			return;
-		}
-
-		if (comboBoxTargets.getSelectedIndex() < 1)
-			return;
-		Trooper shooterTrooper = gunner;
-		Trooper targetTrooper = findTarget();
-		Unit targetUnit = findTrooperUnit(targetTrooper);
-		Unit shooterUnit = findTrooperUnit(shooterTrooper);
-
-		int maxAim = 0;
-
-		if (comboBoxAimTime.getSelectedIndex() > 0) {
-
-			maxAim = comboBoxAimTime.getSelectedIndex() - 1;
-		}
-
-		setAction(gunner);
-		TargetedFire tf = new TargetedFire(shooterTrooper, targetTrooper, shooterUnit, targetUnit, window, maxAim,
-				TFCA + (int) spinnerConsecutiveEalBonus.getValue(), (int) spinnerEALBonus.getValue(),
-				(int) spinnerPercentBonus.getValue(), 0, gunner.wep);
-
-		tf.spentCA = spentCA;
-
-		if (targetedFire == null) {
-			targetedFire = tf;
-			reaction = null;
-			possibleShots = true;
-		} else if (!tf.targetTrooper.compareTo(targetedFire.targetTrooper)) {
-			targetedFire = tf;
-		}
-
-		targetedFire.PCHits = 0;
-
-		if (possibleShots) {
-
-			if (chckbxFullAuto.isSelected()) {
-				targetedFire.fullAutoBurst(chckbxSustainedFullAuto.isSelected());
-				if (chckbxFreeAction.isSelected() && chckbxSustainedFullAuto.isSelected()) {
-					targetedFire.spentCA -= 1;
-				} else if (chckbxFreeAction.isSelected()) {
-					targetedFire.spentCA -= 2;
-				}
-			} else {
-				targetedFire.shot(comboBoxTargetZone.getSelectedIndex());
-				if (chckbxFreeAction.isSelected()) {
-					targetedFire.spentCA -= 1;
-				}
-			}
-
-			//System.out.println("TARGETED FIRE: ");
-			//System.out.println("targetedFire.shotsTaken: " + targetedFire.shotsTaken);
-			//System.out.println("targetedFire.timeToReaction: " + targetedFire.timeToReaction);
-			if (targetedFire.shotsTaken >= targetedFire.timeToReaction && targetedFire.shotsTaken != 0
-					&& this.reaction == null && targetTrooper.alive && targetTrooper.conscious
-					&& targetTrooper.canAct(window.game)) {
-				// React
-				//System.out.println("REACTION");
-				// ReactionToFireWindow reaction = new ReactionToFireWindow(shooterTrooper,
-				// targetTrooper, windowOpenTrooper, gameWindow);
-				this.reaction = reaction;
-
-			}
-		}
-
-		if(targetedFire.PCHits > 0) {
-			ResolveHits resolveHits = new ResolveHits(targetTrooper, targetedFire.PCHits, new Weapons().findWeapon(shooterTrooper.wep), 
-					GameWindow.gameWindow.conflictLog, targetTrooper.returnTrooperUnit(GameWindow.gameWindow), shooterUnit, GameWindow.gameWindow);
-			
-			if(targetedFire.calledShot) {
-				resolveHits.calledShot = true; 
-				resolveHits.calledShotBounds = targetedFire.calledShotBounds; 
-				
-			}
-			
-			if (targetTrooper.returnTrooperUnit(GameWindow.gameWindow).suppression + targetedFire.PCHits < 100) {
-				targetTrooper.returnTrooperUnit(GameWindow.gameWindow).suppression++;
-			} else {
-				targetTrooper.returnTrooperUnit(GameWindow.gameWindow).suppression = 100;
-			}
-			if (targetTrooper.returnTrooperUnit(GameWindow.gameWindow).organization - targetedFire.PCHits > 0) {
-				targetTrooper.returnTrooperUnit(GameWindow.gameWindow).organization--;
-			} else {
-				targetTrooper.returnTrooperUnit(GameWindow.gameWindow).organization = 0;
-			}
-			
-			resolveHits.performCalculations(GameWindow.gameWindow.game, GameWindow.gameWindow.conflictLog);
-		}
-		if (targetedFire.possibleShots <= targetedFire.shotsTaken) {
-			// Shot ends
-			/*
-			 * lblPossibleShots.setText("Possible Shots: None");
-			 * lblAimTime.setText("Aim Time: N/A"); lblTN.setText("Target Number: N/A");
-			 */
-			reaction = null;
-			possibleShots = false;
-			targetedFire = null;
-			PCShots(gunner);
-		}
-
-		if (chckbxFullAuto.isSelected()) {
-			if (staticWeapon.ammoLoaded - staticWeapon.fullAutoROF <= 0) {
-				staticWeapon.ammoLoaded = 0;
-			} else {
-				staticWeapon.ammoLoaded -= staticWeapon.fullAutoROF;
-			}
-
-		} else {
-			int roll = new Random().nextInt(6) + 1;
-			
-			if(staticWeapon.ammoLoaded - roll < 0)
-				staticWeapon.ammoLoaded = 0; 
-			else 
-				staticWeapon.ammoLoaded -= roll;
-		}
-
-		if (!targetTrooper.alive) {
-
-			if (chckbxMultipleTargets.isSelected()) {
-
-				targetedFire = null;
-				possibleShots = true;
-				reaction = null;
-				PCShots(gunner);
-			} else {
-				// Performed after swing worker is done
-				/*
-				 * actionSpent(openUnit, index); openUnit.openNext(true); f.dispose();
-				 */
-			}
-
-		}
-
-		// setDetails(openTrooper);
-
-		gunner.wep = trooperWep;
-
-		// setDetails(openTrooper);
 
 	}
 

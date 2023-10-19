@@ -151,6 +151,8 @@ public class BulkWindow {
 	private JComboBox comboBoxLauncher;
 	private JComboBox comboBoxAmmoTypeLauncher;
 	private JCheckBox chckbxSingleShot;
+	private JCheckBox chckbxManualSup;
+	private JSpinner spinnerSuppressiveRof;
 
 	/**
 	 * Create the application.
@@ -1177,8 +1179,12 @@ public class BulkWindow {
 											}
 										}
 										
-										if (comboBoxTargetUnits.getSelectedIndex() > 0)
-											shoot.suppressiveFire(shoot.wep.suppressiveROF);
+										if (comboBoxTargetUnits.getSelectedIndex() > 0) {
+											var manSup = (int) spinnerSuppressiveRof.getValue();
+											shoot.suppressiveFire(
+													chckbxManualSup.isSelected() && manSup <= 
+													shoot.wep.suppressiveROF  ? manSup : shoot.wep.suppressiveROF);
+										}
 										else if (chckbxFullAuto.isSelected()) {
 											shoot.burst();
 											shoot.suppressiveFire(
@@ -2524,6 +2530,17 @@ public class BulkWindow {
 		button_7_1_1.setForeground(Color.BLACK);
 		button_7_1_1.setBounds(850, 614, 136, 25);
 		frame.getContentPane().add(button_7_1_1);
+		
+		chckbxManualSup = new JCheckBox("Manual Sup");
+		chckbxManualSup.setForeground(Color.BLACK);
+		chckbxManualSup.setBackground(Color.WHITE);
+		chckbxManualSup.setBounds(912, 444, 92, 23);
+		frame.getContentPane().add(chckbxManualSup);
+		
+		spinnerSuppressiveRof = new JSpinner();
+		spinnerSuppressiveRof.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+		spinnerSuppressiveRof.setBounds(1010, 446, 53, 20);
+		frame.getContentPane().add(spinnerSuppressiveRof);
 		frame.setVisible(true);
 	}
 
@@ -4069,8 +4086,12 @@ public class BulkWindow {
 									}
 								}
 								
-								if (comboBoxTargetUnits.getSelectedIndex() > 0)
-									shoot.suppressiveFire(shoot.wep.suppressiveROF);
+								if (comboBoxTargetUnits.getSelectedIndex() > 0){
+									var manSup = (int) spinnerSuppressiveRof.getValue();
+									shoot.suppressiveFire(
+											chckbxManualSup.isSelected() && manSup <= 
+											shoot.wep.suppressiveROF  ? manSup : shoot.wep.suppressiveROF);
+								}
 								else if (chckbxFullAuto.isSelected()) {
 									shoot.burst();
 									shoot.suppressiveFire(shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
