@@ -13,11 +13,11 @@ public class WhitePhosphorus {
 	}
 	
 	// C 1 2 3 4 5 6 7 8 9
+	public WPType wpType;
 	
 	ArrayList<String> baseWPHitChance;
 	ArrayList<Integer> fragmentPd;
 	FlameThrower flameDamage;
-	WPType wpType;
 	
 	public WhitePhosphorus(WPType wpType) {
 		baseWPHitChance = new ArrayList<String>();

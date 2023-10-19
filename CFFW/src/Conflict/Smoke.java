@@ -62,7 +62,8 @@ public class Smoke implements Serializable {
 			String result = smokeEffectsTable.get(row).get(8 - smoke.diameter);
 			
 			rslts += "Diameter: "+smoke.diameter+", Duration: "+smoke.duration+", Elapsed Actions: "
-					+smoke.getElapsedActionsTotal()+", Table: "+result;
+					+smoke.getElapsedActionsTotal()+", Table: "+result
+					+ (smoke.wp != null ? ", WP : " +smoke.wp.wpType : "");
 			
 		}
 		
