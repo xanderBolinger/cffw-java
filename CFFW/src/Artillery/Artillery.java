@@ -78,7 +78,11 @@ public class Artillery implements Serializable {
 	}
 	
 	public enum ShellType implements Serializable {
-		M120HE,M120Smoke,M120ION,M60HE,M60Smoke,M60ION,M107HE,AV7HEAT,M81HE,M81ION,M107Smoke,AV7Smoke,M81Smoke
+		M120HE,M120Smoke,M120ION,M120WP,
+		M81HE,M81ION,M81Smoke,
+		M60HE,M60Smoke,M60ION,
+		M107HE,M107Smoke,
+		AV7HEAT,AV7Smoke,
 	}
 	
 	public Artillery(BatteryType batteryType, int crewQuality) {
@@ -153,6 +157,7 @@ public class Artillery implements Serializable {
 			shells.add(new Shell(ShellType.M120HE));
 			shells.add(new Shell(ShellType.M120ION));
 			shells.add(new Shell(ShellType.M120Smoke));
+			shells.add(new Shell(ShellType.M120WP));
 		} else if(BatteryType.M81  == batteryType) {
 			batteryName = "M81";
 			this.batteryType = batteryType; 
@@ -375,6 +380,10 @@ public class Artillery implements Serializable {
 				shellName = "Smoke";
 				smoke = true; 
 				smokeType = SmokeType.Mortar120mm;
+			} else if(shellType == ShellType.M120WP) {
+				shellName = "WP";
+				smoke = true; 
+				smokeType = SmokeType.Wp120mm;
 			} else if(shellType == ShellType.M81HE) {
 				shellName = "81mm HE";
 				pen.add(9);

@@ -354,7 +354,10 @@ public class Item implements Serializable {
 			nightVisionEffectiveness = 5;
 			itemWeight = 2;
 		}
-
+		else if (ItemType.DC15LE == itemType) {
+			weapon = new Weapons().findWeapon("DC15LE");
+			itemWeight = 13;
+		}
 		else if (ItemType.DC15A == itemType) {
 			weapon = new Weapons().findWeapon("DC15A");
 			itemWeight = 12;
