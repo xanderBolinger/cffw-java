@@ -21,8 +21,8 @@ public class SmokeStats implements Serializable {
 		SMOKE_GRENADE, Howitzer155mm, Howitzer105mm, Mortar60mm, 
 		Mortar81mm, Mortar120mm,VehicleSmokeLauncher,
 		VehicleTrailingSmoke,
-		
-		Wp120mm
+		WpGrenade,Wp60mm,Wp81mm,Wp120mm,Wp155mm,
+		WpGrenadeIon,Wp60mmIon,Wp81mmIon,Wp120mmIon,Wp155mmIon
 	
 	}
 	
@@ -45,6 +45,7 @@ public class SmokeStats implements Serializable {
 	private void setSmokeStats(SmokeType smokeType) {
 		this.smokeType = smokeType;
 		switch(smokeType) {
+		
 		case SMOKE_GRENADE:
 			diameter = 3; 
 			duration = 6;
@@ -77,10 +78,55 @@ public class SmokeStats implements Serializable {
 			diameter = 8; 
 			duration = 12;
 			break;
+		case WpGrenade:
+			diameter = 4; 
+			duration = 3;
+			wp = new WhitePhosphorus(WPType.WpGrenade);
+			break;
+		case Wp60mm:
+			diameter = 3;
+			duration = 6;
+			wp = new WhitePhosphorus(WPType.Mortar60mm);
+			break;
+		case Wp81mm:
+			diameter = 5;
+			duration = 9;
+			wp = new WhitePhosphorus(WPType.Mortar81mm);
+			break;
 		case Wp120mm:
 			diameter = 8;
 			duration = 12;
 			wp = new WhitePhosphorus(WPType.Mortar120mm);
+			break;
+		case Wp155mm:
+			diameter = 8;
+			duration = 15;
+			wp = new WhitePhosphorus(WPType.Shell155mm);
+			break;
+		case WpGrenadeIon:
+			diameter = 4; 
+			duration = 3;
+			wp = new WhitePhosphorus(WPType.WpGrenadeIon);
+			break;
+		case Wp60mmIon:
+			diameter = 3;
+			duration = 6;
+			wp = new WhitePhosphorus(WPType.Mortar60mmIon);
+			break;
+		case Wp81mmIon:
+			diameter = 5;
+			duration = 9;
+			wp = new WhitePhosphorus(WPType.Mortar81mmIon);
+			break;
+		case Wp120mmIon:
+			diameter = 8;
+			duration = 12;
+			wp = new WhitePhosphorus(WPType.Mortar120mmIon);
+			break;
+		case Wp155mmIon:
+			diameter = 8;
+			duration = 15;
+			wp = new WhitePhosphorus(WPType.Shell155mmIon);
 			break;
 		default:
 			break;

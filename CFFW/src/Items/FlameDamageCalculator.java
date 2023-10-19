@@ -16,17 +16,17 @@ public class FlameDamageCalculator {
 				var dist = DiceRoller.roll(0, 10);
 				int damage = 0;
 				if(dist == 0) 
-					damage = CalculateFlameDamage(flamer.contact*charges, trooper);
+					damage = CalculateFlameDamage(flamer.contact*charges, trooper, flamer.ionCloud);
 				else if(dist == 1)
-					damage = CalculateFlameDamage(flamer.inHex*charges, trooper);
+					damage = CalculateFlameDamage(flamer.inHex*charges, trooper, flamer.ionCloud);
 				else if(dist == 2)
-					damage = CalculateFlameDamage(flamer.adjacent*charges, trooper);
+					damage = CalculateFlameDamage(flamer.adjacent*charges, trooper, flamer.ionCloud);
 				
 				
 				
 				GameWindow.gameWindow.conflictLog.addNewLineToQueue("Flamer: "+flamer.flamerType+", Charges: "+charges+", "
 						+ (damage > 0 ? "hit "+trooper.number+" "+trooper.name+" for "+damage+" damage. dist: "+dist
-								: "missed "+trooper.number+" "+trooper.name+", dist: "+dist));
+								: "missed "+trooper.number+" "+trooper.name+", dist: "+dist)+", ION: "+flamer.ionCloud);
 				if(damage > 0)
 					ApplyFlameDamage(damage, trooper);
 			}
@@ -38,7 +38,11 @@ public class FlameDamageCalculator {
 		
 	}
 	
-	public static int CalculateFlameDamage(int baseDamage, Trooper target) {
+	public static int CalculateFlameDamage(int baseDamage, Trooper target, boolean ion) {
+		if(target.entirelyMechanical && ion)
+			return baseDamage;
+		else if(ion)
+			return 0;
 		
 		var armor = target.armor;
 		
@@ -74,6 +78,8 @@ public class FlameDamageCalculator {
 	}
 	
 	public static void ApplyFlameDamage(int damage, Trooper target) {
+		if(damage <= 0)
+			return;
 		
 		target.injured(GameWindow.gameWindow.conflictLog, new Injuries(damage, "Flame Damage", false, null), 
 				GameWindow.gameWindow.game, GameWindow.gameWindow);

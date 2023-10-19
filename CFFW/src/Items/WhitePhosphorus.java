@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
+import Items.FlameThrower.FlameThrowerType;
 import UtilityClasses.DiceRoller;
 
 public class WhitePhosphorus {
 
 	public enum WPType {
-		Mortar60mm,Mortar81mm,Mortar120mm,Shell155mm,WpGrenade
+		Mortar60mm,Mortar81mm,Mortar120mm,Shell155mm,WpGrenade,
+		Mortar60mmIon,Mortar81mmIon,Mortar120mmIon,Shell155mmIon,WpGrenadeIon
 	}
 	
 	// C 1 2 3 4 5 6 7 8 9
@@ -25,45 +27,40 @@ public class WhitePhosphorus {
 		this.wpType = wpType;
 		
 		switch(wpType) {
-		
-		case WpGrenade:
+		case WpGrenadeIon:
+			processWpGrenade();
+			flameDamage.ionCloud = true;
 			break;
-		
+		case Mortar120mmIon:
+			processMortar120mm();
+			flameDamage.ionCloud = true;
+			break;
+		case Mortar60mmIon:
+			processMortar60mm();
+			flameDamage.ionCloud = true;
+			break;
+		case Mortar81mmIon:
+			processMortar81mm();
+			flameDamage.ionCloud = true;
+			break;
+		case Shell155mmIon:
+			processShell155mm();
+			flameDamage.ionCloud = true;
+			break;
+		case WpGrenade:
+			processWpGrenade();
+			break;
 		case Mortar120mm:
-			
-			baseWPHitChance.add("*38");
-			baseWPHitChance.add("*9");
-			baseWPHitChance.add("*2");
-			baseWPHitChance.add("59");
-			baseWPHitChance.add("26");
-			baseWPHitChance.add("15");
-			baseWPHitChance.add("9");
-			baseWPHitChance.add("7");
-			baseWPHitChance.add("5");
-			baseWPHitChance.add("4");
-			
-			fragmentPd.add(427);
-			fragmentPd.add(424);
-			fragmentPd.add(419);
-			fragmentPd.add(408);
-			fragmentPd.add(396);
-			fragmentPd.add(384);
-			fragmentPd.add(371);
-			fragmentPd.add(357);
-			fragmentPd.add(343);
-			fragmentPd.add(328);
-			
-			flameDamage = new FlameThrower();
-			flameDamage.contact = 235000;
-			flameDamage.inHex = 10000;
-			flameDamage.adjacent = 458;
-			
+			processMortar120mm();
 			break;
 		case Mortar60mm:
+			processMortar60mm();
 			break;
 		case Mortar81mm:
+			processMortar81mm();
 			break;
 		case Shell155mm:
+			processShell155mm();
 			break;
 		default:
 			System.err.println("WP Type not found for type: "+wpType);
@@ -71,6 +68,151 @@ public class WhitePhosphorus {
 		
 		}
 		
+	}
+	
+	private void processWpGrenade() {
+	    baseWPHitChance.add("*30");
+	    baseWPHitChance.add("*4");
+	    baseWPHitChance.add("*4");
+	    baseWPHitChance.add("24");
+	    baseWPHitChance.add("10");
+	    baseWPHitChance.add("5");
+	    baseWPHitChance.add("3");
+	    baseWPHitChance.add("2");
+	    baseWPHitChance.add("1");
+	    baseWPHitChance.add("0");
+	    
+	    fragmentPd.add(48);
+	    fragmentPd.add(43);
+	    fragmentPd.add(40);
+	    fragmentPd.add(35);
+	    fragmentPd.add(32);
+	    fragmentPd.add(29);
+	    fragmentPd.add(27);
+	    fragmentPd.add(25);
+	    fragmentPd.add(22);
+	    fragmentPd.add(20);
+	    
+	    flameDamage = new FlameThrower(FlameThrowerType.WP);
+	    flameDamage.contact = 10000;
+	    flameDamage.inHex = 450;
+	    flameDamage.adjacent = 20;
+	}
+
+	private void processMortar120mm() {
+		baseWPHitChance.add("*38");
+		baseWPHitChance.add("*9");
+		baseWPHitChance.add("*2");
+		baseWPHitChance.add("59");
+		baseWPHitChance.add("26");
+		baseWPHitChance.add("15");
+		baseWPHitChance.add("9");
+		baseWPHitChance.add("7");
+		baseWPHitChance.add("5");
+		baseWPHitChance.add("4");
+		
+		fragmentPd.add(427);
+		fragmentPd.add(424);
+		fragmentPd.add(419);
+		fragmentPd.add(408);
+		fragmentPd.add(396);
+		fragmentPd.add(384);
+		fragmentPd.add(371);
+		fragmentPd.add(357);
+		fragmentPd.add(343);
+		fragmentPd.add(328);
+		
+		flameDamage = new FlameThrower(FlameThrowerType.WP);
+		flameDamage.contact = 235000;
+		flameDamage.inHex = 10000;
+		flameDamage.adjacent = 458;
+	}
+
+	private void processMortar60mm() {
+		baseWPHitChance.add("*23");
+		baseWPHitChance.add("*6");
+		baseWPHitChance.add("*1");
+		baseWPHitChance.add("35");
+		baseWPHitChance.add("16");
+		baseWPHitChance.add("9");
+		baseWPHitChance.add("6");
+		baseWPHitChance.add("0");
+		baseWPHitChance.add("0");
+		baseWPHitChance.add("0");
+		
+		fragmentPd.add(13);
+		fragmentPd.add(13);
+		fragmentPd.add(12);
+		fragmentPd.add(11);
+		fragmentPd.add(9);
+		fragmentPd.add(6);
+		fragmentPd.add(0);
+		fragmentPd.add(0);
+		fragmentPd.add(0);
+		fragmentPd.add(0);
+		
+		flameDamage = new FlameThrower(FlameThrowerType.WP);
+		flameDamage.contact = 6900;
+		flameDamage.inHex = 304;
+		flameDamage.adjacent = 13;
+	}
+
+	private void processMortar81mm() {
+		baseWPHitChance.add("*24");
+		baseWPHitChance.add("*6");
+		baseWPHitChance.add("*1");
+		baseWPHitChance.add("37");
+		baseWPHitChance.add("17");
+		baseWPHitChance.add("9");
+		baseWPHitChance.add("6");
+		baseWPHitChance.add("4");
+		baseWPHitChance.add("3");
+		baseWPHitChance.add("2");
+		
+		fragmentPd.add(75);
+		fragmentPd.add(74);
+		fragmentPd.add(73);
+		fragmentPd.add(69);
+		fragmentPd.add(65);
+		fragmentPd.add(60);
+		fragmentPd.add(55);
+		fragmentPd.add(50);
+		fragmentPd.add(45);
+		fragmentPd.add(40);
+		
+		flameDamage = new FlameThrower(FlameThrowerType.WP);
+		flameDamage.contact = 26000;
+		flameDamage.inHex = 1200;
+		flameDamage.adjacent = 51;
+	}
+
+	private void processShell155mm() {
+		baseWPHitChance.add("*98");
+		baseWPHitChance.add("*24");
+		baseWPHitChance.add("*6");
+		baseWPHitChance.add("*2");
+		baseWPHitChance.add("68");
+		baseWPHitChance.add("38");
+		baseWPHitChance.add("24");
+		baseWPHitChance.add("17");
+		baseWPHitChance.add("12");
+		baseWPHitChance.add("10");
+		
+		fragmentPd.add(1200);
+		fragmentPd.add(1200);
+		fragmentPd.add(1200);
+		fragmentPd.add(1100);
+		fragmentPd.add(1100);
+		fragmentPd.add(1100);
+		fragmentPd.add(1100);
+		fragmentPd.add(1000);
+		fragmentPd.add(1000);
+		fragmentPd.add(900);
+		
+		flameDamage = new FlameThrower(FlameThrowerType.WP);
+		flameDamage.contact = 2000000;
+		flameDamage.inHex = 106000;
+		flameDamage.adjacent = 4700;
 	}
 	
 	public void deployHex(Cord cord) {
@@ -92,11 +234,11 @@ public class WhitePhosphorus {
 				GameWindow.gameWindow.conflictLog
 				.addNewLine("WP Fragment Trooper: "+unit.callsign+" "
 						+ trooper.number + " "+trooper.name+", Hits: "
-						+hits+", BSHC: "+bshc+", PD: "+pd);
+						+hits+", BSHC: "+bshc+", PD: "+pd+", ION: "+flameDamage.ionCloud);
 				
 				for(int i = 0; i < hits; i++) {
 					var dmg = FlameDamageCalculator
-							.CalculateFlameDamage(pd, trooper);
+							.CalculateFlameDamage(pd, trooper, flameDamage.ionCloud);
 					FlameDamageCalculator.ApplyFlameDamage(dmg, trooper);
 				}
 				

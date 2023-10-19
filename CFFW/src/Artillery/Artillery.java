@@ -78,11 +78,11 @@ public class Artillery implements Serializable {
 	}
 	
 	public enum ShellType implements Serializable {
-		M120HE,M120Smoke,M120ION,M120WP,
-		M81HE,M81ION,M81Smoke,
-		M60HE,M60Smoke,M60ION,
+		M120HE,M120Smoke,M120ION,M120WP,M120WPIon,
+		M81HE,M81ION,M81Smoke,M81WP,M81WPION,
+		M60HE,M60Smoke,M60ION,M60WP,M60WPIon,
 		M107HE,M107Smoke,
-		AV7HEAT,AV7Smoke,
+		AV7HEAT,AV7Smoke,Shell155mmWP,Shell155mmWpIon
 	}
 	
 	public Artillery(BatteryType batteryType, int crewQuality) {
@@ -134,6 +134,8 @@ public class Artillery implements Serializable {
 			
 			shells.add(new Shell(ShellType.AV7HEAT));
 			shells.add(new Shell(ShellType.AV7Smoke));
+			shells.add(new Shell(ShellType.Shell155mmWP));
+			shells.add(new Shell(ShellType.Shell155mmWpIon));
 		}  else if(BatteryType.M120  == batteryType) {
 			batteryName = "M120";
 			this.batteryType = batteryType; 
@@ -158,6 +160,7 @@ public class Artillery implements Serializable {
 			shells.add(new Shell(ShellType.M120ION));
 			shells.add(new Shell(ShellType.M120Smoke));
 			shells.add(new Shell(ShellType.M120WP));
+			shells.add(new Shell(ShellType.M120WPIon));
 		} else if(BatteryType.M81  == batteryType) {
 			batteryName = "M81";
 			this.batteryType = batteryType; 
@@ -181,6 +184,8 @@ public class Artillery implements Serializable {
 			shells.add(new Shell(ShellType.M81HE));
 			shells.add(new Shell(ShellType.M81ION));
 			shells.add(new Shell(ShellType.M81Smoke));
+			shells.add(new Shell(ShellType.M81WP));
+			shells.add(new Shell(ShellType.M81WPION));
 		} else if(BatteryType.M60  == batteryType) {
 			batteryName = "M60";
 			this.batteryType = batteryType; 
@@ -204,6 +209,8 @@ public class Artillery implements Serializable {
 			shells.add(new Shell(ShellType.M60HE));
 			shells.add(new Shell(ShellType.M60ION));
 			shells.add(new Shell(ShellType.M60Smoke));
+			shells.add(new Shell(ShellType.M60WP));
+			shells.add(new Shell(ShellType.M60WPIon));
 		}
 		
 	}
@@ -384,7 +391,42 @@ public class Artillery implements Serializable {
 				shellName = "WP";
 				smoke = true; 
 				smokeType = SmokeType.Wp120mm;
-			} else if(shellType == ShellType.M81HE) {
+			} else if(shellType == ShellType.M120WPIon) {
+				shellName = "WP Ion";
+				smoke = true; 
+				smokeType = SmokeType.Wp120mmIon;
+			} 
+			else if(shellType == ShellType.M60WP) {
+				shellName = "WP";
+				smoke = true; 
+				smokeType = SmokeType.Wp60mm;
+			} 
+			else if(shellType == ShellType.M60WPIon) {
+				shellName = "WP Ion";
+				smoke = true; 
+				smokeType = SmokeType.Wp60mmIon;
+			} 
+			else if(shellType == ShellType.M81WP) {
+				shellName = "WP";
+				smoke = true; 
+				smokeType = SmokeType.Wp81mm;
+			} 
+			else if(shellType == ShellType.M81WPION) {
+				shellName = "WP Ion";
+				smoke = true; 
+				smokeType = SmokeType.Wp81mmIon;
+			} 
+			else if(shellType == ShellType.Shell155mmWP) {
+				shellName = "WP";
+				smoke = true; 
+				smokeType = SmokeType.Wp155mm;
+			} 
+			else if(shellType == ShellType.Shell155mmWpIon) {
+				shellName = "WP Ion";
+				smoke = true; 
+				smokeType = SmokeType.Wp155mmIon;
+			} 
+			else if(shellType == ShellType.M81HE) {
 				shellName = "81mm HE";
 				pen.add(9);
 				pen.add(9);

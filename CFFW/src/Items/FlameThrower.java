@@ -19,11 +19,7 @@ public class FlameThrower implements Serializable {
 	public boolean ionCloud = false;
 	
 	public enum FlameThrowerType implements Serializable {
-		AstartesFlamer,AstartesFlamePistol,Manual
-	}
-	
-	public FlameThrower() {
-		flamerType = FlameThrowerType.Manual;
+		AstartesFlamer,AstartesFlamePistol,WP
 	}
 	
 	public FlameThrower(FlameThrowerType type) {
@@ -40,6 +36,8 @@ public class FlameThrower implements Serializable {
 				contact = 5000;
 				inHex = 125;
 				adjacent = 50;
+				break;
+			case WP:
 				break;
 			default:
 				System.err.println("Flamer type not implemented for type: "+type);
