@@ -112,6 +112,7 @@ public class Artillery implements Serializable {
 			this.batteryType = batteryType; 
 			maximumRangeInTwoYardHexes = 2820; 
 			minimumRangeInTwoYardHexes = 270; 
+			artilleryComputer = true;
 			
 			rangingAccuracy = 66; 
 			adjustmenAccuracy = 51; 
