@@ -2385,6 +2385,16 @@ public class GameWindow implements Serializable {
 		
 		//es.shutdown();
 		
+		for(var unit : initiativeOrder) {
+			ArrayList<Unit> removeUnits = new ArrayList<Unit>();
+			
+			for(var spottedUnit : unit.lineOfSight)
+				if(!spottedUnit.lineOfSight.contains(unit))
+					removeUnits.add(spottedUnit);
+			for(var removeUnit : removeUnits)
+				unit.lineOfSight.remove(removeUnit);
+		}
+		
 		for (Unit unit : initiativeOrder) {
 
 			CalculateLOS.checkSpottedTroopers(unit);

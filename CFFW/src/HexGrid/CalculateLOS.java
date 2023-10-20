@@ -112,11 +112,23 @@ public class CalculateLOS {
 			double slopeToTrees = (currentHexElevation+3 - (double)spotterElevation) / ((double)hexes.indexOf(hex)+2.0 - 1.0);
 			double slopeToBuilding = (currentHexElevation+buildingFloors+1 - (double)spotterElevation) / ((double)hexes.indexOf(hex)+2.0 - 1.0);
 			
-			if(((spotterElevation > targetElevation && slopeToCurrentHex >= slopeToTarget) || (spotterElevation < targetElevation && slopeToCurrentHex < slopeToTarget)
-					) && currentHexElevation+1 != targetElevation) {
+			System.out.println("Slope to Current Hex("+hex.toString()+") "+slopeToCurrentHex);
+			System.out.println("Slope to Target("+hex.toString()+") "+slopeToTarget);
+			System.out.println("Slope to Brush("+hex.toString()+") "+slopeToBrush);
+			System.out.println("Slope to Trees("+hex.toString()+") "+slopeToTrees);
+			System.out.println("Slope to Building("+hex.toString()+") "+slopeToBuilding);
+			
+			if(slopeToCurrentHex > slopeToTarget) {
 				concealment = 5;
 				break;
 			}
+			
+			/*if(((spotterElevation > targetElevation && slopeToCurrentHex >= slopeToTarget)
+					|| (spotterElevation < targetElevation && slopeToCurrentHex < slopeToTarget)
+					) && currentHexElevation+1 != targetElevation) {
+				concealment = 5;
+				break;
+			}*/
 			
 			int brushConcealment = 0;
 			int treeConcealment = 0;
