@@ -1,6 +1,7 @@
 package Fortifications;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,6 +52,11 @@ public class FortificationRecords implements Serializable {
 	
 	
 	public void addTrench(Cord cord, int level) {
+		if(level <= 0) {
+			clearFortifications(cord);
+			return;
+		}
+		
 		var forts = HexGridFortificationsUtility.getFortifications(cord.xCord, cord.yCord);
 		int index = -1;
 		int i = 0;
@@ -85,6 +91,26 @@ public class FortificationRecords implements Serializable {
 		
 		fortifications.put(cord, new Fortification(level));
 		GameWindow.gameWindow.conflictLog.addNewLine("Set Trenches at ("+cord+"), Level: "+level);
+	}
+	
+	private void clearFortifications(Cord cord) {
+		
+		var positions = GameWindow.gameWindow.game.fortifications.fortifications.keySet();
+		
+		var removeCords = new ArrayList<Cord>();
+		
+		for(var pos : positions) {
+			
+			if(cord.xCord == pos.xCord && cord.yCord == pos.yCord) {
+				removeCords.add(pos);
+			}
+			
+		}
+		
+		for(var pos : removeCords) {
+			GameWindow.gameWindow.game.fortifications.fortifications.remove(pos);
+		}
+		
 	}
 	
 }

@@ -48,6 +48,10 @@ public class Explosion {
 	// If a friendly side should be exempt from the explosion such as in grenade tosses, allows specification of friendly side 
 	public void explodeHex(int x, int y, String friendlySide) {
 		
+		if(GameWindow.gameWindow != null && GameWindow.gameWindow.shieldManager.shieldedHex(x, y)) {
+			return;
+		}
+		
 		if((pcAmmo != null && pcAmmo.smoke == true) || 
 				(weapon != null && weapon.type.equals("Grenade") &&  weapon.pcAmmoTypes != null && weapon.pcAmmoTypes.size() > 0 &&
 				weapon.pcAmmoTypes.get(0).smoke) ||
@@ -106,6 +110,10 @@ public class Explosion {
 	}
 	
 	public void explodeAdjacentHex(int x, int y, String friendlySide) {
+		if(GameWindow.gameWindow != null && GameWindow.gameWindow.shieldManager.shieldedHex(x, y)) {
+			return;
+		}
+		
 		ArrayList<Unit> targetUnits = GameWindow.gameWindow.getUnitsInHexExcludingSide(friendlySide, x, y);
 		
 		for(Unit unit : targetUnits) {

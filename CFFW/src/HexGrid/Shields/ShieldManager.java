@@ -36,7 +36,7 @@ public class ShieldManager implements Serializable {
 		}
 	}
 	
-	public boolean ShieldedHex(int x, int y) {
+	public boolean shieldedHex(int x, int y) {
 		
 		for(var hex : shieldHexes) {
 			if(hex.yCord == x && hex.xCord == y)
@@ -46,23 +46,28 @@ public class ShieldManager implements Serializable {
 		return false; 
 	}
 	
-	public void AddShield(Hex hex, int strength) {
+	public void addShield(Hex hex, int strength) {
+		if(strength == 0) {
+			clearHex(hex);
+			return;
+		}
+		
 		hex.energyShields.add(new EnergyShield(strength));
 		
 		if(!shieldHexes.contains(hex))
 			shieldHexes.add(hex);
 	}
 	
-	public void ClearHex(Hex hex) {
+	public void clearHex(Hex hex) {
 		hex.energyShields.clear();
 		shieldHexes.remove(hex);
 	}
 	
-	public void SetShield(Hex hex, EnergyShield energyShield, int index) {
+	public void setShield(Hex hex, EnergyShield energyShield, int index) {
 		hex.energyShields.set(index, energyShield);
 	}
 	
-	public void RemoveShield(Hex hex, int index) {
+	public void removeShield(Hex hex, int index) {
 		hex.energyShields.remove(index);
 		
 		if(hex.energyShields.size() <= 0)

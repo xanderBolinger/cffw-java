@@ -451,7 +451,7 @@ public class FireMission implements Serializable {
 		GameWindow.gameWindow.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" X: "+impactX+", Y: "+impactY);
 		//System.out.println("X: "+impactX+", Y: "+impactY);
 		
-		if(GameWindow.gameWindow.shieldManager.ShieldedHex(impactX, impactY)) {
+		if(GameWindow.gameWindow.shieldManager.shieldedHex(impactX, impactY)) {
 			GameWindow.gameWindow.conflictLog.addNewLine("Shielded Impact: "+fireMissionDisplayName+" X: "+impactX+", Y: "+impactY);
 			return;
 		}

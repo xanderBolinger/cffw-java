@@ -318,7 +318,7 @@ public class HexGrid implements Serializable {
 		layeredPane.add(btnToggleElv);
 		
 		spinnerFortificationLevel = new JSpinner();
-		spinnerFortificationLevel.setModel(new SpinnerNumberModel(1, 1, 3, 1));
+		spinnerFortificationLevel.setModel(new SpinnerNumberModel(0, null, 4, 1));
 		spinnerFortificationLevel.setBounds(328, 12, 45, 20);
 		layeredPane.add(spinnerFortificationLevel);
 		
@@ -1566,7 +1566,7 @@ public class HexGrid implements Serializable {
 						if(clickedHex != null && createFortifications) {
 							GameWindow.gameWindow.game.fortifications.addTrench(new Cord(i,j), (int)spinnerFortificationLevel.getValue());
 						} else if(clickedHex != null && createShields) {
-							GameWindow.gameWindow.shieldManager.AddShield(clickedHex, (int)spinnerShieldStrength.getValue());
+							GameWindow.gameWindow.shieldManager.addShield(clickedHex, (int)spinnerShieldStrength.getValue());
 						}
 						
 						if (copiedHex != null && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)) {
