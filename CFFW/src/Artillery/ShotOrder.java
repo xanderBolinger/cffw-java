@@ -1,6 +1,8 @@
 package Artillery;
 
-public class ShotOrder {
+import java.io.Serializable;
+
+public class ShotOrder implements Serializable {
 
 	public int shots;
 	public int shellIndex;
