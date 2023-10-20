@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent;
 
 public class AlertWindow {
 
-	private JFrame frame;
+	public JFrame frame;
 
 	public AlertWindow(String message) {
 		initialize(message);

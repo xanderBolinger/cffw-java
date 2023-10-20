@@ -66,6 +66,7 @@ import javax.swing.JSpinner;
 import javax.swing.SwingWorker;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SpinnerNumberModel;
 
 public class GameWindow implements Serializable {
 	public static int hexSize = 20;
@@ -103,6 +104,10 @@ public class GameWindow implements Serializable {
 	private JLabel lblWind;
 
 	public VehicleCombatWindow vehicleCombatWindow;
+	
+	public AlertWindow startedLoading;
+	public AlertWindow finishedLoading;
+	private JSpinner spinnerNextActions;
 	
 	
 	public GameWindow() { gameWindow = this; } // Empty constructor for testing
@@ -430,9 +435,10 @@ public class GameWindow implements Serializable {
 		btnSet.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-
-				activeUnit = (int) spinnerActiveUnit.getValue();
-				setUnitlabel();
+				System.out.println("Deprecated button");
+				return;
+				/*activeUnit = (int) spinnerActiveUnit.getValue();
+				setUnitlabel();*/
 			}
 		});
 		btnSet.setBounds(153, 132, 89, 23);
@@ -504,8 +510,10 @@ public class GameWindow implements Serializable {
 		JButton btnSkipTo = new JButton("Skip To");
 		btnSkipTo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("Deprecated button");
+				return;
 
-				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+				/*SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
 					@Override
 					protected Void doInBackground() throws Exception {
@@ -559,7 +567,7 @@ public class GameWindow implements Serializable {
 
 				};
 
-				worker.execute();
+				worker.execute();*/
 
 			}
 		});
@@ -646,14 +654,23 @@ public class GameWindow implements Serializable {
 		JButton btnNextAction = new JButton("Next Action");
 		btnNextAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				HexGrid.impactHexes.clear();
-				new AlertWindow("Loading Next Action");
+				
+				if(startedLoading != null)
+					startedLoading.frame.dispose();
+				if(finishedLoading != null)
+					finishedLoading.frame.dispose();
+				
+				startedLoading = new AlertWindow("Loading Next Action");
 
 				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
 					@Override
 					protected Void doInBackground() throws Exception {
-						nextAction();
+						for(int i = 0; i < (int)spinnerNextActions.getValue(); i++) {
+							nextAction();					
+						}
 						return null;
 					}
 
@@ -663,7 +680,7 @@ public class GameWindow implements Serializable {
 						// openUnit(initiativeOrder.get(activeUnit), activeUnit);
 						hexGrid.frame.toFront();
 						hexGrid.frame.requestFocus();
-						new AlertWindow("Finished Loading Next Action");
+						finishedLoading = new AlertWindow("Finished Loading Next Action");
 						conflictLog.addQueuedText();
 						lblWind.setText(game.wind.toString());
 					}
@@ -671,10 +688,10 @@ public class GameWindow implements Serializable {
 				};
 
 				worker.execute();
-
+				
 			}
 		});
-		btnNextAction.setBounds(418, 132, 128, 23);
+		btnNextAction.setBounds(433, 132, 113, 23);
 		f.getContentPane().add(btnNextAction);
 
 		lblWind = new JLabel("Wind: ");
@@ -743,6 +760,11 @@ public class GameWindow implements Serializable {
 		});
 		btnMelee.setBounds(433, 101, 113, 23);
 		f.getContentPane().add(btnMelee);
+		
+		spinnerNextActions = new JSpinner();
+		spinnerNextActions.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+		spinnerNextActions.setBounds(384, 135, 44, 20);
+		f.getContentPane().add(spinnerNextActions);
 		
 		
 		vehicleCombatWindow = new VehicleCombatWindow();
@@ -2336,6 +2358,10 @@ public class GameWindow implements Serializable {
 				}
 			}
 		}
+	}
+	
+	private void nextActionClick() {
+		
 	}
 
 	public void CalcLOS() {
