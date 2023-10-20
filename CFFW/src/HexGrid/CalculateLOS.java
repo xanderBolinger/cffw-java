@@ -119,9 +119,9 @@ public class CalculateLOS {
 			}
 			
 			int brushConcealment = 0;
-			int treeConcealment = GameWindow.gameWindow.game.smoke.getConcealment(hex);
-			
-			System.out.println("Smoke concealment("+hex.toString()+") "+treeConcealment);
+			int treeConcealment = 0;
+			int smokeConcealment = GameWindow.gameWindow.game.smoke.getConcealment(hex);
+			System.out.println("Smoke concealment("+hex.toString()+") "+smokeConcealment);
 			
 			// "Light Forest", "Medium Forest", "Heavy Forest", "Brush", "Heavy Brush", "Light Rock", "Medium Rock", "Heavy Rock", "Light Urban Sprawl", "Dense Urban Sprawl", "Rubble", "Small Depression", "Large Depression"
 			for(var feature : foundHex.features) {
@@ -134,16 +134,19 @@ public class CalculateLOS {
 			}
 			brushConcealment = foundHex.concealment - treeConcealment;
 			
+			concealment += smokeConcealment;
 			
 			if(slopeToTrees >= slopeToTarget)
 				concealment += treeConcealment;
 			if(slopeToBrush >= slopeToTarget)
 				concealment += brushConcealment;
 			if(slopeToBuilding >= slopeToTarget && buildings) {
+				System.out.println("Buildings Concealment("+hex.toString()+") ");
 				concealment = 5;
 				break;
 			}
 			
+			System.out.println("Current Concealment("+hex.toString()+") "+concealment);
 			/*if(targetElevation >= spotterElevation) {
 				
 				if(slopeToTrees >= slopeToTarget)
