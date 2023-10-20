@@ -11,14 +11,26 @@ import Unit.Unit;
 public class CalculateLOS {
 
 	public static void calc(Unit unit, Unit targetUnit) {
+		
+		System.out.println("Calc LOS From: "+unit.callsign+" to "+targetUnit.callsign);
+		
 		ArrayList<Cord> hexes = TraceLine.GetHexes(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y), GameWindow.gameWindow.hexGrid.panel);
+		
+		var hexesString = "";
+		for(var h : hexes)
+			hexesString += "("+h.toString()+"), ";
+		System.out.println("Cord Line: "+hexesString);
 		
 		if(hexes.size() <= 2) {
 			unit.lineOfSight.add(targetUnit);
 			return;
 		}
 		
-		if(getConcealment(unit, targetUnit, true) >= 5)
+		var concealment = getConcealment(unit, targetUnit, true) ;
+		
+		System.out.println("Final Concealment Value: "+concealment);
+		
+		if(concealment >= 5)
 			return;
 		
 		if(!unit.lineOfSight.contains(targetUnit))
@@ -108,6 +120,9 @@ public class CalculateLOS {
 			
 			int brushConcealment = 0;
 			int treeConcealment = GameWindow.gameWindow.game.smoke.getConcealment(hex);
+			
+			System.out.println("Smoke concealment("+hex.toString()+") "+treeConcealment);
+			
 			// "Light Forest", "Medium Forest", "Heavy Forest", "Brush", "Heavy Brush", "Light Rock", "Medium Rock", "Heavy Rock", "Light Urban Sprawl", "Dense Urban Sprawl", "Rubble", "Small Depression", "Large Depression"
 			for(var feature : foundHex.features) {
 				if(feature.featureType.equals("Light Forest"))

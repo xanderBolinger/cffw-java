@@ -167,7 +167,7 @@ public class Smoke implements Serializable {
 
 		if (result.equals("B")) {
 
-			return( (diameter / 3) <= 0 ? 1 : (diameter / 3));
+			return( (diameter / 2) <= 0 ? 1 : (diameter / 2));
 
 		} else {
 
