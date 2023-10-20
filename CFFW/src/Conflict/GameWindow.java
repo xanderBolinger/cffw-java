@@ -2359,10 +2359,6 @@ public class GameWindow implements Serializable {
 			}
 		}
 	}
-	
-	private void nextActionClick() {
-		
-	}
 
 	public void CalcLOS() {
 		System.out.println("Calc los");
