@@ -2366,9 +2366,9 @@ public class GameWindow implements Serializable {
 	public void CalcLOS() {
 		System.out.println("Calc los");
 		final long startTime = System.currentTimeMillis();
-		//ExecutorService es = Executors.newFixedThreadPool(16);
+		ExecutorService es = Executors.newFixedThreadPool(16);
 		for (Unit unit : initiativeOrder) {
-			//es.submit(() -> {
+			es.submit(() -> {
 				unit.lineOfSight.clear();
 	
 				
@@ -2383,10 +2383,10 @@ public class GameWindow implements Serializable {
 	
 				}
 			
-			//});
+			});
 		}
 		
-		//es.shutdown();
+		es.shutdown();
 		
 		for(var unit : initiativeOrder) {
 			ArrayList<Unit> removeUnits = new ArrayList<Unit>();
