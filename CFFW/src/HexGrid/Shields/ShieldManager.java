@@ -22,7 +22,7 @@ public class ShieldManager implements Serializable {
 	} 
 	
 	public void showShields(Graphics2D g2) {
-		if(GameWindow.gameWindow.shieldManager == null)
+		if(GameWindow.gameWindow.game.shieldManager == null)
 			return;
 		
 		var hexMap = GameWindow.gameWindow.hexGrid.panel.hexMap;

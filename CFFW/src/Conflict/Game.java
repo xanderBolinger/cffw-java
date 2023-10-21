@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import CeHexGrid.Chit;
 import Fortifications.FortificationRecords;
 import HexGrid.ProcGen.ProcGenHexLoader.Map;
+import HexGrid.Shields.ShieldManager;
 import Hexes.Hex;
 import Melee.MeleeCombatUnit;
 import Melee.MeleeManager;
@@ -16,7 +17,7 @@ public class Game implements Serializable {
 	private int currentAction;
 	private String daylightCondition = ""; 
 	public String mapImageFileName = "refuge_33x33.png"; 
-	
+	public ShieldManager shieldManager;
 	public boolean backgroundMap;
 	
 	public MeleeManager meleeManager;

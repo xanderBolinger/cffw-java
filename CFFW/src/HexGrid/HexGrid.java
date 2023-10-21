@@ -1566,7 +1566,7 @@ public class HexGrid implements Serializable {
 						if(clickedHex != null && createFortifications) {
 							GameWindow.gameWindow.game.fortifications.addTrench(new Cord(i,j), (int)spinnerFortificationLevel.getValue());
 						} else if(clickedHex != null && createShields) {
-							GameWindow.gameWindow.shieldManager.addShield(clickedHex, (int)spinnerShieldStrength.getValue());
+							GameWindow.gameWindow.game.shieldManager.addShield(clickedHex, (int)spinnerShieldStrength.getValue());
 						}
 						
 						if (copiedHex != null && Keyboard.isKeyPressed(KeyEvent.VK_CONTROL)) {
@@ -2407,7 +2407,7 @@ public class HexGrid implements Serializable {
 
 			HexGridHullDownUtility.showHullDownPositions(g2);
 			HexGridFortificationsUtility.showFortifications(g2);
-			GameWindow.gameWindow.shieldManager.showShields(g2);
+			GameWindow.gameWindow.game.shieldManager.showShields(g2);
 			
 			if (HexGrid.losThreadShowing && losThread.npoints > 1) {
 

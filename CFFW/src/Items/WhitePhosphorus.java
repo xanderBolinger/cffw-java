@@ -1,5 +1,6 @@
 package Items;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
@@ -7,9 +8,9 @@ import CorditeExpansion.Cord;
 import Items.FlameThrower.FlameThrowerType;
 import UtilityClasses.DiceRoller;
 
-public class WhitePhosphorus {
+public class WhitePhosphorus implements Serializable {
 
-	public enum WPType {
+	public enum WPType implements Serializable {
 		Mortar60mm,Mortar81mm,Mortar120mm,Shell155mm,WpGrenade,
 		Mortar60mmIon,Mortar81mmIon,Mortar120mmIon,Shell155mmIon,WpGrenadeIon
 	}

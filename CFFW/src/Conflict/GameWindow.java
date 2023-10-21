@@ -78,7 +78,6 @@ public class GameWindow implements Serializable {
 	public CloseQuartersBattle cqb = new CloseQuartersBattle(this);
 	public ConflictLog conflictLog;
 	public static GameWindow gameWindow;
-	public ShieldManager shieldManager;
 	
 	public SetupWindow setupWindow;
 	public JList listIniativeOrder;
@@ -117,7 +116,10 @@ public class GameWindow implements Serializable {
 	 */
 	public GameWindow(ArrayList<Company> companiesFromSetupWindow, SetupWindow setupWindow, Game game, boolean openUnit,
 			int hexRows, int hexCols) {
-		shieldManager = new ShieldManager();
+		
+		if(game.shieldManager == null)
+			game.shieldManager = new ShieldManager();
+		
 		this.hexCols = hexCols;
 		this.hexRows = hexRows;
 		this.game = game;
@@ -2188,15 +2190,16 @@ public class GameWindow implements Serializable {
 			advancePhase();
 		}
 
-		game.smoke.advanceTime();
-		game.wind.advanceTime();
-		
-		GameWindow.gameWindow.conflictLog.addNewLineToQueue("Resolve melee combat round: ");
+		if(game.getCurrentAction() - 1 <= 3) {
+			game.smoke.advanceTime();
+			game.wind.advanceTime();
+			
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Resolve melee combat round: ");
 
-		InjuryLog.InjuryLog.addAlreadyInjured();
-		MeleeCombatCalculator.resolveMeleeCombatRound();
-		InjuryLog.InjuryLog.printResultsToLog();
-		
+			InjuryLog.InjuryLog.addAlreadyInjured();
+			MeleeCombatCalculator.resolveMeleeCombatRound();
+			InjuryLog.InjuryLog.printResultsToLog();
+		}
 	}
 
 	public void advancePhase() {
