@@ -71,6 +71,9 @@ public class VehicleCombatWindow {
 	private JLabel lblTrailingSmoke;
 	private Label lblTrailing;
 	private JLabel lblLaunchesRemaining;
+	private JPanel los;
+	private JList listLos;
+	private JList listSpotted;
 	
 	/**
 	 * Create the application.
@@ -122,7 +125,7 @@ public class VehicleCombatWindow {
 		
 	}
 	
-	private void refreshSelectedVehicle() {
+	public void refreshSelectedVehicle() {
 		
 		lblSelectedVehicle.setText("Selected Vehicle: "+selectedVehicle.toString());
 		var md = selectedVehicle.movementData;
@@ -155,6 +158,20 @@ public class VehicleCombatWindow {
 		
 		SwingUtility.setList(listCrew, vehicleCrew);
 		
+		ArrayList<String> los = new ArrayList<String>();
+		
+		for(var losVic : selectedVehicle.losVehicles)
+			los.add(losVic.getVehicleType()+": "+losVic.getVehicleCallsign());
+		
+		SwingUtility.setList(listLos, los);
+		
+		ArrayList<String> spotted = new ArrayList<String>();
+		
+		for(var losVic : selectedVehicle.spottedVehicles)
+			spotted.add(losVic.getVehicleType()+": "+losVic.getVehicleCallsign());
+		
+		SwingUtility.setList(listSpotted, spotted);
+		
 	}
 	
 	private void refreshSmoke() {
@@ -185,12 +202,12 @@ public class VehicleCombatWindow {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 871, 663);
+		frame.setBounds(100, 100, 871, 740);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 38, 386, 575);
+		scrollPane.setBounds(10, 38, 386, 652);
 		frame.getContentPane().add(scrollPane);
 		
 		vehicleList = new JList();
@@ -227,7 +244,7 @@ public class VehicleCombatWindow {
 				refreshSelectedVehicle();
 			}
 		});
-		btnNewButton.setBounds(406, 590, 118, 23);
+		btnNewButton.setBounds(406, 667, 118, 23);
 		frame.getContentPane().add(btnNewButton);
 		
 		JButton btnNextPhase = new JButton("Next Phase");
@@ -239,7 +256,7 @@ public class VehicleCombatWindow {
 				refreshSelectedVehicle();
 			}
 		});
-		btnNextPhase.setBounds(534, 590, 118, 23);
+		btnNextPhase.setBounds(534, 667, 118, 23);
 		frame.getContentPane().add(btnNextPhase);
 		
 		lblTurnPhase = new JLabel("Turn: 1, Phase: 1");
@@ -449,7 +466,7 @@ public class VehicleCombatWindow {
 		frame.getContentPane().add(textAreaHullDown);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(406, 444, 439, 135);
+		tabbedPane.setBounds(406, 444, 439, 221);
 		frame.getContentPane().add(tabbedPane);
 		
 		JPanel notes = new JPanel();
@@ -457,7 +474,7 @@ public class VehicleCombatWindow {
 		notes.setLayout(null);
 		
 		textAreaNotes = new JTextArea();
-		textAreaNotes.setBounds(0, 0, 434, 107);
+		textAreaNotes.setBounds(0, 0, 434, 193);
 		notes.add(textAreaNotes);
 		
 		smoke = new JPanel();
@@ -512,6 +529,32 @@ public class VehicleCombatWindow {
 		});
 		btnNextPhase_1_1.setBounds(306, 32, 118, 23);
 		smoke.add(btnNextPhase_1_1);
+		
+		los = new JPanel();
+		los.setLayout(null);
+		tabbedPane.addTab("LOS", null, los, null);
+		
+		JLabel lblNewLabel_1 = new JLabel("LOS");
+		lblNewLabel_1.setBounds(10, 11, 79, 14);
+		los.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Spotted");
+		lblNewLabel_1_1.setBounds(225, 11, 79, 14);
+		los.add(lblNewLabel_1_1);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(10, 34, 206, 148);
+		los.add(scrollPane_2);
+		
+		listLos = new JList();
+		scrollPane_2.setViewportView(listLos);
+		
+		JScrollPane scrollPane_2_1 = new JScrollPane();
+		scrollPane_2_1.setBounds(225, 34, 199, 148);
+		los.add(scrollPane_2_1);
+		
+		listSpotted = new JList();
+		scrollPane_2_1.setViewportView(listSpotted);
 		textAreaNotes.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {

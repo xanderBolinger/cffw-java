@@ -5,6 +5,7 @@ import java.io.Serializable;
 import CeHexGrid.Chit;
 import CeHexGrid.Chit.Facing;
 import Conflict.GameWindow;
+import HexGrid.CalculateLOS;
 import HexGrid.HexDirectionUtility;
 import HexGrid.HexDirectionUtility.HexDirection;
 import Vehicle.Data.VehicleMovementData;
@@ -36,6 +37,7 @@ public class VehicleMovement implements Serializable {
 		
 		updateChit(vehicle);
 		
+		CalculateLOS.calcVehicles(vehicle);
 		
 	}
 	

@@ -7,9 +7,68 @@ import CorditeExpansion.Cord;
 import Hexes.Hex;
 import Trooper.Trooper;
 import Unit.Unit;
+import Vehicle.Vehicle;
 
 public class CalculateLOS {
 
+	public static void calcVehicles(Vehicle movedVehicle) {
+		if(GameWindow.gameWindow == null || GameWindow.gameWindow.game == null || GameWindow.gameWindow.game.vehicleManager == null)
+			return;
+		
+		movedVehicle.losVehicles.clear();
+		
+		var vehicles = GameWindow.gameWindow.game.vehicleManager.getVehicles();
+		
+		for(var vic : vehicles) {
+			if(vic.compareTo(movedVehicle))
+				continue;
+			calcVehicle(movedVehicle, vic);
+			calcVehicle(vic, movedVehicle);
+		}
+		
+		for(var vic : vehicles) {
+			var removeLosVics = new ArrayList<Vehicle>();
+			
+			for(var spottedVic : vic.losVehicles) 
+				if(!spottedVic.losVehicles.contains(vic))
+					removeLosVics.add(spottedVic);
+			for(var removeVic : removeLosVics)
+				vic.losVehicles.remove(removeVic);
+		}
+	
+		GameWindow.gameWindow.vehicleCombatWindow.refreshSelectedVehicle();
+		
+	}
+	
+	private static void calcVehicle(Vehicle v1, Vehicle v2) {
+		
+		System.out.println("Calc Vehicle LOS From: "+v1.getVehicleCallsign()+" to "+v2.getVehicleCallsign());
+		
+		ArrayList<Cord> hexes = TraceLine.GetHexes(v1.movementData.location, v2.movementData.location,
+				GameWindow.gameWindow.hexGrid.panel);
+		
+		var hexesString = "";
+		for(var h : hexes)
+			hexesString += "("+h.toString()+"), ";
+		System.out.println("Cord Line: "+hexesString);
+		
+		if(hexes.size() <= 2 && !v1.losVehicles.contains(v2)) {
+			v1.losVehicles.add(v2);
+			return;
+		}
+		
+		var concealment = getConcealment(v1.movementData.location, v2.movementData.location, true) ;
+		
+		System.out.println("Final Concealment Value: "+concealment);
+		
+		if(concealment >= 5)
+			return;
+		
+		if(!v1.losVehicles.contains(v2))
+			v1.losVehicles.add(v2);
+		
+	}
+	
 	public static void calc(Unit unit, Unit targetUnit) {
 		
 		System.out.println("Calc LOS From: "+unit.callsign+" to "+targetUnit.callsign);
@@ -26,7 +85,7 @@ public class CalculateLOS {
 			return;
 		}
 		
-		var concealment = getConcealment(unit, targetUnit, true) ;
+		var concealment = getConcealment(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y), true) ;
 		
 		System.out.println("Final Concealment Value: "+concealment);
 		
@@ -67,8 +126,8 @@ public class CalculateLOS {
 		
 	} 
 	
-	private static int getConcealment(Unit unit, Unit targetUnit, boolean lineOfSight) {
-		ArrayList<Cord> hexes = TraceLine.GetHexes(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y), GameWindow.gameWindow.hexGrid.panel);
+	private static int getConcealment(Cord c1, Cord c2, boolean lineOfSight) {
+		ArrayList<Cord> hexes = TraceLine.GetHexes(c1, c2, GameWindow.gameWindow.hexGrid.panel);
 
 		Cord spotterCord;
 		Cord targetCord; 
@@ -188,7 +247,7 @@ public class CalculateLOS {
 	
 	public static int getConcelamentValue(Unit unit, Unit targetUnit) {
 				
-		return getConcealment(unit, targetUnit, false);
+		return getConcealment(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y), false);
 	}
 	
 	public static int getConcealmentAlm(Unit shooterUnit, Unit targetUnit) {
@@ -209,7 +268,7 @@ public class CalculateLOS {
 			alm += GameWindow.gameWindow.game.smoke.getAlm(hex);
 		}
 		
-		alm -= getConcealment(shooterUnit, targetUnit, false);
+		alm -= getConcealment(new Cord(shooterUnit.X, shooterUnit.Y), new Cord(targetUnit.X, targetUnit.Y), false);
 		
 		if(alm < -14)
 			alm = -14; 

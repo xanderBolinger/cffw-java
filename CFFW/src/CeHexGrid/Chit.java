@@ -27,6 +27,7 @@ import javax.imageio.ImageIO;
 import CeHexGrid.Chit.Facing;
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
+import HexGrid.CalculateLOS;
 import UtilityClasses.ExcelUtility;
 
 public class Chit implements Serializable {
@@ -372,6 +373,7 @@ public class Chit implements Serializable {
 			for(var vic : GameWindow.gameWindow.vehicleCombatWindow.vehicles) {
 				if(vic.identifier.equals(selectedChit.chitIdentifier)) {
 					vic.movementData.location = new Cord(x,y);
+					CalculateLOS.calcVehicles(vic);
 					break;
 				}
 			}

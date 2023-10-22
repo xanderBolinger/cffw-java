@@ -2370,16 +2370,12 @@ public class GameWindow implements Serializable {
 		for (Unit unit : initiativeOrder) {
 			es.submit(() -> {
 				unit.lineOfSight.clear();
-	
-				
 				
 				for (Unit targetUnit : initiativeOrder) {
 					if (unit.side.equals(targetUnit.side))
 						continue;
 					
 						CalculateLOS.calc(unit, targetUnit);
-					
-	
 	
 				}
 			

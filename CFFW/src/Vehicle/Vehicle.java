@@ -28,6 +28,8 @@ public class Vehicle implements Serializable {
 	List<CrewCompartment> crewCompartments;
 	ShieldGenerator shieldGenerator;
 
+	public ArrayList<Vehicle> losVehicles;
+	public ArrayList<Vehicle> spottedVehicles;
 	
 	public String notes;
 	
@@ -44,6 +46,8 @@ public class Vehicle implements Serializable {
 		this.crewCompartments = crewCompartments;
 		this.identifier = identifier();
 		active = true;
+		losVehicles = new ArrayList<Vehicle>();
+		spottedVehicles = new ArrayList<Vehicle>();
 	}
 
 	public void AddShieldGenerator(ShieldGenerator shieldGenerator) {

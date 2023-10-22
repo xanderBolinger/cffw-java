@@ -1,6 +1,7 @@
 package Vehicle;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import Conflict.GameWindow;
 import Vehicle.Data.CrewMember.Action;
@@ -15,6 +16,18 @@ public class VehicleManager implements Serializable {
 	public HullDownPositionRecords hullDownPositions;
 	
 	public VehicleManager() {
+		
+	}
+	
+	public ArrayList<Vehicle> getVehicles() {
+		
+		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
+		
+		for(var company : GameWindow.gameWindow.companies)
+			for(var vic : company.vehicles)
+				vehicles.add(vic);
+		
+		return vehicles; 
 		
 	}
 	
