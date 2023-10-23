@@ -33,6 +33,7 @@ import Unit.Unit;
 import UtilityClasses.HexGridUtility;
 import UtilityClasses.PCUtility;
 import Vehicle.VehicleManager;
+import Vehicle.VehicleSpotManager;
 import Vehicle.Windows.VehicleCombatWindow;
 
 import javax.swing.JList;
@@ -2053,6 +2054,7 @@ public class GameWindow implements Serializable {
 		return dist(x, y, x1, y1);
 	}
 
+	// This method might be being used in correctly in cordite expansion things
 	public static int dist(int y1, int x1, int y2, int x2) {
 
 		int du = x2 - x1;
@@ -2199,6 +2201,9 @@ public class GameWindow implements Serializable {
 			InjuryLog.InjuryLog.addAlreadyInjured();
 			MeleeCombatCalculator.resolveMeleeCombatRound();
 			InjuryLog.InjuryLog.printResultsToLog();
+			
+			
+			
 		}
 	}
 

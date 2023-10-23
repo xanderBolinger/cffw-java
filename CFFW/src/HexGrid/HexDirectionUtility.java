@@ -5,12 +5,64 @@ import java.util.List;
 
 import CorditeExpansion.Cord;
 import HexGrid.HexDirectionUtility.HexDirection;
+import UtilityClasses.HexGridUtility;
 
 public class HexDirectionUtility {
 
+	
+	public static HexDirection getHexSideFacingTarget(Cord start, Cord target) throws Exception {
+		
+		var startDistance = HexGridUtility.distance(start, target);
+		
+		if(target.xCord < start.xCord && target.yCord == start.yCord)
+			return HexDirection.A;
+		else if(target.xCord > start.xCord && target.yCord == start.yCord)
+			return HexDirection.D;
+
+		
+		
+		// if x2 < x1 and y2 == y1 than A
+		// if getDistanceInDirection(A) < getDistanceInDirection(B) than A elif getDistanceInDirection(A) > getDistanceInDirection(B) than B, otherwise A/B
+		// if x2 <= x1 , y2 > y1 than B
+		
+		// if x2 >= x1 and y2 > y1 than C 
+		
+		// if x2 > x1 and y2 == y1 than D
+		
+		// if x2 >= x1 and y2 < y1 than E
+		
+		// if x2 <= x1 and y2 < y1 thanF
+		
+		
+		
+		throw new Exception("Direction not found for cords: ("+start.toString()+") to ("+target.toString()+")");
+	}
+	
+	private static HexDirection getDirectionBetweenTwoDirections(Cord start, int startDistance,
+			HexDirection dirOne, HexDirection dirTwo, HexDirection dirInbetween) {
+		if(getDistanceInDirection(start, startDistance, dirOne) < getDistanceInDirection(start, startDistance, dirTwo))
+			return dirOne;
+		else if(getDistanceInDirection(start, startDistance, dirOne) > getDistanceInDirection(start, startDistance, dirTwo))
+			return dirTwo;
+		else
+			return dirInbetween;
+	}
+	
+	public static int getDistanceInDirection(Cord start, int distance, HexDirection dir) {
+		
+		Cord newCord = start;
+		
+		for(int i = 0; i < distance; i++) {
+			newCord = getHexInDirection(dir, newCord);
+		}
+		
+		return HexGridUtility.distance(start, newCord);
+	}
+	
 	public enum HexDirection {
 		A,AB,B,BC,C,CD,D,DE,E,EF,F,FA;
-
+		
+		
 		public static List<HexDirection> getDirections() {
 			
 			List<HexDirection> directions = new ArrayList<>();
@@ -59,21 +111,21 @@ public class HexDirectionUtility {
 	
 	public static boolean flanking(HexDirection facing1, HexDirection facing2) {
 		
-		var distance = getDistance(facing1, facing2, true) < getDistance(facing1, facing2, false) 
-				? getDistance(facing1, facing2, true) : getDistance(facing1, facing2, false);
+		var distance = getDistanceDirections(facing1, facing2, true) < getDistanceDirections(facing1, facing2, false) 
+				? getDistanceDirections(facing1, facing2, true) : getDistanceDirections(facing1, facing2, false);
 
 		return distance > 1 && distance <= 4;
 	}
 
 	public static boolean rear(HexDirection facing1, HexDirection facing2) {
 		
-		var distance = getDistance(facing1, facing2, true) < getDistance(facing1, facing2, false) 
-				? getDistance(facing1, facing2, true) : getDistance(facing1, facing2, false);
+		var distance = getDistanceDirections(facing1, facing2, true) < getDistanceDirections(facing1, facing2, false) 
+				? getDistanceDirections(facing1, facing2, true) : getDistanceDirections(facing1, facing2, false);
 
 		return distance == 0 || distance == 1;
 	}
 	
-	private static int getDistance(HexDirection facing1, HexDirection facing2, boolean clockwise) {
+	private static int getDistanceDirections(HexDirection facing1, HexDirection facing2, boolean clockwise) {
 		var nextDir = facing1;
 		int distance = 0;
 		while(true) {

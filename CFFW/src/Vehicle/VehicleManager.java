@@ -54,7 +54,7 @@ public class VehicleManager implements Serializable {
 			}
 		}
 		
-		GameWindow.gameWindow.conflictLog.addNewLine("Next Vehicle Turn: "+turn);
+		GameWindow.gameWindow.conflictLog.addNewLineToQueue("Next Vehicle Turn: "+turn);
 		
 	}
 	

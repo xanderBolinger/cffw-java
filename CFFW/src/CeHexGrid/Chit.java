@@ -374,6 +374,7 @@ public class Chit implements Serializable {
 				if(vic.identifier.equals(selectedChit.chitIdentifier)) {
 					vic.movementData.location = new Cord(x,y);
 					CalculateLOS.calcVehicles(vic);
+					GameWindow.gameWindow.vehicleCombatWindow.refreshSelectedVehicle();
 					break;
 				}
 			}

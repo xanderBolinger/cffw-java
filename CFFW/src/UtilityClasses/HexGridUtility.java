@@ -19,6 +19,10 @@ public class HexGridUtility {
 	public enum ShownType {
 		BLUFOR, OPFOR, BOTH
 	}
+	
+	public static int distance(Cord start, Cord end) {
+		return GameWindow.hexDif(start.xCord, start.yCord, end.xCord, end.yCord);
+	}
 
 	public static void drawPurpleOutline(Graphics2D g2, Polygon hex, boolean opfor, int bluforUnitWidth, int bluforUnitHeight, 
 			int opforUnitWidth, int opforUnitHeight

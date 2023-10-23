@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import Vehicle.Vehicle;
+import Vehicle.VehicleSpotManager;
 import Vehicle.Data.CrewMember.Action;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownDecision;
 
@@ -33,6 +34,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingWorker;
+
+import Artillery.AlertWindow;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import java.awt.Label;
@@ -241,9 +246,27 @@ public class VehicleCombatWindow {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				var vm = GameWindow.gameWindow.game.vehicleManager;
-				vm.nextTurn();
-				lblTurnPhase.setText("Turn: "+vm.turn+", Phase: "+vm.phase);
-				refreshSelectedVehicle();
+				
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+						VehicleSpotManager.vehicleSpotChecks();
+						vm.nextTurn();
+						return null;
+					}
+
+					@Override
+					protected void done() {
+						refreshSelectedVehicle();
+						lblTurnPhase.setText("Turn: "+vm.turn+", Phase: "+vm.phase);
+						GameWindow.gameWindow.conflictLog.addQueuedText();
+					}
+
+				};
+
+				worker.execute();
+				
 			}
 		});
 		btnNewButton.setBounds(406, 667, 118, 23);

@@ -37,7 +37,7 @@ public class CalculateLOS {
 				vic.losVehicles.remove(removeVic);
 		}
 	
-		GameWindow.gameWindow.vehicleCombatWindow.refreshSelectedVehicle();
+		
 		
 	}
 	
