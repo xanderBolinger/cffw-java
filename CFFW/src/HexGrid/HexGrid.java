@@ -2412,6 +2412,7 @@ public class HexGrid implements Serializable {
 			drawSmokeMarkers(g2);
 			drawImpactMarkers(g2);
 			drawSelectedUnitLos(g2);
+			drawVehicleLosOutlines(g2);
 
 		}
 
