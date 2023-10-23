@@ -1,5 +1,9 @@
 package UtilityClasses;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +20,57 @@ public class HexGridUtility {
 		BLUFOR, OPFOR, BOTH
 	}
 
+	public static void drawPurpleOutline(Graphics2D g2, Polygon hex, boolean opfor, int bluforUnitWidth, int bluforUnitHeight, 
+			int opforUnitWidth, int opforUnitHeight
+			) {
+		int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
+		int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
+
+		if (opfor) {
+			// System.out.println("pass draw 1");
+			Polygon diamond = new Polygon();
+
+			// Top point
+			diamond.addPoint(hexCenterX, (int) (hexCenterY - opforUnitHeight / 2 - 3));
+			// Left point
+			diamond.addPoint((int) (hexCenterX - opforUnitWidth / 2 - 3), hexCenterY);
+			// Bottom point
+			diamond.addPoint(hexCenterX, (int) (hexCenterY + opforUnitHeight / 2 + 3));
+			// Right point
+			diamond.addPoint((int) (hexCenterX + opforUnitWidth / 2 + 3), hexCenterY);
+
+			g2.setColor(Color.MAGENTA);
+			g2.setStroke(new BasicStroke(2f));
+			g2.draw(diamond);
+			// System.out.println("pass draw 2");
+		} else {
+
+			g2.setColor(Color.MAGENTA);
+			g2.setStroke(new BasicStroke(3f));
+
+			Polygon outline = new Polygon();
+
+			// Top Left point
+			outline.addPoint(hexCenterX - bluforUnitWidth / 2,
+					hexCenterY + bluforUnitHeight / 2);
+
+			// Bottom left point
+			outline.addPoint(hexCenterX - bluforUnitWidth / 2,
+					hexCenterY - bluforUnitHeight / 2);
+
+			// Bottom Right point
+			outline.addPoint(hexCenterX + bluforUnitWidth / 2,
+					hexCenterY - bluforUnitHeight / 2);
+
+			// Top Right Point
+			outline.addPoint(hexCenterX + bluforUnitWidth / 2,
+					hexCenterY + bluforUnitHeight / 2);
+
+			g2.draw(outline);
+			g2.setStroke(new BasicStroke(2f));
+		}
+	}
+	
 	public static boolean canShow(ShownType shownType, Unit targetUnit) {
 
 		if (shownTypeEqualsSide(shownType, targetUnit.side))

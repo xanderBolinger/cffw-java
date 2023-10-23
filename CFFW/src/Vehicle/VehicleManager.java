@@ -19,6 +19,14 @@ public class VehicleManager implements Serializable {
 		
 	}
 	
+	public boolean opforVehicle(Vehicle vehicle) {
+		for(var company : GameWindow.gameWindow.companies)
+			for(var vic : company.vehicles)
+				if(vic.compareTo(vehicle))
+					return company.getSide().equals("OPFOR");
+		return false;
+	}
+	
 	public ArrayList<Vehicle> getVehicles() {
 		
 		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();

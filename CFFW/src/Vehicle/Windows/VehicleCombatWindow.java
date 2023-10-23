@@ -55,7 +55,7 @@ public class VehicleCombatWindow {
 	private JTextArea textAreaNotes;
 	
 	public ArrayList<Vehicle> vehicles;
-	Vehicle selectedVehicle;
+	public Vehicle selectedVehicle;
 	private JButton btnNewButton_2;
 	private JButton btnNewButton_3;
 	private JButton btnNewButton_4;
@@ -126,6 +126,8 @@ public class VehicleCombatWindow {
 	}
 	
 	public void refreshSelectedVehicle() {
+		if(selectedVehicle == null)
+			return;
 		
 		lblSelectedVehicle.setText("Selected Vehicle: "+selectedVehicle.toString());
 		var md = selectedVehicle.movementData;

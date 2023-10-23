@@ -12,7 +12,8 @@ import Vehicle.Vehicle;
 public class CalculateLOS {
 
 	public static void calcVehicles(Vehicle movedVehicle) {
-		if(GameWindow.gameWindow == null || GameWindow.gameWindow.game == null || GameWindow.gameWindow.game.vehicleManager == null)
+		if(GameWindow.gameWindow == null || GameWindow.gameWindow.game == null || GameWindow.gameWindow.game.vehicleManager == null
+				|| GameWindow.gameWindow.companies == null)
 			return;
 		
 		movedVehicle.losVehicles.clear();

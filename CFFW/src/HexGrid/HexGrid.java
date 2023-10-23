@@ -48,6 +48,7 @@ import Unit.Unit.UnitType;
 import UtilityClasses.Keyboard;
 import UtilityClasses.SwingUtility.FPSCounter;
 import Vehicle.Vehicle;
+import Vehicle.VehicleManager;
 import Vehicle.Windows.VehicleCombatWindow;
 import UtilityClasses.ExcelUtility;
 import UtilityClasses.HexGridUtility;
@@ -1877,9 +1878,56 @@ public class HexGrid implements Serializable {
 			return null;
 		}
 
-		public void drawChits(Graphics2D g2) {
-
+		public void drawVehicleLosOutlines(Graphics2D g2) {
+			if(GameWindow.gameWindow.game.vehicleManager == null || GameWindow.gameWindow.vehicleCombatWindow == null
+					|| GameWindow.gameWindow.vehicleCombatWindow == null || GameWindow.gameWindow.vehicleCombatWindow.selectedVehicle == null)
+				return;
 			
+			var selectedVehicle = GameWindow.gameWindow.vehicleCombatWindow.selectedVehicle;
+			
+			for (var unit : selectedVehicle.losVehicles) {
+
+				var hex = hexMap.get(unit.movementData.location.xCord).get(unit.movementData.location.yCord);
+				var opfor = GameWindow.gameWindow.game.vehicleManager.opforVehicle(unit);
+				HexGridUtility.drawPurpleOutline(g2, hex, opfor, bluforUnitWidth, bluforUnitHeight, 
+						opforUnitWidth, opforUnitHeight);
+
+			}
+			
+		}
+		
+		public void drawSelectedUnitLos(Graphics2D g2) {
+			if(selectedUnit == null)
+				return;
+			
+			for (Unit unit : selectedUnit.unit.lineOfSight) {
+
+				if (!HexGridUtility.canShow(shownType, unit))
+					continue;
+
+				for (DeployedUnit targetUnit : deployedUnits) {
+
+					if (selectedUnit.unit.callsign.equals(targetUnit.unit.callsign))
+						continue;
+
+					if (targetUnit.unit.callsign.equals(unit.callsign)) {
+
+						if (selectedUnits.contains(targetUnit))
+							continue;
+						var hex = hexMap.get(targetUnit.xCord).get(targetUnit.yCord);
+						var opfor = targetUnit.unit.side.equals("OPFOR");
+						HexGridUtility.drawPurpleOutline(g2, hex, opfor, bluforUnitWidth, bluforUnitHeight, 
+								opforUnitWidth, opforUnitHeight);
+						
+					}
+
+				}
+
+			}
+			
+		}
+		
+		public void drawChits(Graphics2D g2) {
 			
 			for (int i = 0; i < GameWindow.gameWindow.game.chits.size(); i++) {
 
@@ -2322,75 +2370,7 @@ public class HexGrid implements Serializable {
 
 						drawUnit(selectedUnit, g, g2, count);
 
-						for (Unit unit : selectedUnit.unit.lineOfSight) {
-
-							if (!HexGridUtility.canShow(shownType, unit))
-								continue;
-
-							for (DeployedUnit targetUnit : deployedUnits) {
-
-								if (selectedUnit.unit.callsign.equals(targetUnit.unit.callsign))
-									continue;
-
-								if (targetUnit.unit.callsign.equals(unit.callsign)) {
-
-									if (selectedUnits.contains(targetUnit))
-										continue;
-
-									hex = hexMap.get(targetUnit.xCord).get(targetUnit.yCord);
-
-									int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
-									int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
-
-									if (targetUnit.unit.side.equals("OPFOR")) {
-										// System.out.println("pass draw 1");
-										Polygon diamond = new Polygon();
-
-										// Top point
-										diamond.addPoint(hexCenterX, (int) (hexCenterY - opforUnitHeight / 2 - 3));
-										// Left point
-										diamond.addPoint((int) (hexCenterX - opforUnitWidth / 2 - 3), hexCenterY);
-										// Bottom point
-										diamond.addPoint(hexCenterX, (int) (hexCenterY + opforUnitHeight / 2 + 3));
-										// Right point
-										diamond.addPoint((int) (hexCenterX + opforUnitWidth / 2 + 3), hexCenterY);
-
-										g2.setColor(Color.MAGENTA);
-										g2.setStroke(new BasicStroke(2f));
-										g2.draw(diamond);
-										// System.out.println("pass draw 2");
-									} else {
-
-										g2.setColor(Color.MAGENTA);
-										g2.setStroke(new BasicStroke(3f));
-
-										Polygon outline = new Polygon();
-
-										// Top Left point
-										outline.addPoint(hexCenterX - bluforUnitWidth / 2,
-												hexCenterY + bluforUnitHeight / 2);
-
-										// Bottom left point
-										outline.addPoint(hexCenterX - bluforUnitWidth / 2,
-												hexCenterY - bluforUnitHeight / 2);
-
-										// Bottom Right point
-										outline.addPoint(hexCenterX + bluforUnitWidth / 2,
-												hexCenterY - bluforUnitHeight / 2);
-
-										// Top Right Point
-										outline.addPoint(hexCenterX + bluforUnitWidth / 2,
-												hexCenterY + bluforUnitHeight / 2);
-
-										g2.draw(outline);
-										g2.setStroke(new BasicStroke(2f));
-									}
-
-								}
-
-							}
-
-						}
+						
 
 						count++;
 					}
@@ -2431,6 +2411,7 @@ public class HexGrid implements Serializable {
 			
 			drawSmokeMarkers(g2);
 			drawImpactMarkers(g2);
+			drawSelectedUnitLos(g2);
 
 		}
 
