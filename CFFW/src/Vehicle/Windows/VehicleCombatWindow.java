@@ -81,6 +81,7 @@ public class VehicleCombatWindow {
 	private JList listLos;
 	private JList listSpotted;
 	private JCheckBox chckbxFired;
+	private JCheckBox chckbxSkipSpotTest;
 	
 	/**
 	 * Create the application.
@@ -255,7 +256,10 @@ public class VehicleCombatWindow {
 					@Override
 					protected Void doInBackground() throws Exception {
 						vm.nextTurn();
-						VehicleSpotManager.vehicleSpotChecks();
+						
+						if(!chckbxSkipSpotTest.isSelected())
+							VehicleSpotManager.vehicleSpotChecks();
+						
 						for(var vic : vehicles) {
 							vic.spotData.fired = false;
 						}
@@ -597,6 +601,10 @@ public class VehicleCombatWindow {
 		});
 		chckbxFired.setBounds(560, 361, 132, 23);
 		frame.getContentPane().add(chckbxFired);
+		
+		chckbxSkipSpotTest = new JCheckBox("Skip Spot Test");
+		chckbxSkipSpotTest.setBounds(658, 667, 187, 23);
+		frame.getContentPane().add(chckbxSkipSpotTest);
 		textAreaNotes.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {

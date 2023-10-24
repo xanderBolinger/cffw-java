@@ -175,7 +175,7 @@ public class HexDirectionUtility {
 		case B:
 			return clockwise ? HexDirection.BC : HexDirection.AB;
 		case BC:
-			return clockwise ? HexDirection.C : HexDirection.BC;
+			return clockwise ? HexDirection.C : HexDirection.B;
 		case C:
 			return clockwise ? HexDirection.CD : HexDirection.BC;
 		case CD:
