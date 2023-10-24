@@ -101,5 +101,15 @@
             <launched_smoke>VehicleSmokeLauncher</launched_smoke>
             <smoke_launches>4</smoke_launches>
         </smoke_data>
+        <spot_data>
+            <turret_size>8</turret_size>
+            <hull_size>17</hull_size>
+            <thermal_mod>5</thermal_mod>
+            <magnification>24</magnification>
+            <night_vision>4</night_vision>
+            <stealth_field>0</stealth_field>
+            <camo>2</camo>
+            <thermal_shroud>None</thermal_shroud>
+        </spot_data>
     </vehicle_data>
 </vehicle>

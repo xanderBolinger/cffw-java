@@ -1884,15 +1884,18 @@ public class HexGrid implements Serializable {
 			
 			var selectedVehicle = GameWindow.gameWindow.vehicleCombatWindow.selectedVehicle;
 			
-			for (var unit : selectedVehicle.losVehicles) {
-
-				var hex = hexMap.get(unit.movementData.location.xCord).get(unit.movementData.location.yCord);
-				var opfor = GameWindow.gameWindow.game.vehicleManager.opforVehicle(unit);
-				HexGridUtility.drawPurpleOutline(g2, hex, opfor, bluforUnitWidth, bluforUnitHeight, 
-						opforUnitWidth, opforUnitHeight);
-
-			}
+			drawVehicleOutline(selectedVehicle, g2, true);
 			
+			for (var unit : selectedVehicle.losVehicles)
+				drawVehicleOutline(unit, g2, false);
+			
+		}
+		
+		private void drawVehicleOutline(Vehicle vehicle, Graphics2D g2, boolean selected) {
+			var hex = hexMap.get(vehicle.movementData.location.xCord).get(vehicle.movementData.location.yCord);
+			var opfor = GameWindow.gameWindow.game.vehicleManager.opforVehicle(vehicle);
+			HexGridUtility.drawUnitOutline(g2, hex, opfor, bluforUnitWidth, bluforUnitHeight, 
+					opforUnitWidth, opforUnitHeight, selected);
 		}
 		
 		public void drawSelectedUnitLos(Graphics2D g2) {
@@ -1915,8 +1918,8 @@ public class HexGrid implements Serializable {
 							continue;
 						var hex = hexMap.get(targetUnit.xCord).get(targetUnit.yCord);
 						var opfor = targetUnit.unit.side.equals("OPFOR");
-						HexGridUtility.drawPurpleOutline(g2, hex, opfor, bluforUnitWidth, bluforUnitHeight, 
-								opforUnitWidth, opforUnitHeight);
+						HexGridUtility.drawUnitOutline(g2, hex, opfor, bluforUnitWidth, bluforUnitHeight, 
+								opforUnitWidth, opforUnitHeight, false);
 						
 					}
 

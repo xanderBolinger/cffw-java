@@ -24,9 +24,8 @@ public class HexGridUtility {
 		return GameWindow.hexDif(start.xCord, start.yCord, end.xCord, end.yCord);
 	}
 
-	public static void drawPurpleOutline(Graphics2D g2, Polygon hex, boolean opfor, int bluforUnitWidth, int bluforUnitHeight, 
-			int opforUnitWidth, int opforUnitHeight
-			) {
+	public static void drawUnitOutline(Graphics2D g2, Polygon hex, boolean opfor, int bluforUnitWidth, int bluforUnitHeight, 
+			int opforUnitWidth, int opforUnitHeight, boolean yellow) {
 		int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
 		int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
 
@@ -43,13 +42,13 @@ public class HexGridUtility {
 			// Right point
 			diamond.addPoint((int) (hexCenterX + opforUnitWidth / 2 + 3), hexCenterY);
 
-			g2.setColor(Color.MAGENTA);
+			g2.setColor(yellow ? Color.YELLOW : Color.MAGENTA);
 			g2.setStroke(new BasicStroke(2f));
 			g2.draw(diamond);
 			// System.out.println("pass draw 2");
 		} else {
 
-			g2.setColor(Color.MAGENTA);
+			g2.setColor(yellow ? Color.YELLOW : Color.MAGENTA);
 			g2.setStroke(new BasicStroke(3f));
 
 			Polygon outline = new Polygon();

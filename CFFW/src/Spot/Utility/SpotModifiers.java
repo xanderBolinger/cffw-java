@@ -73,6 +73,8 @@ public class SpotModifiers {
 		}
 		return concealmentMod;
 	}
+	
+	
 
 	public static int getFortificationMod(int x, int y) {
 		int mod = 0;
@@ -182,6 +184,14 @@ public class SpotModifiers {
 	public static int getRangeMod(Unit target, Unit spotter) {
 		int hexes = GameWindow.hexDif(target, spotter);
 
+		return getRangeMod(hexes);
+	}
+
+	public static int getRangeMod(Cord spotter, Cord target) {
+		return getRangeMod(GameWindow.gameWindow.hexDif(spotter.xCord, spotter.yCord, target.xCord, target.yCord));
+	}
+	
+	public static int getRangeMod(int hexes) {
 		int mod = 0;
 		int yards = hexes * GameWindow.hexSize;
 		int pcHexes = yards / 2;
@@ -241,7 +251,7 @@ public class SpotModifiers {
 
 		return mod;
 	}
-
+	
 	private static int search(ArrayList<ArrayList<Integer>> arr, int target) {
 		int value = 0;
 		// System.out.println("Target: " + target);

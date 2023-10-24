@@ -35,4 +35,8 @@ public class CrewPosition implements Serializable {
 		return fieldOfView;
 	}
 	
+	public boolean occupied() {
+		return crewMemeber != null && crewMemeber.crewMember != null;
+	}
+	
 }

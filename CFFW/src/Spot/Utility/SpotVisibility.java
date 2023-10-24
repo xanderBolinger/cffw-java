@@ -54,6 +54,7 @@ public class SpotVisibility {
 		return visibilityMod;
 	}
 
+
 	private static int getMaximumMagnificationItem(Trooper spotter) {
 
 		int magnification = 0;
@@ -100,20 +101,20 @@ public class SpotVisibility {
 			else
 				spotMagnification = wep.magnification;
 
-			if (spotMagnification < 4) {
-				visibilityModifications += "Magnification less than 4(-5); ";
+			if (spotMagnification <= 4) {
+				visibilityModifications += "Magnification less than or equal to 4(-5); ";
 				visibilityMod -= 2;
-			} else if (spotMagnification < 8) {
-				visibilityModifications += "Magnification less than 8(-5); ";
+			} else if (spotMagnification <= 8) {
+				visibilityModifications += "Magnification less than or equal to 8(-5); ";
 				visibilityMod -= 3;
-			} else if (spotMagnification < 12) {
-				visibilityModifications += "Magnification less than 12(-5); ";
+			} else if (spotMagnification <= 12) {
+				visibilityModifications += "Magnification less than or equal to 12(-5); ";
 				visibilityMod -= 4;
-			} else if (spotMagnification < 24) {
-				visibilityModifications += "Magnification less than 24(-5); ";
+			} else if (spotMagnification <= 24) {
+				visibilityModifications += "Magnification less than or equal to 24(-5); ";
 				visibilityMod -= 5;
 			} else {
-				visibilityModifications += "Greater Magnification than 24(-6); ";
+				visibilityModifications += "Greater Magnification than or equal to 24(-6); ";
 				visibilityMod -= 6;
 			}
 
@@ -122,6 +123,20 @@ public class SpotVisibility {
 		return visibilityMod;
 	}
 
+	public static int getMagnificationMod(int spotMagnification) {
+		if (spotMagnification <= 4) {
+			return -2;
+		} else if (spotMagnification <= 8) {
+			return -3;
+		} else if (spotMagnification <= 12) {
+			return -4;
+		} else if (spotMagnification <= 24) {
+			return -5;
+		} else {
+			return -6;
+		}
+	}
+	
 	public static int getWeatherMod(String weather) {
 		int visibilityMod = 0;
 
@@ -222,6 +237,8 @@ public class SpotVisibility {
 
 	}
 
+	
+	
 	public static int armorModifier(ArrayList<Unit> spotableUnits) {
 		int mod = 0;
 		int count = 0;
@@ -304,4 +321,6 @@ public class SpotVisibility {
 		return visibilityMod;
 	}
 
+	
+	
 }

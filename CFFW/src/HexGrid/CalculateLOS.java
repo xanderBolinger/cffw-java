@@ -147,7 +147,7 @@ public class CalculateLOS {
 		
 	} 
 	
-	private static int getConcealment(Cord c1, Cord c2, boolean lineOfSight) {
+	public static int getConcealment(Cord c1, Cord c2, boolean lineOfSight) {
 		ArrayList<Cord> hexes = TraceLine.GetHexes(c1, c2, GameWindow.gameWindow.hexGrid.panel);
 
 		Cord spotterCord;

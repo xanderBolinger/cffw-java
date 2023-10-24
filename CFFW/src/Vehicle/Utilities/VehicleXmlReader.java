@@ -28,6 +28,7 @@ import Vehicle.Data.CrewPosition;
 import Vehicle.Data.ShieldGenerator;
 import Vehicle.Data.VehicleMovementData;
 import Vehicle.Data.VehicleSmokeData;
+import Vehicle.Data.VehicleSpotData;
 import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
 
 import org.w3c.dom.Document;
@@ -55,9 +56,32 @@ public class VehicleXmlReader {
 		vehicle.setVehicleCallsign(vehicleCallSign);
 		vehicle.movementData = getVehicleMovementData(vehicleData, vehicle);
 		vehicle.smokeData = getVehicleSmokeData(vehicleData, vehicle);
+		vehicle.spotData = getVehicleSpotData(vehicleData);
+		
 		return vehicle;
 	}
 
+	private static VehicleSpotData getVehicleSpotData(Document vehicleData) throws Exception {
+		int turretSize = getElementInt(vehicleData, "turret_size");
+		int hullSize = getElementInt(vehicleData, "hull_size");
+		int thermalMod = getElementInt(vehicleData, "thermal_mod");
+		int magnification = getElementInt(vehicleData,"magnification");
+		int nightVision = getElementInt(vehicleData,"night_vision");
+		int stealthField = getElementInt(vehicleData,"stealth_field");
+		int camo = getElementInt(vehicleData,"camo");
+		String thermalShroud = getElementString(vehicleData,"thermal_shroud");
+		
+		return new VehicleSpotData(turretSize, hullSize, thermalMod, magnification, nightVision, stealthField, camo, thermalShroud);
+	}
+	
+	private static int getElementInt(Document vehicleData, String name) {
+		return Integer.parseInt(getElementString(vehicleData,name));
+	}
+	
+	private static String getElementString(Document vehicleData, String name) {
+		return vehicleData.getElementsByTagName(name).item(0).getTextContent();
+	}
+	
 	private static VehicleSmokeData getVehicleSmokeData(Document vehicleData, Vehicle vehicle) throws Exception {
 		int trailingSmokeTurns = Integer.parseInt(vehicleData.getElementsByTagName("trailing_smoke_turns").item(0).getTextContent());
 		int smokeLaunches = Integer.parseInt(vehicleData.getElementsByTagName("smoke_launches").item(0).getTextContent());

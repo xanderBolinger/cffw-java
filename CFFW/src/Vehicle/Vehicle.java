@@ -16,6 +16,7 @@ import Vehicle.Data.CrewPosition;
 import Vehicle.Data.ShieldGenerator;
 import Vehicle.Data.VehicleMovementData;
 import Vehicle.Data.VehicleSmokeData;
+import Vehicle.Data.VehicleSpotData;
 import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
 
 public class Vehicle implements Serializable {
@@ -38,6 +39,7 @@ public class Vehicle implements Serializable {
 	
 	public VehicleMovementData movementData;
 	public VehicleSmokeData smokeData;
+	public VehicleSpotData spotData;
 	
 	public Vehicle() {} // empty constructor for testing 
 
