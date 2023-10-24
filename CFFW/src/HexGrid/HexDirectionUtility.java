@@ -10,8 +10,12 @@ import Vehicle.Vehicle;
 
 public class HexDirectionUtility {
 
+	private static boolean debug = false;
 	
 	public static void testTargetDirections(Vehicle vehicle) {
+		if(!debug)
+			return;
+		
 		var cs = vehicle.getVehicleCallsign();
 		for(var victor : GameWindow.gameWindow.game.vehicleManager.getVehicles()) {
 			if(victor.compareTo(vehicle))
@@ -23,7 +27,6 @@ public class HexDirectionUtility {
 			
 		}
 		
-		
 	}
 	
 	public static HexDirection getHexSideFacingTarget(Cord start, Cord target) {
@@ -31,10 +34,10 @@ public class HexDirectionUtility {
 		var startDistance = HexGridUtility.distance(start, target);
 
 		HexDirection closestDir = HexDirection.A;
-		var closestDist = getDistanceInDirection(start, startDistance, HexDirection.A);
+		var closestDist = getDistanceInDirection(start, target, startDistance, HexDirection.A);
 		
 		for(var dir : HexDirection.getDirections()) {
-			var newDist = getDistanceInDirection(start, startDistance, dir);
+			var newDist = getDistanceInDirection(start, target, startDistance, dir);
 			
 			if(newDist < closestDist) {
 				closestDist = newDist;
@@ -57,22 +60,10 @@ public class HexDirectionUtility {
 		
 		// if x2 <= x1 and y2 < y1 thanF
 		
-		
-		
 		//throw new Exception("Direction not found for cords: ("+start.toString()+") to ("+target.toString()+")");
 	}
 	
-	private static HexDirection getDirectionBetweenTwoDirections(Cord start, int startDistance,
-			HexDirection dirOne, HexDirection dirTwo, HexDirection dirInbetween) {
-		if(getDistanceInDirection(start, startDistance, dirOne) < getDistanceInDirection(start, startDistance, dirTwo))
-			return dirOne;
-		else if(getDistanceInDirection(start, startDistance, dirOne) > getDistanceInDirection(start, startDistance, dirTwo))
-			return dirTwo;
-		else
-			return dirInbetween;
-	}
-	
-	public static int getDistanceInDirection(Cord start, int distance, HexDirection dir) {
+	public static int getDistanceInDirection(Cord start, Cord target, int distance, HexDirection dir) {
 		
 		Cord newCord = start;
 		boolean clockwise = true;
@@ -81,8 +72,18 @@ public class HexDirectionUtility {
 			clockwise = !clockwise;
 		}
 		
-		return HexGridUtility.distance(start, newCord);
+		return HexGridUtility.distance(target, newCord);
 	}
+	
+	/*private static HexDirection getDirectionBetweenTwoDirections(Cord start, int startDistance,
+			HexDirection dirOne, HexDirection dirTwo, HexDirection dirInbetween) {
+		if(getDistanceInDirection(start, startDistance, dirOne) < getDistanceInDirection(start, startDistance, dirTwo))
+			return dirOne;
+		else if(getDistanceInDirection(start, startDistance, dirOne) > getDistanceInDirection(start, startDistance, dirTwo))
+			return dirTwo;
+		else
+			return dirInbetween;
+	}*/
 	
 	public enum HexDirection {
 		A,AB,B,BC,C,CD,D,DE,E,EF,F,FA;
