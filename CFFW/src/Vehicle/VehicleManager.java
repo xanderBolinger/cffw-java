@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
-import Vehicle.Data.CrewMember.Action;
+import Vehicle.Data.CrewMember.CrewAction;
 import Vehicle.HullDownPositions.HullDownPositionRecords;
 
 public class VehicleManager implements Serializable {
@@ -68,7 +68,7 @@ public class VehicleManager implements Serializable {
 				for(var pos : vic.getCrewPositions()) {
 					if(pos.crewMemeber == null)
 						continue; 
-					pos.crewMemeber.currentAction = Action.SPOT;
+					pos.crewMemeber.currentAction = CrewAction.SPOT;
 				}
 				
 			}

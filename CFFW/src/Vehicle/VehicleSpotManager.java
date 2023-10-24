@@ -9,6 +9,7 @@ import Spot.Utility.SpotModifiers;
 import Spot.Utility.SpotUtility;
 import Spot.Utility.SpotVisibility;
 import Trooper.Trooper;
+import Vehicle.Data.CrewMember.CrewAction;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
 
 public class VehicleSpotManager {
@@ -17,7 +18,6 @@ public class VehicleSpotManager {
 		GameWindow.gameWindow.conflictLog.addNewLineToQueue("Vehicle Spot Tests: ");
 
 		for(var vic : GameWindow.gameWindow.game.vehicleManager.getVehicles()) {
-			
 			
 			for(var spotVic : vic.losVehicles) {
 				if(vic.spottedVehicles.contains(spotVic) 
@@ -41,7 +41,7 @@ public class VehicleSpotManager {
 		var direction = HexDirectionUtility.getHexSideFacingTarget(spotterCord, targetCord);
 		
 		for(var position : spotter.getCrewPositions()) {
-			if(!position.getFieldOfView().contains(direction) || !position.occupied())
+			if(!position.getFieldOfView().contains(direction) || !position.occupied() || position.crewMemeber.currentAction != CrewAction.SPOT)
 				continue;
 			if(!spotter.spottedVehicles.contains(target))
 				if(spotVehicleRoll(spotter, target, position.crewMemeber.crewMember))

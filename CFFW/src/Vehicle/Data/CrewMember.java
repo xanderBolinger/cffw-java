@@ -9,15 +9,15 @@ public class CrewMember implements Serializable {
 
 	public Trooper crewMember;
 
-	public Action currentAction;
+	public CrewAction currentAction;
 	
-	public enum Action {
+	public enum CrewAction {
 		SPOT,AIM,FIRE,DRIVE
 	}
 	
 	public CrewMember(Trooper crewMember) {
 		this.crewMember = crewMember;
-		currentAction = Action.SPOT;
+		currentAction = CrewAction.SPOT;
 	}
 	
 }

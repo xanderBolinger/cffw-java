@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 import Vehicle.Vehicle;
 import Vehicle.VehicleSpotManager;
-import Vehicle.Data.CrewMember.Action;
+import Vehicle.Data.CrewMember.CrewAction;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownDecision;
 
 import javax.swing.JScrollPane;
@@ -99,7 +99,7 @@ public class VehicleCombatWindow {
 		
 		ArrayList<String> actions = new ArrayList<String>();
 		
-		for(var action : Action.values()) {
+		for(var action : CrewAction.values()) {
 			actions.add(action.toString());
 		}
 		
@@ -307,7 +307,7 @@ public class VehicleCombatWindow {
 				
 				selectedVehicle.getCrewPositions().get(listCrew.getSelectedIndex())
 				.crewMemeber.currentAction 
-					= Action.values()[comboBoxAction.getSelectedIndex()];
+					= CrewAction.values()[comboBoxAction.getSelectedIndex()];
 				
 				refreshSelectedVehicle();
 			}
