@@ -500,13 +500,31 @@ public class VehicleCombatWindow {
 		tabbedPane.setBounds(406, 444, 439, 221);
 		frame.getContentPane().add(tabbedPane);
 		
-		JPanel notes = new JPanel();
-		tabbedPane.addTab("Notes", null, notes, null);
-		notes.setLayout(null);
+		los = new JPanel();
+		los.setLayout(null);
+		tabbedPane.addTab("LOS", null, los, null);
 		
-		textAreaNotes = new JTextArea();
-		textAreaNotes.setBounds(0, 0, 434, 193);
-		notes.add(textAreaNotes);
+		JLabel lblNewLabel_1 = new JLabel("LOS");
+		lblNewLabel_1.setBounds(10, 11, 79, 14);
+		los.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("Spotted");
+		lblNewLabel_1_1.setBounds(225, 11, 79, 14);
+		los.add(lblNewLabel_1_1);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(10, 34, 206, 148);
+		los.add(scrollPane_2);
+		
+		listLos = new JList();
+		scrollPane_2.setViewportView(listLos);
+		
+		JScrollPane scrollPane_2_1 = new JScrollPane();
+		scrollPane_2_1.setBounds(225, 34, 199, 148);
+		los.add(scrollPane_2_1);
+		
+		listSpotted = new JList();
+		scrollPane_2_1.setViewportView(listSpotted);
 		
 		smoke = new JPanel();
 		tabbedPane.addTab("Smoke", null, smoke, null);
@@ -561,31 +579,13 @@ public class VehicleCombatWindow {
 		btnNextPhase_1_1.setBounds(306, 32, 118, 23);
 		smoke.add(btnNextPhase_1_1);
 		
-		los = new JPanel();
-		los.setLayout(null);
-		tabbedPane.addTab("LOS", null, los, null);
+		JPanel notes = new JPanel();
+		tabbedPane.addTab("Notes", null, notes, null);
+		notes.setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("LOS");
-		lblNewLabel_1.setBounds(10, 11, 79, 14);
-		los.add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_1_1 = new JLabel("Spotted");
-		lblNewLabel_1_1.setBounds(225, 11, 79, 14);
-		los.add(lblNewLabel_1_1);
-		
-		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBounds(10, 34, 206, 148);
-		los.add(scrollPane_2);
-		
-		listLos = new JList();
-		scrollPane_2.setViewportView(listLos);
-		
-		JScrollPane scrollPane_2_1 = new JScrollPane();
-		scrollPane_2_1.setBounds(225, 34, 199, 148);
-		los.add(scrollPane_2_1);
-		
-		listSpotted = new JList();
-		scrollPane_2_1.setViewportView(listSpotted);
+		textAreaNotes = new JTextArea();
+		textAreaNotes.setBounds(0, 0, 434, 193);
+		notes.add(textAreaNotes);
 		
 		chckbxFired = new JCheckBox("Fired");
 		chckbxFired.addActionListener(new ActionListener() {
