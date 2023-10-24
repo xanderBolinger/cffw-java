@@ -11,7 +11,6 @@ import javax.swing.JFrame;
 import Unit.Unit;
 import Unit.Unit.UnitType;
 import UtilityClasses.DiceRoller;
-import UtilityClasses.HexGridUtility;
 import UtilityClasses.PCUtility;
 import UtilityClasses.UnitReorderListener;
 
@@ -26,6 +25,7 @@ import javax.swing.SwingWorker;
 
 import CloseCombat.CloseCombatWindow;
 import HexGrid.HexGrid;
+import HexGrid.HexGridUtility;
 import HexGrid.HexGrid.DeployedUnit;
 import Items.BulkInventoryWindow;
 import Items.StaticWeaponWindow;

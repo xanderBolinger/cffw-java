@@ -34,6 +34,7 @@ import CorditeExpansion.ThrowAble;
 import CorditeExpansionActions.CeAction;
 import CorditeExpansionActions.TurnAction;
 import HexGrid.Fortifications.HexGridFortificationsUtility;
+import HexGrid.HexGridUtility.ShownType;
 import HexGrid.ProcGen.ProcHexManager;
 import HexGrid.Shields.ShieldManager;
 import HexGrid.Vehicle.HexGridHullDownUtility;
@@ -51,8 +52,6 @@ import Vehicle.Vehicle;
 import Vehicle.VehicleManager;
 import Vehicle.Windows.VehicleCombatWindow;
 import UtilityClasses.ExcelUtility;
-import UtilityClasses.HexGridUtility;
-import UtilityClasses.HexGridUtility.ShownType;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

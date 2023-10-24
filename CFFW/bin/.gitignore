@@ -2,6 +2,9 @@
 /Artillery/
 /CeHexGrid/
 /CharacterBuilder/
+/Vehicle/
+/test/
+/testPackage/
 /CloseCombat/
 /CommandLineInterface/
 /Company/
@@ -33,7 +36,4 @@
 /Trooper/
 /Unit/
 /UtilityClasses/
-/Vehicle/
 /multiDimensionalArrayList.class
-/test/
-/testPackage/

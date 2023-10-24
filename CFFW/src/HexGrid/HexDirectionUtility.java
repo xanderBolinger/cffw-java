@@ -3,23 +3,47 @@ package HexGrid;
 import java.util.ArrayList;
 import java.util.List;
 
+import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import HexGrid.HexDirectionUtility.HexDirection;
-import UtilityClasses.HexGridUtility;
+import Vehicle.Vehicle;
 
 public class HexDirectionUtility {
 
 	
-	public static HexDirection getHexSideFacingTarget(Cord start, Cord target) throws Exception {
+	public static void testTargetDirections(Vehicle vehicle) {
+		var cs = vehicle.getVehicleCallsign();
+		for(var victor : GameWindow.gameWindow.game.vehicleManager.getVehicles()) {
+			if(victor.compareTo(vehicle))
+				continue;
+			
+			var dir = getHexSideFacingTarget(vehicle.movementData.location, victor.movementData.location);
+			System.out.println("Direction, "+cs+"("+vehicle.movementData.location.toString()+") to target: "
+			+victor.getVehicleCallsign()+"("+victor.movementData.location.toString()+"), direction: "+dir);
+			
+		}
+		
+		
+	}
+	
+	public static HexDirection getHexSideFacingTarget(Cord start, Cord target) {
 		
 		var startDistance = HexGridUtility.distance(start, target);
-		
-		if(target.xCord < start.xCord && target.yCord == start.yCord)
-			return HexDirection.A;
-		else if(target.xCord > start.xCord && target.yCord == start.yCord)
-			return HexDirection.D;
 
+		HexDirection closestDir = HexDirection.A;
+		var closestDist = getDistanceInDirection(start, startDistance, HexDirection.A);
 		
+		for(var dir : HexDirection.getDirections()) {
+			var newDist = getDistanceInDirection(start, startDistance, dir);
+			
+			if(newDist < closestDist) {
+				closestDist = newDist;
+				closestDir = dir;
+			}
+			
+		}
+		
+		return closestDir;
 		
 		// if x2 < x1 and y2 == y1 than A
 		// if getDistanceInDirection(A) < getDistanceInDirection(B) than A elif getDistanceInDirection(A) > getDistanceInDirection(B) than B, otherwise A/B
@@ -35,7 +59,7 @@ public class HexDirectionUtility {
 		
 		
 		
-		throw new Exception("Direction not found for cords: ("+start.toString()+") to ("+target.toString()+")");
+		//throw new Exception("Direction not found for cords: ("+start.toString()+") to ("+target.toString()+")");
 	}
 	
 	private static HexDirection getDirectionBetweenTwoDirections(Cord start, int startDistance,
@@ -51,9 +75,10 @@ public class HexDirectionUtility {
 	public static int getDistanceInDirection(Cord start, int distance, HexDirection dir) {
 		
 		Cord newCord = start;
-		
+		boolean clockwise = true;
 		for(int i = 0; i < distance; i++) {
-			newCord = getHexInDirection(dir, newCord);
+			newCord = getHexInDirection(dir, newCord,clockwise);
+			clockwise = !clockwise;
 		}
 		
 		return HexGridUtility.distance(start, newCord);

@@ -28,6 +28,7 @@ import CeHexGrid.Chit.Facing;
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import HexGrid.CalculateLOS;
+import HexGrid.HexDirectionUtility;
 import UtilityClasses.ExcelUtility;
 
 public class Chit implements Serializable {
@@ -374,6 +375,7 @@ public class Chit implements Serializable {
 				if(vic.identifier.equals(selectedChit.chitIdentifier)) {
 					vic.movementData.location = new Cord(x,y);
 					CalculateLOS.calcVehicles(vic);
+					HexDirectionUtility.testTargetDirections(vic);
 					GameWindow.gameWindow.vehicleCombatWindow.refreshSelectedVehicle();
 					break;
 				}
