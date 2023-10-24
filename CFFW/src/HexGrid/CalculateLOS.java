@@ -1,6 +1,7 @@
 package HexGrid;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
@@ -27,19 +28,38 @@ public class CalculateLOS {
 			calcVehicle(vic, movedVehicle);
 		}
 		
-		for(var vic : vehicles) {
-			var removeLosVics = new ArrayList<Vehicle>();
-			
-			for(var spottedVic : vic.losVehicles) 
-				if(!spottedVic.losVehicles.contains(vic))
-					removeLosVics.add(spottedVic);
-			for(var removeVic : removeLosVics)
-				vic.losVehicles.remove(removeVic);
-		}
+		updateVehicleLosLists(vehicles);
+	}
 	
+	private static void updateVehicleLosLists(ArrayList<Vehicle> vehicles) {
+		for(var vic : vehicles) {
+			removeLosVic(vic);
+			removeSpottedVic(vic);
+		}
+	}
+	
+	private static void removeLosVic(Vehicle vic) {
+		var removeLosVics = new ArrayList<Vehicle>();
 		
+		for(var spottedVic : vic.losVehicles) 
+			if(!spottedVic.losVehicles.contains(vic))
+				removeLosVics.add(spottedVic);
+		
+		for(var removeVic : removeLosVics)
+			vic.losVehicles.remove(removeVic);
+	}
+	
+	private static void removeSpottedVic(Vehicle vic) {
+		var removeSpottedVics = new ArrayList<Vehicle>();
+		for(var spottedVic : vic.spottedVehicles) 
+			if(!vic.losVehicles.contains(spottedVic))
+				removeSpottedVics.add(spottedVic);
+			
+		for(var removeSpottedVic :removeSpottedVics)
+			vic.spottedVehicles.remove(removeSpottedVic);
 		
 	}
+	
 	
 	private static void calcVehicle(Vehicle v1, Vehicle v2) {
 		
