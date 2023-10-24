@@ -125,6 +125,9 @@ public class HexGrid implements Serializable {
 	private JMenuItem mntmLoadHexMap;
 	private JButton btnShields;
 	private JSpinner spinnerShieldStrength;
+	private JCheckBox chckbxShowHexes;
+	private JCheckBox chckbxShowFts;
+	private JCheckBox chckbxSwgrid;
 
 	/**
 	 * Create the application.
@@ -142,7 +145,7 @@ public class HexGrid implements Serializable {
 	private void initialize(int hexRows, int hexCols) {
 		frame = new JFrame();
 		HexKeyListener.addKeyListeners();
-		frame.setBounds(100, 100, 701, 701);
+		frame.setBounds(100, 100, 1001, 701);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		panel = new Panel(hexRows, hexCols);
@@ -353,6 +356,20 @@ public class HexGrid implements Serializable {
 		spinnerShieldStrength = new JSpinner();
 		spinnerShieldStrength.setBounds(438, 12, 45, 20);
 		layeredPane.add(spinnerShieldStrength);
+		
+		chckbxShowHexes = new JCheckBox("SwHxs");
+		chckbxShowHexes.setSelected(true);
+		chckbxShowHexes.setBounds(538, 11, 67, 23);
+		layeredPane.add(chckbxShowHexes);
+		
+		chckbxShowFts = new JCheckBox("SwFts");
+		chckbxShowFts.setSelected(true);
+		chckbxShowFts.setBounds(615, 11, 67, 23);
+		layeredPane.add(chckbxShowFts);
+		
+		chckbxSwgrid = new JCheckBox("SwGrid#");
+		chckbxSwgrid.setBounds(694, 11, 85, 23);
+		layeredPane.add(chckbxSwgrid);
 
 		panel.addMouseListener(new MouseAdapter() {
 
@@ -2331,9 +2348,11 @@ public class HexGrid implements Serializable {
 					
 					ProcHexManager.PaintHex(g2, hex, i, j, this);
 					
-					g2.setColor(BORDER_COLOR);
-					g2.setStroke(STROKE);
-					g2.draw(hex);
+					if(chckbxShowHexes.isSelected()) {
+						g2.setColor(BORDER_COLOR);
+						g2.setStroke(STROKE);
+						g2.draw(hex);
+					}
 					
 					Color color = g2.getColor();
 					g2.setColor(Color.GREEN);
@@ -2348,6 +2367,14 @@ public class HexGrid implements Serializable {
 								(int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
 								(int) (hex.ypoints[0] + (hex.getBounds().height * 0.3)));
 					}
+					
+					if(chckbxSwgrid.isSelected()) {
+						g2.setColor(Color.RED);
+						g2.drawString(i+":"+j, 
+								(int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
+								(int) (hex.ypoints[0] + (hex.getBounds().height * 0.3)));
+					}
+					
 					g2.setColor(color);
 
 					int count = 1;
@@ -2387,8 +2414,11 @@ public class HexGrid implements Serializable {
 
 			drawChits(g2);
 
-			HexGridHullDownUtility.showHullDownPositions(g2);
-			HexGridFortificationsUtility.showFortifications(g2);
+			if(chckbxShowFts.isSelected()) {
+				HexGridHullDownUtility.showHullDownPositions(g2);
+				HexGridFortificationsUtility.showFortifications(g2);
+			}
+			
 			GameWindow.gameWindow.game.shieldManager.showShields(g2);
 			
 			if (HexGrid.losThreadShowing && losThread.npoints > 1) {
