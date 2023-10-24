@@ -123,7 +123,8 @@ public class VehicleMovementData implements Serializable {
 	
 	public void exitHullDownPosition() {
 		
-		if(hullDownStatus != hullDownPosition.minimumHullDownStatus && hullDownStatus != hullDownPosition.maximumHullDownStatus)
+		if(hullDownPosition == null || 
+				(hullDownStatus != hullDownPosition.minimumHullDownStatus && hullDownStatus != hullDownPosition.maximumHullDownStatus))
 			return;
 		hullDownPosition.occupants--;
 		hullDownPosition = null;

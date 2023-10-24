@@ -1,7 +1,5 @@
 package Vehicle;
 
-import java.util.ArrayList;
-
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import HexGrid.CalculateLOS;
@@ -11,7 +9,7 @@ import Spot.Utility.SpotModifiers;
 import Spot.Utility.SpotUtility;
 import Spot.Utility.SpotVisibility;
 import Trooper.Trooper;
-import Unit.Unit;
+import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
 
 public class VehicleSpotManager {
 
@@ -20,9 +18,16 @@ public class VehicleSpotManager {
 
 		for(var vic : GameWindow.gameWindow.game.vehicleManager.getVehicles()) {
 			
+			
 			for(var spotVic : vic.losVehicles) {
-				if(vic.spottedVehicles.contains(spotVic))
+				if(vic.spottedVehicles.contains(spotVic) 
+						|| (!spotVic.movementData.location.compare(vic.movementData.location) 
+							&& 
+								(spotVic.movementData.hullDown() && spotVic.movementData.hullDownStatus == HullDownStatus.HIDDEN) 
+								||
+								vic.movementData.hullDown() && vic.movementData.hullDownStatus == HullDownStatus.HIDDEN))
 					continue;
+			
 				spotVehicle(vic, spotVic);
 			}
 			
@@ -73,7 +78,9 @@ public class VehicleSpotManager {
 		int skillMod = SpotModifiers.getSkillMod(spotterTrooper);
 
 		// Calculation
-		var PCSize = (double) 11;
+		var PCSize = spotterCord.compare(targetCord) == true || target.movementData.hullDown() == false ? target.spotData.hullSize + target.spotData.turretSize : 
+			target.movementData.hullDownStatus == HullDownStatus.HULL_DOWN || target.movementData.hullDownStatus == HullDownStatus.PARTIAL_HULL_DOWN ?
+					target.spotData.turretSize : target.spotData.turretSize / 2;
 		int targetSizeMod = SpotModifiers.getTargetSizeMod(PCSize);
 		var dayWeatherMod = !GameWindow.gameWindow.visibility.contains("Night") 
 				&& !GameWindow.gameWindow.visibility.contains("Dusk") ? SpotVisibility.getWeatherMod(GameWindow.gameWindow.visibility) 
@@ -94,7 +101,8 @@ public class VehicleSpotManager {
 			var successesRoll = results.successRoll;
 			var targetNumber = results.targetNumber;
 
-			var resultsString = "Target Size: " + size + ", Average PC Size: " + PCSize + ", Target Unit Speed: " + "N/A"
+			var resultsString = "\nSpot Roll Between: "+spotter.getVehicleCallsign()+" to "+target.getVehicleCallsign()
+					+ ", ALM Size: " + PCSize + ", Target Unit Speed(MHPT): " + target.movementData.speed
 					+ ", Spotter Unit Speed(MHPT): " + target.movementData.speed
 					+ ", Hex Range: " + GameWindow.hexDif(spotterCord.xCord, spotterCord.yCord, targetCord.xCord, targetCord.yCord) + "\n"
 					+ "\n PC Spot Modifiers: "

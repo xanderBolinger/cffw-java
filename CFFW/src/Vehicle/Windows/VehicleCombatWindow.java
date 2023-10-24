@@ -41,6 +41,7 @@ import Artillery.AlertWindow;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import java.awt.Label;
+import javax.swing.JCheckBox;
 
 public class VehicleCombatWindow {
 
@@ -79,6 +80,7 @@ public class VehicleCombatWindow {
 	private JPanel los;
 	private JList listLos;
 	private JList listSpotted;
+	private JCheckBox chckbxFired;
 	
 	/**
 	 * Create the application.
@@ -142,6 +144,7 @@ public class VehicleCombatWindow {
 		lblHullTurnRate.setText("Hull Turn Rate: "+md.hullTurnRate);
 		lblSidesTurned.setText("Sides Turned: "+md.changedFaces);
 		lblSpeed.setText("Speed: "+md.speed);
+		chckbxFired.setSelected(selectedVehicle.spotData.fired);
 		textAreaNotes.setText(selectedVehicle.notes);
 		refreshSmoke();
 		
@@ -251,8 +254,11 @@ public class VehicleCombatWindow {
 
 					@Override
 					protected Void doInBackground() throws Exception {
-						VehicleSpotManager.vehicleSpotChecks();
 						vm.nextTurn();
+						VehicleSpotManager.vehicleSpotChecks();
+						for(var vic : vehicles) {
+							vic.spotData.fired = false;
+						}
 						return null;
 					}
 
@@ -580,6 +586,17 @@ public class VehicleCombatWindow {
 		
 		listSpotted = new JList();
 		scrollPane_2_1.setViewportView(listSpotted);
+		
+		chckbxFired = new JCheckBox("Fired");
+		chckbxFired.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedVehicle == null)
+					return;
+				selectedVehicle.spotData.fired = chckbxFired.isSelected();
+			}
+		});
+		chckbxFired.setBounds(560, 361, 132, 23);
+		frame.getContentPane().add(chckbxFired);
 		textAreaNotes.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {

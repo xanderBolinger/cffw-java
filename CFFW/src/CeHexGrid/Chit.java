@@ -374,6 +374,7 @@ public class Chit implements Serializable {
 			for(var vic : GameWindow.gameWindow.vehicleCombatWindow.vehicles) {
 				if(vic.identifier.equals(selectedChit.chitIdentifier)) {
 					vic.movementData.location = new Cord(x,y);
+					vic.movementData.exitHullDownPosition();
 					CalculateLOS.calcVehicles(vic);
 					HexDirectionUtility.testTargetDirections(vic);
 					GameWindow.gameWindow.vehicleCombatWindow.refreshSelectedVehicle();

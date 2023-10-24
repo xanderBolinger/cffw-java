@@ -1,8 +1,10 @@
 package Vehicle.Data;
 
-public class VehicleSpotData {
+import java.io.Serializable;
 
-	public enum ThermalShroud {
+public class VehicleSpotData implements Serializable {
+
+	public enum ThermalShroud implements Serializable {
 		Impervious,Resistant,None
 	}
 	
