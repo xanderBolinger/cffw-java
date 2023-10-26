@@ -148,6 +148,8 @@ public class Spot implements Serializable {
 			SpotUtility.findSpottedTroopers(spottedIndividuals, spottedUnits, passes, spotableTroopers, spotableUnits,
 					size, successesRoll, targetNumber, spotableUnits);
 
+			
+			resultsString += "\nSpotter: "+spotterUnit.callsign+" "+spotter.number+" "+spotter.name+"\n";
 			resultsString += "Target Size: " + size + ", Average PC Size: " + PCSize + ", Target Unit Speed: " + "N/A"
 					+ ", Spotter Unit Speed: " + spotter.returnTrooperUnit(GameWindow.gameWindow).speed + ", Target Concealment: " + spotableUnits.get(0).concealment
 					+ ", Hex Range: " + GameWindow.hexDif(spotableUnits.get(0), spotterUnit) + "\n"
@@ -156,7 +158,6 @@ public class Spot implements Serializable {
 					+ speedModTarget + ", Spotter Speed Mod: " + speedModSpotter + ", Concealment Mod: "
 					+ concealmentMod +", Fortification Mod: "+fortMod +", Range Mod: " + rangeMod + ", Visibility Mod: " + visibilityMod + "\n"
 					+ "SLM: " + SLM;
-
 			/*
 			 * for(int i = 0; i < spottedIndividuals.size();i ++) {
 			 * //System.out.println("\n Added Trooper 2: "+spottedIndividuals.get(i).

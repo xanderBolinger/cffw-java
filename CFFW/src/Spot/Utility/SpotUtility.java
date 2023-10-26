@@ -207,6 +207,9 @@ public class SpotUtility {
 
 	public static int findSpottingChance(int size, int spottingChance) throws Exception {
 
+		if(size <= 2)
+			return spottingChance;
+		
 		if (size > 24)
 			size = 24;
 

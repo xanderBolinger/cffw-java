@@ -1,10 +1,17 @@
-/HexGrid/
+/CloseCombat/
+/CommandLineInterface/
+/Company/
+/Conflict/
+/CorditeExpansion/
+/CorditeExpansionActions/
+/CorditeExpansionCharacters/
 /CorditeExpansionDamage/
 /CorditeExpansionRangedCombat/
 /CorditeExpansionStatBlock/
 /CreateGame/
 /FatigueSystem/
 /Fortifications/
+/HexGrid/
 /HexGridIcons/
 /Hexes/
 /Individuals/
@@ -27,4 +34,3 @@
 /test/
 /testPackage/
 /Actions/
-/CeHexGrid/

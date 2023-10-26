@@ -19,17 +19,17 @@ public class SpotModifiers {
 		int mod = 0;
 
 		if (concealment == 1) {
-			mod = 1;
+			mod = 2;
 		} else if (concealment == 2) {
-			mod = 3;
-		} else if (concealment == 3) {
 			mod = 4;
-		} else if (concealment == 4) {
+		} else if (concealment == 3) {
 			mod = 5;
+		} else if (concealment == 4) {
+			mod = 6;
 		} else if (concealment == 5) {
-			mod = 8;
+			mod = 9;
 		} else if(concealment  >= 5) {
-			mod = 8;
+			mod = 9;
 		}
 
 		return mod;
@@ -81,10 +81,12 @@ public class SpotModifiers {
 		
 		var level = GameWindow.gameWindow.game.fortifications.getTrenchesLevel(new Cord(x, y));
 		
-		if(level == 2)
-			return 1;
-		if(level == 3)
+		if(level == 1)
 			return 2;
+		if(level == 2)
+			return 2;
+		if(level == 3)
+			return 3;
 		if(level >= 4)
 			return 3;
 		

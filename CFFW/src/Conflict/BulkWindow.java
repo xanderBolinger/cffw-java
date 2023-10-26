@@ -3398,6 +3398,9 @@ public class BulkWindow {
 				rslt += "Full Auto: " + tempTF.fullAutoResults + ", ";
 			}
 
+			if(trooper.spottingDifficulty > 0)
+				rslt += "CAMO: "+trooper.spottingDifficulty+" ";
+			
 			if (trooper.storedAimTime.size() > 0)
 				rslt += "AIMING: ";
 

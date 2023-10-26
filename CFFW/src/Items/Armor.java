@@ -16,6 +16,7 @@ import UtilityClasses.PCUtility;
 public class Armor implements Serializable {
 
 	public int bPF; 
+	public int camo;
 	public ArrayList<ArrayList<Integer>> excludedZones;
 	public ArrayList<ArrayList<Integer>> excludedZonesOpen;
 	public ArrayList<ArrayList<Integer>> differingZoneValues = new ArrayList<ArrayList<Integer>>();
@@ -111,7 +112,7 @@ public class Armor implements Serializable {
 		armorName = "MKVIII Errant Armor";
 		type = ArmorType.MKVIII_Errant;
 		vaccumSealed = true;
-		
+		camo = -2;
 		try {
 			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.CeramiteTacticalMarine));
 		} catch (Exception e) {
@@ -125,6 +126,7 @@ public class Armor implements Serializable {
 		
 		this.bPF = 25; 
 		armorName = "Phase 1";
+		camo = 1;
 		vaccumSealed = true;
 		type = ArmorType.PHASEONE;
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
@@ -183,6 +185,7 @@ public class Armor implements Serializable {
 			new MeleeArmorData();
 		
 		this.bPF = 30; 
+		camo = 1;
 		armorName = "Durasteel Medium Mando";
 		vaccumSealed = true;
 		type = ArmorType.DURASTEELMEDIUMMANDO;
@@ -241,6 +244,7 @@ public class Armor implements Serializable {
 			new MeleeArmorData();
 		
 		this.bPF = 30; 
+		camo = 2;
 		vaccumSealed = true;
 		armorName = "Phase 1 Arc";
 		type = ArmorType.PHASEONEARC;
@@ -300,6 +304,7 @@ public class Armor implements Serializable {
 		
 		this.bPF = 40; 
 		armorName = "Katarn MK1";
+		camo = -1;
 		vaccumSealed = true;
 		type = ArmorType.KATARN;
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
@@ -387,6 +392,7 @@ public class Armor implements Serializable {
 			new MeleeArmorData();
 		
 		this.bPF = 25; 
+		camo = 1;
 		armorName = "Commando Droid";
 		type = ArmorType.COMMANDODROID;
 		armorWeight = 20;
@@ -456,7 +462,7 @@ public class Armor implements Serializable {
 		this.armorName = "ODST";
 		type = ArmorType.ODST;
 		this.bPF = 25; 
-		
+		camo = 1;
 		// Fore arm fire
 		ArrayList<Integer> a6 = new ArrayList<Integer>();
 		a6.add(88);
@@ -541,7 +547,7 @@ public class Armor implements Serializable {
 		this.bPF = 20; 
 		this.armorName = "UNSC Marine";
 		this.type = ArmorType.UNSCMARINE;
-		
+		camo = 1;
 		// Fore arm fire
 		ArrayList<Integer> a6 = new ArrayList<Integer>();
 		a6.add(75);

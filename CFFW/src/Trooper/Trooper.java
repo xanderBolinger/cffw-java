@@ -1078,6 +1078,7 @@ public class Trooper implements Serializable {
 
 			inventory.addItems(ItemType.DC15A, 1);
 			inventory.addItems(ItemType.DC15A, ItemType.SmallArmsAmmo, 3);
+			inventory.addItems(ItemType.Microbinoculars, 1);
 			inventory.addItems(ItemType.ClassAThermalDetonator, 1);
 			inventory.addItems(ItemType.Nacht5SmokeGrenade, 2);
 
@@ -3109,6 +3110,26 @@ public class Trooper implements Serializable {
 
 		skills.skills = recalculatedSkills;
 
+	}
+	
+	public int getMagnification() {
+		
+		int wepMagnification = 0;
+		int itemMagnification = 0;
+		
+		
+		for(var item : inventory.getItemsArray()) {
+			
+			if(item.isWeapon() && item.weapon.magnification > wepMagnification)
+				wepMagnification = item.weapon.magnification;
+			else if(item.magnification > item.magnification)
+				itemMagnification = item.magnification;
+		}
+
+		
+		
+		return wepMagnification > itemMagnification ? wepMagnification : itemMagnification; 
+		
 	}
 
 	// Returns attribute value from attribute name

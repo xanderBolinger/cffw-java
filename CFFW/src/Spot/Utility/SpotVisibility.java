@@ -54,28 +54,13 @@ public class SpotVisibility {
 		return visibilityMod;
 	}
 
-
-	private static int getMaximumMagnificationItem(Trooper spotter) {
-
-		int magnification = 0;
-
-		for (var item : spotter.inventory.getItemsArray()) {
-
-			if (item.magnification > 0 && item.magnification > magnification)
-				magnification = item.magnification;
-
-		}
-
-		return magnification;
-	}
-
 	public static int getTracerMod(ArrayList<Unit> spotableUnits) {
 
 		for (var unit : spotableUnits) {
 			for (var trooper : unit.individuals) {
 				if (trooper.firedTracers) {
-					visibilityModifications += "Tracer Mod: -5; ";
-					return -5;
+					visibilityModifications += "Tracer Mod: -12; ";
+					return -12;
 				}
 			}
 		}
@@ -87,37 +72,26 @@ public class SpotVisibility {
 	public static int getMagnificationMod(Trooper spotter) {
 		int visibilityMod = 0;
 
-		Weapons wep = new Weapons();
-		wep = wep.findWeapon(spotter.wep);
-
-		spotter.magnification = getMaximumMagnificationItem(spotter);
-
-		if (spotter.magnification > 0 || wep.magnification > 0) {
-
-			int spotMagnification = 0;
-
-			if (spotter.magnification > wep.magnification)
-				spotMagnification = spotter.magnification;
-			else
-				spotMagnification = wep.magnification;
-
-			if (spotMagnification <= 4) {
-				visibilityModifications += "Magnification less than or equal to 4(-5); ";
-				visibilityMod -= 2;
-			} else if (spotMagnification <= 8) {
-				visibilityModifications += "Magnification less than or equal to 8(-5); ";
-				visibilityMod -= 3;
-			} else if (spotMagnification <= 12) {
-				visibilityModifications += "Magnification less than or equal to 12(-5); ";
-				visibilityMod -= 4;
-			} else if (spotMagnification <= 24) {
-				visibilityModifications += "Magnification less than or equal to 24(-5); ";
-				visibilityMod -= 5;
-			} else {
-				visibilityModifications += "Greater Magnification than or equal to 24(-6); ";
-				visibilityMod -= 6;
-			}
-
+		int spotMagnification = spotter.getMagnification();
+		
+		if(spotMagnification <= 2) {
+			visibilityModifications += "Magnification less than or equal to 2(0 mod); ";
+		}
+		else if (spotMagnification <= 4) {
+			visibilityModifications += "Magnification less than or equal to 4(-2); ";
+			visibilityMod -= 2;
+		} else if (spotMagnification <= 8) {
+			visibilityModifications += "Magnification less than or equal to 8(-3); ";
+			visibilityMod -= 3;
+		} else if (spotMagnification <= 12) {
+			visibilityModifications += "Magnification less than or equal to 12(-4); ";
+			visibilityMod -= 4;
+		} else if (spotMagnification <= 24) {
+			visibilityModifications += "Magnification less than or equal to 24(-5); ";
+			visibilityMod -= 5;
+		} else {
+			visibilityModifications += "Greater Magnification than or equal to 24(-6); ";
+			visibilityMod -= 6;
 		}
 
 		return visibilityMod;
@@ -264,7 +238,7 @@ public class SpotVisibility {
 		for (var unit : spotableUnits) {
 			for (var trooper : unit.individuals) {
 				mod += trooper.spottingDifficulty;
-
+				mod += trooper.armor != null ? trooper.armor.camo : 0;
 				for (var item : trooper.inventory.getItemsArray()) {
 					if (item.camouflage)
 						mod += item.camoMod;
