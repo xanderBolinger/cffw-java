@@ -27,6 +27,7 @@ import Spot.Utility.SpotUtility;
 import Spot.Utility.SpotVisibility;
 
 public class Spot implements Serializable {
+	
 	// Unit spotted unit
 	public Unit spottedUnit;
 	// Spotting unit belonging to the spotter
@@ -98,19 +99,21 @@ public class Spot implements Serializable {
 
 	}
 
-	private void performSpotAction(ArrayList<Unit> spotableUnits, Trooper spotter, ArrayList<Unit> initiativeOrder, String weather,
+	private void performSpotAction(ArrayList<Unit> targetUnitOnlyOneInList, Trooper spotter, ArrayList<Unit> initiativeOrder, String weather,
 			int xCord, int yCord, String scanArea) {
+		
+		
 		// Size of target unit
-		int size = SpotUtility.getTargetUnitSize(spotterUnit, spotableUnits);
+		int size = SpotUtility.getTargetUnitSize(spotterUnit, targetUnitOnlyOneInList);
 
 		// Speed
-		int speedModTarget = SpotModifiers.getSpeedModTarget(spotableUnits);
+		int speedModTarget = SpotModifiers.getSpeedModTarget(targetUnitOnlyOneInList);
 		int speedModSpotter = SpotModifiers.getSpeedModSpotter(spotter.returnTrooperUnit(initiativeOrder).speed);		
 		
-		ArrayList<Trooper> spotableTroopers = SpotUtility.getTargetTroopers(spotterUnit, spotableUnits);
+		ArrayList<Trooper> spotableTroopers = SpotUtility.getTargetTroopers(spotterUnit, targetUnitOnlyOneInList);
 
 		// Concealment
-		int concealmentMod = SpotModifiers.getConcealmentMod(spotter, spotableUnits, spotableTroopers);
+		int concealmentMod = SpotModifiers.getConcealmentMod(spotter, targetUnitOnlyOneInList, spotableTroopers);
 
 		// Behavior 
 		// Accounted for through difference in target size from prone to standing
@@ -119,7 +122,7 @@ public class Spot implements Serializable {
 		int fortMod = SpotModifiers.getFortificationMod(xCord, yCord);
 		
 		// Range
-		int rangeMod = SpotModifiers.getRangeMod(spotableUnits.get(0), spotterUnit);
+		int rangeMod = SpotModifiers.getRangeMod(targetUnitOnlyOneInList.get(0), spotterUnit);
 
 		// Skill
 		int skillMod = SpotModifiers.getSkillMod(spotter);
@@ -129,7 +132,7 @@ public class Spot implements Serializable {
 		int targetSizeMod = SpotModifiers.getTargetSizeMod(PCSize);
 
 		int visibilityMod = SpotVisibility.getVisibilityMod(spotter, spotterUnit, 
-				weather, xCord, yCord, spotableUnits);
+				weather, xCord, yCord, targetUnitOnlyOneInList);
 
 		visibilityModifications = SpotVisibility.visibilityModifications;
 		
@@ -145,14 +148,16 @@ public class Spot implements Serializable {
 			this.spotActionDiceRoll = results.spotActionDiceRoll;
 			int passes = results.success;
 
-			SpotUtility.findSpottedTroopers(spottedIndividuals, spottedUnits, passes, spotableTroopers, spotableUnits,
-					size, successesRoll, targetNumber, spotableUnits);
+			SpotUtility.findSpottedTroopers(spottedIndividuals, spottedUnits, passes, spotableTroopers, targetUnitOnlyOneInList,
+					size, successesRoll, targetNumber, targetUnitOnlyOneInList);
 
 			
-			resultsString += "\nSpotter: "+spotterUnit.callsign+" "+spotter.number+" "+spotter.name+"\n";
+			resultsString += "\nSpotter: "+spotterUnit.callsign+" "+spotter.number+" "+spotter.name+" Target Unit: "+
+					targetUnitOnlyOneInList.get(0).callsign
+					+"\n";
 			resultsString += "Target Size: " + size + ", Average PC Size: " + PCSize + ", Target Unit Speed: " + "N/A"
-					+ ", Spotter Unit Speed: " + spotter.returnTrooperUnit(GameWindow.gameWindow).speed + ", Target Concealment: " + spotableUnits.get(0).concealment
-					+ ", Hex Range: " + GameWindow.hexDif(spotableUnits.get(0), spotterUnit) + "\n"
+					+ ", Spotter Unit Speed: " + spotter.returnTrooperUnit(GameWindow.gameWindow).speed + ", Target Concealment: " + targetUnitOnlyOneInList.get(0).concealment
+					+ ", Hex Range: " + GameWindow.hexDif(targetUnitOnlyOneInList.get(0), spotterUnit) + "\n"
 					+ "Visibility Modifications: " + visibilityModifications + "\n PC Spot Modifiers: "
 					+ "Skill Test Mod: " + skillMod + ", Target Size Mod: " + targetSizeMod + ", Target Speed Mod: "
 					+ speedModTarget + ", Spotter Speed Mod: " + speedModSpotter + ", Concealment Mod: "
