@@ -88,7 +88,7 @@ public class VehicleSpotManager {
 		var thermalMod = getThermalMod(spotter, target, spotterTrooper);
 		var magnificationMod = SpotVisibility.getMagnificationMod(spotter.spotData.magnification);
 		var nightWeatherMod = getNightTimeMods(spotter, target);
-		var firedMod = target.spotData.fired ? -7 : 0;
+		var firedMod = GameWindow.gameWindow.visibility.toLowerCase().contains("night") ? -15 : -12;
 		var camoMod = target.spotData.camo;
 		var stealthFieldMod = !target.spotData.fired ? target.spotData.stealthField : 0;
 		int visibilityMod = dayWeatherMod + thermalMod + magnificationMod + nightWeatherMod + firedMod + camoMod + stealthFieldMod;

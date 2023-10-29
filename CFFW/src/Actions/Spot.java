@@ -155,7 +155,7 @@ public class Spot implements Serializable {
 			resultsString += "\nSpotter: "+spotterUnit.callsign+" "+spotter.number+" "+spotter.name+" Target Unit: "+
 					targetUnitOnlyOneInList.get(0).callsign
 					+"\n";
-			resultsString += "Target Size: " + size + ", Average PC Size: " + PCSize + ", Target Unit Speed: " + "N/A"
+			resultsString += "Spot Visibility: "+GameWindow.gameWindow.visibility+", Target Size: " + size + ", Average PC Size: " + PCSize + ", Target Unit Speed: " + "N/A"
 					+ ", Spotter Unit Speed: " + spotter.returnTrooperUnit(GameWindow.gameWindow).speed + ", Target Concealment: " + targetUnitOnlyOneInList.get(0).concealment
 					+ ", Hex Range: " + GameWindow.hexDif(targetUnitOnlyOneInList.get(0), spotterUnit) + "\n"
 					+ "Visibility Modifications: " + visibilityModifications + "\n PC Spot Modifiers: "

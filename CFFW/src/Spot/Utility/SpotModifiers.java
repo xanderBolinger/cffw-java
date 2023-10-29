@@ -23,13 +23,13 @@ public class SpotModifiers {
 		} else if (concealment == 2) {
 			mod = 4;
 		} else if (concealment == 3) {
-			mod = 5;
-		} else if (concealment == 4) {
 			mod = 6;
+		} else if (concealment == 4) {
+			mod = 8;
 		} else if (concealment == 5) {
-			mod = 9;
+			mod = 10;
 		} else if(concealment  >= 5) {
-			mod = 9;
+			mod = 10;
 		}
 
 		return mod;

@@ -59,8 +59,9 @@ public class SpotVisibility {
 		for (var unit : spotableUnits) {
 			for (var trooper : unit.individuals) {
 				if (trooper.firedTracers) {
-					visibilityModifications += "Tracer Mod: -12; ";
-					return -12;
+					var val = GameWindow.gameWindow.visibility.toLowerCase().contains("night") ? -15 : -12;
+					visibilityModifications += "Tracer Mod: "+val+"; ";
+					return val;
 				}
 			}
 		}
