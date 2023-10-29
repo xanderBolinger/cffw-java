@@ -2418,6 +2418,93 @@ public class BulkWindow {
 		});
 		btnNewButton_1_1_1.setBounds(479, 319, 136, 23);
 		frame.getContentPane().add(btnNewButton_1_1_1);
+		
+		JButton btnNewButton_1_2 = new JButton("Select Light");
+		btnNewButton_1_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ArrayList<Integer> indexes = getIndexes();
+				int count = 1;
+
+				for (BulkTrooper bulkTrooper : bulkTroopers) {
+					if (indexes.contains(bulkTroopers.indexOf(bulkTrooper)))
+						continue;
+
+					if (validTrooper(bulkTrooper.trooper) && bulkTrooper.trooper.weaponLightOn) {
+						// System.out.println("Count: "+count);
+						// System.out.println("Divisor: "+(int) spinnerDivisor.getValue());
+						indexes.add(bulkTroopers.indexOf(bulkTrooper));
+						count++;
+					} else if (validTrooper(bulkTrooper.trooper)) {
+						count++;
+					}
+
+				}
+
+				selectTroopers(indexes);
+				
+			}
+		});
+		btnNewButton_1_2.setBounds(625, 258, 136, 23);
+		frame.getContentPane().add(btnNewButton_1_2);
+		
+		JButton btnNewButton_1_2_1 = new JButton("Select IR Laser");
+		btnNewButton_1_2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ArrayList<Integer> indexes = getIndexes();
+				int count = 1;
+
+				for (BulkTrooper bulkTrooper : bulkTroopers) {
+					if (indexes.contains(bulkTroopers.indexOf(bulkTrooper)))
+						continue;
+
+					if (validTrooper(bulkTrooper.trooper) && bulkTrooper.trooper.weaponIRLaserOn) {
+						// System.out.println("Count: "+count);
+						// System.out.println("Divisor: "+(int) spinnerDivisor.getValue());
+						indexes.add(bulkTroopers.indexOf(bulkTrooper));
+						count++;
+					} else if (validTrooper(bulkTrooper.trooper)) {
+						count++;
+					}
+
+				}
+
+				selectTroopers(indexes);
+				
+			}
+		});
+		btnNewButton_1_2_1.setBounds(625, 291, 136, 23);
+		frame.getContentPane().add(btnNewButton_1_2_1);
+		
+		JButton btnNewButton_1_2_1_1 = new JButton("Select Laser");
+		btnNewButton_1_2_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ArrayList<Integer> indexes = getIndexes();
+				int count = 1;
+
+				for (BulkTrooper bulkTrooper : bulkTroopers) {
+					if (indexes.contains(bulkTroopers.indexOf(bulkTrooper)))
+						continue;
+
+					if (validTrooper(bulkTrooper.trooper) && bulkTrooper.trooper.weaponLaserOn) {
+						// System.out.println("Count: "+count);
+						// System.out.println("Divisor: "+(int) spinnerDivisor.getValue());
+						indexes.add(bulkTroopers.indexOf(bulkTrooper));
+						count++;
+					} else if (validTrooper(bulkTrooper.trooper)) {
+						count++;
+					}
+
+				}
+
+				selectTroopers(indexes);
+				
+			}
+		});
+		btnNewButton_1_2_1_1.setBounds(625, 319, 136, 23);
+		frame.getContentPane().add(btnNewButton_1_2_1_1);
 		frame.setVisible(true);
 	}
 
@@ -2577,7 +2664,7 @@ public class BulkWindow {
 
 		selectTroopers(indexes);
 	}
-
+	
 	public void addFresh() {
 		ArrayList<Integer> indexes = getIndexes();
 		int count = 1;
