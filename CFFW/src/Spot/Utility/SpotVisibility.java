@@ -40,7 +40,8 @@ public class SpotVisibility {
 			return 0;
 		}
 
-		int visibilityMod = 0;
+		int visibilityMod = spotter.armor != null && spotter.armor.thermal && 
+				spotter.armor.maxThermalRangeYards >= distanceYards ? spotter.armor.thermalMod : 0;
 
 		for (var item : spotter.inventory.getItemsArray()) {
 

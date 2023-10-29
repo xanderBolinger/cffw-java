@@ -40,6 +40,7 @@ public class Armor implements Serializable {
 	public int visibilityModifier;
 	public boolean nightVision;
 	public int nightVisionEffectiveness;
+	public int maxThermalRangeYards = 400;
 	
 	public boolean vaccumSealed;
 	
