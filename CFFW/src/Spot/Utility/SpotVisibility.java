@@ -126,19 +126,19 @@ public class SpotVisibility {
 		} else if (weather.equals("Dusk")) {
 			visibilityMod += 2;
 		} else if (weather.equals("Night - Full Moon")) {
-			visibilityMod += 3;
+			visibilityMod += 5;
 		} else if (weather.equals("Night - Half Moon")) {
-			visibilityMod += 4;
+			visibilityMod += 6;
 		} else if (weather.equals("Night - No Moon")) {
-			visibilityMod += 7;
+			visibilityMod += 8;
 		} else if (weather.equals("Smoke/Fog/Haze/Overcast")) {
 			visibilityMod += 3;
 		} else if (weather.equals("Dusk - Smoke/Fog/Haze/Overcast")) {
 			visibilityMod += 4;
 		} else if (weather.equals("Night - Smoke/Fog/Haze/Overcast")) {
-			visibilityMod += 5;
+			visibilityMod += 8;
 		} else if (weather.equals("No Visibility - Heavy Fog - White Out")) {
-			visibilityMod += 7;
+			visibilityMod += 10;
 		}
 
 		return visibilityMod;
@@ -163,7 +163,7 @@ public class SpotVisibility {
 		unit.X = xCord;
 		unit.Y = yCord;
 
-		if (!weather.substring(0, 4).equals("Night")) {
+		if (!weather.toLowerCase().contains("night")) {
 			spotter.nightVisionInUse = false;
 			spotter.weaponLightOn = false; 
 			spotter.weaponIRLaserOn = false;
@@ -175,6 +175,7 @@ public class SpotVisibility {
 			spotter.nightVisionInUse = true;
 			spotter.nightVision = true;
 			spotter.nightVisionEffectiveness = nightVisionEffectiveness;
+			visibilityModifications += ", Night Vision In Use Gen: "+nightVisionEffectiveness+", ";
 		} else {
 			spotter.nightVisionInUse = false;
 			spotter.nightVision = false;
@@ -195,19 +196,23 @@ public class SpotVisibility {
 
 		}
 
-		if (targetsUsingflashLight)
+		if (targetsUsingflashLight) {
+			visibilityModifications += ", Targets Using Flashlight(-5), ";
 			visibilityMod -= 5;
-		if(targetsUsingIRlaser && nightVisionEffectiveness > 0)
+		} else if(targetsUsingIRlaser && nightVisionEffectiveness > 0) {
+			visibilityModifications += ", Targets Using IR Light and Spotters have NVGS(-5), ";
 			visibilityMod -= 5;
+		}
 
 		if (spotter.nightVisionInUse) {
 			visibilityMod -= getWeatherMod(weather) < nightVisionEffectiveness ? 
 					getWeatherMod(weather) : nightVisionEffectiveness;
 		} else if (!spotter.nightVisionInUse && spotter.weaponLightOn && GameWindow.hexDif(spotterUnit, unit) <= 1) {
+			visibilityModifications += ", Spotter Using Flashlight at close range(-3), ";
 			visibilityMod -= 3;
 		}
 
-		visibilityModifications += "Night Time Modifiers: ";
+		visibilityModifications += "Total Night Time Modifiers: "+visibilityMod+" ";
 		return visibilityMod;
 
 	}
@@ -239,7 +244,6 @@ public class SpotVisibility {
 		for (var unit : spotableUnits) {
 			for (var trooper : unit.individuals) {
 				mod += trooper.spottingDifficulty;
-				mod += trooper.armor != null ? trooper.armor.camo : 0;
 				for (var item : trooper.inventory.getItemsArray()) {
 					if (item.camouflage)
 						mod += item.camoMod;
@@ -286,7 +290,9 @@ public class SpotVisibility {
 		int visibilityMod = 0;
 		visibilityMod += getThermalMod(spotter, GameWindow.hexDif(xCord, yCord, spotterUnit) * 20, spotableUnits);
 		visibilityMod += getMagnificationMod(spotter);
-		visibilityMod += getWeatherMod(weather);
+		var weatherMod = getWeatherMod(weather);
+		visibilityModifications += ", Weather Mod: "+weatherMod+" ";
+		visibilityMod += weatherMod;
 		visibilityMod += getNightTimeMods(spotter, spotterUnit, xCord, yCord, weather, spotableUnits);
 		visibilityMod += armorModifier(spotableUnits);
 		visibilityMod += getTracerMod(spotableUnits);

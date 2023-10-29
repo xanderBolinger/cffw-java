@@ -10,6 +10,7 @@ import Trooper.generateSquad;
 import Unit.Unit;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.ShootUtility;
+import UtilityClasses.TrooperUtility;
 
 import javax.swing.JButton;
 import java.awt.BorderLayout;
@@ -115,13 +116,8 @@ public class BulkWindow {
 	private JLabel lblAimTime;
 	private JLabel lblTn;
 	private JLabel lblPossibleShots;
-	private JCheckBox chckbxLaser;
-	private JCheckBox chckbxIrLaser;
-	private JCheckBox chckbxThermals;
-	private JCheckBox chckbxWeaponLights;
 	private JCheckBox chckbxManualStance;
 	private JComboBox comboBoxStance;
-	private JSpinner spinnerNVGGen;
 	private JTextField textFieldPen;
 	private JComboBox comboBoxOF;
 	private JComboBox comboBoxSpottingUnits;
@@ -431,85 +427,6 @@ public class BulkWindow {
 		label_9.setFont(new Font("Calibri", Font.PLAIN, 15));
 		label_9.setBounds(625, 11, 369, 31);
 		frame.getContentPane().add(label_9);
-
-		spinnerNVGGen = new JSpinner();
-		spinnerNVGGen.setForeground(Color.BLACK);
-		spinnerNVGGen.setBounds(625, 320, 34, 20);
-		frame.getContentPane().add(spinnerNVGGen);
-
-		JLabel label_10 = new JLabel("Gen:");
-		label_10.setForeground(Color.BLACK);
-		label_10.setFont(new Font("Calibri", Font.PLAIN, 12));
-		label_10.setBounds(596, 317, 40, 28);
-		frame.getContentPane().add(label_10);
-
-		JButton button_2 = new JButton("Add Thermals");
-		button_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				for (BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
-					Trooper trooper = bulkTrooper.trooper;
-
-					trooper.thermalVision = true;
-
-				}
-
-			}
-		});
-		button_2.setForeground(Color.BLACK);
-		button_2.setBounds(669, 319, 97, 23);
-		frame.getContentPane().add(button_2);
-
-		JButton button_5 = new JButton("Add NVGs");
-		button_5.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				for (BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
-					Trooper trooper = bulkTrooper.trooper;
-
-					if ((int) spinnerNVGGen.getValue() < 1 || (int) spinnerNVGGen.getValue() > 5) {
-						gameWindow.conflictLog.addNewLine("NVG Gen not a value from 1 to 5.");
-						return;
-					}
-
-					trooper.nightVision = true;
-					trooper.nightVisionEffectiveness = (int) spinnerNVGGen.getValue();
-
-				}
-
-			}
-		});
-		button_5.setForeground(Color.BLACK);
-		button_5.setBounds(479, 322, 114, 23);
-		frame.getContentPane().add(button_5);
-
-		JCheckBox checkBox = new JCheckBox("NVGs");
-		checkBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				for (BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
-
-					Trooper trooper = bulkTrooper.trooper;
-
-					if (!trooper.nightVision) {
-						gameWindow.conflictLog.addNewLine("This trooper does not have night vision.");
-						return;
-					}
-
-					if (chckbxWeaponLights.isSelected())
-						trooper.nightVisionInUse = true;
-					else
-						trooper.nightVisionInUse = false;
-
-				}
-
-			}
-		});
-		checkBox.setForeground(Color.BLACK);
-		checkBox.setFont(new Font("Calibri", Font.BOLD, 12));
-		checkBox.setBackground(Color.WHITE);
-		checkBox.setBounds(625, 293, 143, 23);
-		frame.getContentPane().add(checkBox);
 
 		JButton button_6 = new JButton("Clear");
 		button_6.addActionListener(new ActionListener() {
@@ -822,112 +739,6 @@ public class BulkWindow {
 		chckbxManualStance.setBackground(Color.WHITE);
 		chckbxManualStance.setBounds(637, 348, 131, 23);
 		frame.getContentPane().add(chckbxManualStance);
-
-		chckbxLaser = new JCheckBox("Laser");
-		chckbxLaser.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				for (BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
-
-					if (!getWeapon(bulkTrooper.trooper).laser) {
-						gameWindow.conflictLog.addNewLine("This trooper does not have a laser pointer.");
-						return;
-					}
-
-					if (chckbxLaser.isSelected())
-						bulkTrooper.trooper.weaponLaserOn = true;
-					else
-						bulkTrooper.trooper.weaponLaserOn = false;
-
-				}
-
-			}
-		});
-		chckbxLaser.setForeground(Color.BLACK);
-		chckbxLaser.setFont(new Font("Calibri", Font.BOLD, 12));
-		chckbxLaser.setBackground(Color.WHITE);
-		chckbxLaser.setBounds(479, 267, 74, 23);
-		frame.getContentPane().add(chckbxLaser);
-
-		chckbxIrLaser = new JCheckBox("IR Laser");
-		chckbxIrLaser.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				for (BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
-
-					if (!getWeapon(bulkTrooper.trooper).irLaser) {
-						gameWindow.conflictLog.addNewLine("This trooper does not have a IR laser pointer.");
-						return;
-					}
-
-					if (chckbxIrLaser.isSelected())
-						bulkTrooper.trooper.weaponIRLaserOn = true;
-					else
-						bulkTrooper.trooper.weaponIRLaserOn = false;
-
-				}
-
-			}
-		});
-		chckbxIrLaser.setForeground(Color.BLACK);
-		chckbxIrLaser.setFont(new Font("Calibri", Font.BOLD, 12));
-		chckbxIrLaser.setBackground(Color.WHITE);
-		chckbxIrLaser.setBounds(559, 267, 74, 23);
-		frame.getContentPane().add(chckbxIrLaser);
-
-		chckbxWeaponLights = new JCheckBox("Weapon Lights");
-		chckbxWeaponLights.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				for (BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
-
-					Trooper trooper = bulkTrooper.trooper;
-
-					if (!getWeapon(trooper).light) {
-						gameWindow.conflictLog.addNewLine("This trooper does not have weapon lights.");
-						return;
-					}
-
-					if (chckbxWeaponLights.isSelected())
-						trooper.weaponLightOn = true;
-					else
-						trooper.weaponLightOn = false;
-
-				}
-
-			}
-		});
-		chckbxWeaponLights.setForeground(Color.BLACK);
-		chckbxWeaponLights.setFont(new Font("Calibri", Font.BOLD, 12));
-		chckbxWeaponLights.setBackground(Color.WHITE);
-		chckbxWeaponLights.setBounds(479, 293, 142, 23);
-		frame.getContentPane().add(chckbxWeaponLights);
-
-		chckbxThermals = new JCheckBox("Thermals");
-		chckbxThermals.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				for (BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
-
-					if (!bulkTrooper.trooper.thermalVision) {
-						gameWindow.conflictLog.addNewLine("This trooper does not have thermal vision.");
-						return;
-					}
-
-					if (chckbxThermals.isSelected())
-						bulkTrooper.trooper.thermalVisionInUse = true;
-					else
-						bulkTrooper.trooper.thermalVisionInUse = false;
-
-				}
-
-			}
-		});
-		chckbxThermals.setForeground(Color.BLACK);
-		chckbxThermals.setFont(new Font("Calibri", Font.BOLD, 12));
-		chckbxThermals.setBackground(Color.WHITE);
-		chckbxThermals.setBounds(639, 267, 129, 23);
-		frame.getContentPane().add(chckbxThermals);
 
 		JLabel label_13 = new JLabel("CA Bonus:");
 		label_13.setForeground(Color.BLACK);
@@ -2541,6 +2352,72 @@ public class BulkWindow {
 		spinnerSuppressiveRof.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 		spinnerSuppressiveRof.setBounds(1010, 446, 53, 20);
 		frame.getContentPane().add(spinnerSuppressiveRof);
+		
+		JButton btnNewButton_1 = new JButton("Toggle Light");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				for(var trooper : getSelectedTroopers()) {
+					try {
+						if(!TrooperUtility.getWep(trooper).light)
+							continue;
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					
+					trooper.weaponLightOn = !trooper.weaponLightOn;
+					
+				}
+				
+				refreshIndividualList();
+			}
+		});
+		btnNewButton_1.setBounds(479, 258, 136, 23);
+		frame.getContentPane().add(btnNewButton_1);
+		
+		JButton btnNewButton_1_1 = new JButton("Toggle IR Laser");
+		btnNewButton_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				for(var trooper : getSelectedTroopers()) {
+					try {
+						if(!TrooperUtility.getWep(trooper).irLaser)
+							continue;
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					
+					trooper.weaponIRLaserOn = !trooper.weaponIRLaserOn;
+					
+				}
+				
+				refreshIndividualList();
+				
+			}
+		});
+		btnNewButton_1_1.setBounds(479, 291, 136, 23);
+		frame.getContentPane().add(btnNewButton_1_1);
+		
+		JButton btnNewButton_1_1_1 = new JButton("Toggle Laser");
+		btnNewButton_1_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for(var trooper : getSelectedTroopers()) {
+					try {
+						if(!TrooperUtility.getWep(trooper).laser)
+							continue;
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					
+					trooper.weaponLaserOn = !trooper.weaponLaserOn;
+					
+				}
+				
+				refreshIndividualList();
+			}
+		});
+		btnNewButton_1_1_1.setBounds(479, 319, 136, 23);
+		frame.getContentPane().add(btnNewButton_1_1_1);
 		frame.setVisible(true);
 	}
 
@@ -3400,6 +3277,13 @@ public class BulkWindow {
 
 			if(trooper.spottingDifficulty > 0)
 				rslt += "CAMO: "+trooper.spottingDifficulty+" ";
+			
+			if(trooper.weaponLightOn)
+				rslt += "Light On, ";
+			if(trooper.weaponLaserOn)
+				rslt += "Laser On, ";
+			if(trooper.weaponIRLaserOn)
+				rslt += "IR Laser On, ";
 			
 			if (trooper.storedAimTime.size() > 0)
 				rslt += "AIMING: ";

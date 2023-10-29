@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import Conflict.GameWindow;
 import FatigueSystem.FatigueSystem.FatiguePoints;
 import FatigueSystem.FatigueSystem.PhysicalRecoveryTime;
+import Items.Weapons;
 import Trooper.IndividualStats;
 import Trooper.Trooper;
 import Unit.Unit;
@@ -21,6 +22,18 @@ public class TrooperUtility {
 
 	public TrooperUtility() {
 
+	}
+	
+	public static Weapons getWep(Trooper trooper) throws Exception {
+		
+		var wep = new Weapons().findWeapon(trooper.wep);
+		
+		if(wep == null)
+			throw new Exception("Trooper weapon not found for wep: "+trooper.wep);
+		
+		return wep;
+		
+		
 	}
 
 	public static int getKO(Trooper trooper) {

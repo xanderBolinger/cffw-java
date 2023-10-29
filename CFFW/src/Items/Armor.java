@@ -16,7 +16,6 @@ import UtilityClasses.PCUtility;
 public class Armor implements Serializable {
 
 	public int bPF; 
-	public int camo;
 	public ArrayList<ArrayList<Integer>> excludedZones;
 	public ArrayList<ArrayList<Integer>> excludedZonesOpen;
 	public ArrayList<ArrayList<Integer>> differingZoneValues = new ArrayList<ArrayList<Integer>>();
@@ -36,6 +35,8 @@ public class Armor implements Serializable {
 	public boolean hardBodyArmor = true;
 	public int armorWeight; 
 	
+	public boolean thermal;
+	public int thermalMod;
 	public int visibilityModifier;
 	public boolean nightVision;
 	public int nightVisionEffectiveness;
@@ -112,7 +113,13 @@ public class Armor implements Serializable {
 		armorName = "MKVIII Errant Armor";
 		type = ArmorType.MKVIII_Errant;
 		vaccumSealed = true;
-		camo = -2;
+		visibilityModifier = -2;
+		
+		nightVision = true;
+		nightVisionEffectiveness = 5;
+		thermal = true;
+		thermalMod = -7;
+		
 		try {
 			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.CeramiteTacticalMarine));
 		} catch (Exception e) {
@@ -124,9 +131,12 @@ public class Armor implements Serializable {
 		if(MeleeArmor.meleeArmorPieces == null)
 			new MeleeArmorData();
 		
+		nightVision = true;
+		nightVisionEffectiveness = 4;
+		
 		this.bPF = 25; 
 		armorName = "Phase 1";
-		camo = 1;
+		visibilityModifier = 1;
 		vaccumSealed = true;
 		type = ArmorType.PHASEONE;
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
@@ -185,7 +195,7 @@ public class Armor implements Serializable {
 			new MeleeArmorData();
 		
 		this.bPF = 30; 
-		camo = 1;
+		visibilityModifier = 1;
 		armorName = "Durasteel Medium Mando";
 		vaccumSealed = true;
 		type = ArmorType.DURASTEELMEDIUMMANDO;
@@ -244,7 +254,9 @@ public class Armor implements Serializable {
 			new MeleeArmorData();
 		
 		this.bPF = 30; 
-		camo = 2;
+		nightVision = true;
+		nightVisionEffectiveness = 4;
+		visibilityModifier = 2;
 		vaccumSealed = true;
 		armorName = "Phase 1 Arc";
 		type = ArmorType.PHASEONEARC;
@@ -304,7 +316,13 @@ public class Armor implements Serializable {
 		
 		this.bPF = 40; 
 		armorName = "Katarn MK1";
-		camo = -1;
+		
+		nightVision = true;
+		nightVisionEffectiveness = 4;
+		thermal = true;
+		thermalMod = -5;
+		
+		visibilityModifier = -1;
 		vaccumSealed = true;
 		type = ArmorType.KATARN;
 		ArrayList<Integer> a1 = new ArrayList<Integer>();
@@ -365,6 +383,8 @@ public class Armor implements Serializable {
 		armorName = "B1";
 		type = ArmorType.B1;
 		armorWeight = 15;
+		nightVision = true;
+		nightVisionEffectiveness = 3;
 		try {
 			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {
@@ -380,6 +400,8 @@ public class Armor implements Serializable {
 		armorName = "B2";
 		type = ArmorType.B2;
 		armorWeight = 30;
+		nightVision = true;
+		nightVisionEffectiveness = 3;
 		try {
 			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {
@@ -392,10 +414,12 @@ public class Armor implements Serializable {
 			new MeleeArmorData();
 		
 		this.bPF = 25; 
-		camo = 1;
+		visibilityModifier = 1;
 		armorName = "Commando Droid";
 		type = ArmorType.COMMANDODROID;
 		armorWeight = 20;
+		nightVision = true;
+		nightVisionEffectiveness = 4;
 		try {
 			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {
@@ -411,6 +435,12 @@ public class Armor implements Serializable {
 		armorName = "Margma Guard";
 		type = ArmorType.MAGMAGUARD;
 		armorWeight = 20;
+		
+		nightVision = true;
+		nightVisionEffectiveness = 4;
+		thermal = true;
+		thermalMod = -5;
+		
 		try {
 			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {
@@ -462,7 +492,13 @@ public class Armor implements Serializable {
 		this.armorName = "ODST";
 		type = ArmorType.ODST;
 		this.bPF = 25; 
-		camo = 1;
+		visibilityModifier = 1;
+		
+		nightVision = true;
+		nightVisionEffectiveness = 4;
+		thermal = true;
+		thermalMod = -4;
+		
 		// Fore arm fire
 		ArrayList<Integer> a6 = new ArrayList<Integer>();
 		a6.add(88);
@@ -547,7 +583,11 @@ public class Armor implements Serializable {
 		this.bPF = 20; 
 		this.armorName = "UNSC Marine";
 		this.type = ArmorType.UNSCMARINE;
-		camo = 1;
+		visibilityModifier = 1;
+		
+		nightVision = true;
+		nightVisionEffectiveness = 4;
+		
 		// Fore arm fire
 		ArrayList<Integer> a6 = new ArrayList<Integer>();
 		a6.add(75);
@@ -640,6 +680,9 @@ public class Armor implements Serializable {
 		this.armorName = "Elite Minor";
 		this.type = ArmorType.ELITE;
 		
+		nightVision = true;
+		nightVisionEffectiveness = 4;
+		
 		// Fore arm fire
 		ArrayList<Integer> a6 = new ArrayList<Integer>();
 		a6.add(75);
@@ -727,6 +770,9 @@ public class Armor implements Serializable {
 		this.bPF = 20; 
 		this.armorName = "Jackal Armor";
 		this.type = ArmorType.JACKAL;
+		
+		nightVision = true;
+		nightVisionEffectiveness = 4;
 		
 		// Fore arm fire
 		ArrayList<Integer> a6 = new ArrayList<Integer>();

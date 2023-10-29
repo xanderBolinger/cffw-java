@@ -218,10 +218,7 @@ public class GameWindow implements Serializable {
 
 			}
 		});
-		comboBoxVisibility.setModel(new DefaultComboBoxModel(
-				new String[] { "Good Visibility", "Dusk", "Night - Full Moon ", "Night - Half Moon", "Night - No Moon",
-						"Smoke/Fog/Haze/Overcast", "Dusk - Smoke/Fog/Haze/Overcast", "Night - Smoke/Fog/Haze/Overcast",
-						"No Visibility - Heavy Fog - White Out" }));
+		comboBoxVisibility.setModel(new DefaultComboBoxModel(new String[] {"Good Visibility", "Dusk", "Night - Full Moon", "Night - Half Moon", "Night - No Moon", "Smoke/Fog/Haze/Overcast", "Dusk - Smoke/Fog/Haze/Overcast", "Night - Smoke/Fog/Haze/Overcast", "No Visibility - Heavy Fog - White Out"}));
 
 		JLabel lblVisibility = new JLabel("Visibility:");
 		lblVisibility.setBounds(152, 165, 59, 17);
