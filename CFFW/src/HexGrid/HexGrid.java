@@ -2228,6 +2228,25 @@ public class HexGrid implements Serializable {
 
 		}
 
+		boolean OnScreen(Polygon polygon, int width, int height) {
+			
+			for(int i = 0; i < polygon.npoints; i++) {
+				var xpoint = polygon.xpoints[i];
+				var ypoint = polygon.ypoints[i];
+				
+				if(xpoint < 0 || ypoint < 0)
+					continue;
+				
+				if(xpoint <= width && ypoint <= height)
+					return true;
+				
+			}
+			
+			
+			return false;
+		}
+		
+		
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
@@ -2242,6 +2261,10 @@ public class HexGrid implements Serializable {
 			Toolkit toolkit = Toolkit.getDefaultToolkit();
 			Dimension screenSize = toolkit.getScreenSize();
 			g2.setClip(0, 0, screenSize.width, screenSize.height);
+			
+			var screenWidth = panel.getWidth();
+			var screenHeight = panel.getHeight();
+			
 			/*
 			 * g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 			 * RenderingHints.VALUE_ANTIALIAS_ON); RenderingHints rh4 = new
@@ -2345,6 +2368,9 @@ public class HexGrid implements Serializable {
 				for (int j = 0; j < columns; j++) {
 					// System.out.println("i: "+i+" j: "+j);
 					Polygon hex = hexMap.get(i).get(j);
+					
+					if(!OnScreen(hex, screenWidth, screenHeight))
+						continue;
 					
 					ProcHexManager.PaintHex(g2, hex, i, j, this);
 					
