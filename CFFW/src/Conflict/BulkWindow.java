@@ -124,8 +124,6 @@ public class BulkWindow {
 	private JComboBox comboBoxScanArea;
 	private JList listSpottedUnitsArray;
 	private JComboBox targetedFireFocus;
-	private JCheckBox chckbxUnspottable;
-	private JSpinner spinnerSpottingDifficulty;
 	private JSpinner spinnerConsecutiveEALBonus;
 	private JComboBox comboBoxWeapon;
 	private JTextField textFieldCallsign;
@@ -149,6 +147,7 @@ public class BulkWindow {
 	private JCheckBox chckbxSingleShot;
 	private JCheckBox chckbxManualSup;
 	private JSpinner spinnerSuppressiveRof;
+	private JSpinner spinnerFatiguePoints;
 
 	/**
 	 * Create the application.
@@ -1440,66 +1439,6 @@ public class BulkWindow {
 		btnFresh.setBounds(123, 27, 75, 23);
 		frame.getContentPane().add(btnFresh);
 
-		chckbxUnspottable = new JCheckBox("Unspottable");
-		chckbxUnspottable.setForeground(Color.BLACK);
-		chckbxUnspottable.setFont(new Font("Calibri", Font.BOLD, 12));
-		chckbxUnspottable.setBackground(Color.WHITE);
-		chckbxUnspottable.setBounds(864, 261, 92, 20);
-		frame.getContentPane().add(chckbxUnspottable);
-
-		JLabel label_18_1 = new JLabel("Spotting Difficulty:");
-		label_18_1.setForeground(Color.BLACK);
-		label_18_1.setFont(new Font("Calibri", Font.PLAIN, 15));
-		label_18_1.setBackground(Color.WHITE);
-		label_18_1.setBounds(784, 244, 143, 20);
-		frame.getContentPane().add(label_18_1);
-
-		spinnerSpottingDifficulty = new JSpinner();
-		spinnerSpottingDifficulty.setForeground(Color.BLACK);
-		spinnerSpottingDifficulty.setBackground(Color.WHITE);
-		spinnerSpottingDifficulty.setBounds(784, 260, 74, 20);
-		frame.getContentPane().add(spinnerSpottingDifficulty);
-
-		JButton btnSet = new JButton("Set");
-		btnSet.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-				for (BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
-
-					bulkTrooper.trooper.spottingDifficulty = (int) spinnerSpottingDifficulty.getValue();
-					bulkTrooper.trooper.unspottable = chckbxUnspottable.isSelected();
-
-					if (bulkTrooper.trooper.unspottable) {
-
-						for (Unit unit : gameWindow.initiativeOrder) {
-
-							for (Trooper trooper : unit.individuals) {
-
-								if (trooper == bulkTrooper.trooper)
-									continue;
-
-								for (Spot spot : trooper.spotted) {
-
-									if (spot.spottedIndividuals.contains(bulkTrooper.trooper)) {
-										spot.spottedIndividuals.remove(bulkTrooper.trooper);
-									}
-
-								}
-
-							}
-
-						}
-
-					}
-
-				}
-
-			}
-		});
-		btnSet.setForeground(Color.BLACK);
-		btnSet.setBounds(967, 259, 66, 23);
-		frame.getContentPane().add(btnSet);
-
 		JLabel label_18_2 = new JLabel("Consecutive EAL Bonus:");
 		label_18_2.setForeground(Color.BLACK);
 		label_18_2.setFont(new Font("Calibri", Font.PLAIN, 15));
@@ -1756,7 +1695,7 @@ public class BulkWindow {
 			}
 		});
 		btnResetFp.setForeground(Color.BLACK);
-		btnResetFp.setBounds(995, 614, 92, 23);
+		btnResetFp.setBounds(941, 155, 92, 23);
 		frame.getContentPane().add(btnResetFp);
 
 		JButton btnPass = new JButton("Pass");
@@ -2333,13 +2272,14 @@ public class BulkWindow {
 				for(var trooper : getSelectedTroopers()) {
 					System.out.println(trooper.returnTrooperUnit(gameWindow).callsign
 							+":: "+trooper.number+", "+trooper.name+", ISF: "+trooper.isf+", MS: "
-							+trooper.maximumSpeed.get()+", CA: "+trooper.combatActions+", SL: "+trooper.sl+", Stance: "+trooper.stance);
+							+trooper.maximumSpeed.get()+", CA: "+trooper.combatActions+", SL: "+trooper.sl+", Stance: "+trooper.stance
+							+ ", FP: "+trooper.fatigueSystem.fatiguePoints.get());
 				}
 				
 			}
 		});
 		button_7_1_1.setForeground(Color.BLACK);
-		button_7_1_1.setBounds(850, 614, 136, 25);
+		button_7_1_1.setBounds(784, 126, 136, 25);
 		frame.getContentPane().add(button_7_1_1);
 		
 		chckbxManualSup = new JCheckBox("Manual Sup");
@@ -2505,6 +2445,36 @@ public class BulkWindow {
 		});
 		btnNewButton_1_2_1_1.setBounds(625, 319, 136, 23);
 		frame.getContentPane().add(btnNewButton_1_2_1_1);
+		
+		spinnerFatiguePoints = new JSpinner();
+		spinnerFatiguePoints.setBounds(784, 156, 53, 20);
+		frame.getContentPane().add(spinnerFatiguePoints);
+		
+		JButton btnSetFp = new JButton("Set FP");
+		btnSetFp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				for(var trooper : getSelectedTroopers()) {
+					var fp = (double)spinnerFatiguePoints.getValue();
+					gameWindow.conflictLog.addNewLineToQueue("Set fatigue points("
+					+trooper.returnTrooperUnit(gameWindow).callsign+" "+trooper.number+"" +trooper.name+"): "+fp);
+					trooper.fatigueSystem.fatiguePoints.set(fp);
+					
+				}
+				
+				gameWindow.conflictLog.addQueuedText();
+				
+			}
+		});
+		btnSetFp.setForeground(Color.BLACK);
+		btnSetFp.setBounds(841, 155, 92, 23);
+		frame.getContentPane().add(btnSetFp);
+		
+		JLabel label_5_1 = new JLabel("Stats");
+		label_5_1.setForeground(Color.BLACK);
+		label_5_1.setFont(new Font("Calibri", Font.PLAIN, 14));
+		label_5_1.setBounds(784, 104, 162, 31);
+		frame.getContentPane().add(label_5_1);
 		frame.setVisible(true);
 	}
 
