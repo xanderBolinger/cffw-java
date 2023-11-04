@@ -2334,7 +2334,7 @@ public class HexGrid implements Serializable {
 					
 					makeHexes(rows, columns);
 					
-					ProcHexManager.GetScaledInstances(shapeList.get(0).getBounds().width, shapeList.get(0).getBounds().height);
+					ProcHexManager.GetScaledInstances(shapeList.get(0).getBounds().width+1, shapeList.get(0).getBounds().height+1);
 					
 					for (Polygon newShape : shapeList) {
 
