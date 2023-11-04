@@ -2455,10 +2455,11 @@ public class BulkWindow {
 			public void actionPerformed(ActionEvent e) {
 				
 				for(var trooper : getSelectedTroopers()) {
-					var fp = (double)spinnerFatiguePoints.getValue();
+					var fp = (int)spinnerFatiguePoints.getValue();
 					gameWindow.conflictLog.addNewLineToQueue("Set fatigue points("
 					+trooper.returnTrooperUnit(gameWindow).callsign+" "+trooper.number+"" +trooper.name+"): "+fp);
-					trooper.fatigueSystem.fatiguePoints.set(fp);
+					double fpDouble = fp;
+					trooper.fatigueSystem.fatiguePoints.set(fpDouble);
 					
 				}
 				
