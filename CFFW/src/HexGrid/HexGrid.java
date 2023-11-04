@@ -1814,11 +1814,11 @@ public class HexGrid implements Serializable {
 
 			double a = Math.sqrt(3) * (s / 2);
 
-			for (int i = 1; i <= rows; i++) {
+			for (int i = 0; i < rows; i++) {
 
 				ArrayList<Polygon> row = new ArrayList<>();
 
-				for (int j = 1; j <= columns; j++) {
+				for (int j = 0; j < columns; j++) {
 
 					Polygon hex = newHex((int) (cordX + j * ((3 * s) / 2)), (int) (cordY + (j % 2) * a + 2 * i * a), s);
 
