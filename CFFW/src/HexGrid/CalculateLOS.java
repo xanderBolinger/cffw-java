@@ -92,14 +92,14 @@ public class CalculateLOS {
 	
 	public static void calc(Unit unit, Unit targetUnit) {
 		
-		System.out.println("Calc LOS From: "+unit.callsign+" to "+targetUnit.callsign);
+		//System.out.println("Calc LOS From: "+unit.callsign+" to "+targetUnit.callsign);
 		
 		ArrayList<Cord> hexes = TraceLine.GetHexes(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y), GameWindow.gameWindow.hexGrid.panel);
 		
-		var hexesString = "";
-		for(var h : hexes)
-			hexesString += "("+h.toString()+"), ";
-		System.out.println("Cord Line: "+hexesString);
+		//var hexesString = "";
+		//for(var h : hexes)
+		//	hexesString += "("+h.toString()+"), ";
+		//System.out.println("Cord Line: "+hexesString);
 		
 		if(hexes.size() <= 2) {
 			unit.lineOfSight.add(targetUnit);
@@ -108,7 +108,7 @@ public class CalculateLOS {
 		
 		var concealment = getConcealment(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y), true) ;
 		
-		System.out.println("Final Concealment Value: "+concealment);
+		//System.out.println("Final Concealment Value: "+concealment);
 		
 		if(concealment >= 5)
 			return;
@@ -192,11 +192,11 @@ public class CalculateLOS {
 			double slopeToTrees = (currentHexElevation+3 - (double)spotterElevation) / ((double)hexes.indexOf(hex)+2.0 - 1.0);
 			double slopeToBuilding = (currentHexElevation+buildingFloors+1 - (double)spotterElevation) / ((double)hexes.indexOf(hex)+2.0 - 1.0);
 			
-			System.out.println("Slope to Current Hex("+hex.toString()+") "+slopeToCurrentHex);
-			System.out.println("Slope to Target("+hex.toString()+") "+slopeToTarget);
-			System.out.println("Slope to Brush("+hex.toString()+") "+slopeToBrush);
-			System.out.println("Slope to Trees("+hex.toString()+") "+slopeToTrees);
-			System.out.println("Slope to Building("+hex.toString()+") "+slopeToBuilding);
+			//System.out.println("Slope to Current Hex("+hex.toString()+") "+slopeToCurrentHex);
+			//System.out.println("Slope to Target("+hex.toString()+") "+slopeToTarget);
+			//System.out.println("Slope to Brush("+hex.toString()+") "+slopeToBrush);
+			//System.out.println("Slope to Trees("+hex.toString()+") "+slopeToTrees);
+			//System.out.println("Slope to Building("+hex.toString()+") "+slopeToBuilding);
 			
 			if(slopeToCurrentHex > slopeToTarget) {
 				concealment = 5;
@@ -213,7 +213,7 @@ public class CalculateLOS {
 			int brushConcealment = 0;
 			int treeConcealment = 0;
 			int smokeConcealment = GameWindow.gameWindow.game.smoke.getConcealment(hex);
-			System.out.println("Smoke concealment("+hex.toString()+") "+smokeConcealment);
+			//System.out.println("Smoke concealment("+hex.toString()+") "+smokeConcealment);
 			
 			// "Light Forest", "Medium Forest", "Heavy Forest", "Brush", "Heavy Brush", "Light Rock", "Medium Rock", "Heavy Rock", "Light Urban Sprawl", "Dense Urban Sprawl", "Rubble", "Small Depression", "Large Depression"
 			for(var feature : foundHex.features) {
@@ -233,12 +233,12 @@ public class CalculateLOS {
 			if(slopeToBrush >= slopeToTarget)
 				concealment += brushConcealment;
 			if(slopeToBuilding >= slopeToTarget && buildings) {
-				System.out.println("Buildings Concealment("+hex.toString()+") ");
+				//System.out.println("Buildings Concealment("+hex.toString()+") ");
 				concealment = 5;
 				break;
 			}
 			
-			System.out.println("Current Concealment("+hex.toString()+") "+concealment);
+			//System.out.println("Current Concealment("+hex.toString()+") "+concealment);
 			/*if(targetElevation >= spotterElevation) {
 				
 				if(slopeToTrees >= slopeToTarget)
