@@ -267,9 +267,9 @@ public class HexDirectionUtility {
 
         // F
         if (pos.yCord % 2 != 0)
-            neighbors.add(new Cord(pos.xCord - 1, pos.yCord - 1));
-        else
             neighbors.add(new Cord(pos.xCord, pos.yCord - 1));
+        else
+            neighbors.add(new Cord(pos.xCord-1, pos.yCord - 1));
 
         return neighbors;
     }
