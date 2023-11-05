@@ -128,6 +128,7 @@ public class HexGrid implements Serializable {
 	private JCheckBox chckbxShowHexes;
 	private JCheckBox chckbxShowFts;
 	private JCheckBox chckbxSwgrid;
+	private JComboBox comboBoxHexes;
 
 	/**
 	 * Create the application.
@@ -359,17 +360,33 @@ public class HexGrid implements Serializable {
 		
 		chckbxShowHexes = new JCheckBox("SwHxs");
 		chckbxShowHexes.setSelected(true);
-		chckbxShowHexes.setBounds(538, 11, 67, 23);
+		chckbxShowHexes.setBounds(489, 12, 67, 23);
 		layeredPane.add(chckbxShowHexes);
 		
 		chckbxShowFts = new JCheckBox("SwFts");
 		chckbxShowFts.setSelected(true);
-		chckbxShowFts.setBounds(615, 11, 67, 23);
+		chckbxShowFts.setBounds(566, 12, 67, 23);
 		layeredPane.add(chckbxShowFts);
 		
 		chckbxSwgrid = new JCheckBox("SwGrid#");
-		chckbxSwgrid.setBounds(694, 11, 85, 23);
+		chckbxSwgrid.setBounds(645, 12, 85, 23);
 		layeredPane.add(chckbxSwgrid);
+		
+		comboBoxHexes = new JComboBox();
+		comboBoxHexes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				var folder = comboBoxHexes.getSelectedItem().toString();
+				ProcHexManager.GetHexImages(folder);
+			}
+		});
+		comboBoxHexes.setModel(new DefaultComboBoxModel(new String[] {"Default", "Clean"}));
+		comboBoxHexes.setSelectedIndex(0);
+		comboBoxHexes.setBounds(804, 11, 97, 22);
+		layeredPane.add(comboBoxHexes);
+		
+		JLabel lblNewLabel = new JLabel("Hexes:");
+		lblNewLabel.setBounds(747, 15, 46, 14);
+		layeredPane.add(lblNewLabel);
 
 		panel.addMouseListener(new MouseAdapter() {
 
@@ -652,7 +669,10 @@ public class HexGrid implements Serializable {
 	    
 		Panel(int hexRows, int hexCols) {
 
-			ProcHexManager.GetHexImages();
+			
+			
+			
+			ProcHexManager.GetHexImages("Default");
 			
 			this.rows = hexRows;
 			this.columns = hexCols;

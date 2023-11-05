@@ -25,20 +25,20 @@ public class ProcHexManager {
     
 
     // Can switch to loop that will loop over directories and get specific tile sets for certain maps
-    public static void GetHexImages() {
+    public static void GetHexImages(String imageFolder) {
     	hexImages = new ArrayList<HexImage>();
-    	AddHexImage("BigBuilding");
-    	AddHexImage("Building");
-    	AddHexImage("Brush");
-    	AddHexImage("HeavyBrush");
-    	AddHexImage("Clear");
-    	AddHexImage("HeavyWoods");
-    	AddHexImage("MediumWoods");
-    	AddHexImage("LightWoods");
+    	AddHexImage("BigBuilding", imageFolder);
+    	AddHexImage("Building", imageFolder);
+    	AddHexImage("Brush", imageFolder);
+    	AddHexImage("HeavyBrush", imageFolder);
+    	AddHexImage("Clear", imageFolder);
+    	AddHexImage("HeavyWoods", imageFolder);
+    	AddHexImage("MediumWoods", imageFolder);
+    	AddHexImage("LightWoods", imageFolder);
     }
     
-    private static void AddHexImage(String imageName) {
-    	var img = new HexImage(imageName);
+    private static void AddHexImage(String imageName, String imageFolder) {
+    	var img = new HexImage(imageName, imageFolder);
     	hexImages.add(img);
     }
     

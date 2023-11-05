@@ -15,9 +15,9 @@ public class HexImage {
 	private String imagePath = ExcelUtility.path + "\\HexImages\\";
 	private Image imageOriginal;
 	
-	
-	public HexImage(String fileName) {
+	public HexImage(String fileName, String imageFolder) {
 		imageName = fileName;
+		imagePath += imageFolder +"\\";
 		imagePath += fileName+".png";
 		try {
 			image = ImageIO.read(new File(imagePath));
