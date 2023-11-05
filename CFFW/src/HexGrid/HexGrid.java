@@ -2584,8 +2584,11 @@ public class HexGrid implements Serializable {
 
 			g2.setColor(Color.BLACK);
 			String rslts = "Range: ";
-			rslts += GameWindow.hexDif(getHexFromPoint(x1, y1)[0], getHexFromPoint(x1, y1)[1],
-					getHexFromPoint(x2, y2)[0], getHexFromPoint(x2, y2)[1]);
+			var hex1 = getHexFromPoint(x1, y1);
+			var hex2 = getHexFromPoint(x2, y2);
+			rslts += GameWindow.hexDif(hex1[0], hex1[1],
+					hex2[0], hex2[1]);
+			rslts += ", Side: "+HexDirectionUtility.getHexSideFacingTarget(new Cord(hex1[0],hex1[1]), new Cord(hex2[0], hex2[1]));
 			FontMetrics fm = g2.getFontMetrics();
 			Rectangle2D rect = fm.getStringBounds(rslts, g2);
 			g2.fillRect(x2 + 5, y2 - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());

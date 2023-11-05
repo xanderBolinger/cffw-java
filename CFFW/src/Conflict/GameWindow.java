@@ -2052,17 +2052,25 @@ public class GameWindow implements Serializable {
 	}
 
 	// This method might be being used in correctly in cordite expansion things
-	public static int dist(int y1, int x1, int y2, int x2) {
+	public static int dist(int ax, int ay, int bx, int by) {
 
-		int du = x2 - x1;
+		//int y1, int x1, int y2, int x2 old params
+		// Old for where x is 1 and y is 1 when hexes are being created 
+		/*int du = x2 - x1;
 		int dv = (y2 + Math.floorDiv(x2, 2)) - (y1 + Math.floorDiv(x1, 2));
 
 		if (du >= 0 && dv >= 0 || (du < 0 && dv < 0)) {
 			return Math.max(Math.abs(du), Math.abs(dv));
 		} else {
 			return Math.abs(du) + Math.abs(dv);
-		}
-
+		}*/
+		int x0 = ax - (int)Math.floorDiv(ay, 2);
+        int y0 = ay;
+        int x1 = bx - (int)Math.floorDiv(by, 2);
+        int y1 = by;
+        int dx = x1 - x0;
+        int dy = y1 - y0;
+        return Math.max(Math.max(Math.abs(dx), Math.abs(dy)), Math.abs(dx + dy));
 	}
 
 	public ArrayList<Unit> getUnitsInHex(String sideSpecified, int x, int y) {

@@ -29,10 +29,47 @@ public class HexDirectionUtility {
 		
 	}
 	
+	private static HexDirection getHexSideFacingTargetBaseCases(Cord start, Cord target, int startDistance) {
+		
+		if(startDistance == 0) {
+			return HexDirection.A;
+		} else if(startDistance == 1) {
+			
+			var adjacentTiles = getHexNeighbours(start);
+			
+			for(int i = 0; i < 6; i++) {
+				if(adjacentTiles.get(i).compare(target)) {
+					if(i == 0)
+						return HexDirection.A;
+					if(i == 1)
+						return HexDirection.B;
+					if(i == 2)
+						return HexDirection.C;
+					if(i == 3)
+						return HexDirection.D;
+					if(i == 4)
+						return HexDirection.E;
+					if(i == 5)
+						return HexDirection.F;
+				}
+				
+			}
+			
+		}
+		
+		return null;
+		
+	}
+	
 	public static HexDirection getHexSideFacingTarget(Cord start, Cord target) {
 		
 		var startDistance = HexGridUtility.distance(start, target);
-
+		var baseCase = getHexSideFacingTargetBaseCases(start, target, startDistance);
+		if(baseCase != null) {
+			return baseCase;
+		}
+		
+		
 		HexDirection closestDir = HexDirection.A;
 		var closestDist = getDistanceInDirection(start, target, startDistance, HexDirection.A);
 		
@@ -45,7 +82,7 @@ public class HexDirectionUtility {
 			}
 			
 		}
-		
+
 		return closestDir;
 		
 		// if x2 < x1 and y2 == y1 than A
@@ -209,24 +246,24 @@ public class HexDirectionUtility {
 
         // B
         if (pos.yCord % 2 != 0)
-            neighbors.add(new Cord(pos.xCord - 1, pos.yCord + 1));
-        else
             neighbors.add(new Cord(pos.xCord, pos.yCord + 1));
+        else
+            neighbors.add(new Cord(pos.xCord-1, pos.yCord + 1));
 
         // C
         if (pos.yCord % 2 != 0)
-            neighbors.add(new Cord(pos.xCord, pos.yCord + 1));
+            neighbors.add(new Cord(pos.xCord+1, pos.yCord + 1));
         else
-            neighbors.add(new Cord(pos.xCord + 1, pos.yCord + 1));
+            neighbors.add(new Cord(pos.xCord, pos.yCord + 1));
 
         // D
         neighbors.add(new Cord(pos.xCord + 1, pos.yCord));
 
         // E
         if (pos.yCord % 2 != 0)
-            neighbors.add(new Cord(pos.xCord, pos.yCord - 1));
+            neighbors.add(new Cord(pos.xCord - 1, pos.yCord - 1));
         else
-            neighbors.add(new Cord(pos.xCord + 1, pos.yCord - 1));
+            neighbors.add(new Cord(pos.xCord, pos.yCord - 1));
 
         // F
         if (pos.yCord % 2 != 0)
