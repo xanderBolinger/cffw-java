@@ -29,6 +29,7 @@ import Vehicle.Data.ShieldGenerator;
 import Vehicle.Data.VehicleMovementData;
 import Vehicle.Data.VehicleSmokeData;
 import Vehicle.Data.VehicleSpotData;
+import Vehicle.Data.PositionSpotData;
 import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
 
 import org.w3c.dom.Document;
@@ -45,7 +46,9 @@ public class VehicleXmlReader {
 		var vehicleNode = (Element) vehicleData.getElementsByTagName("vehicle_data").item(0);
 		boolean shielded = Boolean.parseBoolean((vehicleNode).getAttribute("shielded"));
 
-		var vehicle = new Vehicle(vehicleType, getCrewCompartments(vehicleData));
+		var spotData = getVehicleSpotData(vehicleNode);
+		
+		var vehicle = new Vehicle(vehicleType, getCrewCompartments(vehicleData), spotData);
 
 		if (shielded) {
 			int maxValue = Integer.parseInt(vehicleNode.getAttribute("maxValue"));
@@ -56,30 +59,36 @@ public class VehicleXmlReader {
 		vehicle.setVehicleCallsign(vehicleCallSign);
 		vehicle.movementData = getVehicleMovementData(vehicleData, vehicle);
 		vehicle.smokeData = getVehicleSmokeData(vehicleData, vehicle);
-		vehicle.spotData = getVehicleSpotData(vehicleData);
+		
 		
 		return vehicle;
 	}
 
-	private static VehicleSpotData getVehicleSpotData(Document vehicleData) throws Exception {
-		int turretSize = getElementInt(vehicleData, "turret_size");
-		int hullSize = getElementInt(vehicleData, "hull_size");
-		int thermalMod = getElementInt(vehicleData, "thermal_mod");
-		int magnification = getElementInt(vehicleData,"magnification");
-		int nightVision = getElementInt(vehicleData,"night_vision");
-		int stealthField = getElementInt(vehicleData,"stealth_field");
-		int camo = getElementInt(vehicleData,"camo");
-		String thermalShroud = getElementString(vehicleData,"thermal_shroud");
+	
+	private static VehicleSpotData getVehicleSpotData(Element position) throws Exception {
+		int turretSize = getElementInt(position, "turret_size");
+		int hullSize = getElementInt(position, "hull_size");
+		int stealthField = getElementInt(position,"stealth_field");
+		int camo = getElementInt(position,"camo");
+		String thermalShroud = getElementString(position,"thermal_shroud");
 		
-		return new VehicleSpotData(turretSize, hullSize, thermalMod, magnification, nightVision, stealthField, camo, thermalShroud);
+		return new VehicleSpotData(turretSize, hullSize, stealthField, camo, thermalShroud);
 	}
 	
-	private static int getElementInt(Document vehicleData, String name) {
-		return Integer.parseInt(getElementString(vehicleData,name));
+	private static PositionSpotData getPositionSpotData(Element position) throws Exception {
+		int thermalMod = getElementInt(position, "thermal_mod");
+		int magnification = getElementInt(position,"magnification");
+		int nightVision = getElementInt(position,"night_vision");
+		
+		return new PositionSpotData(thermalMod, magnification, nightVision);
 	}
 	
-	private static String getElementString(Document vehicleData, String name) {
-		return vehicleData.getElementsByTagName(name).item(0).getTextContent();
+	private static int getElementInt(Element element, String name) {
+		return Integer.parseInt(getElementString(element,name));
+	}
+	
+	private static String getElementString(Element element, String name) {
+		return element.getElementsByTagName(name).item(0).getTextContent();
 	}
 	
 	private static VehicleSmokeData getVehicleSmokeData(Document vehicleData, Vehicle vehicle) throws Exception {
@@ -187,7 +196,14 @@ public class VehicleXmlReader {
 
 		var viewDirections = getPositionViewDirections(viewDirectionNodes);
 
-		return new CrewPosition(positionName, positionTypes, viewDirections);
+		
+		var spotData = getPositionSpotData(position);
+		
+		var crewPosition = new CrewPosition(positionName, positionTypes, viewDirections);
+		
+		crewPosition.spotData = spotData;
+		
+		return crewPosition;
 	}
 
 	private static List<CrewPositionType> getCrewPositionTypes(Element positionTypeNodes) throws Exception {

@@ -5,6 +5,9 @@
             <compartment name="OPERATORS" shielded="false">
                 <crew_positions>
                     <position name="Pilot">
+                        <thermal_mod>0</thermal_mod>
+                        <magnification>0</magnification>
+                        <night_vision>0</night_vision>
                         <position_types>
                             <type>DRIVER</type>
                         </position_types>
@@ -44,14 +47,9 @@
             <smoke_launches>0</smoke_launches>
         </smoke_data>
     </vehicle_data>
-    <spot_data>
-        <turret_size>2</turret_size>
-        <hull_size>6</hull_size>
-        <thermal_mod>0</thermal_mod>
-        <magnification>0</magnification>
-        <night_vision>0</night_vision>
-        <stealth_field>0</stealth_field>
-        <camo>0</camo>
-        <thermal_shroud>Resistant</thermal_shroud>
-    </spot_data>
+    <turret_size>2</turret_size>
+    <hull_size>6</hull_size>
+    <stealth_field>0</stealth_field>
+    <camo>0</camo>
+    <thermal_shroud>Resistant</thermal_shroud>
 </vehicle>

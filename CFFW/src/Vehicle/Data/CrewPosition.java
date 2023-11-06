@@ -10,15 +10,19 @@ import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
 public class CrewPosition implements Serializable {
 
 	public CrewMember crewMemeber;
+	public PositionSpotData spotData;
 	String positionName;
 	List<CrewPositionType> positionTypes;
 	List<HexDirection> fieldOfView;
 	
-	public CrewPosition(String positionName, CrewMember crewMember, List<CrewPositionType> positionTypes, List<HexDirection> fieldOfView) {
+	public CrewPosition(String positionName, CrewMember crewMember, 
+			List<CrewPositionType> positionTypes, List<HexDirection> fieldOfView,
+			PositionSpotData positionSpotData) {
 		this.positionName = positionName;
 		this.crewMemeber = crewMember;
 		this.positionTypes = positionTypes;
 		this.fieldOfView = fieldOfView;
+		spotData = positionSpotData;
 	}
 	
 	public CrewPosition(String positionName, List<CrewPositionType> positionTypes, List<HexDirection> fieldOfView) {

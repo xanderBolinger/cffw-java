@@ -5,6 +5,9 @@
             <compartment name="OPERATORS" shielded="true">
                 <crew_positions>
                     <position name="Pilot">
+                        <thermal_mod>7</thermal_mod>
+                        <magnification>34</magnification>
+                        <night_vision>5</night_vision>
                         <position_types>
                             <type>DRIVER</type>
                             <type>GUNNER</type>
@@ -26,6 +29,9 @@
                         </view_directions>
                     </position>
                     <position name="Copilot">
+                        <thermal_mod>7</thermal_mod>
+                        <magnification>34</magnification>
+                        <night_vision>5</night_vision>
                         <position_types>
                             <type>DRIVER</type>
                             <type>GUNNER</type>
@@ -53,6 +59,9 @@
             <compartment name="EXTERNAL GUNNER" shielded="false">
                 <crew_positions>
                     <position name="Topgunner">
+                        <thermal_mod>7</thermal_mod>
+                        <magnification>34</magnification>
+                        <night_vision>5</night_vision>
                         <position_types>
                             <type>GUNNER</type>
                         </position_types>
@@ -91,5 +100,10 @@
             <launched_smoke>VehicleSmokeLauncher</launched_smoke>
             <smoke_launches>3</smoke_launches>
         </smoke_data>
+        <turret_size>6</turret_size>
+        <hull_size>16</hull_size>
+        <stealth_field>0</stealth_field>
+        <camo>3</camo>
+        <thermal_shroud>Resistant</thermal_shroud>
     </vehicle_data>
 </vehicle>

@@ -49,14 +49,14 @@ public class VehicleDataTests {
 		CrewMember copilot = new CrewMember(copilotTrooper);
 		CrewMember topgunner = new CrewMember(topgunnerTrooper);
 
-		CrewPosition pos1 = new CrewPosition("Pilot", pilot, positionTypes, directions);
-		CrewPosition pos2 = new CrewPosition("Copilot", copilot, positionTypes, directions);
-		CrewPosition pos3 = new CrewPosition("Topgunner", topgunner, positionTypes2, directions);
+		CrewPosition pos1 = new CrewPosition("Pilot", pilot, positionTypes, directions, null);
+		CrewPosition pos2 = new CrewPosition("Copilot", copilot, positionTypes, directions, null);
+		CrewPosition pos3 = new CrewPosition("Topgunner", topgunner, positionTypes2, directions, null);
 
 		compartments.add(new CrewCompartment("OPERATORS", List.of(pos1, pos2)));
 		compartments.add(new CrewCompartment("EXTERNAL GUNNER", List.of(pos3)));
 
-		Vehicle vehicle = new Vehicle("TX130", compartments);
+		Vehicle vehicle = new Vehicle("TX130", compartments, null);
 		vehicle.setVehicleCallsign("Hitman");
 		
 		var operators = vehicle.getCrewCompartment("OPERATORS");

@@ -1,6 +1,8 @@
+/Artillery/
 /CeHexGrid/
 /CharacterBuilder/
 /CloseCombat/
+/Command/
 /CommandLineInterface/
 /Company/
 /Conflict/
@@ -35,5 +37,3 @@
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
-/Actions/
-/Command/

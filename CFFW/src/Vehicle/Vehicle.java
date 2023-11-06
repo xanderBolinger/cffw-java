@@ -17,6 +17,7 @@ import Vehicle.Data.ShieldGenerator;
 import Vehicle.Data.VehicleMovementData;
 import Vehicle.Data.VehicleSmokeData;
 import Vehicle.Data.VehicleSpotData;
+import Vehicle.Data.PositionSpotData;
 import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
 
 public class Vehicle implements Serializable {
@@ -43,7 +44,7 @@ public class Vehicle implements Serializable {
 	
 	public Vehicle() {} // empty constructor for testing 
 
-	public Vehicle(String vehicleTypeName, List<CrewCompartment> crewCompartments) {
+	public Vehicle(String vehicleTypeName, List<CrewCompartment> crewCompartments, VehicleSpotData spotData) {
 		this.vehicleTypeName = vehicleTypeName;
 		this.crewCompartments = crewCompartments;
 		this.identifier = identifier();
