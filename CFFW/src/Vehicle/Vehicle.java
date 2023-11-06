@@ -51,6 +51,7 @@ public class Vehicle implements Serializable {
 		active = true;
 		losVehicles = new ArrayList<Vehicle>();
 		spottedVehicles = new ArrayList<Vehicle>();
+		this.spotData = spotData;
 	}
 
 	public void AddShieldGenerator(ShieldGenerator shieldGenerator) {

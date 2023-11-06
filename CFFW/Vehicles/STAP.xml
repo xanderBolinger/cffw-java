@@ -46,10 +46,10 @@
             <launched_smoke>VehicleSmokeLauncher</launched_smoke>
             <smoke_launches>0</smoke_launches>
         </smoke_data>
+        <turret_size>2</turret_size>
+        <hull_size>6</hull_size>
+        <stealth_field>0</stealth_field>
+        <camo>0</camo>
+        <thermal_shroud>Resistant</thermal_shroud>
     </vehicle_data>
-    <turret_size>2</turret_size>
-    <hull_size>6</hull_size>
-    <stealth_field>0</stealth_field>
-    <camo>0</camo>
-    <thermal_shroud>Resistant</thermal_shroud>
 </vehicle>
