@@ -1341,7 +1341,7 @@ public class GameWindow implements Serializable {
 				return false;
 			}
 		} else {
-			if (trooper.spentPhase2 < trooper.P2 && trooper.spentPhase1 < GameWindow.gameWindow.game.getCurrentAction()) {
+			if (trooper.spentPhase2 < trooper.P2 && trooper.spentPhase2 < GameWindow.gameWindow.game.getCurrentAction()) {
 				// System.out.println("Return False");
 				return false;
 			}
@@ -2393,6 +2393,11 @@ public class GameWindow implements Serializable {
 		}
 		
 		es.shutdown();
+		try {
+		  es.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+		} catch (InterruptedException e) {
+		 e.printStackTrace();
+		}
 		
 		for(var unit : initiativeOrder) {
 			ArrayList<Unit> removeUnits = new ArrayList<Unit>();

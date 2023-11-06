@@ -4295,6 +4295,11 @@ public class BulkWindow {
 					 */
 
 					es.shutdown();
+					try {
+					  es.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 
 					System.out.println("Finished Threads");
 

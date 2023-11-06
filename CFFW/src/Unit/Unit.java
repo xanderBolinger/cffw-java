@@ -679,7 +679,7 @@ public class Unit implements Serializable {
 		
 		
 		
-		if(radius < 4 && speed.equals("Crawl")) {
+		if(radius < 3 && speed.equals("Crawl")) {
 			radius++;
 			return;
 		}

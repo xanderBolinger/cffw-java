@@ -497,6 +497,7 @@ public class HexGrid implements Serializable {
 	public void deployBluforUnknown() {
 		deployBluforUnknown = !deployBluforUnknown;
 		System.out.println("set deploy blufor: " + deployBluforUnknown);
+		
 		deployUnknown = false;
 		deployOpforUnknown = false;
 	}
