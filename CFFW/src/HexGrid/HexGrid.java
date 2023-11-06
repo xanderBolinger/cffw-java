@@ -2200,7 +2200,7 @@ public class HexGrid implements Serializable {
 			int y2 = bottomLeftCornerY;
 
 			int textWidth = x2 - x1;
-			double mod = deployedUnit.unit.organization / 100.0;
+			double mod = (100 - deployedUnit.unit.suppression) / 100.0;
 			// System.out.println("Deployed Unit: "+deployedUnit.callsign+", ORG:
 			// "+deployedUnit.unit.organization);
 			if (mod > 1)

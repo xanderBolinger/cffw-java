@@ -66,6 +66,7 @@ import Actions.PcGrenadeThrow;
 import Actions.ReactionToFireWindow;
 import Actions.Spot;
 import Actions.TargetedFire;
+import Command.UnitCommand;
 import Company.Formation.LeaderType;
 import Hexes.Building;
 import Hexes.Building.Room;
@@ -2476,6 +2477,49 @@ public class BulkWindow {
 		label_5_1.setFont(new Font("Calibri", Font.PLAIN, 14));
 		label_5_1.setBounds(784, 104, 162, 31);
 		frame.getContentPane().add(label_5_1);
+		
+		JButton btnComandRoll = new JButton("Comand Roll");
+		btnComandRoll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+						for(var trooper : getSelectedTroopers()) {
+							
+							var trooperUnit = trooper.returnTrooperUnit(gameWindow);
+							
+							var leader = trooperUnit.getLeader();
+							
+							if(!trooper.compareTo(leader)) {
+								gameWindow.conflictLog.addNewLineToQueue("Trooper: "+trooperUnit.callsign+" "+trooper.number+" "+trooper.name
+										+ " is not the leader of their unit;");
+								continue;
+							}
+							
+							UnitCommand.CommandRoll(trooperUnit);
+							actionSpent(leader);
+						}
+						
+						return null;
+					}
+
+					@Override
+					protected void done() {
+
+						gameWindow.conflictLog.addQueuedText();
+					}
+
+				};
+
+				worker.execute();
+				
+			}
+		});
+		btnComandRoll.setForeground(Color.BLACK);
+		btnComandRoll.setBounds(784, 258, 138, 23);
+		frame.getContentPane().add(btnComandRoll);
 		frame.setVisible(true);
 	}
 
@@ -3194,8 +3238,6 @@ public class BulkWindow {
 	}
 
 	public void actionSpent(Trooper trooper) {
-
-		System.out.println("Action spent");
 
 		if (game.getPhase() == 1)
 			trooper.spentPhase1++;
