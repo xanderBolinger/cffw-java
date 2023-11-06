@@ -819,7 +819,7 @@ public class Unit implements Serializable {
 			openUnitWindow.refreshSpinners();
 		}
 		
-		GameWindow.gameWindow.CalcLOS();
+		GameWindow.gameWindow.CalcLOS(this);
 	}
 	
 	public void setFiredWeapons() {

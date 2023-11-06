@@ -2358,23 +2358,20 @@ public class GameWindow implements Serializable {
 		}
 	}
 
-	public void CalcLOS() {
+	public void CalcLOS(Unit movedUnit) {
 		System.out.println("Calc los");
 		final long startTime = System.currentTimeMillis();
 		ExecutorService es = Executors.newFixedThreadPool(16);
-		for (Unit unit : initiativeOrder) {
-			es.submit(() -> {
-				unit.lineOfSight.clear();
-				
-				for (Unit targetUnit : initiativeOrder) {
-					if (unit.side.equals(targetUnit.side))
-						continue;
-					
-						CalculateLOS.calc(unit, targetUnit);
-	
-				}
+		
+		movedUnit.lineOfSight.clear();
+		
+		for (Unit targetUnit : initiativeOrder) {
+			if (movedUnit.side.equals(targetUnit.side))
+				continue;
 			
-			});
+				es.submit(() -> {
+					CalculateLOS.calc(movedUnit, targetUnit);
+				});
 		}
 		
 		es.shutdown();
@@ -2384,22 +2381,59 @@ public class GameWindow implements Serializable {
 		 e.printStackTrace();
 		}
 		
-		for(var unit : initiativeOrder) {
-			ArrayList<Unit> removeUnits = new ArrayList<Unit>();
-			
-			for(var spottedUnit : unit.lineOfSight)
-				if(!spottedUnit.lineOfSight.contains(unit))
-					removeUnits.add(spottedUnit);
-			for(var removeUnit : removeUnits)
-				unit.lineOfSight.remove(removeUnit);
-		}
-		
-		for (Unit unit : initiativeOrder) {
+		updateLosLists();
 
-			CalculateLOS.checkSpottedTroopers(unit);
-
-		}
 		final long endTime = System.currentTimeMillis();
 		System.out.println("Total CalcLOS execution time: " + (endTime - startTime));
+	}
+	
+	void updateLosLists() {
+		
+		removeLos();
+		
+		removeSpotted();
+	}
+	
+	void removeLos() {
+		ExecutorService es = Executors.newFixedThreadPool(16);
+		
+		for(var unit : initiativeOrder) {
+			
+			es.submit(() -> {
+				ArrayList<Unit> removeUnits = new ArrayList<Unit>();
+				
+				for(var spottedUnit : unit.lineOfSight)
+					if(!spottedUnit.lineOfSight.contains(unit))
+						removeUnits.add(spottedUnit);
+				for(var removeUnit : removeUnits)
+					unit.lineOfSight.remove(removeUnit);
+			});
+			
+		}
+		
+		es.shutdown();
+		try {
+		  es.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+		} catch (InterruptedException e) {
+		 e.printStackTrace();
+		}
+	}
+	
+	void removeSpotted() {
+		ExecutorService es = Executors.newFixedThreadPool(16);
+		
+		for (Unit unit : initiativeOrder) {
+			
+			es.submit(() -> {
+				CalculateLOS.checkSpottedTroopers(unit);
+			});
+		}
+			
+		es.shutdown();
+		try {
+		  es.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+		} catch (InterruptedException e) {
+		 e.printStackTrace();
+		}
 	}
 }

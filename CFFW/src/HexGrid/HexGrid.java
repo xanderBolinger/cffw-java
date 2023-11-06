@@ -1639,14 +1639,12 @@ public class HexGrid implements Serializable {
 								if (unit.X == i && unit.Y == j) {
 									unit.seekCover(newHex, GameWindow.gameWindow);
 								}
-
+								GameWindow.gameWindow.CalcLOS(unit);
 							}
 
 							GameWindow.gameWindow.hexes.add(newHex);
 
 							GameWindow.gameWindow.conflictLog.addNewLine("Pasted! X: " + i + ", Y: " + j);
-
-							GameWindow.gameWindow.CalcLOS();
 
 						}
 

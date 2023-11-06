@@ -425,7 +425,7 @@ public class HexWindow {
 						openUnitWindow.refreshSpinners();
 					}
 					
-					GameWindow.gameWindow.CalcLOS();
+					GameWindow.gameWindow.CalcLOS(openUnit);
 					frame.dispose();
 					
 				} else {
