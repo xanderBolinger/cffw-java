@@ -466,7 +466,7 @@ public class BulkWindow {
 
 								es.submit(() -> {
 									// System.out.println("Spot Test All 1");
-									spotTestAll(trooper, unit);
+									spotTestAll(trooper);
 									// System.out.println("Spot Test All 2");
 
 									// If not a free test
@@ -563,7 +563,7 @@ public class BulkWindow {
 									// Loops through all signs, performs spotting test
 									for (int i = 0; i < callsigns.size(); i++) {
 										// System.out.println("Spot Test 1");
-										spotTest(callsigns.get(i), trooper, unit);
+										spotTest(callsigns.get(i), trooper);
 										// System.out.println("Spot Test 2");
 									}
 
@@ -3937,14 +3937,17 @@ public class BulkWindow {
 	}
 
 	// Spot test
-	public void spotTest(String targetCallsign, Trooper trooper, Unit unit) {
+	public void spotTest(String targetCallsign, Trooper trooper) {
 
 		// Find spotter unit
-		Unit spotterUnit = unit;
+		Unit spotterUnit = trooper.returnTrooperUnit(gameWindow);
 
 		// Find target unit
 		Unit targetUnit = findUnit(targetCallsign);
 
+		if(!spotterUnit.lineOfSight.contains(targetUnit))
+			return;
+		
 		Spot spotAction = new Spot(gameWindow, spotterUnit, targetUnit, trooper,
 				comboBoxScanArea.getSelectedItem().toString(), gameWindow.visibility, gameWindow.initiativeOrder,
 				gameWindow);
@@ -3961,10 +3964,10 @@ public class BulkWindow {
 	}
 
 	// Spot test
-	public void spotTestAll(Trooper trooper, Unit unit) {
+	public void spotTestAll(Trooper trooper) {
 
 		// Find spotter unit
-		Unit spotterUnit = unit;
+		Unit spotterUnit = trooper.returnTrooperUnit(gameWindow);
 
 		for (Unit targetUnit : unit.lineOfSight) {
 
