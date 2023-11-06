@@ -1788,6 +1788,9 @@ public class GameWindow implements Serializable {
 
 			for (Iterator<Trooper> troopers = spotterUnit.individuals.iterator(); troopers.hasNext();) {
 				Trooper spotterTrooper = troopers.next();
+				if(spotterTrooper.HD)
+					continue;
+				
 				// System.out.println("Spotter Trooper: "+spotterTrooper.name);
 				for (Iterator<Unit> targetUnits = spotterUnit.lineOfSight.iterator(); targetUnits.hasNext();) {
 
@@ -1811,40 +1814,13 @@ public class GameWindow implements Serializable {
 		}
 
 		es.shutdown();
-		/*
-		 * for (int i = 0; i < initiativeOrder.size(); i++) { // Gets spotter unit Unit
-		 * spotterUnit = initiativeOrder.get(i);
-		 * 
-		 * // Loops through troopers for(int x = 0; x <
-		 * spotterUnit.getTroopers().size(); x++) {
-		 * 
-		 * // Clears trooper's spot spotterUnit.getTroopers().get(x).spotted.clear();
-		 * 
-		 * // Loops through units a second time for (int j = 0; j <
-		 * initiativeOrder.size(); j++) {
-		 * 
-		 * // If not the same unit if(!initiativeOrder.get(j).compareTo(spotterUnit) &&
-		 * !initiativeOrder.get(j).side.equals(spotterUnit.side)) {
-		 * 
-		 * 
-		 * // Performs spot test spot(initiativeOrder.get(j), spotterUnit,
-		 * spotterUnit.getTroopers().get(x));
-		 * 
-		 * 
-		 * 
-		 * 
-		 * }
-		 * 
-		 * 
-		 * }
-		 * 
-		 * 
-		 * }
-		 * 
-		 * 
-		 * }
-		 */
-
+		try {
+		  es.awaitTermination(1, TimeUnit.NANOSECONDS);
+		} catch (InterruptedException e) {
+			System.out.println("interupted");
+			e.printStackTrace();
+		}
+		System.out.println("Finished Spot cycle");
 	}
 
 	// Creates new spot action and adds it to trooper
@@ -2242,7 +2218,6 @@ public class GameWindow implements Serializable {
 
 		if (currentAction == 1 || currentAction == 2 || currentAction == 3) {
 			advanceTimeFireMissions();
-			spotCycle();
 		}
 	}
 
@@ -2264,6 +2239,11 @@ public class GameWindow implements Serializable {
 		}
 
 		es.shutdown();
+		try {
+		  es.awaitTermination(5, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void advanceTimeFireMissions() {
@@ -2288,6 +2268,11 @@ public class GameWindow implements Serializable {
 		}
 
 		es.shutdown();
+		try {
+		  es.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 	}
 

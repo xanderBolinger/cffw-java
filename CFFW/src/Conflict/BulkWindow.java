@@ -4084,7 +4084,13 @@ public class BulkWindow {
 				}
 
 				es.shutdown();
-
+				es.shutdown();
+				try {
+				  es.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
 				return null;
 			}
 
