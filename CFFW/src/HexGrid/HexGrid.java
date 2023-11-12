@@ -125,10 +125,11 @@ public class HexGrid implements Serializable {
 	private JMenuItem mntmLoadHexMap;
 	private JButton btnShields;
 	private JSpinner spinnerShieldStrength;
+	private JComboBox comboBoxHexes;
+	private JCheckBox checkBoxShowTiles;
 	private JCheckBox chckbxShowHexes;
 	private JCheckBox chckbxShowFts;
-	private JCheckBox chckbxSwgrid;
-	private JComboBox comboBoxHexes;
+	private JCheckBox chckbxSwgridNum;
 
 	/**
 	 * Create the application.
@@ -153,10 +154,12 @@ public class HexGrid implements Serializable {
 		// frame.getContentPane().setLayout(null);
 		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setPreferredSize(new Dimension(0, 175));
 		menuBar.add(Box.createRigidArea(new Dimension(10, 46)));
 		frame.setJMenuBar(menuBar);
 		frame.setVisible(true);
 		JMenu mnFile = new JMenu("File");
+		mnFile.setMaximumSize(new Dimension(25, 25));
 		menuBar.add(mnFile);
 
 		JMenuItem mntmSaveMap = new JMenuItem("Save Hexes");
@@ -358,20 +361,6 @@ public class HexGrid implements Serializable {
 		spinnerShieldStrength.setBounds(438, 12, 45, 20);
 		layeredPane.add(spinnerShieldStrength);
 		
-		chckbxShowHexes = new JCheckBox("SwHxs");
-		chckbxShowHexes.setSelected(true);
-		chckbxShowHexes.setBounds(489, 12, 67, 23);
-		layeredPane.add(chckbxShowHexes);
-		
-		chckbxShowFts = new JCheckBox("SwFts");
-		chckbxShowFts.setSelected(true);
-		chckbxShowFts.setBounds(566, 12, 67, 23);
-		layeredPane.add(chckbxShowFts);
-		
-		chckbxSwgrid = new JCheckBox("SwGrid#");
-		chckbxSwgrid.setBounds(645, 12, 85, 23);
-		layeredPane.add(chckbxSwgrid);
-		
 		comboBoxHexes = new JComboBox();
 		comboBoxHexes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -381,12 +370,39 @@ public class HexGrid implements Serializable {
 		});
 		comboBoxHexes.setModel(new DefaultComboBoxModel(new String[] {"Default", "Clean"}));
 		comboBoxHexes.setSelectedIndex(0);
-		comboBoxHexes.setBounds(804, 11, 97, 22);
+		comboBoxHexes.setBounds(550, 12, 97, 22);
 		layeredPane.add(comboBoxHexes);
 		
 		JLabel lblNewLabel = new JLabel("Hexes:");
-		lblNewLabel.setBounds(747, 15, 46, 14);
+		lblNewLabel.setBounds(493, 16, 46, 14);
 		layeredPane.add(lblNewLabel);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(10, 56, 891, 117);
+		layeredPane.add(tabbedPane);
+		
+		JPanel panel_1 = new JPanel();
+		tabbedPane.addTab("Display", null, panel_1, null);
+		panel_1.setLayout(null);
+		
+		checkBoxShowTiles = new JCheckBox("ShwTiles");
+		checkBoxShowTiles.setSelected(true);
+		checkBoxShowTiles.setBounds(6, 7, 97, 23);
+		panel_1.add(checkBoxShowTiles);
+		
+		chckbxShowHexes = new JCheckBox("SwHxs");
+		chckbxShowHexes.setSelected(true);
+		chckbxShowHexes.setBounds(115, 7, 67, 23);
+		panel_1.add(chckbxShowHexes);
+		
+		chckbxShowFts = new JCheckBox("SwFts");
+		chckbxShowFts.setSelected(true);
+		chckbxShowFts.setBounds(192, 7, 67, 23);
+		panel_1.add(chckbxShowFts);
+		
+		chckbxSwgridNum = new JCheckBox("SwGrid#");
+		chckbxSwgridNum.setBounds(271, 7, 85, 23);
+		panel_1.add(chckbxSwgridNum);
 
 		panel.addMouseListener(new MouseAdapter() {
 
@@ -2386,7 +2402,9 @@ public class HexGrid implements Serializable {
 					if(xpoint > screenWidth && ypoint > screenHeight)
 						break;
 					
-					ProcHexManager.PaintHex(g2, hex, i, j, this);
+					
+					if(checkBoxShowTiles.isSelected())
+						ProcHexManager.PaintHex(g2, hex, i, j, this);
 					
 					if(chckbxShowHexes.isSelected()) {
 						g2.setColor(BORDER_COLOR);
@@ -2408,7 +2426,7 @@ public class HexGrid implements Serializable {
 								(int) (hex.ypoints[0] + (hex.getBounds().height * 0.3)));
 					}
 					
-					if(chckbxSwgrid.isSelected()) {
+					if(chckbxSwgridNum.isSelected()) {
 						g2.setColor(Color.RED);
 						g2.drawString(i+":"+j, 
 								(int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
