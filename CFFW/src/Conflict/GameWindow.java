@@ -2363,6 +2363,8 @@ public class GameWindow implements Serializable {
 		final long startTime = System.currentTimeMillis();
 		ExecutorService es = Executors.newFixedThreadPool(16);
 		
+		var losCopy = new ArrayList<Unit>(movedUnit.lineOfSight);
+		
 		movedUnit.lineOfSight.clear();
 		
 		for (Unit targetUnit : initiativeOrder) {
@@ -2385,6 +2387,18 @@ public class GameWindow implements Serializable {
 
 		final long endTime = System.currentTimeMillis();
 		System.out.println("Total CalcLOS execution time: " + (endTime - startTime));
+		
+		String header = "Calc Los("+movedUnit.callsign+"):";
+		String lostLosTo = "Lost LOS To: ";
+		String gainedLosTo = "Gained LOS To: ";
+		for(var unit : losCopy)
+			if(!movedUnit.lineOfSight.contains(unit)) 
+				lostLosTo += unit.callsign+(unit.compareTo(losCopy.get(losCopy.size()-1)) ? "" : ", ");
+		for(var unit : movedUnit.lineOfSight)
+			if(!losCopy.contains(unit)) 
+				gainedLosTo += unit.callsign+(unit.compareTo(movedUnit.lineOfSight
+						.get(movedUnit.lineOfSight.size()-1)) ? "" : ", ");
+		conflictLog.addNewLine(header+"\n"+lostLosTo+"\n"+gainedLosTo+"\n");
 	}
 	
 	void updateLosLists() {
