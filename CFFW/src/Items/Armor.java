@@ -403,6 +403,9 @@ public class Armor implements Serializable {
 		armorWeight = 30;
 		nightVision = true;
 		nightVisionEffectiveness = 3;
+		maxThermalRangeYards = 400;
+		thermal = true;
+		thermalMod = -3;
 		try {
 			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {

@@ -133,6 +133,7 @@ public class HexGrid implements Serializable {
 	private JCheckBox chckbxShowHexes;
 	private JCheckBox chckbxShowFts;
 	private JCheckBox chckbxSwgridNum;
+	private JCheckBox chckbxShwcallsigns;
 
 	/**
 	 * Create the application.
@@ -406,6 +407,11 @@ public class HexGrid implements Serializable {
 		chckbxSwgridNum = new JCheckBox("SwGrid#");
 		chckbxSwgridNum.setBounds(271, 7, 85, 23);
 		panel_1.add(chckbxSwgridNum);
+		
+		chckbxShwcallsigns = new JCheckBox("ShwCallsigns");
+		chckbxShwcallsigns.setSelected(true);
+		chckbxShwcallsigns.setBounds(358, 7, 97, 23);
+		panel_1.add(chckbxShwcallsigns);
 
 		panel.addMouseListener(new MouseAdapter() {
 
@@ -2204,7 +2210,8 @@ public class HexGrid implements Serializable {
 			int y = (int) ((hexCenterY - deployedUnit.unitImage.getHeight(null) / 1.5) + -metrics.getHeight() / 2
 					+ metrics.getAscent()) - (int) (3 * zoom);
 
-			if (count == unitsInHex(deployedUnit.xCord, deployedUnit.yCord)) {
+			if (count == unitsInHex(deployedUnit.xCord, deployedUnit.yCord) && 
+					chckbxShwcallsigns.isSelected()) {
 				g2.setColor(Color.MAGENTA);
 				g2.setStroke(new BasicStroke(1f));
 				g2.draw(losThread);

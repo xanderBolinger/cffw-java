@@ -300,7 +300,7 @@ public class Weapons implements Serializable {
 
 		// Aim time
 		this.aimTime.add(-21);
-		this.aimTime.add(-12);
+		this.aimTime.add(-14);
 		this.aimTime.add(-8);
 		this.aimTime.add(-6);
 		this.aimTime.add(-4);
@@ -480,9 +480,9 @@ public class Weapons implements Serializable {
 		this.bipod = 3;
 
 		// Aim time
-		this.aimTime.add(-21);
-		this.aimTime.add(-12);
-		this.aimTime.add(-8);
+		this.aimTime.add(-22);
+		this.aimTime.add(-15);
+		this.aimTime.add(-9);
 		this.aimTime.add(-6);
 		this.aimTime.add(-4);
 		this.aimTime.add(-3);
@@ -682,9 +682,9 @@ public class Weapons implements Serializable {
 		this.bipod = 3;
 
 		// Aim time
-		this.aimTime.add(-21);
-		this.aimTime.add(-12);
-		this.aimTime.add(-8);
+		this.aimTime.add(-22);
+		this.aimTime.add(-15);
+		this.aimTime.add(-9);
 		this.aimTime.add(-6);
 		this.aimTime.add(-4);
 		this.aimTime.add(-3);
@@ -773,9 +773,9 @@ public class Weapons implements Serializable {
 		this.irLaser = true;
 
 		// Aim time
-		this.aimTime.add(-21);
-		this.aimTime.add(-12);
-		this.aimTime.add(-8);
+		this.aimTime.add(-18);
+		this.aimTime.add(-10);
+		this.aimTime.add(-7);
 		this.aimTime.add(-6);
 		this.aimTime.add(-4);
 		this.aimTime.add(-3);
@@ -849,9 +849,9 @@ public class Weapons implements Serializable {
 		this.irLaser = true;
 
 		// Aim time
-		this.aimTime.add(-19);
-		this.aimTime.add(-10);
-		this.aimTime.add(-7);
+		this.aimTime.add(-18);
+		this.aimTime.add(-8);
+		this.aimTime.add(-6);
 		this.aimTime.add(-5);
 		this.aimTime.add(-4);
 		this.aimTime.add(-3);
@@ -983,6 +983,8 @@ public class Weapons implements Serializable {
 		this.light = true;
 		this.laser = true;
 		this.irLaser = true;
+		this.scopeMagnification = "4-6x";
+		this.magnification = 6;
 		// PEN
 		this.pen.add(39);
 		this.pen.add(39);
@@ -1002,17 +1004,15 @@ public class Weapons implements Serializable {
 		this.dc.add(6);
 		this.dc.add(6);
 
-		this.aimTime.add(-21);
-		this.aimTime.add(-10);
-		this.aimTime.add(-7);
+		this.aimTime.add(-18);
+		this.aimTime.add(-8);
 		this.aimTime.add(-5);
-		this.aimTime.add(-4);
 		this.aimTime.add(-3);
 		this.aimTime.add(-3);
 		this.aimTime.add(-3);
-		this.aimTime.add(-2);
-		this.aimTime.add(-2);
-		this.aimTime.add(-2);
+		this.aimTime.add(-1);
+		this.aimTime.add(0);
+		this.aimTime.add(2);
 
 		// BC
 		this.ba.add(61);
@@ -1275,8 +1275,8 @@ public class Weapons implements Serializable {
 		this.bipod = 3;
 		this.irLaser = true;
 
-		this.aimTime.add(-21);
-		this.aimTime.add(-12);
+		this.aimTime.add(-22);
+		this.aimTime.add(-13);
 		this.aimTime.add(-8);
 		this.aimTime.add(-6);
 		this.aimTime.add(-4);
@@ -1734,12 +1734,13 @@ public class Weapons implements Serializable {
 		this.energyWeapon = false;
 
 		// Aim time
-		this.aimTime.add(-22);
-		this.aimTime.add(-13);
-		this.aimTime.add(-8);
+		
+		this.aimTime.add(-16);
 		this.aimTime.add(-6);
-		this.aimTime.add(-4);
 		this.aimTime.add(-3);
+		this.aimTime.add(-3);
+		this.aimTime.add(-2);
+		this.aimTime.add(-1);
 		this.aimTime.add(-1);
 		this.aimTime.add(0);
 		this.aimTime.add(1);
@@ -1947,15 +1948,19 @@ public class Weapons implements Serializable {
 		this.energyWeapon = false;
 
 		// Aim time
-		this.aimTime.add(-21);
-		this.aimTime.add(-10);
-		this.aimTime.add(-6);
-		this.aimTime.add(-4);
+		this.aimTime.add(-18);
+		this.aimTime.add(-8);
+		this.aimTime.add(-5);
 		this.aimTime.add(-3);
-		this.aimTime.add(-2);
+		this.aimTime.add(-3);
+		this.aimTime.add(-3);
 		this.aimTime.add(-1);
 		this.aimTime.add(0);
 		this.aimTime.add(2);
+		
+		
+		
+		
 
 		// 10 20 40 70 100 200 300 400
 		// PEN
@@ -2163,10 +2168,10 @@ public class Weapons implements Serializable {
 		this.energyWeapon = true;
 
 		this.aimTime.add(-19);
-		this.aimTime.add(-11);
 		this.aimTime.add(-8);
 		this.aimTime.add(-7);
 		this.aimTime.add(-6);
+		this.aimTime.add(-5);
 		this.aimTime.add(-5);
 
 		// PEN
