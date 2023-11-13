@@ -11,6 +11,7 @@ import Actions.Spot;
 import Artillery.FireMission;
 import Conflict.GameWindow;
 import Conflict.OpenUnit;
+import HexGrid.Waypoint.WaypointData;
 import Hexes.Building;
 import Hexes.Hex;
 import Hexes.HexWindow;
@@ -55,7 +56,7 @@ public class Unit implements Serializable {
 	public ArrayList<FireMission> fireMissions = new ArrayList<FireMission>();
 	
 	public UnitType unitType = UnitType.INFANTRY;
-	
+	public WaypointData waypointData;
 	
 	public enum UnitType implements Serializable {
 		INFANTRY, ARMOR, SF, HQ
@@ -83,7 +84,7 @@ public class Unit implements Serializable {
 		
 		this.identifier = identifier();
 		this.active = true;
-		
+		waypointData = new WaypointData();
 	}
 	
 	public Unit() {
