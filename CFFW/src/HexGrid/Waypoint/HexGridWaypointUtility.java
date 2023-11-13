@@ -13,7 +13,7 @@ public class HexGridWaypointUtility {
 			return;
 		
 		unit.waypointData.addWaypoint(new Waypoint(clickedHex[0], clickedHex[1], 
-				unit.speed.equals("None") ? "Walk" : unit.speed));
+				GameWindow.gameWindow.hexGrid.comboBoxRouteSpeed.getSelectedItem().toString()),unit);
 	}
 	
 	public static void draw(Graphics2D g2) {
@@ -59,7 +59,7 @@ public class HexGridWaypointUtility {
 		for(var wp : waypointData.waypoints) {
 			var center = grid.getHexCenter(wp.x, wp.y);
 			DrawWaypoints.drawYellowSquare(g2, center[0], center[1], true, 
-					String.valueOf(wp.speedOnArival.charAt(0)));
+					String.valueOf(wp.waypointSpeed.charAt(0)));
 		} 
 		
 	}

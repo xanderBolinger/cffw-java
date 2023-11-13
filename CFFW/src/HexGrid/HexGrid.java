@@ -140,6 +140,7 @@ public class HexGrid implements Serializable {
 
 	public static int mouseX;
 	public static int mouseY;
+	public JComboBox comboBoxRouteSpeed;
 	
 	/**
 	 * Create the application.
@@ -416,8 +417,18 @@ public class HexGrid implements Serializable {
 		
 		chckbxShwcallsigns = new JCheckBox("ShwCallsigns");
 		chckbxShwcallsigns.setSelected(true);
-		chckbxShwcallsigns.setBounds(358, 7, 97, 23);
+		chckbxShwcallsigns.setBounds(358, 7, 132, 23);
 		panel_1.add(chckbxShwcallsigns);
+		
+		JLabel lblRouteSpeed = new JLabel("Route Speed: ");
+		lblRouteSpeed.setBounds(6, 48, 76, 14);
+		panel_1.add(lblRouteSpeed);
+		
+		comboBoxRouteSpeed = new JComboBox();
+		comboBoxRouteSpeed.setModel(new DefaultComboBoxModel(new String[] {"Walk", "Rush", "Crawl"}));
+		comboBoxRouteSpeed.setSelectedIndex(0);
+		comboBoxRouteSpeed.setBounds(92, 44, 106, 22);
+		panel_1.add(comboBoxRouteSpeed);
 
 		panel.addMouseListener(new MouseAdapter() {
 
@@ -887,6 +898,7 @@ public class HexGrid implements Serializable {
 
 				add(item);
 				addRoute();
+				clearRoute();
 				addLOS();
 				removeLOS();
 				selectedUnitsItem(xCord, yCord);
@@ -1125,6 +1137,26 @@ public class HexGrid implements Serializable {
 					public void actionPerformed(ActionEvent arg0) {
 
 						WaypointManager.addWaypoints = true;
+
+					}
+				});
+
+				add(item);
+			}
+			
+			public void clearRoute() {
+
+				if (selectedUnits.size() > 1 || WaypointManager.addWaypoints) {
+					return;
+				}
+
+				JMenuItem item = new JMenuItem("Add to Route");
+
+				item.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+
+						selectedUnits.get(0).unit.waypointData
+							.clearWaypoints(selectedUnits.get(0).unit);
 
 					}
 				});

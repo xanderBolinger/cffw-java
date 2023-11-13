@@ -5,12 +5,12 @@ import java.io.Serializable;
 public class Waypoint implements Serializable {
 	public int x;
 	public int y;
-	public String speedOnArival;
+	public String waypointSpeed;
 	
 	public Waypoint(int x, int y, String speedOnArival) {
 		this.x = x; 
 		this.y = y;
-		this.speedOnArival = speedOnArival;
+		this.waypointSpeed = speedOnArival;
 	}
 	
 	public boolean compareTo(Waypoint waypoint) {

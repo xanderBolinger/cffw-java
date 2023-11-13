@@ -18,8 +18,10 @@ public class DrawWaypoints {
         
         if(!centered)
         	y -= SQUARE_SIZE;
+        else 
+        	y -= SQUARE_SIZE / 2;
         
-        g.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
+        g.fillRect(x - (centered ? SQUARE_SIZE / 2 : 0), y, SQUARE_SIZE, SQUARE_SIZE);
 
         // Draw the letter "W" in the middle of the square
         g.setColor(Color.BLACK);
@@ -28,7 +30,7 @@ public class DrawWaypoints {
         FontMetrics fm = g.getFontMetrics();
         int textWidth = fm.stringWidth(character);
         int textHeight = fm.getHeight();
-        int centerX = x + (SQUARE_SIZE - textWidth) / 2;
+        int centerX = (x + (SQUARE_SIZE - textWidth) / 2) - (centered ? SQUARE_SIZE / 2 : 0);
         int centerY = y + (SQUARE_SIZE - textHeight) / 2 + fm.getAscent();
         g.drawString(character, centerX, centerY);
     }
