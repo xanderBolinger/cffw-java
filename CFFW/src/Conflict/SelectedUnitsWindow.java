@@ -22,6 +22,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class SelectedUnitsWindow {
 
@@ -31,6 +33,8 @@ public class SelectedUnitsWindow {
 	public ArrayList<Unit> possibleUnits = new ArrayList<>();
 	private JList listInitOrder;
 	private JList listSelectedUnits;
+	private JComboBox comboBoxSide;
+	private JButton btnNewButton_1;
 	
 	/**
 	 * @wbp.parser.constructor
@@ -127,14 +131,7 @@ public class SelectedUnitsWindow {
 				if(listInitOrder.getSelectedIndex() < 0)
 					return; 
 				
-				ArrayList<Unit> unselectedUnits = new ArrayList<Unit>();
-				
-				for(Unit unit : possibleUnits) {
-					if(selectedUnits.contains(unit))
-						continue; 
-					
-					unselectedUnits.add(unit);
-				}
+				var unselectedUnits = getUnselectedUnits();
 				
 				selectedUnits.add(unselectedUnits.get(listInitOrder.getSelectedIndex()));
 				
@@ -166,6 +163,60 @@ public class SelectedUnitsWindow {
 			}
 		});
 		scrollPane_1.setViewportView(listSelectedUnits);
+		
+		btnNewButton_1 = new JButton("Add All");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				for(var unit : getUnitsBySide()) {
+					selectedUnits.add(unit);
+				}
+				
+				refreshInitOrder();
+				refreshSelectedUnits();
+				
+			}
+		});
+		btnNewButton_1.setBounds(10, 11, 89, 23);
+		frame.getContentPane().add(btnNewButton_1);
+		
+		comboBoxSide = new JComboBox();
+		comboBoxSide.setModel(new DefaultComboBoxModel(new String[] {"BLUFOR", "OPFOR", "EITHER"}));
+		comboBoxSide.setSelectedIndex(0);
+		comboBoxSide.setBounds(380, 11, 100, 22);
+		frame.getContentPane().add(comboBoxSide);
+		
+		JButton btnNewButton_1_1 = new JButton("Add w/ LOS");
+		btnNewButton_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				for(var unit : getUnitsByLos()) {
+					selectedUnits.add(unit);
+				}
+				
+				refreshInitOrder();
+				refreshSelectedUnits();
+				
+			}
+		});
+		btnNewButton_1_1.setBounds(109, 11, 100, 23);
+		frame.getContentPane().add(btnNewButton_1_1);
+		
+		JButton btnNewButton_1_1_1 = new JButton("Add w/ Spots");
+		btnNewButton_1_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				for(var unit : getUnitsBySpot()) {
+					selectedUnits.add(unit);
+				}
+				
+				refreshInitOrder();
+				refreshSelectedUnits();
+			
+			}
+		});
+		btnNewButton_1_1_1.setBounds(219, 11, 108, 23);
+		frame.getContentPane().add(btnNewButton_1_1_1);
 		
 		frame.setVisible(true);
 		
@@ -215,6 +266,90 @@ public class SelectedUnitsWindow {
 		}
 		
 		SwingUtility.setList(listSelectedUnits, units);
+	}
+	
+	public ArrayList<Unit> getUnselectedUnits() {
+			
+		ArrayList<Unit> unselectedUnits = new ArrayList<Unit>();
+		
+		for(Unit unit : possibleUnits) {
+			if(selectedUnits.contains(unit))
+				continue; 
+			
+			unselectedUnits.add(unit);
+		}
+		
+		return unselectedUnits;
+		
+	}
+	
+	public ArrayList<Unit> getUnitsBySpot() {
+		
+		var units = getUnitsBySide();
+		
+		var spotUnits = new ArrayList<Unit>();
+		
+		for(var unit : units)
+			if(hasSpots(unit))
+				spotUnits.add(unit);
+		
+		return spotUnits;
+	}
+	
+	private boolean hasSpots(Unit unit) {
+		
+		for(var trooper : unit.individuals) {
+			
+			for(var spot : trooper.spotted) {
+				
+				if(spot.spottedIndividuals.size() > 0)
+					return true;
+				
+			}
+			
+		}
+		
+		return false;
+	}
+	
+	public ArrayList<Unit> getUnitsByLos() {
+		
+		var unselectedUnits = getUnitsBySide();
+
+		ArrayList<Unit> losUnits = new ArrayList<Unit>();
+		
+		for(var unit : unselectedUnits) {
+			if(unit.lineOfSight.size() > 0)
+				losUnits.add(unit);
+		}
+		
+		return losUnits;
+		
+	}
+	
+	public ArrayList<Unit> getUnitsBySide() {
+		
+		int sideIndex = comboBoxSide.getSelectedIndex();
+		var unselectedUnits = getUnselectedUnits();
+		if(sideIndex == 2)
+			return unselectedUnits;
+		
+		ArrayList<Unit> sideUnits = new ArrayList<Unit>();
+		
+		for(var unit : unselectedUnits) {
+			
+			if(sideIndex == 0 &&
+					unit.side.toUpperCase().equals("BLUFOR"))
+				sideUnits.add(unit);
+			else if(sideIndex == 1 &&
+					unit.side.toUpperCase().equals("OPFOR"))
+				sideUnits.add(unit);
+				
+			
+		}
+		
+		return sideUnits;
+		
 	}
 	
 }
