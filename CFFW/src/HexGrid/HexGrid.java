@@ -40,6 +40,7 @@ import HexGrid.Shields.ShieldManager;
 import HexGrid.Vehicle.HexGridHullDownUtility;
 import HexGrid.Waypoint.DrawWaypoints;
 import HexGrid.Waypoint.HexGridWaypointUtility;
+import HexGrid.Waypoint.WaypointManager;
 import CorditeExpansionActions.CeAction.ActionType;
 import Hexes.Building;
 import Hexes.Feature;
@@ -885,7 +886,7 @@ public class HexGrid implements Serializable {
 				});
 
 				add(item);
-
+				addRoute();
 				addLOS();
 				removeLOS();
 				selectedUnitsItem(xCord, yCord);
@@ -1112,6 +1113,25 @@ public class HexGrid implements Serializable {
 
 			}
 
+			public void addRoute() {
+
+				if (selectedUnits.size() > 1 || WaypointManager.addWaypoints) {
+					return;
+				}
+
+				JMenuItem item = new JMenuItem("Add to Route");
+
+				item.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+
+						WaypointManager.addWaypoints = true;
+
+					}
+				});
+
+				add(item);
+			}
+			
 			public void addLOS() {
 
 				// System.out.println("add Los, selectedunits Side: "+selectedUnits.size());
@@ -1764,6 +1784,11 @@ public class HexGrid implements Serializable {
 
 		public void mouseRightClick(MouseEvent e) {
 
+			if(WaypointManager.addWaypoints) {
+				WaypointManager.addWaypoints = false;
+				return;
+			}
+			
 			// System.out.println("Right clicked");
 
 			// Checks for which hex was clicked
@@ -2550,10 +2575,7 @@ public class HexGrid implements Serializable {
 			drawSelectedUnitLos(g2);
 			drawVehicleLosOutlines(g2);
 			
-			HexGridWaypointUtility.drawCursor(g2);
-			var pos1 = getHexCenter(0, 0);
-			var pos2 = getHexCenter(2, 2);
-			DrawWaypoints.drawLine(g2,pos1[0],pos1[1],pos2[0],pos2[1]);
+			HexGridWaypointUtility.draw(g2);
 		}
 
 		
