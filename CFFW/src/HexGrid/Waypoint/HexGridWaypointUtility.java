@@ -24,10 +24,6 @@ public class HexGridWaypointUtility {
 		
 		if(GameWindow.gameWindow.hexGrid.panel.selectedUnit != null)
 			drawRoute(g2);
-		//var pos1 = p.getHexCenter(0, 0);
-		//var pos2 = p.getHexCenter(2, 2);
-		//DrawWaypoints.drawLine(g2,pos1[0],pos1[1],pos2[0],pos2[1]);
-		
 	}
 	
 	private static void drawRoute(Graphics2D g2) {
@@ -71,7 +67,8 @@ public class HexGridWaypointUtility {
 		if(x < 0 || y < 0)
 			return;
 		
-		DrawWaypoints.drawYellowSquare(g2, x, y, false, "W");
+		DrawWaypoints.drawYellowSquare(g2, x, y, false, String.valueOf(GameWindow.gameWindow.hexGrid.comboBoxRouteSpeed
+				.getSelectedItem().toString().charAt(0)));
 		
 	}
 	
