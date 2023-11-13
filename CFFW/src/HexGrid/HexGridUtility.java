@@ -7,10 +7,13 @@ import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingWorker;
+
 import Actions.Spot;
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import HexGrid.HexDirectionUtility.HexDirection;
+import HexGrid.HexGrid.DeployedUnit;
 import Trooper.Trooper;
 import Unit.Unit;
 
@@ -18,6 +21,42 @@ public class HexGridUtility {
 
 	public enum ShownType {
 		BLUFOR, OPFOR, BOTH
+	}
+	
+	private static boolean movingUnits;
+	
+	public static void MoveUnits(DeployedUnit selectedUnit, ArrayList<DeployedUnit> selectedUnits, int i, int j) {
+		if(movingUnits)
+			return;
+		
+		SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+			@Override
+			protected Void doInBackground() throws Exception {
+				
+				movingUnits = true;
+				
+				for (DeployedUnit dp : selectedUnits) {
+					dp.unit.move(GameWindow.gameWindow, i, j, null);
+				}
+
+				if (selectedUnit != null)
+					selectedUnit.unit.move(GameWindow.gameWindow, i, j, null);
+				
+				return null;
+			}
+
+			@Override
+			protected void done() {
+				GameWindow.gameWindow.hexGrid.refreshDeployedUnits();
+				selectedUnits.clear();
+				movingUnits = false;
+			}
+
+		};
+
+		worker.execute();
+		
 	}
 	
 	public static int distance(Cord start, Cord end) {

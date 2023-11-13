@@ -823,7 +823,7 @@ public class HexGrid implements Serializable {
 									|| (GameWindow.hexDif(moveX, moveY, unit) > 1 && unit.speed.equals("Walk"))) {
 								new MovementSpeedDialogBox(unit, moveX, moveY, deployedUnit);
 							} else {
-								unit.move(gameWindow, moveX, moveY, null);
+								HexGridUtility.MoveUnits(deployedUnit, selectedUnits, moveX, moveY);
 								deployedUnit.moved = true;
 								// System.out.println("Moved equal true: "+deployedUnit.getCallsign());
 								refreshDeployedUnits();
@@ -1761,15 +1761,8 @@ public class HexGrid implements Serializable {
 
 						if ((selectedUnit != null || selectedUnits.size() > 0)
 								&& Keyboard.isKeyPressed(KeyEvent.VK_SHIFT)) {
-							for (DeployedUnit dp : selectedUnits) {
-								dp.unit.move(GameWindow.gameWindow, i, j, null);
-							}
-
-							if (selectedUnit != null)
-								selectedUnit.unit.move(GameWindow.gameWindow, i, j, null);
-
-							GameWindow.gameWindow.hexGrid.refreshDeployedUnits();
-							selectedUnits.clear();
+							
+							HexGridUtility.MoveUnits(selectedUnit, selectedUnits, i, j);
 						}
 						// If right clicked in the same hex as the selected unit
 						else if (selectedUnit != null && (selectedUnit.xCord == i && selectedUnit.yCord == j)) {
@@ -2437,7 +2430,7 @@ public class HexGrid implements Serializable {
 						}
 						
 						Color color = g2.getColor();
-						g2.setColor(Color.GREEN);
+						//g2.setColor(Color.GREEN);
 						if (gameWindow.hexes.size() != columns * rows && !hideU && gameWindow.findHex(i, j) == null) {
 							// g2.drawString("U", hex.xpoints[0],hex.ypoints[0]);
 							g2.drawString("U", 
@@ -2643,9 +2636,11 @@ public class HexGrid implements Serializable {
 			String rslts = "Range: ";
 			var hex1 = getHexFromPoint(x1, y1);
 			var hex2 = getHexFromPoint(x2, y2);
-			rslts += GameWindow.hexDif(hex1[0], hex1[1],
+			var dist =  GameWindow.hexDif(hex1[0], hex1[1],
 					hex2[0], hex2[1]);
-			rslts += ", Side: "+HexDirectionUtility.getHexSideFacingTarget(new Cord(hex1[0],hex1[1]), new Cord(hex2[0], hex2[1]));
+			rslts += dist;
+			rslts += ", Side: "+HexDirectionUtility.getHexSideFacingTarget(new Cord(hex1[0],hex1[1]), new Cord(hex2[0], hex2[1]))
+			+", "+dist*20+" yards.";
 			FontMetrics fm = g2.getFontMetrics();
 			Rectangle2D rect = fm.getStringBounds(rslts, g2);
 			g2.fillRect(x2 + 5, y2 - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
