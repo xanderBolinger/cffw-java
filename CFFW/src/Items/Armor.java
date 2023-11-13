@@ -41,6 +41,7 @@ public class Armor implements Serializable {
 	public boolean nightVision;
 	public int nightVisionEffectiveness;
 	public int maxThermalRangeYards = 400;
+	public int magnification;
 	
 	public boolean vaccumSealed;
 	
@@ -406,6 +407,7 @@ public class Armor implements Serializable {
 		maxThermalRangeYards = 400;
 		thermal = true;
 		thermalMod = -3;
+		magnification = 10;
 		try {
 			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {
@@ -418,12 +420,12 @@ public class Armor implements Serializable {
 			new MeleeArmorData();
 		
 		this.bPF = 25; 
-		visibilityModifier = 1;
 		armorName = "Commando Droid";
 		type = ArmorType.COMMANDODROID;
 		armorWeight = 20;
 		nightVision = true;
 		nightVisionEffectiveness = 4;
+		magnification = 4;
 		try {
 			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {
@@ -444,7 +446,7 @@ public class Armor implements Serializable {
 		nightVisionEffectiveness = 4;
 		thermal = true;
 		thermalMod = -5;
-		
+		magnification = 12;
 		try {
 			meleeArmorStats.add(MeleeArmor.getArmorPiece(MeleeArmorType.DurasteelCombatArmor));
 		} catch (Exception e) {

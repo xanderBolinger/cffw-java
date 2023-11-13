@@ -90,7 +90,11 @@ public class VehicleSpotManager {
 				&& !GameWindow.gameWindow.visibility.contains("Dusk") ? SpotVisibility.getWeatherMod(GameWindow.gameWindow.visibility) 
 						: 0;
 		var thermalMod = getThermalMod(spotter, target, spotterPosition);
-		var magnificationMod = SpotVisibility.getMagnificationMod(spotterPosition.spotData.magnification);
+		
+		var spotterTrooperMagnification = SpotVisibility.getMagnificationMod(spotterTrooper);
+		var vehiclePositionMagnification = SpotVisibility.getMagnificationMod(spotterPosition.spotData.magnification);
+		
+		var magnificationMod = spotterTrooperMagnification > vehiclePositionMagnification ? spotterTrooperMagnification : vehiclePositionMagnification;
 		var nightWeatherMod = getNightTimeMods(spotter, target, spotterPosition.spotData);
 		var firedMod = GameWindow.gameWindow.visibility.toLowerCase().contains("night") ? -15 : -12;
 		var camoMod = target.spotData.camo;

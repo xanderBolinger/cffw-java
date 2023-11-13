@@ -3126,7 +3126,9 @@ public class Trooper implements Serializable {
 				itemMagnification = item.magnification;
 		}
 
-		
+		int armorMagnification = 0;
+		if(armor!=null)
+			armorMagnification = armor.magnification;
 		
 		return wepMagnification > itemMagnification ? wepMagnification : itemMagnification; 
 		
