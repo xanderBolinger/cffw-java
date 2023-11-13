@@ -1597,6 +1597,12 @@ public class HexGrid implements Serializable {
 		// If hex contains units, selects first unit
 		public void mouseLeftClick(MouseEvent e) {
 
+			if(WaypointManager.addWaypoints) {
+				var pos = getHexFromPoint(mouseX, mouseY);
+				HexGridWaypointUtility.addWaypoint(pos);
+				return;
+			}
+			
 			if (HexGrid.losThreadShowing) {
 
 				if (losThread.npoints >= 1) {
