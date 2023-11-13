@@ -97,6 +97,7 @@ import java.awt.SystemColor;
 
 public class HexGrid implements Serializable {
 	public static ArrayList<Cord> impactHexes = new ArrayList<>();
+	public boolean refreshingDeployedUnits;
 	
 	public transient JFrame frame;
 	public transient Panel panel;
@@ -1150,13 +1151,13 @@ public class HexGrid implements Serializable {
 					return;
 				}
 
-				JMenuItem item = new JMenuItem("Add to Route");
+				JMenuItem item = new JMenuItem("Clear Route");
 
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 
-						selectedUnits.get(0).unit.waypointData
-							.clearWaypoints(selectedUnits.get(0).unit);
+						selectedUnit.unit.waypointData
+							.clearWaypoints(selectedUnit.unit);
 
 					}
 				});
@@ -1313,7 +1314,7 @@ public class HexGrid implements Serializable {
 		}
 
 		double oldZoom = 1.0;
-		double zoom = 1.0;
+		public double zoom = 1.0;
 
 		public void refreshDeployedUnits() {
 
@@ -2556,23 +2557,25 @@ public class HexGrid implements Serializable {
 			 e.printStackTrace();
 			}
 			
+			if(!refreshingDeployedUnits) {
+				for (DeployedUnit deployedUnit : deployedUnits) {
+
+					if ((selectedUnit != null && deployedUnit.unit.callsign.equals(selectedUnit.unit.callsign))
+							|| !HexGridUtility.canShow(shownType, deployedUnit.unit))
+						continue;
+
+					drawUnit(deployedUnit, g, g2);
+
+
+				}
+
+				if (selectedUnit != null) {
+
+					drawUnit(selectedUnit, g, g2);
+
+				}
+			}
 			
-			for (DeployedUnit deployedUnit : deployedUnits) {
-
-				if ((selectedUnit != null && deployedUnit.unit.callsign.equals(selectedUnit.unit.callsign))
-						|| !HexGridUtility.canShow(shownType, deployedUnit.unit))
-					continue;
-
-				drawUnit(deployedUnit, g, g2);
-
-
-			}
-
-			if (selectedUnit != null) {
-
-				drawUnit(selectedUnit, g, g2);
-
-			}
 			
 			
 			translateSelectedChit();

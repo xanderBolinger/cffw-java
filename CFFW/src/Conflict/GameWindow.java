@@ -22,6 +22,7 @@ import HexGrid.HexGrid;
 import HexGrid.HexGridUtility;
 import HexGrid.HexGrid.DeployedUnit;
 import HexGrid.Shields.ShieldManager;
+import HexGrid.Waypoint.WaypointManager;
 import Hexes.Hex;
 import Hexes.HexWindow;
 import Items.PersonalShield;
@@ -2183,9 +2184,13 @@ public class GameWindow implements Serializable {
 			MeleeCombatCalculator.resolveMeleeCombatRound();
 			InjuryLog.InjuryLog.printResultsToLog();
 			
-			
+			WaypointManager.moveUnits();
 			
 		}
+		
+		hexGrid.refreshingDeployedUnits = true;
+		hexGrid.refreshDeployedUnits();
+		hexGrid.refreshingDeployedUnits = false;
 	}
 
 	public void advancePhase() {
