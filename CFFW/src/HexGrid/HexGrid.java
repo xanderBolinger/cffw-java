@@ -76,6 +76,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.print.DocFlavor.URL;
@@ -549,7 +552,7 @@ public class HexGrid implements Serializable {
 		int yCord;
 
 		public boolean moved = false;
-
+		
 		public DeployedUnit(Unit unit, double zoom) {
 			this.unit = unit;
 
@@ -1871,6 +1874,20 @@ public class HexGrid implements Serializable {
 
 		}
 
+		public ArrayList<Unit> unitsInHexList(int x, int y) {
+
+			var units = new ArrayList<Unit>();
+			for (Unit unit : initOrder) {
+
+				if (unit.X == x && unit.Y == y)
+					units.add(unit);
+
+			}
+
+			return units;
+		}
+		
+		
 		public int unitsInHex(int x, int y) {
 
 			int count = 0;
@@ -2061,9 +2078,12 @@ public class HexGrid implements Serializable {
 			}
 		}
 		
-		public void drawUnit(DeployedUnit deployedUnit, Graphics g, Graphics2D g2, int count) {
+		public void drawUnit(DeployedUnit deployedUnit, Graphics g, Graphics2D g2) {
 			// Displays unit card
 
+			// Number of units in hex, current position of number of units in hex, move inside of deploy unit
+			
+			
 			Polygon hex = hexMap.get(deployedUnit.xCord).get(deployedUnit.yCord);
 
 			// If a unit is already in this hex, shifts the chit down and to the right
@@ -2087,7 +2107,8 @@ public class HexGrid implements Serializable {
 			 */
 
 			int unitsInHex = unitsInHex(deployedUnit.xCord, deployedUnit.yCord);
-
+			int count = unitsInHex > 1 ? unitsInHexList(deployedUnit.xCord, deployedUnit.yCord).indexOf(deployedUnit.unit) : 1;
+			
 			g2.drawImage(deployedUnit.unitImage, (hexCenterX - width / 2) - (3 * (unitsInHex - count)),
 					(hexCenterY - height / 2) + (3 * (unitsInHex - count)), null);
 
@@ -2383,15 +2404,16 @@ public class HexGrid implements Serializable {
 
 			}
 
-			
+			ExecutorService es = Executors.newFixedThreadPool(16);
 			
 			// System.out.println("Columns: "+columns);
 			// System.out.println("Rows: "+rows);
 			// System.out.println("Hex Map Size: "+hexMap.size()+", row size:
 			// "+hexMap.get(0).size());
-			for (int i = 0; i < rows; i++) {
-
-				for (int j = 0; j < columns; j++) {
+			for (int x = 0; x < rows; x++) {
+				final int i = x;
+				for (int y = 0; y < columns; y++) {
+					final int j = y;
 					// System.out.println("i: "+i+" j: "+j);
 					Polygon hex = hexMap.get(i).get(j);
 					
@@ -2402,70 +2424,73 @@ public class HexGrid implements Serializable {
 					if(xpoint > screenWidth && ypoint > screenHeight)
 						break;
 					
+					es.submit(() -> {
+
 					
-					if(checkBoxShowTiles.isSelected())
-						ProcHexManager.PaintHex(g2, hex, i, j, this);
-					
-					if(chckbxShowHexes.isSelected()) {
-						g2.setColor(BORDER_COLOR);
-						g2.setStroke(STROKE);
-						g2.draw(hex);
-					}
-					
-					Color color = g2.getColor();
-					g2.setColor(Color.GREEN);
-					if (gameWindow.hexes.size() != columns * rows && !hideU && gameWindow.findHex(i, j) == null) {
-						// g2.drawString("U", hex.xpoints[0],hex.ypoints[0]);
-						g2.drawString("U", 
-								(int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
-								(int) (hex.ypoints[0] + (hex.getBounds().height * 0.3)));
-					} else if(elevationPaste && gameWindow.findHex(i, j) != null) {
-						g2.setColor(Color.RED);
-						g2.drawString("" + gameWindow.findHex(i,j).elevation, 
-								(int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
-								(int) (hex.ypoints[0] + (hex.getBounds().height * 0.3)));
-					}
-					
-					if(chckbxSwgridNum.isSelected()) {
-						g2.setColor(Color.RED);
-						g2.drawString(i+":"+j, 
-								(int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
-								(int) (hex.ypoints[0] + (hex.getBounds().height * 0.3)));
-					}
-					
-					g2.setColor(color);
-
-					int count = 1;
-
-					for (DeployedUnit deployedUnit : deployedUnits) {
-
-						if (selectedUnit != null && deployedUnit.unit.callsign.equals(selectedUnit.unit.callsign))
-							continue;
-
-						if (deployedUnit.xCord == i && deployedUnit.yCord == j
-								&& HexGridUtility.canShow(shownType, deployedUnit.unit)) {
-
-							drawUnit(deployedUnit, g, g2, count);
-
-							count++;
-
-						}
-
-					}
-
-					if (selectedUnit != null && selectedUnit.xCord == i && selectedUnit.yCord == j) {
-
-						drawUnit(selectedUnit, g, g2, count);
-
+						if(checkBoxShowTiles.isSelected())
+							ProcHexManager.PaintHex(g2, hex, i, j, this);
 						
-
-						count++;
-					}
-
+						if(chckbxShowHexes.isSelected()) {
+							g2.setColor(BORDER_COLOR);
+							g2.setStroke(STROKE);
+							g2.draw(hex);
+						}
+						
+						Color color = g2.getColor();
+						g2.setColor(Color.GREEN);
+						if (gameWindow.hexes.size() != columns * rows && !hideU && gameWindow.findHex(i, j) == null) {
+							// g2.drawString("U", hex.xpoints[0],hex.ypoints[0]);
+							g2.drawString("U", 
+									(int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
+									(int) (hex.ypoints[0] + (hex.getBounds().height * 0.3)));
+						} else if(elevationPaste && gameWindow.findHex(i, j) != null) {
+							g2.setColor(Color.RED);
+							g2.drawString("" + gameWindow.findHex(i,j).elevation, 
+									(int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
+									(int) (hex.ypoints[0] + (hex.getBounds().height * 0.3)));
+						}
+						
+						if(chckbxSwgridNum.isSelected()) {
+							g2.setColor(Color.RED);
+							g2.drawString(i+":"+j, 
+									(int) (hex.xpoints[0] - (hex.getBounds().width * 0.5)),
+									(int) (hex.ypoints[0] + (hex.getBounds().height * 0.3)));
+						}
+						
+						g2.setColor(color);
+	
+						
+						});
 				}
+				
+			}
+
+			es.shutdown();
+			try {
+			  es.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+			} catch (InterruptedException e) {
+			 e.printStackTrace();
+			}
+			
+			
+			for (DeployedUnit deployedUnit : deployedUnits) {
+
+				if ((selectedUnit != null && deployedUnit.unit.callsign.equals(selectedUnit.unit.callsign))
+						|| !HexGridUtility.canShow(shownType, deployedUnit.unit))
+					continue;
+
+				drawUnit(deployedUnit, g, g2);
+
 
 			}
 
+			if (selectedUnit != null) {
+
+				drawUnit(selectedUnit, g, g2);
+
+			}
+			
+			
 			translateSelectedChit();
 
 			drawChitShadow(g2);

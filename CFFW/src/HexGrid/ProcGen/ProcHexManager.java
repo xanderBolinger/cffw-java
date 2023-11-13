@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Polygon;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class ProcHexManager {
         int grassImageX = hexCenterX - hex.getBounds().width / 2;
         int grassImageY = hexCenterY - hex.getBounds().height / 2;
 
-        Image img = null;
+        BufferedImage img = null;
 		try {
 			img = getHexImage(x,y);
 		} catch (Exception e) {
@@ -78,7 +79,7 @@ public class ProcHexManager {
         g2d.drawImage(img, grassImageX, grassImageY, comp);
 	}
 	
-	private static Image getHexImage(int x, int y) throws Exception {
+	private static BufferedImage getHexImage(int x, int y) throws Exception {
 		var hex = GameWindow.gameWindow.game.procGenMap.getHexType(x, y);
 		
 		for(var hexImage : hexImages)

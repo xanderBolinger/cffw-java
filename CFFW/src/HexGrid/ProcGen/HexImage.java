@@ -1,16 +1,18 @@
 package HexGrid.ProcGen;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
 import UtilityClasses.ExcelUtility;
+import UtilityClasses.ImageUtility;
 
 public class HexImage {
 	public String imageName;
-	public Image image;
+	public BufferedImage image;
 	
 	private String imagePath = ExcelUtility.path + "\\HexImages\\";
 	private Image imageOriginal;
@@ -29,9 +31,9 @@ public class HexImage {
 	}
 	
 	public void getScaledInstance(int width, int height) {
-		image = imageOriginal.getScaledInstance(width, height, 
+		var img = imageOriginal.getScaledInstance(width, height, 
 				Image.SCALE_SMOOTH);
-		
+		image = ImageUtility.toBufferedImage(img);
 	}
 	
 	
