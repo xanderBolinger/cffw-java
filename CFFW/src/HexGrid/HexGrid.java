@@ -38,6 +38,8 @@ import HexGrid.HexGridUtility.ShownType;
 import HexGrid.ProcGen.ProcHexManager;
 import HexGrid.Shields.ShieldManager;
 import HexGrid.Vehicle.HexGridHullDownUtility;
+import HexGrid.Waypoint.DrawWaypoints;
+import HexGrid.Waypoint.HexGridWaypointUtility;
 import CorditeExpansionActions.CeAction.ActionType;
 import Hexes.Building;
 import Hexes.Feature;
@@ -135,6 +137,9 @@ public class HexGrid implements Serializable {
 	private JCheckBox chckbxSwgridNum;
 	private JCheckBox chckbxShwcallsigns;
 
+	public static int mouseX;
+	public static int mouseY;
+	
 	/**
 	 * Create the application.
 	 */
@@ -1480,6 +1485,9 @@ public class HexGrid implements Serializable {
 
 			// System.out.println("Mouse Moved: ("+e.getPoint().x+", "+e.getPoint().y+")");
 
+			mouseX = e.getPoint().x;
+			mouseY = e.getPoint().y;
+
 			if (HexGrid.losThreadShowing && losThread.npoints >= 1) {
 
 				if (losThread.npoints > 1) {
@@ -2082,6 +2090,14 @@ public class HexGrid implements Serializable {
 			}
 		}
 		
+		public int[] getHexCenter(int x, int y) {
+			Polygon hex = hexMap.get(x).get(y);
+			int hexCenterX = hex.getBounds().x + hex.getBounds().width / 2;
+			int hexCenterY = hex.getBounds().y + hex.getBounds().height / 2;
+			int[] center = {hexCenterX, hexCenterY};
+			return center;
+		}
+		
 		public void drawUnit(DeployedUnit deployedUnit, Graphics g, Graphics2D g2) {
 			// Displays unit card
 
@@ -2533,7 +2549,11 @@ public class HexGrid implements Serializable {
 			drawImpactMarkers(g2);
 			drawSelectedUnitLos(g2);
 			drawVehicleLosOutlines(g2);
-
+			
+			HexGridWaypointUtility.drawCursor(g2);
+			var pos1 = getHexCenter(0, 0);
+			var pos2 = getHexCenter(2, 2);
+			DrawWaypoints.drawLine(g2,pos1[0],pos1[1],pos2[0],pos2[1]);
 		}
 
 		
