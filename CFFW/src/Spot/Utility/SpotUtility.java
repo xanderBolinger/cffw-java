@@ -20,6 +20,25 @@ import UtilityClasses.DiceRoller;
 
 public class SpotUtility {
 	
+	public static ArrayList<Trooper> spottedTroopers = new ArrayList<Trooper>();
+	
+	public static void clearSpotted() {
+		spottedTroopers.clear();		
+	}
+	
+	public static void printSpottedTroopers() {
+		
+		String spotted = "\nTotal Spotted: ";
+		
+		for(var trooper : spottedTroopers) {
+			spotted += trooper.returnTrooperUnit(GameWindow.gameWindow).callsign
+					+" "+trooper.number+" "+trooper.name
+					+ (trooper.compareTo(spottedTroopers.get(spottedTroopers.size()-1))
+							? "" : ", ");
+		}
+		
+		GameWindow.gameWindow.conflictLog.addNewLine(spotted+"\n");
+	}
 	
 	public static int getTargetUnitSize(Unit spotterUnit, ArrayList<Unit> targets) {
 
@@ -256,7 +275,7 @@ public class SpotUtility {
 		throw new Exception("Spotting chance not found for size: " + size + ", and spotting chance: " + spottingChance);
 	}
 
-	public static SpotActionResults getResults(int size, String scanArea, int SLM) throws Exception {
+	public static SpotActionResults getResults(int size, String scanArea, int SLM, int suppression) throws Exception {
 
 		int spottingChance = SpotUtility.searchSecond(getSpottingTable(scanArea), SLM);
 
@@ -330,7 +349,9 @@ public class SpotUtility {
 
 		// Sets spotted individuals and unit
 		for (int i = 0; i < rolls.size(); i++) {
-			spottedIndividuals.add(spotableTroopers.get(rolls.get(i)));
+			var t = spotableTroopers.get(rolls.get(i));
+			spottedIndividuals.add(t);
+			spottedTroopers.add(t);
 			spottedUnits.add(spotableTroopers.get(rolls.get(i)).returnTrooperUnit(initativeOrder));
 
 		}
@@ -360,5 +381,6 @@ public class SpotUtility {
 				+ ", Concealment Mod: " + concealmentMod + ", Range Mod: " + rangeMod + ", Visibility Mod: "
 				+ visibilityMod + "\n" + "SLM: " + SLM;
 	}
+
 
 }

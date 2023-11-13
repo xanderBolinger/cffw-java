@@ -105,7 +105,7 @@ public class VehicleSpotManager {
 				targetSizeMod, fortMod);
 
 		try {
-			SpotActionResults results = SpotUtility.getResults(size, scanArea, SLM);
+			SpotActionResults results = SpotUtility.getResults(size, scanArea, SLM,0);
 			var successesRoll = results.successRoll;
 			var targetNumber = results.targetNumber;
 

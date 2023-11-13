@@ -78,6 +78,7 @@ import Items.Item.ItemType;
 import Items.PCAmmo;
 import Items.Weapons;
 import Shoot.Shoot;
+import Spot.Utility.SpotUtility;
 
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -454,6 +455,8 @@ public class BulkWindow {
 		button_7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				SpotUtility.clearSpotted();
+				
 				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
 					@Override
@@ -516,13 +519,13 @@ public class BulkWindow {
 						refreshIndividualList();
 
 						GameWindow.gameWindow.conflictLog.addQueuedText();
-
+						SpotUtility.printSpottedTroopers();
 					}
 
 				};
 
 				worker.execute();
-
+				
 			}
 		});
 		button_7.setForeground(Color.BLACK);
@@ -549,6 +552,8 @@ public class BulkWindow {
 		button_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
+				SpotUtility.clearSpotted();
+				
 				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
 					@Override
@@ -613,12 +618,14 @@ public class BulkWindow {
 						refreshIndividualList();
 						// refreshTargets();
 						GameWindow.gameWindow.conflictLog.addQueuedText();
+						SpotUtility.printSpottedTroopers();
+						
 					}
 
 				};
 
 				worker.execute();
-
+				SpotUtility.printSpottedTroopers();
 			}
 		});
 		button_8.setForeground(Color.BLACK);

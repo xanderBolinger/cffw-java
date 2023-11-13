@@ -139,8 +139,10 @@ public class Spot implements Serializable {
 		SLM = SpotUtility.getSlm(speedModTarget, speedModSpotter, concealmentMod, rangeMod, visibilityMod, skillMod,
 				targetSizeMod, fortMod);
 
+		int suppression = spotterUnit != null ? spotterUnit.suppression : 0;
+		
 		try {
-			SpotActionResults results = SpotUtility.getResults(size, scanArea, SLM);
+			SpotActionResults results = SpotUtility.getResults(size, scanArea, SLM, suppression);
 			this.successesRoll = results.successRoll;
 			this.targetNumber = results.targetNumber;
 			this.success = results.success;
@@ -162,7 +164,7 @@ public class Spot implements Serializable {
 					+ "Skill Test Mod: " + skillMod + ", Target Size Mod: " + targetSizeMod + ", Target Speed Mod: "
 					+ speedModTarget + ", Spotter Speed Mod: " + speedModSpotter + ", Concealment Mod: "
 					+ concealmentMod +", Fortification Mod: "+fortMod +", Range Mod: " + rangeMod + ", Visibility Mod: " + visibilityMod + "\n"
-					+ "SLM: " + SLM;
+					+ "SLM: " + SLM+", Suppression: "+suppression;
 			/*
 			 * for(int i = 0; i < spottedIndividuals.size();i ++) {
 			 * //System.out.println("\n Added Trooper 2: "+spottedIndividuals.get(i).

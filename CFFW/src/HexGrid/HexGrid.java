@@ -579,6 +579,8 @@ public class HexGrid implements Serializable {
 			
 			String results = unit.callsign;
 
+			
+			
 			if (GameWindow.exhaustedUnit(unit) && moved) {
 				results += "Et/M";
 			} else if (GameWindow.exhaustedUnit(unit)) {
@@ -598,6 +600,9 @@ public class HexGrid implements Serializable {
 				}
 			}
 
+			var speed = unit.speed.toLowerCase().charAt(0);
+			if(speed != 'n')
+				results += "/"+speed;
 			
 			return results;
 		}
