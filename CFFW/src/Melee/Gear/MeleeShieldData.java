@@ -27,7 +27,7 @@ public class MeleeShieldData implements Serializable {
 		switch (shieldType) {
 		case StormShield:
 			MeleeShield.meleeShields.add(new MeleeShield(shieldType, 5, 2));
-			break;
+			return;
 		default:
 			break;
 		}
