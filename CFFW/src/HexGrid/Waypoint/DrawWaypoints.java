@@ -13,10 +13,11 @@ public class DrawWaypoints {
         g.drawLine(x1, y1, x2, y2);
     }
 	
-	public static void drawYellowSquare(Graphics2D g, int x, int y) {
+	public static void drawYellowSquare(Graphics2D g, int x, int y, boolean centered, String character) {
         g.setColor(Color.YELLOW);
         
-        y -= SQUARE_SIZE;
+        if(!centered)
+        	y -= SQUARE_SIZE;
         
         g.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
 
@@ -25,11 +26,11 @@ public class DrawWaypoints {
         Font font = new Font("Arial", Font.BOLD, 20);
         g.setFont(font);
         FontMetrics fm = g.getFontMetrics();
-        int textWidth = fm.stringWidth("W");
+        int textWidth = fm.stringWidth(character);
         int textHeight = fm.getHeight();
         int centerX = x + (SQUARE_SIZE - textWidth) / 2;
         int centerY = y + (SQUARE_SIZE - textHeight) / 2 + fm.getAscent();
-        g.drawString("W", centerX, centerY);
+        g.drawString(character, centerX, centerY);
     }
 	
 }

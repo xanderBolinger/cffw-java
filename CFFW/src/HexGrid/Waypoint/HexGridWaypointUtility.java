@@ -1,10 +1,8 @@
 package HexGrid.Waypoint;
-
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
-import CorditeExpansion.Cord;
 
 public class HexGridWaypointUtility {
 
@@ -14,7 +12,8 @@ public class HexGridWaypointUtility {
 		if(clickedHex[0] == unit.X && clickedHex[1] == unit.Y)
 			return;
 		
-		unit.waypointData.addWaypoint(new Waypoint(clickedHex[0], clickedHex[1], unit.speed));
+		unit.waypointData.addWaypoint(new Waypoint(clickedHex[0], clickedHex[1], 
+				unit.speed.equals("None") ? "Walk" : unit.speed));
 	}
 	
 	public static void draw(Graphics2D g2) {
@@ -49,7 +48,7 @@ public class HexGridWaypointUtility {
 				DrawWaypoints.drawLine(g2, startingCenter[0], startingCenter[1], 
 						center[0], center[1]);
 			} else {
-				var lastCenter = centers.get(centers.size()-1);
+				var lastCenter = centers.get(centers.size()-2);
 				DrawWaypoints.drawLine(g2, lastCenter[0], lastCenter[1], 
 						center[0], center[1]);
 			}
@@ -57,8 +56,11 @@ public class HexGridWaypointUtility {
 			first = false;
 		}
 		
-		for(var center : centers) 
-			DrawWaypoints.drawYellowSquare(g2, center[0], center[1]);
+		for(var wp : waypointData.waypoints) {
+			var center = grid.getHexCenter(wp.x, wp.y);
+			DrawWaypoints.drawYellowSquare(g2, center[0], center[1], true, 
+					String.valueOf(wp.speedOnArival.charAt(0)));
+		} 
 		
 	}
 	
@@ -69,7 +71,7 @@ public class HexGridWaypointUtility {
 		if(x < 0 || y < 0)
 			return;
 		
-		DrawWaypoints.drawYellowSquare(g2, x, y);
+		DrawWaypoints.drawYellowSquare(g2, x, y, false, "W");
 		
 	}
 	
