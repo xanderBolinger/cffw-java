@@ -92,25 +92,12 @@ public class CalculateLOS {
 	
 	public static void calc(Unit unit, Unit targetUnit) {
 		
-		//System.out.println("Calc LOS From: "+unit.callsign+" to "+targetUnit.callsign);
-		
-		ArrayList<Cord> hexes = TraceLine.GetHexes(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y), GameWindow.gameWindow.hexGrid.panel);
-		
-		//var hexesString = "";
-		//for(var h : hexes)
-		//	hexesString += "("+h.toString()+"), ";
-		//System.out.println("Cord Line: "+hexesString);
-		
-		if(hexes.size() <= 2) {
+		if(GameWindow.hexDif(unit, targetUnit) <= 2) {
 			unit.lineOfSight.add(targetUnit);
 			return;
 		}
 		
-		var concealment = getConcealment(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y), true) ;
-		
-		//System.out.println("Final Concealment Value: "+concealment);
-		
-		if(concealment >= 5)
+		if(!hasLos(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y)))
 			return;
 		
 		if(!unit.lineOfSight.contains(targetUnit))
@@ -119,6 +106,14 @@ public class CalculateLOS {
 		if(!targetUnit.lineOfSight.contains(unit))
 			targetUnit.lineOfSight.add(unit);
 		
+	}
+	
+	public static boolean hasLos(Cord cord, Cord cord2) {
+		var concealment = getConcealment(cord, cord2, true) ;
+		
+		if(concealment >= 5)
+			return false;
+		return true;
 	}
 	
 	public static void checkSpottedTroopers(Unit unit) {

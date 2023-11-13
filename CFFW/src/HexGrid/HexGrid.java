@@ -2651,8 +2651,11 @@ public class HexGrid implements Serializable {
 			var dist =  GameWindow.hexDif(hex1[0], hex1[1],
 					hex2[0], hex2[1]);
 			rslts += dist;
-			rslts += ", Side: "+HexDirectionUtility.getHexSideFacingTarget(new Cord(hex1[0],hex1[1]), new Cord(hex2[0], hex2[1]))
-			+", "+dist*20+" yards.";
+			var cord1 = new Cord(hex1[0],hex1[1]);
+			var cord2 = new Cord(hex2[0], hex2[1]);
+			rslts += ", Side: "+HexDirectionUtility.getHexSideFacingTarget(cord1, cord2)
+			+", "+dist*20+" yards."
+			+", LOS: " + CalculateLOS.hasLos(cord1, cord2);
 			FontMetrics fm = g2.getFontMetrics();
 			Rectangle2D rect = fm.getStringBounds(rslts, g2);
 			g2.fillRect(x2 + 5, y2 - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
