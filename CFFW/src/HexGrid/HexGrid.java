@@ -2315,7 +2315,10 @@ public class HexGrid implements Serializable {
 					+ metrics.getAscent()) - (int) (3 * zoom);
 
 			if ((count == unitsInHex(deployedUnit.xCord, deployedUnit.yCord) && 
-					chckbxShwcallsigns.isSelected()) || (selectedUnit != null && deployedUnit.unit.compareTo(selectedUnit.unit))) {
+					chckbxShwcallsigns.isSelected()
+					&& (selectedUnit == null || (selectedUnit.xCord != deployedUnit.xCord 
+											 || selectedUnit.yCord != deployedUnit.yCord))) 
+					|| (selectedUnit != null && deployedUnit.unit.compareTo(selectedUnit.unit))) {
 				g2.setColor(Color.MAGENTA);
 				g2.setStroke(new BasicStroke(1f));
 				g2.draw(losThread);
