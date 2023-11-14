@@ -59,7 +59,7 @@ public class Unit implements Serializable {
 	public WaypointData waypointData;
 	
 	public enum UnitType implements Serializable {
-		INFANTRY, ARMOR, SF, HQ
+		INFANTRY, ARMOR, SF, RECON, HQ, FixedWing, RotarWing
 		
 	}
 	

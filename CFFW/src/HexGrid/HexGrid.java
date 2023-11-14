@@ -630,23 +630,10 @@ public class HexGrid implements Serializable {
 
 		public void setImage() throws IOException {
 
-			// TODO: make it so side + type string == file name
-
-			// System.out.println("Set Image");
-			if (unit.unitType == UnitType.ARMOR && unit.side.equals("BLUFOR")) {
-				// System.out.println("Set Image Pass 1");
-				unitImage = ImageIO.read(new File("Unit Images/BLUFOR_ARMOR.png"));
-			} else if (unit.unitType == UnitType.INFANTRY && unit.side.equals("BLUFOR")) {
-				// System.out.println("Set Image Pass 2");
-				unitImage = ImageIO.read(new File("Unit Images/BLUFOR_INFANTRY.png"));
-			} else if (unit.unitType == UnitType.INFANTRY && unit.side.equals("OPFOR")) {
-				unitImage = ImageIO.read(new File("Unit Images/OPFOR_INFANTRY.png"));
-			} else if (unit.unitType == UnitType.ARMOR && unit.side.equals("OPFOR")) {
-				unitImage = ImageIO.read(new File("Unit Images/OPFOR_ARMOR.png"));
-			} else {
-				unitImage = ImageIO.read(new File("Unit Images/BLUFOR_INFANTRY.png"));
-			}
-
+			String side = unit.side.toUpperCase();
+			String unitType = unit.unitType.toString().toUpperCase();
+			unitImage = ImageIO.read(new File("Unit Images/"+side+"_"+unitType+".png"));
+			
 			if (unit.side.equals("BLUFOR")) {
 				unitImage = unitImage.getScaledInstance((int) (20.0 * zoom), (int) (12.0 * zoom), Image.SCALE_SMOOTH);
 			} else {
