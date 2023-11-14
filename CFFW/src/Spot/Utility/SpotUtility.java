@@ -22,6 +22,8 @@ public class SpotUtility {
 	
 	public static ArrayList<Trooper> spottedTroopers = new ArrayList<Trooper>();
 	
+	public static volatile boolean findingSpottedTroopers;
+	
 	public static void clearSpotted() {
 		spottedTroopers.clear();		
 	}
@@ -314,63 +316,24 @@ public class SpotUtility {
 		return new SpotActionResults(roll, spottingChance, success, spottingChance, roll);
 	}
 
-	public static void findSpottedTroopers(ArrayList<Trooper> spottedIndividuals, ArrayList<Unit> spottedUnits,
-			int passes, ArrayList<Trooper> spotableTroopers, ArrayList<Unit> spotableUnits, int size, int successesRoll,
-			int targetNumber, ArrayList<Unit> initativeOrder) {
-		ArrayList<Integer> rolls = new ArrayList<Integer>();
+	public static void findSpottedTroopers(ArrayList<Trooper> spottedIndividuals,
+			int passes, ArrayList<Trooper> spotableTroopers) {
 
-		if (passes > 0) {
-			Random rand = new Random();
-
-			int roll;
-			boolean duplicate = false;
-
-			if (passes > spotableTroopers.size()) {
-				passes = spotableTroopers.size();
-			}
-
-			for (int i = 0; i < passes; i++) {
-				roll = rand.nextInt(size);
-				if (rolls.contains(roll) || spotableTroopers.get(roll).unspottable
-						|| successesRoll >= targetNumber || !spotableTroopers.get(roll).alive
-						|| !spotableTroopers.get(roll).conscious) {
-					duplicate = true;
-				} else {
-					rolls.add(roll);
-				}
-
-				ArrayList<Integer> loopCounter = new ArrayList<Integer>();
-
-				while (duplicate) {
-					int roll2 = rand.nextInt(size);
-
-					if (rolls.contains(roll2) || spotableTroopers.get(roll2).unspottable
-							|| successesRoll >= targetNumber || !spotableTroopers.get(roll2).alive
-							|| !spotableTroopers.get(roll2).conscious) {
-						duplicate = true;
-					} else {
-						rolls.add(roll2);
-						duplicate = false;
-					}
-
-					if (loopCounter.size() >= size) {
-						break;
-					}
-
-				}
-			}
-
+		findingSpottedTroopers = true;
+		
+		if(passes > spotableTroopers.size())
+			passes = spotableTroopers.size();
+		
+		ArrayList<Trooper> spotableTroopersCopy = new ArrayList<Trooper>(spotableTroopers);
+		
+		for(int i = 0; i < passes; i++) {
+			
+			var trooper = spotableTroopersCopy.remove(DiceRoller.roll(0, spotableTroopersCopy.size()-1));
+			spottedIndividuals.add(trooper);
+			spottedTroopers.add(trooper);
 		}
-
-		// Sets spotted individuals and unit
-		for (int i = 0; i < rolls.size(); i++) {
-			var t = spotableTroopers.get(rolls.get(i));
-			spottedIndividuals.add(t);
-			spottedTroopers.add(t);
-			spottedUnits.add(spotableTroopers.get(rolls.get(i)).returnTrooperUnit(initativeOrder));
-
-		}
-
+		
+		findingSpottedTroopers = false;
 	}
 
 	public static int addSpottedIndividual(int roll, ArrayList<Trooper> targets, ArrayList<Integer> rolls,

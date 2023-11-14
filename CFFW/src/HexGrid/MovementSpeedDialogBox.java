@@ -73,6 +73,7 @@ public class MovementSpeedDialogBox {
 				deployedUnit.moved = true; 
 				//System.out.println("Moved equal true: "+deployedUnit.getCallsign());
 				GameWindow.gameWindow.hexGrid.refreshDeployedUnits();
+				GameWindow.gameWindow.conflictLog.addQueuedText();
 				frame.dispose();
 			}
 		});
@@ -90,6 +91,7 @@ public class MovementSpeedDialogBox {
 				deployedUnit.moved = true; 
 				//System.out.println("Moved equal true: "+deployedUnit.getCallsign());
 				GameWindow.gameWindow.hexGrid.refreshDeployedUnits();
+				GameWindow.gameWindow.conflictLog.addQueuedText();
 				frame.dispose();
 			}
 		});
@@ -105,6 +107,7 @@ public class MovementSpeedDialogBox {
 				deployedUnit.moved = true; 
 				//System.out.println("Moved equal true: "+deployedUnit.getCallsign());
 				GameWindow.gameWindow.hexGrid.refreshDeployedUnits();
+				GameWindow.gameWindow.conflictLog.addQueuedText();
 				frame.dispose();
 			}
 		});
@@ -117,6 +120,7 @@ public class MovementSpeedDialogBox {
 			public void actionPerformed(ActionEvent arg0) {
 				unit.move(GameWindow.gameWindow, targetX, targetY, null);
 				GameWindow.gameWindow.hexGrid.refreshDeployedUnits();
+				GameWindow.gameWindow.conflictLog.addQueuedText();
 				frame.dispose();
 			}
 		});

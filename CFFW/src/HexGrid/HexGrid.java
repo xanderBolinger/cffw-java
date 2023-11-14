@@ -864,7 +864,7 @@ public class HexGrid implements Serializable {
 					});
 				}
 
-				//addSpot();
+				addSpot();
 				addSuppress(xCord,yCord);
 				addLOS();
 				removeLOS();
@@ -902,6 +902,7 @@ public class HexGrid implements Serializable {
 				});
 
 				add(item);
+				addSpot();
 				addRoute();
 				clearRoute();
 				addLOS();
@@ -1182,12 +1183,14 @@ public class HexGrid implements Serializable {
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						
-						SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+						ActionResolver.Spot(spotterUnits);
+						
+						/*SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
 							@Override
 							protected Void doInBackground() throws Exception {
 
-								ActionResolver.Spot(spotterUnits);
+								
 								
 								return null;
 							}
@@ -1200,7 +1203,7 @@ public class HexGrid implements Serializable {
 
 						};
 
-						worker.execute();
+						worker.execute();*/
 						
 					}
 				});
@@ -1824,6 +1827,7 @@ public class HexGrid implements Serializable {
 									unit.seekCover(newHex, GameWindow.gameWindow);
 								}
 								GameWindow.gameWindow.CalcLOS(unit);
+								GameWindow.gameWindow.conflictLog.addQueuedText();
 							}
 
 							GameWindow.gameWindow.hexes.add(newHex);

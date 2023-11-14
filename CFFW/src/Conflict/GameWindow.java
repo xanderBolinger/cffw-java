@@ -233,14 +233,20 @@ public class GameWindow implements Serializable {
 		btnStartingSpotTest.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-
-				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+				
+				ActionResolver.Spot(initiativeOrder);
+				
+				// Old general spot test
+				/*SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
 					@Override
 					protected Void doInBackground() throws Exception {
 
+						
+						
+						
 						// System.out.println("Spot1");
-						spotCycle();
+						//spotCycle();
 						// System.out.println("Spot2");
 						return null;
 					}
@@ -255,7 +261,7 @@ public class GameWindow implements Serializable {
 
 				};
 
-				worker.execute();
+				worker.execute();*/
 
 			}
 		});
@@ -656,6 +662,8 @@ public class GameWindow implements Serializable {
 		btnNextAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				hexGrid.panel.selectedUnit = null;
+				hexGrid.panel.selectedUnits.clear();
 				HexGrid.impactHexes.clear();
 				
 				if(startedLoading != null)
@@ -1504,9 +1512,6 @@ public class GameWindow implements Serializable {
 			}
 
 			int currentAction = game.getCurrentAction();
-			// Performs spot test
-			if (currentAction == 1 || currentAction == 2 || currentAction == 3)
-				spotCycle();
 
 		} else if (activeUnit >= size) {
 
@@ -2236,11 +2241,6 @@ public class GameWindow implements Serializable {
 
 			});
 
-			try {
-				TimeUnit.MILLISECONDS.sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 		}
 
 		es.shutdown();
@@ -2265,11 +2265,6 @@ public class GameWindow implements Serializable {
 
 			});
 
-			try {
-				TimeUnit.MILLISECONDS.sleep(10);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 		}
 
 		es.shutdown();
@@ -2403,7 +2398,7 @@ public class GameWindow implements Serializable {
 			if(!losCopy.contains(unit)) 
 				gainedLosTo += unit.callsign+(unit.compareTo(movedUnit.lineOfSight
 						.get(movedUnit.lineOfSight.size()-1)) ? "" : ", ");
-		conflictLog.addNewLine(header+"\n"+lostLosTo+"\n"+gainedLosTo+"\n");
+		conflictLog.addNewLineToQueue(header+"\n"+lostLosTo+"\n"+gainedLosTo+"\n");
 	}
 	
 	void updateLosLists() {

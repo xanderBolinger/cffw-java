@@ -51,6 +51,7 @@ public class HexGridUtility {
 				GameWindow.gameWindow.hexGrid.refreshDeployedUnits();
 				selectedUnits.clear();
 				movingUnits = false;
+				GameWindow.gameWindow.conflictLog.addQueuedText();
 			}
 
 		};

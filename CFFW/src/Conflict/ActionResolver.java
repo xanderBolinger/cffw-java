@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 
 import Actions.Spot;
@@ -28,33 +30,72 @@ public class ActionResolver {
 		
 	}
 	
+	static int spotUnit = 0;
+	
 	public static void Spot(ArrayList<Unit> selectedUnits) {
-		//SpotUtility.clearSpotted();
-		//GameWindow.gameWindow.conflictLog.addNewLine("Spotting...");
+		SpotUtility.clearSpotted();
+		GameWindow.gameWindow.conflictLog.addNewLine("Spotting...");
 		
-		for(var unit : selectedUnits) {
-			
-			for(var trooper : unit.individuals) {
-				if(!trooper.canAct(GameWindow.gameWindow.game))
-					continue;
-				if (GameWindow.gameWindow.game.getPhase() == 1)
-					trooper.spentPhase1++;
-				else
-					trooper.spentPhase2++;
-				performSpotTest(trooper, unit);
-				System.out.println("spot");
+		spotUnit = 0;
+		
+		SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+			@Override
+			protected Void doInBackground() throws Exception {
+				ExecutorService es = Executors.newFixedThreadPool(16);
+				
+				for(var unit : selectedUnits) {
+					
+					es.submit(() -> {
+					
+						for(var trooper : unit.individuals) {
+							if(!trooper.canAct(GameWindow.gameWindow.game))
+								continue;
+							/*try {
+								TimeUnit.MILLISECONDS.sleep(200);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}*/
+							performSpotTest(trooper, unit);
+							//System.out.println("spot");
+						}
+						spotUnit++;
+						System.out.println("Spot Unit: "+spotUnit);
+					
+					});
+					
+				}
+				
+				es.shutdown();
+				
+				try {
+				  es.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+				return null;
 			}
-			
-		}
-		System.out.println("spot finished");
-		//GameWindow.gameWindow.conflictLog.addQueuedText();
-		//SpotUtility.printSpottedTroopers();
+
+			@Override
+			protected void done() {
+				System.out.println("spot finished");
+				GameWindow.gameWindow.conflictLog.addQueuedText();
+				SpotUtility.printSpottedTroopers();
+
+			}
+
+		};
+
+		worker.execute();
+		JOptionPane.showConfirmDialog(null, "Cancel", "Cancel Spot task?", JOptionPane.DEFAULT_OPTION);
 		
 	}
 	
 	static void performSpotTest(Trooper trooper, Unit trooperUnit) {
 
 		var gameWindow = GameWindow.gameWindow;
+		boolean spotted = false; 
 		
 		for (Unit targetUnit : trooperUnit.lineOfSight) {
 
@@ -66,7 +107,17 @@ public class ActionResolver {
 
 			// Set results in trooper
 			trooper.spotted.add(spotAction);
+			spotted = true;
 		}
+		
+		if(!spotted)
+			return;
+		
+		if (GameWindow.gameWindow.game.getPhase() == 1)
+			trooper.spentPhase1++;
+		else
+			trooper.spentPhase2++;
+		
 
 	}
 	

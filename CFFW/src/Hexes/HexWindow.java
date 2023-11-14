@@ -426,6 +426,7 @@ public class HexWindow {
 					}
 					
 					GameWindow.gameWindow.CalcLOS(openUnit);
+					GameWindow.gameWindow.conflictLog.addQueuedText();
 					frame.dispose();
 					
 				} else {

@@ -33,9 +33,6 @@ public class Spot implements Serializable {
 	// Spotting unit belonging to the spotter
 	public Unit spotterUnit;
 
-	// Spotted Units
-	public ArrayList<Unit> spottedUnits = new ArrayList<Unit>();
-
 	// Units spotted individuals
 	public ArrayList<Trooper> spottedIndividuals = new ArrayList<Trooper>();
 
@@ -150,8 +147,11 @@ public class Spot implements Serializable {
 			this.spotActionDiceRoll = results.spotActionDiceRoll;
 			int passes = results.success;
 
-			SpotUtility.findSpottedTroopers(spottedIndividuals, spottedUnits, passes, spotableTroopers, targetUnitOnlyOneInList,
-					size, successesRoll, targetNumber, targetUnitOnlyOneInList);
+			
+			while(SpotUtility.findingSpottedTroopers)
+				Thread.sleep(1);
+			
+			SpotUtility.findSpottedTroopers(spottedIndividuals, passes, spotableTroopers);
 
 			
 			resultsString += "\nSpotter: "+spotterUnit.callsign+" "+spotter.number+" "+spotter.name+" Target Unit: "+

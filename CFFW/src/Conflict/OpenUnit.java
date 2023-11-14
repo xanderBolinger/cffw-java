@@ -516,7 +516,7 @@ public class OpenUnit implements Serializable {
 				
 				refreshSpinners();
 				refreshIndividuals();
-				
+				GameWindow.gameWindow.conflictLog.addQueuedText();
 				
 			}
 		});
