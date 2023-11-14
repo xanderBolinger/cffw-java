@@ -596,12 +596,8 @@ public class HexGrid implements Serializable {
 
 		public String getCallsign() {
 			
-			
-			
 			String results = unit.callsign;
 
-			
-			
 			if (GameWindow.exhaustedUnit(unit) && moved) {
 				results += "Et/M";
 			} else if (GameWindow.exhaustedUnit(unit)) {

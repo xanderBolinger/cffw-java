@@ -25,6 +25,8 @@ import Trooper.Trooper;
 import Trooper.generateSquad;
 import Trooper.Factions.FactionManager;
 import Unit.Unit;
+import Unit.Unit.UnitType;
+
 import javax.swing.JSpinner;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -43,6 +45,7 @@ public class AddUnit implements Serializable {
 	private JComboBox comboBoxSquad;
 	private JComboBox comboBoxFaction;
 	private JSpinner spinnerNumber;
+	private JComboBox comboBoxUnitType;
 
 	public AddUnit(EditCompany window) {
 		 
@@ -180,7 +183,7 @@ public class AddUnit implements Serializable {
 							unit.Y = yLocation; 
 							unit.concealment = comboBoxConcealment.getSelectedItem().toString();
 							unit.speed = comboBoxSpeed.getSelectedItem().toString();
-							
+							unit.unitType = getUnitType();
 							
 							// Sets class variable
 							createdElement = unit;
@@ -227,7 +230,7 @@ public class AddUnit implements Serializable {
 					unit.Y = yLocation; 
 					unit.concealment = comboBoxConcealment.getSelectedItem().toString();
 					unit.speed = comboBoxSpeed.getSelectedItem().toString();
-					
+					unit.unitType = getUnitType();
 					
 					// Sets class variable
 					createdElement = unit;
@@ -304,7 +307,31 @@ public class AddUnit implements Serializable {
 		lblNumberOfUnits.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 11));
 		lblNumberOfUnits.setBounds(360, 45, 118, 14);
 		f.getContentPane().add(lblNumberOfUnits);
+		
+		comboBoxUnitType = new JComboBox();
+		comboBoxUnitType.setBounds(376, 68, 175, 25);
+		f.getContentPane().add(comboBoxUnitType);
 		f.setVisible(true);
+		
+		for(UnitType unitType : UnitType.values())
+			comboBoxUnitType.addItem(unitType.toString());
+		comboBoxUnitType.setSelectedIndex(0);
+		
+	}
+	
+	UnitType getUnitType() {
+		int count = 0; 
+		for(UnitType unitType : UnitType.values()) {
+			
+			if(count == comboBoxUnitType.getSelectedIndex()) {
+				//System.out.println("Unit Type Actually Changed");
+				return unitType;
+			}
+			
+			count++;
+		}
+		
+		return UnitType.INFANTRY;
 	}
 	
 }

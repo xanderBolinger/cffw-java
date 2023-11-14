@@ -30,6 +30,7 @@ import CreateGame.SetupWindow;
 import Individuals.EditIndividual;
 import Items.BulkInventoryWindow;
 import Trooper.Trooper;
+import Unit.Unit.UnitType;
 import UtilityClasses.Keyboard;
 import UtilityClasses.PCUtility;
 import UtilityClasses.UnitReorderListener;
@@ -64,6 +65,7 @@ public class EditUnit implements Serializable {
 	private JComboBox comboBoxUnits;
 	public Unit openUnit; 
 	private JLabel lblCommandsl;
+	private JComboBox comboBoxUnitType;
 	/**
 	 * Launch the application.
 	 */
@@ -146,6 +148,17 @@ public class EditUnit implements Serializable {
 					unit.concealment = comboBoxConcealment.getSelectedItem().toString();
 					unit.X = locationX; 
 					unit.Y = locationY; 
+					int count = 0; 
+					for(UnitType unitType : UnitType.values()) {
+						
+						if(count == comboBoxUnitType.getSelectedIndex()) {
+							//System.out.println("Unit Type Actually Changed");
+							unit.unitType = unitType; 
+							break; 
+						}
+						
+						count++;
+					}
 					
 					unit.overwriteIndividuals(troopers);
 					window.setUnit(unit, index);
@@ -478,6 +491,16 @@ public class EditUnit implements Serializable {
 		});
 		btnBulkInventory.setBounds(403, 52, 281, 25);
 		f.getContentPane().add(btnBulkInventory);
+		
+		JLabel lblUnitType = new JLabel("Unit Type");
+		lblUnitType.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 11));
+		lblUnitType.setBounds(224, 104, 52, 14);
+		f.getContentPane().add(lblUnitType);
+		
+		comboBoxUnitType = new JComboBox();
+		comboBoxUnitType.setSelectedIndex(-1);
+		comboBoxUnitType.setBounds(224, 129, 134, 20);
+		f.getContentPane().add(comboBoxUnitType);
 
 		if (unit != null) {
 			// Sets Troopers list
@@ -537,6 +560,17 @@ public class EditUnit implements Serializable {
 			
 			
 			refreshIndividuals();
+		}
+		
+		int count = 0; 
+		for(UnitType unitType : UnitType.values()) {
+			
+			comboBoxUnitType.addItem(unitType.toString());
+			
+			if(unitType == unit.unitType)
+				comboBoxUnitType.setSelectedIndex(count);
+			
+			count++; 
 		}
 
 	}
