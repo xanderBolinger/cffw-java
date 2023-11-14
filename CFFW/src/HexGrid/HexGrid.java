@@ -47,6 +47,7 @@ import Hexes.Building;
 import Hexes.Feature;
 import Hexes.Hex;
 import Hexes.HexWindow;
+import Spot.Utility.SpotUtility;
 import Trooper.Trooper;
 import Unit.Unit;
 import Unit.Unit.UnitType;
@@ -863,6 +864,7 @@ public class HexGrid implements Serializable {
 					});
 				}
 
+				//addSpot();
 				addSuppress(xCord,yCord);
 				addLOS();
 				removeLOS();
@@ -1167,6 +1169,45 @@ public class HexGrid implements Serializable {
 				add(item);
 			}
 			
+			public void addSpot() {
+				
+				JMenuItem item = new JMenuItem("Spot");
+
+				ArrayList<Unit> spotterUnits = new ArrayList<Unit>();
+				
+				for(var dp : deployedUnits)
+					if(selectedUnits.contains(dp) || (selectedUnit != null && selectedUnit.unit.compareTo(dp.unit))) 
+						spotterUnits.add(dp.unit);
+				
+				item.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+							@Override
+							protected Void doInBackground() throws Exception {
+
+								ActionResolver.Spot(spotterUnits);
+								
+								return null;
+							}
+
+							@Override
+							protected void done() {
+								GameWindow.gameWindow.conflictLog.addQueuedText();
+								SpotUtility.printSpottedTroopers();
+							}
+
+						};
+
+						worker.execute();
+						
+					}
+				});
+
+				add(item);
+				
+			}
 			
 			public void addSuppress(int xCord, int yCord) {
 
@@ -1194,6 +1235,8 @@ public class HexGrid implements Serializable {
 						targetUnits.add(dp.unit);
 				}
 				
+				if(targetUnits.size() <= 0)
+					return;
 				
 				JMenuItem item = new JMenuItem("Suppress");
 

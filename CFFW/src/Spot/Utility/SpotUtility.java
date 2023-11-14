@@ -27,17 +27,32 @@ public class SpotUtility {
 	}
 	
 	public static void printSpottedTroopers() {
+		ArrayList<Unit> spottedUnits = new ArrayList<Unit>();
 		
-		String spotted = "\nTotal Spotted: ";
-		
+		String spotted = "\nTotal Spotted Troopers: ";
 		for(var trooper : spottedTroopers) {
-			spotted += trooper.returnTrooperUnit(GameWindow.gameWindow).callsign
+			var spottedUnit = trooper.returnTrooperUnit(GameWindow.gameWindow);
+			spottedUnits.add(spottedUnit);
+			
+			if(spotted.contains(spottedUnit.callsign
+					+" "+trooper.number+" "+trooper.name))
+				continue;
+			
+			spotted += spottedUnit.callsign
 					+" "+trooper.number+" "+trooper.name
 					+ (trooper.compareTo(spottedTroopers.get(spottedTroopers.size()-1))
 							? "" : ", ");
 		}
 		
-		GameWindow.gameWindow.conflictLog.addNewLine(spotted+"\n");
+		String unitResults = "\nSpotted Units: ";
+		for(var unit : spottedUnits) {
+			if(unitResults.contains(unit.callsign))
+				continue;
+			unitResults += unit.callsign+(unit.compareTo(spottedUnits.get(spottedUnits.size()-1)) ? "" : ", ");			
+		}
+		
+		
+		GameWindow.gameWindow.conflictLog.addNewLine(spotted+unitResults+"\n");
 	}
 	
 	public static int getTargetUnitSize(Unit spotterUnit, ArrayList<Unit> targets) {

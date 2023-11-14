@@ -5,7 +5,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import javax.swing.SwingWorker;
+
+import Actions.Spot;
+import HexGrid.HexGrid.DeployedUnit;
 import Shoot.Shoot;
+import Spot.Utility.SpotUtility;
 import Trooper.Trooper;
 import Unit.Unit;
 import UtilityClasses.DiceRoller;
@@ -22,6 +26,48 @@ public class ActionResolver {
 		
 		return troopers;
 		
+	}
+	
+	public static void Spot(ArrayList<Unit> selectedUnits) {
+		//SpotUtility.clearSpotted();
+		//GameWindow.gameWindow.conflictLog.addNewLine("Spotting...");
+		
+		for(var unit : selectedUnits) {
+			
+			for(var trooper : unit.individuals) {
+				if(!trooper.canAct(GameWindow.gameWindow.game))
+					continue;
+				if (GameWindow.gameWindow.game.getPhase() == 1)
+					trooper.spentPhase1++;
+				else
+					trooper.spentPhase2++;
+				performSpotTest(trooper, unit);
+				System.out.println("spot");
+			}
+			
+		}
+		System.out.println("spot finished");
+		//GameWindow.gameWindow.conflictLog.addQueuedText();
+		//SpotUtility.printSpottedTroopers();
+		
+	}
+	
+	static void performSpotTest(Trooper trooper, Unit trooperUnit) {
+
+		var gameWindow = GameWindow.gameWindow;
+		
+		for (Unit targetUnit : trooperUnit.lineOfSight) {
+
+			Spot spotAction = new Spot(gameWindow, trooperUnit, targetUnit, trooper,
+					"60 Degrees", gameWindow.visibility, gameWindow.initiativeOrder,
+					gameWindow);
+
+			spotAction.displayResultsQueue(gameWindow, spotAction);
+
+			// Set results in trooper
+			trooper.spotted.add(spotAction);
+		}
+
 	}
 	
 	public static void Suppress(ArrayList<Unit> selectedUnits, ArrayList<Unit> targetUnits) {
