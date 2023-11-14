@@ -28,7 +28,7 @@ public class ActionResolverMenuItems {
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				ActionResolver.Spot(spotterUnits);
+				ActionResolver.resolveSpotAction(spotterUnits, null);
 				
 			}
 		});
@@ -71,7 +71,6 @@ public class ActionResolverMenuItems {
 			public void actionPerformed(ActionEvent arg0) {
 
 				ActionResolver.resolveSuppressAction(shooterUnits, targetUnits);
-				//ActionResolver.Suppress(shooterUnits, targetUnits);
 
 			}
 		});
