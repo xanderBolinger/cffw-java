@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
+import Conflict.ActionResolver;
 import Conflict.AttackHexWindow;
 import Conflict.Game;
 import Conflict.GameWindow;
@@ -862,6 +863,7 @@ public class HexGrid implements Serializable {
 					});
 				}
 
+				addSuppress(xCord,yCord);
 				addLOS();
 				removeLOS();
 				selectedUnitsItem(xCord, yCord);
@@ -1163,6 +1165,48 @@ public class HexGrid implements Serializable {
 				});
 
 				add(item);
+			}
+			
+			
+			public void addSuppress(int xCord, int yCord) {
+
+				// System.out.println("add Los, selectedunits Side: "+selectedUnits.size());
+
+				if (!sameSide()) {
+					return;
+				}
+
+				ArrayList<Unit> shooterUnits = new ArrayList<Unit>();
+				ArrayList<Unit> targetUnits = new ArrayList<Unit>();
+				
+				for(var dp : deployedUnits)
+					if(selectedUnits.contains(dp) || (selectedUnit != null && selectedUnit.unit.compareTo(dp.unit))) 
+						shooterUnits.add(dp.unit);
+				
+				if(shooterUnits.size() <= 0)
+					return;
+				
+				for(var dp : deployedUnits) {
+					
+					if(dp.unit.side.equals(shooterUnits.get(0).side))
+						continue;
+					if(dp.xCord == xCord && dp.yCord == yCord)
+						targetUnits.add(dp.unit);
+				}
+				
+				
+				JMenuItem item = new JMenuItem("Suppress");
+
+				item.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+
+						ActionResolver.Suppress(shooterUnits, targetUnits);
+
+					}
+				});
+
+				add(item);
+
 			}
 			
 			public void addLOS() {
