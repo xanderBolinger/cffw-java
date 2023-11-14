@@ -2210,7 +2210,7 @@ public class HexGrid implements Serializable {
 			 */
 
 			int unitsInHex = unitsInHex(deployedUnit.xCord, deployedUnit.yCord);
-			int count = unitsInHex > 1 ? unitsInHexList(deployedUnit.xCord, deployedUnit.yCord).indexOf(deployedUnit.unit) : 1;
+			int count = unitsInHex > 1 ? unitsInHexList(deployedUnit.xCord, deployedUnit.yCord).indexOf(deployedUnit.unit)+1 : 1;
 			
 			g2.drawImage(deployedUnit.unitImage, (hexCenterX - width / 2) - (3 * (unitsInHex - count)),
 					(hexCenterY - height / 2) + (3 * (unitsInHex - count)), null);
@@ -2314,8 +2314,8 @@ public class HexGrid implements Serializable {
 			int y = (int) ((hexCenterY - deployedUnit.unitImage.getHeight(null) / 1.5) + -metrics.getHeight() / 2
 					+ metrics.getAscent()) - (int) (3 * zoom);
 
-			if (count == unitsInHex(deployedUnit.xCord, deployedUnit.yCord) && 
-					chckbxShwcallsigns.isSelected()) {
+			if ((count == unitsInHex(deployedUnit.xCord, deployedUnit.yCord) && 
+					chckbxShwcallsigns.isSelected()) || (selectedUnit != null && deployedUnit.unit.compareTo(selectedUnit.unit))) {
 				g2.setColor(Color.MAGENTA);
 				g2.setStroke(new BasicStroke(1f));
 				g2.draw(losThread);

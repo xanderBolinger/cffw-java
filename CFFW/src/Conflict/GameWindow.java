@@ -235,34 +235,7 @@ public class GameWindow implements Serializable {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
-				ActionResolver.Spot(initiativeOrder);
-				
-				// Old general spot test
-				/*SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
-
-					@Override
-					protected Void doInBackground() throws Exception {
-
-						
-						
-						
-						// System.out.println("Spot1");
-						//spotCycle();
-						// System.out.println("Spot2");
-						return null;
-					}
-
-					@Override
-					protected void done() {
-
-						// System.out.println("Done");
-						gameWindow.conflictLog.addQueuedText();
-						gameWindow.conflictLog.addNewLine("General Spot Test Completed");
-					}
-
-				};
-
-				worker.execute();*/
+				ActionResolver.resolveSpotAction(initiativeOrder, null);
 
 			}
 		});
