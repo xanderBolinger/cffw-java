@@ -57,6 +57,7 @@ import java.awt.Toolkit;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import Actions.Spot;
+import Actions.Resolver.ActionResolver;
 import Artillery.AlertWindow;
 import Artillery.FireMission;
 

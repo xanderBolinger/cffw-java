@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
-import Conflict.ActionResolver;
 import Conflict.AttackHexWindow;
 import Conflict.Game;
 import Conflict.GameWindow;
@@ -89,6 +88,8 @@ import javax.imageio.ImageIO;
 import javax.print.DocFlavor.URL;
 import javax.swing.*;
 
+import Actions.Resolver.ActionResolver;
+import Actions.Resolver.ActionResolverMenuItems;
 import CeHexGrid.Chit;
 import CeHexGrid.Colors;
 import CeHexGrid.Chit.Facing;
@@ -574,8 +575,8 @@ public class HexGrid implements Serializable {
 		private Image unitImage;
 		public Unit unit;
 		// String callsign;
-		int xCord;
-		int yCord;
+		public int xCord;
+		public int yCord;
 
 		public boolean moved = false;
 		
@@ -1171,88 +1172,15 @@ public class HexGrid implements Serializable {
 			}
 			
 			public void addSpot() {
-				
-				JMenuItem item = new JMenuItem("Spot");
-
-				ArrayList<Unit> spotterUnits = new ArrayList<Unit>();
-				
-				for(var dp : deployedUnits)
-					if(selectedUnits.contains(dp) || (selectedUnit != null && selectedUnit.unit.compareTo(dp.unit))) 
-						spotterUnits.add(dp.unit);
-				
-				item.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-						
-						ActionResolver.Spot(spotterUnits);
-						
-						/*SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
-
-							@Override
-							protected Void doInBackground() throws Exception {
-
-								
-								
-								return null;
-							}
-
-							@Override
-							protected void done() {
-								GameWindow.gameWindow.conflictLog.addQueuedText();
-								SpotUtility.printSpottedTroopers();
-							}
-
-						};
-
-						worker.execute();*/
-						
-					}
-				});
-
-				add(item);
-				
+				add(ActionResolverMenuItems.getSpotItem());
 			}
 			
 			public void addSuppress(int xCord, int yCord) {
-
-				// System.out.println("add Los, selectedunits Side: "+selectedUnits.size());
-
-				if (!sameSide()) {
+				if (!sameSide())
 					return;
-				}
-
-				ArrayList<Unit> shooterUnits = new ArrayList<Unit>();
-				ArrayList<Unit> targetUnits = new ArrayList<Unit>();
-				
-				for(var dp : deployedUnits)
-					if(selectedUnits.contains(dp) || (selectedUnit != null && selectedUnit.unit.compareTo(dp.unit))) 
-						shooterUnits.add(dp.unit);
-				
-				if(shooterUnits.size() <= 0)
-					return;
-				
-				for(var dp : deployedUnits) {
-					
-					if(dp.unit.side.equals(shooterUnits.get(0).side))
-						continue;
-					if(dp.xCord == xCord && dp.yCord == yCord)
-						targetUnits.add(dp.unit);
-				}
-				
-				if(targetUnits.size() <= 0)
-					return;
-				
-				JMenuItem item = new JMenuItem("Suppress");
-
-				item.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-
-						ActionResolver.Suppress(shooterUnits, targetUnits);
-
-					}
-				});
-
-				add(item);
-
+				var item = ActionResolverMenuItems.getSuppressItem(xCord, yCord);
+				if(item != null)
+					add(item);
 			}
 			
 			public void addLOS() {
