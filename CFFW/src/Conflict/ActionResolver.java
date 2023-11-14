@@ -51,6 +51,7 @@ public class ActionResolver {
 							shoot.aimTime = shooter.combatActions-1;
 							shoot.recalc();
 							shoot.suppressiveFire(shoot.wep.suppressiveROF+ DiceRoller.roll(1, shoot.wep.suppressiveROF/4));
+							GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shot Results: " + shoot.shotResults);
 						}
 					});
 					

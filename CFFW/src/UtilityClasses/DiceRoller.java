@@ -33,7 +33,10 @@ public class DiceRoller {
 	}
 	
 	public static int roll(int min, int max) {	    
-
+		if(min == 0 && max == 0 || (max < min))
+			return 0;
+		
+		
 	    int randomNum = rand.nextInt((max - min) + 1) + min;
 
 	    return randomNum;

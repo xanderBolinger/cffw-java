@@ -4087,7 +4087,7 @@ public class BulkWindow {
 									var manSup = (int) spinnerSuppressiveRof.getValue();
 									shoot.suppressiveFire(
 											chckbxManualSup.isSelected() && manSup <= 
-											shoot.wep.suppressiveROF  ? manSup : shoot.wep.suppressiveROF);
+											shoot.wep.suppressiveROF  ? manSup : shoot.wep.suppressiveROF + DiceRoller.roll(1, shoot.wep.suppressiveROF/4));
 								}
 								else if (chckbxFullAuto.isSelected()) {
 									shoot.burst();
