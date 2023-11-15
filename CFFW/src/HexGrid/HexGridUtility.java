@@ -21,6 +21,12 @@ import HexGrid.HexGrid.DeployedUnit;
 import Trooper.Trooper;
 import Unit.Unit;
 
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.awt.ShapeReader;
+import org.locationtech.jts.simplify.TopologyPreservingSimplifier;
+
 public class HexGridUtility {
 
 	public enum ShownType {
@@ -190,13 +196,16 @@ public class HexGridUtility {
 
 	public static Polygon getHexMapShape(ArrayList<ArrayList<Polygon>> hexes) {
 		
-		var path = mergePolygons(hexes);
-		var polygon = convertPathToPolygon(path);
+		Coordinate[] cords = mergePolygons(hexes);
+		var polygon = new Polygon();
+		for(var cord : cords) {
+			polygon.addPoint(cord.X, cord.Y);
+		}
 		return polygon;
 	}
 	
 	
-	static Path2D mergePolygons(ArrayList<ArrayList<Polygon>> polygons) {
+	static Coordinate[] mergePolygons(ArrayList<ArrayList<Polygon>> polygons) {
         Path2D mergedShape = new Path2D.Double();
 
         for(var row : polygons) {
@@ -218,17 +227,15 @@ public class HexGridUtility {
 
         return simplifyPath(mergedShape) ;
     }
-	
-	static Path2D simplifyPath(Path2D path) {
-        GeometryFactory geometryFactory = new JTSGeometryFactory();
-        Geometry geometry = JTS.toGeometry(path, geometryFactory);
+	private static final GeometryFactory geometryFactory = new GeometryFactory();
+	private static ShapeReader reader = new ShapeReader(geometryFactory);
+	static Coordinate[] simplifyPath(Path2D path) {
+		Geometry geometry  = reader.read(path.getPathIterator(null)); 
 
-        // You can adjust the tolerance parameter as needed
-        double tolerance = 0.1; // Experiment with different values
-        DouglasPeuckerSimplifier simplifier = new DouglasPeuckerSimplifier(geometry);
-        Geometry simplifiedGeometry = simplifier.getResultGeometry(tolerance);
+        TopologyPreservingSimplifier simplifier = new TopologyPreservingSimplifier(geometry);
+        Geometry simplifiedGeometry = simplifier.getResultGeometry();
 
-        return JTS.toShape(simplifiedGeometry);
+        return simplifiedGeometry.getCoordinates();
     }
 
 	public static Polygon convertPathToPolygon(Path2D path) {
