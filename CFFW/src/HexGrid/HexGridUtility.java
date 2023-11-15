@@ -10,6 +10,9 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.SwingWorker;
 
@@ -194,12 +197,40 @@ public class HexGridUtility {
 		return false;
 	}
 
-	public static Polygon getHexMapShape(ArrayList<ArrayList<Polygon>> hexes) {
+	public static void paintHexes(Graphics2D g2, ArrayList<ArrayList<Polygon>> hexMap, int screenWidth, 
+			int screenHeight) {
+		
+		ExecutorService es = Executors.newFixedThreadPool(16);
+		
+		for(var row : hexMap) {
+			es.submit(() -> {
+				for(var hex : row) {
+					if(!HexGrid.OnScreen(hex, screenWidth, screenHeight))
+						continue;
+					var xpoint = hex.xpoints[0];
+					var ypoint = hex.ypoints[0];
+					if(xpoint > screenWidth && ypoint > screenHeight)
+						break;
+					g2.draw(hex);
+				}
+			});
+		}
+		
+		es.shutdown();
+		try {
+		  es.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+		} catch (InterruptedException e) {
+		 e.printStackTrace();
+		}
+	}
+	
+	
+	static Polygon getHexMapShape(ArrayList<ArrayList<Polygon>> hexes) {
 		
 		Coordinate[] cords = mergePolygons(hexes);
 		var polygon = new Polygon();
 		for(var cord : cords) {
-			polygon.addPoint(cord.X, cord.Y);
+			polygon.addPoint((int)cord.getX(), (int)cord.getY());
 		}
 		return polygon;
 	}

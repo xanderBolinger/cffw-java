@@ -544,6 +544,14 @@ public class HexGrid implements Serializable {
 	public void panelGetXY(MouseEvent e) {
 		panel.mouseReleased(e);
 	}
+	
+	public static boolean OnScreen(Polygon polygon, int width, int height) {
+		var xpoint = polygon.xpoints[0];
+		var ypoint = polygon.ypoints[0];
+		if(xpoint < 0 || ypoint < 0 || xpoint > width || ypoint > height)
+			return false;
+		return true;
+	}
 
 	public void zoomChanged() {
 		panel.mouseWheelMoved(zoom);
@@ -2419,13 +2427,7 @@ public class HexGrid implements Serializable {
 
 		}
 
-		boolean OnScreen(Polygon polygon, int width, int height) {
-			var xpoint = polygon.xpoints[0];
-			var ypoint = polygon.ypoints[0];
-			if(xpoint < 0 || ypoint < 0 || xpoint > width || ypoint > height)
-				return false;
-			return true;
-		}
+		
 		
 		
 		
@@ -2561,6 +2563,8 @@ public class HexGrid implements Serializable {
 					if(xpoint > screenWidth && ypoint > screenHeight)
 						break;
 					
+					
+					
 					es.submit(() -> {
 
 					
@@ -2591,7 +2595,9 @@ public class HexGrid implements Serializable {
 						g2.setColor(color);
 	
 						
-						});
+					});
+					
+					
 				}
 				
 			}
@@ -2603,10 +2609,11 @@ public class HexGrid implements Serializable {
 			 e.printStackTrace();
 			}
 			
+			
 			if(chckbxShowHexes.isSelected()) {
 				g2.setColor(BORDER_COLOR);
 				g2.setStroke(STROKE);
-				g2.draw(HexGridUtility.getHexMapShape(hexMap));
+				HexGridUtility.paintHexes(g2, hexMap, screenWidth, screenHeight);
 			}
 			
 			if(!refreshingDeployedUnits) {
