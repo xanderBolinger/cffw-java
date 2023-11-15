@@ -4,7 +4,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.geom.Path2D;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.SwingWorker;
@@ -184,8 +188,75 @@ public class HexGridUtility {
 		return false;
 	}
 
+	public static Polygon getHexMapShape(ArrayList<ArrayList<Polygon>> hexes) {
+		
+		var path = mergePolygons(hexes);
+		var polygon = convertPathToPolygon(path);
+		return polygon;
+	}
 	
+	
+	static Path2D mergePolygons(ArrayList<ArrayList<Polygon>> polygons) {
+        Path2D mergedShape = new Path2D.Double();
 
+        for(var row : polygons) {
+        	for (var polygon : row) {
+            	var firstXPoint = polygon.xpoints[0];
+            	var firstYPoint = polygon.ypoints[0];
+            	
+                mergedShape.moveTo(firstXPoint, firstYPoint);
+
+                for (int i = 1; i < 6; i++) {
+                    var xPoint = polygon.xpoints[i];
+                    var yPoint = polygon.ypoints[i];
+                    mergedShape.lineTo(xPoint, yPoint);
+                }
+
+                mergedShape.closePath();
+            }
+        }
+
+        return simplifyPath(mergedShape) ;
+    }
+	
+	static Path2D simplifyPath(Path2D path) {
+        GeometryFactory geometryFactory = new JTSGeometryFactory();
+        Geometry geometry = JTS.toGeometry(path, geometryFactory);
+
+        // You can adjust the tolerance parameter as needed
+        double tolerance = 0.1; // Experiment with different values
+        DouglasPeuckerSimplifier simplifier = new DouglasPeuckerSimplifier(geometry);
+        Geometry simplifiedGeometry = simplifier.getResultGeometry(tolerance);
+
+        return JTS.toShape(simplifiedGeometry);
+    }
+
+	public static Polygon convertPathToPolygon(Path2D path) {
+        //Path2D.Iterator iterator = new Path2D.Double(path, null).getPathIterator(null);
+        PathIterator iterator = path.getPathIterator(null);
+        double[] coords = new double[6];
+
+        Polygon polygon = new Polygon();
+        
+        while (!iterator.isDone()) {
+            int type = iterator.currentSegment(coords);
+            
+            switch (type) {
+                case PathIterator.SEG_MOVETO:
+                    polygon.addPoint((int) coords[0], (int) coords[1]);
+                    break;
+                case PathIterator.SEG_LINETO:
+                    polygon.addPoint((int) coords[0], (int) coords[1]);
+                    break;
+                // Handle other segment types if needed
+
+            }
+
+            iterator.next();
+        }
+
+        return polygon;
+    }
     
 
 }

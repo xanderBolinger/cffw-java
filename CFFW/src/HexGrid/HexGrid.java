@@ -1927,6 +1927,8 @@ public class HexGrid implements Serializable {
 			p.addPoint((int) (X - s), (int) (Y));
 			p.addPoint((int) (X - (s / 2)), (int) (Y - a));
 
+
+			
 			return p;
 
 			/*
@@ -1956,7 +1958,7 @@ public class HexGrid implements Serializable {
 			return new Polygon(rx, ry, hex.npoints);
 
 		}
-
+		
 		// Scale
 		// Deletes all hexes
 		// Remakes all hexes based on scaled s value
@@ -1965,7 +1967,7 @@ public class HexGrid implements Serializable {
 		public void makeHexes(int rows, int columns) {
 
 			// System.out.println("Make Hexes");
-
+			
 			if (shapeList.size() > 0)
 				shapeList.clear();
 
@@ -2426,6 +2428,7 @@ public class HexGrid implements Serializable {
 		}
 		
 		
+		
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
@@ -2539,6 +2542,7 @@ public class HexGrid implements Serializable {
 
 			ExecutorService es = Executors.newFixedThreadPool(16);
 			
+			
 			// System.out.println("Columns: "+columns);
 			// System.out.println("Rows: "+rows);
 			// System.out.println("Hex Map Size: "+hexMap.size()+", row size:
@@ -2562,12 +2566,6 @@ public class HexGrid implements Serializable {
 					
 						if(checkBoxShowTiles.isSelected())
 							ProcHexManager.PaintHex(g2, hex, i, j, this);
-						
-						if(chckbxShowHexes.isSelected()) {
-							g2.setColor(BORDER_COLOR);
-							g2.setStroke(STROKE);
-							g2.draw(hex);
-						}
 						
 						Color color = g2.getColor();
 						//g2.setColor(Color.GREEN);
@@ -2603,6 +2601,12 @@ public class HexGrid implements Serializable {
 			  es.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
 			} catch (InterruptedException e) {
 			 e.printStackTrace();
+			}
+			
+			if(chckbxShowHexes.isSelected()) {
+				g2.setColor(BORDER_COLOR);
+				g2.setStroke(STROKE);
+				g2.draw(HexGridUtility.getHexMapShape(hexMap));
 			}
 			
 			if(!refreshingDeployedUnits) {
