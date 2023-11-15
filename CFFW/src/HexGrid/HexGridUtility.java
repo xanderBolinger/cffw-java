@@ -225,7 +225,7 @@ public class HexGridUtility {
 	}
 	
 	
-	static Polygon getHexMapShape(ArrayList<ArrayList<Polygon>> hexes) {
+	/*static Polygon getHexMapShape(ArrayList<ArrayList<Polygon>> hexes) {
 		
 		Coordinate[] cords = mergePolygons(hexes);
 		var polygon = new Polygon();
@@ -294,7 +294,7 @@ public class HexGridUtility {
         }
 
         return polygon;
-    }
+    }*/
     
 
 }
