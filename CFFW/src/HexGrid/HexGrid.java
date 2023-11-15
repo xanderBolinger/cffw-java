@@ -145,6 +145,7 @@ public class HexGrid implements Serializable {
 	public static int mouseX;
 	public static int mouseY;
 	public JComboBox comboBoxRouteSpeed;
+	private JComboBox comboBoxUnitType;
 	
 	/**
 	 * Create the application.
@@ -385,7 +386,7 @@ public class HexGrid implements Serializable {
 		});
 		comboBoxHexes.setModel(new DefaultComboBoxModel(new String[] {"Default", "Clean"}));
 		comboBoxHexes.setSelectedIndex(0);
-		comboBoxHexes.setBounds(550, 12, 97, 22);
+		comboBoxHexes.setBounds(550, 12, 113, 22);
 		layeredPane.add(comboBoxHexes);
 		
 		JLabel lblNewLabel = new JLabel("Hexes:");
@@ -433,7 +434,20 @@ public class HexGrid implements Serializable {
 		comboBoxRouteSpeed.setSelectedIndex(0);
 		comboBoxRouteSpeed.setBounds(92, 44, 106, 22);
 		panel_1.add(comboBoxRouteSpeed);
+		
+		JLabel lblType = new JLabel("Type:");
+		lblType.setBounds(493, 42, 46, 14);
+		layeredPane.add(lblType);
+		
+		comboBoxUnitType = new JComboBox();
+		comboBoxUnitType.setBounds(550, 39, 113, 22);
+		
+		layeredPane.add(comboBoxUnitType);
 
+		for(UnitType unitType : UnitType.values())
+			comboBoxUnitType.addItem(unitType.toString());
+		comboBoxUnitType.setSelectedIndex(0);
+		
 		panel.addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -1360,29 +1374,32 @@ public class HexGrid implements Serializable {
 			if (points == null)
 				return;
 
+			
+			String unitType = comboBoxUnitType.getSelectedItem().toString();
 			if (deployBluforUnknown) {
 				// System.out.println("deploy blufor");
-				Chit chit = new Chit(ExcelUtility.path + "\\Icons\\unknown_blufor_icon.png", 20, 20);
+				Chit chit = new Chit(ExcelUtility.path + "//Unit Images//BLUFOR_"+unitType+".png", 20, 12);
 				chit.xCord = points[0];
 				chit.yCord = points[1];
 				GameWindow.gameWindow.game.chits.add(chit);
 				chit.number = GameWindow.gameWindow.game.chitCounter;
 				GameWindow.gameWindow.game.chitCounter++;
 			} else if (deployOpforUnknown) {
-				Chit chit = new Chit(ExcelUtility.path + "\\Icons\\unknown_opfor_icon.png", 20, 20);
+				Chit chit = new Chit(ExcelUtility.path + "//Unit Images//OPFOR_"+unitType+".png", 20, 20);
 				chit.xCord = points[0];
 				chit.yCord = points[1];
 				GameWindow.gameWindow.game.chits.add(chit);
 				chit.number = GameWindow.gameWindow.game.chitCounter;
 				GameWindow.gameWindow.game.chitCounter++;
 			} else if (deployUnknown) {
-				Chit chit = new Chit(ExcelUtility.path + "\\Icons\\unknown_icon.png", 20, 20);
+				Chit chit = new Chit(ExcelUtility.path + "//Unit Images//UNKNOWN_UNKNOWN.png", 20, 12);
 				chit.xCord = points[0];
 				chit.yCord = points[1];
 				GameWindow.gameWindow.game.chits.add(chit);
 				chit.number = GameWindow.gameWindow.game.chitCounter;
 				GameWindow.gameWindow.game.chitCounter++;
 			}
+			
 
 			checkChitClick(e.getPoint());
 

@@ -1,4 +1,11 @@
+/Actions/
 /Artillery/
+/CeHexGrid/
+/CharacterBuilder/
+/CloseCombat/
+/Command/
+/CommandLineInterface/
+/Company/
 /Conflict/
 /CorditeExpansion/
 /CorditeExpansionActions/
@@ -31,4 +38,3 @@
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
-/Actions/
