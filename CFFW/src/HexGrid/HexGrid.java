@@ -291,7 +291,7 @@ public class HexGrid implements Serializable {
 		System.out.println("Path: " + ExcelUtility.path);
 		btnNewButton.setBackground(SystemColor.text);
 		btnNewButton.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\threadIcon.png"));
-		btnNewButton.setBounds(220, 0, 45, 45);
+		btnNewButton.setBounds(55, 0, 45, 45);
 		layeredPane.add(btnNewButton);
 		
 		Image mountainIcon = new ImageIcon(ExcelUtility.path + "\\Icons\\mountain_icon.png").getImage();
@@ -313,7 +313,7 @@ public class HexGrid implements Serializable {
 		
 		spinnerFortificationLevel = new JSpinner();
 		spinnerFortificationLevel.setModel(new SpinnerNumberModel(0, null, 4, 1));
-		spinnerFortificationLevel.setBounds(328, 12, 45, 20);
+		spinnerFortificationLevel.setBounds(163, 12, 45, 20);
 		layeredPane.add(spinnerFortificationLevel);
 		
 		btnFt = new JButton("Ft");
@@ -328,7 +328,7 @@ public class HexGrid implements Serializable {
 		Image fortificationIconScaled = fortificationIcon.getScaledInstance(45, 45, java.awt.Image.SCALE_SMOOTH ) ;
 		btnFt.setIcon(new ImageIcon(fortificationIconScaled));
 		btnFt.setBackground(Color.WHITE);
-		btnFt.setBounds(275, 0, 45, 45);
+		btnFt.setBounds(110, 0, 45, 45);
 		btnFt.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
 		layeredPane.add(btnFt);
 		
@@ -341,11 +341,11 @@ public class HexGrid implements Serializable {
 		});
 		btnShields.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
 		btnShields.setBackground(Color.WHITE);
-		btnShields.setBounds(383, 0, 45, 45);
+		btnShields.setBounds(218, 0, 45, 45);
 		layeredPane.add(btnShields);
 		
 		spinnerShieldStrength = new JSpinner();
-		spinnerShieldStrength.setBounds(438, 12, 45, 20);
+		spinnerShieldStrength.setBounds(273, 12, 45, 20);
 		layeredPane.add(spinnerShieldStrength);
 		
 		comboBoxHexes = new JComboBox();
@@ -357,11 +357,11 @@ public class HexGrid implements Serializable {
 		});
 		comboBoxHexes.setModel(new DefaultComboBoxModel(new String[] {"Default", "Clean"}));
 		comboBoxHexes.setSelectedIndex(0);
-		comboBoxHexes.setBounds(550, 12, 113, 22);
+		comboBoxHexes.setBounds(385, 12, 113, 22);
 		layeredPane.add(comboBoxHexes);
 		
 		JLabel lblNewLabel = new JLabel("Hexes:");
-		lblNewLabel.setBounds(493, 16, 46, 14);
+		lblNewLabel.setBounds(328, 16, 46, 14);
 		layeredPane.add(lblNewLabel);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -584,14 +584,14 @@ public class HexGrid implements Serializable {
 		deployUnknownChit = !deployUnknownChit;
 		deployBluforChit = false;
 		deployOpforChit = false;
-		GameWindow.gameWindow.conflictLog.addNewLine("Set Deploy Unkown: " + deployBluforChit);
+		GameWindow.gameWindow.conflictLog.addNewLine("Set Deploy Unkown: " + deployUnknownChit);
 	}
 
 	public void deployOpforChit() {
 		deployOpforChit = !deployOpforChit;
 		deployBluforChit = false;
 		deployUnknownChit = false;
-		GameWindow.gameWindow.conflictLog.addNewLine("Set Deploy Opfor: " + deployBluforChit);
+		GameWindow.gameWindow.conflictLog.addNewLine("Set Deploy Opfor: " + deployOpforChit);
 	}
 
 	class DrawnString {
@@ -1395,36 +1395,42 @@ public class HexGrid implements Serializable {
 				return;
 
 			
-			String unitType = comboBoxUnitType.getSelectedItem().toString();
-			if (deployBluforChit) {
-				// System.out.println("deploy blufor");
-				Chit chit = new Chit(ExcelUtility.path + "//Unit Images//BLUFOR_"+unitType+".png", 20, 12);
-				chit.xCord = points[0];
-				chit.yCord = points[1];
-				GameWindow.gameWindow.game.chits.add(chit);
-				chit.number = GameWindow.gameWindow.game.chitCounter;
-				GameWindow.gameWindow.game.chitCounter++;
-			} else if (deployOpforChit) {
-				Chit chit = new Chit(ExcelUtility.path + "//Unit Images//OPFOR_"+unitType+".png", 20, 20);
-				chit.xCord = points[0];
-				chit.yCord = points[1];
-				GameWindow.gameWindow.game.chits.add(chit);
-				chit.number = GameWindow.gameWindow.game.chitCounter;
-				GameWindow.gameWindow.game.chitCounter++;
-			} else if (deployUnknownChit) {
-				Chit chit = new Chit(ExcelUtility.path + "//Unit Images//UNKNOWN_UNKNOWN.png", 20, 12);
-				chit.xCord = points[0];
-				chit.yCord = points[1];
-				GameWindow.gameWindow.game.chits.add(chit);
-				chit.number = GameWindow.gameWindow.game.chitCounter;
-				GameWindow.gameWindow.game.chitCounter++;
-			}
+			deployChit(points);
 			
 
 			checkChitClick(e.getPoint());
 
 		}
 
+		public void deployChit(int[] points) {
+			String unitType = comboBoxUnitType.getSelectedItem().toString();
+			
+			Chit chit;
+			
+			if (deployBluforChit)
+				chit = new Chit(ExcelUtility.path + "//Unit Images//BLUFOR_"+unitType+".png", 20, 12);
+			else if (deployOpforChit)
+				chit = new Chit(ExcelUtility.path + "//Unit Images//OPFOR_"+unitType+".png", 20, 20);
+			else if (deployUnknownChit)
+				chit = new Chit(ExcelUtility.path + "//Unit Images//UNKNOWN_UNKNOWN.png", 20, 12);
+			else 
+				return;
+			
+			chit.xCord = points[0];
+			chit.yCord = points[1];
+			GameWindow.gameWindow.game.chits.add(chit);
+			chit.number = GameWindow.gameWindow.game.chitCounter;
+			
+			var chitName = textFieldChitName.getText();
+			
+			if(!chitName.equals("")) {
+				chit.labeled = true;
+				chit.chitLabel = chitName;
+			}
+			
+			GameWindow.gameWindow.game.chitCounter++;
+		}
+		
 		public void mouseDragged(MouseEvent e) {
 			panel.dragging = true;
 			currentCursorPoint = e.getPoint();
