@@ -118,14 +118,11 @@ public class HexGrid implements Serializable {
 	private JLayeredPane layeredPane;
 	private JButton btnNewButton;
 	public static boolean losThreadShowing = false;
-	public static boolean deployBluforUnknown = false;
-	public static boolean deployOpforUnknown = false;
-	public static boolean deployUnknown = false;
+	public static boolean deployBluforChit = false;
+	public static boolean deployOpforChit = false;
+	public static boolean deployUnknownChit = false;
 	private JMenuItem mntmHideU;
 	private JMenuItem mntmInitEmptyHexes;
-	private JButton btnNewButton_1;
-	private JButton btnNewButton_2;
-	private JButton btnNewButton_3;
 	public boolean elevationPaste = false;
 	public boolean createFortifications = false;
 	public boolean createShields = false;
@@ -145,7 +142,14 @@ public class HexGrid implements Serializable {
 	public static int mouseX;
 	public static int mouseY;
 	public JComboBox comboBoxRouteSpeed;
+	private JPanel panelUnits;
+	private JButton btnDeployBlufor;
+	private JButton btnDeployOpfor;
+	private JButton btnDeployUnknown;
 	private JComboBox comboBoxUnitType;
+	private JLabel lblType_1;
+	private JLabel lblType;
+	private JTextField textFieldChitName;
 	
 	/**
 	 * Create the application.
@@ -289,39 +293,6 @@ public class HexGrid implements Serializable {
 		btnNewButton.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\threadIcon.png"));
 		btnNewButton.setBounds(220, 0, 45, 45);
 		layeredPane.add(btnNewButton);
-
-		btnNewButton_1 = new JButton("");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				deployBluforUnknown();
-			}
-		});
-		btnNewButton_1.setBackground(SystemColor.text);
-		btnNewButton_1.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\unknown_blufor_icon.png"));
-		btnNewButton_1.setBounds(55, 0, 45, 45);
-		layeredPane.add(btnNewButton_1);
-
-		btnNewButton_2 = new JButton("");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				deployOpforUnknown();
-			}
-		});
-		btnNewButton_2.setBackground(SystemColor.text);
-		btnNewButton_2.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\unknown_opfor_icon.png"));
-		btnNewButton_2.setBounds(110, 0, 45, 45);
-		layeredPane.add(btnNewButton_2);
-
-		btnNewButton_3 = new JButton("");
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				deployUnknown();
-			}
-		});
-		btnNewButton_3.setBackground(SystemColor.text);
-		btnNewButton_3.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\unknown_icon.png"));
-		btnNewButton_3.setBounds(165, 0, 45, 45);
-		layeredPane.add(btnNewButton_3);
 		
 		Image mountainIcon = new ImageIcon(ExcelUtility.path + "\\Icons\\mountain_icon.png").getImage();
 		Image mountainIconScaled = mountainIcon.getScaledInstance(45, 45, java.awt.Image.SCALE_SMOOTH ) ;
@@ -397,56 +368,103 @@ public class HexGrid implements Serializable {
 		tabbedPane.setBounds(10, 56, 891, 117);
 		layeredPane.add(tabbedPane);
 		
-		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("Display", null, panel_1, null);
-		panel_1.setLayout(null);
+		JPanel panelDisplay = new JPanel();
+		tabbedPane.addTab("Display", null, panelDisplay, null);
+		panelDisplay.setLayout(null);
 		
 		checkBoxShowTiles = new JCheckBox("ShwTiles");
 		checkBoxShowTiles.setSelected(true);
 		checkBoxShowTiles.setBounds(6, 7, 97, 23);
-		panel_1.add(checkBoxShowTiles);
+		panelDisplay.add(checkBoxShowTiles);
 		
 		chckbxShowHexes = new JCheckBox("SwHxs");
 		chckbxShowHexes.setSelected(true);
 		chckbxShowHexes.setBounds(115, 7, 67, 23);
-		panel_1.add(chckbxShowHexes);
+		panelDisplay.add(chckbxShowHexes);
 		
 		chckbxShowFts = new JCheckBox("SwFts");
 		chckbxShowFts.setSelected(true);
 		chckbxShowFts.setBounds(192, 7, 67, 23);
-		panel_1.add(chckbxShowFts);
+		panelDisplay.add(chckbxShowFts);
 		
 		chckbxSwgridNum = new JCheckBox("SwGrid#");
 		chckbxSwgridNum.setBounds(271, 7, 85, 23);
-		panel_1.add(chckbxSwgridNum);
+		panelDisplay.add(chckbxSwgridNum);
 		
 		chckbxShwcallsigns = new JCheckBox("ShwCallsigns");
 		chckbxShwcallsigns.setSelected(true);
 		chckbxShwcallsigns.setBounds(358, 7, 132, 23);
-		panel_1.add(chckbxShwcallsigns);
+		panelDisplay.add(chckbxShwcallsigns);
 		
 		JLabel lblRouteSpeed = new JLabel("Route Speed: ");
-		lblRouteSpeed.setBounds(6, 48, 76, 14);
-		panel_1.add(lblRouteSpeed);
+		lblRouteSpeed.setBounds(6, 48, 97, 14);
+		panelDisplay.add(lblRouteSpeed);
 		
 		comboBoxRouteSpeed = new JComboBox();
 		comboBoxRouteSpeed.setModel(new DefaultComboBoxModel(new String[] {"Walk", "Rush", "Crawl"}));
 		comboBoxRouteSpeed.setSelectedIndex(0);
-		comboBoxRouteSpeed.setBounds(92, 44, 106, 22);
-		panel_1.add(comboBoxRouteSpeed);
+		comboBoxRouteSpeed.setBounds(104, 44, 106, 22);
+		panelDisplay.add(comboBoxRouteSpeed);
 		
-		JLabel lblType = new JLabel("Type:");
-		lblType.setBounds(493, 42, 46, 14);
-		layeredPane.add(lblType);
+		panelUnits = new JPanel();
+		tabbedPane.addTab("Units", null, panelUnits, null);
+		panelUnits.setLayout(null);
+		
+		btnDeployBlufor = new JButton("");
+		btnDeployBlufor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				deployBluforChit();
+			}
+		});
+		btnDeployBlufor.setBackground(SystemColor.text);
+		btnDeployBlufor.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\unknown_blufor_icon.png"));
+		btnDeployBlufor.setBounds(10, 10, 45, 45);
+		panelUnits.add(btnDeployBlufor);
+		
+		btnDeployOpfor = new JButton("");
+		btnDeployOpfor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				deployOpforChit();
+			}
+		});
+		btnDeployOpfor.setBackground(SystemColor.text);
+		btnDeployOpfor.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\unknown_opfor_icon.png"));
+		btnDeployOpfor.setBounds(65, 10, 45, 45);
+		panelUnits.add(btnDeployOpfor);
+		
+		btnDeployUnknown = new JButton("");
+		btnDeployUnknown.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				deployUnknownChit();
+			}
+		});
+		btnDeployUnknown.setBackground(SystemColor.text);
+		btnDeployUnknown.setIcon(new ImageIcon(ExcelUtility.path + "\\Icons\\unknown_icon.png"));
+		btnDeployUnknown.setBounds(120, 10, 45, 45);
+		panelUnits.add(btnDeployUnknown);
 		
 		comboBoxUnitType = new JComboBox();
-		comboBoxUnitType.setBounds(550, 39, 113, 22);
+		comboBoxUnitType.setBounds(232, 10, 113, 22);
+		panelUnits.add(comboBoxUnitType);
 		
-		layeredPane.add(comboBoxUnitType);
-
 		for(UnitType unitType : UnitType.values())
 			comboBoxUnitType.addItem(unitType.toString());
 		comboBoxUnitType.setSelectedIndex(0);
+		
+		lblType_1 = new JLabel("Type:");
+		lblType_1.setBounds(175, 13, 46, 14);
+		panelUnits.add(lblType_1);
+		
+		lblType = new JLabel("Name:");
+		lblType.setBounds(175, 37, 46, 14);
+		panelUnits.add(lblType);
+		
+		textFieldChitName = new JTextField();
+		textFieldChitName.setBounds(232, 36, 113, 19);
+		panelUnits.add(textFieldChitName);
+		textFieldChitName.setColumns(10);
+
+		
 		
 		panel.addMouseListener(new MouseAdapter() {
 
@@ -554,24 +572,26 @@ public class HexGrid implements Serializable {
 		}
 	}
 
-	public void deployBluforUnknown() {
-		deployBluforUnknown = !deployBluforUnknown;
-		System.out.println("set deploy blufor: " + deployBluforUnknown);
-		
-		deployUnknown = false;
-		deployOpforUnknown = false;
+	public void deployBluforChit() {
+		deployBluforChit = !deployBluforChit;
+		System.out.println("set deploy blufor: " + deployBluforChit);
+		GameWindow.gameWindow.conflictLog.addNewLine("Set Deploy Blufor: " + deployBluforChit);
+		deployUnknownChit = false;
+		deployOpforChit = false;
 	}
 
-	public void deployUnknown() {
-		deployUnknown = !deployUnknown;
-		deployBluforUnknown = false;
-		deployOpforUnknown = false;
+	public void deployUnknownChit() {
+		deployUnknownChit = !deployUnknownChit;
+		deployBluforChit = false;
+		deployOpforChit = false;
+		GameWindow.gameWindow.conflictLog.addNewLine("Set Deploy Unkown: " + deployBluforChit);
 	}
 
-	public void deployOpforUnknown() {
-		deployOpforUnknown = !deployOpforUnknown;
-		deployBluforUnknown = false;
-		deployUnknown = false;
+	public void deployOpforChit() {
+		deployOpforChit = !deployOpforChit;
+		deployBluforChit = false;
+		deployUnknownChit = false;
+		GameWindow.gameWindow.conflictLog.addNewLine("Set Deploy Opfor: " + deployBluforChit);
 	}
 
 	class DrawnString {
@@ -1376,7 +1396,7 @@ public class HexGrid implements Serializable {
 
 			
 			String unitType = comboBoxUnitType.getSelectedItem().toString();
-			if (deployBluforUnknown) {
+			if (deployBluforChit) {
 				// System.out.println("deploy blufor");
 				Chit chit = new Chit(ExcelUtility.path + "//Unit Images//BLUFOR_"+unitType+".png", 20, 12);
 				chit.xCord = points[0];
@@ -1384,14 +1404,14 @@ public class HexGrid implements Serializable {
 				GameWindow.gameWindow.game.chits.add(chit);
 				chit.number = GameWindow.gameWindow.game.chitCounter;
 				GameWindow.gameWindow.game.chitCounter++;
-			} else if (deployOpforUnknown) {
+			} else if (deployOpforChit) {
 				Chit chit = new Chit(ExcelUtility.path + "//Unit Images//OPFOR_"+unitType+".png", 20, 20);
 				chit.xCord = points[0];
 				chit.yCord = points[1];
 				GameWindow.gameWindow.game.chits.add(chit);
 				chit.number = GameWindow.gameWindow.game.chitCounter;
 				GameWindow.gameWindow.game.chitCounter++;
-			} else if (deployUnknown) {
+			} else if (deployUnknownChit) {
 				Chit chit = new Chit(ExcelUtility.path + "//Unit Images//UNKNOWN_UNKNOWN.png", 20, 12);
 				chit.xCord = points[0];
 				chit.yCord = points[1];
