@@ -2245,7 +2245,9 @@ public class BulkWindow {
 				ArrayList<Unit> units = new ArrayList<Unit>();
 				
 				for(var trooper : troopers) {
-					units.add(trooper.returnTrooperUnit(gameWindow));
+					var unit = trooper.returnTrooperUnit(gameWindow);
+					if(!units.contains(unit))
+						units.add(unit);
 				}
 				
 				for(var unit : units) {
