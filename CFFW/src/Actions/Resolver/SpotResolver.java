@@ -14,7 +14,7 @@ public class SpotResolver extends ActionToResolve {
 	
 	
 	@Override
-	protected void processUnit(Unit spottingUnit, ArrayList<Unit> targetUnits) {
+	protected void processUnit(Unit spottingUnit, ArrayList<Unit> targetUnits, boolean freeAction) {
 		for(var trooper : spottingUnit.individuals) {
 			if(!trooper.canAct(GameWindow.gameWindow.game))
 				continue;
@@ -23,7 +23,7 @@ public class SpotResolver extends ActionToResolve {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}*/
-			performSpotTest(trooper, spottingUnit);
+			performSpotTest(trooper, spottingUnit, freeAction);
 			//System.out.println("spot");
 		}
 		spotUnit++;
@@ -31,7 +31,7 @@ public class SpotResolver extends ActionToResolve {
 	}
 
 	
-	void performSpotTest(Trooper trooper, Unit trooperUnit) {
+	void performSpotTest(Trooper trooper, Unit trooperUnit, boolean freeAction) {
 
 		var gameWindow = GameWindow.gameWindow;
 		boolean spotted = false; 
@@ -39,7 +39,7 @@ public class SpotResolver extends ActionToResolve {
 		for (Unit targetUnit : trooperUnit.lineOfSight) {
 
 			Spot spotAction = new Spot(gameWindow, trooperUnit, targetUnit, trooper,
-					"60 Degrees", gameWindow.visibility, gameWindow.initiativeOrder,
+					freeAction ? "180 Degrees" : "60 Degrees", gameWindow.visibility, gameWindow.initiativeOrder,
 					gameWindow);
 
 			spotAction.displayResultsQueue(gameWindow, spotAction);
@@ -49,8 +49,9 @@ public class SpotResolver extends ActionToResolve {
 			spotted = true;
 		}
 		
-		if(!spotted)
+		if(!spotted || freeAction)
 			return;
+		
 		
 		if (GameWindow.gameWindow.game.getPhase() == 1)
 			trooper.spentPhase1++;

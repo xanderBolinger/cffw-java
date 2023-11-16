@@ -11,9 +11,9 @@ import Unit.Unit;
 
 public class ActionResolverMenuItems {
 
-	public static JMenuItem getSpotItem() {
+	public static JMenuItem getSpotItem(boolean freeAction) {
 			
-		JMenuItem item = new JMenuItem("Spot");
+		JMenuItem item = new JMenuItem(freeAction ? "Spot Free" : "Spot");
 
 		ArrayList<Unit> spotterUnits = new ArrayList<Unit>();
 		
@@ -28,7 +28,7 @@ public class ActionResolverMenuItems {
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				ActionResolver.resolveSpotAction(spotterUnits, null);
+				ActionResolver.resolveSpotAction(spotterUnits, null, freeAction);
 				
 			}
 		});

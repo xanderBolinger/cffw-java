@@ -25,15 +25,15 @@ public class ActionResolver {
 	static SpotResolver spotResolver = new SpotResolver();
 	
 	public static void resolveSuppressAction(ArrayList<Unit> selectedUnits, ArrayList<Unit> targetUnits) {
-		suppressRsolver.ResolveAction(selectedUnits, targetUnits);
+		suppressRsolver.ResolveAction(selectedUnits, targetUnits, false);
 	}
 	
-	public static void resolveSpotAction(ArrayList<Unit> selectedUnits, ArrayList<Unit> targetUnits) {
+	public static void resolveSpotAction(ArrayList<Unit> selectedUnits, ArrayList<Unit> targetUnits, boolean freeAction) {
 		SpotUtility.clearSpotted();
 		GameWindow.gameWindow.conflictLog.addNewLine("Spotting...");
 		
 		SpotResolver.spotUnit = 0;
-		spotResolver.ResolveAction(selectedUnits, targetUnits);
+		spotResolver.ResolveAction(selectedUnits, targetUnits, freeAction);
 	}
 	
 	

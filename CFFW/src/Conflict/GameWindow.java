@@ -229,13 +229,13 @@ public class GameWindow implements Serializable {
 		btnStartingSpotTest = new JButton("General Spot Test");
 		btnStartingSpotTest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				ActionResolver.resolveSpotAction(initiativeOrder, null, false);
 			}
 		});
 		btnStartingSpotTest.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				
-				ActionResolver.resolveSpotAction(initiativeOrder, null);
 
 			}
 		});
@@ -636,6 +636,8 @@ public class GameWindow implements Serializable {
 		btnNextAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				ActionResolver.resolveSpotAction(initiativeOrder, null, false);
+				
 				hexGrid.panel.selectedUnit = null;
 				hexGrid.panel.selectedUnits.clear();
 				HexGrid.impactHexes.clear();
@@ -651,6 +653,7 @@ public class GameWindow implements Serializable {
 
 					@Override
 					protected Void doInBackground() throws Exception {
+						
 						for(int i = 0; i < (int)spinnerNextActions.getValue(); i++) {
 							nextAction();					
 						}

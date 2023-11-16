@@ -10,7 +10,7 @@ import UtilityClasses.DiceRoller;
 public class SuppressResolver extends ActionToResolve {
 
 	@Override
-	protected void processUnit(Unit shooterUnit, ArrayList<Unit> targetUnits) {
+	protected void processUnit(Unit shooterUnit, ArrayList<Unit> targetUnits, boolean freeAction) {
 		for(var shooter : shooterUnit.individuals) {
 			
 			if(!shooter.canAct(GameWindow.gameWindow.game))
@@ -27,6 +27,8 @@ public class SuppressResolver extends ActionToResolve {
 			shoot.suppressiveFire(shoot.wep.suppressiveROF+ DiceRoller.roll(1, shoot.wep.suppressiveROF/4));
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shot Results: " + shoot.shotResults);
 			
+			if(freeAction)
+				continue;
 			
 			if (GameWindow.gameWindow.game.getPhase() == 1)
 				shooter.spentPhase1++;

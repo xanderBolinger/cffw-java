@@ -14,7 +14,7 @@ import Unit.Unit;
 
 abstract class ActionToResolve {
 
-	public void ResolveAction(ArrayList<Unit> selectedUnits, ArrayList<Unit> targetUnits) {
+	public void ResolveAction(ArrayList<Unit> selectedUnits, ArrayList<Unit> targetUnits, boolean freeAction) {
 		
 		SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
 
@@ -26,7 +26,7 @@ abstract class ActionToResolve {
 					
 					es.submit(() -> {
 					
-						processUnit(unit,targetUnits);
+						processUnit(unit,targetUnits,freeAction);
 					
 					});
 					
@@ -56,6 +56,6 @@ abstract class ActionToResolve {
 		
 	}
 	
-	protected abstract void processUnit(Unit unit, ArrayList<Unit> units);
+	protected abstract void processUnit(Unit unit, ArrayList<Unit> units, boolean freeAction);
 	
 }

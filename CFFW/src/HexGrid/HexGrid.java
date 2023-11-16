@@ -1203,7 +1203,8 @@ public class HexGrid implements Serializable {
 			}
 			
 			public void addSpot() {
-				add(ActionResolverMenuItems.getSpotItem());
+				add(ActionResolverMenuItems.getSpotItem(false));
+				add(ActionResolverMenuItems.getSpotItem(true));
 			}
 			
 			public void addSuppress(int xCord, int yCord) {
