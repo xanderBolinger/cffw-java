@@ -24,11 +24,11 @@ import HexGrid.HexGrid.DeployedUnit;
 import Trooper.Trooper;
 import Unit.Unit;
 
-import org.locationtech.jts.geom.Coordinate;
+/*import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.awt.ShapeReader;
-import org.locationtech.jts.simplify.TopologyPreservingSimplifier;
+import org.locationtech.jts.simplify.TopologyPreservingSimplifier;*/
 
 public class HexGridUtility {
 

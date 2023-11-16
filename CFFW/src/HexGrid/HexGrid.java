@@ -150,6 +150,7 @@ public class HexGrid implements Serializable {
 	private JLabel lblType_1;
 	private JLabel lblType;
 	private JTextField textFieldChitName;
+	private JCheckBox chckbxShwloslines;
 	
 	/**
 	 * Create the application.
@@ -393,7 +394,7 @@ public class HexGrid implements Serializable {
 		
 		chckbxShwcallsigns = new JCheckBox("ShwCallsigns");
 		chckbxShwcallsigns.setSelected(true);
-		chckbxShwcallsigns.setBounds(358, 7, 132, 23);
+		chckbxShwcallsigns.setBounds(358, 7, 106, 23);
 		panelDisplay.add(chckbxShwcallsigns);
 		
 		JLabel lblRouteSpeed = new JLabel("Route Speed: ");
@@ -405,6 +406,11 @@ public class HexGrid implements Serializable {
 		comboBoxRouteSpeed.setSelectedIndex(0);
 		comboBoxRouteSpeed.setBounds(104, 44, 106, 22);
 		panelDisplay.add(comboBoxRouteSpeed);
+		
+		chckbxShwloslines = new JCheckBox("ShwLosLines");
+		chckbxShwloslines.setSelected(true);
+		chckbxShwloslines.setBounds(466, 7, 132, 23);
+		panelDisplay.add(chckbxShwloslines);
 		
 		panelUnits = new JPanel();
 		tabbedPane.addTab("Units", null, panelUnits, null);
@@ -2676,8 +2682,18 @@ public class HexGrid implements Serializable {
 			drawVehicleLosOutlines(g2);
 			
 			HexGridWaypointUtility.draw(g2);
+			
+			drawLosLines(g2);
+			
 		}
 
+		private void drawLosLines(Graphics2D g2) {
+			if(chckbxShwloslines.isSelected() && selectedUnit == null)
+				DrawLos.drawLos(g2, deployedUnits);
+			else if(chckbxShwloslines.isSelected() && selectedUnit != null)
+				DrawLos.drawLos(g2, selectedUnit);
+		}
+		
 		
 		private void drawImpactMarkers(Graphics2D g2) {
 			// Draw smoke markers
