@@ -51,6 +51,7 @@ import UtilityClasses.TrooperUtility;
 
 public class Trooper implements Serializable {
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	private String path = System.getProperty("user.dir") + "\\"; // note this does not update upon 
 	// loading saved troopers on a new machine. So it will have the dir of the old machine on it.
 	
 	// private String path = "X:\\OneDrive\\OneDrive - Colostate\\Xander
