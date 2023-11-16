@@ -15,6 +15,7 @@ import Conflict.GameWindow;
 import CorditeExpansion.CorditeExpansionGame;
 import CorditeExpansion.CorditeExpansionWindow;
 import HexGrid.HexGrid.Panel;
+import HexGrid.Waypoint.WaypointManager;
 import UtilityClasses.Keyboard;
 
 public class HexKeyListener {
@@ -29,6 +30,10 @@ public class HexKeyListener {
 			
             @Override
             public boolean dispatchKeyEvent(KeyEvent e) {
+            	
+            	var hexGrid = GameWindow.gameWindow.hexGrid;
+            	var panel = hexGrid.panel;
+            	
             	synchronized (HexKeyListener.class) {
                     switch (e.getID()) {
                     case KeyEvent.KEY_PRESSED:
@@ -47,7 +52,14 @@ public class HexKeyListener {
                         } else if(e.getKeyCode() == KeyEvent.VK_DELETE && Chit.isAChitSelected()) {
                         	GameWindow.gameWindow.game.chits.remove(Chit.getSelectedChit());
                         	Chit.unselectChit();
-                        }
+                        } else if(e.getKeyCode() == KeyEvent.VK_A && panel.selectedUnit != null && 
+                                Keyboard.isKeyPressed(KeyEvent.VK_SHIFT)) {
+                        	 panel.selectedUnit.unit.waypointData
+    						.clearWaypoints(panel.selectedUnit.unit);
+                        } else if(e.getKeyCode() == KeyEvent.VK_A && panel.selectedUnit != null) {
+                        	WaypointManager.addWaypoints = !WaypointManager.addWaypoints;
+                        } 
+                        
                         break;
                        
                     case KeyEvent.KEY_RELEASED:

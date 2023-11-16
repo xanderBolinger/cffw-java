@@ -696,10 +696,8 @@ public class OpenUnit implements Serializable {
 		textFieldUnit.setColumns(10);
 		
 		JButton btnSave = new JButton("Save");
-		btnSave.setBounds(594, 11, 80, 23);
-		btnSave.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				// Saves unit
 				saveUnit(unit, window);
 
@@ -710,6 +708,13 @@ public class OpenUnit implements Serializable {
 				
 				// Closes this window 
 				f.dispose();
+			}
+		});
+		btnSave.setBounds(594, 11, 80, 23);
+		btnSave.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
 				
 			}
 		});
