@@ -635,9 +635,6 @@ public class GameWindow implements Serializable {
 		JButton btnNextAction = new JButton("Next Action");
 		btnNextAction.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				ActionResolver.resolveSpotAction(initiativeOrder, null, false);
-				
 				hexGrid.panel.selectedUnit = null;
 				hexGrid.panel.selectedUnits.clear();
 				HexGrid.impactHexes.clear();
@@ -2315,7 +2312,9 @@ public class GameWindow implements Serializable {
 				troopers.get(j).fatigueSystem.AddRecoveryTime(20);
 			}
 
+			System.out.println("Unit Advance Time: "+unit.callsign);
 			if (game.getPhase() == 1) {
+				System.out.println(troopers.get(j).name+", spent P1: "+troopers.get(j).spentPhase1+", Actions: "+actions);
 				if (troopers.get(j).spentPhase1 < actions) {
 
 					if (troopers.get(j).spentPhase1 + 1 <= troopers.get(j).P1) {
@@ -2324,6 +2323,7 @@ public class GameWindow implements Serializable {
 					}
 				}
 			} else {
+				System.out.println(troopers.get(j).name+", spent P2: "+troopers.get(j).spentPhase2+", Actions: "+actions);
 				if (troopers.get(j).spentPhase2 < actions) {
 
 					if (troopers.get(j).spentPhase2 + 1 <= troopers.get(j).P2) {

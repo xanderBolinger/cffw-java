@@ -22,7 +22,8 @@ import UtilityClasses.DiceRoller;
 public class ActionResolver {
 
 	static SuppressResolver suppressRsolver = new SuppressResolver();
-	static SpotResolver spotResolver = new SpotResolver();
+	public static SpotResolver spotResolver = new SpotResolver();
+
 	
 	public static void resolveSuppressAction(ArrayList<Unit> selectedUnits, ArrayList<Unit> targetUnits) {
 		suppressRsolver.ResolveAction(selectedUnits, targetUnits, false);
