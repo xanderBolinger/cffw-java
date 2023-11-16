@@ -310,6 +310,7 @@ public class ArtilleryWindow {
 				batteryList.setModel(listBatteries);
 				
 				refreshBatteryList();
+				GameWindow.gameWindow.conflictLog.addQueuedText();
 			}
 		});
 		btnNewButton.setBounds(10, 758, 160, 26);
@@ -355,7 +356,7 @@ public class ArtilleryWindow {
 				refreshFireMissionList(); 
 				
 				fireMissionList.setSelectedIndex(index);
-				
+				GameWindow.gameWindow.conflictLog.addQueuedText();
 			}
 		});
 		btnAddFireMission.setBounds(10, 458, 160, 26);
@@ -444,7 +445,7 @@ public class ArtilleryWindow {
 				}
 				
 				refreshBatteryList();
-				
+				GameWindow.gameWindow.conflictLog.addQueuedText();
 			}
 		});
 		btnUpdate.setBounds(10, 793, 160, 26);
@@ -466,7 +467,7 @@ public class ArtilleryWindow {
 				unit.fireMissions.add(fireMission);
 				
 				refreshLists();
-				
+				GameWindow.gameWindow.conflictLog.addQueuedText();
 			}
 		});
 		btnUpdate_1.setBounds(10, 422, 160, 26);
@@ -517,7 +518,7 @@ public class ArtilleryWindow {
 				FireMission fireMission = unit.fireMissions.get(fireMissionList.getSelectedIndex());
 				fireMission.fireForEffect(shots, shotIndex);
 				fireMission.addOrders((int)spinnerOrders.getValue(), shots, shotIndex);
-				
+				GameWindow.gameWindow.conflictLog.addQueuedText();
 			}
 		});
 		btnUpdate_1_1.setBounds(10, 389, 160, 26);
@@ -547,7 +548,7 @@ public class ArtilleryWindow {
 				
 				FireMission fireMission = unit.fireMissions.get(fireMissionList.getSelectedIndex());
 				fireMission.adjustmentShot( (int) spinnerTargetX.getValue(), (int) spinnerTargetY.getValue(), (int) spinnerShots.getValue(), comboBoxShell.getSelectedIndex());
-				
+				GameWindow.gameWindow.conflictLog.addQueuedText();
 			}
 		});
 		btnUpdate_1_1_1.setBounds(10, 353, 160, 26);
@@ -592,7 +593,7 @@ public class ArtilleryWindow {
 				/*if(fireMission.fire) {
 					
 				}*/
-				
+				GameWindow.gameWindow.conflictLog.addQueuedText();
 			}
 		});
 		btnUpdate_1_1_1_1.setBounds(10, 317, 160, 26);
@@ -645,6 +646,7 @@ public class ArtilleryWindow {
 				fm.actionsToPlotted = 0; 
 				
 				refreshLists();
+				GameWindow.gameWindow.conflictLog.addQueuedText();
 				
 			}
 			
@@ -666,7 +668,7 @@ public class ArtilleryWindow {
 				fm.timeSpentPlotting = 0;
 				
 				conflictLog.addNewLine("Fire Mission: "+fm.fireMissionDisplayName+" task cleared.");
-				
+				GameWindow.gameWindow.conflictLog.addQueuedText();
 			}
 		});
 		btnClearTask.setBounds(10, 491, 160, 26);

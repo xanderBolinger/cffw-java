@@ -219,7 +219,7 @@ public class WhitePhosphorus implements Serializable {
 	public void deployHex(Cord cord) {
 		
 		GameWindow.gameWindow.conflictLog
-			.addNewLine("WP Deployed Hex: "+cord+", Type: "+wpType);
+			.addNewLineToQueue("WP Deployed Hex: "+cord+", Type: "+wpType);
 		var units = GameWindow.gameWindow.getUnitsInHex("None",
 				cord.xCord, cord.yCord);
 		
@@ -273,7 +273,7 @@ public class WhitePhosphorus implements Serializable {
 	public void flameHex(Cord cord) {
 		
 		GameWindow.gameWindow.conflictLog
-			.addNewLine("WP Flame Hex: "+cord+", Type: "+wpType);
+			.addNewLineToQueue("WP Flame Hex: "+cord+", Type: "+wpType);
 		
 		FlameDamageCalculator.FlameHex(cord.xCord, cord.yCord, 
 				flameDamage, 1);

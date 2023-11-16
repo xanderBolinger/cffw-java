@@ -34,6 +34,10 @@ public class SpotUtility {
 		String spotted = "\nTotal Spotted Troopers: ";
 		for(var trooper : spottedTroopers) {
 			var spottedUnit = trooper.returnTrooperUnit(GameWindow.gameWindow);
+			
+			if(spottedUnit == null)
+				continue;
+			
 			spottedUnits.add(spottedUnit);
 			
 			if(spotted.contains(spottedUnit.callsign
