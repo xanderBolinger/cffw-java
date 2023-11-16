@@ -4018,7 +4018,7 @@ public class BulkWindow {
 		// Find spotter unit
 		Unit spotterUnit = trooper.returnTrooperUnit(gameWindow);
 
-		for (Unit targetUnit : unit.lineOfSight) {
+		for (Unit targetUnit : spotterUnit.lineOfSight) {
 
 			Spot spotAction = new Spot(gameWindow, spotterUnit, targetUnit, trooper,
 					comboBoxScanArea.getSelectedItem().toString(), gameWindow.visibility, gameWindow.initiativeOrder,
