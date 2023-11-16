@@ -24,6 +24,7 @@ import Melee.Gear.MeleeShieldData;
 import Shoot.Shoot;
 import Trooper.Factions.FactionManager;
 import UtilityClasses.DiceRoller;
+import UtilityClasses.ExcelUtility;
 import UtilityClasses.TestUtility;
 
 import javax.swing.JButton;
@@ -81,6 +82,7 @@ public class Main {
 		new SetupWindow();
 		FactionManager.initalizeFactions();
 		new MeleeShieldData();
+		ExcelUtility.path = System.getProperty("user.dir");
 	}
 
 	public static void resultReport(Result result) {

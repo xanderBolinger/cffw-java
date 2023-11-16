@@ -45,12 +45,12 @@ import Trooper.Factions.FactionManager;
 import Items.PersonalShield;
 import Items.Weapons;
 import Unit.Unit;
+import UtilityClasses.ExcelUtility;
 import UtilityClasses.PCUtility;
 import UtilityClasses.TrooperUtility;
 
 public class Trooper implements Serializable {
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-	private String path = System.getProperty("user.dir") + "\\"; // note this does not update upon 
 	// loading saved troopers on a new machine. So it will have the dir of the old machine on it.
 	
 	// private String path = "X:\\OneDrive\\OneDrive - Colostate\\Xander
@@ -2344,7 +2344,7 @@ public class Trooper implements Serializable {
 			// Sets incapacitation time
 			FileInputStream excelFile;
 			try {
-				excelFile = new FileInputStream(new File(path + "incapacitationtime.xlsx"));
+				excelFile = new FileInputStream(new File(ExcelUtility.path + "incapacitationtime.xlsx"));
 				Workbook workbook = new XSSFWorkbook(excelFile);
 				org.apache.poi.ss.usermodel.Sheet worksheet = workbook.getSheetAt(0);
 
@@ -2507,7 +2507,7 @@ public class Trooper implements Serializable {
 
 		try {
 			// System.out.println("Path: "+path);
-			FileInputStream excelFile = new FileInputStream(new File(path + "aid.xlsx"));
+			FileInputStream excelFile = new FileInputStream(new File(ExcelUtility.path + "aid.xlsx"));
 			Workbook workbook = new XSSFWorkbook(excelFile);
 			org.apache.poi.ss.usermodel.Sheet worksheet = workbook.getSheetAt(0);
 
