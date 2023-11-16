@@ -1,5 +1,6 @@
 /Conflict/
 /CreateGame/
+/Fortifications/
 /HexGrid/
 /Hexes/
 /Individuals/
@@ -10,7 +11,9 @@
 /OperationExporter/
 /Trooper/
 /Unit/
+/UtilityClasses/
 /Vehicle/
+/Company/
 /CorditeExpansion/
 /CorditeExpansionActions/
 /CorditeExpansionCharacters/
@@ -18,7 +21,6 @@
 /CorditeExpansionRangedCombat/
 /CorditeExpansionStatBlock/
 /FatigueSystem/
-/Fortifications/
 /HexGridIcons/
 /Main.class
 /MainCETest.class
@@ -26,8 +28,6 @@
 /SaveCompanies/
 /Shoot/
 /Spot/
-/UtilityClasses/
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
-/Actions/

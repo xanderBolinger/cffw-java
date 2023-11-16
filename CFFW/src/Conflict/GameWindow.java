@@ -2316,7 +2316,7 @@ public class GameWindow implements Serializable {
 			}
 
 			if (game.getPhase() == 1) {
-				if (troopers.get(j).spentPhase1 != actions) {
+				if (troopers.get(j).spentPhase1 < actions) {
 
 					if (troopers.get(j).spentPhase1 + 1 <= troopers.get(j).P1) {
 
@@ -2324,7 +2324,7 @@ public class GameWindow implements Serializable {
 					}
 				}
 			} else {
-				if (troopers.get(j).spentPhase2 != actions) {
+				if (troopers.get(j).spentPhase2 < actions) {
 
 					if (troopers.get(j).spentPhase2 + 1 <= troopers.get(j).P2) {
 
@@ -2336,6 +2336,8 @@ public class GameWindow implements Serializable {
 	}
 
 	public void CalcLOS(Unit movedUnit) {
+		hexGrid.calculatingLos = true;
+		
 		System.out.println("Calc los");
 		final long startTime = System.currentTimeMillis();
 		ExecutorService es = Executors.newFixedThreadPool(16);
@@ -2376,6 +2378,7 @@ public class GameWindow implements Serializable {
 				gainedLosTo += unit.callsign+(unit.compareTo(movedUnit.lineOfSight
 						.get(movedUnit.lineOfSight.size()-1)) ? "" : ", ");
 		conflictLog.addNewLineToQueue(header+"\n"+lostLosTo+"\n"+gainedLosTo+"\n");
+		hexGrid.calculatingLos = false;
 	}
 	
 	void updateLosLists() {

@@ -101,6 +101,7 @@ import java.awt.SystemColor;
 public class HexGrid implements Serializable {
 	public static ArrayList<Cord> impactHexes = new ArrayList<>();
 	public boolean refreshingDeployedUnits;
+	public boolean calculatingLos;
 	
 	public transient JFrame frame;
 	public transient Panel panel;
@@ -2640,6 +2641,9 @@ public class HexGrid implements Serializable {
 					drawUnit(selectedUnit, g, g2);
 
 				}
+				
+				
+				
 			}
 			
 			
@@ -2689,6 +2693,8 @@ public class HexGrid implements Serializable {
 		}
 
 		private void drawLosLines(Graphics2D g2) {
+			if(refreshingDeployedUnits || calculatingLos)
+				return;
 			if(chckbxShwloslines.isSelected() && selectedUnit == null)
 				DrawLos.drawLos(g2, deployedUnits);
 			else if(chckbxShwloslines.isSelected() && selectedUnit != null)

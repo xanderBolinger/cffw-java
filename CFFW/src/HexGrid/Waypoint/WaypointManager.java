@@ -11,8 +11,13 @@ public class WaypointManager {
 		var initOrder = gw.initiativeOrder;
 		
 		for(var unit : initOrder) {
-			if(unit.waypointData.waypoints.size() == 0)
+			if(unit.waypointData.waypoints.size() == 0 && !unit.speed.equals("None")) {
+				unit.speed = "None";
+				unit.seekCover(gw.findHex(unit.X, unit.Y), gw);
 				continue;
+			} else if(unit.waypointData.waypoints.size() == 0) {
+				continue;
+			}
 			
 			var wp = unit.waypointData.waypoints.get(0);
 			
@@ -22,10 +27,8 @@ public class WaypointManager {
 				continue;
 			
 			unit.waypointData.waypoints.remove(0);
-			if(unit.waypointData.waypoints.size() == 0) {
-				unit.speed = "None";
-				unit.seekCover(gw.findHex(unit.X, unit.Y), gw);
-			} else {
+			
+			if(unit.waypointData.waypoints.size() != 0) {
 				unit.speed = unit.waypointData.waypoints.get(0).waypointSpeed;
 				unit.seekCover(gw.findHex(unit.X, unit.Y), gw);
 			}
