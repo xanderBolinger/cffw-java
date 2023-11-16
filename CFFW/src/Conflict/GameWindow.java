@@ -31,6 +31,7 @@ import Melee.MeleeManager;
 import Melee.Window.MeleeCombatWindow;
 import Shoot.Shoot;
 import Trooper.Trooper;
+import Unit.AdvanceTimeUnit;
 import Unit.Unit;
 import UtilityClasses.PCUtility;
 import Vehicle.VehicleManager;
@@ -1643,88 +1644,7 @@ public class GameWindow implements Serializable {
 
 	public void endOfPhase() {
 
-		// Loops through all individuals, increases time passed for wounds
-		// Checks unit morale, forces individuals to hunker down that are subject to the
-		// morale failure
-
-		for (int i = 0; i < initiativeOrder.size(); i++) {
-
-			for (int x = 0; x < initiativeOrder.get(i).getSize(); x++) {
-
-				if (initiativeOrder.get(i).moral < 30) {
-					Random rand = new Random();
-					int roll = rand.nextInt(10) + 1;
-
-					if (roll < initiativeOrder.get(i).getTroopers().get(x).P1
-							+ initiativeOrder.get(i).getTroopers().get(x).P2
-							&& !initiativeOrder.get(i).getTroopers().get(x).entirelyMechanical) {
-
-						if (initiativeOrder.get(i).getTroopers().get(x).inCover) {
-							initiativeOrder.get(i).getTroopers().get(x).hunkerDown(gameWindow);
-							conflictLog.addNewLineToQueue(initiativeOrder.get(i).getTroopers().get(x).number + " "
-									+ initiativeOrder.get(i).getTroopers().get(x).name
-									+ " hunkers down. Morale too low.");
-						}
-
-					}
-
-				}
-
-				if (initiativeOrder.get(i).suppression > 10) {
-					Random rand = new Random();
-					int roll = rand.nextInt(10) + 1;
-
-					if (roll < initiativeOrder.get(i).getTroopers().get(x).P1
-							+ initiativeOrder.get(i).getTroopers().get(x).P2
-							&& !initiativeOrder.get(i).getTroopers().get(x).entirelyMechanical) {
-
-						if (initiativeOrder.get(i).getTroopers().get(x).inCover) {
-							initiativeOrder.get(i).getTroopers().get(x).hunkerDown(gameWindow);
-							conflictLog.addNewLineToQueue(initiativeOrder.get(i).getTroopers().get(x).number + " "
-									+ initiativeOrder.get(i).getTroopers().get(x).name + " hunkers down. SUPPRESSED.");
-						} else {
-
-							if (game.getPhase() == 1) {
-								initiativeOrder.get(i).getTroopers().get(x).spentPhase1++;
-							} else {
-								initiativeOrder.get(i).getTroopers().get(x).spentPhase2++;
-							}
-
-							conflictLog.addNewLineToQueue(initiativeOrder.get(i).getTroopers().get(x).number + " "
-									+ initiativeOrder.get(i).getTroopers().get(x).name + " cowers. SUPPRESSED.");
-						}
-
-					}
-
-				}
-
-				initiativeOrder.get(i).getTroopers().get(x).advanceTime(this, conflictLog);
-			}
-
-		}
-
-		for (int i = 0; i < initiativeOrder.size(); i++) {
-			if (initiativeOrder.get(i).suppression - 10 > 0) {
-				initiativeOrder.get(i).suppression -= 5;
-			} else {
-				initiativeOrder.get(i).suppression = 0;
-			}
-
-			if (initiativeOrder.get(i).behavior.equals("No Contact")) {
-				initiativeOrder.get(i).organization += initiativeOrder.get(i).commandValue
-						+ (initiativeOrder.get(i).moral / 20);
-			} else if (initiativeOrder.get(i).behavior.equals("Recent Contact")) {
-				initiativeOrder.get(i).organization += initiativeOrder.get(i).commandValue
-						+ (initiativeOrder.get(i).moral / 20) / 2;
-			}
-
-			if (initiativeOrder.get(i).organization > 100) {
-
-				initiativeOrder.get(i).organization = 100;
-
-			}
-		}
-
+		
 		// Loops through initiative order order
 		for (int i = 0; i < initiativeOrder.size(); i++) {
 
@@ -2254,6 +2174,9 @@ public class GameWindow implements Serializable {
 
 		int actions = game.getCurrentAction();
 
+		if(actions != 0 && actions <= 3)
+			AdvanceTimeUnit.advanceTimeUnit(unit);
+		
 		ArrayList<Trooper> troopers = unit.getTroopers();
 
 		for (int j = 0; j < troopers.size(); j++) {
