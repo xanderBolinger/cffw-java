@@ -1006,7 +1006,7 @@ public class BulkWindow {
 										}
 										else if (chckbxFullAuto.isSelected()) {
 											shoot.burst();
-											shoot.suppressiveFire(DiceRoller.roll(1, 5));
+											shoot.suppressiveFire(DiceRoller.roll(0, 10));
 										} else {
 											
 											
@@ -1017,7 +1017,7 @@ public class BulkWindow {
 												shoot.shot(false);
 											
 											if(chckbxSingleShot.isSelected())
-												shoot.suppressiveFireFree(DiceRoller.roll(1, 3));
+												shoot.suppressiveFireFree(DiceRoller.roll(0, 5));
 										
 										
 										}
@@ -4092,7 +4092,7 @@ public class BulkWindow {
 								}
 								else if (chckbxFullAuto.isSelected()) {
 									shoot.burst();
-									shoot.suppressiveFire(DiceRoller.roll(1, 5));
+									shoot.suppressiveFire(DiceRoller.roll(0, 10));
 								} else {
 									
 									if(shoot.wep.launcherHomingInfantry)
@@ -4101,7 +4101,7 @@ public class BulkWindow {
 										shoot.shot(false);
 									
 									if(!chckbxSingleShot.isSelected())
-										shoot.suppressiveFireFree(DiceRoller.roll(1, 3));
+										shoot.suppressiveFireFree(DiceRoller.roll(0, 5));
 								}
 
 								GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shot Results: " + shoot.shotResults);
