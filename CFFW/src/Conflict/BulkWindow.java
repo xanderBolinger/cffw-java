@@ -1001,12 +1001,12 @@ public class BulkWindow {
 											var manSup = (int) spinnerSuppressiveRof.getValue();
 											shoot.suppressiveFire(
 													chckbxManualSup.isSelected() && manSup <= 
-													shoot.wep.suppressiveROF  ? manSup : shoot.wep.suppressiveROF);
+													shoot.wep.suppressiveROF  ? manSup : shoot.wep.suppressiveROF 
+															+ DiceRoller.roll(1, shoot.wep.suppressiveROF/4));
 										}
 										else if (chckbxFullAuto.isSelected()) {
 											shoot.burst();
-											shoot.suppressiveFire(
-													shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
+											shoot.suppressiveFire(DiceRoller.roll(1, 5));
 										} else {
 											
 											
@@ -1017,8 +1017,7 @@ public class BulkWindow {
 												shoot.shot(false);
 											
 											if(chckbxSingleShot.isSelected())
-												shoot.suppressiveFireFree(
-														shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
+												shoot.suppressiveFireFree(DiceRoller.roll(1, 3));
 										
 										
 										}
@@ -4093,7 +4092,7 @@ public class BulkWindow {
 								}
 								else if (chckbxFullAuto.isSelected()) {
 									shoot.burst();
-									shoot.suppressiveFire(shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
+									shoot.suppressiveFire(DiceRoller.roll(1, 5));
 								} else {
 									
 									if(shoot.wep.launcherHomingInfantry)
@@ -4102,8 +4101,7 @@ public class BulkWindow {
 										shoot.shot(false);
 									
 									if(!chckbxSingleShot.isSelected())
-										shoot.suppressiveFireFree(
-												shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
+										shoot.suppressiveFireFree(DiceRoller.roll(1, 3));
 								}
 
 								GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shot Results: " + shoot.shotResults);

@@ -15,7 +15,7 @@ public class SpotResolver extends ActionToResolve {
 	public static int spotUnit = 0;
 	
 	@Override
-	protected void done() {
+	protected void actionDone() {
 		GameWindow.gameWindow.conflictLog.addQueuedText();
 		SpotUtility.printSpottedTroopers();
 	}

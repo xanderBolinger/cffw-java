@@ -15,7 +15,9 @@ public class DrawLos {
 	public static void drawLos(Graphics2D g2, ArrayList<DeployedUnit> deployedUnits) {
 		
 		for(var unit : deployedUnits) {
-		
+			if(unit.unit.side.equals("OPFOR"))
+				continue;
+			
 			drawLos(g2, unit);
 			
 		}

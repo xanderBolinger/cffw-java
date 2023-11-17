@@ -391,7 +391,7 @@ public class Shoot {
 		if (roll <= suppressiveTn) {
 			System.out.println("Plus Suppressive Hits 2");
 			suppressiveHits++;
-			if (DiceRoller.roll(0, 99) <= 0)
+			if (DiceRoller.roll(0, 99) <= 3)
 				hits++;
 		}
 	}

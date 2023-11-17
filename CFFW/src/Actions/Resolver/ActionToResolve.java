@@ -45,7 +45,7 @@ abstract class ActionToResolve {
 
 			@Override
 			protected void done() {
-				done();
+				actionDone();
 			}
 
 		};
@@ -54,7 +54,7 @@ abstract class ActionToResolve {
 		
 	}
 	
-	protected abstract void done();
+	protected abstract void actionDone();
 	protected abstract void processUnit(Unit unit, ArrayList<Unit> units, boolean freeAction);
 	
 }

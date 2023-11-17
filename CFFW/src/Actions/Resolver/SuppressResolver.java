@@ -12,7 +12,7 @@ import UtilityClasses.DiceRoller;
 public class SuppressResolver extends ActionToResolve {
 
 	@Override
-	protected void done() {
+	protected void actionDone() {
 		GameWindow.gameWindow.conflictLog.addQueuedText();
 		InjuryLog.InjuryLog.printResultsToLog();
 	}
