@@ -2859,7 +2859,7 @@ public class Trooper implements Serializable {
 	}
 
 	public void setCombatActions(int combatActions) {
-		this.combatActions = combatActions;
+		this.combatActions = combatActions * 2;
 		int actionPoints = 0;
 
 		if (combatActions <= 1) {

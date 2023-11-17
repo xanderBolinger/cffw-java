@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import Actions.Spot;
 import Conflict.GameWindow;
+import Conflict.InjuryLog;
 import Shoot.Shoot;
+import Spot.Utility.SpotUtility;
 import Trooper.Trooper;
 import Unit.Unit;
 import UtilityClasses.DiceRoller;
@@ -12,6 +14,11 @@ import UtilityClasses.DiceRoller;
 public class SpotResolver extends ActionToResolve {
 	public static int spotUnit = 0;
 	
+	@Override
+	protected void done() {
+		GameWindow.gameWindow.conflictLog.addQueuedText();
+		SpotUtility.printSpottedTroopers();
+	}
 	
 	@Override
 	protected void processUnit(Unit spottingUnit, ArrayList<Unit> targetUnits, boolean freeAction) {

@@ -3,12 +3,20 @@ package Actions.Resolver;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
+import Conflict.InjuryLog;
 import Shoot.Shoot;
+import Spot.Utility.SpotUtility;
 import Unit.Unit;
 import UtilityClasses.DiceRoller;
 
 public class SuppressResolver extends ActionToResolve {
 
+	@Override
+	protected void done() {
+		GameWindow.gameWindow.conflictLog.addQueuedText();
+		InjuryLog.InjuryLog.printResultsToLog();
+	}
+	
 	@Override
 	protected void processUnit(Unit shooterUnit, ArrayList<Unit> targetUnits, boolean freeAction) {
 		for(var shooter : shooterUnit.individuals) {

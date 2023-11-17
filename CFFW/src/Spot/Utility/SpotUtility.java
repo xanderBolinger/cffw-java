@@ -59,6 +59,8 @@ public class SpotUtility {
 		
 		
 		GameWindow.gameWindow.conflictLog.addNewLine(spotted+unitResults+"\n");
+		
+		spottedTroopers.clear();
 	}
 	
 	public static int getTargetUnitSize(Unit spotterUnit, ArrayList<Unit> targets) {

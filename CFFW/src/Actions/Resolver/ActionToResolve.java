@@ -45,9 +45,7 @@ abstract class ActionToResolve {
 
 			@Override
 			protected void done() {
-				GameWindow.gameWindow.conflictLog.addQueuedText();
-				InjuryLog.InjuryLog.printResultsToLog();
-				SpotUtility.printSpottedTroopers();
+				done();
 			}
 
 		};
@@ -56,6 +54,7 @@ abstract class ActionToResolve {
 		
 	}
 	
+	protected abstract void done();
 	protected abstract void processUnit(Unit unit, ArrayList<Unit> units, boolean freeAction);
 	
 }
