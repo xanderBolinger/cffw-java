@@ -1,4 +1,4 @@
-package Injuries;
+package Explosion;
 
 import java.util.ArrayList;
 
@@ -8,6 +8,8 @@ import Conflict.InjuryLog;
 import Conflict.SmokeStats;
 import Conflict.SmokeStats.SmokeType;
 import CorditeExpansion.Cord;
+import Injuries.Injuries;
+import Injuries.ResolveHits;
 import Items.PCAmmo;
 import Items.Weapons;
 import Trooper.Trooper;
@@ -90,67 +92,17 @@ public class Explosion {
 			
 		}
 	
-		explodeAdjacentHexes(x, y, friendlySide);
-		
+		if(pcAmmo != null)
+			ExplodeDistantHexes.explodeDistantHexes(pcAmmo, x, y, this);
+		else if(shell != null)
+			ExplodeDistantHexes.explodeDistantHexes(shell.pcAmmo, x, y, this);
 	}
-	
-	public void explodeAdjacentHexes(int x, int y, String friendlySide) {
-		/*-1,+1
-		-1,0
-		-1,-1
-		0,-1
-		+1,0
-		0,+1*/
-		explodeAdjacentHex(x-1, y+1, friendlySide);
-		explodeAdjacentHex(x-1, y, friendlySide);
-		explodeAdjacentHex(x-1, y-1, friendlySide);
-		explodeAdjacentHex(x, y-1, friendlySide);
-		explodeAdjacentHex(x+1, y, friendlySide);
-		explodeAdjacentHex(x, y+1, friendlySide);
-	}
-	
-	public void explodeAdjacentHex(int x, int y, String friendlySide) {
-		if(GameWindow.gameWindow != null && GameWindow.gameWindow.game.shieldManager.shieldedHex(x, y)) {
-			return;
-		}
-		
-		ArrayList<Unit> targetUnits = GameWindow.gameWindow.getUnitsInHexExcludingSide(friendlySide, x, y);
-		
-		for(Unit unit : targetUnits) {
-			
-			for(Trooper trooper : unit.individuals) {
-				
-				if(!excludeTroopers.contains(trooper) && !trooper.inBuilding(GameWindow.gameWindow)) {
-					
-					
-					int roll1 = DiceRoller.roll(0, 5);
-					int roll2 = DiceRoller.roll(0, 5);
-					
-					int roll3 = DiceRoller.roll(0, 10);
-					int roll4 = DiceRoller.roll(0, 10);
-					explodeTrooper(trooper, (roll1 < roll2 ? roll1 : roll2) + (roll3 < roll4 ? roll3 : roll4));
-				}
-						
-			}
-			
-			unit.suppression += 3; 
-			unit.organization -= 3; 
-			
-			if(unit.suppression > 100)
-				unit.suppression = 100; 
-			
-			if(unit.organization < 0)
-				unit.organization = 0; 
-			
-		}
-	}
-	
 	// Called on each trooper in a hex that contains an explosion 
 	// Called from explode hex 
 	// Determines distance from explosion, applies shrap hits and BC damage 
 	// Increaes total number of shrap and bc hit count for conflict log 
 	public void explodeTrooper(Trooper target, int rangePCHexes) {
-		
+		System.out.println("Explode Trooper: "+target.name+", Range: "+rangePCHexes);
 		String bshc; 
 		int bc; 
 		
@@ -163,17 +115,27 @@ public class Explosion {
 				bc = weapon.bc.get(getExplsoionRangeColumn(rangePCHexes));				
 			}
 		} else if(pcAmmo != null && pcAmmo.ordnance) {
-			if(getOrdnanceRangeColumn(rangePCHexes) >= pcAmmo.bc.size()) {
+			if(getOrdnanceRangeColumn(rangePCHexes) >= pcAmmo.bc.size()
+					&& pcAmmo.rangeList.length == 0) {
 				bshc = "0";
 				bc = 0;
+			} else if(getOrdnanceRangeColumn(rangePCHexes) >= pcAmmo.bc.size()) {
+				var data = pcAmmo.getExplosiveData(rangePCHexes);
+				bshc = data.bshc;
+				bc = data.bc;
 			} else {
 				bshc = pcAmmo.bshc.get(getOrdnanceRangeColumn(rangePCHexes)); 
 				bc = pcAmmo.bc.get(getOrdnanceRangeColumn(rangePCHexes));				
 			}
 		} else if(pcAmmo != null){
-			if(getExplsoionRangeColumn(rangePCHexes) >= pcAmmo.bc.size()) {
+			if(getExplsoionRangeColumn(rangePCHexes) >= pcAmmo.bc.size()
+					&& pcAmmo.rangeList.length == 0) {
 				bshc = "0";
 				bc = 0;
+			} else if(getOrdnanceRangeColumn(rangePCHexes) >= pcAmmo.bc.size()) {
+				var data = pcAmmo.getExplosiveData(rangePCHexes);
+				bshc = data.bshc;
+				bc = data.bc;
 			} else {
 				bshc = pcAmmo.bshc.get(getExplsoionRangeColumn(rangePCHexes)); 
 				bc = pcAmmo.bc.get(getExplsoionRangeColumn(rangePCHexes));				
@@ -214,9 +176,13 @@ public class Explosion {
 		if(weapon != null && weapon.ionWeapon) {
 			ionDmg = weapon.ionDamage.get(getExplsoionRangeColumn(rangePCHexes));
 			
-		}  else if(pcAmmo != null && pcAmmo.ionDamage.size() > 0) {
+		}  else if(pcAmmo != null && pcAmmo.ionDamage.size() > 0 && rangePCHexes <= 
+		(pcAmmo.ordnance ? 10 : 8)) {
 			ionDmg = pcAmmo.ionDamage.get(getExplsoionRangeColumn(rangePCHexes));
-		} else if(shell != null && shell.ionDamage.size() > 0) {
+		} else if(pcAmmo != null && pcAmmo.ionDamage.size() > 0) {
+			ionDmg = pcAmmo.getExplosiveData(rangePCHexes).ion;
+		}
+		else if(shell != null && shell.ionDamage.size() > 0) {
 			ionDmg = shell.ionDamage.get(getExplsoionRangeColumn(rangePCHexes));
 		}
 		
@@ -230,7 +196,7 @@ public class Explosion {
 		}
 		
 		for(int i = 0; i < shrapHits; i++) {
-			shrapHit(target, getExplsoionRangeColumn(rangePCHexes));
+			shrapHit(target, rangePCHexes);
 		}
 		
 		if(target.personalShield != null && bc > target.personalShield.currentShieldStrength) {
@@ -363,9 +329,11 @@ public class Explosion {
 	}
 
 	// Called when a trooper is hit by shrapnel 
-	public void shrapHit(Trooper target, int explosionRangeColumn) {
+	public void shrapHit(Trooper target, int rangePCHexes) {
 		
 		ResolveHits resolveHits = new ResolveHits(target, weapon);
+		
+		var explosionRangeColumn = getExplsoionRangeColumn(rangePCHexes);
 		
 		int of = 0; 
 		
@@ -373,10 +341,18 @@ public class Explosion {
 			of = 1; 
 		int pen, dc; 
 		
-		if(pcAmmo != null || weapon != null) {
+		if(weapon != null
+				|| (pcAmmo != null && rangePCHexes <= (pcAmmo.ordnance ? 10 : 8))) {
 			pen = pcAmmo == null ? weapon.pen.get(explosionRangeColumn) : pcAmmo.pen.get(explosionRangeColumn);
 			dc = pcAmmo == null ? weapon.dc.get(explosionRangeColumn) : pcAmmo.dc.get(explosionRangeColumn);			
-		} else if(shell != null) {
+		
+		} 
+		else if(pcAmmo != null) {
+			var data = pcAmmo.getExplosiveData(rangePCHexes);
+			pen = data.pen;
+			dc = data.dc;
+		}
+		else if(shell != null) {
 			pen = shell.pen.get(explosionRangeColumn);
 			dc = shell.dc.get(explosionRangeColumn);
 		} else {

@@ -2,6 +2,7 @@ package Items;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Conflict.SmokeStats.SmokeType;
 import Items.Item.ItemType;
@@ -29,19 +30,28 @@ public class PCAmmo implements Serializable {
 	public int firedShots = 0;
 	public int shots = 0;
 	
+	public int[] rangeList;
+	public HashMap<Integer, ExplosiveData> ammoRanges;
+	
 	public PCAmmo(SmokeType smokeType) {
 		name = "SMOKE";
 		smoke = true;
 		this.smokeType = smokeType;
+		rangeList = new int[0];
+		ammoRanges = new HashMap<Integer, ExplosiveData>();
 	}
 	
 	public PCAmmo(String name) {
 		this.name = name; 
+		rangeList = new int[0];
+		ammoRanges = new HashMap<Integer, ExplosiveData>();
 	}
 	
 	public PCAmmo(String name, int shots) {
 		this.name = name; 
 		this.shots = shots;
+		rangeList = new int[0];
+		ammoRanges = new HashMap<Integer, ExplosiveData>();
 	}
 	
 	public PCAmmo(String name, ArrayList<Integer> pen, ArrayList<Integer> dc, ArrayList<String> bshc, ArrayList<Integer> bc, int impactPen, int impactDc) {
@@ -53,7 +63,22 @@ public class PCAmmo implements Serializable {
 		this.bc = bc; 
 		this.impactPen = impactPen; 
 		this.impactDc = impactDc; 
+		rangeList = new int[0];
+		ammoRanges = new HashMap<Integer, ExplosiveData>();
 		
 	}
+	
+	public ExplosiveData getExplosiveData(int range) {
+		
+		for(var r : rangeList) {
+			if(r <= range) {
+				return ammoRanges.get(r);
+			}
+		}
+		
+		
+		return null;
+	}
+	
 	
 }

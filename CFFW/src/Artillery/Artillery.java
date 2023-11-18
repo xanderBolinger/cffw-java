@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import Conflict.SmokeStats.SmokeType;
+import Items.PCAmmo;
 
 
 public class Artillery implements Serializable {
@@ -231,6 +232,8 @@ public class Artillery implements Serializable {
 		public boolean smoke = false; 
 		public boolean airBurst = false;
 		public SmokeType smokeType;
+		
+		public PCAmmo pcAmmo;
 		
 		public Shell(ShellType shellType) {
 		    switch (shellType) {

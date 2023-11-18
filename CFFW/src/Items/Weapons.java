@@ -3785,6 +3785,12 @@ public class Weapons implements Serializable {
 
 		PCAmmo he = new PCAmmo(name, pen, dc, bshc, bc, 20, 7);
 		he.ordnance = true;
+		
+		he.rangeList = new int[] {12,15,20};
+		he.ammoRanges.put(12, new ExplosiveData(7,0,"11",10,6));
+		he.ammoRanges.put(15, new ExplosiveData(3,0,"5",8,5));
+		he.ammoRanges.put(20, new ExplosiveData(1,0,"1",5,3));
+		
 		pcAmmoTypes.add(he);
 
 	}
