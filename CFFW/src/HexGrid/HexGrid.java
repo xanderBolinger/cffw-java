@@ -2376,29 +2376,11 @@ public class HexGrid implements Serializable {
 				g2.drawString(s, x, y);
 			}
 
-			g2.setColor(Color.green);
-			g2.setStroke(new BasicStroke((float) (2f * zoom)));
-
-			// the two cordinates of the line
-			int bottomLeftCornerX = hexCenterX - width / 2;
-			int bottomLeftCornerY = hexCenterY + height / 2;
-			int x1 = (int) (bottomLeftCornerX + (1.5 * zoom));
-			int y1 = bottomLeftCornerY;
-			int x2 = (int) (bottomLeftCornerX + width - (1.5 * zoom));
-			int y2 = bottomLeftCornerY;
-
-			int textWidth = x2 - x1;
-			double mod = (100 - deployedUnit.unit.suppression) / 100.0;
-			// System.out.println("Deployed Unit: "+deployedUnit.callsign+", ORG:
-			// "+deployedUnit.unit.organization);
-			if (mod > 1)
-				mod = 1;
-			// System.out.println("Mod: "+mod);
-			textWidth *= mod;
-
-			if (count == unitsInHex(deployedUnit.xCord, deployedUnit.yCord)) {
-				g2.drawLine(x1, y1, x1 + textWidth, y2);
-			}
+			
+			drawBarBeneathUnit(g2, hexCenterX, hexCenterY, width, height, count, deployedUnit,
+					false);
+			drawBarBeneathUnit(g2, hexCenterX, hexCenterY, width, height, count, deployedUnit,
+					true);
 
 			/*
 			 * g2.drawString("<html><div style=\"text-align: center; color: black; width:"
@@ -2410,6 +2392,33 @@ public class HexGrid implements Serializable {
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		}
 
+		private void drawBarBeneathUnit(Graphics2D g2, int hexCenterX, int hexCenterY, int width, int height, int count,
+				DeployedUnit deployedUnit, boolean secondBar) {
+			g2.setColor(secondBar ? Color.red : Color.green);
+			g2.setStroke(new BasicStroke((float) (2f * zoom)));
+			// the two cordinates of the line
+			int bottomLeftCornerX = hexCenterX - width / 2;
+			int bottomLeftCornerY = hexCenterY + height / 2;
+			int x1 = (int) (bottomLeftCornerX + (1.5 * zoom));
+			int y1 = bottomLeftCornerY;
+			int x2 = (int) (bottomLeftCornerX + width - (1.5 * zoom));
+			int y2 = bottomLeftCornerY;
+
+			int textWidth = x2 - x1;
+			double mod = (secondBar ? (100-deployedUnit.unit.suppression) : 
+				(deployedUnit.unit.organization)) / 100.0;
+			// System.out.println("Deployed Unit: "+deployedUnit.callsign+", ORG:
+			// "+deployedUnit.unit.organization);
+			if (mod > 1)
+				mod = 1;
+			// System.out.println("Mod: "+mod);
+			textWidth *= mod;
+
+			if (count == unitsInHex(deployedUnit.xCord, deployedUnit.yCord)) {
+				g2.drawLine(x1, y1 + (secondBar ? (int) (2f * zoom) : 0), x1 + textWidth, y2 + (secondBar ? (int) (2f * zoom) : 0));
+			}
+		}
+		
 		public String commandStatus(Unit unit, String s) {
 			if (unit.individuals.size() <= 0 || unit.getLeader() == null)
 				return "EMPTY:: " + s;

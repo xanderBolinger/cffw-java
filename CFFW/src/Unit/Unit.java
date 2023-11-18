@@ -740,9 +740,19 @@ public class Unit implements Serializable {
 			}
 		} 
 		
+		var distance = GameWindow.gameWindow.dist(X, Y, xCord, yCord);
+		
 		X = xCord;
 		Y = yCord;
 		
+		suppression -= distance;
+		if(suppression < 0)
+			suppression = 0;
+		
+		if(speed.equals("Rush"))
+			organization -= 5;
+		if(organization < 0)
+			organization = 0;
 
 		Hex newHex = null;
 		for(Hex hex : gameWindow.hexes) {
