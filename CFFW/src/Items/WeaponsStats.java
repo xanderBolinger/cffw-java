@@ -11,7 +11,7 @@ public class WeaponsStats {
 	public ArrayList<Weapons> weapons = new ArrayList<>();
 
 	public WeaponsStats() {
-		DC15LE();
+		//DC15LE(); in main already
 		T4GMG();
 		GoblinJavelin();
 		ShortBow();
@@ -313,7 +313,7 @@ public class WeaponsStats {
 
 		weapon.name = "T-4 GMG";
 		weapon.targetROF = 8;
-		weapon.suppressiveROF = 8;
+		weapon.suppressiveROF = 12;
 		weapon.type = "Static";
 		weapon.equipedTroopers = new ArrayList<>();
 		weapon.scopeMagnification = "4-6x";

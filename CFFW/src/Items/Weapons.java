@@ -282,7 +282,7 @@ public class Weapons implements Serializable {
 	public void DC15A() {
 		this.name = "DC15A";
 		this.targetROF = 5;
-		this.suppressiveROF = 10;
+		this.suppressiveROF = 20;
 		this.type = "Rifle";
 		this.weaponBonus = 10; // Scope
 		this.scopeMagnification = "4-6x";
@@ -462,7 +462,7 @@ public class Weapons implements Serializable {
 	public void DC15LE() {
 		this.name = "DC15LE";
 		this.targetROF = 5;
-		this.suppressiveROF = 15;
+		this.suppressiveROF = 45;
 		this.type = "Heavy";
 		this.weaponBonus = 10; // Scope
 		this.scopeMagnification = "4-6x";
@@ -578,7 +578,7 @@ public class Weapons implements Serializable {
 	public void DC15AIon() {
 		this.name = "DC15A-ion";
 		this.targetROF = 5;
-		this.suppressiveROF = 10;
+		this.suppressiveROF = 20;
 		this.type = "Rifle";
 		this.weaponBonus = 10; // Scope
 		this.scopeMagnification = "4-6x";
@@ -756,7 +756,7 @@ public class Weapons implements Serializable {
 	public void WestarM5() {
 		this.name = "Westar M5";
 		this.targetROF = 5;
-		this.suppressiveROF = 10;
+		this.suppressiveROF = 30;
 		this.type = "Rifle";
 		this.weaponBonus = 10; // Scope
 		this.scopeMagnification = "4-6x";
@@ -832,7 +832,7 @@ public class Weapons implements Serializable {
 	public void DC17M() {
 		this.name = "DC17m";
 		this.targetROF = 5;
-		this.suppressiveROF = 10;
+		this.suppressiveROF = 30;
 		this.type = "Rifle";
 		this.weaponBonus = 10; // Scope
 		this.scopeMagnification = "4-6x";
@@ -970,7 +970,7 @@ public class Weapons implements Serializable {
 	public void DC15S() {
 		this.name = "DC15S";
 		this.targetROF = 6;
-		this.suppressiveROF = 12;
+		this.suppressiveROF = 25;
 		this.type = "Subgun";
 		this.weaponBonus = 0;
 		this.damage = 3;
@@ -1111,7 +1111,7 @@ public class Weapons implements Serializable {
 	public void z6() {
 		this.name = "Z6";
 		this.targetROF = 10;
-		this.suppressiveROF = 20;
+		this.suppressiveROF = 50;
 		this.type = "Heavy";
 		this.weaponBonus = 0;
 		this.damage = 3;
@@ -1185,7 +1185,7 @@ public class Weapons implements Serializable {
 	public void E5() {
 		this.name = "E5";
 		this.targetROF = 4;
-		this.suppressiveROF = 8;
+		this.suppressiveROF = 20;
 		this.type = "Rifle";
 		this.weaponBonus = 0;
 		this.damage = 3;
@@ -1324,7 +1324,7 @@ public class Weapons implements Serializable {
 	public void E5C() {
 		this.name = "E5C";
 		this.targetROF = 8;
-		this.suppressiveROF = 16;
+		this.suppressiveROF = 40;
 		this.type = "Heavy";
 		this.weaponBonus = 0;
 		this.damage = 3;
@@ -2530,7 +2530,7 @@ public class Weapons implements Serializable {
 	public void EWHB12() {
 		this.name = "EWHB-12 Heavy Repeating Blaster";
 		this.targetROF = 8;
-		this.suppressiveROF = 20;
+		this.suppressiveROF = 60;
 		this.type = "Static";
 		this.equipedTroopers = new ArrayList<>();
 		this.scopeMagnification = "4-6x";
@@ -3370,7 +3370,7 @@ public class Weapons implements Serializable {
 		this.name = "DC40";
 		this.type = "Launcher";
 		this.collateralDamage = 50;
-		this.suppressiveROF = 2;
+		this.suppressiveROF = 3;
 
 		/*
 		 * Ammo heat = new Ammo("HEAT", 8, 0, 6, 10, null, null, null); Ammo he = new
@@ -3519,7 +3519,7 @@ public class Weapons implements Serializable {
 		this.name = "DC17 Rocket";
 		this.type = "Launcher";
 		this.collateralDamage = 50;
-		this.suppressiveROF = 1;
+		this.suppressiveROF = 3;
 		/*
 		 * Ammo heat = new Ammo("HEAT", 8, 0, 6, 10, null, null, null); Ammo he = new
 		 * Ammo("HE", 8, 0, 4, 10, null, null, null);
@@ -3624,7 +3624,7 @@ public class Weapons implements Serializable {
 		this.name = "B2RR";
 		this.type = "Launcher";
 		this.collateralDamage = 50;
-		this.suppressiveROF = 1;
+		this.suppressiveROF = 3;
 		/*
 		 * Ammo heat = new Ammo("HEAT", 8, 0, 6, 10, null, null, null); Ammo he = new
 		 * Ammo("HE", 8, 0, 4, 10, null, null, null);
@@ -3713,6 +3713,8 @@ public class Weapons implements Serializable {
 		this.aimTime.add(-23);
 		this.aimTime.add(-13);
 		this.aimTime.add(-9);
+		this.aimTime.add(-7);
+		this.aimTime.add(-5);
 
 		this.ba.add(23);
 		this.ba.add(10);
