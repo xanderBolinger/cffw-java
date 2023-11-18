@@ -129,7 +129,7 @@ public class Shoot {
 
 		pcAmmo = ammoIndex < 0 || ammoIndex >= wep.pcAmmoTypes.size() ? null : wep.pcAmmoTypes.get(ammoIndex);
 
-		adjacentHexHits = new AdjacentHexHits(targetUnit);
+		adjacentHexHits = new AdjacentHexHits(shooterUnit, targetUnit);
 		
 		setDistance();
 		setStartingAim();
@@ -392,12 +392,11 @@ public class Shoot {
 
 	public void suppressiveShotRoll(int roll) {
 		if (roll <= suppressiveTn) {
-			System.out.println("Plus Suppressive Hits 2");
 			suppressiveHits++;
 			if (DiceRoller.roll(0, 99) <= 0)
 				hits++;
 		} else {
-			adjacentHexHits.addHit();
+			adjacentHexHits.addHit(wep, pcAmmo);
 		}
 	}
 
@@ -522,13 +521,13 @@ public class Shoot {
 		
 		
 		if (targetUnit.suppression + suppressiveHits < 100) {
-			targetUnit.suppression += suppressiveHits > 1 ? suppressiveHits / 3 : 1;
+			targetUnit.suppression += suppressiveHits > 3 ? suppressiveHits / 3 : 1;
 		} else {
 			targetUnit.suppression = 100;
 		}
 
 		if (targetUnit.organization - suppressiveHits > 0) {
-			targetUnit.organization -= suppressiveHits > 1 ? suppressiveHits / 3 : 1;
+			targetUnit.organization -= suppressiveHits > 3 ? suppressiveHits / 3 : 1;
 		} else {
 			targetUnit.organization = 0;
 		}
@@ -537,6 +536,8 @@ public class Shoot {
 			suppressiveHits = 0; 
 		else 
 			suppressiveHits = 1;
+		
+		adjacentHexHits.resolveHits();
 	}
 	
 	private void applyFortificationModifiers() {

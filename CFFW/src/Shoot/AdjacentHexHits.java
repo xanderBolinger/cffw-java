@@ -1,14 +1,11 @@
 package Shoot;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import HexGrid.HexDirectionUtility;
-import Injuries.Explosion;
 import Items.PCAmmo;
 import Items.Weapons;
 import Unit.Unit;
@@ -21,16 +18,28 @@ public class AdjacentHexHits {
 	Cord mainCord;
 	List<Cord> adjacentCords;
 	
-	public AdjacentHexHits(Unit targetUnit) {
+	Unit shooterUnit;
+	Unit targetUnit;
+	
+	public AdjacentHexHits(Unit shooterUnit, Unit targetUnit) {
+		this.shooterUnit = shooterUnit;
+		this.targetUnit = targetUnit;
 		hits = new HashMap<Cord, AdjacentHexHitData>();
 		mainCord = new Cord(targetUnit.X, targetUnit.Y);
 		adjacentCords = HexDirectionUtility.getHexNeighbours(mainCord);
 	}
 	
-	public void addHit() {
+	public void addHit(Weapons weapon, PCAmmo pcAmmo) {
 		Cord cord = adjacentCords.get(DiceRoller.roll(0, adjacentCords.size()-1));
+		
+		if(!hits.containsKey(cord)) {
+			hits.put(cord, new AdjacentHexHitData(weapon, pcAmmo, shooterUnit, targetUnit));
+			return;
+		}
+		
 		var hit = hits.get(cord);
 		hit.hits++;
+	
 	}
 	
 	public void resolveHits() {

@@ -4,21 +4,27 @@ import java.util.ArrayList;
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import Injuries.Explosion;
+import Injuries.ResolveHits;
 import Items.PCAmmo;
 import Items.Weapons;
 import Unit.Unit;
+import UtilityClasses.DiceRoller;
 
 public class AdjacentHexHitData {
-		
+		Unit shooterUnit;
+		Unit targetUnit;
 		PCAmmo pcAmmo;
 		Weapons weapon;
 		int hits;
 		Cord cord;
 		ArrayList<Unit> units;
-		public AdjacentHexHitData(Weapons weapon, PCAmmo pcAmmo, Cord cord) {
+		
+		public AdjacentHexHitData(Weapons weapon, PCAmmo pcAmmo, Unit shooterUnit, Unit targetUnit) {
 			this.weapon = weapon;
 			this.pcAmmo = pcAmmo;
-			this.cord = cord;
+			this.cord = new Cord(targetUnit.X, targetUnit.Y);
+			this.shooterUnit = shooterUnit;
+			this.targetUnit = targetUnit;
 			hits = 1;
 			units = GameWindow.gameWindow.getUnitsInHexExcludingSide("", cord.xCord, cord.yCord);
 		}
@@ -31,10 +37,22 @@ public class AdjacentHexHitData {
 				return;
 			}
 
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Adjacent Hex Hits: "+hits);
+			
 			for(Unit unit : units) {
 				suppressiveHit(unit);
 			}
 			
+		}
+		
+		public void directHit() {
+			var target = shooterUnit.individuals.get(DiceRoller.roll(0, shooterUnit.individuals.size()-1));
+			ResolveHits resolveHits = new ResolveHits(target, hits, weapon,
+					GameWindow.gameWindow != null ? GameWindow.gameWindow.conflictLog : null, targetUnit, shooterUnit,
+					GameWindow.gameWindow);
+
+			if (GameWindow.gameWindow != null)
+				resolveHits.performCalculations(GameWindow.gameWindow.game, GameWindow.gameWindow.conflictLog);
 		}
 		
 		public void suppressiveHit(Unit unit) {
@@ -44,21 +62,22 @@ public class AdjacentHexHitData {
 			applyFortificationModifiers();
 			
 			if (unit.suppression + hits < 100) {
-				unit.suppression += hits > 1 ? hits / 3 : 1;
+				unit.suppression += hits > 3 ? hits / 3 : 1;
 			} else {
 				unit.suppression = 100;
 			}
 
 			if (unit.organization - hits > 0) {
-				unit.organization -= hits > 1 ? hits / 3 : 1;
+				unit.organization -= hits > 3 ? hits / 3 : 1;
 			} else {
 				unit.organization = 0;
 			}
 
-			if(hits % 2 == 0)
-				hits = 0; 
-			else 
-				hits = 1;
+			for(int i = 0; i < hits; i++) {
+				if(DiceRoller.roll(0, 99) <= 0)
+					directHit();
+			}
+			
 		}
 		
 		private void applyFortificationModifiers() {
