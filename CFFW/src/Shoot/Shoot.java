@@ -396,10 +396,9 @@ public class Shoot {
 			suppressiveHits++;
 			if (DiceRoller.roll(0, 99) <= 0)
 				hits++;
+		} else {
+			adjacentHexHits.addHit();
 		}
-		
-		
-		
 	}
 
 	public void singleShotRoll(boolean homing) {
