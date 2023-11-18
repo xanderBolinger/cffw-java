@@ -391,7 +391,7 @@ public class Shoot {
 		if (roll <= suppressiveTn) {
 			System.out.println("Plus Suppressive Hits 2");
 			suppressiveHits++;
-			if (DiceRoller.roll(0, 99) <= 1)
+			if (DiceRoller.roll(0, 99) <= 0)
 				hits++;
 		}
 	}
@@ -517,13 +517,13 @@ public class Shoot {
 		
 		
 		if (targetUnit.suppression + suppressiveHits < 100) {
-			targetUnit.suppression += suppressiveHits / 2;
+			targetUnit.suppression += suppressiveHits > 1 ? suppressiveHits / 3 : 1;
 		} else {
 			targetUnit.suppression = 100;
 		}
 
 		if (targetUnit.organization - suppressiveHits > 0) {
-			targetUnit.organization -= suppressiveHits / 2;
+			targetUnit.organization -= suppressiveHits > 1 ? suppressiveHits / 3 : 1;
 		} else {
 			targetUnit.organization = 0;
 		}

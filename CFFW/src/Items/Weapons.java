@@ -2555,7 +2555,7 @@ public class Weapons implements Serializable {
 		this.staticWeapon = true;
 		this.irLaser = true;
 
-		this.aimTime.add(-36);
+		/*this.aimTime.add(-36);
 		this.aimTime.add(-25);
 		this.aimTime.add(-16);
 		this.aimTime.add(-11);
@@ -2563,6 +2563,12 @@ public class Weapons implements Serializable {
 		this.aimTime.add(-1);
 		this.aimTime.add(0);
 		this.aimTime.add(1);
+		this.aimTime.add(2);
+		this.aimTime.add(3);
+		this.aimTime.add(4);*/
+		
+		this.aimTime.add(-36);
+		this.aimTime.add(-9);
 		this.aimTime.add(2);
 		this.aimTime.add(3);
 		this.aimTime.add(4);

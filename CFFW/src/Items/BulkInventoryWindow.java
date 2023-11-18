@@ -140,7 +140,7 @@ public class BulkInventoryWindow extends JFrame {
 						} else if (item.isWeapon()) {
 							trooper.inventory.addItems(item.itemType, (int) spinnerItemCount.getValue());
 						} else {
-							trooper.inventory.addItems(item.ammoType, (int) spinnerItemCount.getValue());
+							trooper.inventory.addItems(item.itemType, (int) spinnerItemCount.getValue());
 						}
 					}
 

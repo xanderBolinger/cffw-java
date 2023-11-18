@@ -290,7 +290,7 @@ public class StaticWeaponWindow {
 
 			}
 		});
-		btnSaveAndClose.setBounds(99, 549, 130, 23);
+		btnSaveAndClose.setBounds(86, 607, 130, 23);
 		f.getContentPane().add(btnSaveAndClose);
 
 		comboBoxTargets = new JComboBox();
@@ -709,12 +709,12 @@ public class StaticWeaponWindow {
 
 		lblLoadTime = new JLabel("Load Time:");
 		lblLoadTime.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblLoadTime.setBounds(86, 580, 143, 14);
+		lblLoadTime.setBounds(86, 569, 143, 14);
 		f.getContentPane().add(lblLoadTime);
 
 		lblLoadProgress = new JLabel("Load Progress:");
 		lblLoadProgress.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblLoadProgress.setBounds(86, 609, 143, 14);
+		lblLoadProgress.setBounds(86, 582, 143, 14);
 		f.getContentPane().add(lblLoadProgress);
 
 		JButton btnLoad = new JButton("Load");
@@ -1267,12 +1267,8 @@ public class StaticWeaponWindow {
 		comboBoxSuppressiveFireTargets.removeAllItems();
 		comboBoxSuppressiveFireTargets.addItem("None");
 
-		for (Unit targetUnit : window.initiativeOrder) {
-
-			if (targetUnit.side != unit.side) {
-				comboBoxSuppressiveFireTargets.addItem(targetUnit.callsign);
-			}
-
+		for (Unit targetUnit : unit.lineOfSight) {
+			comboBoxSuppressiveFireTargets.addItem(targetUnit.callsign);
 		}
 
 	}
@@ -1906,18 +1902,16 @@ public class StaticWeaponWindow {
 		// Spends one Action Point for equipped individuals
 		// Checks if AP Full
 		// Increases spent AP
-		for (Trooper trooper : staticWeapon.equipedTroopers) {
-			if (window.game.getPhase() == 1) {
-				if (trooper.spentPhase1 != window.game.getCurrentAction()) {
+		if (window.game.getPhase() == 1) {
+			if (gunner.spentPhase1 != window.game.getCurrentAction()) {
 
-					if (trooper.spentPhase1 + 1 <= trooper.P1)
-						trooper.spentPhase1 += 1;
-				}
-			} else {
-				if (trooper.spentPhase2 != window.game.getCurrentAction()) {
-					if (trooper.spentPhase2 + 1 <= trooper.P2)
-						trooper.spentPhase2 += 1;
-				}
+				if (gunner.spentPhase1 + 1 <= gunner.P1)
+					gunner.spentPhase1 += 1;
+			}
+		} else {
+			if (gunner.spentPhase2 != window.game.getCurrentAction()) {
+				if (gunner.spentPhase2 + 1 <= gunner.P2)
+					gunner.spentPhase2 += 1;
 			}
 		}
 		
