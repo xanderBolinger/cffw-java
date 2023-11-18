@@ -12,7 +12,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 
 import Hexes.Hex;
-import Injuries.Explosion;
+import Explosion.Explosion;
 import Items.PCAmmo;
 import Items.Weapons;
 import Trooper.Trooper;

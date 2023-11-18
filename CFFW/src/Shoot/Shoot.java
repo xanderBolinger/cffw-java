@@ -20,7 +20,7 @@ import CorditeExpansion.Cord;
 import CorditeExpansion.FullAuto;
 import CorditeExpansion.FullAuto.FullAutoResults;
 import HexGrid.CalculateLOS;
-import Injuries.Explosion;
+import Explosion.Explosion;
 import Injuries.ResolveHits;
 import Items.FlameDamageCalculator;
 import Items.Item;

@@ -54,7 +54,7 @@ import Company.EditCompany;
 import Hexes.Building;
 import Hexes.Building.Floor;
 import Hexes.Hex;
-import Injuries.Explosion;
+import Explosion.Explosion;
 import Injuries.Injuries;
 import Injuries.ManualInjury;
 import Injuries.ResolveHits;

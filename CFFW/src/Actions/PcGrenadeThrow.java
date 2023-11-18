@@ -3,7 +3,7 @@ package Actions;
 import Conflict.GameWindow;
 import Conflict.InjuryLog;
 import Hexes.Building.Room;
-import Injuries.Explosion;
+import Explosion.Explosion;
 import Items.Weapons;
 import Trooper.Trooper;
 import Unit.Unit;

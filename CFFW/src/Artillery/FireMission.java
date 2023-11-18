@@ -10,7 +10,7 @@ import Artillery.Artillery.Shot;
 import Conflict.GameWindow;
 import Conflict.InjuryLog;
 import CorditeExpansion.Cord;
-import Injuries.Explosion;
+import Explosion.Explosion;
 import Injuries.ResolveHits;
 import Trooper.Trooper;
 import Unit.Unit;

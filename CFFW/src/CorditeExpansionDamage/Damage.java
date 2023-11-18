@@ -17,7 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import CeHexGrid.FloatingTextManager;
 import CorditeExpansionCharacters.Zombie;
 import CorditeExpansionStatBlock.StatBlock.Stance;
-import Injuries.Explosion;
+import Explosion.Explosion;
 import Items.Weapons;
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;

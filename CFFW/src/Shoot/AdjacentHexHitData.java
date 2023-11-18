@@ -3,7 +3,7 @@ package Shoot;
 import java.util.ArrayList;
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
-import Injuries.Explosion;
+import Explosion.Explosion;
 import Injuries.ResolveHits;
 import Items.PCAmmo;
 import Items.Weapons;
