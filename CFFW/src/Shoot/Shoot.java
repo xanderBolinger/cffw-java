@@ -394,6 +394,9 @@ public class Shoot {
 			if (DiceRoller.roll(0, 99) <= 0)
 				hits++;
 		}
+		
+		
+		
 	}
 
 	public void singleShotRoll(boolean homing) {
