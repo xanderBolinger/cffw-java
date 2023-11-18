@@ -27,7 +27,7 @@ public class Item implements Serializable {
 	public int nightVisionEffectiveness;
 
 	public enum ItemType implements Serializable {
-		NONE, ClassAThermalDetonator, Nacht5SmokeGrenade,
+		NONE, ClassAThermalDetonator, ClassBThermalImploder, Nacht5SmokeGrenade,
 
 		DC15A, DC15S, DC15LE, DC20, M5, DC15X, Z6, DC17M, DC17MRocket, DC17MSniper, DC40, RPS6,
 		
@@ -107,7 +107,9 @@ public class Item implements Serializable {
 
 				new Item(ItemType.EWEBWeapon), new Item(ItemType.EWEBTripod), new Item(ItemType.EWEBBattery),
 
-				new Item(ItemType.ClassAThermalDetonator), new Item(ItemType.Nacht5SmokeGrenade),
+				new Item(ItemType.ClassAThermalDetonator),
+				new Item(ItemType.ClassBThermalImploder),
+				new Item(ItemType.Nacht5SmokeGrenade),
 
 				new Item(ItemType.B2RR, ItemType.HE), new Item(ItemType.B2RR, ItemType.HEAT),
 				new Item(ItemType.DC17MRocket, ItemType.HE), new Item(ItemType.DC17MRocket, ItemType.HEAT),
@@ -307,6 +309,9 @@ public class Item implements Serializable {
 		if (ItemType.ClassAThermalDetonator == itemType) {
 			weapon = new Weapons().findWeapon("Class-A Thermal Detonator");
 			itemWeight = 2;
+		} else if (ItemType.ClassBThermalImploder == itemType) {
+			weapon = new Weapons().findWeapon("Class-B Thermal Imploder");
+			itemWeight = 6;
 		} else if (ItemType.Nacht5SmokeGrenade == itemType) {
 			weapon = new Weapons().findWeapon("Nacht-5 Smoke Grenade");
 			itemWeight = 2;

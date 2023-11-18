@@ -18,6 +18,7 @@ public class WeaponsStats {
 		Spear();
 		VibroKnife();
 		Gladius();
+		classBThermalImploder();
 	}
 	
 	public void classBThermalImploder() {
@@ -80,7 +81,7 @@ public class WeaponsStats {
 		
 		weapon.pcAmmoTypes.add(he);
 		
-
+		weapons.add(weapon);
 	}
 	
 	public void DC15LE() {

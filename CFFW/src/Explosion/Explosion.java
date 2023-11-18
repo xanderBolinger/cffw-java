@@ -107,6 +107,7 @@ public class Explosion {
 		int bc; 
 		
 		if(weapon != null) {
+			var pcAmmo = weapon.pcAmmoTypes.size() > 0 ? weapon.pcAmmoTypes.get(0) : null;
 			var rangeCol = getExplsoionRangeColumn(rangePCHexes);
 			if(rangeCol >= weapon.bc.size() && (pcAmmo == null || pcAmmo.rangeList.length == 0)) {
 				bshc = "0";
