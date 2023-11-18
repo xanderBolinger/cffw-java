@@ -2813,6 +2813,8 @@ public class Weapons implements Serializable {
 
 	}
 	
+	
+	
 	public void classAThermalDetonator() {
 		this.name = "Class-A Thermal Detonator";
 		this.type = "Grenade";

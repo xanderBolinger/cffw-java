@@ -70,8 +70,9 @@ public class PCAmmo implements Serializable {
 	
 	public ExplosiveData getExplosiveData(int range) {
 		
+		System.out.println("Get Data: "+range);
 		for(var r : rangeList) {
-			if(r <= range) {
+			if(range <= r) {
 				return ammoRanges.get(r);
 			}
 		}

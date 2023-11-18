@@ -107,25 +107,42 @@ public class Explosion {
 		int bc; 
 		
 		if(weapon != null) {
-			if(getExplsoionRangeColumn(rangePCHexes) >= weapon.bc.size()) {
+			var rangeCol = getExplsoionRangeColumn(rangePCHexes);
+			if(rangeCol >= weapon.bc.size() && (pcAmmo == null || pcAmmo.rangeList.length == 0)) {
 				bshc = "0";
 				bc = 0;
-			} else {
-				bshc = weapon.bshc.get(getExplsoionRangeColumn(rangePCHexes)); 
-				bc = weapon.bc.get(getExplsoionRangeColumn(rangePCHexes));				
-			}
-		} else if(pcAmmo != null && pcAmmo.ordnance) {
-			if(getOrdnanceRangeColumn(rangePCHexes) >= pcAmmo.bc.size()
-					&& pcAmmo.rangeList.length == 0) {
-				bshc = "0";
-				bc = 0;
-			} else if(getOrdnanceRangeColumn(rangePCHexes) >= pcAmmo.bc.size()) {
+				System.out.println("Get weapons zero, bshc: "+bshc+", bc: "+bc
+						+", range col: "+rangeCol);
+			} else if(rangeCol >= weapon.bc.size() && (pcAmmo != null && pcAmmo.rangeList.length == 0)) {
 				var data = pcAmmo.getExplosiveData(rangePCHexes);
 				bshc = data.bshc;
 				bc = data.bc;
+				System.out.println("Get weapons data, bshc: "+bshc+", bc: "+bc
+						+", range col: "+rangeCol);
 			} else {
-				bshc = pcAmmo.bshc.get(getOrdnanceRangeColumn(rangePCHexes)); 
-				bc = pcAmmo.bc.get(getOrdnanceRangeColumn(rangePCHexes));				
+				bshc = weapon.bshc.get(rangeCol); 
+				bc = weapon.bc.get(rangeCol);	
+				System.out.println("Get weapons range col, bshc: "+bshc+", bc: "+bc
+						+", range col: "+rangeCol);
+			}
+		} else if(pcAmmo != null && pcAmmo.ordnance) {
+			var rangeCol = getOrdnanceRangeColumn(rangePCHexes);
+			if(rangeCol >= pcAmmo.bc.size()
+					&& pcAmmo.rangeList.length == 0) {
+				bshc = "0";
+				bc = 0;
+				System.out.println("Get ordnance zero, range col: "+rangeCol);
+			} else if(rangeCol >= pcAmmo.bc.size()) {
+				var data = pcAmmo.getExplosiveData(rangePCHexes);
+				bshc = data.bshc;
+				bc = data.bc;
+				System.out.println("Get ordnance data, bshc: "+bshc+", bc: "+bc
+						+", range col: "+rangeCol);
+			} else {
+				bshc = pcAmmo.bshc.get(rangeCol); 
+				bc = pcAmmo.bc.get(rangeCol);	
+				System.out.println("Get ordnance range column, bshc: "+bshc+", bc: "+bc
+						+", range col: "+rangeCol);
 			}
 		} else if(pcAmmo != null){
 			if(getExplsoionRangeColumn(rangePCHexes) >= pcAmmo.bc.size()
@@ -416,8 +433,10 @@ public class Explosion {
 			return 3; 
 		else if(rangePCHexes <= 5)
 			return 4; 
-		else 
+		else if(rangePCHexes <= 8)
 			return 5; 
+		else 
+			return 6;
 	}
 	
 	// Ordnance ranges 

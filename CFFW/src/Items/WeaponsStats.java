@@ -20,6 +20,69 @@ public class WeaponsStats {
 		Gladius();
 	}
 	
+	public void classBThermalImploder() {
+		Weapons weapon = new Weapons();
+		weapon.name = "Class-B Thermal Imploder";
+		weapon.type = "Grenade";
+		weapon.damage = 8;
+		weapon.damageBonus = 0;
+		weapon.damageMultiplier = 5;
+		weapon.armorPiercing = 2;
+		weapon.collateralDamage = 50;
+		weapon.energyWeapon = false;
+		weapon.fuze = 2;
+		weapon.armTime = 3;
+
+		weapon.aimTime.add(-26);
+		weapon.aimTime.add(-18);
+		weapon.aimTime.add(-14);
+		weapon.aimTime.add(-12);
+		weapon.aimTime.add(-11);
+		weapon.aimTime.add(-11);
+		weapon.aimTime.add(-10);
+		weapon.aimTime.add(-10);
+		
+		// Starts from 0, no C
+		weapon.pen.add(50);
+		weapon.pen.add(5);
+		weapon.pen.add(5);
+		weapon.pen.add(5);
+		weapon.pen.add(4);
+		weapon.pen.add(3);
+
+		weapon.dc.add(10);
+		weapon.dc.add(8);
+		weapon.dc.add(4);
+		weapon.dc.add(4);
+		weapon.dc.add(2);
+		weapon.dc.add(2);
+
+		weapon.bshc.add("*24");
+		weapon.bshc.add("*6");
+		weapon.bshc.add("*2");
+		weapon.bshc.add("88");
+		weapon.bshc.add("64");
+		weapon.bshc.add("22");
+
+		weapon.bc.add(20000);
+		weapon.bc.add(2513);
+		weapon.bc.add(651);
+		weapon.bc.add(155);
+		weapon.bc.add(72);
+		weapon.bc.add(54);
+		
+		PCAmmo he = new PCAmmo("Imploder");
+		
+		he.rangeList = new int[] {12,15,20};
+		he.ammoRanges.put(12, new ExplosiveData(7,0,"11",10,6));
+		he.ammoRanges.put(15, new ExplosiveData(3,0,"5",8,5));
+		he.ammoRanges.put(20, new ExplosiveData(1,0,"1",5,3));
+		
+		weapon.pcAmmoTypes.add(he);
+		
+
+	}
+	
 	public void DC15LE() {
 		
 		Weapons weapon = new Weapons();

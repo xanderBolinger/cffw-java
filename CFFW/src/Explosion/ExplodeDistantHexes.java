@@ -15,6 +15,8 @@ public class ExplodeDistantHexes {
 		if(pcAmmo.rangeList.length <= 0)
 			return;
 		
+		System.out.println("Explode distant hexes");
+		
 		// max ordnance range 10 hexes
 		// max explosive range 8 hexes 
 		int maxRange = getMaxRange(pcAmmo);
@@ -24,8 +26,8 @@ public class ExplodeDistantHexes {
 			
 			for(var trooper : target.individuals) {
 				
-				var range = DiceRoller.roll(0, 10) + targets.get(target);
-				
+				var range = DiceRoller.roll(-5, 5) + targets.get(target) * 10;
+				System.out.println("Trooper range: "+trooper.name+", Range: "+range);
 				if(range > maxRange)
 					continue;
 				
@@ -40,19 +42,10 @@ public class ExplodeDistantHexes {
 	private static int getMaxRange(PCAmmo pcAmmo) {
 		
 		if(pcAmmo.ordnance) {
-			
-			if(pcAmmo.rangeList.length == 0)
-				return 10;
-			else 
 				return pcAmmo.rangeList[pcAmmo.rangeList.length-1];
 			
 		} else {
-			
-			if(pcAmmo.rangeList.length == 0)
-				return 8;
-			else 
 				return pcAmmo.rangeList[pcAmmo.rangeList.length-1];
-			
 		}
 		
 	}
@@ -60,7 +53,7 @@ public class ExplodeDistantHexes {
 	private static HashMap<Unit, Integer> getTargets(int x, int y, int maxRangeTwoYardHexes) {
 		HashMap<Unit,Integer> targetUnits = new HashMap<Unit,Integer>();
 		var initOrder = GameWindow.gameWindow.initiativeOrder;
-		
+		System.out.println("Get targets, max range: "+maxRangeTwoYardHexes);
 		for(var unit : initOrder) {
 			
 			var dist = GameWindow.dist(x, y, unit.X, unit.Y);
@@ -68,6 +61,7 @@ public class ExplodeDistantHexes {
 			if(dist == 0 || dist*10 > maxRangeTwoYardHexes)
 				continue;
 			
+			System.out.println("Add target: "+unit.callsign+", dist: "+dist);
 			targetUnits.put(unit,dist);
 			
 		}
