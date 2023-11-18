@@ -19,6 +19,78 @@ public class WeaponsStats {
 		VibroKnife();
 		Gladius();
 		classBThermalImploder();
+		classCIonImploder();
+	}
+	
+	public void classCIonImploder() {
+		Weapons weapon = new Weapons();
+		weapon.name = "Class-C Ion Imploder";
+		weapon.type = "Grenade";
+		weapon.damage = 8;
+		weapon.damageBonus = 0;
+		weapon.damageMultiplier = 5;
+		weapon.armorPiercing = 2;
+		weapon.collateralDamage = 50;
+		weapon.energyWeapon = false;
+		weapon.fuze = 2;
+		weapon.armTime = 3;
+
+		weapon.aimTime.add(-26);
+		weapon.aimTime.add(-18);
+		weapon.aimTime.add(-14);
+		weapon.aimTime.add(-12);
+		weapon.aimTime.add(-11);
+		weapon.aimTime.add(-11);
+		weapon.aimTime.add(-10);
+		weapon.aimTime.add(-10);
+		
+		// Starts from 0, no C
+		weapon.pen.add(0);
+		weapon.pen.add(0);
+		weapon.pen.add(0);
+		weapon.pen.add(0);
+		weapon.pen.add(0);
+		weapon.pen.add(0);
+
+		weapon.dc.add(0);
+		weapon.dc.add(0);
+		weapon.dc.add(0);
+		weapon.dc.add(0);
+		weapon.dc.add(0);
+		weapon.dc.add(0);
+
+		weapon.bshc.add("0");
+		weapon.bshc.add("0");
+		weapon.bshc.add("0");
+		weapon.bshc.add("0");
+		weapon.bshc.add("0");
+		weapon.bshc.add("0");
+
+		weapon.bc.add(0);
+		weapon.bc.add(0);
+		weapon.bc.add(0);
+		weapon.bc.add(0);
+		weapon.bc.add(0);
+		weapon.bc.add(0);
+		
+		weapon.ionDamage.add(20000);
+		weapon.ionDamage.add(2513);
+		weapon.ionDamage.add(651);
+		weapon.ionDamage.add(155);
+		weapon.ionDamage.add(72);
+		weapon.ionDamage.add(54);
+		weapon.ionWeapon = true;
+		
+		PCAmmo he = new PCAmmo("Ion Imploder");
+		
+		he.rangeList = new int[] {12,15,20};
+		he.ammoRanges.put(12, new ExplosiveData(0,25,"0",0,0));
+		he.ammoRanges.put(15, new ExplosiveData(0,11,"0",0,0));
+		he.ammoRanges.put(20, new ExplosiveData(0,3,"0",0,0));
+		
+		weapon.pcAmmoTypes.add(he);
+		
+		weapons.add(weapon);
 	}
 	
 	public void classBThermalImploder() {

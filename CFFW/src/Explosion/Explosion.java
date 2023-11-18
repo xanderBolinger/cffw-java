@@ -150,7 +150,7 @@ public class Explosion {
 					&& pcAmmo.rangeList.length == 0) {
 				bshc = "0";
 				bc = 0;
-			} else if(getOrdnanceRangeColumn(rangePCHexes) >= pcAmmo.bc.size()) {
+			} else if(getExplsoionRangeColumn(rangePCHexes) >= pcAmmo.bc.size()) {
 				var data = pcAmmo.getExplosiveData(rangePCHexes);
 				bshc = data.bshc;
 				bc = data.bc;
@@ -159,12 +159,19 @@ public class Explosion {
 				bc = pcAmmo.bc.get(getExplsoionRangeColumn(rangePCHexes));				
 			}
 		} else if(shell != null) {
-			if(getExplsoionRangeColumn(rangePCHexes) >= shell.bc.size()) {
+			var rangeCol = getOrdnanceRangeColumn(rangePCHexes);
+			if(rangeCol >= shell.bc.size() && shell.pcAmmo == null) {
 				bshc = "0";
 				bc = 0;
-			} else {
-				bshc = shell.bshc.get(getExplsoionRangeColumn(rangePCHexes)); 
-				bc = shell.bc.get(getExplsoionRangeColumn(rangePCHexes));				
+			} 
+			else if(rangeCol >= shell.bc.size()) {
+				var data = shell.pcAmmo.getExplosiveData(rangePCHexes);
+				bshc = data.bshc;
+				bc = data.bc;
+			}
+			else {
+				bshc = shell.bshc.get(rangeCol); 
+				bc = shell.bc.get(rangeCol);				
 			}
 		} else {
 			System.err.println("Explode Trooper failed. No valid weapon.");
@@ -191,17 +198,26 @@ public class Explosion {
 		//GameWindow.gameWindow.conflictLog.addNewLineToQueue(GameWindow.getLogHead(target)+", Distance PC Hexes: "+rangePCHexes+", Explosion BC Damage: "+bc+", BSHC: "+bshc+bshcRslts);
 			
 		int ionDmg = 0;
-		if(weapon != null && weapon.ionWeapon) {
-			ionDmg = weapon.ionDamage.get(getExplsoionRangeColumn(rangePCHexes));
-			
+		var rangeCol = getExplsoionRangeColumn(rangePCHexes);
+		
+		if(weapon != null) {
+			if(weapon.ionWeapon && rangeCol < weapon.ionDamage.size())
+				ionDmg = weapon.ionDamage.get(rangeCol);
+			else if(weapon.ionWeapon && weapon.pcAmmoTypes.size() > 0) {
+				var data = weapon.pcAmmoTypes.get(0).getExplosiveData(rangePCHexes);
+				ionDmg = data.ion;
+			} 
 		}  else if(pcAmmo != null && pcAmmo.ionDamage.size() > 0 && rangePCHexes <= 
 		(pcAmmo.ordnance ? 10 : 8)) {
 			ionDmg = pcAmmo.ionDamage.get(getExplsoionRangeColumn(rangePCHexes));
 		} else if(pcAmmo != null && pcAmmo.ionDamage.size() > 0) {
 			ionDmg = pcAmmo.getExplosiveData(rangePCHexes).ion;
 		}
-		else if(shell != null && shell.ionDamage.size() > 0) {
-			ionDmg = shell.ionDamage.get(getExplsoionRangeColumn(rangePCHexes));
+		else if(shell != null && shell.ionDamage.size() > 0
+				&& getOrdnanceRangeColumn(rangePCHexes) < shell.ionDamage.size()) {
+			ionDmg = shell.ionDamage.get(getOrdnanceRangeColumn(rangePCHexes));
+		} else if(shell != null && shell.pcAmmo != null) {
+			ionDmg = shell.pcAmmo.getExplosiveData(rangePCHexes).ion;
 		}
 		
 		if(target.inCover)
