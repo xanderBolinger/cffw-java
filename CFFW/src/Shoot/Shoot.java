@@ -102,7 +102,6 @@ public class Shoot {
 	String autofireResults;
 	public String shotResults;
 	
-	
 	public int percentBonus; 
 	public int ealBonus; 
 	public int hiddenEalBonus;
@@ -110,6 +109,8 @@ public class Shoot {
 	
 	public boolean outOfAmmo = false;
 
+	AdjacentHexHits adjacentHexHits;
+	
 	public Shoot(Unit shooterUnit, Unit targetUnit, Trooper shooter, Trooper target, String wepName, int ammoIndex) {
 		this.shooter = shooter;
 		this.target = target;
@@ -128,6 +129,8 @@ public class Shoot {
 
 		pcAmmo = ammoIndex < 0 || ammoIndex >= wep.pcAmmoTypes.size() ? null : wep.pcAmmoTypes.get(ammoIndex);
 
+		adjacentHexHits = new AdjacentHexHits(targetUnit);
+		
 		setDistance();
 		setStartingAim();
 		recalc();
