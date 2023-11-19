@@ -30,13 +30,7 @@ public class Hex implements Serializable {
 	// Copy constructor 
 	public Hex(int xCord, int yCord, Hex oldHex) {
 		explosiveImpacts = new HexGridMarkers(Color.black);
-		explosiveImpacts.addMarker();
-		explosiveImpacts.addMarker();
-		explosiveImpacts.addMarker();
 		flameMarkers = new HexGridMarkers(Colors.ORANGE);
-		flameMarkers.addMarker();
-		flameMarkers.addMarker();
-		flameMarkers.addMarker();
 		this.xCord = xCord;
 		this.yCord = yCord; 
 	
@@ -59,9 +53,6 @@ public class Hex implements Serializable {
 	public Hex(int xCord, int yCord, ArrayList<Feature> features, int obscuration, int concealment, int elevation) {
 		explosiveImpacts = new HexGridMarkers(Color.black);
 		flameMarkers = new HexGridMarkers(Colors.ORANGE);
-		flameMarkers.addMarker();
-		flameMarkers.addMarker();
-		flameMarkers.addMarker();
 		this.xCord = xCord;
 		this.yCord = yCord; 
 		this.features = features; 
