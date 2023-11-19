@@ -310,6 +310,12 @@ public class Shell implements Serializable {
 	    bc.add(25);
 	    bc.add(17);
 	    bc.add(13);
+	    
+	    pcAmmo = new PCAmmo("M81 HE");
+	    pcAmmo.defoliateChance = 50;
+	    pcAmmo.impactCraterMin = 1;
+	    pcAmmo.impactCrafterMax = 1;
+	    
 	}
 
 	private void createM81ION() {

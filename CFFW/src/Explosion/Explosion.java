@@ -8,6 +8,7 @@ import Conflict.InjuryLog;
 import Conflict.SmokeStats;
 import Conflict.SmokeStats.SmokeType;
 import CorditeExpansion.Cord;
+import HexGrid.HexGridExplosiveImpact;
 import Injuries.Injuries;
 import Injuries.ResolveHits;
 import Items.PCAmmo;
@@ -95,10 +96,23 @@ public class Explosion {
 			
 		}
 	
-		if(pcAmmo != null)
-			ExplodeDistantHexes.explodeDistantHexes(pcAmmo, x, y, this);
-		else if(shell != null && shell.pcAmmo != null)
-			ExplodeDistantHexes.explodeDistantHexes(shell.pcAmmo, x, y, this);
+		if(pcAmmo != null) {
+			ExplodeDistantHexes.explodeDistantHexes(pcAmmo, x, y, this, targetUnits);
+			if(!pcAmmo.clusterMunition)
+				HexGridExplosiveImpact.explosiveImpact(pcAmmo, x, y, targetUnits);
+		}
+		else if(shell != null && shell.pcAmmo != null) {
+			ExplodeDistantHexes.explodeDistantHexes(shell.pcAmmo, x, y, this, targetUnits);
+			if(!shell.pcAmmo.clusterMunition)
+				HexGridExplosiveImpact.explosiveImpact(shell.pcAmmo, x, y, targetUnits);
+		} else if(weapon != null && weapon.pcAmmoTypes.size() > 0) {
+			var pcAmmo = weapon.pcAmmoTypes.get(0);
+			ExplodeDistantHexes.explodeDistantHexes(pcAmmo, x, y, this, targetUnits);
+			HexGridExplosiveImpact.explosiveImpact(pcAmmo, x, y, targetUnits);
+		}
+		
+		GameWindow.gameWindow.findHex(x, y).explosiveImpacts.addImpact();
+		
 	}
 	// Called on each trooper in a hex that contains an explosion 
 	// Called from explode hex 
@@ -117,7 +131,7 @@ public class Explosion {
 				bc = 0;
 				System.out.println("Get weapons zero, bshc: "+bshc+", bc: "+bc
 						+", range col: "+rangeCol);
-			} else if(rangeCol >= weapon.bc.size() && (pcAmmo != null && pcAmmo.rangeList.length == 0)) {
+			} else if(rangeCol >= weapon.bc.size() && (pcAmmo != null && pcAmmo.rangeList.length > 0)) {
 				var data = pcAmmo.getExplosiveData(rangePCHexes);
 				bshc = data.bshc;
 				bc = data.bc;
@@ -153,26 +167,34 @@ public class Explosion {
 					&& pcAmmo.rangeList.length == 0) {
 				bshc = "0";
 				bc = 0;
-			} else if(getExplsoionRangeColumn(rangePCHexes) >= pcAmmo.bc.size()) {
+				System.out.println("PC Ammo zero range: "+rangePCHexes);
+			} else if(getExplsoionRangeColumn(rangePCHexes) >= pcAmmo.bc.size()
+					&& pcAmmo.rangeList.length > 0) {
 				var data = pcAmmo.getExplosiveData(rangePCHexes);
 				bshc = data.bshc;
 				bc = data.bc;
+				System.out.println("PC Ammo data range: "+rangePCHexes);
 			} else {
 				bshc = pcAmmo.bshc.get(getExplsoionRangeColumn(rangePCHexes)); 
-				bc = pcAmmo.bc.get(getExplsoionRangeColumn(rangePCHexes));				
+				bc = pcAmmo.bc.get(getExplsoionRangeColumn(rangePCHexes));		
+				System.out.println("PC Ammo base col range: "+rangePCHexes);
 			}
 		} else if(shell != null) {
 			var rangeCol = getOrdnanceRangeColumn(rangePCHexes);
+			System.out.println("Shell, range col: "+rangeCol);
 			if(rangeCol >= shell.bc.size() && shell.pcAmmo == null) {
+				System.out.println("Shell, range col out of bounds no pcAmmo");
 				bshc = "0";
 				bc = 0;
 			} 
 			else if(rangeCol >= shell.bc.size()) {
+				System.out.println("Shell, range col out of bounds with pc ammo");
 				var data = shell.pcAmmo.getExplosiveData(rangePCHexes);
 				bshc = data.bshc;
 				bc = data.bc;
 			}
 			else {
+				System.out.println("Shell, get range col regular");
 				bshc = shell.bshc.get(rangeCol); 
 				bc = shell.bc.get(rangeCol);				
 			}
@@ -219,7 +241,7 @@ public class Explosion {
 		else if(shell != null && shell.ionDamage.size() > 0
 				&& getOrdnanceRangeColumn(rangePCHexes) < shell.ionDamage.size()) {
 			ionDmg = shell.ionDamage.get(getOrdnanceRangeColumn(rangePCHexes));
-		} else if(shell != null && shell.pcAmmo != null) {
+		} else if(shell != null && shell.pcAmmo != null && shell.pcAmmo.rangeList.length > 0) {
 			ionDmg = shell.pcAmmo.getExplosiveData(rangePCHexes).ion;
 		}
 		
@@ -371,6 +393,7 @@ public class Explosion {
 		ResolveHits resolveHits = new ResolveHits(target, weapon);
 		
 		var explosionRangeColumn = getExplsoionRangeColumn(rangePCHexes);
+		var ordnanceRangeColumn = getOrdnanceRangeColumn(rangePCHexes);
 		
 		int of = 0; 
 		
@@ -384,16 +407,20 @@ public class Explosion {
 			dc = pcAmmo == null ? weapon.dc.get(explosionRangeColumn) : pcAmmo.dc.get(explosionRangeColumn);			
 		
 		} 
-		else if(pcAmmo != null) {
+		else if(pcAmmo != null && pcAmmo.rangeList.length > 0) {
 			var data = pcAmmo.getExplosiveData(rangePCHexes);
 			pen = data.pen;
 			dc = data.dc;
 		}
-		else if(shell != null) {
-			pen = shell.pen.get(explosionRangeColumn);
-			dc = shell.dc.get(explosionRangeColumn);
+		else if(shell != null && shell.pcAmmo == null && ordnanceRangeColumn < shell.pen.size()) {
+			pen = shell.pen.get(ordnanceRangeColumn);
+			dc = shell.dc.get(ordnanceRangeColumn);
+		} else if(shell != null && shell.pcAmmo != null && shell.pcAmmo.rangeList.length > 0) {
+			var data = shell.pcAmmo.getExplosiveData(rangePCHexes);
+			pen = data.pen;
+			dc = data.dc;
 		} else {
-			GameWindow.gameWindow.conflictLog.addNewLine("");
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue("");
 			return; 
 		}
 		

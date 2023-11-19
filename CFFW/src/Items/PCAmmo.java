@@ -36,6 +36,11 @@ public class PCAmmo implements Serializable {
 	public boolean clusterMunition;
 	public int clusterRadiusHex;
 	public int submunitionCountPerHex;
+
+	public int defoliateChance;
+	public int defoliateMagnitude;
+	public int impactCraterMin;
+	public int impactCrafterMax;
 	
 	public PCAmmo(SmokeType smokeType) {
 		name = "SMOKE";

@@ -17,6 +17,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
@@ -776,7 +777,7 @@ public class HexGrid implements Serializable {
 			setPreferredSize(new Dimension(420, 420));
 
 			makeHexes(rows, columns);
-
+			
 			try {
 				// originalImage = ImageIO.read(new File("Map Images/CondorValley.png"));
 				// originalImage = ImageIO.read(new File("Map Images/refuge.png"));
@@ -2572,6 +2573,7 @@ public class HexGrid implements Serializable {
 					// System.out.println("i: "+i+" j: "+j);
 					Polygon hex = hexMap.get(i).get(j);
 					
+					
 					if(!OnScreen(hex, screenWidth, screenHeight))
 						continue;
 					var xpoint = hex.xpoints[0];
@@ -2586,6 +2588,9 @@ public class HexGrid implements Serializable {
 					
 						if(checkBoxShowTiles.isSelected())
 							ProcHexManager.PaintHex(g2, hex, i, j, this);
+						
+						GameWindow.gameWindow.findHex(i, j)
+							.explosiveImpacts.drawImpacts(g2, hex, zoom);
 						
 						Color color = g2.getColor();
 						//g2.setColor(Color.GREEN);
@@ -2698,8 +2703,7 @@ public class HexGrid implements Serializable {
 			
 			drawLosLines(g2);
 			
-			HexGridShadeHexes.shadeHexes(g2);
-			
+			HexGridShadeHexes.shadeHexes(g2, screenWidth, screenHeight);
 			
 		}
 

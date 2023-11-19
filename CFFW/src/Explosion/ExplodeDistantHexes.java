@@ -10,9 +10,10 @@ import UtilityClasses.DiceRoller;
 
 public class ExplodeDistantHexes {
 
-	public static void explodeDistantHexes(PCAmmo pcAmmo, int x, int y, Explosion explosion) {
+	public static void explodeDistantHexes(PCAmmo pcAmmo, int x, int y, Explosion explosion,
+			ArrayList<Unit> targetUnits) {
 		if(pcAmmo.clusterMunition) {
-			ClusterMunitions.detonateClusterMunition(pcAmmo, x, y, explosion);
+			ClusterMunitions.detonateClusterMunition(pcAmmo, x, y, explosion, targetUnits);
 			return;
 		}
 		else if(pcAmmo.rangeList.length <= 0)

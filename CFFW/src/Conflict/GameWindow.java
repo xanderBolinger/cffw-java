@@ -1905,12 +1905,16 @@ public class GameWindow implements Serializable {
 	// Targets X and Y, returns hex
 	public Hex findHex(int x, int y) {
 
-		for (Hex hex : hexes) {
+		var length = hexGrid.panel.hexMap.size();
+		
+		return hexes.get((x*length)+y);
+		
+		/*for (Hex hex : hexes) {
 			if (hex.xCord == x && hex.yCord == y)
 				return hex;
-		}
+		}*/
 
-		return null;
+		//return null;
 
 	}
 

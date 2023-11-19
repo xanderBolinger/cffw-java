@@ -1,16 +1,20 @@
 package Explosion;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
+import HexGrid.HexGridExplosiveImpact;
 import HexGrid.HexGridShadeHexes;
 import Items.PCAmmo;
+import Unit.Unit;
 import UtilityClasses.DiceRoller;
 
 public class ClusterMunitions {
 
-	public static void detonateClusterMunition(PCAmmo pcAmmo, int x, int y, Explosion explosion) {
+	public static void detonateClusterMunition(PCAmmo pcAmmo, int x, int y, Explosion explosion,
+			ArrayList<Unit> targetUnits) {
 		System.out.println("Detonate cluster munition");
 		var hexes = getHexesAroundCenter(x,y,pcAmmo.clusterRadiusHex);
 
@@ -30,8 +34,8 @@ public class ClusterMunitions {
 				
 			}
 			
-			HexGridShadeHexes.shadedHexes.add(hex);
-			
+			HexGridShadeHexes.shadedHexes.add(new Point2D.Double(hex.xCord, hex.yCord));
+			HexGridExplosiveImpact.explosiveImpact(pcAmmo, hex.xCord, hex.yCord, targetUnits);
 		}
 		
 		

@@ -3,6 +3,7 @@ package Hexes;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import HexGrid.HexGridExplosiveImpacts;
 import HexGrid.Shields.EnergyShield;
 import Hexes.Building.Floor;
 import Hexes.Building.Room;
@@ -16,6 +17,7 @@ public class Hex implements Serializable {
 	public ArrayList<Feature> features = new ArrayList<>(); 
 	public ArrayList<Building> buildings = new ArrayList<>(); 
 	public ArrayList<EnergyShield> energyShields = new ArrayList<>();
+	public HexGridExplosiveImpacts explosiveImpacts;
 	public int obscuration; 
 	public int concealment; 
 	public int elevation; 
@@ -24,7 +26,7 @@ public class Hex implements Serializable {
 	
 	// Copy constructor 
 	public Hex(int xCord, int yCord, Hex oldHex) {
-		
+		explosiveImpacts = new HexGridExplosiveImpacts();
 		this.xCord = xCord;
 		this.yCord = yCord; 
 	
@@ -45,7 +47,7 @@ public class Hex implements Serializable {
 	}
 	
 	public Hex(int xCord, int yCord, ArrayList<Feature> features, int obscuration, int concealment, int elevation) {
-		
+		explosiveImpacts = new HexGridExplosiveImpacts();
 		this.xCord = xCord;
 		this.yCord = yCord; 
 		this.features = features; 

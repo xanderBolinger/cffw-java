@@ -39,6 +39,7 @@ public class WeaponsStats {
 		cluster.clusterMunition = true;
 		cluster.clusterRadiusHex = 5;
 		cluster.submunitionCountPerHex = 12;
+		cluster.defoliateChance = 25;
 		
 		cluster.pen.add(3);
 		cluster.pen.add(3);

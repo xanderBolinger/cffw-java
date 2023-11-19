@@ -187,7 +187,9 @@ public class AttackHexWindow {
 								explosion.explodeTrooper(target, (int)spinnerDistanceToTarget.getValue());
 							}
 							
-							explosion.explodeHex(hex.xCord, hex.yCord, "");
+							
+							for(int i = 0; i < (int)spinnerNumberOfAttacks.getValue(); i++) 
+								explosion.explodeHex(hex.xCord, hex.yCord, "");
 
 							InjuryLog.InjuryLog.printResultsToLog();
 							GameWindow.gameWindow.conflictLog.addQueuedText();
