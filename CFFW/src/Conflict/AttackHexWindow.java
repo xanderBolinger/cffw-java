@@ -62,7 +62,7 @@ public class AttackHexWindow {
 		initialize();
 		setIndividuals();
 		setComboBoxes();
-		
+		comboBoxSmallArms.setSelectedIndex(1);
 		
 		
 	}
@@ -175,9 +175,24 @@ public class AttackHexWindow {
 					protected Void doInBackground() throws Exception {
 
 						if(comboBoxShellTypes.getSelectedIndex() > 0) {
+							InjuryLog.InjuryLog.addAlreadyInjured();
 							var shell = new Shell(ShellType.values()[comboBoxShellTypes.getSelectedIndex()-1]);
 							Explosion explosion = new Explosion(shell);
+							
+							var targets = getTargets();
+							
+							if(targets != null && targets.size() > 0) {
+								var target=targets.get(0);
+								explosion.excludeTroopers.add(target);
+								explosion.explodeTrooper(target, (int)spinnerDistanceToTarget.getValue());
+							}
+							
 							explosion.explodeHex(hex.xCord, hex.yCord, "");
+
+							InjuryLog.InjuryLog.printResultsToLog();
+							GameWindow.gameWindow.conflictLog.addQueuedText();
+							setIndividuals();
+							listIndividuals.setSelectedIndex(-1);
 							return null;
 						}
 						
@@ -206,10 +221,6 @@ public class AttackHexWindow {
 				};
 
 				worker.execute();
-				
-				
-				
-				
 				
 			}
 		});
@@ -245,7 +256,7 @@ public class AttackHexWindow {
 		comboBoxPCAmmo.setSelectedIndex(0);
 		comboBoxPCAmmo.setBounds(201, 142, 155, 28);
 		frame.getContentPane().add(comboBoxPCAmmo);
-		comboBoxSmallArms.setSelectedIndex(1);
+
 		
 		comboBoxSide = new JComboBox();
 		comboBoxSide.setModel(new DefaultComboBoxModel(new String[] {"None", "BLUFOR", "OPFOR"}));
