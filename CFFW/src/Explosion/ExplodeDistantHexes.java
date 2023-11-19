@@ -23,6 +23,7 @@ public class ExplodeDistantHexes {
 		var targets = getTargets(x,y,maxRange);
 
 		for(var target : targets.keySet()) {
+			boolean explodedTarget = false;
 			
 			for(var trooper : target.individuals) {
 				
@@ -32,8 +33,19 @@ public class ExplodeDistantHexes {
 					continue;
 				
 				explosion.explodeTrooper(trooper, range);
-				
+				explodedTarget = true;
 			}
+			
+			
+			if(!explodedTarget)
+				continue;
+			
+			target.organization -= 5;
+			target.suppression += 5;
+			if(target.suppression > 100)
+				target.suppression = 100;
+			if(target.organization < 0)
+				target.organization = 0;
 			
 		}
 		

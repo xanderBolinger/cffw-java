@@ -20,6 +20,57 @@ public class WeaponsStats {
 		Gladius();
 		classBThermalImploder();
 		classCIonImploder();
+		m155DPICM();
+	}
+	
+	public void m155DPICM() {
+		var weapon = new Weapons();
+		weapon.name = "M155m DPICM";
+		weapon.type = "Ordnance";
+		weapon.energyWeapon = false;
+
+		String name = "DPICM";
+		ArrayList<Integer> pen = new ArrayList<Integer>();
+		ArrayList<Integer> dc = new ArrayList<Integer>();
+		ArrayList<String> bshc = new ArrayList<String>();
+		ArrayList<Integer> bc = new ArrayList<Integer>();
+
+		PCAmmo cluster = new PCAmmo(name, pen, dc, bshc, bc, 20, 7);
+		cluster.clusterMunition = true;
+		cluster.clusterRadiusHex = 5;
+		cluster.submunitionCountPerHex = 12;
+		
+		cluster.pen.add(3);
+		cluster.pen.add(3);
+		cluster.pen.add(3);
+		cluster.pen.add(2);
+		cluster.pen.add(2);
+		cluster.pen.add(1);
+
+		cluster.dc.add(3);
+		cluster.dc.add(3);
+		cluster.dc.add(2);
+		cluster.dc.add(2);
+		cluster.dc.add(2);
+		cluster.dc.add(1);
+
+		cluster.bshc.add("*9");
+		cluster.bshc.add("*3");
+		cluster.bshc.add("69");
+		cluster.bshc.add("16");
+		cluster.bshc.add("7");
+		cluster.bshc.add("2");
+
+		cluster.bc.add(9400);
+		cluster.bc.add(554);
+		cluster.bc.add(145);
+		cluster.bc.add(44);
+		cluster.bc.add(22);
+		cluster.bc.add(10);
+		
+		
+		weapon.pcAmmoTypes.add(cluster);
+		weapons.add(weapon);
 	}
 	
 	public void classCIonImploder() {

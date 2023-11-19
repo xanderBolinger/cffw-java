@@ -33,6 +33,10 @@ public class PCAmmo implements Serializable {
 	public int[] rangeList;
 	public HashMap<Integer, ExplosiveData> ammoRanges;
 	
+	public boolean clusterMunition;
+	public int clusterRadiusHex;
+	public int submunitionCountPerHex;
+	
 	public PCAmmo(SmokeType smokeType) {
 		name = "SMOKE";
 		smoke = true;
