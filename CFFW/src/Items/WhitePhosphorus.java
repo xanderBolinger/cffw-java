@@ -22,6 +22,8 @@ public class WhitePhosphorus implements Serializable {
 	ArrayList<Integer> fragmentPd;
 	FlameThrower flameDamage;
 	
+	
+	
 	public WhitePhosphorus(WPType wpType) {
 		baseWPHitChance = new ArrayList<String>();
 		fragmentPd = new ArrayList<Integer>();
@@ -50,18 +52,23 @@ public class WhitePhosphorus implements Serializable {
 			break;
 		case WpGrenade:
 			processWpGrenade();
+			flameDamage.defoliateChance = 25;
 			break;
 		case Mortar120mm:
 			processMortar120mm();
+			flameDamage.defoliateChance = 45;
 			break;
 		case Mortar60mm:
 			processMortar60mm();
+			flameDamage.defoliateChance = 25;
 			break;
 		case Mortar81mm:
 			processMortar81mm();
+			flameDamage.defoliateChance = 35;
 			break;
 		case Shell155mm:
 			processShell155mm();
+			flameDamage.defoliateChance = 50;
 			break;
 		default:
 			System.err.println("WP Type not found for type: "+wpType);
@@ -277,6 +284,19 @@ public class WhitePhosphorus implements Serializable {
 		
 		FlameDamageCalculator.FlameHex(cord.xCord, cord.yCord, 
 				flameDamage, 1);
+		
+		if(flameDamage.ionCloud)
+			return;
+		
+		var roll = DiceRoller.roll(0, 99);
+		if(roll <= flameDamage.defoliateChance) {
+			var hex = GameWindow.gameWindow.findHex(cord.xCord, cord.yCord);			
+			hex.concealment--;
+			hex.flameMarkers.addMarker();
+		}
+		
+		GameWindow.gameWindow.conflictLog.addNewLineToQueue("Defoliate, chance: "+flameDamage.defoliateChance
+				+", roll: "+roll);
 		
 	}
 	

@@ -10,15 +10,18 @@ import UtilityClasses.DiceRoller;
 
 import java.util.ArrayList;
 
-public class HexGridExplosiveImpacts implements Serializable {
+public class HexGridMarkers implements Serializable {
 
 	public List<double[]> offsets;
 	
-	public HexGridExplosiveImpacts() {
+	Color color;
+	
+	public HexGridMarkers(Color color) {
 		offsets = new ArrayList<double[]>();
+		this.color = color;
 	}
 	
-	public void addImpact() {
+	public void addMarker() {
 		if(offsets.size() >= 8)
 			return;
 		
@@ -41,7 +44,7 @@ public class HexGridExplosiveImpacts implements Serializable {
 	    int rectangleX = (int)(hexCenterX - (rectangleSize* (offsets[0]/25.0)) / 2.0 );
 	    int rectangleY = (int)(hexCenterY - (rectangleSize* (offsets[1]/25.0)) / 2.0 );
 
-	    g2.setColor(Color.BLACK);
+	    g2.setColor(color);
 	    g2.fillRect(rectangleX, rectangleY, (int)rectangleSize, (int)rectangleSize);
 	}
 	

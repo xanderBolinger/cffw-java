@@ -1,9 +1,11 @@
 package Hexes;
 
+import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import HexGrid.HexGridExplosiveImpacts;
+import CeHexGrid.Colors;
+import HexGrid.HexGridMarkers;
 import HexGrid.Shields.EnergyShield;
 import Hexes.Building.Floor;
 import Hexes.Building.Room;
@@ -17,7 +19,8 @@ public class Hex implements Serializable {
 	public ArrayList<Feature> features = new ArrayList<>(); 
 	public ArrayList<Building> buildings = new ArrayList<>(); 
 	public ArrayList<EnergyShield> energyShields = new ArrayList<>();
-	public HexGridExplosiveImpacts explosiveImpacts;
+	public HexGridMarkers explosiveImpacts;
+	public HexGridMarkers flameMarkers;
 	public int obscuration; 
 	public int concealment; 
 	public int elevation; 
@@ -26,7 +29,14 @@ public class Hex implements Serializable {
 	
 	// Copy constructor 
 	public Hex(int xCord, int yCord, Hex oldHex) {
-		explosiveImpacts = new HexGridExplosiveImpacts();
+		explosiveImpacts = new HexGridMarkers(Color.black);
+		explosiveImpacts.addMarker();
+		explosiveImpacts.addMarker();
+		explosiveImpacts.addMarker();
+		flameMarkers = new HexGridMarkers(Colors.ORANGE);
+		flameMarkers.addMarker();
+		flameMarkers.addMarker();
+		flameMarkers.addMarker();
 		this.xCord = xCord;
 		this.yCord = yCord; 
 	
@@ -47,7 +57,11 @@ public class Hex implements Serializable {
 	}
 	
 	public Hex(int xCord, int yCord, ArrayList<Feature> features, int obscuration, int concealment, int elevation) {
-		explosiveImpacts = new HexGridExplosiveImpacts();
+		explosiveImpacts = new HexGridMarkers(Color.black);
+		flameMarkers = new HexGridMarkers(Colors.ORANGE);
+		flameMarkers.addMarker();
+		flameMarkers.addMarker();
+		flameMarkers.addMarker();
 		this.xCord = xCord;
 		this.yCord = yCord; 
 		this.features = features; 

@@ -64,7 +64,7 @@ public class Explosion {
 			SmokeType smokeType = weapon != null ? weapon.pcAmmoTypes.get(0).smokeType : (pcAmmo != null ? pcAmmo.smokeType : shell.smokeType);
 			
 			GameWindow.gameWindow.game.smoke.deploySmoke(new Cord(x,y), new SmokeStats(smokeType));
-			return;
+			//return;
 		}
 		
 		ArrayList<Unit> targetUnits = GameWindow.gameWindow.getUnitsInHexExcludingSide(friendlySide, x, y);
@@ -111,7 +111,7 @@ public class Explosion {
 			HexGridExplosiveImpact.explosiveImpact(pcAmmo, x, y, targetUnits);
 		}
 		
-		GameWindow.gameWindow.findHex(x, y).explosiveImpacts.addImpact();
+		GameWindow.gameWindow.findHex(x, y).explosiveImpacts.addMarker();
 		
 	}
 	// Called on each trooper in a hex that contains an explosion 
@@ -245,8 +245,7 @@ public class Explosion {
 			ionDmg = shell.pcAmmo.getExplosiveData(rangePCHexes).ion;
 		}
 		
-		if(target.inCover)
-			ionDmg /= 2;
+		ionDmg = blastConcussionModifiers(ionDmg, target, rangePCHexes);
 		
 		if(ionDmg > 0 && target.entirelyMechanical) {
 			GameWindow.gameWindow.conflictLog.addToLineInQueue(", Ion Damage: "+ionDmg);
@@ -319,7 +318,8 @@ public class Explosion {
 		}
 		
 		// ground burst
-		if((shell != null && !shell.airBurst) || (pcAmmo != null && !pcAmmo.airBurst)) {
+		if((shell != null && !shell.airBurst) || (pcAmmo != null && !pcAmmo.airBurst)
+				|| (weapon != null && weapon.pcAmmoTypes.size() > 0 && weapon.pcAmmoTypes.get(0).airBurst)) {
 			// shell could land in fox hole, PC rules say there is a 14 percent chance the shell lands inside the fox hole or trench
 			if(range == 0)
 				return bc;

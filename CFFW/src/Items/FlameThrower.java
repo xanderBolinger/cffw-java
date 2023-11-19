@@ -18,6 +18,8 @@ public class FlameThrower implements Serializable {
 	
 	public boolean ionCloud = false;
 	
+	public int defoliateChance;
+	
 	public enum FlameThrowerType implements Serializable {
 		AstartesFlamer,AstartesFlamePistol,WP
 	}
@@ -31,11 +33,13 @@ public class FlameThrower implements Serializable {
 				contact = 7000;
 				inHex = 250;
 				adjacent = 75;
+				defoliateChance = 80;
 				break;
 			case AstartesFlamePistol:
 				contact = 5000;
 				inHex = 125;
 				adjacent = 50;
+				defoliateChance = 50;
 				break;
 			case WP:
 				break;
