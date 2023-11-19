@@ -10,6 +10,7 @@ import HexGrid.HexGridShadeHexes;
 import Items.PCAmmo;
 import Unit.Unit;
 import UtilityClasses.DiceRoller;
+import Conflict.SmokeStats;
 
 public class ClusterMunitions {
 
@@ -32,6 +33,11 @@ public class ClusterMunitions {
 				if(u.organization < 0)
 					u.organization = 0;
 				
+			}
+			
+			if(pcAmmo.smoke) {
+				var smokeStats = new SmokeStats(pcAmmo.smokeType);
+				GameWindow.gameWindow.game.smoke.deploySmoke(new Cord(hex.xCord, hex.yCord), smokeStats);
 			}
 			
 			HexGridShadeHexes.shadedHexes.add(new Point2D.Double(hex.xCord, hex.yCord));

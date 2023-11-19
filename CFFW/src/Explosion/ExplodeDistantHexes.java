@@ -19,8 +19,6 @@ public class ExplodeDistantHexes {
 		else if(pcAmmo.rangeList.length <= 0)
 			return;
 		
-		
-		
 		System.out.println("Explode distant hexes");
 		
 		// max ordnance range 10 hexes

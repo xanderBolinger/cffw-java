@@ -13,12 +13,10 @@ public class HexGridExplosiveImpact {
 
 	
 	public static void explosiveImpact(PCAmmo pcAmmo, int x, int y, ArrayList<Unit> targetUnits) {
-		
 		var hex = GameWindow.gameWindow.findHex(x, y);
 		
 		createCoverPosition(pcAmmo, targetUnits, hex);
 		defoliateHex(hex, pcAmmo, x, y);
-		
 	}
 	
 	private static void defoliateHex(Hex hex, PCAmmo pcAmmo, int x, int y) {

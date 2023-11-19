@@ -1309,13 +1309,15 @@ public class HexGrid implements Serializable {
 
 					}
 				});
+				
+				add(item);
 
-				for (Unit unit : GameWindow.gameWindow.initiativeOrder) {
+				/*for (Unit unit : GameWindow.gameWindow.initiativeOrder) {
 					if (hex.xCord == unit.X && hex.yCord == unit.Y) {
 						add(item);
 						break;
 					}
-				}
+				}*/
 
 			}
 
@@ -2589,8 +2591,9 @@ public class HexGrid implements Serializable {
 						if(checkBoxShowTiles.isSelected())
 							ProcHexManager.PaintHex(g2, hex, i, j, this);
 						
-						GameWindow.gameWindow.findHex(i, j)
-							.explosiveImpacts.drawImpacts(g2, hex, zoom);
+						var hexObj = GameWindow.gameWindow.findHex(i, j);
+						hexObj.explosiveImpacts.drawImpacts(g2, hex, zoom);
+						hexObj.flameMarkers.drawImpacts(g2, hex, zoom);
 						
 						Color color = g2.getColor();
 						//g2.setColor(Color.GREEN);
