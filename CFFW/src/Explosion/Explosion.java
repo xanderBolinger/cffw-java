@@ -2,7 +2,7 @@ package Explosion;
 
 import java.util.ArrayList;
 
-import Artillery.Artillery.Shell;
+import Artillery.Shell;
 import Conflict.GameWindow;
 import Conflict.InjuryLog;
 import Conflict.SmokeStats;
@@ -81,6 +81,9 @@ public class Explosion {
 						
 			}
 			
+			if((pcAmmo != null && pcAmmo.clusterMunition)
+					|| (shell != null && shell.pcAmmo != null && shell.pcAmmo.clusterMunition))
+			
 			unit.suppression += 10; 
 			unit.organization -= 10; 
 			
@@ -94,7 +97,7 @@ public class Explosion {
 	
 		if(pcAmmo != null)
 			ExplodeDistantHexes.explodeDistantHexes(pcAmmo, x, y, this);
-		else if(shell != null)
+		else if(shell != null && shell.pcAmmo != null)
 			ExplodeDistantHexes.explodeDistantHexes(shell.pcAmmo, x, y, this);
 	}
 	// Called on each trooper in a hex that contains an explosion 

@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 
 import Artillery.Artillery;
 import Artillery.Artillery.BatteryType;
-import Artillery.Artillery.Shell;
+import Artillery.Shell;
 import Artillery.FireMission;
 import Artillery.FireMission.FireMissionStatus;
 import Trooper.Trooper;

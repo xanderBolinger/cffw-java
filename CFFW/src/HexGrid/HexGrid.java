@@ -16,6 +16,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
@@ -2446,8 +2447,6 @@ public class HexGrid implements Serializable {
 
 		
 		
-		
-		
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
@@ -2699,6 +2698,9 @@ public class HexGrid implements Serializable {
 			
 			drawLosLines(g2);
 			
+			HexGridShadeHexes.shadeHexes(g2);
+			
+			
 		}
 
 		private void drawLosLines(Graphics2D g2) {
@@ -2806,6 +2808,14 @@ public class HexGrid implements Serializable {
 
 		}
 
+		public void shadeHex(Graphics2D g2, Polygon hex, Color color) {
+			setOpacity(0.33f, g2);
+			g2.setPaint(color);
+			Area area = new Area(hex);
+			g2.fill(area);
+			setOpacity(1f, g2);
+		}
+		
 		public void setOpacity(float alpha, Graphics2D g2) {
 			AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha);
 			g2.setComposite(ac);

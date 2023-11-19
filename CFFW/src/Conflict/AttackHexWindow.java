@@ -30,6 +30,8 @@ import javax.swing.JList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
+import Artillery.Shell;
+import Artillery.Artillery.ShellType;
 
 public class AttackHexWindow {
 
@@ -48,6 +50,7 @@ public class AttackHexWindow {
 	private JSpinner spinnerDistanceToTarget;
 	private JComboBox comboBoxPCAmmo;
 	private JComboBox comboBoxSide;
+	private JComboBox comboBoxShellTypes;
 	/**
 	 * Create the application.
 	 */
@@ -59,31 +62,7 @@ public class AttackHexWindow {
 		initialize();
 		setIndividuals();
 		setComboBoxes();
-		comboBoxSmallArms.setSelectedIndex(1);
 		
-		comboBoxSide = new JComboBox();
-		comboBoxSide.setModel(new DefaultComboBoxModel(new String[] {"None", "BLUFOR", "OPFOR"}));
-		comboBoxSide.setSelectedIndex(0);
-		comboBoxSide.setBounds(609, 142, 155, 28);
-		frame.getContentPane().add(comboBoxSide);
-		
-		JLabel lblExcludeSide = new JLabel("Exclude Side:");
-		lblExcludeSide.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblExcludeSide.setBounds(519, 142, 97, 28);
-		frame.getContentPane().add(lblExcludeSide);
-		
-		JButton btnSuppressHex = new JButton("Suppress Hex");
-		btnSuppressHex.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				
-				suppressHex(); 
-				
-			
-			}
-		});
-		btnSuppressHex.setBounds(769, 145, 181, 23);
-		frame.getContentPane().add(btnSuppressHex);
 		
 		
 	}
@@ -183,7 +162,7 @@ public class AttackHexWindow {
 		
 		JLabel lblIndividuals = new JLabel("Individuals");
 		lblIndividuals.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblIndividuals.setBounds(10, 107, 104, 28);
+		lblIndividuals.setBounds(10, 142, 104, 28);
 		frame.getContentPane().add(lblIndividuals);
 		
 		JButton btnNewButton = new JButton("Apply Attack");
@@ -195,6 +174,13 @@ public class AttackHexWindow {
 					@Override
 					protected Void doInBackground() throws Exception {
 
+						if(comboBoxShellTypes.getSelectedIndex() > 0) {
+							var shell = new Shell(ShellType.values()[comboBoxShellTypes.getSelectedIndex()-1]);
+							Explosion explosion = new Explosion(shell);
+							explosion.explodeHex(hex.xCord, hex.yCord, "");
+							return null;
+						}
+						
 						Weapons weapon = getSelectedWeapon();
 						
 						if(weapon == null) {
@@ -240,25 +226,59 @@ public class AttackHexWindow {
 		spinnerNumberOfAttacks.setBounds(713, 111, 51, 20);
 		frame.getContentPane().add(spinnerNumberOfAttacks);
 
-		JLabel lblDistanceToTarget = new JLabel("2yd Hexes to Target:");
+		JLabel lblDistanceToTarget = new JLabel("Dist (2yd)");
 		lblDistanceToTarget.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblDistanceToTarget.setBounds(366, 107, 147, 28);
+		lblDistanceToTarget.setBounds(366, 142, 87, 28);
 		frame.getContentPane().add(lblDistanceToTarget);
 		
 		spinnerDistanceToTarget = new JSpinner();
-		spinnerDistanceToTarget.setBounds(509, 111, 51, 20);
+		spinnerDistanceToTarget.setBounds(449, 146, 51, 20);
 		frame.getContentPane().add(spinnerDistanceToTarget);
 		
 		JLabel lblPcAmmo = new JLabel("PC Ammo:");
 		lblPcAmmo.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblPcAmmo.setBounds(119, 107, 72, 28);
+		lblPcAmmo.setBounds(119, 142, 72, 28);
 		frame.getContentPane().add(lblPcAmmo);
 		
 		comboBoxPCAmmo = new JComboBox();
 		comboBoxPCAmmo.setModel(new DefaultComboBoxModel(new String[] {"None"}));
 		comboBoxPCAmmo.setSelectedIndex(0);
-		comboBoxPCAmmo.setBounds(201, 107, 155, 28);
+		comboBoxPCAmmo.setBounds(201, 142, 155, 28);
 		frame.getContentPane().add(comboBoxPCAmmo);
+		comboBoxSmallArms.setSelectedIndex(1);
+		
+		comboBoxSide = new JComboBox();
+		comboBoxSide.setModel(new DefaultComboBoxModel(new String[] {"None", "BLUFOR", "OPFOR"}));
+		comboBoxSide.setSelectedIndex(0);
+		comboBoxSide.setBounds(609, 142, 155, 28);
+		frame.getContentPane().add(comboBoxSide);
+		
+		JLabel lblExcludeSide = new JLabel("Exclude Side:");
+		lblExcludeSide.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblExcludeSide.setBounds(519, 142, 97, 28);
+		frame.getContentPane().add(lblExcludeSide);
+		
+		JButton btnSuppressHex = new JButton("Suppress Hex");
+		btnSuppressHex.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				
+				suppressHex(); 
+				
+			
+			}
+		});
+		btnSuppressHex.setBounds(769, 145, 181, 23);
+		frame.getContentPane().add(btnSuppressHex);
+		
+		JLabel lblShell = new JLabel("Shell");
+		lblShell.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblShell.setBounds(10, 82, 181, 28);
+		frame.getContentPane().add(lblShell);
+		
+		comboBoxShellTypes = new JComboBox();
+		comboBoxShellTypes.setBounds(10, 112, 181, 28);
+		frame.getContentPane().add(comboBoxShellTypes);
 	
 	}
 	
@@ -478,11 +498,17 @@ public class AttackHexWindow {
 		Weapons weapons = new Weapons();
 		weapons.getWeapons();
 		
+		var shells = new ArrayList<String>();
+		for(var shell : ShellType.values()) {
+			shells.add(shell.toString());
+		}
+		
 		SwingUtility.setComboBox(comboBoxSmallArms, Weapons.getNamesOfWeapons(weapons.getWeaponsFromType("Small Arms")), true, 0);
 		SwingUtility.setComboBox(comboBoxLaunchers, Weapons.getNamesOfWeapons(weapons.getWeaponsFromType("Launcher")), true, 0);
 		SwingUtility.setComboBox(comboBoxGrenades, Weapons.getNamesOfWeapons(weapons.getWeaponsFromType("Grenade")), true, 0);
 		SwingUtility.setComboBox(comboBoxHeavyWeapons, Weapons.getNamesOfWeapons(weapons.getWeaponsFromType("Heavy Weapons")), true, 0);
 		SwingUtility.setComboBox(comboBoxOrdnance, Weapons.getNamesOfWeapons(weapons.getWeaponsFromType("Ordnance")), true, 0);
+		SwingUtility.setComboBox(comboBoxShellTypes, shells, true, 0);
 		
 		
 		

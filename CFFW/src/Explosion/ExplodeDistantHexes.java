@@ -11,9 +11,14 @@ import UtilityClasses.DiceRoller;
 public class ExplodeDistantHexes {
 
 	public static void explodeDistantHexes(PCAmmo pcAmmo, int x, int y, Explosion explosion) {
-		
-		if(pcAmmo.rangeList.length <= 0)
+		if(pcAmmo.clusterMunition) {
+			ClusterMunitions.detonateClusterMunition(pcAmmo, x, y, explosion);
 			return;
+		}
+		else if(pcAmmo.rangeList.length <= 0)
+			return;
+		
+		
 		
 		System.out.println("Explode distant hexes");
 		

@@ -19,6 +19,7 @@ import CorditeExpansion.Cord;
 import CreateGame.SetupWindow;
 import HexGrid.CalculateLOS;
 import HexGrid.HexGrid;
+import HexGrid.HexGridShadeHexes;
 import HexGrid.HexGridUtility;
 import HexGrid.HexGrid.DeployedUnit;
 import HexGrid.Shields.ShieldManager;
@@ -639,6 +640,7 @@ public class GameWindow implements Serializable {
 				hexGrid.panel.selectedUnit = null;
 				hexGrid.panel.selectedUnits.clear();
 				HexGrid.impactHexes.clear();
+				HexGridShadeHexes.shadedHexes.clear();
 				
 				if(startedLoading != null)
 					startedLoading.frame.dispose();

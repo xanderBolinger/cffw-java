@@ -15,7 +15,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import Artillery.Artillery.Shell;
+import Artillery.Shell;
 import Conflict.ConflictLog;
 import Conflict.Game;
 import Conflict.GameWindow;
