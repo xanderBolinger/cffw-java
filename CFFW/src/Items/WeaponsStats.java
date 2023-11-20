@@ -69,7 +69,7 @@ public class WeaponsStats {
 		rocket.bc.add(10);
 		
 		rocket.rangeList = new int[] {12,15,22};
-		rocket.ammoRanges.put(15, new ExplosiveData(50,0,"25",2,8));
+		rocket.ammoRanges.put(12, new ExplosiveData(50,0,"25",2,8));
 		rocket.ammoRanges.put(15, new ExplosiveData(25,0,"13",2,8));
 		rocket.ammoRanges.put(22, new ExplosiveData(11,0,"1",1,8));
 		weapon.pcAmmoTypes.add(rocket);
