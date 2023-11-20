@@ -56,17 +56,12 @@ public class ClusterMunitions {
 		int upperY = startY+radius;
 		
 		for(int x = lowerX; x <= upperY; x++) {
-			
 			for(int y = lowerX; y <= upperY; y++) {
-				
 				if(GameWindow.dist(x, y, startX, startY) <= radius) {
 					hexes.add(new Cord(x,y));
 				}
-				
 			}
-			
 		}
-		
 		
 		return hexes;
 	}

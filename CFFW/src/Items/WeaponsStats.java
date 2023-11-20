@@ -21,6 +21,107 @@ public class WeaponsStats {
 		classBThermalImploder();
 		classCIonImploder();
 		m155DPICM();
+		hydra70Rocket();
+		hellfireMissile();
+	}
+	
+	public void hellfireMissile() {
+		var weapon = new Weapons();
+		weapon.name = "AGM-114 Hellfire";
+		weapon.type = "Ordnance";
+		weapon.energyWeapon = false;
+
+		String name = "Rocket";
+		ArrayList<Integer> pen = new ArrayList<Integer>();
+		ArrayList<Integer> dc = new ArrayList<Integer>();
+		ArrayList<String> bshc = new ArrayList<String>();
+		ArrayList<Integer> bc = new ArrayList<Integer>();
+
+		PCAmmo rocket = new PCAmmo(name, pen, dc, bshc, bc, 20, 7);
+		rocket.defoliateChance = 25;
+		
+		rocket.pen.add(38);
+		rocket.pen.add(24);
+		rocket.pen.add(12);
+		rocket.pen.add(10);
+		rocket.pen.add(5);
+		rocket.pen.add(2);
+
+		rocket.dc.add(10);
+		rocket.dc.add(10);
+		rocket.dc.add(9);
+		rocket.dc.add(9);
+		rocket.dc.add(8);
+		rocket.dc.add(8);
+
+		rocket.bshc.add("*100");
+		rocket.bshc.add("*22");
+		rocket.bshc.add("*2");
+		rocket.bshc.add("*1");
+		rocket.bshc.add("60");
+		rocket.bshc.add("50");
+
+		rocket.bc.add(9400);
+		rocket.bc.add(554);
+		rocket.bc.add(145);
+		rocket.bc.add(44);
+		rocket.bc.add(22);
+		rocket.bc.add(10);
+		
+		rocket.rangeList = new int[] {12,15,22};
+		rocket.ammoRanges.put(15, new ExplosiveData(50,0,"25",2,8));
+		rocket.ammoRanges.put(15, new ExplosiveData(25,0,"13",2,8));
+		rocket.ammoRanges.put(22, new ExplosiveData(11,0,"1",1,8));
+		weapon.pcAmmoTypes.add(rocket);
+		weapons.add(weapon);
+	}
+	
+	public void hydra70Rocket() {
+		var weapon = new Weapons();
+		weapon.name = "Hydra 70";
+		weapon.type = "Ordnance";
+		weapon.energyWeapon = false;
+
+		String name = "Rocket";
+		ArrayList<Integer> pen = new ArrayList<Integer>();
+		ArrayList<Integer> dc = new ArrayList<Integer>();
+		ArrayList<String> bshc = new ArrayList<String>();
+		ArrayList<Integer> bc = new ArrayList<Integer>();
+
+		PCAmmo rocket = new PCAmmo(name, pen, dc, bshc, bc, 20, 7);
+		rocket.defoliateChance = 25;
+		
+		rocket.pen.add(3);
+		rocket.pen.add(3);
+		rocket.pen.add(3);
+		rocket.pen.add(2);
+		rocket.pen.add(2);
+		rocket.pen.add(1);
+
+		rocket.dc.add(3);
+		rocket.dc.add(3);
+		rocket.dc.add(2);
+		rocket.dc.add(2);
+		rocket.dc.add(2);
+		rocket.dc.add(1);
+
+		rocket.bshc.add("*9");
+		rocket.bshc.add("*3");
+		rocket.bshc.add("69");
+		rocket.bshc.add("16");
+		rocket.bshc.add("7");
+		rocket.bshc.add("2");
+
+		rocket.bc.add(9400);
+		rocket.bc.add(554);
+		rocket.bc.add(145);
+		rocket.bc.add(44);
+		rocket.bc.add(22);
+		rocket.bc.add(10);
+		
+		
+		weapon.pcAmmoTypes.add(rocket);
+		weapons.add(weapon);
 	}
 	
 	public void m155DPICM() {
@@ -39,35 +140,39 @@ public class WeaponsStats {
 		cluster.clusterMunition = true;
 		cluster.clusterRadiusHex = 5;
 		cluster.submunitionCountPerHex = 12;
-		cluster.defoliateChance = 25;
+		cluster.defoliateChance = 12;
 		
-		cluster.pen.add(3);
-		cluster.pen.add(3);
-		cluster.pen.add(3);
+		cluster.pen.add(2);
+		cluster.pen.add(2);
 		cluster.pen.add(2);
 		cluster.pen.add(2);
 		cluster.pen.add(1);
+		cluster.pen.add(1);
+		cluster.pen.add(1);
 
-		cluster.dc.add(3);
-		cluster.dc.add(3);
 		cluster.dc.add(2);
 		cluster.dc.add(2);
 		cluster.dc.add(2);
-		cluster.dc.add(1);
+		cluster.dc.add(2);
+		cluster.dc.add(2);
+		cluster.dc.add(2);
+		cluster.dc.add(2);
 
-		cluster.bshc.add("*9");
-		cluster.bshc.add("*3");
-		cluster.bshc.add("69");
-		cluster.bshc.add("16");
-		cluster.bshc.add("7");
-		cluster.bshc.add("2");
+		cluster.bshc.add("*1");
+		cluster.bshc.add("27");
+		cluster.bshc.add("6");
+		cluster.bshc.add("3");
+		cluster.bshc.add("1");
+		cluster.bshc.add("1");
+		cluster.bshc.add("0");
 
-		cluster.bc.add(9400);
-		cluster.bc.add(554);
-		cluster.bc.add(145);
-		cluster.bc.add(44);
-		cluster.bc.add(22);
-		cluster.bc.add(10);
+		cluster.bc.add(739);
+		cluster.bc.add(155);
+		cluster.bc.add(20);
+		cluster.bc.add(9);
+		cluster.bc.add(5);
+		cluster.bc.add(3);
+		cluster.bc.add(1);
 		
 		
 		weapon.pcAmmoTypes.add(cluster);
