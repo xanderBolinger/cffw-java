@@ -50,7 +50,7 @@ public class SuppressResolver extends ActionToResolve {
 		ArrayList<Unit> validTargets = new ArrayList<Unit>();
 		
 		for(var t: targetUnits) {
-			if(shooterUnit.lineOfSight.contains(t))
+			if(shooterUnit.lineOfSight.contains(t) && !t.side.equals(shooterUnit.side))
 				validTargets.add(t);
 		}
 		

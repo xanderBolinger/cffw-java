@@ -92,8 +92,12 @@ public class CalculateLOS {
 	
 	public static void calc(Unit unit, Unit targetUnit) {
 		
-		if(GameWindow.hexDif(unit, targetUnit) <= 2) {
-			unit.lineOfSight.add(targetUnit);
+		if(GameWindow.hexDif(unit, targetUnit) <= 1) {
+			if(!unit.lineOfSight.contains(targetUnit))
+				unit.lineOfSight.add(targetUnit);
+			
+			if(!targetUnit.lineOfSight.contains(unit))
+				targetUnit.lineOfSight.add(unit);
 			return;
 		}
 		
