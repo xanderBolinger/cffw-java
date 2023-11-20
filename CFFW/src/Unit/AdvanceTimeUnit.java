@@ -23,6 +23,10 @@ public class AdvanceTimeUnit {
 		for (int x = 0; x < unit.getSize(); x++) {
 
 			var trooper = unit.getTroopers().get(x);
+			
+			if(!trooper.alive || !trooper.conscious)
+				continue;
+			
 			var fighterSkill = trooper.getSkill("Fighter");
 			var skillMod = -1 * (10-trooper.sl);
 			
@@ -33,8 +37,7 @@ public class AdvanceTimeUnit {
 
 					if (trooper.inCover) {
 						trooper.hunkerDown(gameWindow);
-						conflictLog.addNewLineToQueue(trooper.number + " "
-								+ trooper.name
+						conflictLog.addNewLineToQueue(GameWindow.gameWindow.getLogHead(trooper)
 								+ " hunkers down. Morale too low.");
 					}
 
@@ -50,8 +53,8 @@ public class AdvanceTimeUnit {
 
 					if (trooper.inCover) {
 						trooper.hunkerDown(gameWindow);
-						conflictLog.addNewLineToQueue(trooper.number + " "
-								+ trooper.name + " hunkers down. SUPPRESSED.");
+						conflictLog.addNewLineToQueue(GameWindow.gameWindow.getLogHead(trooper)
+								+ " hunkers down. SUPPRESSED.");
 					} else {
 
 						if (game.getPhase() == 1) {
@@ -60,8 +63,8 @@ public class AdvanceTimeUnit {
 							trooper.spentPhase2++;
 						}
 
-						conflictLog.addNewLineToQueue(trooper.number + " "
-								+ trooper.name + " cowers. SUPPRESSED.");
+						conflictLog.addNewLineToQueue(GameWindow.gameWindow.getLogHead(trooper)
+								+  " cowers. SUPPRESSED.");
 					}
 
 				}

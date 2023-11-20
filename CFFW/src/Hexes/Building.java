@@ -107,8 +107,11 @@ public class Building implements Serializable {
 
 			for (Room room : rooms) {
 
-				for (Trooper trooper : room.occupants)
+				for (Trooper trooper : room.occupants) {
+					if(trooper.returnTrooperUnit(GameWindow.gameWindow) == null)
+						continue;
 					occupants.add(TrooperUtility.getRealTrooperReference(trooper));
+				}
 
 			}
 
@@ -174,7 +177,8 @@ public class Building implements Serializable {
 
 		for (Room room : floor.rooms)
 			for (Trooper occupant : room.occupants)
-				if (occupant.returnTrooperUnit(gameWindow).side.equals(unit.side))
+				if (occupant.returnTrooperUnit(gameWindow) != null &&
+					occupant.returnTrooperUnit(gameWindow).side.equals(unit.side))
 					fo++;
 
 		return fo;
@@ -186,7 +190,8 @@ public class Building implements Serializable {
 
 		for (Room room : floor.rooms)
 				for (Trooper occupant : room.occupants)
-					if (!occupant.returnTrooperUnit(gameWindow).side.equals(unit.side))
+					if (occupant.returnTrooperUnit(gameWindow) != null &&
+							!occupant.returnTrooperUnit(gameWindow).side.equals(unit.side))
 						ho++;
 
 		return ho;

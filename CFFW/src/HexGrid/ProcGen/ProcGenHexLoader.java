@@ -67,10 +67,10 @@ public class ProcGenHexLoader {
 			hex.addBuilding("Big Building", DiceRoller.roll(2, 4), DiceRoller.roll(4, 6), DiceRoller.roll(6, 8));
 		} 
 		
-		if(tile.tileType.contains("Brush")) {
-			features.add(new Feature("Brush", 0));
-		} else if(tile.tileType.contains("HeavyBrush")) {
+		if(tile.tileType.contains("HeavyBrush")) {
 			features.add(new Feature("Heavy Brush", 0));
+		} else if(tile.tileType.contains("Brush")) {
+			features.add(new Feature("Brush", 0));
 		}
 		
 		return features;

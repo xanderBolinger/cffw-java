@@ -236,7 +236,7 @@ public class Explosion {
 		}  else if(pcAmmo != null && pcAmmo.ionDamage.size() > 0 && rangePCHexes <= 
 		(pcAmmo.ordnance ? 10 : 8)) {
 			ionDmg = pcAmmo.ionDamage.get(getExplsoionRangeColumn(rangePCHexes));
-		} else if(pcAmmo != null && pcAmmo.ionDamage.size() > 0) {
+		} else if(pcAmmo != null && pcAmmo.ionDamage.size() > 0 && pcAmmo.rangeList.length > 0) {
 			ionDmg = pcAmmo.getExplosiveData(rangePCHexes).ion;
 		}
 		else if(shell != null && shell.ionDamage.size() > 0

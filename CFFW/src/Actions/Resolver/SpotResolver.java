@@ -23,7 +23,7 @@ public class SpotResolver extends ActionToResolve {
 	@Override
 	protected void processUnit(Unit spottingUnit, ArrayList<Unit> targetUnits, boolean freeAction) {
 		for(var trooper : spottingUnit.individuals) {
-			if(!trooper.canAct(GameWindow.gameWindow.game))
+			if(!trooper.canAct(GameWindow.gameWindow.game) || trooper.HD)
 				continue;
 			/*try {
 				TimeUnit.MILLISECONDS.sleep(200);
@@ -44,7 +44,9 @@ public class SpotResolver extends ActionToResolve {
 		boolean spotted = false; 
 		
 		for (Unit targetUnit : trooperUnit.lineOfSight) {
-
+			if(freeAction && (targetUnit.speed.equals("None") || targetUnit.speed.equals("Crawl")))
+				continue;
+			
 			Spot spotAction = new Spot(gameWindow, trooperUnit, targetUnit, trooper,
 					freeAction ? "180 Degrees" : "60 Degrees", gameWindow.visibility, gameWindow.initiativeOrder,
 					gameWindow);

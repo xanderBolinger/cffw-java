@@ -619,6 +619,8 @@ public class CloseQuartersBattle implements Serializable {
 				
 				for(Trooper occupant : trooperRoom.occupants) {
 					Unit occupantUnit = occupant.returnTrooperUnit(gameWindow);
+					if(occupantUnit == null)
+						continue;
 					
 					if(occupantUnit.side.equals(unit.side) || occupant.compareTo(trooper) || !occupant.alive || !occupant.conscious) {
 						continue; 
@@ -642,7 +644,8 @@ public class CloseQuartersBattle implements Serializable {
 				for(Trooper occupant : trooperRoom.occupants) {
 					
 					Unit occupantUnit = occupant.returnTrooperUnit(gameWindow);
-					
+					if(occupantUnit == null)
+						continue;
 					if(occupantUnit.side.equals(unit.side) || occupant.compareTo(trooper) || !occupant.alive || !occupant.conscious) {
 						continue; 
 					} else {
@@ -679,7 +682,8 @@ public class CloseQuartersBattle implements Serializable {
 				
 				for(Trooper occupant : trooperRoom.occupants) {
 					Unit occupantUnit = occupant.returnTrooperUnit(gameWindow);
-					
+					if(occupantUnit == null)
+						continue;
 					if(occupantUnit.side.equals(unit.side) || occupant.compareTo(trooper) || !occupant.alive || !occupant.conscious) {
 						continue; 
 					}

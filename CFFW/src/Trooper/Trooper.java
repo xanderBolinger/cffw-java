@@ -2772,19 +2772,7 @@ public class Trooper implements Serializable {
 
 	public boolean canAct(Game game) {
 
-		boolean canAct = false;
-
-		if (game.getPhase() == 1) {
-			if (spentPhase1 < P1) {
-				canAct = true;
-			}
-		} else {
-			if (spentPhase2 < P2) {
-				canAct = true;
-			}
-		}
-
-		return canAct;
+		return !GameWindow.gameWindow.exhaustedTrooper(this);
 
 	}
 
