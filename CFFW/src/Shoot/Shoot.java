@@ -161,13 +161,13 @@ public class Shoot {
 			return;
 		}
 
-		//System.out.println("shot");
+		System.out.println("shot");
 		singleShotRoll(homing);
-		//System.out.println("shot 2");
+		System.out.println("shot 2");
 		resolveHits();
-		//System.out.println("shot 3");
+		System.out.println("shot 3");
 		resolveSuppressiveHits();
-		//System.out.println("shot 4");
+		System.out.println("shot 4");
 		spentCombatActions++;
 		shots++;
 		setShotResults(false);
@@ -484,11 +484,6 @@ public class Shoot {
 			
 			if(this.target == null) {
 				target = targetUnit.individuals.get(DiceRoller.roll(0, targetUnit.individuals.size()-1));
-			}
-
-			if(target.HD) {
-				hits--;
-				continue;
 			}
 			
 			ResolveHits resolveHits = new ResolveHits(target, hits, wep,

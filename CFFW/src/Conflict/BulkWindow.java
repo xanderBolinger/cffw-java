@@ -1101,7 +1101,7 @@ public class BulkWindow {
 		lblTn.setBackground(Color.WHITE);
 		lblTn.setForeground(Color.BLACK);
 		lblTn.setFont(new Font("Calibri", Font.PLAIN, 15));
-		lblTn.setBounds(784, 501, 205, 23);
+		lblTn.setBounds(784, 501, 303, 23);
 		frame.getContentPane().add(lblTn);
 
 		chckbxFullAuto = new JCheckBox("Full Auto");
