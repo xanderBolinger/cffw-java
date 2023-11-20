@@ -2,7 +2,7 @@ package Vehicle.Data;
 
 import java.io.Serializable;
 
-public class VehicleSpotData {
+public class VehicleSpotData  implements Serializable {
 
 	public enum ThermalShroud implements Serializable {
 		Impervious,Resistant,None
