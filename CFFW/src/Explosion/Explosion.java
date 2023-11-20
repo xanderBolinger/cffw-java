@@ -84,6 +84,7 @@ public class Explosion {
 			
 			if((pcAmmo != null && pcAmmo.clusterMunition)
 					|| (shell != null && shell.pcAmmo != null && shell.pcAmmo.clusterMunition))
+				continue;
 			
 			unit.suppression += 10; 
 			unit.organization -= 10; 
