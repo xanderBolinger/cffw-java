@@ -48,7 +48,8 @@ public class VehicleXmlReader {
 
 		var spotData = getVehicleSpotData(vehicleNode);
 		
-		var vehicle = new Vehicle(vehicleType, getCrewCompartments(vehicleData), spotData);
+		var vehicle = new Vehicle(vehicleType, getCrewCompartments(vehicleData), spotData,
+				vehicleNode.getAttribute("class"));
 
 		if (shielded) {
 			int maxValue = Integer.parseInt(vehicleNode.getAttribute("maxValue"));

@@ -1,63 +1,37 @@
 package HexGrid.Vehicle;
 
-import java.util.ArrayList;
-
 import CeHexGrid.Chit;
 import Conflict.GameWindow;
-import UtilityClasses.ExcelUtility;
+import HexGrid.HexDirectionUtility.HexDirection;
 import Vehicle.Vehicle;
 import Vehicle.Windows.VehicleCombatWindow;
 
 public class HexGridVehicleUtility {
 	public static void updateVehicleChits(VehicleCombatWindow cw) {
-		
+
 		for(var vic : cw.vehicles) {
 			
-			var oldChit = getVehicleChit(vic.identifier);
+			var vehicleChit = getVehicleChit(vic.identifier);
 
-			var blufor = bluforVehicle(vic);
-			var chit = new Chit(ExcelUtility.path 
-					+ "\\Unit Images\\"+(blufor ? "BLUFOR" : "OPFOR")+"_ARMOR.png", 20, (blufor ? 12 : 20));
-			chit.labeled = true; 
-			chit.chitIdentifier = vic.identifier;
-			chit.chitLabel = vic.getVehicleCallsign();
-			
-			if(oldChit != null) {
-				chit.xCord = oldChit.xCord;
-				chit.yCord = oldChit.yCord;
-				chit.xPoint = oldChit.xPoint;
-				chit.yPoint = oldChit.yPoint;
-				chit.shiftX = oldChit.shiftX;
-				chit.shiftY = oldChit.shiftY;
-				chit.facing = oldChit.facing;
-				GameWindow.gameWindow.game.chits.remove(oldChit);
-			}
-			
-			GameWindow.gameWindow.game.chits.add(chit);
-		}
-		
-		ArrayList<Chit> removeChits = new ArrayList<Chit>();
-		
-		for(var chit : GameWindow.gameWindow.game.chits) {
-			
-			if(!chit.labeled)
+			if(vehicleChit == null) {
+				var blufor = bluforVehicle(vic);
+				var chit = new Chit("Unit Images\\"+(blufor ? "BLUFOR" : "OPFOR")+"_"
+						+vic.getVehicleClass()+".png", 20, (blufor ? 12 : 20));
+				chit.labeled = true; 
+				chit.chitIdentifier = vic.identifier;
+				chit.chitLabel = vic.getVehicleCallsign();
+				GameWindow.gameWindow.game.chits.add(chit);
 				continue;
-			
-			boolean found = false; 
-			
-			for(var vic : cw.vehicles) {
-				if(vic.identifier.equals(chit.chitIdentifier))
-					found = true;
 			}
 			
-			if(!found)
-				removeChits.add(chit);
-			
+			vehicleChit.xCord = vic.movementData.location.xCord;
+			vehicleChit.yCord = vic.movementData.location.yCord;
+			vehicleChit.facing = HexDirection.getFacing(vic.movementData.facing);
+			vehicleChit.chitLabel = vic.getVehicleCallsign();
+				
 		}
 		
-		for(var chit : removeChits) {
-			GameWindow.gameWindow.game.chits.remove(chit);
-		}
+		
 		
 	}
 	

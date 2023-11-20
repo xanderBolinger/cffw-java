@@ -1428,11 +1428,11 @@ public class HexGrid implements Serializable {
 			Chit chit;
 			
 			if (deployBluforChit)
-				chit = new Chit(ExcelUtility.path + "//Unit Images//BLUFOR_"+unitType+".png", 20, 12);
+				chit = new Chit("Unit Images//BLUFOR_"+unitType+".png", 20, 12);
 			else if (deployOpforChit)
-				chit = new Chit(ExcelUtility.path + "//Unit Images//OPFOR_"+unitType+".png", 20, 20);
+				chit = new Chit("Unit Images//OPFOR_"+unitType+".png", 20, 20);
 			else if (deployUnknownChit)
-				chit = new Chit(ExcelUtility.path + "//Unit Images//UNKNOWN_UNKNOWN.png", 20, 12);
+				chit = new Chit("Unit Images//UNKNOWN_UNKNOWN.png", 20, 12);
 			else 
 				return;
 			

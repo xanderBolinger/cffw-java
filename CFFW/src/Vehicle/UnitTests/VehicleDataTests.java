@@ -56,7 +56,7 @@ public class VehicleDataTests {
 		compartments.add(new CrewCompartment("OPERATORS", List.of(pos1, pos2)));
 		compartments.add(new CrewCompartment("EXTERNAL GUNNER", List.of(pos3)));
 
-		Vehicle vehicle = new Vehicle("TX130", compartments, null);
+		Vehicle vehicle = new Vehicle("TX130", compartments, null,"ARMOR");
 		vehicle.setVehicleCallsign("Hitman");
 		
 		var operators = vehicle.getCrewCompartment("OPERATORS");

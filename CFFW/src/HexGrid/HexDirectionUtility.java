@@ -3,6 +3,7 @@ package HexGrid;
 import java.util.ArrayList;
 import java.util.List;
 
+import CeHexGrid.Chit.Facing;
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import HexGrid.HexDirectionUtility.HexDirection;
@@ -125,6 +126,38 @@ public class HexDirectionUtility {
 	public enum HexDirection {
 		A,AB,B,BC,C,CD,D,DE,E,EF,F,FA;
 		
+		public static Facing getFacing(HexDirection dir) {
+			switch(dir) {
+			
+			case A: 
+				return Facing.A;
+			case AB:
+				return Facing.AB;
+			case B:
+				return Facing.B;
+			case BC:
+				return Facing.BC;
+			case C:
+				return Facing.C;
+			case CD:
+				return Facing.CD;
+			case D:
+				return Facing.D;
+			case DE:
+				return Facing.DE;
+			case E:
+				return Facing.E;
+			case EF:
+				return Facing.EF;
+			case F:
+				return Facing.F;
+			case FA:
+				return Facing.FA;
+			default:
+				return null;
+			
+			}
+		}
 		
 		public static List<HexDirection> getDirections() {
 			

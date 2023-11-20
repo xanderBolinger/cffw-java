@@ -44,8 +44,10 @@ public class Vehicle implements Serializable {
 	
 	public Vehicle() {} // empty constructor for testing 
 
-	public Vehicle(String vehicleTypeName, List<CrewCompartment> crewCompartments, VehicleSpotData spotData) {
+	public Vehicle(String vehicleTypeName, List<CrewCompartment> crewCompartments, VehicleSpotData spotData,
+			String vehicleClass) {
 		this.vehicleTypeName = vehicleTypeName;
+		this.vehicleClass = vehicleClass;
 		this.crewCompartments = crewCompartments;
 		this.identifier = identifier();
 		active = true;

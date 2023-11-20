@@ -35,6 +35,8 @@ public class Chit implements Serializable {
 	public transient Image chitImage;
 	public String imagePath; 
 	
+	public String folderAndFileName;
+	
 	private static Chit selectedChit = null;
 	
 	private double chitWidth = 15; 
@@ -103,7 +105,8 @@ public class Chit implements Serializable {
 	}
 	
 	public Chit(String path, int width, int height) {
-		this.imagePath = path;
+		this.imagePath = ExcelUtility.path + "\\"+path;
+		this.folderAndFileName = path;
 		chitWidth = width;
 		chitHeight = height;
 		try {
@@ -164,31 +167,21 @@ public class Chit implements Serializable {
 	}
 
 	public void loadImage() {
-		if(chitImage == null) {
-			try {
-				//throw new Exception("Image Path: "+imagePath);
-				
-				if(imagePath.contains("blufor")) {
-					this.imagePath = ExcelUtility.path+"\\Icons\\unknown_blufor_icon.png";
-				} else if(imagePath.contains("opfor")) {
-					this.imagePath = ExcelUtility.path+"\\Icons\\unknown_opfor_icon.png";
-				} else {
-					this.imagePath = ExcelUtility.path+"\\Icons\\unknown_icon.png";
-				}
-				
-				File file = new File(imagePath);
-				
-				chitImage =  ImageIO.read(file);
-				chitImage =  chitImage.getScaledInstance((int) chitWidth, (int) chitHeight,
-						Image.SCALE_DEFAULT);
-			} catch (IOException e) {
-				System.out.println("ImagePath: "+imagePath);
-				e.printStackTrace();
-			} /*catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-		}
+		if(chitImage != null)
+			return;
+		try {
+			File file = new File(ExcelUtility.path+"\\"+folderAndFileName);
+			
+			chitImage =  ImageIO.read(file);
+			chitImage =  chitImage.getScaledInstance((int) chitWidth, (int) chitHeight,
+					Image.SCALE_DEFAULT);
+		} catch (IOException e) {
+			System.out.println("ImagePath: "+imagePath);
+			e.printStackTrace();
+		} /*catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 	}
 	
 	public void drawChit(double zoom, Graphics2D g2, Polygon hex) {
