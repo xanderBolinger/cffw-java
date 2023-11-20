@@ -68,7 +68,7 @@ public class SaveMapWindow {
 				ObjectOutputStream out;
 				try {
 					out = new ObjectOutputStream(new FileOutputStream("Map Saves/"+textField.getText()));
-					out.writeObject(new SaveHexes(GameWindow.gameWindow.hexes));
+					out.writeObject(new SaveHexes(GameWindow.gameWindow.hexes, GameWindow.gameWindow.game.procGenMap));
 					out.close();
 				} catch (FileNotFoundException e1) {
 					// TODO Auto-generated catch block
