@@ -1101,7 +1101,7 @@ public class BulkWindow {
 		lblTn.setBackground(Color.WHITE);
 		lblTn.setForeground(Color.BLACK);
 		lblTn.setFont(new Font("Calibri", Font.PLAIN, 15));
-		lblTn.setBounds(808, 501, 205, 23);
+		lblTn.setBounds(784, 501, 205, 23);
 		frame.getContentPane().add(lblTn);
 
 		chckbxFullAuto = new JCheckBox("Full Auto");
@@ -1276,7 +1276,7 @@ public class BulkWindow {
 		lblPossibleShots.setForeground(Color.BLACK);
 		lblPossibleShots.setFont(new Font("Calibri", Font.PLAIN, 15));
 		lblPossibleShots.setBackground(Color.WHITE);
-		lblPossibleShots.setBounds(808, 471, 178, 23);
+		lblPossibleShots.setBounds(784, 471, 178, 23);
 		frame.getContentPane().add(lblPossibleShots);
 
 		JButton btnVolley = new JButton("Volley");
@@ -2215,7 +2215,7 @@ public class BulkWindow {
 		chckbxSingleShot = new JCheckBox("Single Shot");
 		chckbxSingleShot.setForeground(Color.BLACK);
 		chckbxSingleShot.setBackground(Color.WHITE);
-		chckbxSingleShot.setBounds(998, 499, 89, 23);
+		chckbxSingleShot.setBounds(967, 469, 120, 23);
 		frame.getContentPane().add(chckbxSingleShot);
 		
 		JButton btnClearSpotted_1 = new JButton("Set Camoflauge");

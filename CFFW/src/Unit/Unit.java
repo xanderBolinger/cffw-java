@@ -690,7 +690,7 @@ public class Unit implements Serializable {
 		unembark(gameWindow);
 		
 		for(Trooper trooper : individuals) {
-			
+			trooper.HD = false;
 			trooper.pcRanges.clear();
 			
 			for(Unit otherUnit : gameWindow.initiativeOrder) {

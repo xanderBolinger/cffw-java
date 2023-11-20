@@ -3,6 +3,8 @@ package Items;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import org.apache.poi.util.SystemOutLogger;
+
 import Conflict.GameWindow;
 import Items.Container.ContainerType;
 import Items.Item.ItemType;
@@ -324,7 +326,8 @@ public class Inventory implements Serializable {
 	
 	public boolean launcherAmmoCheck(Weapons wep, PCAmmo pcAmmo, int shots) {		
 		System.out.println("Launcher ammo check");
-		
+		System.out.println("wep name: "+wep.name);
+		System.out.println("PC ammo name: "+pcAmmo.name);
 		if(pcAmmo.linked) {
 			System.out.println("Linked returning true");
 			return true;
@@ -339,18 +342,22 @@ public class Inventory implements Serializable {
 		
 		String name = wep.name + ": "
 				+ pcAmmo.name + " round";
-
+		System.out.println("Round name: "+name);
 		Item round = trooper.inventory.getItem(name);
 		
 		if (round == null) {
+			System.out.println("Round is null, could not make attack");
 			GameWindow.gameWindow.conflictLog
-					.addNewLine("Could not make attack, trooper does not have item. Name: " + name);
+					.addNewLineToQueue("Could not make attack, trooper does not have item. Name: " + name);
 			return false;
 		}
 
+		System.out.println("Launcher Shots: "+shots);
 		while(shots > 0 && trooper.inventory.containsItem(name)) {
+			System.out.println("While loop");
 			if(round.ammo.shots > 1 && round.ammo.shots < round.ammo.firedShots + 1) {
 				round.ammo.firedShots++; 
+				System.out.println("Round fired shots");
 			} else {
 				try {
 					System.out.println("remove item");

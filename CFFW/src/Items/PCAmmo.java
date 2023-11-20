@@ -23,7 +23,7 @@ public class PCAmmo implements Serializable {
 	public boolean depleted = false; 
 	public boolean smoke = false; 
 	public boolean airBurst = false;
-	public boolean linked = true;
+	public boolean linked = false;
 	public SmokeType smokeType;
 	
 	public int depletionPoints = 0; 
