@@ -2056,11 +2056,38 @@ public class GameWindow implements Serializable {
 		setupWindow.refreshCreated();
 	}
 
+	public void recalcLosForAllUnits() {
+		
+		if(!FireMission.hasImpactThisAction) {
+			return;
+		}
+		
+		ExecutorService es = Executors.newFixedThreadPool(16);
+		
+		for(var unit : initiativeOrder) {
+
+			es.submit(() -> {
+				CalcLOS(unit);
+			});
+			
+		}
+		
+		es.shutdown();
+		try {
+		  es.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void nextAction() {
+		FireMission.hasImpactThisAction = false;
 		activeUnit = 0;
 		advanceTime();
 		markUnmoved();
 		timedEvents();
+		recalcLosForAllUnits();
 
 		game.setCurrentAction(game.getCurrentAction() + 1);
 

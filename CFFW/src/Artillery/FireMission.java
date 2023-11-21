@@ -24,7 +24,7 @@ public class FireMission implements Serializable {
 	private static final long serialVersionUID = 1197164158898967950L;
 
 	public String fireMissionDisplayName;
-	
+	public static boolean hasImpactThisAction;
 	public int spotterSkill; 
 	public int actionsToPlotted; 
 	public int timeSpentPlotting; 
@@ -427,6 +427,7 @@ public class FireMission implements Serializable {
 	}
 	
 	public void impact(Shot shot) {
+		hasImpactThisAction = true;
 		GameWindow.gameWindow.conflictLog.addNewLineToQueue("Fire Mision: "+fireMissionDisplayName+" Impact from "+shot.battery.batteryDisplayName+" "+shot.battery.batteryName);
 		//System.out.println("Impact from "+shot.battery.batteryName);
 		int accuracy; 
