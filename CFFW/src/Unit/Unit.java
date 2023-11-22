@@ -18,6 +18,7 @@ import Hexes.HexWindow;
 import Items.Weapons;
 import Trooper.Trooper;
 import Trooper.generateSquad;
+import Vehicle.Vehicle;
 
 public class Unit implements Serializable {
 	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -30,7 +31,7 @@ public class Unit implements Serializable {
 	public int X; 
 	public int Y; 
 	public int effectiveBurden;
-	
+	public ArrayList<Vehicle> losVehicles = new ArrayList<Vehicle>();
 	public ArrayList<Unit> lineOfSight = new ArrayList<Unit>();
 	public ArrayList<Trooper> individuals; 
 	public ArrayList<Weapons> staticWeapons; 

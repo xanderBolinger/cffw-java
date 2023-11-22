@@ -90,6 +90,27 @@ public class CalculateLOS {
 		
 	}
 	
+	public static void calcVehicleInfantry(Vehicle vehicle, Unit targetUnit) {
+		if(GameWindow.hexDif(vehicle.movementData.location.xCord, 
+				vehicle.movementData.location.yCord, targetUnit) <= 1) {
+			if(!vehicle.losUnits.contains(targetUnit))
+				vehicle.losUnits.add(targetUnit);
+			
+			if(!targetUnit.lineOfSight.contains(unit))
+				targetUnit.lineOfSight.add(unit);
+			return;
+		}
+		
+		if(!hasLos(vehicle.movementData.location, new Cord(targetUnit.X, targetUnit.Y)))
+			return;
+		
+		if(!vehicle.losUnits.contains(targetUnit))
+			vehicle.losUnits.add(targetUnit);
+		
+		if(!targetUnit.lineOfSight.contains(unit))
+			targetUnit.lineOfSight.add(unit);
+	}
+	
 	public static void calc(Unit unit, Unit targetUnit) {
 		
 		if(GameWindow.hexDif(unit, targetUnit) <= 1) {
