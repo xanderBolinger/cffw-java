@@ -17,6 +17,7 @@ public class CalculateLOS {
 				|| GameWindow.gameWindow.companies == null)
 			return;
 		
+		movedVehicle.losUnits.clear();
 		movedVehicle.losVehicles.clear();
 		
 		var vehicles = GameWindow.gameWindow.game.vehicleManager.getVehicles();
@@ -26,6 +27,15 @@ public class CalculateLOS {
 				continue;
 			calcVehicle(movedVehicle, vic);
 			calcVehicle(vic, movedVehicle);
+		}
+		
+		for(var unit : GameWindow.gameWindow.initiativeOrder) {
+			calcVehicleInfantry(movedVehicle, unit);
+			
+			if(unit.losVehicles.contains(movedVehicle) 
+					&& !movedVehicle.losUnits.contains(unit)) 
+				unit.losVehicles.remove(movedVehicle);
+			
 		}
 		
 		updateVehicleLosLists(vehicles);
@@ -96,8 +106,8 @@ public class CalculateLOS {
 			if(!vehicle.losUnits.contains(targetUnit))
 				vehicle.losUnits.add(targetUnit);
 			
-			if(!targetUnit.lineOfSight.contains(unit))
-				targetUnit.lineOfSight.add(unit);
+			if(!targetUnit.losVehicles.contains(vehicle))
+				targetUnit.losVehicles.add(vehicle);
 			return;
 		}
 		
@@ -107,8 +117,8 @@ public class CalculateLOS {
 		if(!vehicle.losUnits.contains(targetUnit))
 			vehicle.losUnits.add(targetUnit);
 		
-		if(!targetUnit.lineOfSight.contains(unit))
-			targetUnit.lineOfSight.add(unit);
+		if(!targetUnit.losVehicles.contains(vehicle))
+			targetUnit.losVehicles.add(vehicle);
 	}
 	
 	public static void calc(Unit unit, Unit targetUnit) {

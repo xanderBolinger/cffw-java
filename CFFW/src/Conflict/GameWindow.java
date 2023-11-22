@@ -35,6 +35,7 @@ import Trooper.Trooper;
 import Unit.AdvanceTimeUnit;
 import Unit.Unit;
 import UtilityClasses.PCUtility;
+import Vehicle.Vehicle;
 import Vehicle.VehicleManager;
 import Vehicle.VehicleSpotManager;
 import Vehicle.Windows.VehicleCombatWindow;
@@ -2301,6 +2302,7 @@ public class GameWindow implements Serializable {
 		var losCopy = new ArrayList<Unit>(movedUnit.lineOfSight);
 		
 		movedUnit.lineOfSight.clear();
+		movedUnit.losVehicles.clear();
 		
 		for (Unit targetUnit : initiativeOrder) {
 			if (movedUnit.side.equals(targetUnit.side))
@@ -2311,6 +2313,10 @@ public class GameWindow implements Serializable {
 				});
 		}
 		
+		for(Vehicle vic : vehicleCombatWindow.vehicles) {
+			CalculateLOS.calcVehicleInfantry(vic, movedUnit);
+		}
+		
 		es.shutdown();
 		try {
 		  es.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
@@ -2319,7 +2325,8 @@ public class GameWindow implements Serializable {
 		}
 		
 		updateLosLists();
-
+		updateUnitVehicleLos(movedUnit);
+		
 		final long endTime = System.currentTimeMillis();
 		System.out.println("Total CalcLOS execution time: " + (endTime - startTime));
 		
@@ -2335,6 +2342,19 @@ public class GameWindow implements Serializable {
 						.get(movedUnit.lineOfSight.size()-1)) ? "" : ", ");
 		conflictLog.addNewLineToQueue(header+"\n"+lostLosTo+"\n"+gainedLosTo+"\n");
 		hexGrid.calculatingLos = false;
+		
+		
+		
+	}
+	
+	void updateUnitVehicleLos(Unit movedUnit) {
+		
+		for(var vic : vehicleCombatWindow.vehicles) {
+			if(vic.losUnits.contains(movedUnit) 
+					&& !movedUnit.losVehicles.contains(vic))
+				vic.losUnits.remove(movedUnit);
+		}
+		
 	}
 	
 	void updateLosLists() {

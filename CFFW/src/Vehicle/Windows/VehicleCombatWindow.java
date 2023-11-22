@@ -82,6 +82,9 @@ public class VehicleCombatWindow {
 	private JList listSpotted;
 	private JCheckBox chckbxFired;
 	private JCheckBox chckbxSkipSpotTest;
+	private JPanel losUnit;
+	private JList listLosUnits;
+	private JList listSpottedIndividuals;
 	
 	/**
 	 * Create the application.
@@ -182,6 +185,20 @@ public class VehicleCombatWindow {
 			spotted.add(losVic.getVehicleType()+": "+losVic.getVehicleCallsign());
 		
 		SwingUtility.setList(listSpotted, spotted);
+		
+		ArrayList<String> losUnits = new ArrayList<String>();
+		
+		for(var losUnit : selectedVehicle.losUnits)
+			losUnits.add(losUnit.callsign);
+		
+		SwingUtility.setList(listLosUnits, losUnits);
+		
+		ArrayList<String> spottedTroopers = new ArrayList<String>();
+		
+		for(var t : selectedVehicle.spottedTroopers)
+			spottedTroopers.add(GameWindow.getLogHead(t));
+		
+		SwingUtility.setList(listSpottedIndividuals, spottedTroopers);
 		
 	}
 	
@@ -506,7 +523,7 @@ public class VehicleCombatWindow {
 		
 		los = new JPanel();
 		los.setLayout(null);
-		tabbedPane.addTab("LOS", null, los, null);
+		tabbedPane.addTab("LOS Vic", null, los, null);
 		
 		JLabel lblNewLabel_1 = new JLabel("LOS");
 		lblNewLabel_1.setBounds(10, 11, 79, 14);
@@ -529,6 +546,32 @@ public class VehicleCombatWindow {
 		
 		listSpotted = new JList();
 		scrollPane_2_1.setViewportView(listSpotted);
+		
+		losUnit = new JPanel();
+		tabbedPane.addTab("LOS Units", null, losUnit, null);
+		losUnit.setLayout(null);
+		
+		JLabel lblNewLabel_1_2 = new JLabel("LOS Units");
+		lblNewLabel_1_2.setBounds(10, 10, 205, 14);
+		losUnit.add(lblNewLabel_1_2);
+		
+		JLabel lblNewLabel_1_1_1 = new JLabel("Spotted Individuals");
+		lblNewLabel_1_1_1.setBounds(225, 10, 199, 14);
+		losUnit.add(lblNewLabel_1_1_1);
+		
+		JScrollPane scrollPane_2_2 = new JScrollPane();
+		scrollPane_2_2.setBounds(10, 33, 206, 148);
+		losUnit.add(scrollPane_2_2);
+		
+		listLosUnits = new JList();
+		scrollPane_2_2.setViewportView(listLosUnits);
+		
+		JScrollPane scrollPane_2_1_1 = new JScrollPane();
+		scrollPane_2_1_1.setBounds(225, 33, 199, 148);
+		losUnit.add(scrollPane_2_1_1);
+		
+		listSpottedIndividuals = new JList();
+		scrollPane_2_1_1.setViewportView(listSpottedIndividuals);
 		
 		smoke = new JPanel();
 		tabbedPane.addTab("Smoke", null, smoke, null);
