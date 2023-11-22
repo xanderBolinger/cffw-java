@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import Conflict.GameWindow;
 import Vehicle.Data.CrewMember.CrewAction;
-import Vehicle.HullDownPositions.HullDownPositionRecords;
+import Vehicle.HullDownPositions.HullDownPositionManager;
 
 public class VehicleManager implements Serializable {
 
@@ -13,7 +13,7 @@ public class VehicleManager implements Serializable {
 	
 	public int phase = 1; 
 	
-	public HullDownPositionRecords hullDownPositions;
+	public HullDownPositionManager hullDownPositions;
 	
 	public VehicleManager() {
 		
@@ -40,7 +40,7 @@ public class VehicleManager implements Serializable {
 	}
 	
 	public void generate() {
-		hullDownPositions = new HullDownPositionRecords();
+		hullDownPositions = new HullDownPositionManager();
 		hullDownPositions.generateHullDownPositions(GameWindow.gameWindow.hexCols, GameWindow.gameWindow.hexRows);
 	}
 	

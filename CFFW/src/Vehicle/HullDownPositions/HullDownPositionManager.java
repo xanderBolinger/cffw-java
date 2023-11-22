@@ -1,6 +1,7 @@
 package Vehicle.HullDownPositions;
 
 import java.io.Serializable;
+import Hexes.Hex;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,16 +9,18 @@ import java.util.Map;
 
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
+import HexGrid.HexDirectionUtility;
 import UtilityClasses.DiceRoller;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
+import HexGrid.HexDirectionUtility.HexDirection;;
 
-public class HullDownPositionRecords implements Serializable {
+public class HullDownPositionManager implements Serializable {
 
 	
 	public Map<Cord, HullDownPosition> positions;
 	
 	
-	public HullDownPositionRecords() {
+	public HullDownPositionManager() {
         positions = new HashMap<>();
     }
 
@@ -63,7 +66,45 @@ public class HullDownPositionRecords implements Serializable {
                
             }
         }
+        
+        generateFromElevationChanges();
     }
 	
+    private void generateFromElevationChanges() {
+    	
+    	for(var hex : GameWindow.gameWindow.hexes) {
+    		var cord = new Cord(hex.xCord, hex.yCord);
+    		var neighbours = HexDirectionUtility.getHexNeighbours(cord);
+    		
+    		var elevationDifferences = new ArrayList<Hex>();
+    		
+    		for(var neighbour : neighbours) {
+    			if(hex.elevation > neighbour.elevation) {
+    				elevationDifferences.add(neighbour);
+    			}
+    		}
+    		
+    		var hd = new HullDownPosition(HullDownStatus.HIDDEN,
+    				HullDownStatus.PARTIAL_HULL_DOWN);
+    		hd.protectedDirections.clear();
+
+    		
+    		for(var diff : elevationDifferences) {
+    			var side = HexDirectionUtility.getHexSideFacingTarget(new Cord(diff.xCord, diff.yCord),cord
+    					);
+    			
+    			hd.protectedDirections.add(side);
+    			hd.protectedDirections.add(HexDirectionUtility.getFaceInDirection(side, false));
+    			hd.protectedDirections.add(HexDirectionUtility.getFaceInDirection(side, true));
+    		}
+    		
+    		if(hd.protectedDirections.size() > 0) {
+    			positions.put(cord, hd);
+    		}
+    		
+    	}
+    	
+    }
+    
 	
 }

@@ -105,7 +105,13 @@ public class VehicleSpotCalculator {
 		int skillMod = SpotModifiers.getSkillMod(spotterTrooper);
 
 		// Calculation
-		var PCSize = spotterCord.compare(targetCord) == true || target.movementData.hullDown() == false ? target.spotData.hullSize + target.spotData.turretSize : 
+		var hullDown = hullDownRelative(spotter, target);
+		
+		var PCSize = 
+				spotterCord.compare(targetCord) == true 
+				|| 
+				hullDown == false ? 
+						target.spotData.hullSize + target.spotData.turretSize : 
 			target.movementData.hullDownStatus == HullDownStatus.HULL_DOWN || target.movementData.hullDownStatus == HullDownStatus.PARTIAL_HULL_DOWN ?
 					target.spotData.turretSize : target.spotData.turretSize / 2;
 		

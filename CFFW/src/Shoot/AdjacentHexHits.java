@@ -26,7 +26,7 @@ public class AdjacentHexHits {
 		this.targetUnit = targetUnit;
 		hits = new HashMap<Cord, AdjacentHexHitData>();
 		mainCord = new Cord(targetUnit.X, targetUnit.Y);
-		adjacentCords = HexDirectionUtility.getHexNeighbours(mainCord);
+		adjacentCords = HexDirectionUtility.getHexNeighbourCords(mainCord);
 	}
 	
 	public void addHit(Weapons weapon, PCAmmo pcAmmo) {

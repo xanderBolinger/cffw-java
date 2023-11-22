@@ -20,7 +20,7 @@ public class HexDirectionUtilityTests {
 		
 		// Neighbours of 1,1: [0,1, 0,2, 1,2, 2,1, 1,0, 0,0]
         Cord pos1 = new Cord(1, 1);
-        List<Cord> neighbors1 = HexDirectionUtility.getHexNeighbours(pos1);
+        List<Cord> neighbors1 = HexDirectionUtility.getHexNeighbourCords(pos1);
         List<Cord> expectedNeighbors1 = Arrays.asList(
                 new Cord(0, 1),
                 new Cord(0, 2),
@@ -33,7 +33,7 @@ public class HexDirectionUtilityTests {
 
         // Neighbours of 2,2: [1,2, 2,3, 3,3, 3,2, 3,1, 2,1]
         Cord pos2 = new Cord(2, 2);
-        List<Cord> neighbors2 = HexDirectionUtility.getHexNeighbours(pos2);
+        List<Cord> neighbors2 = HexDirectionUtility.getHexNeighbourCords(pos2);
         List<Cord> expectedNeighbors2 = Arrays.asList(
                 new Cord(1, 2),
                 new Cord(2, 3),
@@ -46,7 +46,7 @@ public class HexDirectionUtilityTests {
 
         // Neighbours of 2,1: [1,1, 1,2, 2,2, 3,1, 2,0, 1,0]
         Cord pos3 = new Cord(2, 1);
-        List<Cord> neighbors3 = HexDirectionUtility.getHexNeighbours(pos3);
+        List<Cord> neighbors3 = HexDirectionUtility.getHexNeighbourCords(pos3);
         List<Cord> expectedNeighbors3 = Arrays.asList(
                 new Cord(1, 1),
                 new Cord(1, 2),
@@ -59,7 +59,7 @@ public class HexDirectionUtilityTests {
 
         // Neighbours of 1,2: [0,2, 1,3, 2,3, 2,2, 2,1, 1,1]
         Cord pos4 = new Cord(1, 2);
-        List<Cord> neighbors4 = HexDirectionUtility.getHexNeighbours(pos4);
+        List<Cord> neighbors4 = HexDirectionUtility.getHexNeighbourCords(pos4);
         List<Cord> expectedNeighbors4 = Arrays.asList(
                 new Cord(0, 2),
                 new Cord(1, 3),

@@ -14,7 +14,7 @@ public class HexDirectionTests {
 	@Test
 	public void HexNeighbours() {
 		
-		var neighbours = HexDirectionUtility.getHexNeighbours(new Cord(5,21));
+		var neighbours = HexDirectionUtility.getHexNeighbourCords(new Cord(5,21));
 		
 		assertEquals(4,neighbours.get(0).xCord);
 		

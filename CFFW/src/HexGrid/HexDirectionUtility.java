@@ -7,6 +7,7 @@ import CeHexGrid.Chit.Facing;
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import HexGrid.HexDirectionUtility.HexDirection;
+import Hexes.Hex;
 import Vehicle.Vehicle;
 
 public class HexDirectionUtility {
@@ -36,7 +37,7 @@ public class HexDirectionUtility {
 			return HexDirection.A;
 		} else if(startDistance == 1) {
 			
-			var adjacentTiles = getHexNeighbours(start);
+			var adjacentTiles = getHexNeighbourCords(start);
 			
 			for(int i = 0; i < 6; i++) {
 				if(adjacentTiles.get(i).compare(target)) {
@@ -271,7 +272,22 @@ public class HexDirectionUtility {
 		
 	}
 	
-	public static List<Cord> getHexNeighbours(Cord pos) {
+	public static List<Hex> getHexNeighbours(Cord pos) {
+		 List<Hex> neighbours = new ArrayList<Hex>();
+		 
+		 var cords = getHexNeighbourCords(pos);
+		 
+		 for(var cord : cords) {
+			 var hex = GameWindow.gameWindow.findHex(cord.xCord, cord.yCord);
+			 if(hex != null)
+				 neighbours.add(hex);
+		 }
+		 
+		 
+		 return neighbours;
+	} 
+	
+	public static List<Cord> getHexNeighbourCords(Cord pos) {
         List<Cord> neighbors = new ArrayList<>();
 
         // A
@@ -308,7 +324,7 @@ public class HexDirectionUtility {
     }
 
     public static Cord getHexInDirection(HexDirection dir, Cord pos) {
-        List<Cord> neighbors = getHexNeighbours(pos);
+        List<Cord> neighbors = getHexNeighbourCords(pos);
 
         switch (dir) {
             case A:
@@ -330,7 +346,7 @@ public class HexDirectionUtility {
 
 	
     public static Cord getHexInDirection(HexDirection dir, Cord pos, boolean clockwise) {
-        List<Cord> neighbors = getHexNeighbours(pos);
+        List<Cord> neighbors = getHexNeighbourCords(pos);
 
         switch (dir) {
             case A:
