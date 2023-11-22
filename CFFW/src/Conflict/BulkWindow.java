@@ -2769,6 +2769,9 @@ public class BulkWindow {
 	}
 	
 	public boolean validTrooper(Trooper trooper) {
+		if(trooper.ammo <= 0)
+			return false ;
+		
 		if (comboBoxWep.getSelectedIndex() != 0 && !trooper.wep.equals(comboBoxWep.getSelectedItem().toString())
 				&& !wepType(trooper)) {
 			return false;
@@ -3376,13 +3379,16 @@ public class BulkWindow {
 
 			String rslt = "";
 			rslt += trooper.number + "; " + trooper.name + " " + trooper.designation + " ";
-
+			if(trooper.ammo <= 0)
+				rslt += "OUT OF AMMO: ";
 			if (targetedFire != null && !targetedFire.fullAutoResults.equals("")) {
 				rslt += "Full Auto: " + targetedFire.fullAutoResults + ", ";
 			} else if (tempTF != null && !tempTF.fullAutoResults.equals("")) {
 				rslt += "Full Auto: " + tempTF.fullAutoResults + ", ";
 			}
 
+			
+			
 			if(trooper.spottingDifficulty > 0)
 				rslt += "CAMO: "+trooper.spottingDifficulty+" ";
 			

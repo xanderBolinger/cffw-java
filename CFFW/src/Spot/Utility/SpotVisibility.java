@@ -22,19 +22,23 @@ public class SpotVisibility {
 
 	public static String visibilityModifications;
 
-	public static int getThermalMod(Trooper spotter, int distanceYards, ArrayList<Unit> spotableUnits) {
-
+	public static boolean isUnitThermalShrouded(Unit unit) {
 		boolean shrouded = true;
 
-		for (var unit : spotableUnits) {
-			for (var trooper : unit.individuals) {
-				for (var item : trooper.inventory.getItemsArray()) {
-					if (!item.thermalShroud)
-						shrouded = false;
-				}
+		for (var trooper : unit.individuals) {
+			for (var item : trooper.inventory.getItemsArray()) {
+				if (!item.thermalShroud)
+					shrouded = false;
 			}
 		}
+		
+		return shrouded;
+	}
+	
+	public static int getThermalMod(Trooper spotter, int distanceYards, ArrayList<Unit> spotableUnits) {
 
+		var shrouded = isUnitThermalShrouded(spotableUnits.get(0));
+		
 		if (shrouded) {
 			visibilityModifications += "Thermal Vision(Shrouded, 0); ";
 			return 0;
@@ -296,9 +300,10 @@ public class SpotVisibility {
 		visibilityMod += weatherMod;
 		visibilityMod += getNightTimeMods(spotter, spotterUnit, xCord, yCord, weather, spotableUnits);
 		visibilityMod += armorModifier(spotableUnits);
-		visibilityMod += getTracerMod(spotableUnits);
+		var tracerMod =  getTracerMod(spotableUnits);
+		visibilityMod += tracerMod;
 		visibilityMod += camoMod(spotableUnits);
-		visibilityMod += stealthFieldMod(spotableUnits);
+		visibilityMod += tracerMod == 0 ? stealthFieldMod(spotableUnits) : 0;
 
 		return visibilityMod;
 	}

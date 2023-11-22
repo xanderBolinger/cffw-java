@@ -101,6 +101,10 @@ public class SpotModifiers {
 		speedModTarget /= spotableUnits.size();
 		return speedModTarget;
 	}
+	
+	public static int getSpeedModTarget(Unit target) {
+		return getSpeedModTarget(target.speed);
+	}
 
 	// Checks with unit speed and assigns a PC value to it
 	// Crawl 1/3 hex

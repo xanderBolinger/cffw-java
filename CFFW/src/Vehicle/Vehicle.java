@@ -32,6 +32,7 @@ public class Vehicle implements Serializable {
 
 	public ArrayList<Vehicle> losVehicles;
 	public ArrayList<Vehicle> spottedVehicles;
+	public ArrayList<Trooper> spottedTroopers;
 	
 	public String notes;
 	
@@ -44,7 +45,8 @@ public class Vehicle implements Serializable {
 	
 	public Vehicle() {} // empty constructor for testing 
 
-	public Vehicle(String vehicleTypeName, List<CrewCompartment> crewCompartments, VehicleSpotData spotData,
+	public Vehicle(String vehicleTypeName, List<CrewCompartment> crewCompartments, 
+			VehicleSpotData spotData,
 			String vehicleClass) {
 		this.vehicleTypeName = vehicleTypeName;
 		this.vehicleClass = vehicleClass;
@@ -53,6 +55,7 @@ public class Vehicle implements Serializable {
 		active = true;
 		losVehicles = new ArrayList<Vehicle>();
 		spottedVehicles = new ArrayList<Vehicle>();
+		spottedTroopers = new ArrayList<Trooper>();
 		this.spotData = spotData;
 	}
 
