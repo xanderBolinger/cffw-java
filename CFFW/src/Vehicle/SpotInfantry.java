@@ -160,7 +160,7 @@ public class SpotInfantry {
 		if(SpotVisibility.isUnitThermalShrouded(targetUnit))
 			return 0;
 		
-		return thermalMod;
+		return -thermalMod;
 		
 	}
 	

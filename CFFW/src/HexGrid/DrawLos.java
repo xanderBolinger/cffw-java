@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import Conflict.GameWindow;
 import HexGrid.HexGrid.DeployedUnit;
 import Unit.Unit;
+import Vehicle.Vehicle;
 
 public class DrawLos {
 
@@ -23,6 +24,8 @@ public class DrawLos {
 		}
 		
 	}
+
+	
 	
 	public static void drawLos(Graphics2D g2, DeployedUnit unit) {
 		
@@ -45,7 +48,7 @@ public class DrawLos {
 		
 	}
 	
-	private static void drawLineBetweenUnits(Graphics2D g2, 
+	public static void drawLineBetweenUnits(Graphics2D g2, 
 			int[] startPos, int[] center, Color color) {
 		var losLine = new Polygon();
 		losLine.addPoint(startPos[0], startPos[1]);

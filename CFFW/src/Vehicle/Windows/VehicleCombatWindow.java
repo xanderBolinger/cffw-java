@@ -313,7 +313,7 @@ public class VehicleCombatWindow {
 		
 		lblTurnPhase = new JLabel("Turn: 1, Phase: 1");
 		lblTurnPhase.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblTurnPhase.setBounds(147, 11, 249, 16);
+		lblTurnPhase.setBounds(124, 11, 249, 16);
 		frame.getContentPane().add(lblTurnPhase);
 		
 		JButton btnNewButton_1 = new JButton("Set Action");
@@ -648,6 +648,15 @@ public class VehicleCombatWindow {
 		chckbxSkipSpotTest = new JCheckBox("Skip Spot Test");
 		chckbxSkipSpotTest.setBounds(658, 667, 187, 23);
 		frame.getContentPane().add(chckbxSkipSpotTest);
+		
+		JButton btnNewButton_8_2_1 = new JButton("Unselect");
+		btnNewButton_8_2_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				unselectVehicle();
+			}
+		});
+		btnNewButton_8_2_1.setBounds(297, 5, 99, 23);
+		frame.getContentPane().add(btnNewButton_8_2_1);
 		textAreaNotes.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {

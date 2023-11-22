@@ -154,6 +154,7 @@ public class HexGrid implements Serializable {
 	private JLabel lblType;
 	private JTextField textFieldChitName;
 	private JCheckBox chckbxShwloslines;
+	private JCheckBox chckbxShwSingleloslines;
 	
 	/**
 	 * Create the application.
@@ -412,8 +413,13 @@ public class HexGrid implements Serializable {
 		
 		chckbxShwloslines = new JCheckBox("ShwLosLines");
 		chckbxShwloslines.setSelected(true);
-		chckbxShwloslines.setBounds(466, 7, 132, 23);
+		chckbxShwloslines.setBounds(466, 7, 120, 23);
 		panelDisplay.add(chckbxShwloslines);
+		
+		chckbxShwSingleloslines = new JCheckBox("ShwSingleLosLines");
+		chckbxShwSingleloslines.setSelected(true);
+		chckbxShwSingleloslines.setBounds(588, 8, 159, 23);
+		panelDisplay.add(chckbxShwSingleloslines);
 		
 		panelUnits = new JPanel();
 		tabbedPane.addTab("Units", null, panelUnits, null);
@@ -1586,10 +1592,36 @@ public class HexGrid implements Serializable {
 					chit.shifted = false;
 					chit.shiftX = 0;
 					chit.shiftY = 0;
+					
+					if(chit.labeled)
+						selectVehicleChit(chit.chitIdentifier);
+					
 					return;
 				}
 			}
+			
+			GameWindow.gameWindow.vehicleCombatWindow.unselectVehicle();
 
+		}
+		
+		public void selectVehicleChit(String identifier) {
+			int vicIndex = -1;
+			var vcw = GameWindow.gameWindow.vehicleCombatWindow;
+			var vehicles = vcw.vehicles;
+			
+			for(var vic : vehicles) {
+				if(vic.identifier.equals(identifier)) {
+					vicIndex = vehicles.indexOf(vic);
+					break;
+				}
+			}
+			
+			if(vicIndex == -1)
+				return;
+			
+			vcw.selectedVehicle = vehicles.get(vicIndex);
+			
+			vcw.refreshSelectedVehicle();
 		}
 
 		public void mouseWheelMoved(double zoom) {
@@ -2713,10 +2745,25 @@ public class HexGrid implements Serializable {
 		private void drawLosLines(Graphics2D g2) {
 			if(refreshingDeployedUnits || calculatingLos)
 				return;
-			if(chckbxShwloslines.isSelected() && selectedUnit == null)
+			
+			var selectedVehicle = GameWindow.gameWindow.vehicleCombatWindow.selectedVehicle;
+			
+			if(chckbxShwloslines.isSelected() && selectedUnit == null && selectedVehicle == null) {
 				DrawLos.drawLos(g2, deployedUnits);
-			else if(chckbxShwloslines.isSelected() && selectedUnit != null)
+			}
+			else if((chckbxShwloslines.isSelected() || 
+					chckbxShwSingleloslines.isSelected()) && selectedUnit != null && selectedVehicle == null) {
 				DrawLos.drawLos(g2, selectedUnit);
+			}
+			
+			if(chckbxShwloslines.isSelected() && selectedVehicle == null && selectedUnit == null) {
+				DrawLosVehicles.drawLosVehicles(g2);
+			}
+			else if((chckbxShwloslines.isSelected() || chckbxShwSingleloslines.isSelected())
+					&& selectedVehicle != null  && selectedUnit == null) {
+				DrawLosVehicles.drawLosForVehicle(g2, selectedVehicle);
+			}
+			
 		}
 		
 		
