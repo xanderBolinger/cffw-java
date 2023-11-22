@@ -9,6 +9,7 @@ import Hexes.Hex;
 import Trooper.Trooper;
 import Unit.Unit;
 import Vehicle.Vehicle;
+import Vehicle.Utilities.VehicleDataUtility;
 
 public class CalculateLOS {
 
@@ -30,6 +31,9 @@ public class CalculateLOS {
 		}
 		
 		for(var unit : GameWindow.gameWindow.initiativeOrder) {
+			if(unit.side.equals(VehicleDataUtility.getSide(movedVehicle)))
+				continue;
+			
 			calcVehicleInfantry(movedVehicle, unit);
 			
 			if(unit.losVehicles.contains(movedVehicle) 
