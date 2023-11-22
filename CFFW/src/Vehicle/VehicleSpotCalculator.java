@@ -8,12 +8,14 @@ import Spot.Utility.SpotActionResults;
 import Spot.Utility.SpotModifiers;
 import Spot.Utility.SpotUtility;
 import Spot.Utility.SpotVisibility;
+import Unit.Unit;
 import Vehicle.Data.CrewPosition;
 import Vehicle.Data.PositionSpotData;
 import Vehicle.Data.CrewMember.CrewAction;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
 
 public class VehicleSpotCalculator {
+	
 	public static boolean hullDownRelativeHidden(Vehicle spotter, Vehicle target) {
 		// vics in same hex
 		if(target.movementData.location.compare(spotter.movementData.location) )
@@ -59,6 +61,18 @@ public class VehicleSpotCalculator {
 					spotter.spottedVehicles.add(target);
 		}
 		
+	}
+	
+	public static void spotInfantry(Vehicle spotter, Unit target) {
+		var spotterCord = spotter.movementData.location;
+		var targetCord = new Cord(target.X, target.Y);
+		var direction = HexDirectionUtility.getHexSideFacingTarget(spotterCord, targetCord);
+		
+		for(var position : spotter.getCrewPositions()) {
+			if(!position.getFieldOfView().contains(direction) || !position.occupied() || position.crewMemeber.currentAction != CrewAction.SPOT)
+				continue;
+			SpotInfantry.spotInfantry(spotter, target, position);
+		}
 	}
 	
 	private static boolean spotVehicleRoll(Vehicle spotter, Vehicle target, CrewPosition spotterPosition) {

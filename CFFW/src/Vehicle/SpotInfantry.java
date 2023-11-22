@@ -17,7 +17,8 @@ public class SpotInfantry {
 
 	public static void spotInfantry(Vehicle spotter, Unit targetUnit, 
 			CrewPosition spotterPosition) {
-		ArrayList<Trooper> spotableTroopers = getTargetTroopers(spotter.movementData.location, targetUnit);
+		ArrayList<Trooper> spotableTroopers = getTargetTroopers(spotter,
+				spotter.movementData.location, targetUnit);
 		var passes = spotVehicleRollSuccesses(spotter, targetUnit, spotterPosition, spotableTroopers);
 		
 		ArrayList<Trooper> spottedTroopers = new ArrayList<Trooper>();
@@ -35,6 +36,16 @@ public class SpotInfantry {
 			if(!spotter.spottedTroopers.contains(t))
 				spotter.spottedTroopers.add(t);
 		}
+		
+		String spottedTroopersString = spotter.vehicleCallsign+" spotted troopers: [";
+		
+		for(var t : spottedTroopers)
+			spottedTroopersString += GameWindow.getLogHead(t) 
+				+ (spottedTroopers.get(spottedTroopers.size()-1).compareTo(t) ? "" : ", ");
+		
+		spottedTroopersString += "]";
+		
+		GameWindow.gameWindow.conflictLog.addNewLineToQueue(spottedTroopersString);
 		
 	}
 	
@@ -153,13 +164,15 @@ public class SpotInfantry {
 		
 	}
 	
-	private static ArrayList<Trooper> getTargetTroopers(Cord spotterCord, Unit targetUnit) {
+	private static ArrayList<Trooper> getTargetTroopers(Vehicle spotter, Cord spotterCord, Unit targetUnit) {
 		ArrayList<Trooper> targetTroopers = new ArrayList<Trooper>();
 
 		boolean sameHex = spotterCord.xCord == targetUnit.X 
 				&& spotterCord.yCord == targetUnit.Y;
 		if (targetUnit.getSize() > 0) {
 			for (Trooper trooper : targetUnit.getTroopers()) {
+				if(spotter.spottedTroopers.contains(trooper))
+					continue;
 				if (sameHex && trooper.alive && trooper.conscious) {
 					targetTroopers.add(trooper);
 					continue;

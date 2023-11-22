@@ -92,6 +92,9 @@ public class SpotUtility {
 			boolean sameHex = spotterUnit.X == unit.X && spotterUnit.Y == unit.Y;
 			if (unit.getSize() > 0) {
 				for (Trooper trooper : unit.getTroopers()) {
+					if(alreadySpotted(trooper, spotableUnits))
+						continue;
+					
 					if (sameHex && trooper.alive && trooper.conscious) {
 						targetTroopers.add(trooper);
 						continue;
@@ -109,6 +112,18 @@ public class SpotUtility {
 		return targetTroopers;
 	}
 
+	private static boolean alreadySpotted(Trooper spotter, ArrayList<Unit> spotableUnits) {
+		for(var unit : spotableUnits) {
+			for(var trooper : unit.individuals) {
+				for(var spot : spotter.spotted)
+					if(spot.spottedIndividuals.contains(trooper))
+						return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public static ArrayList<Unit> getTargetUnitsInHex(Unit spotterUnit, ArrayList<Unit> initiativeOrder, int xCord,
 			int yCord) {
 		ArrayList<Unit> targets = new ArrayList<Unit>();

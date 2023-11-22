@@ -29,6 +29,11 @@ public class VehicleSpotManager {
 				VehicleSpotCalculator.spotVehicle(vic, spotVic);
 			}
 			
+			for(var spotUnit : vic.losUnits) {
+				VehicleSpotCalculator.spotInfantry(vic, spotUnit);
+			}
+				
+			
 		}
 		
 	}
