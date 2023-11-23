@@ -17,7 +17,9 @@ public class RangedStatBlock {
 	public int weaponPercent;
 	public int aimTime = 0;
 	public int maxAim;
-	public Trooper aimTarget; 
+	
+	public transient Trooper aimTarget; 
+	
 	public ArrayList<Cord> aimHexes = new ArrayList<>();
 	public ArrayList<Weapons> weapons = new ArrayList<>();
 	public ShotTarget shotTarget = ShotTarget.NONE;

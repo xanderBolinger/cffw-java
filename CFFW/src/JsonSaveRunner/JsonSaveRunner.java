@@ -80,7 +80,7 @@ public class JsonSaveRunner {
 
 	public static String saveCompany(Company company) throws JsonProcessingException {
 
-		return new Gson().toJson(new CompanyJson(company));
+		return new Gson().toJson(company);
 	}
 
 	public static String saveTrooper(TrooperJson trooper) {
@@ -98,6 +98,7 @@ public class JsonSaveRunner {
 		JFrame parentFrame = new JFrame();
 
 		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File(ExcelUtility.path));
 		fileChooser.setDialogTitle("Specify a file to save");
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("JSON FILES", "json", "json");
 		fileChooser.setFileFilter(filter);

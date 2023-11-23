@@ -501,9 +501,13 @@ public class EditCompany implements Serializable {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
+					clearCircularReferences();
 					var companyJson = JsonSaveRunner.saveCompany(company);
 					System.out.println(companyJson);
+					JsonSaveRunner.saveFile(company.getName(), companyJson);
 				} catch (JsonProcessingException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 				
@@ -511,6 +515,30 @@ public class EditCompany implements Serializable {
 		});
 		btnSaveJson.setBounds(522, 146, 124, 23);
 		f.getContentPane().add(btnSaveJson);
+		
+		JButton btnLoadJson = new JButton("Load JSON");
+		btnLoadJson.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Company c = null;
+				try {
+					var json = JsonSaveRunner.loadFile();
+					c = JsonSaveRunner.loadCompany(json);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				if(c != null) {
+					System.out.println("Load company");
+					EditCompany.this.company = c;
+					setFields();
+				} else {
+					System.out.println("Could not load company");
+				}
+				
+			}
+		});
+		btnLoadJson.setBounds(650, 147, 124, 23);
+		f.getContentPane().add(btnLoadJson);
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -548,6 +576,11 @@ public class EditCompany implements Serializable {
 		});
 		f.setVisible(true);
 
+		setFields();
+		
+	}
+	
+	public void setFields() {
 		// Sets fields
 		if (company != null) {
 			textFieldName.setText(company.getName());
@@ -563,7 +596,6 @@ public class EditCompany implements Serializable {
 		setTroopers(roster);
 		refreshUnits();
 		refreshIndividuals();
-		
 	}
 
 	// Sets units
@@ -1132,4 +1164,13 @@ public class EditCompany implements Serializable {
             workbook.write(outputStream);
         }
 	}
+	
+	private void clearCircularReferences() {
+		for(var unit : units) {
+			unit.lineOfSight.clear();
+			for(var t : unit.getTroopers())
+				t.spotted.clear();
+		}
+	}
+	
 }

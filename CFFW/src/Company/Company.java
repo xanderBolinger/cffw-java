@@ -3,6 +3,7 @@ package Company;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import JsonSaveRunner.TrooperJson;
 import Trooper.Trooper;
 import Unit.Unit;
 import Vehicle.Vehicle;

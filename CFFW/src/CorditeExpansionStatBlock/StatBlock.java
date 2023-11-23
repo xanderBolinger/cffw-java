@@ -55,7 +55,7 @@ public class StatBlock {
 	
 	public Chit chit; 
 	
-	public Trooper trooper;
+	public transient Trooper trooper;
 	
 	public MedicalStatBlock medicalStatBlock = new MedicalStatBlock();
 	public SkillStatBlock skillStatBlock = new SkillStatBlock();
