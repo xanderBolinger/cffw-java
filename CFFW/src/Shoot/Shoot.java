@@ -622,7 +622,7 @@ public class Shoot {
 			setFullAutoTn();
 			shooter.storedAimTime.clear();
 			if(target != null ) {
-				shooter.storedAimTime.put(target, aimTime);
+				shooter.storedAimTime.put(target.identifier, aimTime);
 			}
 		}
 		setShotResults(false);
@@ -812,7 +812,7 @@ public class Shoot {
 			pcHexRange = target.pcRanges.get(shooter);
 		} else {
 			int range = DiceRoller.roll(1, 10);
-			shooter.pcRanges.put(target, range);
+			shooter.pcRanges.put(target.identifier, range);
 			pcHexRange = range;
 		}
 

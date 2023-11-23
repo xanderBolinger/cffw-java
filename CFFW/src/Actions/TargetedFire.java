@@ -125,7 +125,7 @@ public class TargetedFire implements Serializable {
 				rangeInPCHexes = targetTrooper.pcRanges.get(shooterTrooper);
 			} else {
 				int range = new Random().nextInt(10) + 1; 
-				shooterTrooper.pcRanges.put(targetTrooper, range);
+				shooterTrooper.pcRanges.put(targetTrooper.identifier, range);
 				rangeInPCHexes = range; 
 			}
 			

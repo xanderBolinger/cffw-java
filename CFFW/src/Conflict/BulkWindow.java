@@ -1648,7 +1648,7 @@ public class BulkWindow {
 
 							bulkTrooper.shoot.aimTime = bulkTrooper.shoot.startingAimTime;
 							if (bulkTrooper.shoot.target != null) {
-								bulkTrooper.trooper.storedAimTime.put(bulkTrooper.shoot.target,
+								bulkTrooper.trooper.storedAimTime.put(bulkTrooper.shoot.target.identifier,
 										bulkTrooper.shoot.aimTime);
 							}
 
@@ -1659,7 +1659,7 @@ public class BulkWindow {
 
 							bulkTrooper.shoot.aimTime = bulkTrooper.shoot.startingAimTime;
 							if (bulkTrooper.shoot.target != null) {
-								bulkTrooper.trooper.storedAimTime.put(bulkTrooper.shoot.target,
+								bulkTrooper.trooper.storedAimTime.put(bulkTrooper.shoot.target.identifier,
 										bulkTrooper.shoot.aimTime);
 							}
 
@@ -3540,12 +3540,12 @@ public class BulkWindow {
 					bulkTrooper.spentCA += additionalAim;
 				}
 
-				trooper.storedAimTime.put(targetTrooper, newAim);
+				trooper.storedAimTime.put(targetTrooper.identifier, newAim);
 			} else {
 				// System.out.println("Pass 2");
 				trooper.storedAimTime.clear();
 				int newAim = bulkTrooper.CA - bulkTrooper.spentCA;
-				trooper.storedAimTime.put(targetTrooper, newAim);
+				trooper.storedAimTime.put(targetTrooper.identifier, newAim);
 				bulkTrooper.spentCA += newAim;
 			}
 
@@ -3554,7 +3554,7 @@ public class BulkWindow {
 		else {
 			// System.out.println("Pass 3");
 			trooper.storedAimTime.clear();
-			trooper.storedAimTime.put(targetTrooper, aimTime - 1);
+			trooper.storedAimTime.put(targetTrooper.identifier, aimTime - 1);
 			bulkTrooper.spentCA += aimTime - 1;
 		}
 

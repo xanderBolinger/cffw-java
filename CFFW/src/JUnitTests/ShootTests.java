@@ -139,7 +139,7 @@ public class ShootTests {
 	@Test 
 	public void setAimTime() {
 		shooter.storedAimTime.clear();
-		shooter.storedAimTime.put(target, 3);
+		shooter.storedAimTime.put(target.identifier, 3);
 		
 		shoot = new Shoot(shooterUnit, targetUnit, shooter, target, shooter.wep, 0);
 		

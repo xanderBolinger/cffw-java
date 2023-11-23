@@ -158,9 +158,9 @@ public class Trooper implements Serializable {
 
 	public boolean CloseCombat;
 	public int rangeInPCHexes;
-	public transient Hashtable<Trooper, Integer> pcRanges = new Hashtable<Trooper, Integer>();
-
-	public transient Hashtable<Trooper, Integer> storedAimTime = new Hashtable<Trooper, Integer>();
+	
+	public transient Hashtable<String, Integer> pcRanges = new Hashtable<String, Integer>();
+	public transient Hashtable<String, Integer> storedAimTime = new Hashtable<String, Integer>();
 
 	// Stats
 	public int str;
