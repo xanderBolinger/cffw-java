@@ -6,8 +6,8 @@ import Conflict.GameWindow;
 import Trooper.Trooper;
 import Unit.Unit;
 import Vehicle.Vehicle;
-import Vehicle.VehicleSpotCalculator;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
+import Vehicle.Spot.VehicleSpotCalculator;
 import CorditeExpansion.Cord;
 
 public class InfantrySpotVehicleCalculator {

@@ -1,4 +1,4 @@
-package Vehicle;
+package Vehicle.Spot;
 
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
@@ -9,6 +9,7 @@ import Spot.Utility.SpotModifiers;
 import Spot.Utility.SpotUtility;
 import Spot.Utility.SpotVisibility;
 import Unit.Unit;
+import Vehicle.Vehicle;
 import Vehicle.Data.CrewPosition;
 import Vehicle.Data.PositionSpotData;
 import Vehicle.Data.CrewMember.CrewAction;
@@ -23,12 +24,12 @@ public class VehicleSpotCalculator {
 		
 		var spotterToTarget = hullDownRelative(spotter.movementData.location,
 				target);
-		System.out.println("Hulldown spotter to target: "+spotter.vehicleCallsign+", "+
-				target.vehicleCallsign+", "+spotterToTarget);
+		System.out.println("Hulldown spotter to target: "+spotter.getVehicleCallsign()+", "+
+				target.getVehicleCallsign()+", "+spotterToTarget);
 		var targetToSpotter = hullDownRelative(target.movementData.location,
 				spotter);
-		System.out.println("Hulldown target to spotter: "+target.vehicleCallsign+", "+
-				spotter.vehicleCallsign+", "+targetToSpotter);
+		System.out.println("Hulldown target to spotter: "+target.getVehicleCallsign()+", "+
+				spotter.getVehicleCallsign()+", "+targetToSpotter);
 		var spotterHidden = spotter.movementData.hullDownStatus == HullDownStatus.HIDDEN;
 		System.out.println("Spotter hidden: "+spotterHidden);
 		var targetHidden = target.movementData.hullDownStatus == HullDownStatus.HIDDEN;

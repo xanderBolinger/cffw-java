@@ -17,7 +17,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.gson.Gson;
 import Company.Company;
 import Conflict.GameWindow;
-import CreateGame.JsonSaveRunner;
+import JsonSaveRunner.JsonSaveRunner;
 import UtilityClasses.ExcelUtility;
 
 public class ProcHexManager {

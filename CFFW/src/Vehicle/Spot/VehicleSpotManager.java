@@ -1,4 +1,4 @@
-package Vehicle;
+package Vehicle.Spot;
 
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
@@ -10,6 +10,7 @@ import Spot.Utility.SpotUtility;
 import Spot.Utility.SpotVisibility;
 import Trooper.Trooper;
 import Vehicle.Data.CrewMember.CrewAction;
+import Vehicle.Vehicle;
 import Vehicle.Data.CrewPosition;
 import Vehicle.Data.PositionSpotData;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;

@@ -18,7 +18,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import Company.EditCompany;
-import CreateGame.JsonSaveRunner;
+import JsonSaveRunner.JsonSaveRunner;
 import Trooper.Trooper;
 import Trooper.Factions.Astartes;
 import Trooper.Factions.FactionManager;

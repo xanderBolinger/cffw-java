@@ -37,7 +37,7 @@ import Unit.Unit;
 import UtilityClasses.PCUtility;
 import Vehicle.Vehicle;
 import Vehicle.VehicleManager;
-import Vehicle.VehicleSpotManager;
+import Vehicle.Spot.VehicleSpotManager;
 import Vehicle.Utilities.VehicleDataUtility;
 import Vehicle.Windows.VehicleCombatWindow;
 

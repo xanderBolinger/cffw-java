@@ -1,4 +1,4 @@
-package CreateGame;
+package JsonSaveRunner;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -15,6 +15,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.apache.poi.util.SystemOutLogger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -34,6 +36,9 @@ public class JsonSaveRunner {
 		String fileContents = loadFileFromName("Alpha CT-62-8075.json");
 		System.out.println(fileContents);
 		Trooper trooper = loadTrooper(fileContents);
+		
+		var trooperJson = new Gson().toJson(trooper);
+		System.out.println(trooperJson);
 		System.out.println("Trooper name: "+trooper.name);
 		//var fileNames = getFileNames();
 		//System.out.println("Files: "+fileNames.toString());
@@ -75,7 +80,7 @@ public class JsonSaveRunner {
 
 	public static String saveCompany(Company company) throws JsonProcessingException {
 
-		return new Gson().toJson(company);
+		return new Gson().toJson(new CompanyJson(company));
 	}
 
 	public static String saveTrooper(TrooperJson trooper) {

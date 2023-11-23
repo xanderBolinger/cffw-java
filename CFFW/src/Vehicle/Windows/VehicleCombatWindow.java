@@ -5,9 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import Vehicle.Vehicle;
-import Vehicle.VehicleSpotManager;
 import Vehicle.Data.CrewMember.CrewAction;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownDecision;
+import Vehicle.Spot.VehicleSpotManager;
 
 import javax.swing.JScrollPane;
 import javax.swing.JList;

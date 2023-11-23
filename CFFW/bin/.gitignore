@@ -1,6 +1,6 @@
-/HexGrid/
-/JUnitTests/
-/Unit/
+/Actions/
+/Artillery/
+/CeHexGrid/
 /CharacterBuilder/
 /CloseCombat/
 /Command/
@@ -17,11 +17,13 @@
 /Explosion/
 /FatigueSystem/
 /Fortifications/
+/HexGrid/
 /HexGridIcons/
 /Hexes/
 /Individuals/
 /Injuries/
 /Items/
+/JUnitTests/
 /Main.class
 /MainCETest.class
 /Medical/
@@ -31,9 +33,10 @@
 /Shoot/
 /Spot/
 /Trooper/
+/Unit/
 /UtilityClasses/
 /Vehicle/
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
-/Actions/
+/JsonSaveRunner/

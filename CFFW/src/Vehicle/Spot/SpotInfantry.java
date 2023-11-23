@@ -1,4 +1,4 @@
-package Vehicle;
+package Vehicle.Spot;
 
 import java.util.ArrayList;
 
@@ -9,6 +9,7 @@ import Spot.Utility.SpotUtility;
 import Spot.Utility.SpotVisibility;
 import Trooper.Trooper;
 import Unit.Unit;
+import Vehicle.Vehicle;
 import Vehicle.Data.CrewPosition;
 import Vehicle.Data.PositionSpotData;
 import CorditeExpansion.Cord;
@@ -37,7 +38,7 @@ public class SpotInfantry {
 				spotter.spottedTroopers.add(t);
 		}
 		
-		String spottedTroopersString = spotter.vehicleCallsign+" spotted troopers: [";
+		String spottedTroopersString = spotter.getVehicleCallsign()+" spotted troopers: [";
 		
 		for(var t : spottedTroopers)
 			spottedTroopersString += GameWindow.getLogHead(t) 

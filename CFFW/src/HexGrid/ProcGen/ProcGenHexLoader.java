@@ -10,10 +10,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.gson.Gson;
 
 import Company.Company;
-import CreateGame.JsonSaveRunner;
 import Hexes.Feature;
 import Hexes.Hex;
 import Hexes.HexWindow;
+import JsonSaveRunner.JsonSaveRunner;
 import UtilityClasses.DiceRoller;
 
 public class ProcGenHexLoader {

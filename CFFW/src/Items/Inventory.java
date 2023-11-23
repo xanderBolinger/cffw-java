@@ -13,7 +13,7 @@ import Trooper.Trooper;
 public class Inventory implements Serializable {
 
 	public ArrayList<Container> containers = new ArrayList<>();
-	public Trooper trooper; 
+	public transient Trooper trooper; 
 	
 	public Inventory(Trooper trooper) {
 		this.trooper = trooper;

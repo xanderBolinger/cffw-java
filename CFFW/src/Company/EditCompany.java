@@ -10,11 +10,11 @@ import java.awt.Toolkit;
 
 import javax.swing.SwingConstants;
 
-import CreateGame.JsonSaveRunner;
 import CreateGame.SetupWindow;
 import Individuals.AddIndividual;
 import Individuals.EditIndividual;
 import Items.BulkInventoryWindow;
+import JsonSaveRunner.JsonSaveRunner;
 import Medical.MedicalWindow;
 import OperationExporter.OperationUnitExporter;
 import Trooper.Trooper;
@@ -84,6 +84,7 @@ public class EditCompany implements Serializable {
 	private JSpinner spinnerPlatoon;
 	private JSpinner spinnerSquad;
 	private JButton Formation;
+	private JButton btnSaveJson;
 	
 	public EditCompany(Company company, SetupWindow setupWindow, int index) {
 		EditCompany window = this;
@@ -492,8 +493,24 @@ public class EditCompany implements Serializable {
 				new AddVehicleWindow(company);
 			}
 		});
-		btnVehicles.setBounds(522, 127, 252, 23);
+		btnVehicles.setBounds(522, 122, 252, 23);
 		f.getContentPane().add(btnVehicles);
+		
+		btnSaveJson = new JButton("Save JSON");
+		btnSaveJson.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					var companyJson = JsonSaveRunner.saveCompany(company);
+					System.out.println(companyJson);
+				} catch (JsonProcessingException e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		btnSaveJson.setBounds(522, 146, 124, 23);
+		f.getContentPane().add(btnSaveJson);
 		button.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
