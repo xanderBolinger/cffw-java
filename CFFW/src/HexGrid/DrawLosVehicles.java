@@ -33,7 +33,7 @@ public class DrawLosVehicles {
 		for(var losUnit : vic.losUnits) {
 			var targetCenter = GameWindow.gameWindow.hexGrid.panel
 					.getHexCenter(losUnit.X, losUnit.Y);
-			var color = getLineColor(vic, losUnit);
+			var color = getLineColor(vic, losUnit, true);
 			DrawLos.drawLineBetweenUnits(g2, center, targetCenter, color);
 		}
 		
@@ -41,15 +41,24 @@ public class DrawLosVehicles {
 	
 	
 	
-	private static Color getLineColor(Vehicle vic, Unit targetUnit) {
+	public static Color getLineColor(Vehicle vic, Unit targetUnit, boolean vehicleIsSpotter) {
 		var color = Color.MAGENTA;
 		
 		var spottingTarget = spottingUnit(vic, targetUnit);
+		var targetSpottingSpotter = spottingVehicle(targetUnit, vic);
 		
-		if(spottingTarget)
-			color = color.BLUE;
+		if(spottingTarget && targetSpottingSpotter)
+			color = Color.green;
+		else if(targetSpottingSpotter)
+			color = vehicleIsSpotter ? Color.red : Color.BLUE;
+		else if(spottingTarget)
+			color = vehicleIsSpotter ? Color.BLUE : Color.red;
 		
 		return color;
+	}
+	
+	private static boolean spottingVehicle(Unit unit, Vehicle vic) {
+		return unit.spottedVehicles.contains(vic);
 	}
 	
 	private static boolean spottingUnit(Vehicle vic, Unit targetUnit) {

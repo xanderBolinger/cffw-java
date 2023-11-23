@@ -116,6 +116,8 @@ public class InfantrySpotVehicleCalculator {
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue(resultsString);
 			
 			if(success >= 1) {
+				GameWindow.gameWindow.conflictLog.addNewLineToQueue(
+						GameWindow.getLogHead(spotter)+" spotted ["+targetVehicle.getVehicleCallsign()+"]");
 				return true;
 			}
 			

@@ -2681,20 +2681,13 @@ public class HexGrid implements Serializable {
 
 					drawUnit(deployedUnit, g, g2);
 
-
 				}
 
 				if (selectedUnit != null) {
-
 					drawUnit(selectedUnit, g, g2);
-
 				}
 				
-				
-				
 			}
-			
-			
 			
 			translateSelectedChit();
 

@@ -33,6 +33,19 @@ public class DrawLos {
 		
 		drawLosForUnit(g2, unit.unit, center);
 		
+		drawLosForUnitToVehicles(unit.unit, g2, center);
+	}
+	
+	private static void drawLosForUnitToVehicles(Unit unit, Graphics2D g2, int[] center) {
+		
+		for(var losVic : unit.losVehicles) {
+			var vicCord = losVic.movementData.location;
+			var targetCenter = GameWindow.gameWindow.hexGrid.panel
+					.getHexCenter(vicCord.xCord, vicCord.yCord);
+			
+			var color = DrawLosVehicles.getLineColor(losVic, unit, false);
+			DrawLos.drawLineBetweenUnits(g2, center, targetCenter, color);
+		}
 	}
 	
 	private static void drawLosForUnit(Graphics2D g2, Unit unit, int[] startPos) {
