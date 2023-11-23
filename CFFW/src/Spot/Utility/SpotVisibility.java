@@ -17,6 +17,7 @@ import Items.Weapons;
 import Trooper.Trooper;
 import Unit.Unit;
 import UtilityClasses.DiceRoller;
+import Vehicle.Vehicle;
 
 public class SpotVisibility {
 
@@ -59,6 +60,34 @@ public class SpotVisibility {
 		return visibilityMod;
 	}
 
+	public static int getThermalModAgainstVehicle(Trooper spotter, int distanceYards, Vehicle targetVehicle) {
+
+		int visibilityMod = spotter.armor != null && spotter.armor.thermal && 
+				spotter.armor.maxThermalRangeYards >= distanceYards ? spotter.armor.thermalMod : 0;
+
+		for (var item : spotter.inventory.getItemsArray()) {
+
+			if (item.thermalOptic && item.maxThermalRangeYards >= distanceYards && item.thermalValue < visibilityMod) {
+				visibilityMod = item.thermalValue;
+			}
+
+		}
+
+		switch(targetVehicle.spotData.thermalShroud) {
+		
+		case Impervious:
+			return 0;
+		case None:
+			return -visibilityMod;
+		case Resistant:
+			return visibilityMod - 4  > 0 ? -visibilityMod : 0;
+		default:
+			return -1111;
+		
+		}
+		
+	}
+	
 	public static int getTracerMod(ArrayList<Unit> spotableUnits) {
 
 		for (var unit : spotableUnits) {
@@ -307,6 +336,7 @@ public class SpotVisibility {
 
 		return visibilityMod;
 	}
+	
 
 	
 	

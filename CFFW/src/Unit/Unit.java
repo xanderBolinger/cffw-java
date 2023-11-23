@@ -32,6 +32,7 @@ public class Unit implements Serializable {
 	public int Y; 
 	public int effectiveBurden;
 	public ArrayList<Vehicle> losVehicles = new ArrayList<Vehicle>();
+	public ArrayList<Vehicle> spottedVehicle = new ArrayList<Vehicle>();
 	public ArrayList<Unit> lineOfSight = new ArrayList<Unit>();
 	public ArrayList<Trooper> individuals; 
 	public ArrayList<Weapons> staticWeapons; 

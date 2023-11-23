@@ -21,10 +21,12 @@ public class VehicleSpotCalculator {
 		if(target.movementData.location.compare(spotter.movementData.location) )
 			return false;
 		
-		var spotterToTarget = hullDownRelative(spotter,target);
+		var spotterToTarget = hullDownRelative(spotter.movementData.location,
+				target);
 		System.out.println("Hulldown spotter to target: "+spotter.vehicleCallsign+", "+
 				target.vehicleCallsign+", "+spotterToTarget);
-		var targetToSpotter = hullDownRelative(target,spotter);
+		var targetToSpotter = hullDownRelative(target.movementData.location,
+				spotter);
 		System.out.println("Hulldown target to spotter: "+target.vehicleCallsign+", "+
 				spotter.vehicleCallsign+", "+targetToSpotter);
 		var spotterHidden = spotter.movementData.hullDownStatus == HullDownStatus.HIDDEN;
@@ -37,13 +39,13 @@ public class VehicleSpotCalculator {
 		return false;
 	}
 	
-	private static boolean hullDownRelative(Vehicle spotter, Vehicle target) {
+	public static boolean hullDownRelative(Cord spotterCord, Vehicle target) {
 		
 		if(!target.movementData.hullDown())
 			return false;
 		
 		var targetToSpotter = HexDirectionUtility.getHexSideFacingTarget(
-				target.movementData.location, spotter.movementData.location);
+				target.movementData.location, spotterCord);
 		
 		return target.movementData.hullDownPosition.protectedDirections.contains(targetToSpotter);
 	}
@@ -105,15 +107,10 @@ public class VehicleSpotCalculator {
 		int skillMod = SpotModifiers.getSkillMod(spotterTrooper);
 
 		// Calculation
-		var hullDown = hullDownRelative(spotter, target);
+		var hullDown = hullDownRelative(spotter.movementData.location, target);
 		
 		var PCSize = 
-				spotterCord.compare(targetCord) == true 
-				|| 
-				hullDown == false ? 
-						target.spotData.hullSize + target.spotData.turretSize : 
-			target.movementData.hullDownStatus == HullDownStatus.HULL_DOWN || target.movementData.hullDownStatus == HullDownStatus.PARTIAL_HULL_DOWN ?
-					target.spotData.turretSize : target.spotData.turretSize / 2;
+				getSizeMod(hullDown, spotterCord, targetCord, target);
 		
 		var vis = GameWindow.gameWindow.visibility;
 		int targetSizeMod = SpotModifiers.getTargetSizeMod(PCSize);
@@ -164,6 +161,16 @@ public class VehicleSpotCalculator {
 		return false;
 	}
 	
+	public static double getSizeMod(boolean hullDownRelative, Cord spotterCord,
+			Cord targetCord, Vehicle target) {
+		return spotterCord.compare(targetCord) == true 
+				|| 
+				hullDownRelative == false ? 
+						target.spotData.hullSize + target.spotData.turretSize : 
+			target.movementData.hullDownStatus == HullDownStatus.HULL_DOWN || target.movementData.hullDownStatus == HullDownStatus.PARTIAL_HULL_DOWN ?
+					target.spotData.turretSize : target.spotData.turretSize / 2;
+	}
+	
 	public static int getNightTimeMods(Vehicle spotter, Vehicle target, PositionSpotData spotData) {
 		int visibilityMod;
 
@@ -212,7 +219,7 @@ public class VehicleSpotCalculator {
 		return SpotModifiers.getConcealmentMod(concealment);
 	}
 	
-	private static int getSpeedModifierTarget(Vehicle vehicle) {
+	public static int getSpeedModifierTarget(Vehicle vehicle) {
 		return vehicle.movementData.speed <= 0 ? 0 : vehicle.movementData.speed <= 1 ? -3 : vehicle.movementData.speed <= 2 ? -6 : -9;
 	}
 	
