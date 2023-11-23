@@ -37,13 +37,31 @@ public class CalculateLOS {
 			calcVehicleInfantry(movedVehicle, unit);
 			
 			if(unit.losVehicles.contains(movedVehicle) 
-					&& !movedVehicle.losUnits.contains(unit)) 
-				unit.losVehicles.remove(movedVehicle);
+					&& !movedVehicle.losUnits.contains(unit)) {
+				
+				unit.losVehicles.remove(movedVehicle); 
+				
+				if(unit.spottedVehicles.contains(movedVehicle))
+					unit.spottedVehicles.remove(movedVehicle);
+				removeSpottedTroopers(movedVehicle, unit);
+			} 
 			
 		}
 		
 		updateVehicleLosLists(vehicles);
 	}
+	
+	private static void removeSpottedTroopers(Vehicle vic, Unit unit) {
+		
+		for(var trooper : unit.getTroopers()) {
+			
+			if(vic.spottedTroopers.contains(trooper))
+				vic.spottedTroopers.remove(trooper);
+			
+		}
+		
+	}
+	
 	
 	private static void updateVehicleLosLists(ArrayList<Vehicle> vehicles) {
 		for(var vic : vehicles) {
