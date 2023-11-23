@@ -10,13 +10,24 @@ public class HexGridWaypointUtility {
 		var unit = GameWindow.gameWindow.hexGrid.panel.selectedUnit.unit;
 		var lastWaypoint = unit.waypointData.waypoints.size() > 0 ?
 				unit.waypointData.waypoints.get(unit.waypointData.waypoints.size()-1) : null;
-		var distanceFromLastWaypoint = GameWindow.dist(unit.X, unit.Y,
-				lastWaypoint == null ? clickedHex[0] : lastWaypoint.x, 
-						lastWaypoint == null ? clickedHex[1] : lastWaypoint.y);
+		var distanceFromLastWaypoint = GameWindow.dist(clickedHex[0], clickedHex[1],
+				lastWaypoint == null ?  unit.X : lastWaypoint.x, 
+						lastWaypoint == null ? unit.Y : lastWaypoint.y);
+		if(lastWaypoint != null)
+			System.out.println("Distance from last waypoint: "+distanceFromLastWaypoint
+					+", X: "+lastWaypoint.x+
+					", Y: "+lastWaypoint.y);
+		else 
+			System.out.println("Last waypoint is null");
 		if((clickedHex[0] == unit.X && clickedHex[1] == unit.Y)
-				|| distanceFromLastWaypoint > 1)
+				|| distanceFromLastWaypoint > 1) {
+			System.out.println("returning, dist from last: "+distanceFromLastWaypoint+", "
+					+ "Clicked X: "+clickedHex[0]+", Clicked Y: "+clickedHex[1]+
+					", Unit X: "+unit.X+", Unit Y: "+unit.Y);
 			return;
+		}
 		
+		System.out.println("Add waypoint");
 		unit.waypointData.addWaypoint(new Waypoint(clickedHex[0], clickedHex[1], 
 				GameWindow.gameWindow.hexGrid.comboBoxRouteSpeed.getSelectedItem().toString()),unit);
 	}

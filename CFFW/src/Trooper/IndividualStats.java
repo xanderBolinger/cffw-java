@@ -56,6 +56,9 @@ public class IndividualStats implements Serializable {
 			this.P1 = actionPoints / 2;
 			this.P2 = actionPoints / 2 + 1;
 		}
+		
+		P1 = 3; 
+		P2 = 3;
 		this.pistolRWS = pistol;
 		this.rifleRWS = rifle;
 		this.launcherRWS = launcher;

@@ -1168,8 +1168,11 @@ public class EditCompany implements Serializable {
 	private void clearCircularReferences() {
 		for(var unit : units) {
 			unit.lineOfSight.clear();
-			for(var t : unit.getTroopers())
+			for(var t : unit.getTroopers()) {
+				t.spentPhase1 = 0;
+				t.spentPhase2 = 0;
 				t.spotted.clear();
+			}
 		}
 	}
 	

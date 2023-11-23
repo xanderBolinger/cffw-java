@@ -2869,6 +2869,9 @@ public class Trooper implements Serializable {
 			this.P1 = actionPoints / 2;
 			this.P2 = actionPoints / 2 + 1;
 		}
+		
+		P1 = 3;
+		P2 = 3;
 
 		adaptabilityFactor = 1 + (skills.getSkill("Fighter").value / 10 / 2);
 
