@@ -21,6 +21,7 @@ import HexGrid.CalculateLOS;
 import Hexes.Building;
 import Hexes.Hex;
 import Items.Weapons;
+import Spot.Utility.InfantrySpotVehicleCalculator;
 import Spot.Utility.SpotActionResults;
 import Spot.Utility.SpotModifiers;
 import Spot.Utility.SpotUtility;
@@ -99,6 +100,7 @@ public class Spot implements Serializable {
 	private void performSpotAction(ArrayList<Unit> targetUnitOnlyOneInList, Trooper spotter, ArrayList<Unit> initiativeOrder, String weather,
 			int xCord, int yCord, String scanArea) {
 		
+		InfantrySpotVehicleCalculator.vehicleSpotCheck(spotter);
 		
 		// Size of target unit
 		int size = SpotUtility.getTargetUnitSize(spotterUnit, targetUnitOnlyOneInList);

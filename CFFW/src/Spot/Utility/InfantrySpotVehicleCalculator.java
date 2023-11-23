@@ -7,29 +7,33 @@ import Trooper.Trooper;
 import Unit.Unit;
 import Vehicle.Vehicle;
 import Vehicle.VehicleSpotCalculator;
+import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
 import CorditeExpansion.Cord;
 
 public class InfantrySpotVehicleCalculator {
-
-	// check if hull down
 	
 	public static void vehicleSpotCheck(Trooper trooper) {
 		var initiativeOrder = GameWindow.gameWindow.initiativeOrder;
 		var spotterUnit = trooper.returnTrooperUnit(initiativeOrder);
 		var spotterCord = new Cord(spotterUnit.X, spotterUnit.Y);
 		for(var vic : GameWindow.gameWindow.vehicleCombatWindow.vehicles) {
-			
-			
-			
 			var hullDown = VehicleSpotCalculator.hullDownRelative(spotterCord, vic);
 			
-			spotCheckInfantry(trooper, vic, hullDown);
+			if((hullDown && vic.movementData.hullDownStatus == HullDownStatus.HIDDEN )
+					|| spotterUnit.spottedVehicles.contains(vic))
+				continue;
+			
+			var spotted = spotCheckInfantryToVehicle(trooper, spotterCord, spotterUnit,
+					vic, hullDown);
+
+			if(spotted)
+				spotterUnit.spottedVehicles.add(vic);
+			
 		}
-		
 	}
 	
 	
-	private boolean spotCheckInfantryToVehicle(Trooper spotter, Cord spotterCord, 
+	private static boolean spotCheckInfantryToVehicle(Trooper spotter, Cord spotterCord, 
 			Unit spotterUnit, Vehicle targetVehicle, boolean hullDown) {
 		
 		
