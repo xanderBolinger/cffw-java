@@ -7,6 +7,7 @@ import java.util.Map;
 
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
+import HexGrid.CalculateLOS;
 import HexGrid.HexDirectionUtility;
 import HexGrid.HexDirectionUtility.HexDirection;
 import Hexes.Feature;
@@ -119,6 +120,7 @@ public class VehicleMovementData implements Serializable {
 		this.hullDownPosition = hullDownPosition;
 		this.hullDownStatus = hullDownPosition.minimumHullDownStatus;
 		this.hullDownPosition.occupants++;
+		CalculateLOS.calcVehicles(vehicle);
 	}
 	
 	public void exitHullDownPosition() {
@@ -128,7 +130,7 @@ public class VehicleMovementData implements Serializable {
 			return;
 		hullDownPosition.occupants--;
 		hullDownPosition = null;
-		
+		CalculateLOS.calcVehicles(vehicle);
 	}
 	
 	public void inchBack() {
@@ -138,7 +140,7 @@ public class VehicleMovementData implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		CalculateLOS.calcVehicles(vehicle);
 	}
 	
 	public void inchForward() {
@@ -148,6 +150,8 @@ public class VehicleMovementData implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		CalculateLOS.calcVehicles(vehicle);
 		
 	}
 	
