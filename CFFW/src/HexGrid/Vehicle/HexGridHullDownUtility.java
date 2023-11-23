@@ -22,7 +22,7 @@ public class HexGridHullDownUtility {
 			var hex = hexMap.get(pos.xCord).get(pos.yCord);
 			g2.setColor(Color.RED);
 			g2.drawString("HD", 
-					(int) (hex.xpoints[0] - (hex.getBounds().width * 0.25)),
+					(int) (hex.xpoints[0] - (hex.getBounds().width * 0.3)),
 					(int) (hex.ypoints[0] + (hex.getBounds().height * 0.3)));
 		}
 		

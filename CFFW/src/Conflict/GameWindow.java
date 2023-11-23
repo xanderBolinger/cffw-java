@@ -38,6 +38,7 @@ import UtilityClasses.PCUtility;
 import Vehicle.Vehicle;
 import Vehicle.VehicleManager;
 import Vehicle.VehicleSpotManager;
+import Vehicle.Utilities.VehicleDataUtility;
 import Vehicle.Windows.VehicleCombatWindow;
 
 import javax.swing.JList;
@@ -2317,6 +2318,8 @@ public class GameWindow implements Serializable {
 		}
 		
 		for(Vehicle vic : vehicleCombatWindow.vehicles) {
+			if(VehicleDataUtility.getSide(vic).equals(movedUnit.side))
+				continue;
 			CalculateLOS.calcVehicleInfantry(vic, movedUnit);
 		}
 		
