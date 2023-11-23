@@ -7,7 +7,7 @@ import UtilityClasses.TrooperUtility;
 
 public class FatigueSystem implements Serializable
 {
-    public Trooper character; 
+    public transient Trooper character; 
     public double recoverableFP;
     public int analeticValue;
     public boolean strenuousWork; 
@@ -220,7 +220,7 @@ public class FatigueSystem implements Serializable
 
     public void CalcAV()
     {
-    	 analeticValue = (int) (((character.getSkill("Endurance") / 3) * (character.wil / 3)  / 2) * (character.baseSpeed.get() / 2));
+    	 analeticValue = (int) (((character.getSkill("Endurance") / 3) * (character.wil / 3)  / 2) * (character.baseSpeed.get(character) / 2));
     }
 
   

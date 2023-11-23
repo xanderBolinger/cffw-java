@@ -147,7 +147,7 @@ public class generateSquad implements Serializable {
 			// Rifleman++
 			troopers[1] = new Trooper("Clone Rifleman++", faction);
 			troopers[1].leaderType = LeaderType.FTL;
-			troopers[0].subordinates.add(troopers[1]);
+			troopers[0].subordinates.add(troopers[1].identifier);
 			// Rifleman
 			troopers[2] = new Trooper("Clone Rifleman", faction);
 			troopers[3] = new Trooper("Clone Rifleman", faction);
@@ -170,7 +170,7 @@ public class generateSquad implements Serializable {
 			// Rifleman++
 			troopers[1] = new Trooper("Clone Rifleman++", faction);
 			troopers[1].leaderType = LeaderType.FTL;
-			troopers[0].subordinates.add(troopers[1]);
+			troopers[0].subordinates.add(troopers[1].identifier);
 			// Rifleman
 			troopers[2] = new Trooper("Clone Rifleman++", faction);
 			troopers[3] = new Trooper("Clone Autorifleman", faction);
@@ -198,13 +198,13 @@ public class generateSquad implements Serializable {
 			// Squad leader
 			troopers[1] = new Trooper("Clone Squad Leader", faction);
 			troopers[1].leaderType = LeaderType.SL;
-			troopers[0].subordinates.add(troopers[1]);
+			troopers[0].subordinates.add(troopers[1].identifier);
 			
 			// Rifleman++
 			troopers[2] = new Trooper("Clone Rifleman++", faction);
 			troopers[2].leaderType = LeaderType.FTL;
-			troopers[0].subordinates.add(troopers[2]);
-			troopers[1].subordinates.add(troopers[2]);
+			troopers[0].subordinates.add(troopers[2].identifier);
+			troopers[1].subordinates.add(troopers[2].identifier);
 			// Rifleman
 			troopers[3] = new Trooper("Clone Rifleman", faction);
 			troopers[4] = new Trooper("Clone Rifleman", faction);
@@ -229,20 +229,20 @@ public class generateSquad implements Serializable {
 			
 			troopers[1] = new Trooper("Clone Platoon Leader", faction);
 			troopers[1].leaderType = LeaderType.PC;
-			troopers[0].subordinates.add(troopers[1]);
+			troopers[0].subordinates.add(troopers[1].identifier);
 			
 			// Squad leader
 			troopers[2] = new Trooper("Clone Squad Leader", faction);
 			troopers[2].leaderType = LeaderType.SL;
-			troopers[0].subordinates.add(troopers[2]);
-			troopers[1].subordinates.add(troopers[2]);
+			troopers[0].subordinates.add(troopers[2].identifier);
+			troopers[1].subordinates.add(troopers[2].identifier);
 			
 			// Rifleman++
 			troopers[3] = new Trooper("Clone Rifleman++", faction);
 			troopers[3].leaderType = LeaderType.FTL;
-			troopers[0].subordinates.add(troopers[3]);
-			troopers[1].subordinates.add(troopers[3]);
-			troopers[2].subordinates.add(troopers[3]);
+			troopers[0].subordinates.add(troopers[3].identifier);
+			troopers[1].subordinates.add(troopers[3].identifier);
+			troopers[2].subordinates.add(troopers[3].identifier);
 			
 			// Rifleman
 			troopers[4] = new Trooper("Clone Rifleman", faction);

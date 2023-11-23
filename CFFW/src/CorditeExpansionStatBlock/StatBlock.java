@@ -96,7 +96,7 @@ public class StatBlock {
 			trooper.setCombatStats(trooper);
 		}
 		
-		quickness = trooper.maximumSpeed.get();
+		quickness = trooper.maximumSpeed.get(trooper);
 		combatActions = trooper.combatActions;
 		adaptabilityFactor = 1+Math.round(((trooper.getSkill("Fighter")/10)%10)/2);
 		

@@ -50,6 +50,14 @@ public class Company implements Serializable {
 		
 	}
 	
+	public Trooper getTrooper(String identifier) {
+		for(var unit : units) 
+			for(var trooper : unit.getTroopers())
+				if(trooper.identifier.equals(identifier))
+					return trooper;
+		return null;
+	}
+	
 	// SETTERS
 	// Sets the values to equal the parameter
 	public void setSide(String side) {

@@ -213,7 +213,7 @@ public class FormationWindow extends JFrame {
 					continue;
 				if(index == selectedIndex) {
 					
-					getSelectedTrooper().subordinates.add(trooper);
+					getSelectedTrooper().subordinates.add(trooper.identifier);
 					return;
 				}
 				index++;
@@ -224,7 +224,7 @@ public class FormationWindow extends JFrame {
 			if(getSelectedTrooper().compareTo(trooper) || getSelectedTrooper().subordinates.contains(trooper))
 				continue;
 			if(index == selectedIndex) {
-				getSelectedTrooper().subordinates.add(trooper);
+				getSelectedTrooper().subordinates.add(trooper.identifier);
 				return;
 			}
 			index++;
@@ -266,7 +266,8 @@ public class FormationWindow extends JFrame {
 			return;
 		}
 		
-		for(Trooper trooper : getSelectedTrooper().subordinates) {
+		for(String trooperIdentifier : getSelectedTrooper().subordinates) {
+			var trooper = company.getTrooper(trooperIdentifier);
 			String leaderType = trooper.leaderType == LeaderType.NONE ? "" : trooper.leaderType.toString()+":: ";
 			individualList.add(leaderType+"Roster: "+trooper.number +" "+trooper.name+", "+trooper.designation
 					+", Command Value: "+(trooper.getSkill("Command")/10));		

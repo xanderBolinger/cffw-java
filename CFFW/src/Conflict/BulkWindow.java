@@ -2281,7 +2281,7 @@ public class BulkWindow {
 				for(var trooper : getSelectedTroopers()) {
 					System.out.println(trooper.returnTrooperUnit(gameWindow).callsign
 							+":: "+trooper.number+", "+trooper.name+", ISF: "+trooper.isf+", MS: "
-							+trooper.maximumSpeed.get()+", CA: "+trooper.combatActions+", SL: "+trooper.sl+", Stance: "+trooper.stance
+							+trooper.maximumSpeed.get(trooper)+", CA: "+trooper.combatActions+", SL: "+trooper.sl+", Stance: "+trooper.stance
 							+ ", FP: "+trooper.fatigueSystem.fatiguePoints.get());
 				}
 				

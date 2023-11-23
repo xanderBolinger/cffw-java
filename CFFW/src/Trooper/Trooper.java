@@ -65,7 +65,7 @@ public class Trooper implements Serializable {
 	// Pistol Launcher Heavy Subgun Explosives First Aid Navigation Swim Throw
 
 	public LeaderType leaderType = LeaderType.NONE;
-	public ArrayList<Trooper> subordinates = new ArrayList<Trooper>();
+	public ArrayList<String> subordinates = new ArrayList<String>();
 
 	// Skill Level
 	public String weaponPercent;
@@ -158,9 +158,9 @@ public class Trooper implements Serializable {
 
 	public boolean CloseCombat;
 	public int rangeInPCHexes;
-	public Hashtable<Trooper, Integer> pcRanges = new Hashtable<Trooper, Integer>();
+	public transient Hashtable<Trooper, Integer> pcRanges = new Hashtable<Trooper, Integer>();
 
-	public Hashtable<Trooper, Integer> storedAimTime = new Hashtable<Trooper, Integer>();
+	public transient Hashtable<Trooper, Integer> storedAimTime = new Hashtable<Trooper, Integer>();
 
 	// Stats
 	public int str;
@@ -213,7 +213,7 @@ public class Trooper implements Serializable {
 	public boolean inCloseCombat = false;
 	public boolean attackingInCloseCombat = false;
 	public boolean defendingInCloseCombat = false;
-	public Trooper closeCombatTarget = null;
+	public transient Trooper closeCombatTarget = null;
 	public int adaptabilityFactor;
 
 	public Inventory inventory = new Inventory(this);
@@ -223,13 +223,7 @@ public class Trooper implements Serializable {
 
 	public class MaximumSpeed implements Serializable {
 
-		Trooper trooper;
-
-		public MaximumSpeed(Trooper trooper) {
-			this.trooper = trooper;
-		}
-
-		public double get() {
+		public double get(Trooper trooper) {
 			return TrooperUtility.maximumSpeed(encumberance, trooper);
 		}
 
@@ -237,13 +231,7 @@ public class Trooper implements Serializable {
 
 	public class BaseSpeed implements Serializable {
 
-		Trooper trooper;
-
-		public BaseSpeed(Trooper trooper) {
-			this.trooper = trooper;
-		}
-
-		public double get() {
+		public double get(Trooper trooper) {
 			return TrooperUtility.baseSpeed(encumberance, trooper);
 		}
 
@@ -263,7 +251,7 @@ public class Trooper implements Serializable {
 		calculateAttributes();
 		calculateSkills();
 
-		baseSpeed = new BaseSpeed(this);
+		baseSpeed = new BaseSpeed();
 		fatigueSystem = new FatigueSystem(this);
 		setCombatStats(this);
 
@@ -314,8 +302,8 @@ public class Trooper implements Serializable {
 		}
 
 		this.input = input;
-		baseSpeed = new BaseSpeed(this);
-		maximumSpeed = new MaximumSpeed(this);
+		baseSpeed = new BaseSpeed();
+		maximumSpeed = new MaximumSpeed();
 		fatigueSystem = new FatigueSystem(this);
 		setCombatStats(this);
 	}
@@ -2836,8 +2824,8 @@ public class Trooper implements Serializable {
 
 	public void setCombatStats(Trooper individual) {
 		if (maximumSpeed == null) {
-			baseSpeed = new BaseSpeed(this);
-			maximumSpeed = new MaximumSpeed(this);
+			baseSpeed = new BaseSpeed();
+			maximumSpeed = new MaximumSpeed();
 			fatigueSystem = new FatigueSystem(this);
 		}
 

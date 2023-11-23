@@ -633,10 +633,18 @@ public class SetupWindow implements Serializable {
 			if(conflict.hexGrid != null && conflict.initiativeOrder.size() > 0) {
 				conflict.hexGrid.panel.selectedUnit = conflict.hexGrid.panel.deployedUnits.get(activeUnit);
 			}
+			
+			resetTrooperTransientFields();
+			
 		}
 		
 	}
 	
-	
+	public void resetTrooperTransientFields() {
+		for(Company c : companies)
+			for(Unit u : c.getUnits())
+				for(Trooper t : u.getTroopers())
+					t.fatigueSystem.character = t;
+	}
 	
 }
