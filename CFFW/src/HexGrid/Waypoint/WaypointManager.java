@@ -1,6 +1,8 @@
 package HexGrid.Waypoint;
 
 import Conflict.GameWindow;
+import Hexes.Hex;
+import Unit.Unit;
 
 public class WaypointManager {
 
@@ -19,22 +21,48 @@ public class WaypointManager {
 				continue;
 			}
 			
-			var wp = unit.waypointData.waypoints.get(0);
-			
-			unit.move(gw, wp.x, wp.y, null);
-			
-			if(unit.X != wp.x || unit.Y != wp.y)
-				continue;
-			
-			unit.waypointData.waypoints.remove(0);
-			
-			if(unit.waypointData.waypoints.size() != 0) {
-				unit.speed = unit.waypointData.waypoints.get(0).waypointSpeed;
-				unit.seekCover(gw.findHex(unit.X, unit.Y), gw);
-			}
+			unit.spentMP = 0;
+			if(unit.speed.equals("Rush")) {
+				for(int i = 0; i < 5; i++) {
+					moveUnit(unit);
+					if(unit.spentMP >= 5)
+						break;
+				}
+				
+			} else 
+				moveUnit(unit);
 			
 		}
 		
+	}
+	
+	private static void moveUnit(Unit unit) {
+		var gw = GameWindow.gameWindow;
+		var wp = unit.waypointData.waypoints.get(0);
+		unit.move(gw, wp.x, wp.y, null);
+		var hex = gw.findHex(unit.X, unit.Y);
+		
+		if(unit.X != wp.x || unit.Y != wp.y)
+			return;
+
+		unit.spentMP += getMediumOrHeavyWoods(hex) ? 2 : 1;
+		
+		unit.waypointData.waypoints.remove(0);
+		
+		if(unit.waypointData.waypoints.size() != 0) {
+			unit.speed = unit.waypointData.waypoints.get(0).waypointSpeed;
+			unit.seekCover(hex, gw);
+		}
+	}
+	
+	private static boolean getMediumOrHeavyWoods(Hex hex) {
+		
+		for(var feature : hex.features)
+			if(feature.featureType.equals("Medium Forest") 
+					|| feature.featureType.equals("Heavy Forest"))
+				return true;
+		
+		return false;
 	}
 	
 }

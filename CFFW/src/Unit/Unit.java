@@ -41,7 +41,9 @@ public class Unit implements Serializable {
 	public int moral; 
 	public int fatiuge; 
 	public int cohesion; 
-	public int radius; 
+	public int crawlProgress; 
+	public transient int spentMP;
+	public transient boolean doneMoving;
 	public int commandValue;
 	public String speed; 
 	public String behavior;
@@ -77,7 +79,7 @@ public class Unit implements Serializable {
 		this.moral = moral;
 		this.fatiuge = fatiuge;
 		this.cohesion = cohesion;
-		this.radius = 0;
+		this.crawlProgress = 0;
 		this.commandValue = commandValue;
 		
 		this.speed = "None";
@@ -96,7 +98,7 @@ public class Unit implements Serializable {
 	// Copies unit 
 	public Unit copyUnit(Unit unit) {
 		
-		Unit newUnit = new Unit(unit.callsign, unit.X, unit.Y, unit.getTroopers(), unit.organization, unit.suppression, unit.moral, unit.fatiuge, unit.cohesion, unit.radius, unit.commandValue, unit.behavior);
+		Unit newUnit = new Unit(unit.callsign, unit.X, unit.Y, unit.getTroopers(), unit.organization, unit.suppression, unit.moral, unit.fatiuge, unit.cohesion, unit.crawlProgress, unit.commandValue, unit.behavior);
 
 		newUnit.side = unit.side;
 		newUnit.initiative = unit.initiative;
@@ -679,14 +681,11 @@ public class Unit implements Serializable {
 	}
 
 	public void move(GameWindow gameWindow, int xCord, int yCord, OpenUnit openUnitWindow) {
-		
-		
-		
-		if(radius < 3 && speed.equals("Crawl")) {
-			radius++;
+		if(crawlProgress < 3 && speed.equals("Crawl")) {
+			crawlProgress++;
 			return;
 		}
-		radius = 0;
+		crawlProgress = 0;
 		
 		soughtCover = false; 			
 		unembark(gameWindow);
@@ -742,7 +741,7 @@ public class Unit implements Serializable {
 			}
 		} 
 		
-		var distance = GameWindow.gameWindow.dist(X, Y, xCord, yCord);
+		var distance = GameWindow.dist(X, Y, xCord, yCord);
 		
 		X = xCord;
 		Y = yCord;
@@ -751,7 +750,7 @@ public class Unit implements Serializable {
 		if(suppression < 0)
 			suppression = 0;
 		
-		if(speed.equals("Rush"))
+		if(speed.equals("Rush") && spentMP == 0)
 			organization -= 5;
 		if(organization < 0)
 			organization = 0;
@@ -797,23 +796,10 @@ public class Unit implements Serializable {
 		
 		for(Trooper trooper : individuals) {
 			
-			float time; 
+			float time = 20;
 			
-			if(gameWindow.game.getPhase() == 1) {
-				if(trooper.P1 != 0)
-					time = 60 / trooper.P1;
-				else 
-					time = 60; 
-			} else {
-				if(trooper.P2 != 0)
-					time = 60 / trooper.P2;
-				else 
-					time = 60; 
-			}
-			
-			if(time < 20) {
-				time = 20; 
-			}
+			if(spentMP != 0)
+				continue;
 			
 			if(speed.equals("Crawl")) {
 				trooper.fatigueSystem.AddLightActivityTime(time);

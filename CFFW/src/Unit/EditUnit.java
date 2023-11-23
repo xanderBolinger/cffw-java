@@ -140,7 +140,7 @@ public class EditUnit implements Serializable {
 					unit.suppression = (int) spinnerSuppression.getValue();
 					unit.moral = (int) spinnerMoral.getValue();
 
-					unit.radius = (int) spinnerRadius.getValue();
+					unit.crawlProgress = (int) spinnerRadius.getValue();
 					unit.commandValue = (int) spinnerCommandValue.getValue();
 					unit.fatiuge = (int) spinnerFatiuge.getValue();
 
@@ -514,7 +514,7 @@ public class EditUnit implements Serializable {
 			spinnerSuppression.setValue((int) unit.suppression);
 			spinnerMoral.setValue((int) unit.moral);
 
-			spinnerRadius.setValue((int) unit.radius);
+			spinnerRadius.setValue((int) unit.crawlProgress);
 			spinnerCommandValue.setValue((int) unit.commandValue);
 			spinnerFatiuge.setValue((int) unit.fatiuge);
 

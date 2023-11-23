@@ -8,8 +8,13 @@ public class HexGridWaypointUtility {
 
 	public static void addWaypoint(int[] clickedHex) {
 		var unit = GameWindow.gameWindow.hexGrid.panel.selectedUnit.unit;
-		
-		if(clickedHex[0] == unit.X && clickedHex[1] == unit.Y)
+		var lastWaypoint = unit.waypointData.waypoints.size() > 0 ?
+				unit.waypointData.waypoints.get(unit.waypointData.waypoints.size()-1) : null;
+		var distanceFromLastWaypoint = GameWindow.dist(unit.X, unit.Y,
+				lastWaypoint == null ? clickedHex[0] : lastWaypoint.x, 
+						lastWaypoint == null ? clickedHex[1] : lastWaypoint.y);
+		if((clickedHex[0] == unit.X && clickedHex[1] == unit.Y)
+				|| distanceFromLastWaypoint > 1)
 			return;
 		
 		unit.waypointData.addWaypoint(new Waypoint(clickedHex[0], clickedHex[1], 
@@ -17,7 +22,6 @@ public class HexGridWaypointUtility {
 	}
 	
 	public static void draw(Graphics2D g2) {
-		var p = GameWindow.gameWindow.hexGrid.panel;
 		
 		if(WaypointManager.addWaypoints)
 			HexGridWaypointUtility.drawCursor(g2);
