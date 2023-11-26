@@ -65,7 +65,10 @@ public class ProcGenHexLoader {
 			int pos = HexWindow.getCoverPostitions("Dense Urban Sprawl");
 			features.add(new Feature("Dense Urban Sprawl", pos));
 			hex.addBuilding("Big Building", DiceRoller.roll(2, 4), DiceRoller.roll(4, 6), DiceRoller.roll(6, 8));
-		} 
+		} else if(tile.tileType.equals("Rough") || tile.tileType.equals("MOUNTAIN")) {
+			features.add(new Feature("Rough", DiceRoller.roll(1, 16)));
+			tile.tileType = "Rough";
+		}
 		
 		if(tile.tileType.contains("HeavyBrush")) {
 			features.add(new Feature("Heavy Brush", 0));

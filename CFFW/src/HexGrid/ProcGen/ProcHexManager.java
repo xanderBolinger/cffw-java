@@ -36,6 +36,7 @@ public class ProcHexManager {
     	AddHexImage("HeavyWoods", imageFolder);
     	AddHexImage("MediumWoods", imageFolder);
     	AddHexImage("LightWoods", imageFolder);
+    	AddHexImage("Rough", imageFolder);
     }
     
     private static void AddHexImage(String imageName, String imageFolder) {
