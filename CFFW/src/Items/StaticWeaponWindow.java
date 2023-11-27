@@ -835,13 +835,13 @@ public class StaticWeaponWindow {
 		lblTN = new JLabel("TN: 0");
 		lblTN.setForeground(Color.BLACK);
 		lblTN.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblTN.setBounds(10, 229, 113, 14);
+		lblTN.setBounds(10, 212, 219, 14);
 		f.getContentPane().add(lblTN);
 
 		lblPossibleShots = new JLabel("Possible Shots:");
 		lblPossibleShots.setForeground(Color.BLACK);
 		lblPossibleShots.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblPossibleShots.setBounds(10, 213, 130, 14);
+		lblPossibleShots.setBounds(109, 191, 130, 14);
 		f.getContentPane().add(lblPossibleShots);
 
 		lblAimTime = new JLabel("Aim Time:");
@@ -978,13 +978,13 @@ public class StaticWeaponWindow {
 		lblCombatActions = new JLabel("Combat Actions:");
 		lblCombatActions.setForeground(Color.BLACK);
 		lblCombatActions.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblCombatActions.setBounds(141, 173, 88, 31);
+		lblCombatActions.setBounds(86, 121, 88, 31);
 		f.getContentPane().add(lblCombatActions);
 
 		lblTfSpentCa = new JLabel("TF Spent CA: 0");
 		lblTfSpentCa.setForeground(Color.BLACK);
 		lblTfSpentCa.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblTfSpentCa.setBounds(141, 202, 102, 23);
+		lblTfSpentCa.setBounds(10, 223, 102, 23);
 		f.getContentPane().add(lblTfSpentCa);
 		
 		comboBoxTargetZone = new JComboBox();

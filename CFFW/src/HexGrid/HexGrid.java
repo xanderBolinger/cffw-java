@@ -2457,7 +2457,7 @@ public class HexGrid implements Serializable {
 		
 		public String commandStatus(Unit unit, String s) {
 			if (unit.individuals.size() <= 0 || unit.getLeader() == null)
-				return "EMPTY:: " + s;
+				return "EMPTY: " + s;
 
 			String status = "";
 
@@ -2465,15 +2465,15 @@ public class HexGrid implements Serializable {
 				return s;
 
 			if (unit.suppression > 50) {
-				status += "SUPPRESSED:: ";
+				status += "SUP: ";
 			} else if (unit.suppression > 10) {
-				status += "PINNED:: ";
+				status += "PIN: ";
 			}
 
 			if (unit.organization < 25 || unit.getLeader().leaderType == LeaderType.NONE) {
-				status += "LOST COHESION:: ";
+				status += "L/C: ";
 			} else if (unit.organization < 50) {
-				status += "DISORIENTED:: ";
+				status += "DIS: ";
 			}
 
 			return status + s;
