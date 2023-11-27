@@ -1955,7 +1955,10 @@ public class StaticWeaponWindow {
 		}
 		ShootUtility.shootGuiUpdate(lblPossibleShots, lblAimTime, lblTN, lblTfSpentCa, lblAmmunition, lblCombatActions,
 				chckbxFullAuto, shots);
-		lblAmmunition.setText("Ammunition: "+shoot.wep.ammoLoaded);
+		var ammo = unit.staticWeapons.get(listEquipedStatics.getSelectedIndex()).ammoLoaded;
+		lblAmmunition.setText("Ammunition: "+
+				ammo);
+		spinnerAmmunitionLoaded.setValue(ammo);
 	}
 	
 	public void setCalledShotBounds() {
