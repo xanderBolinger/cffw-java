@@ -379,6 +379,10 @@ public class Shoot {
 				return false; 
 			}
 			wep.ammoLoaded-=suppShots; 
+			
+			if(wep.ammoLoaded < 0)
+				suppShots = wep.ammoLoaded + suppShots;
+			
 			return true;
 		}
 		

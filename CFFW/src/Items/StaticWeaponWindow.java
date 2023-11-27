@@ -473,17 +473,22 @@ public class StaticWeaponWindow {
 					@Override
 					protected Void doInBackground() throws Exception {
 
+						var shots = 0;
+						
 						try {
 							System.out.println("Shoot");
 
 							if (comboBoxSuppressiveFireTargets.getSelectedIndex() > 0){
 								var manSup = (int) spinnerSuppressiveRof.getValue();
+								shots = chckbxMannualSup.isSelected() && manSup <= 
+										shoot.wep.suppressiveROF  ? manSup : shoot.wep.suppressiveROF;
 								shoot.suppressiveFire(
-										chckbxMannualSup.isSelected() && manSup <= 
-										shoot.wep.suppressiveROF  ? manSup : shoot.wep.suppressiveROF);
+										shots);
 							}
-							else if (chckbxFullAuto.isSelected())
+							else if (chckbxFullAuto.isSelected()) {
 								shoot.burst();
+								shots = shoot.wep.fullAutoROF;
+							}
 							else {
 								
 								if(shoot.wep.launcherHomingInfantry)
@@ -491,16 +496,22 @@ public class StaticWeaponWindow {
 								else 
 									shoot.shot(false);
 								
-								if(chckbxSingleShot.isSelected())
+								shots = 1;
+								if(chckbxSingleShot.isSelected()) {
+									var freeSupp =shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3);
+									shots = 1 + freeSupp; 
 									shoot.suppressiveFireFree(
-											shoot.wep.suppressiveROF / 2 + DiceRoller.roll(1, 3));
-							
+											freeSupp);
+									
+								}
 							}
 							
 							GameWindow.gameWindow.conflictLog.addNewLineToQueue("Results: " + shoot.shotResults);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
+						
+						unit.staticWeapons.get(listEquipedStatics.getSelectedIndex()).ammoLoaded -= shots;
 
 						return null;
 					}
@@ -745,7 +756,6 @@ public class StaticWeaponWindow {
 					}
 				}
 
-				// Performs assemble/dissemble action
 				if (loadTime == 0) {
 
 					staticWeapon.ammoLoaded = staticWeapon.ammoCapacity;
@@ -1540,7 +1550,7 @@ public class StaticWeaponWindow {
 
 		Weapons staticWeapon = unit.staticWeapons.get(selectedWeaponIndex);
 
-		staticWeapon.ammoLoaded = (int) spinnerAmmunitionLoaded.getValue();
+		//staticWeapon.ammoLoaded = (int) spinnerAmmunitionLoaded.getValue();
 
 		f.dispose();
 

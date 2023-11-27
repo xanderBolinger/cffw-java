@@ -135,7 +135,7 @@ public class Unit implements Serializable {
 	
 	// Adds/Equips a new static weapon with the unit 
 	public void addStaticWeapon(Weapons staticWep) {
-		this.staticWeapons.add(staticWep);
+		this.staticWeapons.add(new Weapons().findWeapon(staticWep.name));
 	}
 	
 	// Checks if the trooper is equiped to a static weapon 
