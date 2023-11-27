@@ -1,6 +1,9 @@
 package HexGrid;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import Conflict.GameWindow;
@@ -17,6 +20,7 @@ public class CalculateLOS {
 		if(GameWindow.gameWindow == null || GameWindow.gameWindow.game == null || GameWindow.gameWindow.game.vehicleManager == null
 				|| GameWindow.gameWindow.companies == null)
 			return;
+		ExecutorService es = Executors.newFixedThreadPool(16);
 		
 		movedVehicle.losUnits.clear();
 		movedVehicle.losVehicles.clear();
@@ -24,18 +28,35 @@ public class CalculateLOS {
 		var vehicles = GameWindow.gameWindow.game.vehicleManager.getVehicles();
 		
 		for(var vic : vehicles) {
-			if(vic.compareTo(movedVehicle))
+			if(vic.compareTo(movedVehicle) || 
+					VehicleDataUtility.getSide(movedVehicle).equals(
+							VehicleDataUtility.getSide(vic)))
 				continue;
-			calcVehicle(movedVehicle, vic);
-			calcVehicle(vic, movedVehicle);
+			
+			es.submit(() -> { 
+				calcVehicle(movedVehicle, vic);
+				calcVehicle(vic, movedVehicle);
+			});
+			
+			
 		}
 		
 		for(var unit : GameWindow.gameWindow.initiativeOrder) {
 			if(unit.side.equals(VehicleDataUtility.getSide(movedVehicle)))
 				continue;
-			
-			calcVehicleInfantry(movedVehicle, unit);
-			
+			es.submit(() -> { 
+				calcVehicleInfantry(movedVehicle, unit);
+			});
+		}
+		
+		es.shutdown();
+		try {
+		  es.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+		} catch (InterruptedException e) {
+		 e.printStackTrace();
+		}
+
+		for(var unit : GameWindow.gameWindow.initiativeOrder) {
 			if(unit.losVehicles.contains(movedVehicle) 
 					&& !movedVehicle.losUnits.contains(unit)) {
 				
@@ -45,8 +66,8 @@ public class CalculateLOS {
 					unit.spottedVehicles.remove(movedVehicle);
 				removeSpottedTroopers(movedVehicle, unit);
 			} 
-			
 		}
+		
 		
 		updateVehicleLosLists(vehicles);
 	}

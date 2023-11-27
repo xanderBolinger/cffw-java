@@ -641,12 +641,11 @@ public class SetupWindow implements Serializable {
 	}
 	
 	public void resetTrooperTransientFields() {
-		for(Company c : companies) {
-			for(Unit u : c.getUnits()) {
-				for(Trooper t : u.getTroopers()) {
-					t.inventory.trooper = t;
-					t.fatigueSystem.character = t;
-				}
+		for(Unit u : GameWindow.gameWindow.initiativeOrder) {
+			for(Trooper t : u.getTroopers()) {
+				t.inventory.trooper = t;
+				t.fatigueSystem.character = t;
+				System.out.println("Set character for: "+GameWindow.gameWindow.getLogHead(t));
 			}
 		}
 	}

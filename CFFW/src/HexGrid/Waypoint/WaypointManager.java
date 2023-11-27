@@ -12,31 +12,40 @@ public class WaypointManager {
 		var gw = GameWindow.gameWindow;
 		var initOrder = gw.initiativeOrder;
 		
-		for(var unit : initOrder) {
-			if(unit.waypointData.waypoints.size() == 0 && !unit.speed.equals("None")) {
-				unit.speed = "None";
-				unit.seekCover(gw.findHex(unit.X, unit.Y), gw);
-				continue;
-			} else if(unit.waypointData.waypoints.size() == 0) {
-				continue;
-			}
-			
-			unit.spentMP = 0;
-			if(unit.speed.equals("Rush")) {
-				for(int i = 0; i < 5; i++) {
-					moveUnit(unit);
-					if(unit.spentMP >= 5)
-						break;
+		try {
+			for(var unit : initOrder) {
+				if(unit.waypointData.waypoints.size() == 0 && !unit.speed.equals("None")) {
+					unit.speed = "None";
+					unit.seekCover(gw.findHex(unit.X, unit.Y), gw);
+					continue;
+				} else if(unit.waypointData.waypoints.size() == 0) {
+					continue;
 				}
 				
-			} else 
-				moveUnit(unit);
-			
-		}
+				
+				System.out.println("Move Unit 1: "+unit.callsign);
+				
+				unit.spentMP = 0;
+				if(unit.speed.equals("Rush")) {
+					for(int i = 0; i < 5; i++) {
+						moveUnit(unit);
+						if(unit.spentMP >= 5 || unit.waypointData.waypoints.size() == 0)
+							break;
+					}
+				} else 
+					moveUnit(unit);
+				
+			}
+		} catch (Exception e) {e.printStackTrace();}
+		
+		
 		
 	}
 	
 	private static void moveUnit(Unit unit) {
+		
+		System.out.println("Move Unit 2: "+unit.callsign);
+		
 		var gw = GameWindow.gameWindow;
 		var wp = unit.waypointData.waypoints.get(0);
 		unit.move(gw, wp.x, wp.y, null);

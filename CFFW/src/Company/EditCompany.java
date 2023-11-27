@@ -1168,7 +1168,13 @@ public class EditCompany implements Serializable {
 	private void clearCircularReferences() {
 		for(var unit : units) {
 			unit.lineOfSight.clear();
+			unit.staticWeapons.clear();
+			unit.losVehicles.clear();
+			unit.spottedVehicles.clear();
+			unit.fireMissions.clear();
+			unit.waypointData.waypoints.clear();
 			for(var t : unit.getTroopers()) {
+				
 				t.spentPhase1 = 0;
 				t.spentPhase2 = 0;
 				t.spotted.clear();

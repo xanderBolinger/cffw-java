@@ -2092,7 +2092,7 @@ public class GameWindow implements Serializable {
 		advanceTime();
 		markUnmoved();
 		timedEvents();
-		recalcLosForAllUnits();
+		
 
 		game.setCurrentAction(game.getCurrentAction() + 1);
 
@@ -2124,7 +2124,7 @@ public class GameWindow implements Serializable {
 			WaypointManager.moveUnits();
 			
 		}
-		
+		recalcLosForAllUnits();
 		hexGrid.refreshingDeployedUnits = true;
 		hexGrid.refreshDeployedUnits();
 		hexGrid.refreshingDeployedUnits = false;
