@@ -1,8 +1,14 @@
 package HexGrid.Waypoint;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import Conflict.GameWindow;
+import Conflict.SmokeStats;
 import Hexes.Hex;
+import Items.FlameDamageCalculator;
 import Unit.Unit;
+import CorditeExpansion.Cord;
 
 public class WaypointManager {
 
@@ -73,5 +79,9 @@ public class WaypointManager {
 		
 		return false;
 	}
+	
+	
+	
+	
 	
 }

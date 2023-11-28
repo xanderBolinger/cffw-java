@@ -10,6 +10,10 @@ public class DiceRoller {
 		
 	}
 	
+	public static int d10() {
+		return roll(1,10);
+	}
+	
 	public static int d6_exploding() {
 		
 		int value = roll(1,6);

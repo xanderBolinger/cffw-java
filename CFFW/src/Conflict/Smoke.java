@@ -44,6 +44,17 @@ public class Smoke implements Serializable {
 
 	}
 	
+	public List<SmokeStats> getSmokeAtHex(Cord cord) {
+		var smokeStats = new ArrayList<SmokeStats>();
+		for(SmokeStats smoke : deployedSmoke) {
+			if(smoke.deployedHex.compare(cord)) {
+				smokeStats.add(smoke);
+			}
+		}
+		
+		return smokeStats;
+	}
+	
 	public String getSmokeStats(Cord cord) {
 		String rslts = "";
 		

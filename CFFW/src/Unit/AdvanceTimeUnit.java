@@ -87,10 +87,8 @@ public class AdvanceTimeUnit {
 			unit.suppression = 0;
 		}
 
-		if (unit.lineOfSight.size() == 0) {
-			unit.organization += unit.commandValue
-					+ (unit.moral / 20) + mod;
-		}
+		unit.organization += (unit.commandValue
+				+ (unit.moral / 20) + mod) / 2;
 
 		if (unit.organization > 100) {
 			unit.organization = 100;

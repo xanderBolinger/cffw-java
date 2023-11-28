@@ -137,7 +137,7 @@ public class SmokeStats implements Serializable {
 	public void increaseElapsedActions() {
 		elapsedActions++;
 		
-		if(elapsedActions <= duration)
+		if(elapsedActions <= duration && wp != null)
 			wp.flameHex(deployedHex);
 	}
 	

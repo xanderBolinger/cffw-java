@@ -1,5 +1,7 @@
 package Vehicle.Utilities;
 
+import java.util.ArrayList;
+
 import Conflict.GameWindow;
 import Vehicle.Vehicle;
 
@@ -20,6 +22,16 @@ public class VehicleDataUtility {
 		
 		return "";
 		
+	}
+	
+	public static boolean containsVehicle(Vehicle vehicle, ArrayList<Vehicle> vehicles) {
+		
+		for(var vic : vehicles) 
+			if(vic.compareTo(vehicle))
+				return true;
+		
+		
+		return false;
 	}
 	
 }

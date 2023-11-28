@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import Conflict.GameWindow;
 import Vehicle.Data.CrewMember.CrewAction;
 import Vehicle.HullDownPositions.HullDownPositionManager;
+import Vehicle.Utilities.VehicleDataUtility;
 
 public class VehicleManager implements Serializable {
 
@@ -31,9 +32,14 @@ public class VehicleManager implements Serializable {
 		
 		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 		
-		for(var company : GameWindow.gameWindow.companies)
-			for(var vic : company.vehicles)
+		for(var company : GameWindow.gameWindow.companies) {
+			for(var vic : company.vehicles) {
+				if(VehicleDataUtility.containsVehicle(vic, vehicles))
+					continue;
 				vehicles.add(vic);
+			}
+			
+		}
 		
 		return vehicles; 
 		

@@ -15,6 +15,7 @@ import HexGrid.Waypoint.WaypointData;
 import Hexes.Building;
 import Hexes.Hex;
 import Hexes.HexWindow;
+import Items.FlameDamageCalculator;
 import Items.Weapons;
 import Trooper.Trooper;
 import Trooper.generateSquad;
@@ -747,6 +748,8 @@ public class Unit implements Serializable {
 		X = xCord;
 		Y = yCord;
 		
+		
+		
 		suppression -= distance;
 		if(suppression < 0)
 			suppression = 0;
@@ -765,6 +768,8 @@ public class Unit implements Serializable {
 			}
 			
 		}
+		
+		FlameDamageCalculator.burnUnitOnEnterHex(this, newHex);
 		
 		
 		for(Trooper trooper : individuals) {

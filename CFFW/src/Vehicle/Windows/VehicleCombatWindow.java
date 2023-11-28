@@ -276,10 +276,11 @@ public class VehicleCombatWindow {
 						
 						if(!chckbxSkipSpotTest.isSelected())
 							VehicleSpotManager.vehicleSpotChecks();
-						
+
 						for(var vic : vehicles) {
 							vic.spotData.fired = false;
 						}
+						
 						return null;
 					}
 
@@ -302,10 +303,37 @@ public class VehicleCombatWindow {
 		JButton btnNextPhase = new JButton("Next Phase");
 		btnNextPhase.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				var vm = GameWindow.gameWindow.game.vehicleManager;
-				vm.nextPhase();
-				lblTurnPhase.setText("Turn: "+vm.turn+", Phase: "+vm.phase);
-				refreshSelectedVehicle();
+				
+				SwingWorker<Void, String> worker = new SwingWorker<Void, String>() {
+
+					@Override
+					protected Void doInBackground() throws Exception {
+						
+						try {
+							vm.nextPhase();
+							if(!chckbxSkipSpotTest.isSelected())
+								VehicleSpotManager.vehicleSpotChecks();
+							for(var vic : vehicles) {
+								vic.spotData.fired = false;
+							}
+						} catch(Exception e) {e.printStackTrace();}
+						
+						
+						return null;
+					}
+
+					@Override
+					protected void done() {
+						lblTurnPhase.setText("Turn: "+vm.turn+", Phase: "+vm.phase);
+						refreshSelectedVehicle();
+					}
+
+				};
+
+				worker.execute();
+				
 			}
 		});
 		btnNextPhase.setBounds(534, 667, 118, 23);

@@ -17,10 +17,10 @@ public class WhitePhosphorus implements Serializable {
 	
 	// C 1 2 3 4 5 6 7 8 9
 	public WPType wpType;
+	public FlameThrower flameDamage;
 	
 	ArrayList<String> baseWPHitChance;
 	ArrayList<Integer> fragmentPd;
-	FlameThrower flameDamage;
 	
 	
 	
@@ -293,6 +293,8 @@ public class WhitePhosphorus implements Serializable {
 			var hex = GameWindow.gameWindow.findHex(cord.xCord, cord.yCord);			
 			hex.concealment--;
 			hex.flameMarkers.addMarker();
+			if(hex.concealment < 0)
+				hex.concealment = 0;
 		}
 		
 		GameWindow.gameWindow.conflictLog.addNewLineToQueue("Defoliate, chance: "+flameDamage.defoliateChance
