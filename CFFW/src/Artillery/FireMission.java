@@ -2,6 +2,7 @@ package Artillery;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -11,6 +12,8 @@ import Conflict.GameWindow;
 import Conflict.InjuryLog;
 import CorditeExpansion.Cord;
 import Explosion.Explosion;
+import HexGrid.HexDirectionUtility;
+import HexGrid.HexDirectionUtility.HexDirection;
 import Injuries.ResolveHits;
 import Trooper.Trooper;
 import Unit.Unit;
@@ -686,10 +689,23 @@ public class FireMission implements Serializable {
 	}
 	
 	public int returnScatterDirection() {
-		return new Random().nextInt(12) + 1;  
+		return DiceRoller.roll(1, 12);  
 	}
 	
-	public ArrayList<Integer> returnScatteredHex(int originalX, int originalY, int scatterDistance, int scatterDirection) {
+	private ArrayList<Integer> returnScatteredHex(int originalX, int originalY,
+			int scatterDistance, int scatterDirection) {
+		
+		var dir = HexDirection.values()[scatterDirection-1];
+		var impactCord = HexDirectionUtility.getHexInDirection(dir, new Cord(originalX,
+				originalY), scatterDistance);
+		
+		System.out.println("Return scattered hex, dir: "+dir+", start x: "+originalX+
+				", start y: "+originalY+", distance: "+scatterDistance);
+		
+		return new ArrayList<Integer>(Arrays.asList(impactCord.xCord,impactCord.yCord));
+	}
+	
+	public ArrayList<Integer> returnScatteredHexOld(int originalX, int originalY, int scatterDistance, int scatterDirection) {
 		
 			
 		
@@ -920,7 +936,7 @@ public class FireMission implements Serializable {
 	}
 	 
 	public int d99() {
-		return new java.util.Random().nextInt(100);
+		return DiceRoller.roll(0, 99);
 	}
 	
 	@Override

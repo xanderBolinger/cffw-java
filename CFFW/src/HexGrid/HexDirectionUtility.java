@@ -323,6 +323,20 @@ public class HexDirectionUtility {
         return neighbors;
     }
 
+	public static Cord getHexInDirection(HexDirection dir, Cord startPos, int distance) 
+		{
+		
+		var lastCord = startPos;
+		boolean clockwise = true;
+		
+		for(int i = 0; i < distance; i++) {
+			lastCord = getHexInDirection(dir, lastCord, clockwise);
+			clockwise = !clockwise;
+		}
+		
+		return lastCord;
+	}
+	
     public static Cord getHexInDirection(HexDirection dir, Cord pos) {
         List<Cord> neighbors = getHexNeighbourCords(pos);
 

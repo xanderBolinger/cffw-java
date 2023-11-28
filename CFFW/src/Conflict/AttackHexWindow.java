@@ -344,7 +344,7 @@ public class AttackHexWindow {
 			
 		}
 		rslts += "\n" + "SUPPRESSION: "+suppressionHits;
-		GameWindow.gameWindow.conflictLog.addNewLine(rslts);
+		GameWindow.gameWindow.conflictLog.addNewLineToQueue(rslts);
 		
 	}
 	
@@ -379,15 +379,15 @@ public class AttackHexWindow {
 		
 		if(weapon.ballisticWeapon() && !weapon.type.equals("Grenade") && weapon.pcAmmoTypes.size() < 1) {
 			if(target == null) {
-				GameWindow.gameWindow.conflictLog.addNewLine("Target is null for balistic weapon");
+				GameWindow.gameWindow.conflictLog.addNewLineToQueue("Target is null for balistic weapon");
 				return;
 			}
-			GameWindow.gameWindow.conflictLog.addNewLine("Ballistic Hit In Hex: "+hex.xCord+", "+hex.yCord+", "+target.number+" "+target.name+", Distance: "+(int) spinnerDistanceToTarget.getValue());
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Ballistic Hit In Hex: "+hex.xCord+", "+hex.yCord+", "+target.number+" "+target.name+", Distance: "+(int) spinnerDistanceToTarget.getValue());
 			target.applyHit(weapon, (int) spinnerDistanceToTarget.getValue()); 
 		}
 		else if(weapon.explosiveWeapon() || weapon.pcAmmoTypes.size() > 0) {
 			
-			GameWindow.gameWindow.conflictLog.addNewLine("Explosion In Hex: "+hex.xCord+", "+hex.yCord);
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Explosion In Hex: "+hex.xCord+", "+hex.yCord);
 			
 			Explosion explosion;
 			
@@ -401,9 +401,9 @@ public class AttackHexWindow {
 			
 			
 			if(target != null) {
-				GameWindow.gameWindow.conflictLog.addNewLine("EXPLOSIVE TARGET HIT: "+target.number+" "+target.name+", Distance: "+(int) spinnerDistanceToTarget.getValue());
+				GameWindow.gameWindow.conflictLog.addNewLineToQueue("EXPLOSIVE TARGET HIT: "+target.number+" "+target.name+", Distance: "+(int) spinnerDistanceToTarget.getValue());
 				if((int) spinnerDistanceToTarget.getValue() == 0 && weapon.pcAmmoTypes.size() > 0) {
-					GameWindow.gameWindow.conflictLog.addNewLine("TARGET IMPACTED: "+target.number+", by "+target.name+weapon.pcAmmoTypes.get(comboBoxPCAmmo.getSelectedIndex()).name);
+					GameWindow.gameWindow.conflictLog.addNewLineToQueue("TARGET IMPACTED: "+target.number+", by "+target.name+weapon.pcAmmoTypes.get(comboBoxPCAmmo.getSelectedIndex()).name);
 					explosion.explosiveImpact(target, weapon.pcAmmoTypes.get(comboBoxPCAmmo.getSelectedIndex()), weapon);
 				} 
 				
