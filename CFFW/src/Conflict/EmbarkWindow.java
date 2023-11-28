@@ -166,6 +166,7 @@ public class EmbarkWindow {
 						hex.usedPositions++; 
 					} else {
 						trooper.inCover = false; 
+						trooper.HD = false;
 					}
 					
 					

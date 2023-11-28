@@ -474,6 +474,7 @@ public class Unit implements Serializable {
 			
 			if(!trooper.inBuilding(gameWindow)) {
 				trooper.inCover = false; 
+				trooper.HD = false;
 				unembarkedTroopers.add(trooper);
 			} else {
 				trooper.inCover = true; 
@@ -769,8 +770,10 @@ public class Unit implements Serializable {
 		for(Trooper trooper : individuals) {
 			if(trooper.inBuilding(gameWindow))
 				trooper.inCover = true; 
-			else
+			else {
 				trooper.inCover = false; 
+				trooper.HD = false;
+			}
 		}
 		individualsInCover = 0;
 		

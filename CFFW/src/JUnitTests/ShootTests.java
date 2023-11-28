@@ -455,6 +455,7 @@ public class ShootTests {
 		shoot.shooter.nightVisionInUse = true;
 		shoot.shooter.weaponIRLaserOn = true;
 		shoot.target.inCover = false;
+		shoot.target.HD = false;
 		shoot.calculateModifiers();
 		shoot.aimALM = 0;
 		shoot.setEAL();

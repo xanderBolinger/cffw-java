@@ -1100,8 +1100,10 @@ public class HexGrid implements Serializable {
 
 					unit.individualsInCover = 0;
 					for (Trooper trooper : unit.individuals) {
-						if (!trooper.inBuilding(gameWindow))
+						if (!trooper.inBuilding(gameWindow)) {
 							trooper.inCover = false;
+							trooper.HD = false;
+						}
 
 					}
 
@@ -1120,8 +1122,10 @@ public class HexGrid implements Serializable {
 
 					unit.individualsInCover = 0;
 					for (Trooper trooper : unit.individuals) {
-						if (!trooper.inBuilding(gameWindow))
+						if (!trooper.inBuilding(gameWindow)) {
 							trooper.inCover = false;
+							trooper.HD = false;
+						}
 
 					}
 

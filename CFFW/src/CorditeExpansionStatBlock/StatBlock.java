@@ -416,8 +416,9 @@ public class StatBlock {
 	}
 	
 	public void toggleCover() {
-		if(inCover)
+		if(inCover) {
 			inCover = false; 
+		}
 		else 
 			inCover = true;
 	}
