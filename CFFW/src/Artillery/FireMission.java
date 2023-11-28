@@ -1,5 +1,6 @@
 package Artillery;
 
+import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,6 +65,10 @@ public class FireMission implements Serializable {
 	public boolean companyLevelSupport;
 	public boolean platoonLevelSupport = false;
 	
+	public boolean firebaseFo;
+	public boolean assignedBattery;
+	public boolean vehicleFo;
+	
 	public List<Shot> airborneShots = new ArrayList<Shot>();
 	public transient GameWindow window;
 	
@@ -107,8 +112,6 @@ public class FireMission implements Serializable {
 		plotTime.add(180);
 		plotTime.add(170);
 		
-		
-		
 		setCrewQuality();
 		
 		randomFireMissionSpeed = new Random().nextInt(10);
@@ -116,15 +119,23 @@ public class FireMission implements Serializable {
 		System.out.println("Fire Mission Speed:"+fireMissionSpeed+", Random Fire Mission Speed: "+randomFireMissionSpeed+", Crew Quality: "+crewQuality);
 		
 		if(spotter != null)
-			spotterSkill = ((spotter.getSkill("Navigation") / 5) + ((spotter.per * 3) / 5)) / 2;
+			spotterSkill = ((spotter.getSkill("Navigation") / 5) + (spotter.getSkill("Spot/Listen") / 5)) / 4;
 	}
 	
 	public void setFireMissionSpeed() {
 		fireMissionSpeed = randomFireMissionSpeed + crewQuality;
 		// Computer bonus 
 		if(artilleryComputer()) {
-			fireMissionSpeed += 4; 
+			fireMissionSpeed += 2; 
 		}
+		
+		if(firebaseFo)
+			fireMissionSpeed += 2;
+		else if(assignedBattery)
+			fireMissionSpeed += 7;
+		else if(vehicleFo)
+			fireMissionSpeed += 5;
+		
 	}
 	
 	public void setCrewQuality() {
@@ -140,12 +151,14 @@ public class FireMission implements Serializable {
 				crewQuality /= batteries.size();
 			
 		}
+		
+		crewQuality /= 2;
 	}
 	
 	public void setPlotTime() {
 		
 		if(spotterSkill > 8) {
-			actionsToPlotted = plotTime.get(8) - ((8 - spotterSkill) * 10);
+			actionsToPlotted = plotTime.get(8) + ((8 - spotterSkill) * 10);
 		} else {
 			actionsToPlotted = plotTime.get(spotterSkill);
 		}
@@ -156,7 +169,7 @@ public class FireMission implements Serializable {
 			actionsToPlotted /= spotter.combatActions; 
 			actionsToPlotted /= 10; 
 		}
-		
+		System.out.println("Spot time: "+actionsToPlotted+", spotter skill: "+spotterSkill);
 		fireMissionStatus = FireMissionStatus.PLOTTING;
 	}
 	
@@ -202,12 +215,12 @@ public class FireMission implements Serializable {
 		
 		if(spotterSkill > 8) {
 			if(LOSToTarget) {
-				scatterDistance = spottedPositionError.get(8) - ((8 - spotterSkill) * 10);
+				scatterDistance = spottedPositionError.get(8) + ((8 - spotterSkill) * 10);
 				//window.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Scatter Distance Spotted Position Error: "+scatterDistance+" yards");
 				//System.out.println("Fire Mision: "+fireMissionDisplayName+" Scatter Distance Spotted Position Error: "+scatterDistance+" yards");
 			}
 			else {
-				scatterDistance = calculatedTargetPositionError.get(8) - ((8 - spotterSkill) * 10);
+				scatterDistance = calculatedTargetPositionError.get(8) + ((8 - spotterSkill) * 10);
 				//window.conflictLog.addNewLine("Fire Mision: "+fireMissionDisplayName+" Scatter Distance Calculated Position Error: "+scatterDistance+" yards");
 				//System.out.println("Fire Mision: "+fireMissionDisplayName+" Scatter Distance Calculated Position Error: "+scatterDistance+" yards");
 			}
@@ -224,12 +237,14 @@ public class FireMission implements Serializable {
 			}
 		}
 		
-		scatterDistance /= 10; 
-		scatterDistance *= scatterModifier();
+		scatterDistance = (int)((double)scatterDistance *  scatterModifier());
 		
 		ArrayList<Integer> scattedCords = returnScatteredHex(targetX, targetY, scatterDistance, direction);
 		plottedX = scattedCords.get(0);
 		plottedY = scattedCords.get(1);
+		
+		System.out.println("Artillery debug distane: "+Point2D.distance(plottedX, plottedY, targetX, targetY));
+		
 		//System.out.println("Plotted Hex X: "+plottedX+", Y: "+plottedY);
 	}
 	
@@ -443,7 +458,6 @@ public class FireMission implements Serializable {
 			accuracy = shot.battery.shellAccuracy;
 		}
 		
-		accuracy /= 10; 
 		int scatterDistance = (int) (accuracy * scatterModifier()) + DiceRoller.roll(0, fireMissionRadius);
 		
 		int impactX; 
@@ -497,10 +511,6 @@ public class FireMission implements Serializable {
 			
 		}
 		
-		
-		
-		
-		
 		setFireMissionSpeed();
 
 		GameWindow.gameWindow.conflictLog.addNewLineToQueue("Fire Mision: "+fireMissionDisplayName+" Getting Fire Mission Time, fire mission speed: "+fireMissionSpeed);
@@ -528,56 +538,56 @@ public class FireMission implements Serializable {
 				return 480;
 		} else if(fireMissionSpeed == 4) {
 			if(platoonLevelSupport)
-				return 80;
+				return 90;
 			else if(companyLevelSupport)
 				return 130;
 			else
 				return 420;
 		} else if(fireMissionSpeed == 5) {
 			if(platoonLevelSupport)
-				return 70;
+				return 80;
 			else if(companyLevelSupport)
 				return 120;
 			else
 				return 380;
 		} else if(fireMissionSpeed == 6) {
 			if(platoonLevelSupport)
-				return 60;
+				return 75;
 			else if(companyLevelSupport)
 				return 110;
 			else
 				return 340;
 		} else if(fireMissionSpeed == 7) {
 			if(platoonLevelSupport)
-				return 50;
+				return 70;
 			else if(companyLevelSupport)
 				return 100;
 			else
 				return 300;
 		} else if(fireMissionSpeed == 8) {
 			if(platoonLevelSupport)
-				return 40;
+				return 60;
 			else if(companyLevelSupport)
 				return 90;
 			else
 				return 260;
 		} else if(fireMissionSpeed == 9) {
 			if(platoonLevelSupport)
-				return 30;
+				return 55;
 			else if(companyLevelSupport)
 				return 80;
 			else
 				return 230;
 		} else if(fireMissionSpeed == 10) {
 			if(platoonLevelSupport)
-				return 20;
+				return 45;
 			else if(companyLevelSupport)
 				return 70;
 			else
 				return 210;
 		} else if(fireMissionSpeed == 11) {
 			if(platoonLevelSupport)
-				return 14;
+				return 40;
 			else if(companyLevelSupport)
 				return 64;
 			else
@@ -591,56 +601,56 @@ public class FireMission implements Serializable {
 				return 170;
 		} else if(fireMissionSpeed == 13) {
 			if(platoonLevelSupport)
-				return 8;
+				return 38;
 			else if(companyLevelSupport)
 				return 58;
 			else
 				return 160;
 		} else if(fireMissionSpeed == 14) {
 			if(platoonLevelSupport)
-				return 6;
+				return 36;
 			else if(companyLevelSupport)
 				return 56;
 			else
 				return 150;
 		} else if(fireMissionSpeed == 15) {
 			if(platoonLevelSupport)
-				return 4;
+				return 35;
 			else if(companyLevelSupport)
 				return 54;
 			else
 				return 140;
 		} else if(fireMissionSpeed == 16) {
 			if(platoonLevelSupport)
-				return 2;
+				return 30;
 			else if(companyLevelSupport)
 				return 52;
 			else
 				return 130;
 		} else if(fireMissionSpeed == 17) {
 			if(platoonLevelSupport)
-				return 1;
+				return 30;
 			else if(companyLevelSupport)
 				return 50;
 			else
 				return 120;
 		} else if(fireMissionSpeed == 18) {
 			if(platoonLevelSupport)
-				return 1;
+				return 20;
 			else if(companyLevelSupport)
 				return 48;
 			else
 				return 110;
 		} else if(fireMissionSpeed == 19) {
 			if(platoonLevelSupport)
-				return 1;
+				return 20;
 			else if(companyLevelSupport)
 				return 44;
 			else
 				return 100;
 		} else if(fireMissionSpeed == 20) {
 			if(platoonLevelSupport)
-				return 1;
+				return 20;
 			else if(companyLevelSupport)
 				return 40;
 			else
@@ -653,39 +663,66 @@ public class FireMission implements Serializable {
 	public double scatterModifier() {
 		
 		int roll = d99();
+		var mod = 0.0;
 		if(roll <= 1) {
-			return 0.01; 
+			mod = 0.01; 
 		} else if(roll <= 3) {
-			return 0.02;
+			mod = 0.02;
 		} else if(roll <= 9) {
-			return 0.05;
+			mod = 0.05;
 		} else if(roll <= 19) {
-			return 0.1; 
+			mod = 0.1; 
 		} else if(roll <= 28) {
-			return 0.15; 
+			mod = 0.15; 
 		} else if(roll <= 37) {
-			return 0.2;
+			mod = 0.2;
 		} else if(roll <= 46) {
-			return 0.25;
+			mod = 0.25;
 		} else if(roll <= 54) {
-			return 0.3; 
+			mod = 0.3; 
 		} else if(roll <= 67) {
-			return 0.4; 
+			mod = 0.4; 
 		} else if(roll <= 78) {
-			return 0.5;
+			mod = 0.5;
 		} else if(roll <= 86) {
-			return 0.6; 
+			mod = 0.6; 
 		} else if(roll <= 91) {
-			return 0.7; 
+			mod = 0.7; 
 		} else if(roll <= 94) {
-			return 0.8;
+			mod = 0.8;
 		} else if(roll <= 97) {
-			return 0.9;
+			mod = 0.9;
 		} else if(roll <= 99) {
-			return 1.0; 
+			mod = 1.0; 
 		}
 		
-		return 0.0; 
+		if(artilleryComputer()) {
+			mod /= 2;
+		}
+		
+		if(crewQuality <= 0) {
+			mod *= 2;
+		} else if(crewQuality == 1) {
+			mod *= 2;
+		} else if(crewQuality == 2) {
+			mod *= 1.5;
+		} else if(crewQuality == 3) {
+			mod *= 1.2;
+		} else if(crewQuality == 4) {
+			mod *= 1;
+		} else if(crewQuality == 5) {
+			mod *= 0.8;
+		} else if(crewQuality == 6) {
+			mod *= 0.6;
+		} else if(crewQuality == 7) {
+			mod *= 0.5;
+		} else if(crewQuality == 8) {
+			mod *= 0.5;
+		} else if(crewQuality >= 8) {
+			mod *= 0.5;
+		}
+		
+		return mod; 
 	}
 	
 	public int returnScatterDirection() {

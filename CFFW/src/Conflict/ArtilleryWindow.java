@@ -64,6 +64,9 @@ public class ArtilleryWindow {
 	private JCheckBox chckbxPLvl;
 	private JSpinner spinnerRadius;
 	private JSpinner spinnerOrders;
+	private JCheckBox chckbxFireBaseFo;
+	private JCheckBox chckbxAssignedBat;
+	private JCheckBox chckbxVehicleSpot;
 	
 	/**
 	 * Create the application.
@@ -132,6 +135,22 @@ public class ArtilleryWindow {
 					chckbxPLvl.setSelected(true);
 				} else {
 					chckbxPLvl.setSelected(false);
+				}
+				
+				if(fireMission.firebaseFo) {
+					chckbxFireBaseFo.setSelected(true);
+				} else {
+					chckbxFireBaseFo.setSelected(false);
+				}
+				if(fireMission.assignedBattery) {
+					chckbxAssignedBat.setSelected(true);
+				} else {
+					chckbxAssignedBat.setSelected(false);
+				}
+				if(fireMission.vehicleFo) {
+					chckbxVehicleSpot.setSelected(true);
+				} else {
+					chckbxVehicleSpot.setSelected(false);
 				}
 				
 				int count = 0; 
@@ -336,6 +355,9 @@ public class ArtilleryWindow {
 				fireMission.platoonLevelSupport = chckbxPLvl.isSelected();
 				fireMission.LOSToImpact = chckbxLosI.isSelected();
 				fireMission.LOSToTarget = chckbxLOS.isSelected();
+				fireMission.firebaseFo = chckbxFireBaseFo.isSelected();
+				fireMission.assignedBattery = chckbxAssignedBat.isSelected();
+				fireMission.vehicleFo = chckbxVehicleSpot.isSelected();
 				
 				int count = 0; 
 				for(Trooper trooper : unit.getTroopers()) {
@@ -406,11 +428,6 @@ public class ArtilleryWindow {
 		spinnerCrewSkill.setBounds(67, 696, 42, 20);
 		frame.getContentPane().add(spinnerCrewSkill);
 		
-		JLabel lblTargetHex = new JLabel("Hex");
-		lblTargetHex.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblTargetHex.setBounds(10, 194, 160, 15);
-		frame.getContentPane().add(lblTargetHex);
-		
 		JButton btnUpdate = new JButton("Update Bat.");
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -463,6 +480,9 @@ public class ArtilleryWindow {
 				fireMission.platoonLevelSupport = chckbxPLvl.isSelected();
 				fireMission.fireMissionDisplayName = fireMissionNameField.getText();
 				fireMission.LOSToImpact = chckbxLosI.isSelected();
+				fireMission.firebaseFo = chckbxFireBaseFo.isSelected();
+				fireMission.assignedBattery = chckbxAssignedBat.isSelected();
+				fireMission.vehicleFo = chckbxVehicleSpot.isSelected();
 				
 				unit.fireMissions.add(fireMission);
 				
@@ -561,7 +581,7 @@ public class ArtilleryWindow {
 		
 		spinnerShots = new JSpinner();
 		spinnerShots.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		spinnerShots.setBounds(62, 251, 42, 20);
+		spinnerShots.setBounds(57, 251, 42, 20);
 		frame.getContentPane().add(spinnerShots);
 		
 		JButton btnUpdate_1_1_1_1 = new JButton("Plot/Spot Round");
@@ -616,7 +636,7 @@ public class ArtilleryWindow {
 		
 		chckbxCLvl = new JCheckBox("Company Lvl");
 		chckbxCLvl.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		chckbxCLvl.setBounds(114, 152, 87, 21);
+		chckbxCLvl.setBounds(114, 145, 87, 21);
 		frame.getContentPane().add(chckbxCLvl);
 		
 		spinnerCrewCount = new JSpinner();
@@ -676,26 +696,41 @@ public class ArtilleryWindow {
 		
 		chckbxPLvl = new JCheckBox("Platoon Lvl");
 		chckbxPLvl.setFont(new Font("Tahoma", Font.PLAIN, 9));
-		chckbxPLvl.setBounds(114, 128, 87, 21);
+		chckbxPLvl.setBounds(114, 121, 87, 21);
 		frame.getContentPane().add(chckbxPLvl);
 		
 		spinnerRadius = new JSpinner();
-		spinnerRadius.setBounds(67, 173, 42, 20);
+		spinnerRadius.setBounds(156, 215, 42, 20);
 		frame.getContentPane().add(spinnerRadius);
 		
 		JLabel lblRadius = new JLabel("Radius");
 		lblRadius.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblRadius.setBounds(10, 168, 55, 15);
+		lblRadius.setBounds(150, 200, 55, 15);
 		frame.getContentPane().add(lblRadius);
 		
 		JLabel lblOrders = new JLabel("Orders");
 		lblOrders.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblOrders.setBounds(156, 219, 42, 26);
+		lblOrders.setBounds(110, 246, 42, 26);
 		frame.getContentPane().add(lblOrders);
 		
 		spinnerOrders = new JSpinner();
 		spinnerOrders.setBounds(156, 251, 42, 20);
 		frame.getContentPane().add(spinnerOrders);
+		
+		chckbxFireBaseFo = new JCheckBox("Fire Base Fo");
+		chckbxFireBaseFo.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		chckbxFireBaseFo.setBounds(10, 169, 99, 21);
+		frame.getContentPane().add(chckbxFireBaseFo);
+		
+		chckbxAssignedBat = new JCheckBox("Assigned Bat");
+		chckbxAssignedBat.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		chckbxAssignedBat.setBounds(114, 169, 99, 21);
+		frame.getContentPane().add(chckbxAssignedBat);
+		
+		chckbxVehicleSpot = new JCheckBox("Vehicle Spot");
+		chckbxVehicleSpot.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		chckbxVehicleSpot.setBounds(10, 188, 99, 21);
+		frame.getContentPane().add(chckbxVehicleSpot);
 		frame.setVisible(true);
 		
 		setFields();

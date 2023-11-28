@@ -328,6 +328,7 @@ public class VehicleCombatWindow {
 					protected void done() {
 						lblTurnPhase.setText("Turn: "+vm.turn+", Phase: "+vm.phase);
 						refreshSelectedVehicle();
+						GameWindow.gameWindow.conflictLog.addQueuedText();
 					}
 
 				};
