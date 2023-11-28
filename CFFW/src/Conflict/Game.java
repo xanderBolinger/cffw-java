@@ -2,6 +2,8 @@ package Conflict;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import Artillery.Artillery.Shot;
 import CeHexGrid.Chit;
 import Fortifications.FortificationRecords;
 import HexGrid.ProcGen.ProcGenHexLoader.Map;
@@ -22,6 +24,7 @@ public class Game implements Serializable {
 	
 	public MeleeManager meleeManager;
 	public ArrayList<Chit> chits;
+	public ArrayList<Shot> firedShots;
 	public int chitCounter;
 	public VehicleManager vehicleManager;
 	public FortificationRecords fortifications;
@@ -41,6 +44,7 @@ public class Game implements Serializable {
 		vehicleManager = new VehicleManager();
 		fortifications = new FortificationRecords();
 		backgroundMap = true;
+		firedShots = new ArrayList<Shot>();
 	} 
 	
 	// SETTERS 
@@ -74,6 +78,23 @@ public class Game implements Serializable {
 	public String getDaylightCondition() {
 		return daylightCondition;
 	}
+	
+	public void printShots() {
+		
+		String shotOutput = "Shot Output: \n";
+		
+		for(var shot : firedShots) {
+			
+			shotOutput += shot.battery.batteryType+": "
+					+shot.battery.batteryDisplayName+" "+shot.shell.shellName+"\n";
+			
+		}
+		
+		System.out.println(shotOutput);
+		GameWindow.gameWindow.conflictLog.addNewLineToQueue(shotOutput);
+		
+	}
+	
 	
 	@Override 
 	public String toString() {

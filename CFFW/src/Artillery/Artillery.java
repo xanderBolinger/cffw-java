@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import Conflict.GameWindow;
 import Conflict.SmokeStats.SmokeType;
 import Items.PCAmmo;
 
@@ -248,7 +249,9 @@ public class Artillery implements Serializable {
 					if(i > shotsPerAction) 
 						break; 
 					System.out.println("Add airborn shots");
-					fireMission.airborneShots.add(new Shot(this, queue.pop()));					
+					var shot = new Shot(this, queue.pop());
+					fireMission.airborneShots.add(shot);		
+					GameWindow.gameWindow.game.firedShots.add(shot);
 				}
 				
 			}

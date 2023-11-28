@@ -712,7 +712,7 @@ public class GameWindow implements Serializable {
 				
 			}
 		});
-		btnWind.setBounds(418, 53, 118, 23);
+		btnWind.setBounds(418, 40, 118, 23);
 		f.getContentPane().add(btnWind);
 
 		// System.out.println("Init order size: "+initiativeOrder.size());
@@ -759,6 +759,16 @@ public class GameWindow implements Serializable {
 		spinnerNextActions.setModel(new SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
 		spinnerNextActions.setBounds(384, 135, 44, 20);
 		f.getContentPane().add(spinnerNextActions);
+		
+		JButton btnPrintShots = new JButton("Print Shots");
+		btnPrintShots.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				game.printShots();
+				conflictLog.addQueuedText();
+			}
+		});
+		btnPrintShots.setBounds(433, 71, 113, 23);
+		f.getContentPane().add(btnPrintShots);
 		
 		
 		vehicleCombatWindow = new VehicleCombatWindow();

@@ -46,6 +46,7 @@ public class FireMission implements Serializable {
 	
 	public int targetX; 
 	public int targetY;
+	public boolean plotted;
 	public int plottedX; 
 	public int plottedY; 
 	
@@ -92,15 +93,15 @@ public class FireMission implements Serializable {
 		calculatedTargetPositionError.add(180);
 		calculatedTargetPositionError.add(170);
 		
-		spottedPositionError.add(80);
-		spottedPositionError.add(50);
-		spottedPositionError.add(35);
+		spottedPositionError.add(40);
 		spottedPositionError.add(25);
-		spottedPositionError.add(20);
-		spottedPositionError.add(17);
-		spottedPositionError.add(16);
 		spottedPositionError.add(15);
-		spottedPositionError.add(14);
+		spottedPositionError.add(12);
+		spottedPositionError.add(10);
+		spottedPositionError.add(7);
+		spottedPositionError.add(6);
+		spottedPositionError.add(5);
+		spottedPositionError.add(4);
 		
 		plotTime.add(900);
 		plotTime.add(600);
@@ -262,6 +263,7 @@ public class FireMission implements Serializable {
 				System.out.println("Actions to fire -1");
 				actionsToFire = 1; 
 			}
+			
 		}
 		GameWindow.gameWindow.conflictLog.addNewLineToQueue("Fire Mision: "+fireMissionDisplayName+" Ordering Shot: actions to fire, "+actionsToFire+", Shot Count: "+shots);
 		//System.out.println("Ordering Shot: actions to fire, "+actionsToFire);
@@ -410,15 +412,13 @@ public class FireMission implements Serializable {
 			plotShot();
 			timeSpentPlotting = 0; 
 			actionsToPlotted = 0; 
+			plotted = true;
 		}
 	}
 	
 	public boolean plotted() {
 		
-		if(plottedX > 0 && plottedY > 0)
-			return true; 
-		else 
-			return false; 
+		return plotted;
 		
 	}
 	
@@ -482,7 +482,7 @@ public class FireMission implements Serializable {
 			units += unit.callsign + ", ";
 		}
 		
-		
+		GameWindow.gameWindow.conflictLog.addNewLineToQueue(units);
 		//new AlertWindow("Fire Mision: "+fireMissionDisplayName+" X: "+impactX+", Y: "+impactY+", "+units);
 		
 		int x = impactX;
