@@ -659,7 +659,11 @@ public class GameWindow implements Serializable {
 					protected Void doInBackground() throws Exception {
 						
 						for(int i = 0; i < (int)spinnerNextActions.getValue(); i++) {
-							nextAction();					
+							
+							try {
+								nextAction();
+							} catch(Exception e) {e.printStackTrace();}
+						
 						}
 						return null;
 					}
