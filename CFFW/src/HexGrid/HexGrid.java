@@ -2765,6 +2765,10 @@ public class HexGrid implements Serializable {
 			if (GameWindow.gameWindow != null && GameWindow.gameWindow.game != null
 					&& GameWindow.gameWindow.game.smoke != null) {
 				for (Cord impactHex : HexGrid.impactHexes) {
+					if(impactHex.xCord < 0 || impactHex.yCord < 0 
+							|| impactHex.xCord >= hexMap.size()
+							|| impactHex.yCord >= hexMap.size())
+						continue;
 
 					Cord cord = getCenterFromCoordinates(impactHex.xCord, impactHex.yCord);
 					int x = cord.xCord;

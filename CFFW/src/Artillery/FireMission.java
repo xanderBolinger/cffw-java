@@ -700,7 +700,8 @@ public class FireMission implements Serializable {
 				originalY), scatterDistance);
 		
 		System.out.println("Return scattered hex, dir: "+dir+", start x: "+originalX+
-				", start y: "+originalY+", distance: "+scatterDistance);
+				", start y: "+originalY+", distance: "+scatterDistance+", Impact: "+
+				impactCord.toString());
 		
 		return new ArrayList<Integer>(Arrays.asList(impactCord.xCord,impactCord.yCord));
 	}
