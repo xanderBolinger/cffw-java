@@ -458,6 +458,9 @@ public class FireMission implements Serializable {
 			accuracy = shot.battery.shellAccuracy;
 		}
 		
+		// 2 yard hexes to 20 yard hexes
+		accuracy /= 10;
+		
 		int scatterDistance = (int) (accuracy * scatterModifier()) + DiceRoller.roll(0, fireMissionRadius);
 		
 		int impactX; 
