@@ -1305,7 +1305,7 @@ public class BulkWindow {
 					protected Void doInBackground() throws Exception {
 						for (BulkTrooper bulkTrooper : getSelectedBulkTroopers()) {
 							if (!bulkTrooper.trooper.inCover) {
-								gameWindow.conflictLog.addNewLine(bulkTrooper.trooper.number + " "
+								gameWindow.conflictLog.addNewLineToQueue(bulkTrooper.trooper.number + " "
 										+ bulkTrooper.trooper.name + " is not in cover and can't hunker down.");
 								continue;
 							}
@@ -1327,6 +1327,7 @@ public class BulkWindow {
 					@Override
 					protected void done() {
 						refreshIndividualList();
+						gameWindow.conflictLog.addQueuedText();
 					}
 
 				};
