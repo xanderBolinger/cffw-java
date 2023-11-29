@@ -2482,12 +2482,12 @@ public class HexGrid implements Serializable {
 
 			if(unit.fireMissions.size() > 0)
 				status = "FM: " + status;
+			if(unit.staticWeapons.size() > 0)
+				status = "WEP: " + status;
 			
 			return status + s;
 
 		}
-
-		
 		
 		@Override
 		public void paintComponent(Graphics g) {

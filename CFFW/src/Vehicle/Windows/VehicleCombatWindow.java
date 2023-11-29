@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextPane;
+import javax.swing.SpinnerModel;
 
 import Conflict.ArtilleryWindow;
 import Conflict.GameWindow;
@@ -86,6 +87,11 @@ public class VehicleCombatWindow {
 	private JPanel losUnit;
 	private JList listLosUnits;
 	private JList listSpottedIndividuals;
+	private JPanel Combat;
+	private JComboBox comboBoxTurrets;
+	private JLabel lblTurretFacing;
+	private JLabel lblTurretWidth;
+	private JSpinner spinnerTurretRotation;
 	
 	/**
 	 * Create the application.
@@ -201,6 +207,14 @@ public class VehicleCombatWindow {
 		
 		SwingUtility.setList(listSpottedIndividuals, spottedTroopers);
 		
+		ArrayList<String> turretStrings = new ArrayList<String>();
+		
+		for(var turret : selectedVehicle.turretData.turrets)
+			turretStrings.add(turret.turretName);
+		
+		SwingUtility.setComboBox(comboBoxTurrets, turretStrings, false, 0);
+		
+		
 	}
 	
 	private void refreshSmoke() {
@@ -224,6 +238,13 @@ public class VehicleCombatWindow {
 		selectedVehicle = null;
 		textAreaNotes.setText("");
 		SwingUtility.setList(listCrew, new ArrayList<String>());
+		
+		comboBoxTurrets.removeAllItems();
+		lblTurretFacing.setText("Turret Facing: ");
+		lblTurretWidth.setText("Turret Width: ");
+		SpinnerModel sm = new SpinnerNumberModel(0, 0, 0, 1); 
+		spinnerTurretRotation.setValue(0);
+		spinnerTurretRotation.setModel(sm);
 	}
 	
 	/**
@@ -663,6 +684,48 @@ public class VehicleCombatWindow {
 		textAreaNotes = new JTextArea();
 		textAreaNotes.setBounds(0, 0, 434, 193);
 		notes.add(textAreaNotes);
+		
+		Combat = new JPanel();
+		tabbedPane.addTab("Combat", null, Combat, null);
+		Combat.setLayout(null);
+		
+		comboBoxTurrets = new JComboBox();
+		comboBoxTurrets.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(comboBoxTurrets.getItemCount() <= 0 || comboBoxTurrets.getSelectedIndex() < 0
+						|| selectedVehicle == null)
+					return;
+				
+				var turret = selectedVehicle.turretData.turrets.get(comboBoxTurrets.getSelectedIndex());
+				lblTurretFacing.setText("Turret Facing: "+turret.facingDirection);
+				lblTurretWidth.setText("Turret Width: "+turret.facingWidth);
+				SpinnerModel sm = new SpinnerNumberModel(0, -turret.rotationSpeedPerPhaseDegrees, turret.rotationSpeedPerPhaseDegrees, 1); 
+				spinnerTurretRotation.setValue(0);
+				spinnerTurretRotation.setModel(sm);
+			}
+		});
+		comboBoxTurrets.setBounds(10, 31, 131, 22);
+		Combat.add(comboBoxTurrets);
+		
+		JLabel lblNewLabel_2 = new JLabel("Turret");
+		lblNewLabel_2.setBounds(10, 11, 131, 14);
+		Combat.add(lblNewLabel_2);
+		
+		lblTurretFacing = new JLabel("Turret Facing:");
+		lblTurretFacing.setBounds(151, 11, 131, 14);
+		Combat.add(lblTurretFacing);
+		
+		lblTurretWidth = new JLabel("Turret Width:");
+		lblTurretWidth.setBounds(151, 35, 131, 14);
+		Combat.add(lblTurretWidth);
+		
+		JLabel lblRotation = new JLabel("Rotation:");
+		lblRotation.setBounds(292, 11, 131, 14);
+		Combat.add(lblRotation);
+		
+		spinnerTurretRotation = new JSpinner();
+		spinnerTurretRotation.setBounds(292, 32, 65, 20);
+		Combat.add(spinnerTurretRotation);
 		
 		chckbxFired = new JCheckBox("Fired");
 		chckbxFired.addActionListener(new ActionListener() {

@@ -18,6 +18,7 @@ import Vehicle.Data.ShieldGenerator;
 import Vehicle.Data.VehicleMovementData;
 import Vehicle.Data.VehicleSmokeData;
 import Vehicle.Data.VehicleSpotData;
+import Vehicle.Data.VehicleTurretData;
 import Vehicle.Data.PositionSpotData;
 import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
 
@@ -45,6 +46,7 @@ public class Vehicle implements Serializable {
 	public VehicleMovementData movementData;
 	public VehicleSmokeData smokeData;
 	public VehicleSpotData spotData;
+	public VehicleTurretData turretData;
 	
 	public Vehicle() {} // empty constructor for testing 
 
@@ -62,6 +64,7 @@ public class Vehicle implements Serializable {
 		spottedTroopers = new ArrayList<Trooper>();
 		fireMissions = new ArrayList<FireMission>();
 		this.spotData = spotData;
+		turretData = new VehicleTurretData();
 	}
 
 	public void AddShieldGenerator(ShieldGenerator shieldGenerator) {

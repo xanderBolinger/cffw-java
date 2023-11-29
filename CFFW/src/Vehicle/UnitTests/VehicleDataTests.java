@@ -80,6 +80,8 @@ public class VehicleDataTests {
 		assertEquals(vehicle.getCrewPosition("Pilot").getPositionName(), "Pilot");
 		assertEquals(vehicle.getCrewPosition("Copilot").getPositionName(), "Copilot");
 		assertEquals(vehicle.getCrewPosition("Topgunner").getPositionName(), "Topgunner");
+		
+		
 
 	}
 	
@@ -138,6 +140,20 @@ public class VehicleDataTests {
 			assertEquals(6, vehicle.smokeData.trailingSmoke.diameter);
 			assertEquals(10, vehicle.smokeData.trailingSmokeTurns);
 			assertEquals(3, vehicle.smokeData.smokeLaunches);
+			
+			assertEquals(2, vehicle.turretData.turrets.size());
+			var main = vehicle.turretData.turrets.get(0);
+			assertEquals("Main Guns", main.turretName);
+			assertEquals(20, main.facingWidth);
+			assertEquals(40, main.rotationSpeedPerPhaseDegrees);
+			assertEquals(true, main.canRotate == true);
+			
+			var externalTurret = vehicle.turretData.turrets.get(1);
+			assertEquals("External Turret", externalTurret.turretName);
+			assertEquals(180, externalTurret.facingWidth);
+			assertEquals(0, externalTurret.rotationSpeedPerPhaseDegrees);
+			assertEquals(false, externalTurret.canRotate == true);
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

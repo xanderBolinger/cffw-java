@@ -60,11 +60,10 @@ public class VehicleXmlReader {
 		vehicle.setVehicleCallsign(vehicleCallSign);
 		vehicle.movementData = getVehicleMovementData(vehicleData, vehicle);
 		vehicle.smokeData = getVehicleSmokeData(vehicleData, vehicle);
-		
+		vehicle.turretData.turrets = VehicleCombatXmlReader.getVehicleTurrets(vehicleData);
 		
 		return vehicle;
 	}
-
 	
 	private static VehicleSpotData getVehicleSpotData(Element position) throws Exception {
 		int turretSize = getElementInt(position, "turret_size");

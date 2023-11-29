@@ -903,7 +903,8 @@ public class Unit implements Serializable {
 	    	  unit = this.callsign+"; Orgnaization: "+this.organization+"; Moral: "+this.moral+"; Suppression: "+this.suppression+";";
 	      } else {
 	    	  var fm = fireMissions.size() > 0 ? "FM:: " : "";
-	    	  unit = "Init: "+this.initiative+"; "+this.side+"::    "+fm+this.callsign+"; Orgnaization: "+this.organization+"; Moral: "+this.moral+"; Suppression: "+this.suppression+";";
+	    	  var wep = staticWeapons.size() > 0 ? "WEP:: " : "";
+	    	  unit = "Init: "+this.initiative+"; "+this.side+"::    "+fm+wep+this.callsign+"; Orgnaization: "+this.organization+"; Moral: "+this.moral+"; Suppression: "+this.suppression+";";
 	      }
 	    		  
 	      return unit;
