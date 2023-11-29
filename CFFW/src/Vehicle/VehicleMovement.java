@@ -39,6 +39,16 @@ public class VehicleMovement implements Serializable {
 		
 		CalculateLOS.calcVehicles(vehicle);
 		
+		updateTurretFacing(vehicle);
+		
+	}
+	
+	private static void updateTurretFacing(Vehicle vehicle) {
+		for(var turret : vehicle.turretData.turrets) {
+			
+			turret.facingDirection = turret.nextFacing;
+			
+		}
 	}
 	
 	private static void updateHullDown(VehicleMovementData md) {

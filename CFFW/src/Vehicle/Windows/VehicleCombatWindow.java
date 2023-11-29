@@ -44,6 +44,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import java.awt.Label;
 import javax.swing.JCheckBox;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class VehicleCombatWindow {
 
@@ -699,9 +701,9 @@ public class VehicleCombatWindow {
 				var turret = selectedVehicle.turretData.turrets.get(comboBoxTurrets.getSelectedIndex());
 				lblTurretFacing.setText("Turret Facing: "+turret.facingDirection);
 				lblTurretWidth.setText("Turret Width: "+turret.facingWidth);
-				SpinnerModel sm = new SpinnerNumberModel(0, -turret.rotationSpeedPerPhaseDegrees, turret.rotationSpeedPerPhaseDegrees, 1); 
-				spinnerTurretRotation.setValue(0);
+				SpinnerModel sm = new SpinnerNumberModel(turret.nextFacing, -turret.rotationSpeedPerPhaseDegrees, turret.rotationSpeedPerPhaseDegrees, 1); 
 				spinnerTurretRotation.setModel(sm);
+				spinnerTurretRotation.setValue(turret.nextFacing);
 			}
 		});
 		comboBoxTurrets.setBounds(10, 31, 131, 22);
@@ -724,6 +726,25 @@ public class VehicleCombatWindow {
 		Combat.add(lblRotation);
 		
 		spinnerTurretRotation = new JSpinner();
+		spinnerTurretRotation.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				if(comboBoxTurrets.getItemCount() <= 0 || comboBoxTurrets.getSelectedIndex() < 0
+						|| selectedVehicle == null)
+					return;
+				
+				var turret = selectedVehicle.turretData.turrets.get(comboBoxTurrets.getSelectedIndex());
+				turret.nextFacing = turret.facingDirection + (int) spinnerTurretRotation.getValue();
+				
+				if(turret.nextFacing < turret.minFacing) {
+					turret.nextFacing = turret.minFacing;
+					spinnerTurretRotation.setValue(turret.nextFacing);
+				} else if(turret.nextFacing > turret.maxFacing) {
+					turret.nextFacing = turret.maxFacing;
+					spinnerTurretRotation.setValue(turret.nextFacing);
+				}
+				
+			}
+		});
 		spinnerTurretRotation.setBounds(292, 32, 65, 20);
 		Combat.add(spinnerTurretRotation);
 		

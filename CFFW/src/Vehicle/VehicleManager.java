@@ -77,6 +77,7 @@ public class VehicleManager implements Serializable {
 					pos.crewMemeber.currentAction = CrewAction.SPOT;
 				}
 				
+				
 			}
 		}
 		
