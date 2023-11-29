@@ -26,7 +26,12 @@ public class Shell implements Serializable {
 	
 	public PCAmmo pcAmmo;
 	
+	public ShellType shellType;
+	
 	public Shell(ShellType shellType) {
+		
+		this.shellType = shellType;
+		
 	    switch (shellType) {
 	            
 	        case M60HE:

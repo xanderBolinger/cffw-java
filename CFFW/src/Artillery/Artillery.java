@@ -2,6 +2,7 @@ package Artillery;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import Conflict.GameWindow;
@@ -251,7 +252,7 @@ public class Artillery implements Serializable {
 					System.out.println("Add airborn shots");
 					var shot = new Shot(this, queue.pop());
 					fireMission.airborneShots.add(shot);		
-					GameWindow.gameWindow.game.firedShots.add(shot);
+					recordFiredShot(shot);
 				}
 				
 			}
@@ -261,6 +262,31 @@ public class Artillery implements Serializable {
 		actionsSpentShooting++; 
 		if(actionsSpentShooting >= 3)
 			shotsTaken = true; 
+		
+	}
+	
+	private void recordFiredShot(Shot shot) {
+		var firedShots = GameWindow.gameWindow.game.firedShots;
+		
+		boolean containsKey = firedShots.containsKey(shot.battery);
+		
+		if(containsKey) {
+			var batMap = firedShots.get(shot.battery);
+			var containsShellKey = batMap.containsKey(shot.shell.shellType);
+			
+			if(containsShellKey) {
+				var count = batMap.remove(shot.shell.shellType);
+				count++;
+				batMap.put(shot.shell.shellType, count);
+			} else {
+				batMap.put(shot.shell.shellType, 1);
+			}
+			
+		} else {
+			var map = new HashMap<ShellType, Integer>();
+			map.put(shot.shell.shellType, 1);
+			firedShots.put(shot.battery, map);
+		}
 		
 	}
 

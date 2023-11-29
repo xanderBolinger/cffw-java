@@ -2,7 +2,9 @@ package Conflict;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import Artillery.Artillery;
 import Artillery.Artillery.Shot;
 import CeHexGrid.Chit;
 import Fortifications.FortificationRecords;
@@ -12,6 +14,7 @@ import Hexes.Hex;
 import Melee.MeleeCombatUnit;
 import Melee.MeleeManager;
 import Vehicle.VehicleManager;
+import Artillery.Artillery.ShellType;;
 
 public class Game implements Serializable {
 	private int phase;
@@ -24,7 +27,7 @@ public class Game implements Serializable {
 	
 	public MeleeManager meleeManager;
 	public ArrayList<Chit> chits;
-	public ArrayList<Shot> firedShots;
+	public HashMap<Artillery, HashMap<ShellType, Integer>> firedShots;
 	public int chitCounter;
 	public VehicleManager vehicleManager;
 	public FortificationRecords fortifications;
@@ -44,7 +47,7 @@ public class Game implements Serializable {
 		vehicleManager = new VehicleManager();
 		fortifications = new FortificationRecords();
 		backgroundMap = true;
-		firedShots = new ArrayList<Shot>();
+		firedShots = new HashMap<Artillery, HashMap<ShellType, Integer>>();
 	} 
 	
 	// SETTERS 
@@ -83,16 +86,23 @@ public class Game implements Serializable {
 		
 		String shotOutput = "Shot Output: \n";
 		
-		for(var shot : firedShots) {
+		for(var bat : firedShots.keySet()) {
 			
-			shotOutput += shot.battery.batteryType+": "
-					+shot.battery.batteryDisplayName+" "+shot.shell.shellName+"\n";
+			var batMap = firedShots.get(bat);
+			
+			for(var shellType : batMap.keySet()) {
+				
+				var count = batMap.get(shellType);
+				
+				shotOutput += bat.batteryType+": "
+						+bat.batteryDisplayName+" "+shellType+" "+count+"x\n";
+				
+			}
 			
 		}
 		
 		System.out.println(shotOutput);
 		GameWindow.gameWindow.conflictLog.addNewLineToQueue(shotOutput);
-		
 	}
 	
 	

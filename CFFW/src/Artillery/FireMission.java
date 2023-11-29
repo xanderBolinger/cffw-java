@@ -243,6 +243,7 @@ public class FireMission implements Serializable {
 		ArrayList<Integer> scattedCords = returnScatteredHex(targetX, targetY, scatterDistance, direction);
 		plottedX = scattedCords.get(0);
 		plottedY = scattedCords.get(1);
+		plotted = true;
 		
 		System.out.println("Artillery debug distane: "+Point2D.distance(plottedX, plottedY, targetX, targetY));
 		
