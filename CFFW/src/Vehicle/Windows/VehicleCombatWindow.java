@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextPane;
 
+import Conflict.ArtilleryWindow;
 import Conflict.GameWindow;
 import HexGrid.Vehicle.HexGridHullDownUtility;
 import HexGrid.Vehicle.HexGridVehicleUtility;
@@ -686,6 +687,15 @@ public class VehicleCombatWindow {
 		});
 		btnNewButton_8_2_1.setBounds(297, 5, 99, 23);
 		frame.getContentPane().add(btnNewButton_8_2_1);
+		
+		JButton btnNewButton_1_1 = new JButton("Fire Mission");
+		btnNewButton_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new ArtilleryWindow(selectedVehicle, GameWindow.gameWindow);
+			}
+		});
+		btnNewButton_1_1.setBounds(406, 247, 144, 23);
+		frame.getContentPane().add(btnNewButton_1_1);
 		textAreaNotes.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {

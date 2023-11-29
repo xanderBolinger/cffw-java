@@ -2480,6 +2480,9 @@ public class HexGrid implements Serializable {
 				status += "DIS: ";
 			}
 
+			if(unit.fireMissions.size() > 0)
+				status = "FM: " + status;
+			
 			return status + s;
 
 		}

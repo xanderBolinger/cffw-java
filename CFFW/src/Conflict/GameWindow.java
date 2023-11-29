@@ -2214,7 +2214,19 @@ public class GameWindow implements Serializable {
 			});
 
 		}
+		
+		for(Vehicle vic : vehicleCombatWindow.vehicles) {
+			if(vic.fireMissions.size() <= 0)
+				continue;
 
+			es.submit(() -> {
+				for (FireMission fireMission : vic.fireMissions) {
+					fireMission.advanceTime();
+				}
+			});
+			
+		}
+		
 		es.shutdown();
 		try {
 		  es.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);

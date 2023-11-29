@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Disabled;
 
+import Artillery.FireMission;
 import CorditeExpansion.Cord;
 import HexGrid.HexDirectionUtility.HexDirection;
 import Trooper.Trooper;
@@ -30,6 +31,7 @@ public class Vehicle implements Serializable {
 	List<CrewCompartment> crewCompartments;
 	ShieldGenerator shieldGenerator;
 
+	public ArrayList<FireMission> fireMissions;
 	public ArrayList<Vehicle> losVehicles;
 	public ArrayList<Unit> losUnits;
 	public ArrayList<Vehicle> spottedVehicles;
@@ -58,6 +60,7 @@ public class Vehicle implements Serializable {
 		losUnits = new ArrayList<Unit>();
 		spottedVehicles = new ArrayList<Vehicle>();
 		spottedTroopers = new ArrayList<Trooper>();
+		fireMissions = new ArrayList<FireMission>();
 		this.spotData = spotData;
 	}
 
@@ -69,7 +72,7 @@ public class Vehicle implements Serializable {
 		return shieldGenerator;
 	}
 	
-	public List<Trooper> getTroopers() {
+	public ArrayList<Trooper> getTroopers() {
 		var troopers = new ArrayList<Trooper>();
 		
 		for(var compartment : crewCompartments) {
@@ -172,7 +175,8 @@ public class Vehicle implements Serializable {
 	
 	@Override
 	public String toString() {
-		return vehicleCallsign+":: " + vehicleTypeName + ", Knocked-out: "+knockedOut;
+		var fm = fireMissions.size() > 0 ? "FM:: " : "";
+		return vehicleCallsign+":: " +fm+ vehicleTypeName + ", Knocked-out: "+knockedOut;
 	}
 	
 }

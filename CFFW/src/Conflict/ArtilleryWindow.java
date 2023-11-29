@@ -20,6 +20,7 @@ import Artillery.FireMission;
 import Artillery.FireMission.FireMissionStatus;
 import Trooper.Trooper;
 import Unit.Unit;
+import Vehicle.Vehicle;
 
 import javax.swing.JButton;
 import javax.swing.JSpinner;
@@ -76,6 +77,19 @@ public class ArtilleryWindow {
 		this.gameWindow = gameWindow;
 		this.conflictLog = gameWindow.conflictLog;
 		initialize();
+	}
+	
+	public ArtilleryWindow(Vehicle vehicle, GameWindow gameWindow) {
+		
+		var unit = new Unit();
+		unit.fireMissions = vehicle.fireMissions;
+		unit.individuals = vehicle.getTroopers();
+		
+		this.unit = unit; 
+		this.gameWindow = gameWindow;
+		this.conflictLog = gameWindow.conflictLog;
+		initialize();
+		chckbxVehicleSpot.setSelected(true);
 	}
 
 	/**

@@ -902,7 +902,8 @@ public class Unit implements Serializable {
 	      if(side.equals("Empty")) {
 	    	  unit = this.callsign+"; Orgnaization: "+this.organization+"; Moral: "+this.moral+"; Suppression: "+this.suppression+";";
 	      } else {
-	    	  unit = "Init: "+this.initiative+"; "+this.side+"::    "+this.callsign+"; Orgnaization: "+this.organization+"; Moral: "+this.moral+"; Suppression: "+this.suppression+";";
+	    	  var fm = fireMissions.size() > 0 ? "FM:: " : "";
+	    	  unit = "Init: "+this.initiative+"; "+this.side+"::    "+fm+this.callsign+"; Orgnaization: "+this.organization+"; Moral: "+this.moral+"; Suppression: "+this.suppression+";";
 	      }
 	    		  
 	      return unit;
