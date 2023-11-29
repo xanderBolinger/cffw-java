@@ -2166,9 +2166,14 @@ public class GameWindow implements Serializable {
 	}
 
 	public void markUnmoved() {
+		
+		hexGrid.refreshingDeployedUnits = true;
+		
 		for (DeployedUnit deployedUnit : hexGrid.panel.deployedUnits) {
 			deployedUnit.moved = false;
 		}
+		
+		hexGrid.refreshingDeployedUnits = false;
 	}
 
 	public void timedEvents() {
