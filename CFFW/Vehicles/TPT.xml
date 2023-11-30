@@ -83,6 +83,24 @@
                 </crew_positions>
             </compartment>
         </crew_compartments>
+        <turret_data>
+            <turret>
+                <turret_name>Main Gun</turret_name>
+                <facing_width>20</facing_width>
+                <rotation_speed>40</rotation_speed>
+                <can_rotate>true</can_rotate>
+                <min_facing>-180</min_facing>
+                <max_facing>180</max_facing>
+            </turret>
+            <turret>
+                <turret_name>Forward Laser</turret_name>
+                <facing_width>20</facing_width>
+                <rotation_speed>40</rotation_speed>
+                <can_rotate>true</can_rotate>
+                <min_facing>-90</min_facing>
+                <max_facing>90</max_facing>
+            </turret>
+        </turret_data>
         <movement_data>
             <hull_turn_rate>3</hull_turn_rate>
             <acceleration>5</acceleration>

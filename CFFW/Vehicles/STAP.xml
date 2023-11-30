@@ -29,6 +29,16 @@
                 </crew_positions>
             </compartment>
         </crew_compartments>
+        <turret_data>
+            <turret>
+                <turret_name>Main Gun</turret_name>
+                <facing_width>20</facing_width>
+                <rotation_speed>0</rotation_speed>
+                <can_rotate>false</can_rotate>
+                <min_facing>-180</min_facing>
+                <max_facing>180</max_facing>
+            </turret>
+        </turret_data>
         <movement_data>
             <hull_turn_rate>8</hull_turn_rate>
             <acceleration>10</acceleration>

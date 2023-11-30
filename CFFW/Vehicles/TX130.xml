@@ -89,8 +89,8 @@
                 <facing_width>20</facing_width>
                 <rotation_speed>40</rotation_speed>
                 <can_rotate>true</can_rotate>
-                <min_facing>-90</min_facing>
-                <max_facing>90</max_facing>
+                <min_facing>-20</min_facing>
+                <max_facing>20</max_facing>
             </turret>
             <turret>
                 <turret_name>External Turret</turret_name>

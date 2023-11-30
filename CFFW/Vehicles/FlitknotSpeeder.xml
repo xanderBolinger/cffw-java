@@ -29,6 +29,7 @@
                 </crew_positions>
             </compartment>
         </crew_compartments>
+        
         <movement_data>
             <hull_turn_rate>4</hull_turn_rate>
             <acceleration>8</acceleration>
