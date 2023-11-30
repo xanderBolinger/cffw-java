@@ -3,7 +3,10 @@ package Vehicle.Utilities;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
+import HexGrid.HexDirectionUtility;
+import HexGrid.HexDirectionUtility.HexDirection;
 import Vehicle.Vehicle;
+import Vehicle.Combat.VehicleTurret;
 
 public class VehicleDataUtility {
 
@@ -32,6 +35,13 @@ public class VehicleDataUtility {
 		
 		
 		return false;
+	}
+	
+	public static HexDirection getTurretFacing(VehicleTurret turret, Vehicle selectedVehicle) {
+		var facing = HexDirectionUtility.getFaceInDirection(selectedVehicle.movementData.facing, 
+				turret.facingDirection >= 0, 
+				Math.abs(turret.facingDirection/20));
+		return facing;
 	}
 	
 }

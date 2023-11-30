@@ -77,6 +77,7 @@ public class VehicleManager implements Serializable {
 					pos.crewMemeber.currentAction = CrewAction.SPOT;
 				}
 				
+				VehicleMovement.updateTurretFacing(vic);
 				
 			}
 		}
@@ -84,7 +85,7 @@ public class VehicleManager implements Serializable {
 		if(phase == 1)
 			nextTurn();
 		
-		GameWindow.gameWindow.conflictLog.addNewLine("Next Vehicle Phase: "+phase);
+		GameWindow.gameWindow.conflictLog.addNewLineToQueue("Next Vehicle Phase: "+phase);
 		
 	}
 	

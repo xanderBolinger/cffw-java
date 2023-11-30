@@ -39,15 +39,18 @@ public class VehicleMovement implements Serializable {
 		
 		CalculateLOS.calcVehicles(vehicle);
 		
-		updateTurretFacing(vehicle);
+		
 		
 	}
 	
-	private static void updateTurretFacing(Vehicle vehicle) {
+	public static void updateTurretFacing(Vehicle vehicle) {
 		for(var turret : vehicle.turretData.turrets) {
+			if(turret.facingDirection == turret.nextFacing)
+				continue;
 			
 			turret.facingDirection = turret.nextFacing;
-			
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue(vehicle.getVehicleCallsign()+" turret "+turret.turretName+
+					" rotates to "+turret.facingDirection);
 		}
 	}
 	

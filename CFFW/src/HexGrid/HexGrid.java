@@ -56,6 +56,7 @@ import UtilityClasses.Keyboard;
 import UtilityClasses.SwingUtility.FPSCounter;
 import Vehicle.Vehicle;
 import Vehicle.VehicleManager;
+import Vehicle.Utilities.VehicleHexGridUtility;
 import Vehicle.Windows.VehicleCombatWindow;
 import UtilityClasses.ExcelUtility;
 
@@ -2739,6 +2740,7 @@ public class HexGrid implements Serializable {
 			drawLosLines(g2);
 			
 			HexGridShadeHexes.shadeHexes(g2, screenWidth, screenHeight);
+			VehicleHexGridUtility.drawVehicleTurretChevron(g2);
 			
 		}
 

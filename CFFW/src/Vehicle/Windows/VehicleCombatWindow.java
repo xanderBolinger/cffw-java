@@ -5,9 +5,11 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 import Vehicle.Vehicle;
+import Vehicle.Combat.VehicleTurret;
 import Vehicle.Data.CrewMember.CrewAction;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownDecision;
 import Vehicle.Spot.VehicleSpotManager;
+import Vehicle.Utilities.VehicleDataUtility;
 
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -22,6 +24,7 @@ import javax.swing.SpinnerModel;
 
 import Conflict.ArtilleryWindow;
 import Conflict.GameWindow;
+import HexGrid.HexDirectionUtility;
 import HexGrid.Vehicle.HexGridHullDownUtility;
 import HexGrid.Vehicle.HexGridVehicleUtility;
 import UtilityClasses.PCUtility;
@@ -247,6 +250,13 @@ public class VehicleCombatWindow {
 		SpinnerModel sm = new SpinnerNumberModel(0, 0, 0, 1); 
 		spinnerTurretRotation.setValue(0);
 		spinnerTurretRotation.setModel(sm);
+	}
+	
+	public VehicleTurret getSelectedTurret() {
+		if(selectedVehicle == null || comboBoxTurrets.getSelectedIndex() < 0)
+			return null;
+		
+		return selectedVehicle.turretData.turrets.get(comboBoxTurrets.getSelectedIndex());
 	}
 	
 	/**
@@ -699,9 +709,22 @@ public class VehicleCombatWindow {
 					return;
 				
 				var turret = selectedVehicle.turretData.turrets.get(comboBoxTurrets.getSelectedIndex());
-				lblTurretFacing.setText("Turret Facing: "+turret.facingDirection);
+				
+				var currentFacing = VehicleDataUtility.getTurretFacing(turret, selectedVehicle);
+				
+				var facingWidth = Math.abs(turret.facingWidth/20);
+				
+				if(facingWidth < 1)
+					facingWidth = 1;
+				
+				var leftWidth = HexDirectionUtility.getFaceInDirection(currentFacing, false, facingWidth);
+				var rightWidth = HexDirectionUtility.getFaceInDirection(currentFacing, true, facingWidth);
+				
+				lblTurretFacing.setText("Turret Facing: "+turret.facingDirection+", "+leftWidth+"-"+currentFacing+"-"+rightWidth);
+				
 				lblTurretWidth.setText("Turret Width: "+turret.facingWidth);
-				SpinnerModel sm = new SpinnerNumberModel(turret.nextFacing, -turret.rotationSpeedPerPhaseDegrees, turret.rotationSpeedPerPhaseDegrees, 1); 
+				SpinnerModel sm = new SpinnerNumberModel(turret.nextFacing, -turret.rotationSpeedPerPhaseDegrees, 
+						turret.rotationSpeedPerPhaseDegrees, 1); 
 				spinnerTurretRotation.setModel(sm);
 				spinnerTurretRotation.setValue(turret.nextFacing);
 			}
@@ -714,15 +737,15 @@ public class VehicleCombatWindow {
 		Combat.add(lblNewLabel_2);
 		
 		lblTurretFacing = new JLabel("Turret Facing:");
-		lblTurretFacing.setBounds(151, 11, 131, 14);
+		lblTurretFacing.setBounds(151, 11, 178, 14);
 		Combat.add(lblTurretFacing);
 		
 		lblTurretWidth = new JLabel("Turret Width:");
-		lblTurretWidth.setBounds(151, 35, 131, 14);
+		lblTurretWidth.setBounds(151, 35, 178, 14);
 		Combat.add(lblTurretWidth);
 		
 		JLabel lblRotation = new JLabel("Rotation:");
-		lblRotation.setBounds(292, 11, 131, 14);
+		lblRotation.setBounds(339, 12, 70, 14);
 		Combat.add(lblRotation);
 		
 		spinnerTurretRotation = new JSpinner();
@@ -745,7 +768,7 @@ public class VehicleCombatWindow {
 				
 			}
 		});
-		spinnerTurretRotation.setBounds(292, 32, 65, 20);
+		spinnerTurretRotation.setBounds(339, 33, 70, 20);
 		Combat.add(spinnerTurretRotation);
 		
 		chckbxFired = new JCheckBox("Fired");

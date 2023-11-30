@@ -235,6 +235,17 @@ public class HexDirectionUtility {
 		return distance;
 	}
 	
+	public static HexDirection getFaceInDirection(HexDirection facing, boolean clockwise, int numberOfFacesAway) {
+		
+		var lastFace = facing;
+		
+		for(int i = 0; i < numberOfFacesAway; i++) {
+			lastFace = getFaceInDirection(lastFace, clockwise);
+		}
+		
+		return lastFace;
+	}
+	
 	public static HexDirection getFaceInDirection(HexDirection facing, boolean clockwise) {
 		
 		switch(facing) {
