@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
+import Vehicle.Combat.VehicleAimUtility;
 import Vehicle.Data.CrewMember.CrewAction;
 import Vehicle.HullDownPositions.HullDownPositionManager;
 import Vehicle.Utilities.VehicleDataUtility;
@@ -78,7 +79,7 @@ public class VehicleManager implements Serializable {
 				}
 				
 				VehicleMovement.updateTurretFacing(vic);
-				
+				VehicleAimUtility.resolveAimTargets(vic);
 			}
 		}
 		

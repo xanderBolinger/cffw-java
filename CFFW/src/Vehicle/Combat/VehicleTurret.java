@@ -11,7 +11,8 @@ public class VehicleTurret implements Serializable {
 	public int maxFacing;
 	public boolean canRotate;
 	public int nextFacing;
-
+	public VehicleAimTarget vehicleAimTarget;
+	
 	public VehicleTurret(String turretName, int facingWidth, int rotationSpeedPerPhaseDegrees,
 			boolean canRotate, int minFacing, int maxFacing) {
 		this.turretName = turretName;
