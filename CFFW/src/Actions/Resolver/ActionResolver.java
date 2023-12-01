@@ -37,6 +37,4 @@ public class ActionResolver {
 		spotResolver.ResolveAction(selectedUnits, targetUnits, freeAction);
 	}
 	
-	
-	
 }
