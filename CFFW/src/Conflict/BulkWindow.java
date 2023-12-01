@@ -4300,7 +4300,7 @@ public class BulkWindow {
 			@Override
 			protected Void doInBackground() throws Exception {
 				try {
-
+					System.out.println("BulkWindow Selected Call");
 					ExecutorService es = Executors.newFixedThreadPool(16);
 
 					ArrayList<BulkTrooper> currentlySelectedBulkTroopers = getSelectedBulkTroopers();
