@@ -79,16 +79,34 @@ public class AdvanceTimeUnit {
 
 	}
 	
+	private static boolean unitSafe(Unit unit) {
+		return allHunkeredDown(unit) || unit.lineOfSight.size() == 0;
+	}
+	
+	private static boolean allHunkeredDown(Unit unit) {
+		for(var individual : unit.getTroopers()) {
+			if(!individual.HD)
+				return false;
+		}
+		return true;
+	}
+	
 	private static void modifySuppressionAndOrganization(Unit unit) {
+		
+		var allHd = unitSafe(unit);
+		
 		var mod = averageSkillLevelModifier(unit);
-		if (unit.suppression - 5 + mod > 0) {
-			unit.suppression -= 5 + mod;
+		
+		var supBase = allHd ? 15 : 5;
+		
+		if (unit.suppression - supBase + mod > 0) {
+			unit.suppression -= supBase + mod;
 		} else {
 			unit.suppression = 0;
 		}
 
 		unit.organization += (unit.commandValue
-				+ (unit.moral / 20) + mod) / 2;
+				+ (unit.moral / 20) + mod) / 2 * (allHd ? 2 : 1);
 
 		if (unit.organization > 100) {
 			unit.organization = 100;

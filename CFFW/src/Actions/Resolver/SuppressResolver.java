@@ -13,8 +13,8 @@ public class SuppressResolver extends ActionToResolve {
 
 	@Override
 	protected void actionDone() {
-		GameWindow.gameWindow.conflictLog.addQueuedText();
 		InjuryLog.InjuryLog.printResultsToLog();
+		GameWindow.gameWindow.conflictLog.addQueuedText();
 	}
 	
 	@Override
@@ -29,7 +29,10 @@ public class SuppressResolver extends ActionToResolve {
 			if(unit == null)
 				return;
 			
-			Shoot shoot = new Shoot(shooterUnit, unit, shooter, unit.individuals.get(0), shooter.wep,0);
+			System.out.println("Shooter unit: "+shooterUnit.callsign+", target unit: "+unit.callsign);
+			
+			Shoot shoot = new Shoot(shooterUnit, unit, shooter, null
+					, shooter.wep,0);
 			shoot.aimTime = shooter.combatActions-1;
 			shoot.recalc();
 			shoot.suppressiveFire(shoot.wep.suppressiveROF+ DiceRoller.roll(1, shoot.wep.suppressiveROF/4));

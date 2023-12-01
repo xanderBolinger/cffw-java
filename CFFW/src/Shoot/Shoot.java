@@ -488,6 +488,7 @@ public class Shoot {
 			
 			if(this.target == null) {
 				target = targetUnit.individuals.get(DiceRoller.roll(0, targetUnit.individuals.size()-1));
+				System.out.println("resolve hit target null, new target: "+targetUnit.callsign+" "+target.number+" "+target.name);
 			}
 			
 			ResolveHits resolveHits = new ResolveHits(target, hits, wep,

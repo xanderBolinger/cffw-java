@@ -1076,7 +1076,7 @@ public class ResolveHits implements Serializable {
 				log.addNewLineToQueue("PEN:" + pen + ", DC: " + dc);
 
 				// Applies hit from trooper
-				log.addNewLineToQueue("\nHit, " + trooper.name);
+				log.addNewLineToQueue("\nHit, " + targetUnit.callsign + " " + trooper.number + " " + trooper.name);
 				Injuries injury = null;
 				int of = 0;
 
