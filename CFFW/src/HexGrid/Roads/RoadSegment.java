@@ -3,6 +3,8 @@ package HexGrid.Roads;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Conflict.GameWindow;
+
 public class RoadSegment implements Serializable {
 
 	ArrayList<Road> segment;
@@ -16,9 +18,13 @@ public class RoadSegment implements Serializable {
 	}
 	
 	public void addRoad(Road road) {
-		// if segment size > 1 
-		// road first cord, equals last cord in last road in segment 
-		// new road == 1 dist from last road
+		if(segment.size() > 1 && 
+				(segment.get(segment.size()-1).point.compare(road.point) || 
+						GameWindow.hexDif(segment.get(segment.size()-1).point.xCord, 
+								segment.get(segment.size()-1).point.yCord, 
+								road.point.xCord, road.point.yCord) != 1)) {
+			return;
+		}
 		
 		segment.add(road);
 		

@@ -157,6 +157,12 @@ public class HexGrid implements Serializable {
 	private JTextField textFieldChitName;
 	private JCheckBox chckbxShwloslines;
 	private JCheckBox chckbxShwSingleloslines;
+	private JPanel panelRoad;
+	private JCheckBox chckbxAddRoad;
+	private JCheckBox chckbxNewSegment;
+	private JCheckBox chckbxHighway;
+	private JCheckBox chckbxRemoveRoad;
+	private JCheckBox chckbxRemoveSegment;
 	
 	/**
 	 * Create the application.
@@ -481,6 +487,30 @@ public class HexGrid implements Serializable {
 		textFieldChitName.setBounds(232, 36, 113, 19);
 		panelUnits.add(textFieldChitName);
 		textFieldChitName.setColumns(10);
+		
+		panelRoad = new JPanel();
+		tabbedPane.addTab("Roads", null, panelRoad, null);
+		panelRoad.setLayout(null);
+		
+		chckbxAddRoad = new JCheckBox("Add Road");
+		chckbxAddRoad.setBounds(6, 6, 93, 21);
+		panelRoad.add(chckbxAddRoad);
+		
+		chckbxNewSegment = new JCheckBox("New Segment");
+		chckbxNewSegment.setBounds(6, 29, 93, 21);
+		panelRoad.add(chckbxNewSegment);
+		
+		chckbxHighway = new JCheckBox("Highway");
+		chckbxHighway.setBounds(6, 52, 93, 21);
+		panelRoad.add(chckbxHighway);
+		
+		chckbxRemoveRoad = new JCheckBox("Remove Road");
+		chckbxRemoveRoad.setBounds(101, 6, 122, 21);
+		panelRoad.add(chckbxRemoveRoad);
+		
+		chckbxRemoveSegment = new JCheckBox("Remove Segment");
+		chckbxRemoveSegment.setBounds(101, 29, 122, 21);
+		panelRoad.add(chckbxRemoveSegment);
 
 		
 		
@@ -1733,9 +1763,13 @@ public class HexGrid implements Serializable {
 		// Gets clicked hex
 		// If hex contains units, selects first unit
 		public void mouseLeftClick(MouseEvent e) {
-
+			var pos = getHexFromPoint(mouseX, mouseY);
+			
+			HexGridRoadUtility.leftClickHex(pos[0], pos[1], chckbxAddRoad.isSelected(),
+					chckbxNewSegment.isSelected(), chckbxHighway.isSelected(),
+					chckbxRemoveRoad.isSelected(), chckbxRemoveSegment.isSelected());
+			
 			if(WaypointManager.addWaypoints) {
-				var pos = getHexFromPoint(mouseX, mouseY);
 				HexGridWaypointUtility.addWaypoint(pos);
 				return;
 			}
