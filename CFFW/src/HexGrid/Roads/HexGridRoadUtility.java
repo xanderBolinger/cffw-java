@@ -57,7 +57,7 @@ public class HexGridRoadUtility {
 		line.addPoint(p1[0], p1[1]);
 		line.addPoint(p2[0], p2[1]);
 		g2.setColor(road.highway ? Colors.HIGHWAY : Colors.PATH);
-		g2.setStroke(new BasicStroke(2f));
+		g2.setStroke(road.highway ? new BasicStroke(4f) : new BasicStroke(2.5f));
 		g2.draw(line);
 	}
 }

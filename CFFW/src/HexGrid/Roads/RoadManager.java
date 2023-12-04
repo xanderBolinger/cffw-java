@@ -70,7 +70,7 @@ public class RoadManager implements Serializable {
 			for(var s : segments) {
 				
 				if(s.getSegment().contains(r) && 
-						(s.roadNearEnd(r, false) || s.roadNearEnd(r, true)))
+						(s.roadIsAtEnd(r, false) || s.roadIsAtEnd(r, true)))
 					s.getSegment().remove(r);
 				
 			}

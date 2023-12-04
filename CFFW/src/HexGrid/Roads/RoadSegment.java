@@ -34,7 +34,7 @@ public class RoadSegment implements Serializable {
 		
 	}
 	
-	public boolean roadNearEnd(Road road, boolean segmentStart) {
+	private boolean roadNearEnd(Road road, boolean segmentStart) {
 		if(segment.size() == 0)
 			return true;
 		
@@ -45,6 +45,14 @@ public class RoadSegment implements Serializable {
 						segment.get(segment.size()-1).point.yCord, 
 						road.point.xCord, road.point.yCord) == 1;
 		
+	}
+	
+	public boolean roadIsAtEnd(Road road, boolean segmentStart) {
+		if(segment.size() == 0)
+			return false;
+		
+		return segmentStart ? road.point.compare(segment.get(0).point) 
+				: road.point.compare(segment.get(segment.size()-1).point);
 	}
 	
 	private boolean alreadyContainsRoad(Road road) {
