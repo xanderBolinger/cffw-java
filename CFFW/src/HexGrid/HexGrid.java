@@ -232,6 +232,7 @@ public class HexGrid implements Serializable {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
+				
 			}
 		});
 		mnEdit.add(mntmLoadHexMap);
@@ -826,6 +827,7 @@ public class HexGrid implements Serializable {
 			TraceLine.GetHexes(new Cord(1, 1), new Cord(0, 0), this);
 			System.out.println("---");
 			TraceLine.GetHexes(new Cord(4, 4), new Cord(0, 0), this);
+			
 			
 			
 		}

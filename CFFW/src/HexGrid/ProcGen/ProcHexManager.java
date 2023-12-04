@@ -52,6 +52,7 @@ public class ProcHexManager {
 		GameWindow.gameWindow.game.procGenMap = map;
 		GameWindow.gameWindow.hexes = hexes;
 		GameWindow.gameWindow.game.vehicleManager.generate();
+		
 	}
 	
 	public static void GetScaledInstances(int width, int height) {
