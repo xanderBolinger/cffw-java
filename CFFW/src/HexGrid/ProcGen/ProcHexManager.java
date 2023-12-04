@@ -1,6 +1,7 @@
 package HexGrid.ProcGen;
 
 import java.awt.Color;
+import CorditeExpansion.Cord;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Polygon;
@@ -19,7 +20,8 @@ import Company.Company;
 import Conflict.GameWindow;
 import JsonSaveRunner.JsonSaveRunner;
 import UtilityClasses.ExcelUtility;
-
+import HexGrid.ProcGen.ProcGenHexLoader.Map;
+import HexGrid.Roads.*;
 public class ProcHexManager {
 	
 	private static ArrayList<HexImage> hexImages;
@@ -52,6 +54,21 @@ public class ProcHexManager {
 		GameWindow.gameWindow.game.procGenMap = map;
 		GameWindow.gameWindow.hexes = hexes;
 		GameWindow.gameWindow.game.vehicleManager.generate();
+		
+		var pathwaySegment = new RoadSegment();
+		var highwaySegment = new RoadSegment();
+		loadRoadSegment(map, pathwaySegment, false);
+		loadRoadSegment(map, highwaySegment, true);
+		
+		GameWindow.gameWindow.game.roadManager.segments.add(pathwaySegment);
+		GameWindow.gameWindow.game.roadManager.segments.add(highwaySegment);
+	}
+	
+	private static void loadRoadSegment(Map map, RoadSegment segment, boolean highway) {
+		
+		for(var road : !highway ? map.pathways : map.highways) {
+			segment.addRoad(new Road(new Cord(road.x, road.y), highway));
+		}
 		
 	}
 	

@@ -86,6 +86,8 @@ public class ProcGenHexLoader {
 	
 	public class Map implements Serializable {
 		public List<Tile> tiles;
+		public List<RoadPoint> pathways;
+		public List<RoadPoint> highways;
 		
 		
 		public String getHexType(int x, int y) throws Exception {
@@ -96,6 +98,11 @@ public class ProcGenHexLoader {
 			throw new Exception("tile not found for: "+x+", "+y);
 		}
 		
+	}
+	
+	public class RoadPoint implements Serializable {
+		public int x; 
+		public int y; 
 	}
 	
 	public class Tile implements Serializable {
