@@ -12,15 +12,15 @@ public class HexGridRoadUtility {
 	
 	public static void leftClickHex(int xCord, int yCord,
 			boolean addRoad, boolean newSegment, boolean highway,
-			boolean removeRoad, boolean removeSegment) {
+			boolean removeRoad, boolean removeSegment, boolean river) {
 		
 		System.out.println("Left click hex add road");
 		var rm = GameWindow.gameWindow.game.roadManager;
 		if(newSegment) {
-			rm.addSegment(xCord, yCord, highway);
+			rm.addSegment(xCord, yCord, highway, river);
 		} else if(addRoad) {
 			System.out.println("add road");
-			rm.addRoad(xCord, yCord, highway);
+			rm.addRoad(xCord, yCord, highway, river);
 		} else if(removeSegment) {
 			rm.removeSegment(xCord, yCord);
 		} else if(removeRoad) {
@@ -56,8 +56,8 @@ public class HexGridRoadUtility {
 		var line = new Polygon();
 		line.addPoint(p1[0], p1[1]);
 		line.addPoint(p2[0], p2[1]);
-		g2.setColor(road.highway ? Colors.HIGHWAY : Colors.PATH);
-		g2.setStroke(road.highway ? new BasicStroke(4f) : new BasicStroke(2.5f));
+		g2.setColor(road.river ? Colors.WATER_BLUE : road.highway ? Colors.HIGHWAY : Colors.PATH);
+		g2.setStroke(road.highway || road.river ? new BasicStroke(4f) : new BasicStroke(2.5f));
 		g2.draw(line);
 	}
 }

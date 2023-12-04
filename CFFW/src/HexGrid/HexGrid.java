@@ -163,6 +163,7 @@ public class HexGrid implements Serializable {
 	private JCheckBox chckbxHighway;
 	private JCheckBox chckbxRemoveRoad;
 	private JCheckBox chckbxRemoveSegment;
+	private JCheckBox chckbxRiver;
 	
 	/**
 	 * Create the application.
@@ -489,28 +490,32 @@ public class HexGrid implements Serializable {
 		textFieldChitName.setColumns(10);
 		
 		panelRoad = new JPanel();
-		tabbedPane.addTab("Roads", null, panelRoad, null);
+		tabbedPane.addTab("Roads/River", null, panelRoad, null);
 		panelRoad.setLayout(null);
 		
 		chckbxAddRoad = new JCheckBox("Add Road");
-		chckbxAddRoad.setBounds(6, 6, 93, 21);
+		chckbxAddRoad.setBounds(6, 6, 114, 21);
 		panelRoad.add(chckbxAddRoad);
 		
 		chckbxNewSegment = new JCheckBox("New Segment");
-		chckbxNewSegment.setBounds(6, 29, 93, 21);
+		chckbxNewSegment.setBounds(6, 29, 114, 21);
 		panelRoad.add(chckbxNewSegment);
 		
 		chckbxHighway = new JCheckBox("Highway");
-		chckbxHighway.setBounds(6, 52, 93, 21);
+		chckbxHighway.setBounds(6, 52, 114, 21);
 		panelRoad.add(chckbxHighway);
 		
 		chckbxRemoveRoad = new JCheckBox("Remove Road");
-		chckbxRemoveRoad.setBounds(101, 6, 122, 21);
+		chckbxRemoveRoad.setBounds(122, 6, 138, 21);
 		panelRoad.add(chckbxRemoveRoad);
 		
 		chckbxRemoveSegment = new JCheckBox("Remove Segment");
-		chckbxRemoveSegment.setBounds(101, 29, 122, 21);
+		chckbxRemoveSegment.setBounds(122, 29, 138, 21);
 		panelRoad.add(chckbxRemoveSegment);
+		
+		chckbxRiver = new JCheckBox("River");
+		chckbxRiver.setBounds(122, 52, 114, 21);
+		panelRoad.add(chckbxRiver);
 
 		
 		
@@ -1767,7 +1772,8 @@ public class HexGrid implements Serializable {
 			
 			HexGridRoadUtility.leftClickHex(pos[0], pos[1], chckbxAddRoad.isSelected(),
 					chckbxNewSegment.isSelected(), chckbxHighway.isSelected(),
-					chckbxRemoveRoad.isSelected(), chckbxRemoveSegment.isSelected());
+					chckbxRemoveRoad.isSelected(), chckbxRemoveSegment.isSelected(),
+					chckbxRiver.isSelected());
 			
 			if(WaypointManager.addWaypoints) {
 				HexGridWaypointUtility.addWaypoint(pos);

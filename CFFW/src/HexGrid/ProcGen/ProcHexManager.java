@@ -67,7 +67,7 @@ public class ProcHexManager {
 	private static void loadRoadSegment(Map map, RoadSegment segment, boolean highway) {
 		
 		for(var road : !highway ? map.pathways : map.highways) {
-			segment.addRoad(new Road(new Cord(road.x, road.y), highway));
+			segment.addRoad(new Road(new Cord(road.x, road.y), highway, false));
 		}
 		
 	}

@@ -20,4 +20,5 @@ public class Colors {
 	public static Color GOLD = Color.decode("#f1fa8c");
 	public static Color PATH = Color.decode("#fac34b");
 	public static Color HIGHWAY = Color.decode("#30302d");
+	public static Color WATER_BLUE = Color.decode("#3f2ed9");
 }

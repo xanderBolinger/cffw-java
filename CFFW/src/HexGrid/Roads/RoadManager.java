@@ -16,9 +16,9 @@ public class RoadManager implements Serializable {
 		
 		var segment = new RoadSegment();
 		
-		var r1 = new Road(new Cord(0,0), false);
-		var r2 = new Road(new Cord(0,1), false);
-		var r3 = new Road(new Cord(1,1), false);
+		var r1 = new Road(new Cord(0,0), false, false);
+		var r2 = new Road(new Cord(0,1), false, false);
+		var r3 = new Road(new Cord(1,1), false, false);
 		
 		segment.addRoad(r1);
 		segment.addRoad(r2);
@@ -27,7 +27,7 @@ public class RoadManager implements Serializable {
 		segments.add(segment);
 	}
 	
-	public void addRoad(int xCord, int yCord, boolean highway) {
+	public void addRoad(int xCord, int yCord, boolean highway, boolean river) {
 		
 		var segments = getRoadSegmentFromCord(xCord, yCord, false);
 		
@@ -36,17 +36,17 @@ public class RoadManager implements Serializable {
 		System.out.println("found segment add road");
 		
 		for(var segment : segments) {
-			segment.addRoad(new Road(new Cord(xCord, yCord), highway));
+			segment.addRoad(new Road(new Cord(xCord, yCord), highway, river));
 		}
 		
 	}
 	
-	public void addSegment(int xCord, int yCord, boolean highway) {
+	public void addSegment(int xCord, int yCord, boolean highway, boolean river) {
 		if(getRoadSegmentFromCord(xCord, yCord,  true).size() != 0)
 			return;
 		
 		var segment = new RoadSegment();
-		segment.addRoad(new Road(new Cord(xCord, yCord), highway));
+		segment.addRoad(new Road(new Cord(xCord, yCord), highway, river));
 		segments.add(segment);
 		System.out.println("add segment confirm");
 	}
