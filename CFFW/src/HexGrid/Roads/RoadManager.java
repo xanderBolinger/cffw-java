@@ -37,7 +37,12 @@ public class RoadManager implements Serializable {
 	}
 	
 	public void addSegment(int xCord, int yCord, boolean highway) {
+		if(getRoadSegmentFromCord(xCord, yCord) != null)
+			return;
 		
+		var segment = new RoadSegment();
+		segment.addRoad(new Road(new Cord(xCord, yCord), highway));
+		segments.add(segment);
 	}
 	
 	
