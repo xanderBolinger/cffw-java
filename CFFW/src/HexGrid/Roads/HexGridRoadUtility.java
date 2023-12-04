@@ -17,7 +17,7 @@ public class HexGridRoadUtility {
 		System.out.println("Left click hex add road");
 		var rm = GameWindow.gameWindow.game.roadManager;
 		if(newSegment) {
-			
+			rm.addSegment(xCord, yCord, highway);
 		} else if(addRoad) {
 			System.out.println("add road");
 			rm.addRoad(xCord, yCord, highway);
