@@ -9,6 +9,7 @@ import Artillery.Artillery.Shot;
 import CeHexGrid.Chit;
 import Fortifications.FortificationRecords;
 import HexGrid.ProcGen.ProcGenHexLoader.Map;
+import HexGrid.Roads.RoadManager;
 import HexGrid.Shields.ShieldManager;
 import Hexes.Hex;
 import Melee.MeleeCombatUnit;
@@ -35,6 +36,7 @@ public class Game implements Serializable {
 	public Smoke smoke;
 	// public timne object 
 	public Map procGenMap;
+	public RoadManager roadManager;
 
 	public Game(int phase, int round, int currentAction) {
 		this.phase = phase; 
@@ -48,6 +50,7 @@ public class Game implements Serializable {
 		fortifications = new FortificationRecords();
 		backgroundMap = true;
 		firedShots = new HashMap<Artillery, HashMap<ShellType, Integer>>();
+		roadManager = new RoadManager();
 	} 
 	
 	// SETTERS 

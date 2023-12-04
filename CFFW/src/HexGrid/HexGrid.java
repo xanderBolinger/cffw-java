@@ -38,6 +38,7 @@ import CorditeExpansionActions.TurnAction;
 import HexGrid.Fortifications.HexGridFortificationsUtility;
 import HexGrid.HexGridUtility.ShownType;
 import HexGrid.ProcGen.ProcHexManager;
+import HexGrid.Roads.HexGridRoadUtility;
 import HexGrid.Shields.ShieldManager;
 import HexGrid.Vehicle.HexGridHullDownUtility;
 import HexGrid.Waypoint.DrawWaypoints;
@@ -2673,6 +2674,7 @@ public class HexGrid implements Serializable {
 			 e.printStackTrace();
 			}
 			
+			HexGridRoadUtility.drawRoads(g2);
 			
 			if(chckbxShowHexes.isSelected()) {
 				g2.setColor(BORDER_COLOR);
