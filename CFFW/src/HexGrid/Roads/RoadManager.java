@@ -52,6 +52,32 @@ public class RoadManager implements Serializable {
 	}
 	
 	
+	
+	public void removeSegment(int xCord, int yCord) {
+		var segments = getRoadSegmentFromCord(xCord, yCord,  true);
+		if(segments.size() == 0)
+			return;
+		
+		for(var s : segments)
+			this.segments.remove(s);
+	}
+	
+	public void removeRoad(int xCord, int yCord) {
+		
+		var roads = getRoadsFromCord(xCord, yCord);
+		
+		for(var r : roads) {
+			for(var s : segments) {
+				
+				if(s.getSegment().contains(r) && 
+						(s.roadNearEnd(r, false) || s.roadNearEnd(r, true)))
+					s.getSegment().remove(r);
+				
+			}
+		}
+		
+	}
+	
 	private List<RoadSegment> getRoadSegmentFromCord(int x, int y, boolean clicked) {
 		
 		var roadSegments = new ArrayList<RoadSegment>();
@@ -67,5 +93,20 @@ public class RoadManager implements Serializable {
 		
 		return roadSegments;
 	}
+	
+	private List<Road> getRoadsFromCord(int x, int y) {
+		var listRoad = new ArrayList<Road>();
+		var segments = getRoadSegmentFromCord(x,y,true);
+		
+		for(var s : segments) {
+			for(var r : s.getSegment()) {
+				if(r.point.xCord == x && r.point.yCord == y)
+					listRoad.add(r);
+			}
+		}
+		
+		return listRoad;
+	}
+	
 	
 }

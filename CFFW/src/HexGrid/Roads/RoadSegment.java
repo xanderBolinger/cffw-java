@@ -17,6 +17,8 @@ public class RoadSegment implements Serializable {
 		return segment;
 	}
 	
+	
+	
 	public void addRoad(Road road) {
 		if((!roadNearEnd(road, true) && !roadNearEnd(road, false))
 				|| alreadyContainsRoad(road)) {
@@ -32,7 +34,7 @@ public class RoadSegment implements Serializable {
 		
 	}
 	
-	private boolean roadNearEnd(Road road, boolean segmentStart) {
+	public boolean roadNearEnd(Road road, boolean segmentStart) {
 		if(segment.size() == 0)
 			return true;
 		

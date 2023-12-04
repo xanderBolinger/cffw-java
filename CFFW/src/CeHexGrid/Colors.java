@@ -19,4 +19,5 @@ public class Colors {
 	public static Color PURPLE = Color.decode("#bd93f9");
 	public static Color GOLD = Color.decode("#f1fa8c");
 	public static Color PATH = Color.decode("#fac34b");
+	public static Color HIGHWAY = Color.decode("#807E78");
 }

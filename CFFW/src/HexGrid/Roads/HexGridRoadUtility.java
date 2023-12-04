@@ -21,7 +21,11 @@ public class HexGridRoadUtility {
 		} else if(addRoad) {
 			System.out.println("add road");
 			rm.addRoad(xCord, yCord, highway);
-		} 
+		} else if(removeSegment) {
+			rm.removeSegment(xCord, yCord);
+		} else if(removeRoad) {
+			rm.removeRoad(xCord, yCord);
+		}
 		
 	}
 	
@@ -52,7 +56,7 @@ public class HexGridRoadUtility {
 		var line = new Polygon();
 		line.addPoint(p1[0], p1[1]);
 		line.addPoint(p2[0], p2[1]);
-		g2.setColor(Colors.PATH);
+		g2.setColor(road.highway ? Colors.HIGHWAY : Colors.PATH);
 		g2.setStroke(new BasicStroke(2f));
 		g2.draw(line);
 	}
