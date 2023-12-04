@@ -18,16 +18,30 @@ public class RoadSegment implements Serializable {
 	}
 	
 	public void addRoad(Road road) {
-		if((segment.size() > 1 && 
-				(GameWindow.hexDif(segment.get(segment.size()-1).point.xCord, 
-						segment.get(segment.size()-1).point.yCord, 
-						road.point.xCord, road.point.yCord) != 1))
+		if((!roadNearEnd(road, true) && !roadNearEnd(road, false))
 				|| alreadyContainsRoad(road)) {
 			return;
 		}
 		
 		System.out.println("confirm add road");
-		segment.add(road);
+		
+		if(roadNearEnd(road, true))
+			segment.add(0, road);
+		else
+			segment.add(road);
+		
+	}
+	
+	private boolean roadNearEnd(Road road, boolean segmentStart) {
+		if(segment.size() == 0)
+			return true;
+		
+		return segmentStart ? GameWindow.hexDif(segment.get(0).point.xCord, 
+				segment.get(0).point.yCord, 
+				road.point.xCord, road.point.yCord) == 1: 
+					GameWindow.hexDif(segment.get(segment.size()-1).point.xCord, 
+						segment.get(segment.size()-1).point.yCord, 
+						road.point.xCord, road.point.yCord) == 1;
 		
 	}
 	

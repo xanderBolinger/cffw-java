@@ -2,6 +2,7 @@ package HexGrid.Roads;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
@@ -28,16 +29,20 @@ public class RoadManager implements Serializable {
 	
 	public void addRoad(int xCord, int yCord, boolean highway) {
 		
-		var segment = getRoadSegmentFromCord(xCord, yCord);
+		var segments = getRoadSegmentFromCord(xCord, yCord, false);
 		
-		if(segment == null)
+		if(segments.size() == 0)
 			return;
 		System.out.println("found segment add road");
-		segment.addRoad(new Road(new Cord(xCord, yCord), highway));
+		
+		for(var segment : segments) {
+			segment.addRoad(new Road(new Cord(xCord, yCord), highway));
+		}
+		
 	}
 	
 	public void addSegment(int xCord, int yCord, boolean highway) {
-		if(getRoadSegmentFromCord(xCord, yCord) != null)
+		if(getRoadSegmentFromCord(xCord, yCord,  true).size() != 0)
 			return;
 		
 		var segment = new RoadSegment();
@@ -47,18 +52,20 @@ public class RoadManager implements Serializable {
 	}
 	
 	
-	private RoadSegment getRoadSegmentFromCord(int x, int y) {
+	private List<RoadSegment> getRoadSegmentFromCord(int x, int y, boolean clicked) {
+		
+		var roadSegments = new ArrayList<RoadSegment>();
 		
 		for(var seg : segments) {
 			for(var road : seg.getSegment()) {
-				if((road.point.xCord == x && road.point.yCord == y)
-						|| GameWindow.hexDif(x, y, 
-								road.point.xCord, road.point.yCord) == 1)
-					return seg;
+				if(((road.point.xCord == x && road.point.yCord == y) && clicked)
+						|| (!clicked && GameWindow.hexDif(x, y, 
+								road.point.xCord, road.point.yCord) == 1))
+					roadSegments.add(seg);
 			}
 		}
 		
-		return null;
+		return roadSegments;
 	}
 	
 }
