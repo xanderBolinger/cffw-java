@@ -15,11 +15,12 @@ public class HexGridRoadUtility {
 			boolean removeRoad, boolean removeSegment) {
 		
 		System.out.println("Left click hex add road");
-		
+		var rm = GameWindow.gameWindow.game.roadManager;
 		if(newSegment) {
 			
 		} else if(addRoad) {
-			
+			System.out.println("add road");
+			rm.addRoad(xCord, yCord, highway);
 		} 
 		
 	}

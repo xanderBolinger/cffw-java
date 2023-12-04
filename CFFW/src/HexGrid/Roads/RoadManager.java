@@ -2,6 +2,8 @@ package HexGrid.Roads;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 
 public class RoadManager implements Serializable {
@@ -30,7 +32,7 @@ public class RoadManager implements Serializable {
 		
 		if(segment == null)
 			return;
-		
+		System.out.println("found segment add road");
 		segment.addRoad(new Road(new Cord(xCord, yCord), highway));
 	}
 	
@@ -43,7 +45,9 @@ public class RoadManager implements Serializable {
 		
 		for(var seg : segments) {
 			for(var road : seg.getSegment()) {
-				if(road.point.xCord == x && road.point.yCord == y)
+				if((road.point.xCord == x && road.point.yCord == y)
+						|| GameWindow.hexDif(x, y, 
+								road.point.xCord, road.point.yCord) == 1)
 					return seg;
 			}
 		}

@@ -26,6 +26,7 @@ public class RoadSegment implements Serializable {
 			return;
 		}
 		
+		System.out.println("confirm add road");
 		segment.add(road);
 		
 	}
