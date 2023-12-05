@@ -431,6 +431,16 @@ public class HexGrid implements Serializable {
 		chckbxShwSingleloslines.setBounds(588, 8, 159, 23);
 		panelDisplay.add(chckbxShwSingleloslines);
 		
+		JButton btnNewButton_1 = new JButton("Reload test button");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ProcHexManager.GetScaledInstances(panel.shapeList.get(0).getBounds().width+1,
+						panel.shapeList.get(0).getBounds().height+1);
+			}
+		});
+		btnNewButton_1.setBounds(252, 48, 85, 21);
+		panelDisplay.add(btnNewButton_1);
+		
 		panelUnits = new JPanel();
 		tabbedPane.addTab("Units", null, panelUnits, null);
 		panelUnits.setLayout(null);
@@ -791,6 +801,7 @@ public class HexGrid implements Serializable {
 
 		boolean changedUnits = true;
 		public boolean hideU = false;
+		public boolean firstTimeMakingHexes = true;
 
 		Polygon losThread = new Polygon();
 
@@ -2608,6 +2619,9 @@ public class HexGrid implements Serializable {
 				
 			}*/
 			
+			
+			
+			
 			for (Polygon shape : shapeList) {
 				
 				g2.setColor(BORDER_COLOR);
@@ -2629,7 +2643,8 @@ public class HexGrid implements Serializable {
 					
 					makeHexes(rows, columns);
 					
-					ProcHexManager.GetScaledInstances(shapeList.get(0).getBounds().width+1, shapeList.get(0).getBounds().height+1);
+					ProcHexManager.GetScaledInstances(shapeList.get(0).getBounds().width+1,
+							shapeList.get(0).getBounds().height+1);
 					
 					for (Polygon newShape : shapeList) {
 
@@ -2793,6 +2808,12 @@ public class HexGrid implements Serializable {
 			
 			HexGridShadeHexes.shadeHexes(g2, screenWidth, screenHeight);
 			VehicleHexGridUtility.drawVehicleTurretChevron(g2);
+			
+			if(firstTimeMakingHexes) {
+				ProcHexManager.GetScaledInstances(shapeList.get(0).getBounds().width+1,
+						shapeList.get(0).getBounds().height+1);
+				firstTimeMakingHexes = false;
+			}
 			
 		}
 

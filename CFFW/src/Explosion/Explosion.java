@@ -310,12 +310,21 @@ public class Explosion {
 			return (int)((double)bc / 1.5);
 		
 		double modifiedBc = bc;
-		
-		// dug outs 
-		if(fortificationLevel == 3 && target.HD) {
+
+		if(fortificationLevel == 2 && target.HD) {
+			return bc / 250;
+		}
+		else if(fortificationLevel == 3 && target.HD) {
 			return bc / 500;
 		} else if(fortificationLevel == 4 && target.HD) {
 			return bc / 1000;
+		} else if(fortificationLevel == 2 && !target.HD && range != 0) {
+			bc /= 2;
+		}
+		else if(fortificationLevel == 3 && !target.HD && range != 0) {
+			bc /= 3;
+		} else if(fortificationLevel == 4 && !target.HD&& range != 0) {
+			bc /= 4;
 		}
 		
 		// ground burst

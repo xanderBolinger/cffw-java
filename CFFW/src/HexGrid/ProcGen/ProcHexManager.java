@@ -62,6 +62,8 @@ public class ProcHexManager {
 		
 		GameWindow.gameWindow.game.roadManager.segments.add(pathwaySegment);
 		GameWindow.gameWindow.game.roadManager.segments.add(highwaySegment);
+		
+		GameWindow.gameWindow.hexGrid.panel.firstTimeMakingHexes = true;
 	}
 	
 	private static void loadRoadSegment(Map map, RoadSegment segment, boolean highway) {
