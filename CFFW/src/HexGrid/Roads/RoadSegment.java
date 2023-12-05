@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
+import HexGrid.HexDirectionUtility;
 
 public class RoadSegment implements Serializable {
 
@@ -17,11 +18,33 @@ public class RoadSegment implements Serializable {
 		return segment;
 	}
 	
-	
-	
 	public void addRoad(Road road) {
-		if((!roadNearEnd(road, true) && !roadNearEnd(road, false))
-				|| alreadyContainsRoad(road)) {
+		if(alreadyContainsRoad(road)) {
+			return;
+		}
+		
+		System.out.println("add road pass 1");
+		
+		if((!roadNearEnd(road, true) && !roadNearEnd(road, false))) {
+			
+			System.out.println("add road pass 2");
+			var start = segment.get(0);
+			var end = segment.get(segment.size()-1);
+			var firstRoadDist = GameWindow.hexDif(road.point.xCord, road.point.yCord, 
+					end.point.xCord, end.point.yCord);
+			var lastRoadDist = GameWindow.hexDif(road.point.xCord, road.point.yCord, 
+					end.point.xCord, end.point.yCord);
+			
+			var target = firstRoadDist < lastRoadDist ? start : end;
+			var dist = firstRoadDist < lastRoadDist ? firstRoadDist : lastRoadDist;
+			var dir = HexDirectionUtility.getHexSideFacingTarget(target.point, road.point);
+			
+			var cords = HexDirectionUtility.getCordsInDirection(target.point, road.point, dist, dir);
+			
+			for(var c : cords) {
+				addRoad(new Road(c, road.highway, road.river));
+			}
+			
 			return;
 		}
 		
@@ -31,6 +54,12 @@ public class RoadSegment implements Serializable {
 			segment.add(0, road);
 		else
 			segment.add(road);
+		
+		
+		if(GameWindow.gameWindow != null 
+				&& GameWindow.gameWindow.game != null 
+				&& GameWindow.gameWindow.game.roadManager.containsSelectedSegment(this))
+			HexGridRoadUtility.shadeRoad(road);
 		
 	}
 	

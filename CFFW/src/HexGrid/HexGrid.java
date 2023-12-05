@@ -1973,6 +1973,14 @@ public class HexGrid implements Serializable {
 				return;
 			}
 			
+			if(chckbxAddRoad.isSelected()) {
+				var hex = getHexFromPoint(e.getPoint());
+				
+				HexGridRoadUtility.rightClickHex(hex[0], hex[1]);
+				
+				return;
+			}
+			
 			// System.out.println("Right clicked");
 
 			// Checks for which hex was clicked

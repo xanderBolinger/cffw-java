@@ -9,9 +9,11 @@ import CorditeExpansion.Cord;
 
 public class RoadManager implements Serializable {
 
-	public ArrayList<RoadSegment> segments;
+	public List<RoadSegment> segments;
+	private List<RoadSegment> selectedSegments;
 	
 	public RoadManager() {
+		selectedSegments = new ArrayList<RoadSegment>();
 		segments = new ArrayList<RoadSegment>();
 		
 		var segment = new RoadSegment();
@@ -28,6 +30,13 @@ public class RoadManager implements Serializable {
 	}
 	
 	public void addRoad(int xCord, int yCord, boolean highway, boolean river) {
+		if(selectedSegments()) {
+			for(var s : selectedSegments) {
+				s.addRoad(new Road(new Cord(xCord, yCord), highway, river));
+			}
+			return;
+		}
+		
 		
 		var segments = getRoadSegmentFromCord(xCord, yCord, false);
 		
@@ -46,8 +55,13 @@ public class RoadManager implements Serializable {
 			return;
 		
 		var segment = new RoadSegment();
-		segment.addRoad(new Road(new Cord(xCord, yCord), highway, river));
+		var r = new Road(new Cord(xCord, yCord), highway, river);
+		segment.addRoad(r);
 		segments.add(segment);
+		selectedSegments = new ArrayList<RoadSegment>();
+		selectedSegments.add(segment);
+		HexGridRoadUtility.shadeRoad(r);
+		
 		System.out.println("add segment confirm");
 	}
 	
@@ -58,8 +72,12 @@ public class RoadManager implements Serializable {
 		if(segments.size() == 0)
 			return;
 		
-		for(var s : segments)
+		for(var s : segments) {
 			this.segments.remove(s);
+			for(var r : s.getSegment()) {
+				HexGridRoadUtility.removeShadeRoad(r);
+			}
+		}
 	}
 	
 	public void removeRoad(int xCord, int yCord) {
@@ -70,15 +88,17 @@ public class RoadManager implements Serializable {
 			for(var s : segments) {
 				
 				if(s.getSegment().contains(r) && 
-						(s.roadIsAtEnd(r, false) || s.roadIsAtEnd(r, true)))
+						(s.roadIsAtEnd(r, false) || s.roadIsAtEnd(r, true))) {
 					s.getSegment().remove(r);
+					HexGridRoadUtility.removeShadeRoad(r);
+				}
 				
 			}
 		}
 		
 	}
 	
-	private List<RoadSegment> getRoadSegmentFromCord(int x, int y, boolean clicked) {
+	public List<RoadSegment> getRoadSegmentFromCord(int x, int y, boolean clicked) {
 		
 		var roadSegments = new ArrayList<RoadSegment>();
 		
@@ -108,5 +128,38 @@ public class RoadManager implements Serializable {
 		return listRoad;
 	}
 	
+	public boolean selectedSegments() {
+		return selectedSegments.size() > 0;
+	}
+
+	public boolean containsSelectedSegment(RoadSegment segment) {
+			return selectedSegments.contains(segment);
+	}
+	
+	public void clearSelectedSegments() {
+		
+		for(var s : selectedSegments) {
+			for(var r : s.getSegment())
+				HexGridRoadUtility.removeShadeRoad(r);
+		}
+		
+		selectedSegments.clear();;
+	}
+	
+	public void setSelectedSegments(List<RoadSegment> segments) {
+		clearSelectedSegments();
+		for(var s : segments)
+			selectedSegments.add(s);
+	}
+
+	public List<RoadSegment> getSelectedSegments() {
+		
+		var segments = new ArrayList<RoadSegment>();
+		
+		for(var s : selectedSegments)
+			segments.add(s);
+		
+		return segments;
+	}
 	
 }

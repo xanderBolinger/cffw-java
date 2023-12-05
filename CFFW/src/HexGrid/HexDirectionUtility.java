@@ -114,6 +114,20 @@ public class HexDirectionUtility {
 		return HexGridUtility.distance(target, newCord);
 	}
 	
+	public static List<Cord> getCordsInDirection(Cord start, Cord target, int distance, HexDirection dir) {
+		var cords = new ArrayList<Cord>();
+		
+		Cord newCord = start;
+		boolean clockwise = true;
+		for(int i = 0; i < distance; i++) {
+			newCord = getHexInDirection(dir, newCord,clockwise);
+			cords.add(newCord);
+			clockwise = !clockwise;
+		}
+		
+		return cords;
+	}
+	
 	/*private static HexDirection getDirectionBetweenTwoDirections(Cord start, int startDistance,
 			HexDirection dirOne, HexDirection dirTwo, HexDirection dirInbetween) {
 		if(getDistanceInDirection(start, startDistance, dirOne) < getDistanceInDirection(start, startDistance, dirTwo))
