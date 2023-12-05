@@ -1,13 +1,32 @@
 package UtilityClasses;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
+import JUnitTests.JUnitTestUtil;
 
 public class DiceRoller {
 
 	public static Random rand = new Random();
 	
+	private static List<Integer> testValues = new ArrayList<Integer>();
+	
 	public DiceRoller() {
 		
+	}
+	
+	public static void addTestValue(int val) {
+		testValues.add(val);
+	}
+	
+	public static void addTestValues(int[] vals) {
+		for(var i : vals)
+			testValues.add(i);
+	}
+	
+	public static void clearTestValues() {
+		testValues.clear();
 	}
 	
 	public static int d10() {
@@ -37,9 +56,20 @@ public class DiceRoller {
 	}
 	
 	public static int roll(int min, int max) {	    
-		if(min == 0 && max == 0 || (max < min))
+		if(min == 0 && max == 0 || (max < min)) {
+			System.err.println("Min and max out of bounds: "+min+", "+max);
 			return 0;
-		
+		}
+
+		try {
+			if(!JUnitTestUtil.isJUnitTest() && testValues.size() > 0)
+				throw new Exception("Test values has content and you are outside of a j unit test");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+
+		if(testValues.size() > 0)
+			return testValues.remove(0);
 		
 	    int randomNum = rand.nextInt((max - min) + 1) + min;
 

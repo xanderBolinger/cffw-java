@@ -8,6 +8,7 @@ import Conflict.InjuryLog;
 import Conflict.SmokeStats;
 import Conflict.SmokeStats.SmokeType;
 import CorditeExpansion.Cord;
+import Explosion.Shrap.ShrapnelProtection;
 import HexGrid.HexGridExplosiveImpact;
 import Injuries.Injuries;
 import Injuries.ResolveHits;
@@ -220,7 +221,10 @@ public class Explosion {
 			
 		}
 		
-		bc = blastConcussionModifiers(bc, target, rangePCHexes);
+		var unit = target.returnTrooperUnit(GameWindow.gameWindow);
+		var fortificationLevel = GameWindow.gameWindow.game.fortifications.getTrenchesLevel(new Cord(unit.X,unit.Y));
+		
+		bc = blastConcussionModifiers(bc, target, rangePCHexes, fortificationLevel);
 		//GameWindow.gameWindow.conflictLog.addNewLineToQueue(GameWindow.getLogHead(target)+", Distance PC Hexes: "+rangePCHexes+", Explosion BC Damage: "+bc+", BSHC: "+bshc+bshcRslts);
 			
 		int ionDmg = 0;
@@ -246,12 +250,18 @@ public class Explosion {
 			ionDmg = shell.pcAmmo.getExplosiveData(rangePCHexes).ion;
 		}
 		
-		ionDmg = blastConcussionModifiers(ionDmg, target, rangePCHexes);
+		ionDmg = blastConcussionModifiers(ionDmg, target, rangePCHexes, fortificationLevel);
 		
 		if(ionDmg > 0 && target.entirelyMechanical) {
 			GameWindow.gameWindow.conflictLog.addToLineInQueue(", Ion Damage: "+ionDmg);
 			target.physicalDamage += ionDmg; 
 			totalIonDamage += ionDmg;
+		}
+		
+		var shrapProtected = ShrapnelProtection.trooperProtectedFromShrapnel(target, rangePCHexes, fortificationLevel, true);
+		
+		if(shrapProtected) {
+			shrapHits = 0;
 		}
 		
 		for(int i = 0; i < shrapHits; i++) {
@@ -291,7 +301,7 @@ public class Explosion {
 		target.calculateInjury(GameWindow.gameWindow, GameWindow.gameWindow.conflictLog);
 	}
 	
-	private int blastConcussionModifiers(int bc, Trooper target, int range) {
+	private int blastConcussionModifiers(int bc, Trooper target, int range, int fortificationLevel) {
 		
 		if(PCUtility.armorCoverage(target) && bc > target.armor.bPF && target.entirelyMechanical) 
 			bc /= 4;
@@ -301,8 +311,8 @@ public class Explosion {
 			bc /= 100;
 		}
 		
-		var unit = target.returnTrooperUnit(GameWindow.gameWindow);
-		var fortificationLevel = GameWindow.gameWindow.game.fortifications.getTrenchesLevel(new Cord(unit.X,unit.Y));
+		
+		
 		
 		if((!target.HD && !target.inCover) || !target.inCover)
 			return bc;

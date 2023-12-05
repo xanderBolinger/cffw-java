@@ -20,6 +20,7 @@ import Items.Item;
 import Items.Item.ItemType;
 import JUnitTests.AllTests;
 import JUnitTests.InventoryTest;
+import JUnitTests.JUnitTestUtil;
 import Melee.Gear.MeleeShieldData;
 import Shoot.Shoot;
 import Trooper.Factions.FactionManager;

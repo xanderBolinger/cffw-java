@@ -13,7 +13,7 @@ import Vehicle.UnitTests.VehicleMovementTests;
 @SuiteClasses({ CeSuppressionTests.class, /*CommandLineInterfaceTests.class,*/ CorditeExpansionTests.class,
 		DamageTests.class, ExcelUtililtyTests.class, GrenadeTests.class, InventoryTest.class, OpticTests.class,
 		PcDamageUtilityTests.class, ReloadTests.class, MedicalTests.class,  ShootTests.class, VehicleDataTests.class, VehicleMovementTests.class, HexDirectionUtilityTests.class,
-		MeleeHitLocationTests.class})
+		MeleeHitLocationTests.class, ShrapnelProtectionTests.class})
 public class AllTests {
 
 }
