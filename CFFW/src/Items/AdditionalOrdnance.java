@@ -29,24 +29,24 @@ public class AdditionalOrdnance {
 		ArrayList<Integer> bc = new ArrayList<Integer>();
 
 		pen.add(112); // 0
-		pen.add(112); // 1
-		pen.add(112); // 2
-		pen.add(112); // 3
-		pen.add(112); // 4
-		pen.add(112); // 5
-		pen.add(112); // 6
-		pen.add(112); // 8
-		pen.add(112); // 10
+		pen.add(8); // 1
+		pen.add(5); // 2
+		pen.add(3); // 3
+		pen.add(1); // 4
+		pen.add(1); // 5
+		pen.add(1); // 6
+		pen.add(1); // 8
+		pen.add(1); // 10
 
 		dc.add(10);
-		dc.add(10);
-		dc.add(10);
-		dc.add(10);
-		dc.add(10);
-		dc.add(10);
-		dc.add(10);
-		dc.add(10);
-		dc.add(10);
+		dc.add(8);
+		dc.add(7);
+		dc.add(6);
+		dc.add(6);
+		dc.add(5);
+		dc.add(4);
+		dc.add(4);
+		dc.add(4);
 
 		bshc.add("*3");
 		bshc.add("*1");

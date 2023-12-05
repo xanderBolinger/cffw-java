@@ -321,20 +321,20 @@ public class Explosion {
 		
 		double modifiedBc = bc;
 
-		if(fortificationLevel == 2 && target.HD) {
+		if(fortificationLevel == 2 && target.HD && range != 0) {
+			return bc / 100;
+		}
+		else if(fortificationLevel == 3 && target.HD && range != 0) {
 			return bc / 250;
-		}
-		else if(fortificationLevel == 3 && target.HD) {
-			return bc / 500;
-		} else if(fortificationLevel == 4 && target.HD) {
-			return bc / 1000;
-		} else if(fortificationLevel == 2 && !target.HD && range != 0) {
-			bc /= 2;
-		}
-		else if(fortificationLevel == 3 && !target.HD && range != 0) {
+		} else if(fortificationLevel == 4 && target.HD && range != 0) {
+			return bc / 400;
+		} else if(fortificationLevel == 2 && ((!target.HD && range != 0) || (target.HD && range == 0))) {
 			bc /= 3;
-		} else if(fortificationLevel == 4 && !target.HD&& range != 0) {
+		}
+		else if(fortificationLevel == 3 && ((!target.HD && range != 0) || (target.HD && range == 0))) {
 			bc /= 4;
+		} else if(fortificationLevel == 4 && ((!target.HD && range != 0) || (target.HD && range == 0))) {
+			bc /= 5;
 		}
 		
 		// ground burst
