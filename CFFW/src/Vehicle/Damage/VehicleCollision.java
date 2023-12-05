@@ -6,13 +6,14 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 
 import Conflict.GameWindow;
+import HexGrid.Roads.RoadUtil;
 import Hexes.Hex;
 import Injuries.Injuries;
 import Trooper.Trooper;
 import UtilityClasses.DiceRoller;
 import Vehicle.Vehicle;
 
-public class VehicleCollision implements Serializable {
+public class VehicleCollision {
 
 	public enum CollisionHitLocation {
 		
@@ -25,6 +26,17 @@ public class VehicleCollision implements Serializable {
 		int obstacles = hex.coverPositions / 3;
 		
 		System.out.println("Obstacles: "+obstacles);
+		
+		if(RoadUtil.hexIsHighway(hex)) {
+			var vics = numberOfVehiclesInHex(hex) - 1 /* for actve vic */ 
+					- 6 /* for road capacity */;
+			obstacles = vics > 0 ? vics : 0;
+		} else if(RoadUtil.hexIsPath(hex)) {
+			var vics = numberOfVehiclesInHex(hex) - 1 /* for actve vic */ 
+					- 3 /* for road capacity */;
+			obstacles = vics > 0 ? vics : 0;
+		}
+		
 		int hitChance = hiddenObstacleCollisionChance(obstacles);
 		
 		int roll = DiceRoller.roll(0, 99);
@@ -37,6 +49,22 @@ public class VehicleCollision implements Serializable {
 
 		
 		return true;
+	}
+		
+	public static int numberOfVehiclesInHex(Hex hex) {
+	
+		int count = 0;
+		
+		for(var v : GameWindow.gameWindow.vehicleCombatWindow.vehicles) {
+			
+			var location = v.movementData.location;
+			
+			if(hex.xCord == location.xCord && hex.yCord == location.yCord)
+				count++;
+			
+		}
+		
+		return count;
 	}
 	
 	private static void applyHit(Vehicle vehicle) {

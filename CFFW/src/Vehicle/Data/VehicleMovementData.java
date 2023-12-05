@@ -10,6 +10,7 @@ import CorditeExpansion.Cord;
 import HexGrid.CalculateLOS;
 import HexGrid.HexDirectionUtility;
 import HexGrid.HexDirectionUtility.HexDirection;
+import HexGrid.Roads.RoadUtil;
 import Hexes.Feature;
 import Hexes.Hex;
 import Vehicle.Vehicle;
@@ -104,6 +105,12 @@ public class VehicleMovementData implements Serializable {
 				return movementSpeeds.get(f.featureType);
 			} 
 			
+		}
+		
+		if(RoadUtil.hexIsHighway(hex)) {
+			return movementSpeeds.get("Paved Road");
+		} else if(RoadUtil.hexIsPath(hex)) {
+			return movementSpeeds.get("Dirt Road");
 		}
 		
 		return movementSpeeds.get("Soil");
