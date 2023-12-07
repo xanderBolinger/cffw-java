@@ -326,7 +326,7 @@ public class SpotUtility {
 		}
 
 		// Roll and success calculations
-		int roll = DiceRoller.roll(1, 100);
+		int roll = DiceRoller.roll(1, 100) + suppression;
 		int margin = spottingChance - roll;
 		int success = 0;
 		if (roll <= spottingChance) {

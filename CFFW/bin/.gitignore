@@ -1,4 +1,6 @@
 /Conflict/
+/UtilityClasses/
+/Vehicle/
 /CorditeExpansion/
 /CorditeExpansionActions/
 /CorditeExpansionCharacters/
@@ -27,8 +29,6 @@
 /Spot/
 /Trooper/
 /Unit/
-/UtilityClasses/
-/Vehicle/
 /multiDimensionalArrayList.class
 /test/
 /testPackage/

@@ -222,6 +222,7 @@ public class Explosion {
 		}
 		
 		var unit = target.returnTrooperUnit(GameWindow.gameWindow);
+		
 		var fortificationLevel = GameWindow.gameWindow.game.fortifications.getTrenchesLevel(new Cord(unit.X,unit.Y));
 		
 		bc = blastConcussionModifiers(bc, target, rangePCHexes, fortificationLevel);
