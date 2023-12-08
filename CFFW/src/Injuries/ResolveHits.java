@@ -233,7 +233,7 @@ public class ResolveHits implements Serializable {
 			// System.out.println("glancingRoll: "+glancingRoll);
 			// System.out.println("glancingCol: "+glancingCol);
 
-			for (int i = 2; i < 20; i++) {
+			for (int i = 2; i < 42; i++) {
 				if (protectionFactor <= pfWorksheet.getRow(i).getCell(0).getNumericCellValue()) {
 					glancingRow = i;
 					break;
@@ -540,7 +540,7 @@ public class ResolveHits implements Serializable {
 			// System.out.println("glancingRoll: "+glancingRoll);
 			// System.out.println("glancingCol: "+glancingCol);
 
-			for (int i = 2; i < 20; i++) {
+			for (int i = 2; i < 42; i++) {
 				if (protectionFactor <= pfWorksheet.getRow(i).getCell(0).getNumericCellValue()) {
 					glancingRow = i;
 					break;
@@ -1270,7 +1270,7 @@ public class ResolveHits implements Serializable {
 			// System.out.println("glancingRoll: "+glancingRoll);
 			// System.out.println("glancingCol: "+glancingCol);
 
-			for (int i = 2; i < 20; i++) {
+			for (int i = 2; i < 42; i++) {
 				if (protectionFactor <= pfWorksheet.getRow(i).getCell(0).getNumericCellValue()) {
 					glancingRow = i;
 					break;
@@ -1548,7 +1548,7 @@ public class ResolveHits implements Serializable {
 			// System.out.println("glancingRoll: "+glancingRoll);
 			// System.out.println("glancingCol: "+glancingCol);
 
-			for (int i = 2; i < 20; i++) {
+			for (int i = 2; i < 42; i++) {
 				if (protectionFactor <= pfWorksheet.getRow(i).getCell(0).getNumericCellValue()) {
 					glancingRow = i;
 					break;
@@ -1806,7 +1806,7 @@ public class ResolveHits implements Serializable {
 			// System.out.println("glancingRoll: "+glancingRoll);
 			// System.out.println("glancingCol: "+glancingCol);
 
-			for (int i = 2; i < 20; i++) {
+			for (int i = 2; i < 42; i++) {
 				if (protectionFactor <= pfWorksheet.getRow(i).getCell(0).getNumericCellValue()) {
 					glancingRow = i;
 					break;
@@ -2242,7 +2242,7 @@ public class ResolveHits implements Serializable {
 			// System.out.println("glancingRoll: "+glancingRoll);
 			// System.out.println("glancingCol: "+glancingCol);
 
-			for (int i = 2; i < 20; i++) {
+			for (int i = 2; i < 42; i++) {
 				if (protectionFactor <= pfWorksheet.getRow(i).getCell(0).getNumericCellValue()) {
 					glancingRow = i;
 					break;
