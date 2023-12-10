@@ -2389,9 +2389,14 @@ public class GameWindow implements Serializable {
 	void updateUnitVehicleLos(Unit movedUnit) {
 		
 		for(var vic : vehicleCombatWindow.vehicles) {
-			if(vic.losUnits.contains(movedUnit) 
-					&& !movedUnit.losVehicles.contains(vic))
-				vic.losUnits.remove(movedUnit);
+			
+			for(var position : vic.getCrewPositions()) {
+				
+				if(position.losUnits.contains(movedUnit) 
+						&& !movedUnit.losVehicles.contains(vic))
+					position.losUnits.remove(movedUnit);
+			}
+			
 		}
 		
 	}
