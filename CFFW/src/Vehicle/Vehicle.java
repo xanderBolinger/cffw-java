@@ -33,10 +33,7 @@ public class Vehicle implements Serializable {
 	ShieldGenerator shieldGenerator;
 
 	public ArrayList<FireMission> fireMissions;
-	public ArrayList<Vehicle> losVehicles;
-	public ArrayList<Unit> losUnits;
-	public ArrayList<Vehicle> spottedVehicles;
-	public ArrayList<Trooper> spottedTroopers;
+	
 	
 	public String notes;
 	
@@ -58,10 +55,7 @@ public class Vehicle implements Serializable {
 		this.crewCompartments = crewCompartments;
 		this.identifier = identifier();
 		active = true;
-		losVehicles = new ArrayList<Vehicle>();
-		losUnits = new ArrayList<Unit>();
-		spottedVehicles = new ArrayList<Vehicle>();
-		spottedTroopers = new ArrayList<Trooper>();
+		
 		fireMissions = new ArrayList<FireMission>();
 		this.spotData = spotData;
 		turretData = new VehicleTurretData();

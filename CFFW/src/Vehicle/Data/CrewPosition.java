@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import HexGrid.HexDirectionUtility.HexDirection;
+import Trooper.Trooper;
+import Unit.Unit;
+import Vehicle.Vehicle;
 import Vehicle.Utilities.VehicleDataUtility.CrewPositionType;
 
 public class CrewPosition implements Serializable {
@@ -15,6 +18,11 @@ public class CrewPosition implements Serializable {
 	List<CrewPositionType> positionTypes;
 	List<HexDirection> fieldOfView;
 	
+	public ArrayList<Vehicle> losVehicles;
+	public ArrayList<Unit> losUnits;
+	public ArrayList<Vehicle> spottedVehicles;
+	public ArrayList<Trooper> spottedTroopers;
+	
 	public CrewPosition(String positionName, CrewMember crewMember, 
 			List<CrewPositionType> positionTypes, List<HexDirection> fieldOfView,
 			PositionSpotData positionSpotData) {
@@ -22,6 +30,10 @@ public class CrewPosition implements Serializable {
 		this.crewMemeber = crewMember;
 		this.positionTypes = positionTypes;
 		this.fieldOfView = fieldOfView;
+		losVehicles = new ArrayList<Vehicle>();
+		losUnits = new ArrayList<Unit>();
+		spottedVehicles = new ArrayList<Vehicle>();
+		spottedTroopers = new ArrayList<Trooper>();
 		spotData = positionSpotData;
 	}
 	
