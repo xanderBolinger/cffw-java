@@ -22,8 +22,7 @@ public class CalculateLOS {
 			return;
 		ExecutorService es = Executors.newFixedThreadPool(16);
 		
-		movedVehicle.losUnits.clear();
-		movedVehicle.losVehicles.clear();
+		movedVehicle.clearLos();
 		
 		var vehicles = GameWindow.gameWindow.game.vehicleManager.getVehicles();
 		
@@ -58,7 +57,7 @@ public class CalculateLOS {
 
 		for(var unit : GameWindow.gameWindow.initiativeOrder) {
 			if(unit.losVehicles.contains(movedVehicle) 
-					&& !movedVehicle.losUnits.contains(unit)) {
+					&& !movedVehicle.isSpottingUnit(unit)) {
 				
 				unit.losVehicles.remove(movedVehicle); 
 				

@@ -170,6 +170,23 @@ public class Vehicle implements Serializable {
 		return knockedOut;
 	}
 	
+	public boolean isSpottingUnit(Unit unit) {
+		for(var pos : getCrewPositions())
+			if(pos.losUnits.contains(unit))
+				return true;
+		
+		return false;
+	}
+	
+	public void clearLos() {
+		
+		for(var pos : getCrewPositions()) {
+			pos.losUnits.clear();
+			pos.losVehicles.clear();
+		}
+		
+	}
+	
 	@Override
 	public String toString() {
 		var fm = fireMissions.size() > 0 ? "FM:: " : "";
