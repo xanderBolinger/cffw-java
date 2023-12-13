@@ -207,28 +207,28 @@ public class VehicleCombatWindow {
 		
 		ArrayList<String> los = new ArrayList<String>();
 		
-		for(var losVic : selectedVehicle.losVehicles)
+		for(var losVic : selectedVehicle.getLosVehicles())
 			los.add(losVic.getVehicleType()+": "+losVic.getVehicleCallsign());
 		
 		SwingUtility.setList(listLos, los);
 		
 		ArrayList<String> spotted = new ArrayList<String>();
 		
-		for(var losVic : selectedVehicle.spottedVehicles)
+		for(var losVic : selectedVehicle.getSpottedVehicles())
 			spotted.add(losVic.getVehicleType()+": "+losVic.getVehicleCallsign());
 		
 		SwingUtility.setList(listSpotted, spotted);
 		
 		ArrayList<String> losUnits = new ArrayList<String>();
 		
-		for(var losUnit : selectedVehicle.losUnits)
+		for(var losUnit : selectedVehicle.getLosUnits())
 			losUnits.add(losUnit.callsign);
 		
 		SwingUtility.setList(listLosUnits, losUnits);
 		
 		ArrayList<String> spottedTroopers = new ArrayList<String>();
 		
-		for(var t : selectedVehicle.spottedTroopers)
+		for(var t : selectedVehicle.getSpottedTroopers())
 			spottedTroopers.add(GameWindow.getLogHead(t));
 		
 		SwingUtility.setList(listSpottedIndividuals, spottedTroopers);
@@ -331,7 +331,7 @@ public class VehicleCombatWindow {
 	private void setTargetUnits(VehicleTurret vehicleTurret) {
 		ArrayList<String> targetUnitString = new ArrayList<String>();
 		targetUnits = new ArrayList<Unit>();
-		for(var trooper : selectedVehicle.spottedTroopers) {
+		for(var trooper : selectedVehicle.getSpottedTroopers()) {
 			
 			var unit = trooper.returnTrooperUnit(GameWindow.gameWindow);
 			if(!targetUnits.contains(unit) && VehicleAimUtility.turretFacingTarget(vehicleTurret, selectedVehicle, unit)) {
@@ -349,7 +349,7 @@ public class VehicleCombatWindow {
 
 		this.targetVehicles = new ArrayList<Vehicle>();
 		
-		for(var vic : selectedVehicle.spottedVehicles) {
+		for(var vic : selectedVehicle.getSpottedVehicles()) {
 			if(VehicleAimUtility.turretFacingTarget(vehicleTurret, selectedVehicle, vic)) {
 				targetVehicles.add(vic.getVehicleCallsign());
 				this.targetVehicles.add(vic);

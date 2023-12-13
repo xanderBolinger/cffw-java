@@ -1,5 +1,8 @@
+/Actions/
+/CharacterBuilder/
+/Company/
 /Conflict/
-/UtilityClasses/
+/SaveCompanies/
 /Vehicle/
 /CorditeExpansion/
 /CorditeExpansionActions/
@@ -24,11 +27,11 @@
 /Medical/
 /Melee/
 /OperationExporter/
-/SaveCompanies/
 /Shoot/
 /Spot/
 /Trooper/
 /Unit/
+/UtilityClasses/
 /multiDimensionalArrayList.class
 /test/
 /testPackage/

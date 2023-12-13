@@ -187,6 +187,46 @@ public class Vehicle implements Serializable {
 		
 	}
 	
+	public List<Vehicle> getLosVehicles() {
+		var losVics = new ArrayList<Vehicle>();
+		
+		for(var pos : getCrewPositions())
+			for(var vic : pos.losVehicles)
+				losVics.add(vic);
+		
+		return losVics;
+	}
+	
+	public List<Unit> getLosUnits() {
+		var losUnits = new ArrayList<Unit>();
+		
+		for(var pos : getCrewPositions())
+			for(var unit : pos.losUnits)
+				losUnits.add(unit);
+		
+		return losUnits;
+	}
+	
+	public List<Vehicle> getSpottedVehicles() {
+		var spottedVics = new ArrayList<Vehicle>();
+		
+		for(var pos : getCrewPositions())
+			for(var vic : pos.spottedVehicles)
+				spottedVics.add(vic);
+		
+		return spottedVics;
+	}
+	
+	public List<Trooper> getSpottedTroopers() {
+		var spottedTroopers = new ArrayList<Trooper>();
+		
+		for(var pos : getCrewPositions())
+			for(var t : pos.spottedTroopers)
+				spottedTroopers.add(t);
+		
+		return spottedTroopers;
+	}
+	
 	@Override
 	public String toString() {
 		var fm = fireMissions.size() > 0 ? "FM:: " : "";

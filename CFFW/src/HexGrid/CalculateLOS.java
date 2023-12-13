@@ -74,9 +74,10 @@ public class CalculateLOS {
 	private static void removeSpottedTroopers(Vehicle vic, Unit unit) {
 		
 		for(var trooper : unit.getTroopers()) {
-			
-			if(vic.spottedTroopers.contains(trooper))
-				vic.spottedTroopers.remove(trooper);
+			for(var pos : vic.getCrewPositions()) {
+				if(pos.spottedTroopers.contains(trooper))
+					pos.spottedTroopers.remove(trooper);
+			}
 			
 		}
 		
