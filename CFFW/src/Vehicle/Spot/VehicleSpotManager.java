@@ -22,15 +22,15 @@ public class VehicleSpotManager {
 
 		for(var vic : GameWindow.gameWindow.game.vehicleManager.getVehicles()) {
 			
-			for(var spotVic : vic.losVehicles) {
-				if(vic.spottedVehicles.contains(spotVic) 
+			for(var spotVic : vic.getLosVehicles()) {
+				if(vic.getSpottedVehicles().contains(spotVic) 
 						|| VehicleSpotCalculator.hullDownRelativeHidden(vic,spotVic))
 					continue;
 			
 				VehicleSpotCalculator.spotVehicle(vic, spotVic);
 			}
 			
-			for(var spotUnit : vic.losUnits) {
+			for(var spotUnit : vic.getLosUnits()) {
 				VehicleSpotCalculator.spotInfantry(vic, spotUnit);
 			}
 				

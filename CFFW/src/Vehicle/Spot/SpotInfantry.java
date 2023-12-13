@@ -34,8 +34,8 @@ public class SpotInfantry {
 		SpotUtility.findSpottedTroopers(spottedTroopers, passes, spotableTroopers);
 		
 		for(var t : spottedTroopers) {
-			if(!spotter.spottedTroopers.contains(t))
-				spotter.spottedTroopers.add(t);
+			if(!spotterPosition.spottedTroopers.contains(t))
+				spotterPosition.spottedTroopers.add(t);
 		}
 		
 		String spottedTroopersString = spotter.getVehicleCallsign()+" spotted troopers: [";
@@ -172,7 +172,7 @@ public class SpotInfantry {
 				&& spotterCord.yCord == targetUnit.Y;
 		if (targetUnit.getSize() > 0) {
 			for (Trooper trooper : targetUnit.getTroopers()) {
-				if(spotter.spottedTroopers.contains(trooper))
+				if(spotter.getSpottedTroopers().contains(trooper))
 					continue;
 				if (sameHex && trooper.alive && trooper.conscious) {
 					targetTroopers.add(trooper);

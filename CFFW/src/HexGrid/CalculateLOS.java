@@ -12,6 +12,7 @@ import Hexes.Hex;
 import Trooper.Trooper;
 import Unit.Unit;
 import Vehicle.Vehicle;
+import Vehicle.Data.CrewPosition;
 import Vehicle.Utilities.VehicleDataUtility;
 
 public class CalculateLOS {
@@ -67,8 +68,8 @@ public class CalculateLOS {
 			} 
 		}
 		
-		
-		updateVehicleLosLists(vehicles);
+		// old used for reciprical spotting
+		//updateVehicleLosLists(vehicles);
 	}
 	
 	private static void removeSpottedTroopers(Vehicle vic, Unit unit) {
@@ -83,40 +84,10 @@ public class CalculateLOS {
 		
 	}
 	
-	
-	private static void updateVehicleLosLists(ArrayList<Vehicle> vehicles) {
-		for(var vic : vehicles) {
-			removeLosVic(vic);
-			removeSpottedVic(vic);
-		}
-	}
-	
-	private static void removeLosVic(Vehicle vic) {
-		var removeLosVics = new ArrayList<Vehicle>();
-		
-		for(var spottedVic : vic.losVehicles) 
-			if(!spottedVic.losVehicles.contains(vic))
-				removeLosVics.add(spottedVic);
-		
-		for(var removeVic : removeLosVics)
-			vic.losVehicles.remove(removeVic);
-	}
-	
-	private static void removeSpottedVic(Vehicle vic) {
-		var removeSpottedVics = new ArrayList<Vehicle>();
-		for(var spottedVic : vic.spottedVehicles) 
-			if(!vic.losVehicles.contains(spottedVic))
-				removeSpottedVics.add(spottedVic);
-			
-		for(var removeSpottedVic :removeSpottedVics)
-			vic.spottedVehicles.remove(removeSpottedVic);
-		
-	}
-	
-	
 	private static void calcVehicle(Vehicle v1, Vehicle v2) {
 		
-		System.out.println("Calc Vehicle LOS From: "+v1.getVehicleCallsign()+" to "+v2.getVehicleCallsign());
+		System.out.println("Calc Vehicle LOS From: "+v1.getVehicleCallsign()+" to "
+				+v2.getVehicleCallsign());
 		
 		ArrayList<Cord> hexes = TraceLine.GetHexes(v1.movementData.location, v2.movementData.location,
 				GameWindow.gameWindow.hexGrid.panel);
@@ -126,28 +97,49 @@ public class CalculateLOS {
 			hexesString += "("+h.toString()+"), ";
 		System.out.println("Cord Line: "+hexesString);
 		
-		if(hexes.size() <= 2 && !v1.losVehicles.contains(v2)) {
-			v1.losVehicles.add(v2);
+		for(var position : v1.getCrewPositions()) {
+			calcPosition(hexes, position, v1, v2);
+		}
+		
+	}
+	
+	private static void calcPosition(ArrayList<Cord> hexes, 
+			CrewPosition spotterPosition, Vehicle spotter, Vehicle target) {
+		
+		System.out.println("Los calc for position("+spotterPosition.getPositionName()
+			+"), occupied: "
+			+spotterPosition.crewMemeber.crewMember != null);
+		
+		if(hexes.size() <= 2 && !spotterPosition.losVehicles.contains(target)) {
+			spotterPosition.losVehicles.add(target);
 			return;
 		}
 		
-		var concealment = getConcealment(v1.movementData.location, v2.movementData.location, true) ;
+		var concealment = getConcealment(spotter.movementData.location, target.movementData.location, true) ;
 		
 		System.out.println("Final Concealment Value: "+concealment);
 		
 		if(concealment >= 5)
 			return;
 		
-		if(!v1.losVehicles.contains(v2))
-			v1.losVehicles.add(v2);
+		if(!spotterPosition.losVehicles.contains(target))
+			spotterPosition.losVehicles.add(target);
+	}
+	
+	
+	public static void calcVehicleInfantry(Vehicle vehicle, Unit targetUnit) {
+		
+		for(var pos : vehicle.getCrewPositions()) 
+			calcPositionInfantry(pos, vehicle, targetUnit);
 		
 	}
 	
-	public static void calcVehicleInfantry(Vehicle vehicle, Unit targetUnit) {
+	private static void calcPositionInfantry(CrewPosition spotterPosition, 
+			Vehicle vehicle, Unit targetUnit) {
 		if(GameWindow.hexDif(vehicle.movementData.location.xCord, 
 				vehicle.movementData.location.yCord, targetUnit) <= 1) {
-			if(!vehicle.losUnits.contains(targetUnit))
-				vehicle.losUnits.add(targetUnit);
+			if(!spotterPosition.losUnits.contains(targetUnit))
+				spotterPosition.losUnits.add(targetUnit);
 			
 			if(!targetUnit.losVehicles.contains(vehicle))
 				targetUnit.losVehicles.add(vehicle);
@@ -157,8 +149,8 @@ public class CalculateLOS {
 		if(!hasLos(vehicle.movementData.location, new Cord(targetUnit.X, targetUnit.Y)))
 			return;
 		
-		if(!vehicle.losUnits.contains(targetUnit))
-			vehicle.losUnits.add(targetUnit);
+		if(!spotterPosition.losUnits.contains(targetUnit))
+			spotterPosition.losUnits.add(targetUnit);
 		
 		if(!targetUnit.losVehicles.contains(vehicle))
 			targetUnit.losVehicles.add(vehicle);

@@ -59,9 +59,9 @@ public class VehicleSpotCalculator {
 		for(var position : spotter.getCrewPositions()) {
 			if(!position.getFieldOfView().contains(direction) || !position.occupied() || position.crewMemeber.currentAction != CrewAction.SPOT)
 				continue;
-			if(!spotter.spottedVehicles.contains(target))
+			if(!position.spottedVehicles.contains(target))
 				if(spotVehicleRoll(spotter, target, position))
-					spotter.spottedVehicles.add(target);
+					position.spottedVehicles.add(target);
 		}
 		
 	}

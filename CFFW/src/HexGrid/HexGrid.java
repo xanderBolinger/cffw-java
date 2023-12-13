@@ -2197,7 +2197,7 @@ public class HexGrid implements Serializable {
 			
 			drawVehicleOutline(selectedVehicle, g2, true);
 			
-			for (var unit : selectedVehicle.losVehicles)
+			for (var unit : selectedVehicle.getLosVehicles())
 				drawVehicleOutline(unit, g2, false);
 			
 		}

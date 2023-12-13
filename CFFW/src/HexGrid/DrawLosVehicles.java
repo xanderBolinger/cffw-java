@@ -21,7 +21,7 @@ public class DrawLosVehicles {
 		var cord = vic.movementData.location;
 		var center = GameWindow.gameWindow.hexGrid.panel.getHexCenter(cord.xCord, cord.yCord);
 		
-		for(var losVehicle : vic.losVehicles) {
+		for(var losVehicle : vic.getLosVehicles()) {
 			
 			var targetCord = losVehicle.movementData.location;
 			var targetCenter = GameWindow.gameWindow.hexGrid.panel
@@ -30,7 +30,7 @@ public class DrawLosVehicles {
 			DrawLos.drawLineBetweenUnits(g2, center, targetCenter, color);
 		}
 		
-		for(var losUnit : vic.losUnits) {
+		for(var losUnit : vic.getLosUnits()) {
 			var targetCenter = GameWindow.gameWindow.hexGrid.panel
 					.getHexCenter(losUnit.X, losUnit.Y);
 			var color = getLineColor(vic, losUnit, true);
@@ -63,7 +63,7 @@ public class DrawLosVehicles {
 	
 	private static boolean spottingUnit(Vehicle vic, Unit targetUnit) {
 		
-		for(var spottedTrooper : vic.spottedTroopers)
+		for(var spottedTrooper : vic.getSpottedTroopers())
 			if(targetUnit.individuals.contains(spottedTrooper))
 				return true;
 		
@@ -74,8 +74,8 @@ public class DrawLosVehicles {
 		
 		var color = Color.MAGENTA;
 		
-		var vicSpottingVic2 = vic.spottedVehicles.contains(vic2);
-		var vic2SpottingVic = vic2.spottedVehicles.contains(vic);
+		var vicSpottingVic2 = vic.getSpottedVehicles().contains(vic2);
+		var vic2SpottingVic = vic2.getSpottedVehicles().contains(vic);
 		
 		if(vicSpottingVic2 && vic2SpottingVic)
 			color = Color.GREEN;
