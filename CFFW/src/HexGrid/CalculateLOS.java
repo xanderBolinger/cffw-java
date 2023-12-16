@@ -115,7 +115,8 @@ public class CalculateLOS {
 			return;
 		}
 		
-		var concealment = getConcealment(spotter.movementData.location, target.movementData.location, true) ;
+		var concealment = getConcealment(spotter.movementData.location, target.movementData.location, true,
+				spotterPosition.elevationAboveVehicle, target.altitude);
 		
 		System.out.println("Final Concealment Value: "+concealment);
 		
@@ -146,7 +147,8 @@ public class CalculateLOS {
 			return;
 		}
 		
-		if(!hasLos(vehicle.movementData.location, new Cord(targetUnit.X, targetUnit.Y)))
+		if(!hasLos(vehicle.movementData.location, new Cord(targetUnit.X, targetUnit.Y),
+				spotterPosition.elevationAboveVehicle, 0))
 			return;
 		
 		if(!spotterPosition.losUnits.contains(targetUnit))
@@ -167,7 +169,7 @@ public class CalculateLOS {
 			return;
 		}
 		
-		if(!hasLos(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y)))
+		if(!hasLos(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y), 0, 0))
 			return;
 		
 		if(!unit.lineOfSight.contains(targetUnit))
@@ -178,8 +180,8 @@ public class CalculateLOS {
 		
 	}
 	
-	public static boolean hasLos(Cord cord, Cord cord2) {
-		var concealment = getConcealment(cord, cord2, true) ;
+	public static boolean hasLos(Cord cord, Cord cord2, int spotterElevationBonus, int targetElevationBonus) {
+		var concealment = getConcealment(cord, cord2, true, spotterElevationBonus, targetElevationBonus);
 		
 		if(concealment >= 5)
 			return false;
@@ -212,7 +214,8 @@ public class CalculateLOS {
 		
 	} 
 	
-	public static int getConcealment(Cord c1, Cord c2, boolean lineOfSight) {
+	public static int getConcealment(Cord c1, Cord c2, boolean lineOfSight, 
+			int spotterElevationBonus, int targetElevationBonus) {
 		ArrayList<Cord> hexes = TraceLine.GetHexes(c1, c2, GameWindow.gameWindow.hexGrid.panel);
 
 		Cord spotterCord;
@@ -230,8 +233,8 @@ public class CalculateLOS {
 		// The number of hexes in between target and spotter plus 1 gets target x 
 		// The denominator has an extra plus one because we are getting the index of each hex in the array
 		
-		int spotterElevation = GameWindow.gameWindow.findHex(spotterCord.xCord, spotterCord.yCord).elevation+1;
-		int targetElevation = GameWindow.gameWindow.findHex(targetCord.xCord, targetCord.yCord).elevation+1;
+		int spotterElevation = GameWindow.gameWindow.findHex(spotterCord.xCord, spotterCord.yCord).elevation+1+spotterElevationBonus;
+		int targetElevation = GameWindow.gameWindow.findHex(targetCord.xCord, targetCord.yCord).elevation+1+targetElevationBonus;
 		double slopeToTarget = ((double)targetElevation - (double)spotterElevation) / ((double)hexes.size() + 1.0 - 1.0);
 		
 		int concealment = 0; 
@@ -333,7 +336,7 @@ public class CalculateLOS {
 	
 	public static int getConcelamentValue(Unit unit, Unit targetUnit) {
 				
-		return getConcealment(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y), false);
+		return getConcealment(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y), false, 0, 0);
 	}
 	
 	public static int getConcealmentAlm(Unit shooterUnit, Unit targetUnit) {
@@ -354,7 +357,7 @@ public class CalculateLOS {
 			alm += GameWindow.gameWindow.game.smoke.getAlm(hex);
 		}
 		
-		alm -= getConcealment(new Cord(shooterUnit.X, shooterUnit.Y), new Cord(targetUnit.X, targetUnit.Y), false);
+		alm -= getConcealment(new Cord(shooterUnit.X, shooterUnit.Y), new Cord(targetUnit.X, targetUnit.Y), false, 0, 0);
 		
 		if(alm < -14)
 			alm = -14; 

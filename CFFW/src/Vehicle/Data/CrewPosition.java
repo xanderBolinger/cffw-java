@@ -23,6 +23,8 @@ public class CrewPosition implements Serializable {
 	public ArrayList<Vehicle> spottedVehicles;
 	public ArrayList<Trooper> spottedTroopers;
 	
+	public int elevationAboveVehicle;
+	
 	public CrewPosition(String positionName, CrewMember crewMember, 
 			List<CrewPositionType> positionTypes, List<HexDirection> fieldOfView,
 			PositionSpotData positionSpotData) {

@@ -45,6 +45,8 @@ public class Vehicle implements Serializable {
 	public VehicleSpotData spotData;
 	public VehicleTurretData turretData;
 	
+	public int altitude;
+	
 	public Vehicle() {} // empty constructor for testing 
 
 	public Vehicle(String vehicleTypeName, List<CrewCompartment> crewCompartments, 
