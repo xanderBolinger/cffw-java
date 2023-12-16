@@ -69,7 +69,7 @@ public class SpotInfantry {
 		int speedModSpotter = VehicleSpotCalculator.getSpeedModifierSpotter(spotter);		
 
 		// Concealment
-		int concealmentMod = VehicleSpotCalculator.getConcealmentMod(spotterCord, targetCord);
+		int concealmentMod = VehicleSpotCalculator.getConcealmentMod(spotterCord, targetCord, spotterPosition.elevationAboveVehicle,0);
 		
 		// Fortifications 
 		int fortMod = SpotModifiers.getFortificationMod(xCord, yCord);

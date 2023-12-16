@@ -398,7 +398,7 @@ public class VehicleCombatWindow {
 		} else {
 			
 			var targetCord = new Cord((int) spinnerTargetX.getValue(), (int) spinnerTargetY.getValue());
-			var concealment = CalculateLOS.getConcealment(selectedVehicle.movementData.location, targetCord, true);
+			var concealment = CalculateLOS.getConcealment(selectedVehicle.movementData.location, targetCord, true, 0, 0);
 			
 			if(concealment < 5 && VehicleAimUtility.turretFacingTarget(turret, selectedVehicle, targetCord)) {
 				turret.vehicleAimTarget = new VehicleAimTarget(targetCord);

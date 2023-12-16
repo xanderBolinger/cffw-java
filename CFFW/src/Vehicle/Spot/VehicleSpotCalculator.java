@@ -96,7 +96,7 @@ public class VehicleSpotCalculator {
 		int speedModSpotter = getSpeedModifierSpotter(spotter);		
 
 		// Concealment
-		int concealmentMod = getConcealmentMod(spotterCord, targetCord);
+		int concealmentMod = getConcealmentMod(spotterCord, targetCord, spotterPosition.elevationAboveVehicle, target.altitude);
 		
 		// Fortifications 
 		int fortMod = SpotModifiers.getFortificationMod(xCord, yCord);
@@ -215,8 +215,8 @@ public class VehicleSpotCalculator {
 		
 	}
 	
-	public static int getConcealmentMod(Cord spotter, Cord target) {
-		int concealment = CalculateLOS.getConcealment(spotter, target, false);
+	public static int getConcealmentMod(Cord spotter, Cord target, int spotterElevationBonus, int targetElevationBonus) {
+		int concealment = CalculateLOS.getConcealment(spotter, target, false, spotterElevationBonus, targetElevationBonus);
 		return SpotModifiers.getConcealmentMod(concealment);
 	}
 	
