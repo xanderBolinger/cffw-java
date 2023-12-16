@@ -40,11 +40,10 @@ public class CalculateLOS {
 				continue;
 			
 			es.submit(() -> { 
-				updateUnmovedTargetLosVehicle(movedVehicle, vic);
+				clearUnmovedTargetLos(movedVehicle, vic);
 				calcVehicle(movedVehicle, vic);
 				calcVehicle(vic, movedVehicle);
 			});
-			
 			
 		}
 		
@@ -76,19 +75,20 @@ public class CalculateLOS {
 		}
 		
 		// old used for reciprical spotting
-		updateVehicleSpottedLists(vehicles);
+		removeSpottedVehiclesForLostLos(vehicles);
 	}
 	
-	private static void updateUnmovedTargetLosVehicle(Vehicle movedVehicle, Vehicle stationaryLosVehicle) {
+	private static void clearUnmovedTargetLos(Vehicle movedVehicle, Vehicle stationaryLosVehicle) {
 		if(!stationaryLosVehicle.getLosVehicles().contains(movedVehicle))
 			return;
 		
-		
-		
+		for(var pos : stationaryLosVehicle.getCrewPositions()) {
+			pos.losVehicles.remove(movedVehicle);
+		}
 		
 	}
 	
-	private static void updateVehicleSpottedLists(ArrayList<Vehicle> vehicles) {
+	private static void removeSpottedVehiclesForLostLos(ArrayList<Vehicle> vehicles) {
 		
 		for(var vic : vehicles) {
 			
