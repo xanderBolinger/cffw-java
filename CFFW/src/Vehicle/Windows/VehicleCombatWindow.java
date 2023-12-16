@@ -276,9 +276,9 @@ public class VehicleCombatWindow {
 		unselectAimControls();
 	}
 	
-	private void selectCombat() {
+	private void selectTurret() {
 		if(comboBoxTurrets.getItemCount() <= 0 || comboBoxTurrets.getSelectedIndex() < 0
-				|| selectedVehicle == null)
+				|| selectedVehicle == null) 
 			return;
 		
 		var turret = selectedVehicle.turretData.turrets.get(comboBoxTurrets.getSelectedIndex());
@@ -331,14 +331,19 @@ public class VehicleCombatWindow {
 	private void setTargetUnits(VehicleTurret vehicleTurret) {
 		ArrayList<String> targetUnitString = new ArrayList<String>();
 		targetUnits = new ArrayList<Unit>();
-		for(var trooper : selectedVehicle.getSpottedTroopers()) {
+		
+		for(var pos : selectedVehicle.getCrewPositions()) {
+			if(!vehicleTurret.crewPositions.contains(pos))
+				continue;
 			
-			var unit = trooper.returnTrooperUnit(GameWindow.gameWindow);
-			if(!targetUnits.contains(unit) && VehicleAimUtility.turretFacingTarget(vehicleTurret, selectedVehicle, unit)) {
-				targetUnits.add(unit);
-				targetUnitString.add(unit.side+":: "+unit.callsign);
+			for(var trooper : pos.spottedTroopers) {
+				var unit = trooper.returnTrooperUnit(GameWindow.gameWindow);
+				if(!targetUnits.contains(unit) && VehicleAimUtility.turretFacingTarget(vehicleTurret, selectedVehicle, unit)) {
+					targetUnits.add(unit);
+					targetUnitString.add(unit.side+":: "+unit.callsign);
+				}
 			}
-			
+
 		}
 		
 		SwingUtility.setComboBox(comboBoxUnitTarget, targetUnitString, true, 0);
@@ -349,11 +354,19 @@ public class VehicleCombatWindow {
 
 		this.targetVehicles = new ArrayList<Vehicle>();
 		
-		for(var vic : selectedVehicle.getSpottedVehicles()) {
-			if(VehicleAimUtility.turretFacingTarget(vehicleTurret, selectedVehicle, vic)) {
-				targetVehicles.add(vic.getVehicleCallsign());
-				this.targetVehicles.add(vic);
+		for(var pos : selectedVehicle.getCrewPositions()) {
+			if(!vehicleTurret.crewPositions.contains(pos))
+				continue;
+			
+			for(var vic : pos.spottedVehicles) {
+				
+				if(VehicleAimUtility.turretFacingTarget(vehicleTurret, selectedVehicle, vic) && !targetVehicles.contains(vic)) {
+					targetVehicles.add(vic.getVehicleCallsign());
+					this.targetVehicles.add(vic);
+				}
 			}
+			
+			
 		}
 		
 		SwingUtility.setComboBox(comboBoxVehicleTarget, targetVehicles, true, 0);
@@ -395,7 +408,7 @@ public class VehicleCombatWindow {
 					, targetTroopers.get(comboBoxIndividualTarget.getSelectedIndex()-1));
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue(selectedVehicle.getVehicleCallsign()
 					+" "+turret.turretName+" set aim target: "+turret.vehicleAimTarget.toString());
-		} else {
+		} /*else {
 			
 			var targetCord = new Cord((int) spinnerTargetX.getValue(), (int) spinnerTargetY.getValue());
 			var concealment = CalculateLOS.getConcealment(selectedVehicle.movementData.location, targetCord, true, 0, 0);
@@ -408,7 +421,7 @@ public class VehicleCombatWindow {
 				GameWindow.gameWindow.conflictLog.addNewLineToQueue(selectedVehicle.getVehicleCallsign()
 						+" "+turret.turretName+" could not set target hex cord("+targetCord.toString()+"): out of los or facing");
 			}
-		}
+		}*/
 		
 		GameWindow.gameWindow.conflictLog.addQueuedText();
 		
@@ -865,7 +878,7 @@ public class VehicleCombatWindow {
 		comboBoxTurrets = new JComboBox();
 		comboBoxTurrets.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				selectCombat();
+				selectTurret();
 			}
 		});
 		comboBoxTurrets.setBounds(10, 31, 131, 22);
