@@ -104,6 +104,7 @@
                 <can_rotate>true</can_rotate>
                 <min_facing>-180</min_facing>
                 <max_facing>180</max_facing>
+                <positions>Main Gunner,Secondary Gunner</positions>
             </turret>
             <turret>
                 <turret_name>Forward Lasers</turret_name>
@@ -112,6 +113,7 @@
                 <can_rotate>false</can_rotate>
                 <min_facing>-180</min_facing>
                 <max_facing>180</max_facing>
+                <positions>Main Gunner,Secondary Gunner</positions>
             </turret>
         </turret_data>
         <movement_data>
