@@ -17,6 +17,12 @@ import Vehicle.Utilities.VehicleDataUtility;
 
 public class CalculateLOS {
 
+	
+	// Potential optomizations 
+	// Change calc vehicle to remove los from the target vic if it has the moved vic in los
+	// Remove redundant calc vehicle 
+	// Change the has los to only draw los once, fix unequal concelament going in each direction
+	
 	public static void calcVehicles(Vehicle movedVehicle) {
 		if(GameWindow.gameWindow == null || GameWindow.gameWindow.game == null || GameWindow.gameWindow.game.vehicleManager == null
 				|| GameWindow.gameWindow.companies == null)
@@ -34,8 +40,9 @@ public class CalculateLOS {
 				continue;
 			
 			es.submit(() -> { 
+				updateUnmovedTargetLosVehicle(movedVehicle, vic);
 				calcVehicle(movedVehicle, vic);
-				//calcVehicle(vic, movedVehicle);
+				calcVehicle(vic, movedVehicle);
 			});
 			
 			
@@ -69,13 +76,35 @@ public class CalculateLOS {
 		}
 		
 		// old used for reciprical spotting
-		updateVehicleLosLists(vehicles);
+		updateVehicleSpottedLists(vehicles);
 	}
 	
-	private static void updateVehicleLosLists(ArrayList<Vehicle> vehicles) {
+	private static void updateUnmovedTargetLosVehicle(Vehicle movedVehicle, Vehicle stationaryLosVehicle) {
+		if(!stationaryLosVehicle.getLosVehicles().contains(movedVehicle))
+			return;
 		
 		
 		
+		
+	}
+	
+	private static void updateVehicleSpottedLists(ArrayList<Vehicle> vehicles) {
+		
+		for(var vic : vehicles) {
+			
+			for(var pos : vic.getCrewPositions()) {
+				
+				var removeVics = new ArrayList<Vehicle>();
+				
+				for(var spotted : pos.spottedVehicles)
+					if(!pos.losVehicles.contains(spotted)) 
+						removeVics.add(spotted);
+				
+				for(var removeVic : removeVics)
+					pos.spottedVehicles.remove(removeVic);
+				
+			}
+		}
 		
 	}
 	
