@@ -432,6 +432,11 @@ public class VehicleCombatWindow {
 		vehicleList.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
 				if(vehicleList.getSelectedIndex() < 0)
 					return;
 				

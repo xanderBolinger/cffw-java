@@ -91,6 +91,7 @@
                 <can_rotate>true</can_rotate>
                 <min_facing>-20</min_facing>
                 <max_facing>20</max_facing>
+                <positions>Pilot,Copilot</positions>
             </turret>
             <turret>
                 <turret_name>External Turret</turret_name>
@@ -99,6 +100,7 @@
                 <can_rotate>false</can_rotate>
                 <min_facing>-180</min_facing>
                 <max_facing>180</max_facing>
+                <positions>Topgunner</positions>
             </turret>
         </turret_data>
         <movement_data>

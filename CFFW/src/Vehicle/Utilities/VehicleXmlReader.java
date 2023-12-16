@@ -60,7 +60,7 @@ public class VehicleXmlReader {
 		vehicle.setVehicleCallsign(vehicleCallSign);
 		vehicle.movementData = getVehicleMovementData(vehicleData, vehicle);
 		vehicle.smokeData = getVehicleSmokeData(vehicleData, vehicle);
-		vehicle.turretData.turrets = VehicleCombatXmlReader.getVehicleTurrets(vehicleData);
+		vehicle.turretData.turrets = VehicleCombatXmlReader.getVehicleTurrets(vehicleData, vehicle);
 		
 		return vehicle;
 	}

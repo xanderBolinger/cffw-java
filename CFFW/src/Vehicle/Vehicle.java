@@ -194,7 +194,8 @@ public class Vehicle implements Serializable {
 		
 		for(var pos : getCrewPositions())
 			for(var vic : pos.losVehicles)
-				losVics.add(vic);
+				if(!losVics.contains(vic))
+					losVics.add(vic);
 		
 		return losVics;
 	}
@@ -204,7 +205,8 @@ public class Vehicle implements Serializable {
 		
 		for(var pos : getCrewPositions())
 			for(var unit : pos.losUnits)
-				losUnits.add(unit);
+				if(!losUnits.contains(unit))
+					losUnits.add(unit);
 		
 		return losUnits;
 	}
@@ -214,7 +216,8 @@ public class Vehicle implements Serializable {
 		
 		for(var pos : getCrewPositions())
 			for(var vic : pos.spottedVehicles)
-				spottedVics.add(vic);
+				if(!spottedVics.contains(vic))
+					spottedVics.add(vic);
 		
 		return spottedVics;
 	}
@@ -224,7 +227,8 @@ public class Vehicle implements Serializable {
 		
 		for(var pos : getCrewPositions())
 			for(var t : pos.spottedTroopers)
-				spottedTroopers.add(t);
+				if(!spottedTroopers.contains(t))
+					spottedTroopers.add(t);
 		
 		return spottedTroopers;
 	}

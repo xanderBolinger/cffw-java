@@ -1,6 +1,10 @@
 package Vehicle.Combat;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import Vehicle.Vehicle;
+import Vehicle.Data.CrewPosition;
 
 public class VehicleTurret implements Serializable {
 	public String turretName;
@@ -13,6 +17,9 @@ public class VehicleTurret implements Serializable {
 	public int nextFacing;
 	public VehicleAimTarget vehicleAimTarget;
 	
+	public ArrayList<CrewPosition> crewPositions;
+	
+	
 	public VehicleTurret(String turretName, int facingWidth, int rotationSpeedPerPhaseDegrees,
 			boolean canRotate, int minFacing, int maxFacing) {
 		this.turretName = turretName;
@@ -22,5 +29,10 @@ public class VehicleTurret implements Serializable {
 		this.canRotate = canRotate;
 		this.minFacing = minFacing;
 		this.maxFacing = maxFacing;
+		crewPositions = new ArrayList<CrewPosition>();
+	}
+	
+	public void addPosition(String positionName, Vehicle vic) throws Exception {
+		crewPositions.add(vic.getCrewPosition(positionName));
 	}
 }
