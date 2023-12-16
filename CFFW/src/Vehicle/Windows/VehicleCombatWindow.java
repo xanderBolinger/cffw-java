@@ -373,7 +373,6 @@ public class VehicleCombatWindow {
 	}
 	
 	private void setAimTarget(VehicleTurret vehicleTurret) {
-		System.out.println("set aim target");
 		lblAimTarget.setText("Aim Target: "+(vehicleTurret.vehicleAimTarget == null ? "" :
 			vehicleTurret.vehicleAimTarget.toString()));
 	}

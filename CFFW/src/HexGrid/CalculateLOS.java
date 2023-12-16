@@ -35,7 +35,7 @@ public class CalculateLOS {
 			
 			es.submit(() -> { 
 				calcVehicle(movedVehicle, vic);
-				calcVehicle(vic, movedVehicle);
+				//calcVehicle(vic, movedVehicle);
 			});
 			
 			
@@ -69,7 +69,14 @@ public class CalculateLOS {
 		}
 		
 		// old used for reciprical spotting
-		//updateVehicleLosLists(vehicles);
+		updateVehicleLosLists(vehicles);
+	}
+	
+	private static void updateVehicleLosLists(ArrayList<Vehicle> vehicles) {
+		
+		
+		
+		
 	}
 	
 	private static void removeSpottedTroopers(Vehicle vic, Unit unit) {
@@ -115,12 +122,8 @@ public class CalculateLOS {
 			return;
 		}
 		
-		var concealment = getConcealment(spotter.movementData.location, target.movementData.location, true,
-				spotterPosition.elevationAboveVehicle, target.altitude);
-		
-		System.out.println("Final Concealment Value: "+concealment);
-		
-		if(concealment >= 5)
+		if(!hasLos(spotter.movementData.location, target.movementData.location, 
+				spotterPosition.elevationAboveVehicle, target.altitude))
 			return;
 		
 		if(!spotterPosition.losVehicles.contains(target))
@@ -147,7 +150,9 @@ public class CalculateLOS {
 			return;
 		}
 		
-		if(!hasLos(vehicle.movementData.location, new Cord(targetUnit.X, targetUnit.Y),
+		var cord = new Cord(targetUnit.X, targetUnit.Y);
+		
+		if(!hasLos(vehicle.movementData.location, cord,
 				spotterPosition.elevationAboveVehicle, 0))
 			return;
 		
@@ -182,8 +187,14 @@ public class CalculateLOS {
 	
 	public static boolean hasLos(Cord cord, Cord cord2, int spotterElevationBonus, int targetElevationBonus) {
 		var concealment = getConcealment(cord, cord2, true, spotterElevationBonus, targetElevationBonus);
+		var concealment1 = getConcealment(cord2, cord, true, targetElevationBonus, spotterElevationBonus);
 		
-		if(concealment >= 5)
+		if(concealment != concealment1)
+			System.err.println("Concealment does not equal "+concealment+"!="+concealment1+", Cord 1 ("+cord.toString()+"), "
+					+"Cord 2 ("+cord2.toString()+"), Spotter Elevation Bonus: "+spotterElevationBonus+", Target Elevation Bonus: "
+					+targetElevationBonus);
+		
+		if(concealment >= 5 || concealment1 >= 5)
 			return false;
 		return true;
 	}
