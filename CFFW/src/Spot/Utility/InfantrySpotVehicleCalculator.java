@@ -52,7 +52,7 @@ public class InfantrySpotVehicleCalculator {
 		
 		// Concealment
 		int concealmentMod = VehicleSpotCalculator.getConcealmentMod(spotterCord,
-				targetCord);
+				targetCord, 0, 0);
 
 		// Behavior 
 		// Accounted for through difference in target size from prone to standing

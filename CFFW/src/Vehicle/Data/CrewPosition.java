@@ -25,6 +25,8 @@ public class CrewPosition implements Serializable {
 	
 	public int elevationAboveVehicle;
 	
+	
+	// Test constructor !!!
 	public CrewPosition(String positionName, CrewMember crewMember, 
 			List<CrewPositionType> positionTypes, List<HexDirection> fieldOfView,
 			PositionSpotData positionSpotData) {
@@ -43,6 +45,10 @@ public class CrewPosition implements Serializable {
 		this.positionName = positionName;
 		this.positionTypes = positionTypes;
 		this.fieldOfView = fieldOfView;
+		losVehicles = new ArrayList<Vehicle>();
+		losUnits = new ArrayList<Unit>();
+		spottedVehicles = new ArrayList<Vehicle>();
+		spottedTroopers = new ArrayList<Trooper>();
 	}
 	
 	public String getPositionName() {

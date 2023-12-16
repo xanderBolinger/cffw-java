@@ -797,19 +797,19 @@ public class VehicleCombatWindow {
 		smoke.setLayout(null);
 		
 		lblLaunchedSmoke = new JLabel("Launched Smoke:");
-		lblLaunchedSmoke.setBounds(10, 61, 187, 14);
+		lblLaunchedSmoke.setBounds(10, 61, 286, 14);
 		smoke.add(lblLaunchedSmoke);
 		
 		lblLaunchesRemaining = new JLabel("Launches Remaining:");
-		lblLaunchesRemaining.setBounds(10, 86, 187, 14);
+		lblLaunchesRemaining.setBounds(10, 86, 286, 14);
 		smoke.add(lblLaunchesRemaining);
 		
 		lblTrailingSmoke = new JLabel("Trailing Smoke:");
-		lblTrailingSmoke.setBounds(10, 11, 187, 14);
+		lblTrailingSmoke.setBounds(10, 11, 286, 14);
 		smoke.add(lblTrailingSmoke);
 		
 		lblTurnsRemaining = new JLabel("Turns Reminaing:");
-		lblTurnsRemaining.setBounds(10, 36, 187, 14);
+		lblTurnsRemaining.setBounds(10, 36, 286, 14);
 		smoke.add(lblTurnsRemaining);
 		
 		JButton btnLaunch = new JButton("Launch");
