@@ -346,7 +346,7 @@ public class SpotVisibility {
 			
 			visibilityModifications += smokePenalty+", thermal equipped: "+spotterThermalEquipped;
 			
-			return smokePenalty;
+			return -smokePenalty;
 			
 		} else {
 			var penalty = GameWindow.gameWindow.game.smoke.getAlm(spotterCord, 
@@ -354,7 +354,7 @@ public class SpotVisibility {
 			visibilityModifications += "same hex, "
 					+ penalty
 					+ ", thermal equipped: "+spotterThermalEquipped;
-			return penalty;
+			return -penalty;
 		}
 		
 	}
