@@ -96,11 +96,12 @@ public class VehicleXmlReader {
 		int smokeLaunches = Integer.parseInt(vehicleData.getElementsByTagName("smoke_launches").item(0).getTextContent());
 		String trailing_smoke = vehicleData.getElementsByTagName("trailing_smoke").item(0).getTextContent();
 		String launched_smoke = vehicleData.getElementsByTagName("launched_smoke").item(0).getTextContent();
-
+		int smokeLauncherRange = Integer.parseInt(vehicleData.getElementsByTagName("smoke_launcher_range").item(0).getTextContent());
 		SmokeStats launchedSmoke = new SmokeStats(launched_smoke);
 		SmokeStats trailingSmoke = new SmokeStats(trailing_smoke);
 		
-		return new VehicleSmokeData(trailingSmoke, launchedSmoke, smokeLaunches, trailingSmokeTurns, vehicle);
+		return new VehicleSmokeData(trailingSmoke, launchedSmoke, smokeLaunches, trailingSmokeTurns, smokeLauncherRange, 
+				vehicle);
 	}
 
 	private static VehicleMovementData getVehicleMovementData(Document vehicleData, Vehicle vehicle) throws Exception {
