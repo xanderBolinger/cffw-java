@@ -8,6 +8,7 @@
                         <thermal_mod>5</thermal_mod>
                         <magnification>24</magnification>
                         <night_vision>4</night_vision>
+                        <elevation>0</elevation>
                         <position_types>
                             <type>DRIVER</type>
                         </position_types>
@@ -33,10 +34,11 @@
             <turret>
                 <turret_name>Main Gun</turret_name>
                 <facing_width>20</facing_width>
-                <rotation_speed>30</rotation_speed>
+                <rotation_speed>40</rotation_speed>
                 <can_rotate>true</can_rotate>
                 <min_facing>-180</min_facing>
                 <max_facing>180</max_facing>
+                <positions>DroidBrain</positions>
             </turret>
         </turret_data>
         <movement_data>

@@ -119,6 +119,7 @@ public class VehicleCombatWindow {
 	private JLabel lblAimTarget;
 	private JButton btnNewButton_10;
 	private JLabel lblTurretElevation;
+	private JSpinner spinnerAltitude;
 	
 	/**
 	 * Create the application.
@@ -241,7 +242,7 @@ public class VehicleCombatWindow {
 		
 		SwingUtility.setComboBox(comboBoxTurrets, turretStrings, false, 0);
 		
-		
+		spinnerAltitude.setValue(selectedVehicle.altitude);
 		
 	}
 	
@@ -1074,6 +1075,24 @@ public class VehicleCombatWindow {
 		});
 		btnNewButton_1_1.setBounds(406, 247, 144, 23);
 		frame.getContentPane().add(btnNewButton_1_1);
+		
+		spinnerAltitude = new JSpinner();
+		spinnerAltitude.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				
+				if(selectedVehicle == null)
+					return;
+				
+				selectedVehicle.altitude = (int)spinnerAltitude.getValue();
+				
+			}
+		});
+		spinnerAltitude.setBounds(786, 363, 56, 20);
+		frame.getContentPane().add(spinnerAltitude);
+		
+		JLabel lblAltitude = new JLabel("Altitude:");
+		lblAltitude.setBounds(702, 366, 92, 14);
+		frame.getContentPane().add(lblAltitude);
 		textAreaNotes.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {

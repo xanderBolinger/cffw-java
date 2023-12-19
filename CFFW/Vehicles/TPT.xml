@@ -8,6 +8,7 @@
                         <thermal_mod>7</thermal_mod>
                         <magnification>34</magnification>
                         <night_vision>5</night_vision>
+                        <elevation>0</elevation>
                         <position_types>
                             <type>DRIVER</type>
                             <type>GUNNER</type>
@@ -32,6 +33,7 @@
                         <thermal_mod>7</thermal_mod>
                         <magnification>34</magnification>
                         <night_vision>5</night_vision>
+                        <elevation>0</elevation>
                         <position_types>
                             <type>DRIVER</type>
                             <type>GUNNER</type>
@@ -62,6 +64,7 @@
                         <thermal_mod>7</thermal_mod>
                         <magnification>34</magnification>
                         <night_vision>5</night_vision>
+                        <elevation>0</elevation>
                         <position_types>
                             <type>GUNNER</type>
                         </position_types>
@@ -91,6 +94,7 @@
                 <can_rotate>true</can_rotate>
                 <min_facing>-180</min_facing>
                 <max_facing>180</max_facing>
+                <positions>Topgunner</positions>
             </turret>
             <turret>
                 <turret_name>Forward Laser</turret_name>
@@ -99,6 +103,7 @@
                 <can_rotate>true</can_rotate>
                 <min_facing>-90</min_facing>
                 <max_facing>90</max_facing>
+                <positions>Pilot,Copilot</positions>
             </turret>
         </turret_data>
         <movement_data>

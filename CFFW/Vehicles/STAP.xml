@@ -8,6 +8,7 @@
                         <thermal_mod>0</thermal_mod>
                         <magnification>0</magnification>
                         <night_vision>0</night_vision>
+                        <elevation>0</elevation>
                         <position_types>
                             <type>DRIVER</type>
                         </position_types>
@@ -37,6 +38,7 @@
                 <can_rotate>false</can_rotate>
                 <min_facing>-180</min_facing>
                 <max_facing>180</max_facing>
+                <positions>Pilot</positions>
             </turret>
         </turret_data>
         <movement_data>

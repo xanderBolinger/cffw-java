@@ -1725,6 +1725,14 @@ public class HexGrid implements Serializable {
 
 						}
 
+						for(var vic : GameWindow.gameWindow.vehicleCombatWindow.vehicles) {
+							if(vic.movementData.location.xCord != i 
+									|| vic.movementData.location.yCord != j)
+								continue;
+							
+							toolTip += "<br>" + vic.getVehicleCallsign();
+						}
+						
 						// Displays hex features
 						for (Hex hex : gameWindow.hexes) {
 
@@ -1780,6 +1788,9 @@ public class HexGrid implements Serializable {
 		// If hex contains units, selects first unit
 		public void mouseLeftClick(MouseEvent e) {
 			var pos = getHexFromPoint(mouseX, mouseY);
+			
+			if(pos == null)
+				return; 
 			
 			HexGridRoadUtility.leftClickHex(pos[0], pos[1], chckbxAddRoad.isSelected(),
 					chckbxNewSegment.isSelected(), chckbxHighway.isSelected(),
@@ -2277,12 +2288,24 @@ public class HexGrid implements Serializable {
 				g2.setStroke(new BasicStroke(1f));
 				g2.draw(losThread);
 
-				g2.setColor(Color.BLACK);
-				FontMetrics fm = g2.getFontMetrics();
-				Rectangle2D rect = fm.getStringBounds(s, g2);
-				g2.fillRect(x, y - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
-				g2.setColor(Color.MAGENTA);
-				g2.drawString(s, x, y);
+				var selectedVehicle = GameWindow.gameWindow.vehicleCombatWindow
+						.selectedVehicle != null;
+				var selectedVehicleName = selectedVehicle ? 
+						GameWindow.gameWindow.vehicleCombatWindow.selectedVehicle
+						.getVehicleCallsign() : "";
+				
+				if((selectedVehicle && selectedVehicleName.equals(s))
+						|| chckbxShwcallsigns.isSelected()) {
+					
+					g2.setColor(Color.BLACK);
+					FontMetrics fm = g2.getFontMetrics();
+					Rectangle2D rect = fm.getStringBounds(s, g2);
+					g2.fillRect(x, y - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());
+					g2.setColor(Color.MAGENTA);
+					g2.drawString(s, x, y);
+					
+				}
+				
 				g2.setColor(Color.RED);
 			}
 		}
