@@ -35,4 +35,9 @@ public class VehicleTurret implements Serializable {
 	public void addPosition(String positionName, Vehicle vic) throws Exception {
 		crewPositions.add(vic.getCrewPosition(positionName));
 	}
+	
+	public int getTurretElevation() {
+		return crewPositions.get(0).elevationAboveVehicle;
+	}
+	
 }

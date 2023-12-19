@@ -201,6 +201,8 @@ public class VehicleXmlReader {
 		
 		var crewPosition = new CrewPosition(positionName, positionTypes, viewDirections);
 		
+		crewPosition.elevationAboveVehicle = getElementInt(position, "elevation");
+		
 		crewPosition.spotData = spotData;
 		
 		return crewPosition;

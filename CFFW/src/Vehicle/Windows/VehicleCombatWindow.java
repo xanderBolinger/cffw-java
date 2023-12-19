@@ -118,6 +118,7 @@ public class VehicleCombatWindow {
 	private JComboBox comboBoxIndividualTarget;
 	private JLabel lblAimTarget;
 	private JButton btnNewButton_10;
+	private JLabel lblTurretElevation;
 	
 	/**
 	 * Create the application.
@@ -294,7 +295,7 @@ public class VehicleCombatWindow {
 		var rightWidth = HexDirectionUtility.getFaceInDirection(currentFacing, true, facingWidth);
 		
 		lblTurretFacing.setText("Turret Facing: "+turret.facingDirection+", "+leftWidth+"-"+currentFacing+"-"+rightWidth);
-		
+		lblTurretElevation.setText("Elevation: "+turret.getTurretElevation());
 		lblTurretWidth.setText("Turret Width: "+turret.facingWidth);
 		SpinnerModel sm = new SpinnerNumberModel(turret.nextFacing, -turret.rotationSpeedPerPhaseDegrees, 
 				turret.rotationSpeedPerPhaseDegrees, 1); 
@@ -1024,7 +1025,7 @@ public class VehicleCombatWindow {
 		Combat.add(btnNewButton_9);
 		
 		lblAimTarget = new JLabel("Aim Target:");
-		lblAimTarget.setBounds(151, 58, 272, 14);
+		lblAimTarget.setBounds(151, 58, 178, 14);
 		Combat.add(lblAimTarget);
 		
 		btnNewButton_10 = new JButton("Set Aim Target");
@@ -1036,6 +1037,10 @@ public class VehicleCombatWindow {
 		});
 		btnNewButton_10.setBounds(292, 118, 131, 23);
 		Combat.add(btnNewButton_10);
+		
+		lblTurretElevation = new JLabel("Elevation:");
+		lblTurretElevation.setBounds(339, 59, 70, 14);
+		Combat.add(lblTurretElevation);
 		
 		chckbxFired = new JCheckBox("Fired");
 		chckbxFired.addActionListener(new ActionListener() {
