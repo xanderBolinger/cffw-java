@@ -2,37 +2,16 @@
 <vehicle>
     <vehicle_data shielded="false" maxValue="0" rechargeRate="0" class="ARMOR">
         <crew_compartments>
-            <compartment name="OPERATORS" shielded="false">
+            <compartment name="OPERATORS" shielded="true">
                 <crew_positions>
                     <position name="Pilot">
-                        <thermal_mod>5</thermal_mod>
-                        <magnification>0</magnification>
-                        <night_vision>4</night_vision>
-                        <elevation>0</elevation>
+                        <thermal_mod>7</thermal_mod>
+                        <magnification>34</magnification>
+                        <night_vision>5</night_vision>
+                        <elevation>1</elevation>
                         <position_types>
                             <type>DRIVER</type>
-                        </position_types>
-                        <view_directions>
-                            <direction>A</direction>
-                            <direction>AB</direction>
-                            <direction>B</direction>
-                            <direction>BC</direction>
-                            <direction>C</direction>
-                            <direction>CD</direction>
-                            <direction>D</direction>
-                            <direction>DE</direction>
-                            <direction>E</direction>
-                            <direction>EF</direction>
-                            <direction>F</direction>
-                            <direction>FA</direction>
-                        </view_directions>
-                    </position>
-                    <position name="Commander">
-                        <thermal_mod>5</thermal_mod>
-                        <magnification>24</magnification>
-                        <night_vision>4</night_vision>
-                        <elevation>0</elevation>
-                        <position_types>
+                            <type>GUNNER</type>
                             <type>COMMANDER</type>
                         </position_types>
                         <view_directions>
@@ -50,13 +29,15 @@
                             <direction>FA</direction>
                         </view_directions>
                     </position>
-                    <position name="Main Gunner">
-                        <thermal_mod>5</thermal_mod>
-                        <magnification>24</magnification>
-                        <night_vision>4</night_vision>
-                        <elevation>0</elevation>
+                    <position name="Copilot">
+                        <thermal_mod>7</thermal_mod>
+                        <magnification>34</magnification>
+                        <night_vision>5</night_vision>
+                        <elevation>1</elevation>
                         <position_types>
+                            <type>DRIVER</type>
                             <type>GUNNER</type>
+                            <type>COMMANDER</type>
                         </position_types>
                         <view_directions>
                             <direction>A</direction>
@@ -73,13 +54,15 @@
                             <direction>FA</direction>
                         </view_directions>
                     </position>
-                    <position name="Secondary Gunner">
-                        <thermal_mod>5</thermal_mod>
-                        <magnification>24</magnification>
-                        <night_vision>4</night_vision>
-                        <elevation>0</elevation>
+                    <position name="Gunner">
+                        <thermal_mod>7</thermal_mod>
+                        <magnification>34</magnification>
+                        <night_vision>5</night_vision>
+                        <elevation>1</elevation>
                         <position_types>
+                            <type>DRIVER</type>
                             <type>GUNNER</type>
+                            <type>COMMANDER</type>
                         </position_types>
                         <view_directions>
                             <direction>A</direction>
@@ -96,51 +79,60 @@
                             <direction>FA</direction>
                         </view_directions>
                     </position>
-
                 </crew_positions>
+                <shield_generator maxValue="100" rechargeRate="25"></shield_generator>
             </compartment>
         </crew_compartments>
         <turret_data>
             <turret>
-                <turret_name>Main Guns</turret_name>
-                <facing_width>20</facing_width>
-                <rotation_speed>30</rotation_speed>
-                <can_rotate>true</can_rotate>
-                <min_facing>-180</min_facing>
-                <max_facing>180</max_facing>
-                <positions>Main Gunner,Secondary Gunner</positions>
-            </turret>
-            <turret>
-                <turret_name>Forward Lasers</turret_name>
-                <facing_width>25</facing_width>
-                <rotation_speed>0</rotation_speed>
+                <turret_name>Mass Driver Cannon</turret_name>
+                <facing_width>180</facing_width>
+                <rotation_speed>40</rotation_speed>
                 <can_rotate>false</can_rotate>
                 <min_facing>-180</min_facing>
                 <max_facing>180</max_facing>
-                <positions>Main Gunner,Secondary Gunner</positions>
+                <positions>Pilot,Copilot,Gunner</positions>
+            </turret>
+            <turret>
+                <turret_name> Ventral Heavy Repeating Blaster</turret_name>
+                <facing_width>20</facing_width>
+                <rotation_speed>60</rotation_speed>
+                <can_rotate>true</can_rotate>
+                <min_facing>-20</min_facing>
+                <max_facing>20</max_facing>
+                <positions>Pilot,Copilot,Gunner</positions>
+            </turret>
+            <turret>
+                <turret_name>Dorsal Medium Laser Cannon</turret_name>
+                <facing_width>180</facing_width>
+                <rotation_speed>40</rotation_speed>
+                <can_rotate>false</can_rotate>
+                <min_facing>-180</min_facing>
+                <max_facing>180</max_facing>
+                <positions>Pilot,Copilot,Gunner</positions>
             </turret>
         </turret_data>
         <movement_data>
-            <hull_turn_rate>4</hull_turn_rate>
-            <acceleration>4</acceleration>
-            <deceleration>4</deceleration>
-            <boost recovery="2">6</boost>
-            <terrain feature="Paved Road">12</terrain>
-            <terrain feature="Dirt Road">12</terrain>
-            <terrain feature="Mud">12</terrain>
-            <terrain feature="Deep Mud">12</terrain>
-            <terrain feature="Soil">12</terrain>
+            <hull_turn_rate>6</hull_turn_rate>
+            <acceleration>3</acceleration>
+            <deceleration>3</deceleration>
+            <boost recovery="0">0</boost>
+            <terrain feature="Paved Road">3</terrain>
+            <terrain feature="Dirt Road">3</terrain>
+            <terrain feature="Mud">3</terrain>
+            <terrain feature="Deep Mud">3</terrain>
+            <terrain feature="Soil">3</terrain>
         </movement_data>
         <smoke_data>
             <trailing_smoke>VehicleTrailingSmoke</trailing_smoke>
-            <trailing_smoke_turns>12</trailing_smoke_turns>
+            <trailing_smoke_turns>10</trailing_smoke_turns>
             <launched_smoke>VehicleSmokeLauncher</launched_smoke>
-            <smoke_launches>4</smoke_launches>
+            <smoke_launches>3</smoke_launches>
         </smoke_data>
-        <turret_size>8</turret_size>
-        <hull_size>17</hull_size>
+        <turret_size>6</turret_size>
+        <hull_size>23</hull_size>
         <stealth_field>0</stealth_field>
-        <camo>2</camo>
+        <camo>1</camo>
         <thermal_shroud>Resistant</thermal_shroud>
     </vehicle_data>
 </vehicle>
