@@ -57,6 +57,7 @@
             <trailing_smoke_turns>0</trailing_smoke_turns>
             <launched_smoke>VehicleSmokeLauncher</launched_smoke>
             <smoke_launches>0</smoke_launches>
+            <smoke_launcher_range>0</smoke_launcher_range>
         </smoke_data>
         <turret_size>4</turret_size>
         <hull_size>8</hull_size>

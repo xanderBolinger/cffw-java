@@ -97,11 +97,12 @@ public class Smoke implements Serializable {
 		
 	}
 	
-	public int getAlm(Cord cord) {
+	public int getAlm(Cord cord, boolean thermalBlocking) {
 		int alm = 0; 
 		
 		for(SmokeStats smoke : deployedSmoke) {
-			if(!smoke.deployedHex.compare(cord)) {
+			if(!smoke.deployedHex.compare(cord) 
+					|| (!smoke.thermalBlocking && thermalBlocking)) {
 				continue;
 			}
 
@@ -114,6 +115,8 @@ public class Smoke implements Serializable {
 			return -14;
 		return alm;
 	}
+	
+	
 	
 	public void advanceTime() {
 		for(SmokeStats smoke : deployedSmoke) {

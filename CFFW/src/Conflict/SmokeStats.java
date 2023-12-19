@@ -14,6 +14,7 @@ public class SmokeStats implements Serializable {
 	private int elapsedActions = 0;
 	
 	public Cord deployedHex;
+	public boolean thermalBlocking;
 	
 	public WhitePhosphorus wp;
 	
@@ -73,6 +74,7 @@ public class SmokeStats implements Serializable {
 		case VehicleSmokeLauncher:
 			diameter = 8; 
 			duration = 12;
+			thermalBlocking = true;
 			break;
 		case Howitzer105mm:
 			diameter = 8; 

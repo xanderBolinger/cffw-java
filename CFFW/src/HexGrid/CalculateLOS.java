@@ -394,7 +394,7 @@ public class CalculateLOS {
 			Hex foundHex = GameWindow.gameWindow.findHex(hex.xCord, hex.yCord);
 			if(foundHex == null)
 				continue; 
-			alm += GameWindow.gameWindow.game.smoke.getAlm(hex);
+			alm += GameWindow.gameWindow.game.smoke.getAlm(hex,false);
 		}
 		
 		alm -= getConcealment(new Cord(shooterUnit.X, shooterUnit.Y), new Cord(targetUnit.X, targetUnit.Y), false, 0, 0);

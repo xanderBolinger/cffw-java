@@ -103,7 +103,12 @@ public class SpotInfantry {
 		
 		var camoMod = camoMod(targetUnit);
 		var stealthFieldMod = firedMod == 0 ? stealthFieldMod(targetUnit) : 0;
-		int visibilityMod = armorMod + dayWeatherMod + thermalMod + magnificationMod + nightWeatherMod + firedMod + camoMod + stealthFieldMod;
+		
+		var thermalEquipped = VehicleSpotCalculator.isThermalEquipped(spotter, spotterPosition);
+		var smokeMod = SpotVisibility.getSmokeModifier(thermalEquipped,
+				spotterCord, targetCord);
+		
+		int visibilityMod = smokeMod + armorMod + dayWeatherMod + thermalMod + magnificationMod + nightWeatherMod + firedMod + camoMod + stealthFieldMod;
 
 		var SLM = SpotUtility.getSlm(speedModTarget, speedModSpotter, concealmentMod, rangeMod, visibilityMod, skillMod,
 				targetSizeMod, fortMod);
@@ -124,6 +129,7 @@ public class SpotInfantry {
 					+ speedModTarget + ", Spotter Speed Mod: " + speedModSpotter + ", Concealment Mod: "
 					+ concealmentMod +", Fortification Mod: "+fortMod +", Range Mod: " + rangeMod + 
 					", Visibility Mod: " + visibilityMod +"(Thermal: "+thermalMod+", Magnification: "+magnificationMod
+					+", Smoke: "+smokeMod+" (thermal equipped: "+thermalEquipped+")"
 					+", Night Weather: "+nightWeatherMod+", Day Weather: "+dayWeatherMod+", Fired: "+firedMod
 					+", Camo: "+camoMod+", Stealth Field: "+stealthFieldMod+"), Armor Mod: "+armorMod +"\n"
 					+ "SLM: " + SLM+", TN: "+targetNumber+", Roll: "+successesRoll;

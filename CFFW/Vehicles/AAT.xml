@@ -136,6 +136,7 @@
             <trailing_smoke_turns>12</trailing_smoke_turns>
             <launched_smoke>VehicleSmokeLauncher</launched_smoke>
             <smoke_launches>4</smoke_launches>
+            <smoke_launcher_range>2</smoke_launcher_range>
         </smoke_data>
         <turret_size>8</turret_size>
         <hull_size>17</hull_size>

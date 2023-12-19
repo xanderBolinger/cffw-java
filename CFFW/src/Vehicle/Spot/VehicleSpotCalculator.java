@@ -128,7 +128,11 @@ public class VehicleSpotCalculator {
 		var firedMod = target.spotData.fired ? vis.toLowerCase().contains("night") ? -15 : -12 : 0;
 		var camoMod = target.spotData.camo;
 		var stealthFieldMod = !target.spotData.fired ? target.spotData.stealthField : 0;
-		int visibilityMod = dayWeatherMod + thermalMod + magnificationMod + nightWeatherMod + firedMod + camoMod + stealthFieldMod;
+		var thermalEquipped = isThermalEquipped(spotter, spotterPosition);
+		var smokeMod = SpotVisibility.getSmokeModifier(thermalEquipped,
+				spotterCord, targetCord);
+		
+		int visibilityMod = smokeMod + dayWeatherMod + thermalMod + magnificationMod + nightWeatherMod + firedMod + camoMod + stealthFieldMod;
 
 		var SLM = SpotUtility.getSlm(speedModTarget, speedModSpotter, concealmentMod, rangeMod, visibilityMod, skillMod,
 				targetSizeMod, fortMod);
@@ -148,6 +152,7 @@ public class VehicleSpotCalculator {
 					+ concealmentMod +", Fortification Mod: "+fortMod +", Range Mod: " + rangeMod + 
 					", Visibility Mod: " + visibilityMod +"(Thermal: "+thermalMod+", Magnification: "+magnificationMod
 					+", Night Weather: "+nightWeatherMod+", Day Weather: "+dayWeatherMod+", Fired: "+firedMod
+					+", Smoke: "+smokeMod+" (thermal equipped: "+thermalEquipped+")"
 					+", Camo: "+camoMod+", Stealth Field: "+stealthFieldMod+")" +"\n"
 					+ "SLM: " + SLM+", TN: "+targetNumber+", Roll: "+successesRoll;
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue(resultsString);
@@ -192,11 +197,7 @@ public class VehicleSpotCalculator {
 	
 	private static int getThermalMod(Vehicle spotter, Vehicle target, CrewPosition position) {
 		
-		var spotterTrooper = position.crewMemeber.crewMember;
-		var spotData = position.spotData;
-		
-		int thermalMod = spotterTrooper.thermalVision && 5 > spotData.thermalMod 
-				? 5 : spotData.thermalMod;
+		var thermalMod = getThermalValue(spotter, position);
 		
 		switch(target.spotData.thermalShroud) {
 		
@@ -213,6 +214,17 @@ public class VehicleSpotCalculator {
 		
 		return 0;
 		
+	}
+	
+	private static int getThermalValue(Vehicle spotter, CrewPosition position) {
+		var spotterTrooper = position.crewMemeber.crewMember;
+		var spotData = position.spotData;
+		return spotterTrooper.thermalVision && 5 > spotData.thermalMod 
+				? 5 : spotData.thermalMod;
+	}
+	
+	public static boolean isThermalEquipped(Vehicle spotter, CrewPosition position) {
+		return getThermalValue(spotter,position) > 0;
 	}
 	
 	public static int getConcealmentMod(Cord spotter, Cord target, int spotterElevationBonus, int targetElevationBonus) {

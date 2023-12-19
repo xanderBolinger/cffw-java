@@ -72,7 +72,6 @@ public class InfantrySpotVehicleCalculator {
 		int targetSizeMod = SpotModifiers.getTargetSizeMod(PCSize);
 
 		var distanceYards =  GameWindow.hexDif(targetCord.xCord, targetCord.yCord, spotterUnit) * 20;
-		var visibilityMod = 0;
 		var thermalMod = SpotVisibility.getThermalModAgainstVehicle(spotter, distanceYards, targetVehicle);
 		var magnificationMod = SpotVisibility.getMagnificationMod(spotter);
 		var vis = GameWindow.gameWindow.visibility;
@@ -85,6 +84,15 @@ public class InfantrySpotVehicleCalculator {
 		var camoMod = targetVehicle.spotData.camo;
 		var stealthField = !targetVehicle.spotData.fired ? targetVehicle.spotData.stealthField : 0;
 
+		
+		var dist = GameWindow.hexDif(spotterCord.xCord, spotterCord.yCord,
+				targetCord.xCord, targetCord.yCord) * 20;
+		var thermalEquipped = SpotVisibility.isThermalEquipped(spotter, dist);
+		
+		var smokeMod = SpotVisibility.getSmokeModifier(thermalEquipped, spotterCord, targetCord);
+		
+		int visibilityMod = smokeMod + weatherMod + thermalMod + magnificationMod + nightTimeMod + tracerMod 
+				+ camoMod + stealthField;
 		
 		var SLM = SpotUtility.getSlm(speedModTarget, speedModSpotter, concealmentMod, rangeMod, visibilityMod, skillMod,
 				targetSizeMod, fortMod);
@@ -110,6 +118,7 @@ public class InfantrySpotVehicleCalculator {
 			+ concealmentMod +", Fortification Mod: "+fortMod +", Range Mod: " + rangeMod + 
 			", Visibility Mod: " + visibilityMod +"(Thermal: "+thermalMod+", Magnification: "+magnificationMod
 			+", Night Weather: "+nightTimeMod+", Day Weather: "+weatherMod+", Fired: "+tracerMod
+			+", Smoke: "+smokeMod+" (thermal equipped: "+thermalEquipped+")"
 			+", Camo: "+camoMod+", Stealth Field: "+stealthField+")" +"\n"
 			+ "SLM: " + SLM+", TN: "+targetNumber+", Roll: "+successesRoll+", Suppression: "+suppression;
 			

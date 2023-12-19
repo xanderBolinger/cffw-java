@@ -13,6 +13,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import Conflict.GameWindow;
+import CorditeExpansion.Cord;
+import HexGrid.TraceLine;
 import Items.Weapons;
 import Trooper.Trooper;
 import Unit.Unit;
@@ -45,6 +47,13 @@ public class SpotVisibility {
 			return 0;
 		}
 
+		int visibilityMod = getThermalValue(spotter,distanceYards);
+
+		visibilityModifications += "Thermal Vision(" + visibilityMod + "); ";
+		return visibilityMod;
+	}
+
+	private static int getThermalValue(Trooper spotter, int distanceYards) {
 		int visibilityMod = spotter.armor != null && spotter.armor.thermal && 
 				spotter.armor.maxThermalRangeYards >= distanceYards ? spotter.armor.thermalMod : 0;
 
@@ -55,11 +64,13 @@ public class SpotVisibility {
 			}
 
 		}
-
-		visibilityModifications += "Thermal Vision(" + visibilityMod + "); ";
 		return visibilityMod;
 	}
-
+	
+	public static boolean isThermalEquipped(Trooper spotter, int distanceYards) {
+		return getThermalValue(spotter, distanceYards) > 0;
+	}
+	
 	public static int getThermalModAgainstVehicle(Trooper spotter, int distanceYards, Vehicle targetVehicle) {
 
 		int visibilityMod = spotter.armor != null && spotter.armor.thermal && 
@@ -316,6 +327,38 @@ public class SpotVisibility {
 		return mod;
 	}
 
+	public static int getSmokeModifier(boolean spotterThermalEquipped, Cord spotterCord,
+			Cord targetCord) {
+		
+		visibilityModifications += "Smoke Modifier: ";
+
+		ArrayList<Cord> hexes = TraceLine.GetHexes(spotterCord, targetCord, 
+				GameWindow.gameWindow.hexGrid.panel);
+
+		if(hexes.size() > 2) {
+			
+			var smokePenalty = 0;
+			
+			for(var hex : hexes) {
+				smokePenalty += GameWindow.gameWindow.game.smoke.getAlm(hex, 
+						spotterThermalEquipped);
+			}
+			
+			visibilityModifications += smokePenalty+", thermal equipped: "+spotterThermalEquipped;
+			
+			return smokePenalty;
+			
+		} else {
+			var penalty = GameWindow.gameWindow.game.smoke.getAlm(spotterCord, 
+					spotterThermalEquipped);
+			visibilityModifications += "same hex, "
+					+ penalty
+					+ ", thermal equipped: "+spotterThermalEquipped;
+			return penalty;
+		}
+		
+	}
+	
 	public static int getVisibilityMod(Trooper spotter, Unit spotterUnit, String weather, int xCord, int yCord,
 			ArrayList<Unit> spotableUnits) {
 
@@ -333,7 +376,13 @@ public class SpotVisibility {
 		visibilityMod += tracerMod;
 		visibilityMod += camoMod(spotableUnits);
 		visibilityMod += tracerMod == 0 ? stealthFieldMod(spotableUnits) : 0;
-
+		
+		var dist = GameWindow.hexDif(xCord, yCord, spotterUnit.X, spotterUnit.Y) * 20;
+		
+		visibilityMod += getSmokeModifier(isThermalEquipped(spotter, dist), 
+				new Cord(spotterUnit.X, spotterUnit.Y), 
+				new Cord(xCord, yCord));
+		
 		return visibilityMod;
 	}
 	
