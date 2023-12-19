@@ -26,7 +26,7 @@ public class RoadManager implements Serializable {
 		segment.addRoad(r2);
 		segment.addRoad(r3);
 		
-		segments.add(segment);
+		//segments.add(segment);
 	}
 	
 	public void addRoad(int xCord, int yCord, boolean highway, boolean river) {
