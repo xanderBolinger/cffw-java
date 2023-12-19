@@ -26,6 +26,7 @@ import Items.FlameDamageCalculator;
 import Items.Item;
 import Items.PCAmmo;
 import Items.Weapons;
+import Spot.Utility.SpotVisibility;
 import Trooper.Trooper;
 import Unit.Unit;
 import UtilityClasses.DiceRoller;
@@ -767,10 +768,14 @@ public class Shoot {
 	}
 
 	public void setVisibilityALM() {
+		//visibilityALM = SpotVisibility.getVisibilityMod(shooter, shooterUnit, 
+		//		GameWindow.gameWindow.visibility, , aimALM, null)
 		visibilityALM = PCUtility.findVisibiltyALM(targetUnit, shooter, pcHexRange);
-		
+		var isThermal = SpotVisibility.isThermalEquipped(shooter, pcHexRange);
+		visibilityALM -= SpotVisibility.getSmokeModifier(isThermal, 
+				new Cord(shooterUnit.X, shooterUnit.Y),
+				new Cord(targetUnit.X, targetUnit.Y));
 		visibilityALM += CalculateLOS.getConcealmentAlm(shooterUnit, targetUnit);
-		
 	}
 
 	public void setSizeALM() {
