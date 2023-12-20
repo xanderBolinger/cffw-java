@@ -35,6 +35,8 @@ public class VehicleAmmoRangeIndex {
     		
     		if(rangeHexes <= range)
     			return i;
+    		else if(i == instance.rangeList.size() - 1)
+				return i;
     	}
     	
     	return -1;

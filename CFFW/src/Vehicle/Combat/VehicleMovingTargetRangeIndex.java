@@ -40,6 +40,8 @@ public class VehicleMovingTargetRangeIndex {
 		for(int i = 0; i < list.size(); i++) {
 			if(rangeHexes <= list.get(i))
 				return i;
+			else if(i == list.size() - 1)
+				return i;
 		}
 		
 		throw new Exception("Range index not found for range hexes: "+rangeHexes);
