@@ -1,12 +1,14 @@
 package Vehicle.Combat;
 
+import java.io.Serializable;
+
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import Trooper.Trooper;
 import Unit.Unit;
 import Vehicle.Vehicle;
 
-public class VehicleAimTarget {
+public class VehicleAimTarget implements Serializable {
 
 	public int timeSpentAiming;
 	public boolean fired;
@@ -47,8 +49,9 @@ public class VehicleAimTarget {
 			rslt = vehicle.getVehicleCallsign();
 		} else if(hexCord != null) {
 			rslt = "Hex Cord ("+hexCord.toString()+")";
+		} else {
+			return "None";
 		}
- 		
 		
 		return rslt + ", Aim Time: "+timeSpentAiming;
 	}

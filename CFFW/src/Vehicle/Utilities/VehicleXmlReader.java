@@ -87,7 +87,7 @@ public class VehicleXmlReader {
 		return Integer.parseInt(getElementString(element,name));
 	}
 	
-	private static String getElementString(Element element, String name) {
+	public static String getElementString(Element element, String name) {
 		return element.getElementsByTagName(name).item(0).getTextContent();
 	}
 	

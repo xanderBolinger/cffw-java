@@ -23,7 +23,7 @@ public class VehicleTurret implements Serializable {
 	ArrayList<Integer> aimValues;
 	
 	public VehicleTurret(String turretName, int facingWidth, int rotationSpeedPerPhaseDegrees,
-			boolean canRotate, int minFacing, int maxFacing) {
+			boolean canRotate, int minFacing, int maxFacing, ArrayList<Integer> aimValues) {
 		this.turretName = turretName;
 		this.facingDirection = 0;
 		this.facingWidth = facingWidth;
@@ -32,6 +32,7 @@ public class VehicleTurret implements Serializable {
 		this.minFacing = minFacing;
 		this.maxFacing = maxFacing;
 		crewPositions = new ArrayList<CrewPosition>();
+		this.aimValues = aimValues;
 	}
 	
 	public void addPosition(String positionName, Vehicle vic) throws Exception {
@@ -54,6 +55,11 @@ public class VehicleTurret implements Serializable {
 		
 		return GameWindow.hexDif(vicLocation.xCord, vicLocation.yCord,
 				targetCord.xCord, targetCord.yCord);
+	}
+	
+	@Override
+	public String toString() {
+		return turretName + " Target: " + vehicleAimTarget.toString(); 
 	}
 	
 }

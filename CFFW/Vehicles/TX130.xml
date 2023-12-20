@@ -95,6 +95,7 @@
                 <min_facing>-20</min_facing>
                 <max_facing>20</max_facing>
                 <positions>Pilot,Copilot</positions>
+                <aim_values>-8,-6,6,10,14</aim_values>
             </turret>
             <turret>
                 <turret_name>External Turret</turret_name>
@@ -104,6 +105,7 @@
                 <min_facing>-180</min_facing>
                 <max_facing>180</max_facing>
                 <positions>Topgunner</positions>
+                <aim_values>-28,-2,9,10,11</aim_values>
             </turret>
         </turret_data>
         <movement_data>

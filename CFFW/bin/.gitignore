@@ -1,12 +1,8 @@
+/Actions/
+/CharacterBuilder/
 /Conflict/
-/Items/
-/Trooper/
-/Unit/
-/UtilityClasses/
-/Vehicle/
 /Artillery/
 /CeHexGrid/
-/CharacterBuilder/
 /CloseCombat/
 /Command/
 /CommandLineInterface/
@@ -26,6 +22,7 @@
 /Hexes/
 /Individuals/
 /Injuries/
+/Items/
 /JUnitTests/
 /JsonSaveRunner/
 /Main.class
@@ -36,6 +33,10 @@
 /SaveCompanies/
 /Shoot/
 /Spot/
+/Trooper/
+/Unit/
+/UtilityClasses/
+/Vehicle/
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
