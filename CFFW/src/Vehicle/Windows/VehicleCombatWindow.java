@@ -487,7 +487,7 @@ public class VehicleCombatWindow {
 							VehicleSpotManager.vehicleSpotChecks();
 
 						for(var vic : vehicles) {
-							vic.spotData.fired = false;
+							vic.firedWeaponFalse();
 						}
 						
 						return null;
@@ -525,7 +525,7 @@ public class VehicleCombatWindow {
 							if(!chckbxSkipSpotTest.isSelected())
 								VehicleSpotManager.vehicleSpotChecks();
 							for(var vic : vehicles) {
-								vic.spotData.fired = false;
+								vic.firedWeaponFalse();
 							}
 						} catch(Exception e) {e.printStackTrace();}
 						

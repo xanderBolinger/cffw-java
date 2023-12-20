@@ -28,6 +28,15 @@ public class VehicleAimTarget {
 		this.trooper = trooper;
 	}
 	
+	public Cord getTargetCord() {
+		if(unit != null)
+			return new Cord(unit.X, unit.Y);
+		else if(vehicle != null)
+			return vehicle.movementData.location;
+		else 
+			return hexCord;
+	}
+	
 	@Override
 	public String toString() {
 		String rslt = "";

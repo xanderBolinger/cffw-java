@@ -233,6 +233,15 @@ public class Vehicle implements Serializable {
 		return spottedTroopers;
 	}
 	
+	public void firedWeaponFalse() {
+		
+		spotData.fired = false;
+		for(var turret : turretData.turrets)
+			if(turret.vehicleAimTarget != null)
+				turret.vehicleAimTarget.fired = false;
+		
+	}
+	
 	@Override
 	public String toString() {
 		var fm = fireMissions.size() > 0 ? "FM:: " : "";
