@@ -3,13 +3,13 @@ package Vehicle.Combat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class VehicleWeaponStats {
+public class VehicleAmmoRangeIndex {
 
 	private ArrayList<Integer> rangeList;
 	
-	private static VehicleWeaponStats instance;
+	private static VehicleAmmoRangeIndex instance;
 	
-	private VehicleWeaponStats() {
+	private VehicleAmmoRangeIndex() {
 		creeateData();
 	}
 	
@@ -19,9 +19,9 @@ public class VehicleWeaponStats {
 				));
 	}
 
-    private static VehicleWeaponStats getInstance() {
+    private static VehicleAmmoRangeIndex getInstance() {
         if (instance == null) {
-            instance = new VehicleWeaponStats();
+            instance = new VehicleAmmoRangeIndex();
         }
         return instance;
     }

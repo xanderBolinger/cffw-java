@@ -60,7 +60,6 @@ public class VehicleAimTarget implements Serializable {
 			return 20;
 		}
 		
-		
 	}
 	
 	@Override

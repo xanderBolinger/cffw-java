@@ -84,7 +84,20 @@ public class VehicleXmlReader {
 		return new PositionSpotData(thermalMod, magnification, nightVision);
 	}
 	
+	public static ArrayList<Integer> getDataListFromString(String data) {
+		var stringList = data.split(",");
+		ArrayList<Integer> returnData = new ArrayList<Integer>();
+		
+		for(var i : stringList) {
+			returnData.add(Integer.parseInt(i));
+		}
+		
+		return returnData;
+	}
 	
+	public static NodeList getElements(Element element, String name) {
+		return element.getElementsByTagName(name);
+	}
 	
 	private static int getElementInt(Element element, String name) {
 		return Integer.parseInt(getElementString(element,name));

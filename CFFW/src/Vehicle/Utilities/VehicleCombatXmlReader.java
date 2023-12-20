@@ -8,6 +8,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import Vehicle.Vehicle;
+import Vehicle.Combat.VehicleAmmo;
 import Vehicle.Combat.VehicleTurret;
 import Vehicle.Data.VehicleHitData;
 
@@ -51,8 +52,10 @@ public class VehicleCombatXmlReader {
 				aimValues.add(Integer.parseInt(a));
 			}
 			
+			var ammo = getVehicleAmmo(turretNode);
+			
 			var turret = new VehicleTurret(turretName, facingWidth, rotationSpeed, canRotate, minFacing,
-					maxFacing, aimValues);
+					maxFacing, aimValues, ammo);
 			
 			var positionString = turretNode.getElementsByTagName("positions").item(0).getTextContent();
 			var positionNames = positionString.split(",");
@@ -64,6 +67,23 @@ public class VehicleCombatXmlReader {
 		}
 		
 		return turrets;
+	}
+	
+	private static ArrayList<VehicleAmmo> getVehicleAmmo(Element turretNode) {
+		
+		ArrayList<VehicleAmmo> ammo = new ArrayList<VehicleAmmo>();
+		
+		NodeList ammoElements = VehicleXmlReader.getElements(turretNode, "ammo");
+		
+		for(int i = 0; i < ammoElements.getLength(); i++) {
+			var ammoNode = (Element) ammoElements.item(i);
+			var baString = VehicleXmlReader.getElementString(ammoNode, "balistic_accuracy");
+			var balisticAccuracy = VehicleXmlReader.getDataListFromString(baString);
+			
+			ammo.add(new VehicleAmmo(turretNode.getAttribute("ammoName"), balisticAccuracy));
+		}
+		
+		return ammo;
 	}
 	
 }

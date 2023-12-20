@@ -19,11 +19,13 @@ public class VehicleTurret implements Serializable {
 	public VehicleAimTarget vehicleAimTarget;
 	
 	public ArrayList<CrewPosition> crewPositions;
+	public ArrayList<VehicleAmmo> ammunitionTypes;
 	
 	ArrayList<Integer> aimValues;
 	
 	public VehicleTurret(String turretName, int facingWidth, int rotationSpeedPerPhaseDegrees,
-			boolean canRotate, int minFacing, int maxFacing, ArrayList<Integer> aimValues) {
+			boolean canRotate, int minFacing, int maxFacing, ArrayList<Integer> aimValues,
+			ArrayList<VehicleAmmo> ammunitionTypes) {
 		this.turretName = turretName;
 		this.facingDirection = 0;
 		this.facingWidth = facingWidth;
@@ -33,6 +35,7 @@ public class VehicleTurret implements Serializable {
 		this.maxFacing = maxFacing;
 		crewPositions = new ArrayList<CrewPosition>();
 		this.aimValues = aimValues;
+		this.ammunitionTypes = ammunitionTypes;
 	}
 	
 	public void addPosition(String positionName, Vehicle vic) throws Exception {
