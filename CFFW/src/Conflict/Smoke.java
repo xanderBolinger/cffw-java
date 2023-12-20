@@ -81,20 +81,18 @@ public class Smoke implements Serializable {
 		return rslts;
 	}
 
-	public int getConcealment(Cord cord) {
+	public int getConcealment(Cord cord, boolean thermalBlocking) {
 		int concealment = 0;
 		
 		for(SmokeStats smoke : deployedSmoke) {
-			if(!smoke.deployedHex.compare(cord)) {
+			if(!smoke.deployedHex.compare(cord) || !smoke.thermalBlocking) {
 				continue;
 			}
 
 			concealment += concealment(smoke.diameter, smoke.getElapsedActionsAfterDuration());
-			
 		}
 		
 		return concealment;
-		
 	}
 	
 	public int getAlm(Cord cord, boolean thermalBlocking) {

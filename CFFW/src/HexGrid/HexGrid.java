@@ -2995,7 +2995,7 @@ public class HexGrid implements Serializable {
 			var cord2 = new Cord(hex2[0], hex2[1]);
 			rslts += ", Side: "+HexDirectionUtility.getHexSideFacingTarget(cord1, cord2)
 			+", "+dist*20+" yards."
-			+", LOS: " + CalculateLOS.hasLos(cord1, cord2, 0, 0);
+			+", LOS: " + CalculateLOS.hasLos(cord1, cord2, 0, 0, false);
 			FontMetrics fm = g2.getFontMetrics();
 			Rectangle2D rect = fm.getStringBounds(rslts, g2);
 			g2.fillRect(x2 + 5, y2 - fm.getAscent(), (int) rect.getWidth(), (int) rect.getHeight());

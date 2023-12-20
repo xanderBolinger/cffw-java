@@ -9,10 +9,12 @@ import java.util.stream.Collectors;
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import Hexes.Hex;
+import Spot.Utility.SpotVisibility;
 import Trooper.Trooper;
 import Unit.Unit;
 import Vehicle.Vehicle;
 import Vehicle.Data.CrewPosition;
+import Vehicle.Spot.VehicleSpotCalculator;
 import Vehicle.Utilities.VehicleDataUtility;
 
 public class CalculateLOS {
@@ -152,7 +154,8 @@ public class CalculateLOS {
 		}
 		
 		if(!hasLos(spotter.movementData.location, target.movementData.location, 
-				spotterPosition.elevationAboveVehicle, target.altitude))
+				spotterPosition.elevationAboveVehicle, target.altitude,
+				VehicleSpotCalculator.isThermalEquipped(spotter, spotterPosition)))
 			return;
 		
 		if(!spotterPosition.losVehicles.contains(target))
@@ -182,7 +185,8 @@ public class CalculateLOS {
 		var cord = new Cord(targetUnit.X, targetUnit.Y);
 		
 		if(!hasLos(vehicle.movementData.location, cord,
-				spotterPosition.elevationAboveVehicle, 0))
+				spotterPosition.elevationAboveVehicle, 0,
+				VehicleSpotCalculator.isThermalEquipped(vehicle, spotterPosition)))
 			return;
 		
 		if(!spotterPosition.losUnits.contains(targetUnit))
@@ -203,7 +207,9 @@ public class CalculateLOS {
 			return;
 		}
 		
-		if(!hasLos(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y), 0, 0))
+		var thermals = unitThermalEquipped(unit, targetUnit.X, targetUnit.Y);
+		if(!hasLos(new Cord(unit.X, unit.Y), 
+				new Cord(targetUnit.X, targetUnit.Y), 0, 0, thermals))
 			return;
 		
 		if(!unit.lineOfSight.contains(targetUnit))
@@ -214,9 +220,14 @@ public class CalculateLOS {
 		
 	}
 	
-	public static boolean hasLos(Cord cord, Cord cord2, int spotterElevationBonus, int targetElevationBonus) {
-		var concealment = getConcealment(cord, cord2, true, spotterElevationBonus, targetElevationBonus);
-		var concealment1 = getConcealment(cord2, cord, true, targetElevationBonus, spotterElevationBonus);
+	public static boolean hasLos(Cord cord, Cord cord2, int spotterElevationBonus, int targetElevationBonus,
+			boolean thermals) {
+		var concealment = getConcealment(cord, cord2, true, 
+				spotterElevationBonus, targetElevationBonus,
+				thermals, true);
+		var concealment1 = getConcealment(cord2, cord, true, 
+				targetElevationBonus, spotterElevationBonus,
+				thermals, true);
 		
 		if(concealment != concealment1)
 			System.err.println("Concealment does not equal "+concealment+"!="+concealment1+", Cord 1 ("+cord.toString()+"), "
@@ -255,7 +266,8 @@ public class CalculateLOS {
 	} 
 	
 	public static int getConcealment(Cord c1, Cord c2, boolean lineOfSight, 
-			int spotterElevationBonus, int targetElevationBonus) {
+			int spotterElevationBonus, int targetElevationBonus, boolean thermalBlocking,
+			boolean applySmokeConcealment) {
 		ArrayList<Cord> hexes = TraceLine.GetHexes(c1, c2, GameWindow.gameWindow.hexGrid.panel);
 
 		Cord spotterCord;
@@ -320,7 +332,9 @@ public class CalculateLOS {
 			
 			int brushConcealment = 0;
 			int treeConcealment = 0;
-			int smokeConcealment = GameWindow.gameWindow.game.smoke.getConcealment(hex);
+			int smokeConcealment = applySmokeConcealment ? 
+					GameWindow.gameWindow.game.smoke.getConcealment(hex, thermalBlocking)
+					: 0;
 			//System.out.println("Smoke concealment("+hex.toString()+") "+smokeConcealment);
 			
 			// "Light Forest", "Medium Forest", "Heavy Forest", "Brush", "Heavy Brush", "Light Rock", "Medium Rock", "Heavy Rock", "Light Urban Sprawl", "Dense Urban Sprawl", "Rubble", "Small Depression", "Large Depression"
@@ -375,8 +389,21 @@ public class CalculateLOS {
 	}
 	
 	public static int getConcelamentValue(Unit unit, Unit targetUnit) {
-				
-		return getConcealment(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y), false, 0, 0);
+		var thermals = unitThermalEquipped(unit, targetUnit.X, targetUnit.Y);
+		return getConcealment(new Cord(unit.X, unit.Y), new Cord(targetUnit.X, targetUnit.Y),
+				false, 0, 0, thermals, true);
+	}
+	
+	private static boolean unitThermalEquipped(Unit unit, int targetX, int targetY) {
+		
+		var dist = GameWindow.hexDif(unit.X, unit.Y, targetX, targetY) * 20;
+		
+		for(var trooper : unit.individuals) {
+			if(SpotVisibility.isThermalEquipped(trooper, dist))
+				return true;
+		}
+		
+		return false;
 	}
 	
 	public static int getConcealmentAlm(Unit shooterUnit, Unit targetUnit) {
@@ -397,7 +424,8 @@ public class CalculateLOS {
 			alm += GameWindow.gameWindow.game.smoke.getAlm(hex,false);
 		}
 		
-		alm -= getConcealment(new Cord(shooterUnit.X, shooterUnit.Y), new Cord(targetUnit.X, targetUnit.Y), false, 0, 0);
+		alm -= getConcealment(new Cord(shooterUnit.X, shooterUnit.Y), 
+				new Cord(targetUnit.X, targetUnit.Y), false, 0, 0, false, false);
 		
 		if(alm < -14)
 			alm = -14; 

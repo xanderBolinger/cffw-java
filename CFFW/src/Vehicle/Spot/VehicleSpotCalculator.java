@@ -228,7 +228,8 @@ public class VehicleSpotCalculator {
 	}
 	
 	public static int getConcealmentMod(Cord spotter, Cord target, int spotterElevationBonus, int targetElevationBonus) {
-		int concealment = CalculateLOS.getConcealment(spotter, target, false, spotterElevationBonus, targetElevationBonus);
+		int concealment = CalculateLOS.getConcealment(spotter, target, false, 
+				spotterElevationBonus, targetElevationBonus, false, false);
 		return SpotModifiers.getConcealmentMod(concealment);
 	}
 	
