@@ -10,12 +10,12 @@ public class VehicleAmmoRangeIndex {
 	private static VehicleAmmoRangeIndex instance;
 	
 	private VehicleAmmoRangeIndex() {
-		creeateData();
+		createData();
 	}
 	
-	private void creeateData() {
+	private void createData() {
 		rangeList = new ArrayList<Integer>(Arrays.asList(
-				4,1,15,20,30,40,50,60,70,80,90,100,120,140,160,180,200
+				1,4,15,20,30,40,50,60,70,80,90,100,120,140,160,180,200
 				));
 	}
 

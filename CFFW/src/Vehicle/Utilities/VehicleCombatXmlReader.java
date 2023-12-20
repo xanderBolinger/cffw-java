@@ -9,6 +9,7 @@ import org.w3c.dom.NodeList;
 
 import Vehicle.Vehicle;
 import Vehicle.Combat.VehicleAmmo;
+import Vehicle.Combat.VehicleAmmo.VehicleAmmoType;
 import Vehicle.Combat.VehicleTurret;
 import Vehicle.Data.VehicleHitData;
 
@@ -70,7 +71,6 @@ public class VehicleCombatXmlReader {
 	}
 	
 	private static ArrayList<VehicleAmmo> getVehicleAmmo(Element turretNode) {
-		
 		ArrayList<VehicleAmmo> ammo = new ArrayList<VehicleAmmo>();
 		
 		NodeList ammoElements = VehicleXmlReader.getElements(turretNode, "ammo");
@@ -79,8 +79,18 @@ public class VehicleCombatXmlReader {
 			var ammoNode = (Element) ammoElements.item(i);
 			var baString = VehicleXmlReader.getElementString(ammoNode, "balistic_accuracy");
 			var balisticAccuracy = VehicleXmlReader.getDataListFromString(baString);
+			var ammoTypeString = ammoNode.getAttribute("ammoType");
 			
-			ammo.add(new VehicleAmmo(turretNode.getAttribute("ammoName"), balisticAccuracy));
+			VehicleAmmoType ammoType = VehicleAmmoType.FAST;
+			
+			for(var type : VehicleAmmoType.values()) {
+				if(type.toString().equals(ammoTypeString)) {
+					ammoType = type;
+					break;
+				}
+			}
+			
+			ammo.add(new VehicleAmmo(ammoNode.getAttribute("ammoName"), balisticAccuracy, ammoType));
 		}
 		
 		return ammo;

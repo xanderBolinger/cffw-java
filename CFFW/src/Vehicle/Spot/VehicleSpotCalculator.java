@@ -124,7 +124,7 @@ public class VehicleSpotCalculator {
 		var vehiclePositionMagnification = SpotVisibility.getMagnificationMod(spotterPosition.spotData.magnification);
 		
 		var magnificationMod = spotterTrooperMagnification > vehiclePositionMagnification ? spotterTrooperMagnification : vehiclePositionMagnification;
-		var nightWeatherMod = getNightTimeMods(spotter, target, spotterPosition.spotData);
+		var nightWeatherMod = getNightTimeMods(spotter, spotterPosition.spotData);
 		var firedMod = target.spotData.fired ? vis.toLowerCase().contains("night") ? -15 : -12 : 0;
 		var camoMod = target.spotData.camo;
 		var stealthFieldMod = !target.spotData.fired ? target.spotData.stealthField : 0;
@@ -177,7 +177,7 @@ public class VehicleSpotCalculator {
 					target.spotData.turretSize : target.spotData.turretSize / 2;
 	}
 	
-	public static int getNightTimeMods(Vehicle spotter, Vehicle target, PositionSpotData spotData) {
+	public static int getNightTimeMods(Vehicle spotter, PositionSpotData spotData) {
 		int visibilityMod;
 
 		var weather = GameWindow.gameWindow.visibility;

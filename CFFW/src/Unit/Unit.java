@@ -11,6 +11,7 @@ import Actions.Spot;
 import Artillery.FireMission;
 import Conflict.GameWindow;
 import Conflict.OpenUnit;
+import CorditeExpansion.Cord;
 import HexGrid.Waypoint.WaypointData;
 import Hexes.Building;
 import Hexes.Hex;
@@ -871,6 +872,10 @@ public class Unit implements Serializable {
 					w++;
 			
 		return w; 
+	}
+	
+	public Cord getCord() {
+		return new Cord(X,Y);
 	}
 	
 	public Hex getHex(GameWindow gameWindow) {

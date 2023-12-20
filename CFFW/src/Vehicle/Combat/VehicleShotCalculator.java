@@ -1,14 +1,16 @@
 package Vehicle.Combat;
 
 import Conflict.GameWindow;
+import Spot.Utility.SpotVisibility;
 import UtilityClasses.DiceRoller;
 import Vehicle.Vehicle;
 import Vehicle.Data.CrewPosition;
+import Vehicle.Spot.VehicleSpotCalculator;
 
 public class VehicleShotCalculator {
 
 	public static void fireVehicleTurret(Vehicle vehicle, CrewPosition crewPosition, 
-			VehicleTurret turret) {
+			VehicleTurret turret, int ammoIndex) {
 		if(turret.vehicleAimTarget == null) {
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue(vehicle.getVehicleCallsign() +
 					" Turret: "+turret.toString()+", could not fire no aim target.");
@@ -21,22 +23,32 @@ public class VehicleShotCalculator {
 
 		var target = turret.vehicleAimTarget;
 		target.fired = true;
+		var ammo = turret.ammunitionTypes.get(ammoIndex);
+		int rangeHexes = turret.getRangeToTargetIn20YardHexes(vehicle);
 		
 		int sl = crewPosition.crewMemeber.crewMember.sl;
 		int aimValue = turret.getAimValue();
-		int rangeHexes = turret.getRangeToTargetIn20YardHexes(vehicle);
 		int rangeAlm = VehicleRangeAlm.getAlmForRange(rangeHexes);
-		int sizeAlm = turret.vehicleAimTarget.getTargetSizeAlm(vehicle);
+		var nightWeatherMod = VehicleSpotCalculator.getNightTimeMods(vehicle, crewPosition.spotData);
+		var smokeMod = SpotVisibility.getSmokeModifier(
+				VehicleSpotCalculator.isThermalEquipped(vehicle, crewPosition),
+				vehicle.movementData.location, target.getTargetCord());
+		var visibilityAlm = -nightWeatherMod - smokeMod;
+		var alm = sl + aimValue + rangeAlm + visibilityAlm; 
+
+		int sizeAlm = target.getTargetSizeAlm(vehicle);
+		int balisticAccuracy = ammo.getBalisticAccuracy(rangeHexes);
 		
-		var alm = sl + aimValue + rangeAlm;
+		var eal = balisticAccuracy < alm ? balisticAccuracy + sizeAlm : alm + sizeAlm;
 		
-		var odds = VehicleOddsOfHitting.getOddsOfHitting(alm);
+		var odds = VehicleOddsOfHitting.getOddsOfHitting(eal);
 		
 		var roll = DiceRoller.roll(0, 99);
 		
 		String oddsResults = "Shooter "+crewPosition.crewMemeber.crewMember.name+
 				", SL: " + sl + ", Aim Value: " + aimValue + ", Range Hexes: " + rangeHexes +
-				", Range ALM: " +rangeAlm+", ALM: " + alm+", Odds: " + odds+", Roll: " + roll;
+				", Range ALM: " +rangeAlm+", BA: "+balisticAccuracy+", Size ALM: "+sizeAlm
+				+", ALM: " + alm+", EAL: "+eal+", Odds: " + odds+", Roll: " + roll;
 		
 		resolveShot(roll, odds, vehicle, turret, oddsResults);
 	}

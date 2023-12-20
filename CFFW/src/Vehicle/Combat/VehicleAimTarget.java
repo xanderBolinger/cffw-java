@@ -34,7 +34,7 @@ public class VehicleAimTarget implements Serializable {
 	
 	public Cord getTargetCord() {
 		if(unit != null)
-			return new Cord(unit.X, unit.Y);
+			return unit.getCord();
 		else if(vehicle != null)
 			return vehicle.movementData.location;
 		else 

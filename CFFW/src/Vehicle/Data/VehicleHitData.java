@@ -1,6 +1,8 @@
 package Vehicle.Data;
 
-public class VehicleHitData {
+import java.io.Serializable;
+
+public class VehicleHitData implements Serializable {
 
 	int hullSize;
 	int turretSize;
