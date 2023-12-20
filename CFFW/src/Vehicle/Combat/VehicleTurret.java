@@ -57,6 +57,7 @@ public class VehicleTurret implements Serializable {
 				targetCord.xCord, targetCord.yCord);
 	}
 	
+	
 	@Override
 	public String toString() {
 		return turretName + " Target: " + vehicleAimTarget.toString(); 

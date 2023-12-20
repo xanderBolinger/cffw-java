@@ -15,6 +15,7 @@ import Vehicle.Data.CrewCompartment;
 import Vehicle.Data.CrewMember;
 import Vehicle.Data.CrewPosition;
 import Vehicle.Data.ShieldGenerator;
+import Vehicle.Data.VehicleHitData;
 import Vehicle.Data.VehicleMovementData;
 import Vehicle.Data.VehicleSmokeData;
 import Vehicle.Data.VehicleSpotData;
@@ -34,7 +35,6 @@ public class Vehicle implements Serializable {
 
 	public ArrayList<FireMission> fireMissions;
 	
-	
 	public String notes;
 	
 	public boolean active;
@@ -44,6 +44,7 @@ public class Vehicle implements Serializable {
 	public VehicleSmokeData smokeData;
 	public VehicleSpotData spotData;
 	public VehicleTurretData turretData;
+	public VehicleHitData hitData;
 	
 	public int altitude;
 	

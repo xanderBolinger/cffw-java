@@ -6,7 +6,9 @@ import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import Trooper.Trooper;
 import Unit.Unit;
+import UtilityClasses.PCUtility;
 import Vehicle.Vehicle;
+import Vehicle.Spot.VehicleSpotCalculator;
 
 public class VehicleAimTarget implements Serializable {
 
@@ -37,6 +39,28 @@ public class VehicleAimTarget implements Serializable {
 			return vehicle.movementData.location;
 		else 
 			return hexCord;
+	}
+	
+	public int getTargetSizeAlm(Vehicle shooterVehicle) {
+		var targetVehicle = this.vehicle;
+		
+		if(targetVehicle != null) {
+			var hullDown = VehicleSpotCalculator.hullDownRelative(shooterVehicle.movementData.location,
+					targetVehicle);
+			
+			var PCSize = 
+					VehicleSpotCalculator.getSizeMod(hullDown, shooterVehicle.movementData.location,
+							targetVehicle.movementData.location, targetVehicle);
+			return (int) PCSize;
+		} else if(unit != null) {
+			
+			return PCUtility.findSizeALM(trooper.stance, trooper.PCSize, trooper.inCover);
+			
+		} else {
+			return 20;
+		}
+		
+		
 	}
 	
 	@Override

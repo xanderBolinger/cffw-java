@@ -21,10 +21,12 @@ public class VehicleShotCalculator {
 
 		var target = turret.vehicleAimTarget;
 		target.fired = true;
+		
 		int sl = crewPosition.crewMemeber.crewMember.sl;
 		int aimValue = turret.getAimValue();
 		int rangeHexes = turret.getRangeToTargetIn20YardHexes(vehicle);
 		int rangeAlm = VehicleRangeAlm.getAlmForRange(rangeHexes);
+		int sizeAlm = turret.vehicleAimTarget.getTargetSizeAlm(vehicle);
 		
 		var alm = sl + aimValue + rangeAlm;
 		
@@ -37,7 +39,6 @@ public class VehicleShotCalculator {
 				", Range ALM: " +rangeAlm+", ALM: " + alm+", Odds: " + odds+", Roll: " + roll;
 		
 		resolveShot(roll, odds, vehicle, turret, oddsResults);
-		
 	}
 	
 	private static void resolveShot(int roll, int odds, Vehicle vehicle, VehicleTurret

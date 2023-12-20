@@ -9,9 +9,17 @@ import org.w3c.dom.NodeList;
 
 import Vehicle.Vehicle;
 import Vehicle.Combat.VehicleTurret;
+import Vehicle.Data.VehicleHitData;
 
 public class VehicleCombatXmlReader {
 
+	public static VehicleHitData getVehicleHitData(Document vehicleData) {
+		var hullSize = VehicleXmlReader.getDocumentInt(vehicleData, "hull_size");
+		var turretSize = VehicleXmlReader.getDocumentInt(vehicleData, "turret_size");
+		
+		return new VehicleHitData(hullSize, turretSize);
+	}
+	
 	public static ArrayList<VehicleTurret> getVehicleTurrets(Document vehicleData, Vehicle vehicle)
 			throws Exception {
 		

@@ -61,6 +61,7 @@ public class VehicleXmlReader {
 		vehicle.movementData = getVehicleMovementData(vehicleData, vehicle);
 		vehicle.smokeData = getVehicleSmokeData(vehicleData, vehicle);
 		vehicle.turretData.turrets = VehicleCombatXmlReader.getVehicleTurrets(vehicleData, vehicle);
+		vehicle.hitData = VehicleCombatXmlReader.getVehicleHitData(vehicleData);
 		
 		return vehicle;
 	}
@@ -83,8 +84,18 @@ public class VehicleXmlReader {
 		return new PositionSpotData(thermalMod, magnification, nightVision);
 	}
 	
+	
+	
 	private static int getElementInt(Element element, String name) {
 		return Integer.parseInt(getElementString(element,name));
+	}
+	
+	public static String getDocumentString(Document vehicleData, String name) {
+		return vehicleData.getElementsByTagName(name).item(0).getTextContent();
+	}
+	
+	public static int getDocumentInt(Document vehicleData, String name) {
+		return Integer.parseInt(getDocumentString(vehicleData, name));
 	}
 	
 	public static String getElementString(Element element, String name) {

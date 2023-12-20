@@ -47,9 +47,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
-
-import Artillery.AlertWindow;
-
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
 import java.awt.Label;
