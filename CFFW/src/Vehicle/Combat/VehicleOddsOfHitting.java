@@ -100,7 +100,18 @@ public class VehicleOddsOfHitting {
 	}
 	
 	private int getFullAutoHits() {
-		return -1;
+		
+		var fullAutoString = VehicleFullAutoTable.getFullAutoString(shotsFired, palm);
+		
+		if(fullAutoString.contains("*")) {
+			return Integer.parseInt(fullAutoString.substring(1, fullAutoString.length()-1));
+		} else {
+			
+			var tn = Integer.parseInt(fullAutoResults);
+			secondFullAutoRoll = DiceRoller.roll(0, 99);
+			return secondFullAutoRoll <= tn ? 1 : 0; 
+		}
+		
 	}
 	
 	public String getOddsResults() {
