@@ -23,6 +23,7 @@ public class VehicleTurret implements Serializable {
 	public boolean fired;
 	public int reloadTime;
 	public int timeSpentReloading;
+	public int maxRateOfFire;
 	
 	public ArrayList<CrewPosition> crewPositions;
 	public ArrayList<VehicleAmmo> ammunitionTypes;
@@ -32,7 +33,8 @@ public class VehicleTurret implements Serializable {
 	public VehicleTurret(String turretName, int facingWidth, int rotationSpeedPerPhaseDegrees,
 			boolean canRotate, int minFacing, int maxFacing, ArrayList<Integer> aimValues,
 			ArrayList<VehicleAmmo> ammunitionTypes, int movingTargetAccuracyMod,
-			int movingShooterAccuractMod, int reloadTime) {
+			int movingShooterAccuractMod, int reloadTime, int maxRateOfFire) {
+		this.maxRateOfFire = maxRateOfFire;
 		this.turretName = turretName;
 		this.facingDirection = 0;
 		this.facingWidth = facingWidth;

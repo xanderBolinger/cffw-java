@@ -49,6 +49,8 @@ public class VehicleCombatXmlReader {
 					.item(0).getTextContent());
 			int reloadTime = Integer.parseInt(turretNode.getElementsByTagName("reload_time")
 					.item(0).getTextContent());
+			int maxRateOfFire = Integer.parseInt(turretNode.getElementsByTagName("rate_of_fire")
+					.item(0).getTextContent());
 			
 			var aimValues = new ArrayList<Integer>();
 			
@@ -62,7 +64,7 @@ public class VehicleCombatXmlReader {
 			var ammo = getVehicleAmmo(turretNode);
 			
 			var turret = new VehicleTurret(turretName, facingWidth, rotationSpeed, canRotate, minFacing,
-					maxFacing, aimValues, ammo, movingTargetMod, movingShooterMod, reloadTime);
+					maxFacing, aimValues, ammo, movingTargetMod, movingShooterMod, reloadTime, maxRateOfFire);
 			
 			var positionString = turretNode.getElementsByTagName("positions").item(0).getTextContent();
 			var positionNames = positionString.split(",");

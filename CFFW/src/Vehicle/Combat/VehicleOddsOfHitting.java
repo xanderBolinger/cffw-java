@@ -104,7 +104,8 @@ public class VehicleOddsOfHitting {
 		var fullAutoString = VehicleFullAutoTable.getFullAutoString(shotsFired, palm);
 		
 		if(fullAutoString.contains("*")) {
-			return Integer.parseInt(fullAutoString.substring(1, fullAutoString.length()-1));
+			var rsltHits =  Integer.parseInt(fullAutoString.substring(1, fullAutoString.length()-1));
+			return rsltHits <= shotsFired ? rsltHits : shotsFired;
 		} else {
 			
 			var tn = Integer.parseInt(fullAutoResults);
