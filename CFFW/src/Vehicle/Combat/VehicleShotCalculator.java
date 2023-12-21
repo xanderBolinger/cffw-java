@@ -48,12 +48,22 @@ public class VehicleShotCalculator {
 		int movingTargetValue = getMovingTargetAccuracy(target, rangeHexes, ammo.ammoType,
 				turret.movingTargetAccuracyMod, speed);
 		
+		int movingShooterValue = vehicle.movementData.speed == 0 ? 
+				VehicleMovingShooterAccuracy.getMovingShooterAccuracy(
+						rangeHexes, Math.abs(vehicle.movementData.speed)) + turret.movingShooterAccuracyMod
+				: Integer.MAX_VALUE;
+		
 		int eal = alm + sizeAlm;
 		
-		if(movingTargetValue < alm && movingTargetValue < balisticAccuracy)
+		if(movingTargetValue < alm && movingTargetValue < balisticAccuracy 
+				&& movingTargetValue < movingShooterValue)
 			eal = movingTargetValue + sizeAlm;
-		else if(balisticAccuracy < alm && balisticAccuracy < movingTargetValue)
+		else if(balisticAccuracy < alm && balisticAccuracy < movingTargetValue
+				&& balisticAccuracy < movingShooterValue)
 			eal = balisticAccuracy + sizeAlm;
+		else if(movingShooterValue < alm && movingShooterValue < balisticAccuracy &&
+				movingShooterValue < movingTargetValue)
+			eal = movingShooterValue + sizeAlm;
 		
 		var odds = VehicleOddsOfHitting.getOddsOfHitting(eal);
 		
@@ -63,7 +73,9 @@ public class VehicleShotCalculator {
 				", SL: " + sl + ", Aim Value: " + aimValue + ", Range Hexes: " + rangeHexes +
 				", Range ALM: " +rangeAlm+", BA: "+balisticAccuracy+", Size ALM: "+sizeAlm
 				+", ALM: " + alm + (movingTargetValue != Integer.MAX_VALUE 
-					? ", MTA: " + movingTargetValue : "") + ", Speed: " + speed
+					? ", MTA: " + movingTargetValue : "") + ", Target Speed: " + speed + 
+				(movingShooterValue != Integer.MAX_VALUE 
+				? ", MSTA: " + movingShooterValue : "") + ", Shooter Speed: "+ vehicle.movementData.speed
 				+", EAL: "+eal+", Odds: " + odds+", Roll: " + roll;
 		
 		resolveShot(roll, odds, vehicle, turret, oddsResults);
@@ -78,7 +90,7 @@ public class VehicleShotCalculator {
 		if(speed == 0)
 			return Integer.MAX_VALUE;
 		
-		return VehicleMovingTargetAccuracy.getMovingTargetAccuracy(ammoType, rangeHexes, speed)
+		return VehicleMovingTargetAccuracy.getMovingTargetAccuracy(ammoType, rangeHexes, Math.abs(speed))
 				+ movingTargetModifier;
 	}
 	
