@@ -18,14 +18,14 @@ public class VehicleShotCalculator {
 			return;
 		} else if(turret.fired) {
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue(vehicle.getVehicleCallsign() +
-					" Turret: "+turret.toString()+", could not fire already fired.");
+					" Turret: "+turret.toString()+", could not fire already fired or loading.");
 			return;
 		}
 
 		var target = turret.vehicleAimTarget;
 		turret.fired = true;
+		turret.timeSpentReloading = 0;
 		vehicle.spotData.fired = true;
-		
 		var ammo = turret.ammunitionTypes.get(ammoIndex);
 		int rangeHexes = turret.getRangeToTargetIn20YardHexes(vehicle);
 		

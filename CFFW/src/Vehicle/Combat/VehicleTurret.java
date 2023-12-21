@@ -22,6 +22,7 @@ public class VehicleTurret implements Serializable {
 	
 	public boolean fired;
 	public int reloadTime;
+	public int timeSpentReloading;
 	
 	public ArrayList<CrewPosition> crewPositions;
 	public ArrayList<VehicleAmmo> ammunitionTypes;

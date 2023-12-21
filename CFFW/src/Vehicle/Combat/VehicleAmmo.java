@@ -28,7 +28,7 @@ public class VehicleAmmo implements Serializable {
 	}
 	
 	public int getBalisticAccuracy(int rangeHexes) {
-		return VehicleAmmoRangeIndex.getRangeIndex(rangeHexes);
+		return balisticAccuracy.get(VehicleAmmoRangeIndex.getRangeIndex(rangeHexes));
 	}
 	
 }

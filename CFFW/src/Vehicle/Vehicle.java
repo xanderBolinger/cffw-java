@@ -235,12 +235,14 @@ public class Vehicle implements Serializable {
 	}
 	
 	public void firedWeaponFalse() {
-		
 		spotData.fired = false;
-		for(var turret : turretData.turrets)
-			if(turret.vehicleAimTarget != null)
+		for(var turret : turretData.turrets) {
+			if(turret.timeSpentReloading >= turret.reloadTime) {
+				turret.timeSpentReloading = 0;
 				turret.fired = false;
-		
+			} else 
+				turret.timeSpentReloading++;
+		}
 	}
 	
 	@Override

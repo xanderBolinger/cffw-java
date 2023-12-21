@@ -104,6 +104,8 @@
             <turret>
                 <turret_name>Main Guns</turret_name>
                 <moving_target_modifier>10</moving_target_modifier>
+                <moving_shooter_modifier>16</moving_shooter_modifier>
+                <reload_time>0</reload_time>
                 <facing_width>20</facing_width>
                 <rotation_speed>30</rotation_speed>
                 <can_rotate>true</can_rotate>
@@ -121,6 +123,8 @@
             <turret>
                 <turret_name>Forward Lasers</turret_name>
                 <moving_target_modifier>0</moving_target_modifier>
+                <moving_shooter_modifier>0</moving_shooter_modifier>
+                <reload_time>0</reload_time>
                 <facing_width>25</facing_width>
                 <rotation_speed>0</rotation_speed>
                 <can_rotate>false</can_rotate>
