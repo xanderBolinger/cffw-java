@@ -46,16 +46,15 @@ public class VehicleMovingTargetAccuracy {
 		return instance;
 	}
 	
-	public static int getMovingTargetAccuracy(VehicleAmmoType ammoType, int rangeHexes) {
+	public static int getMovingTargetAccuracy(VehicleAmmoType ammoType, int rangeHexes, int speed) {
 		try {
 			var index = VehicleMovingTargetRangeIndex.getRangeIndex(ammoType, rangeHexes);
 			var instance = getInstance(); 
 			
 			for(int i = 0; i < instance.table.size(); i++) {
 				var row = instance.table.get(i);
-				if(rangeHexes <= row.hexesPerTurn) {
+				if(speed <= row.hexesPerTurn || i == instance.table.size() - 1)
 					return row.movingTargetAccuacyValues.get(index);
-				}
 			}
 			
 		} catch (Exception e) {

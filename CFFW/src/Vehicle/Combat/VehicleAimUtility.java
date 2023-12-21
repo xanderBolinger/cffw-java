@@ -14,7 +14,7 @@ public class VehicleAimUtility {
 	public static void resolveAimTargets(Vehicle vic) {
 		
 		for(var turret : vic.turretData.turrets) {
-			if(turret.vehicleAimTarget != null && !turret.vehicleAimTarget.fired) {
+			if(turret.vehicleAimTarget != null && !turret.fired) {
 				turret.vehicleAimTarget.timeSpentAiming++;
 				GameWindow.gameWindow.conflictLog.addNewLineToQueue(vic.getVehicleCallsign() + " turret "+turret.turretName
 						+" increased aim time.");

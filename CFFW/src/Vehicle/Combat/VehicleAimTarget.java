@@ -13,7 +13,6 @@ import Vehicle.Spot.VehicleSpotCalculator;
 public class VehicleAimTarget implements Serializable {
 
 	public int timeSpentAiming;
-	public boolean fired;
 	Trooper trooper;
 	Unit unit;
 	Vehicle vehicle;
@@ -58,6 +57,23 @@ public class VehicleAimTarget implements Serializable {
 			
 		} else {
 			return 20;
+		}
+		
+	}
+	
+	public int getTargetSpeedInHexesPerTurn() {
+		
+		if(vehicle != null) {
+			return vehicle.movementData.speed;
+		} else if(unit != null) {
+			if(unit.speed.equals("Walk"))
+				return 1;
+			else if(unit.speed.equals("Rush"))
+				return 3;
+			else 
+				return 0;
+		} else {
+			return 0;
 		}
 		
 	}

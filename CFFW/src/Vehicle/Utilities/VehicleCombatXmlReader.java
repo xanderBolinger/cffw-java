@@ -43,6 +43,8 @@ public class VehicleCombatXmlReader {
 					.item(0).getTextContent());
 			int maxFacing = Integer.parseInt(turretNode.getElementsByTagName("max_facing")
 					.item(0).getTextContent());
+			int movingTargetMod = Integer.parseInt(turretNode.getElementsByTagName("moving_target_modifier")
+					.item(0).getTextContent());
 			
 			var aimValues = new ArrayList<Integer>();
 			
@@ -56,7 +58,7 @@ public class VehicleCombatXmlReader {
 			var ammo = getVehicleAmmo(turretNode);
 			
 			var turret = new VehicleTurret(turretName, facingWidth, rotationSpeed, canRotate, minFacing,
-					maxFacing, aimValues, ammo);
+					maxFacing, aimValues, ammo, movingTargetMod);
 			
 			var positionString = turretNode.getElementsByTagName("positions").item(0).getTextContent();
 			var positionNames = positionString.split(",");

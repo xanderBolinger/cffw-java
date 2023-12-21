@@ -239,7 +239,7 @@ public class Vehicle implements Serializable {
 		spotData.fired = false;
 		for(var turret : turretData.turrets)
 			if(turret.vehicleAimTarget != null)
-				turret.vehicleAimTarget.fired = false;
+				turret.fired = false;
 		
 	}
 	

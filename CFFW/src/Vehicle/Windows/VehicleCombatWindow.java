@@ -330,10 +330,14 @@ public class VehicleCombatWindow {
 		ArrayList<String> crewPositions = new ArrayList<String>();
 		
 		for(var pos : vehicleTurret.crewPositions) {
+			if(pos.crewMemeber.crewMember == null)
+				continue;
 			crewPositions.add(pos.getPositionName() + " " + pos.crewMemeber.crewMember.name + 
 					" SL: " + pos.crewMemeber.crewMember.sl);
 		}
 
+		if(crewPositions.size() < 1)
+			return;
 		SwingUtility.setComboBox(comboBoxTurretCrewPosition, crewPositions, false, 0);
 		
 	}

@@ -4,6 +4,7 @@ import Conflict.GameWindow;
 import Spot.Utility.SpotVisibility;
 import UtilityClasses.DiceRoller;
 import Vehicle.Vehicle;
+import Vehicle.Combat.VehicleAmmo.VehicleAmmoType;
 import Vehicle.Data.CrewPosition;
 import Vehicle.Spot.VehicleSpotCalculator;
 
@@ -15,14 +16,16 @@ public class VehicleShotCalculator {
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue(vehicle.getVehicleCallsign() +
 					" Turret: "+turret.toString()+", could not fire no aim target.");
 			return;
-		} else if(turret.vehicleAimTarget.fired) {
+		} else if(turret.fired) {
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue(vehicle.getVehicleCallsign() +
 					" Turret: "+turret.toString()+", could not fire already fired.");
 			return;
 		}
 
 		var target = turret.vehicleAimTarget;
-		target.fired = true;
+		turret.fired = true;
+		vehicle.spotData.fired = true;
+		
 		var ammo = turret.ammunitionTypes.get(ammoIndex);
 		int rangeHexes = turret.getRangeToTargetIn20YardHexes(vehicle);
 		
@@ -37,9 +40,20 @@ public class VehicleShotCalculator {
 		var alm = sl + aimValue + rangeAlm + visibilityAlm; 
 
 		int sizeAlm = target.getTargetSizeAlm(vehicle);
-		int balisticAccuracy = ammo.getBalisticAccuracy(rangeHexes);
 		
-		var eal = balisticAccuracy < alm ? balisticAccuracy + sizeAlm : alm + sizeAlm;
+		int balisticAccuracy = ammo.getBalisticAccuracy(rangeHexes);
+
+		var speed = target.getTargetSpeedInHexesPerTurn();
+		
+		int movingTargetValue = getMovingTargetAccuracy(target, rangeHexes, ammo.ammoType,
+				turret.movingTargetAccuracyMod, speed);
+		
+		int eal = alm + sizeAlm;
+		
+		if(movingTargetValue < alm && movingTargetValue < balisticAccuracy)
+			eal = movingTargetValue + sizeAlm;
+		else if(balisticAccuracy < alm && balisticAccuracy < movingTargetValue)
+			eal = balisticAccuracy + sizeAlm;
 		
 		var odds = VehicleOddsOfHitting.getOddsOfHitting(eal);
 		
@@ -48,9 +62,24 @@ public class VehicleShotCalculator {
 		String oddsResults = "Shooter "+crewPosition.crewMemeber.crewMember.name+
 				", SL: " + sl + ", Aim Value: " + aimValue + ", Range Hexes: " + rangeHexes +
 				", Range ALM: " +rangeAlm+", BA: "+balisticAccuracy+", Size ALM: "+sizeAlm
-				+", ALM: " + alm+", EAL: "+eal+", Odds: " + odds+", Roll: " + roll;
+				+", ALM: " + alm + (movingTargetValue != Integer.MAX_VALUE 
+					? ", MTA: " + movingTargetValue : "") + ", Speed: " + speed
+				+", EAL: "+eal+", Odds: " + odds+", Roll: " + roll;
 		
 		resolveShot(roll, odds, vehicle, turret, oddsResults);
+	}
+	
+	
+	private static int getMovingTargetAccuracy(VehicleAimTarget target, int rangeHexes, 
+			VehicleAmmoType ammoType,
+			int movingTargetModifier,
+			int speed) {
+		
+		if(speed == 0)
+			return Integer.MAX_VALUE;
+		
+		return VehicleMovingTargetAccuracy.getMovingTargetAccuracy(ammoType, rangeHexes, speed)
+				+ movingTargetModifier;
 	}
 	
 	private static void resolveShot(int roll, int odds, Vehicle vehicle, VehicleTurret
