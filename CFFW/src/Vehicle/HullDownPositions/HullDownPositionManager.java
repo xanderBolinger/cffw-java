@@ -86,6 +86,7 @@ public class HullDownPositionManager implements Serializable {
     		
     		var hd = new HullDownPosition(HullDownStatus.HIDDEN,
     				HullDownStatus.PARTIAL_HULL_DOWN);
+    		hd.capacity += 4;
     		hd.protectedDirections.clear();
 
     		
