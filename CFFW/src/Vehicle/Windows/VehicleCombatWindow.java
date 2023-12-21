@@ -120,6 +120,7 @@ public class VehicleCombatWindow {
 	private JSpinner spinnerAltitude;
 	private JComboBox comboBoxTurretCrewPosition;
 	private JComboBox comboBoxAmmoType;
+	private JSpinner spinnerFiredShots;
 	
 	/**
 	 * Create the application.
@@ -295,7 +296,8 @@ public class VehicleCombatWindow {
 		var leftWidth = HexDirectionUtility.getFaceInDirection(currentFacing, false, facingWidth);
 		var rightWidth = HexDirectionUtility.getFaceInDirection(currentFacing, true, facingWidth);
 		
-		lblTurretFacing.setText("Turret Facing: "+turret.facingDirection+", "+leftWidth+"-"+currentFacing+"-"+rightWidth);
+		lblTurretFacing.setText("Turret Facing: "+turret.facingDirection+", "+leftWidth+"-"+currentFacing
+				+"-"+rightWidth);
 		lblTurretElevation.setText("Elevation: "+turret.getTurretElevation());
 		lblTurretWidth.setText("Turret Width: "+turret.facingWidth);
 		SpinnerModel sm = new SpinnerNumberModel(turret.nextFacing, -turret.rotationSpeedPerPhaseDegrees, 
@@ -313,6 +315,13 @@ public class VehicleCombatWindow {
 		setAimTarget(vehicleTurret);
 		setTurretCrewPositions(vehicleTurret);
 		setAmmoTypes(vehicleTurret);
+		setFiredShotsSpinner(vehicleTurret);
+	}
+	
+	private void setFiredShotsSpinner(VehicleTurret vehicleTurret) {
+		SpinnerModel spinnerModel = new SpinnerNumberModel(vehicleTurret.maxRateOfFire,1,
+				vehicleTurret.maxRateOfFire,1);
+		spinnerFiredShots.setModel(spinnerModel);
 	}
 	
 	private void setAmmoTypes(VehicleTurret vehicleTurret) {
@@ -389,7 +398,8 @@ public class VehicleCombatWindow {
 			
 			for(var vic : pos.spottedVehicles) {
 				
-				if(VehicleAimUtility.turretFacingTarget(vehicleTurret, selectedVehicle, vic) && !targetVehicles.contains(vic)) {
+				if(VehicleAimUtility.turretFacingTarget(vehicleTurret, selectedVehicle, vic) 
+						&& !targetVehicles.contains(vic.getVehicleCallsign())) {
 					targetVehicles.add(vic.getVehicleCallsign());
 					this.targetVehicles.add(vic);
 				}
@@ -1049,6 +1059,7 @@ public class VehicleCombatWindow {
 						+" "+turret.turretName+" cleared aim target.");
 				turret.vehicleAimTarget = null;
 				GameWindow.gameWindow.conflictLog.addQueuedText();
+				selectTurret();
 			}
 		});
 		btnNewButton_9.setBounds(204, 118, 78, 23);
@@ -1080,11 +1091,18 @@ public class VehicleCombatWindow {
 
 					@Override
 					protected Void doInBackground() throws Exception {
-						var turret =  getSelectedTurret();
-						var position = turret.crewPositions
-								.get(comboBoxTurretCrewPosition.getSelectedIndex());
-						VehicleShotCalculator.fireVehicleTurret(selectedVehicle, position, turret,
-								comboBoxAmmoType.getSelectedIndex());
+						
+						try {
+							var turret =  getSelectedTurret();
+							var position = turret.crewPositions
+									.get(comboBoxTurretCrewPosition.getSelectedIndex());
+							VehicleShotCalculator.fireVehicleTurret(selectedVehicle, position, turret,
+									comboBoxAmmoType.getSelectedIndex(), 
+									(int)spinnerFiredShots.getValue());
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
+						
 						return null;
 					}
 
@@ -1099,16 +1117,20 @@ public class VehicleCombatWindow {
 				
 			}
 		});
-		btnNewButton_10_1.setBounds(292, 151, 131, 23);
+		btnNewButton_10_1.setBounds(292, 141, 131, 23);
 		Combat.add(btnNewButton_10_1);
 		
 		comboBoxTurretCrewPosition = new JComboBox();
-		comboBoxTurretCrewPosition.setBounds(151, 152, 131, 22);
+		comboBoxTurretCrewPosition.setBounds(151, 141, 131, 22);
 		Combat.add(comboBoxTurretCrewPosition);
 		
 		comboBoxAmmoType = new JComboBox();
-		comboBoxAmmoType.setBounds(10, 153, 131, 22);
+		comboBoxAmmoType.setBounds(10, 141, 131, 22);
 		Combat.add(comboBoxAmmoType);
+		
+		spinnerFiredShots = new JSpinner();
+		spinnerFiredShots.setBounds(353, 164, 70, 20);
+		Combat.add(spinnerFiredShots);
 		
 		chckbxFired = new JCheckBox("Fired");
 		chckbxFired.addActionListener(new ActionListener() {

@@ -36,7 +36,7 @@ public class VehicleOddsOfHitting {
 	public VehicleOddsOfHitting(Vehicle vehicle, CrewPosition crewPosition, 
 			VehicleTurret turret, int ammoIndex, int shotsFired) {
 		this.shotsFired = shotsFired;
-		this.fullAuto = shotsFired > 0;
+		this.fullAuto = shotsFired > 1;
 		this.vehicle = vehicle;
 		this.crewPosition = crewPosition;
 		var target = turret.vehicleAimTarget;
@@ -101,13 +101,14 @@ public class VehicleOddsOfHitting {
 	
 	private int getFullAutoHits() {
 		
-		var fullAutoString = VehicleFullAutoTable.getFullAutoString(shotsFired, palm);
+		var fullAutoString = VehicleFullAutoTable.getFullAutoString(shotsFired, palm + 20 - sizeAlm);
+		fullAutoResults = fullAutoString;
 		
 		if(fullAutoString.contains("*")) {
-			var rsltHits =  Integer.parseInt(fullAutoString.substring(1, fullAutoString.length()-1));
+			fullAutoString = fullAutoString.replace("*", "");
+			var rsltHits =  Integer.parseInt(fullAutoString);
 			return rsltHits <= shotsFired ? rsltHits : shotsFired;
 		} else {
-			
 			var tn = Integer.parseInt(fullAutoResults);
 			secondFullAutoRoll = DiceRoller.roll(0, 99);
 			return secondFullAutoRoll <= tn ? 1 : 0; 
@@ -130,6 +131,5 @@ public class VehicleOddsOfHitting {
 		
 		return oddsResults;
 	}
-	
 	
 }

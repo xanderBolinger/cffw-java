@@ -78,6 +78,24 @@ public class CalculateLOS {
 		
 		// old used for reciprical spotting
 		removeSpottedVehiclesForLostLos(vehicles);
+		
+		clearAimTargets();
+	}
+	
+	private static void clearAimTargets() {
+		
+		for(var vic : GameWindow.gameWindow.vehicleCombatWindow.vehicles) {
+			
+			for(var turret : vic.turretData.turrets) {
+				if(turret.vehicleAimTarget == null)
+					continue;
+				
+				if(!turret.vehicleAimTarget.hasLosToTarget(vic,
+						turret.crewPositions))
+					turret.vehicleAimTarget = null;
+			}
+		}
+		
 	}
 	
 	private static void clearUnmovedTargetLos(Vehicle movedVehicle, Vehicle stationaryLosVehicle) {

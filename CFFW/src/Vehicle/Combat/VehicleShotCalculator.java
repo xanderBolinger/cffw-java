@@ -8,7 +8,7 @@ import Vehicle.Data.CrewPosition;
 public class VehicleShotCalculator {
 
 	public static void fireVehicleTurret(Vehicle vehicle, CrewPosition crewPosition, 
-			VehicleTurret turret, int ammoIndex) {
+			VehicleTurret turret, int ammoIndex, int shotsFired) {
 		if(turret.vehicleAimTarget == null) {
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue(vehicle.getVehicleCallsign() +
 					" Turret: "+turret.toString()+", could not fire no aim target.");
@@ -19,7 +19,7 @@ public class VehicleShotCalculator {
 			return;
 		}
 
-		var odds = new VehicleOddsOfHitting(vehicle, crewPosition, turret, ammoIndex, 1);
+		var odds = new VehicleOddsOfHitting(vehicle, crewPosition, turret, ammoIndex, shotsFired);
 		
 		odds.roll();
 		
@@ -46,10 +46,10 @@ public class VehicleShotCalculator {
 		
 		if(odds.shotsHit > 0) {
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue(vehicle.getVehicleCallsign()
-					+" shot: "+turret.toString()+", HIT(s): " +odds.shotsHit+", "+odds.getOddsResults());
+					+" shot: "+turret.toString()+", "+odds.getOddsResults()+", HIT(s): " +odds.shotsHit);
 		} else {
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue(vehicle.getVehicleCallsign()
-					+" shot: "+turret.toString()+", Miss. " + odds.getOddsResults());
+					+" shot: "+turret.toString()+ odds.getOddsResults()+", Miss. " );
 		}
 	}
 	

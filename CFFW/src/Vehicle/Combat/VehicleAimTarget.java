@@ -1,13 +1,16 @@
 package Vehicle.Combat;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import Conflict.GameWindow;
 import CorditeExpansion.Cord;
+import HexGrid.CalculateLOS;
 import Trooper.Trooper;
 import Unit.Unit;
 import UtilityClasses.PCUtility;
 import Vehicle.Vehicle;
+import Vehicle.Data.CrewPosition;
 import Vehicle.Spot.VehicleSpotCalculator;
 
 public class VehicleAimTarget implements Serializable {
@@ -29,6 +32,24 @@ public class VehicleAimTarget implements Serializable {
 	public VehicleAimTarget(Unit unit, Trooper trooper) {
 		this.unit = unit;
 		this.trooper = trooper;
+	}
+	
+	public boolean hasLosToTarget(Vehicle spotterVic, ArrayList<CrewPosition> crewPosition) {
+
+		for(var pos : crewPosition) {
+			
+			if(unit != null && pos.losUnits.contains(unit))
+				return true;
+			else if(vehicle != null && pos.losVehicles.contains(vehicle))
+				return true;
+			else if(hexCord != null && CalculateLOS.hasLos(spotterVic.movementData.location, hexCord, 
+					pos.elevationAboveVehicle+spotterVic.altitude, 0,
+					VehicleSpotCalculator.isThermalEquipped(spotterVic, pos)))
+				return true;
+		}
+		
+		
+		return false;
 	}
 	
 	public Cord getTargetCord() {

@@ -88,6 +88,9 @@ public class VehicleXmlReader {
 		var stringList = data.split(",");
 		ArrayList<Integer> returnData = new ArrayList<Integer>();
 		
+		if(stringList.length == 1 && stringList[0].equals(""))
+			return returnData;
+		
 		for(var i : stringList) {
 			returnData.add(Integer.parseInt(i));
 		}
