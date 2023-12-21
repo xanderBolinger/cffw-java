@@ -1,98 +1,123 @@
 package Vehicle.Combat;
 
-import java.util.ArrayList;
+import Spot.Utility.SpotVisibility;
+import UtilityClasses.DiceRoller;
+import Vehicle.Vehicle;
+import Vehicle.Data.CrewPosition;
+import Vehicle.Spot.VehicleSpotCalculator;
 
 public class VehicleOddsOfHitting {
-	// Singleton instance
-    private static VehicleOddsOfHitting instance;
+	
+	int sl;
+	int odds; 
+	int aimValue;
+	int rangeAlm;
+	int nightWeatherMod;
+	int rangeHexes;
+	int balisticAccuracy;
+	int alm;
+	int palm;
+	int sizeAlm;
+	CrewPosition crewPosition;
+	int visibilityAlm;
+	int movingTargetValue;
+	int movingShooterValue;
+	int speed;
+	int eal;
+	int roll;
+	Vehicle vehicle;
+	int shotsFired;
+	
+	boolean fullAuto;
+	int shotsHit;
+	String fullAutoResults;
+	int secondFullAutoRoll;
+	
+	public VehicleOddsOfHitting(Vehicle vehicle, CrewPosition crewPosition, 
+			VehicleTurret turret, int ammoIndex, int shotsFired) {
+		this.shotsFired = shotsFired;
+		this.fullAuto = shotsFired > 0;
+		this.vehicle = vehicle;
+		this.crewPosition = crewPosition;
+		var target = turret.vehicleAimTarget;
+		turret.fired = true;
+		turret.timeSpentReloading = 0;
+		vehicle.spotData.fired = true;
+		var ammo = turret.ammunitionTypes.get(ammoIndex);
+		rangeHexes = turret.getRangeToTargetIn20YardHexes(vehicle);
+		
+		sl = crewPosition.crewMemeber.crewMember.sl;
+		aimValue = turret.getAimValue();
+		rangeAlm = VehicleRangeAlm.getAlmForRange(rangeHexes);
+		nightWeatherMod = VehicleSpotCalculator.getNightTimeMods(vehicle, crewPosition.spotData);
+		var smokeMod = SpotVisibility.getSmokeModifier(
+				VehicleSpotCalculator.isThermalEquipped(vehicle, crewPosition),
+				vehicle.movementData.location, target.getTargetCord());
+		visibilityAlm = -nightWeatherMod - smokeMod;
+		alm = sl + aimValue + rangeAlm + visibilityAlm; 
 
-    // 2D array list for range and odds of hitting
-    private ArrayList<ArrayList<Integer>> rangeOddsList;
+		sizeAlm = target.getTargetSizeAlm(vehicle);
+		
+		palm = fullAuto ? ammo.getPalm(rangeHexes) : Integer.MIN_VALUE;
+		
+		if(palm > sizeAlm)
+			sizeAlm = palm;
+		
+		balisticAccuracy = ammo.getBalisticAccuracy(rangeHexes);
 
-    // Private constructor for singleton
-    private VehicleOddsOfHitting() {
-        initializeData();
-    }
-
-    // Method to get the singleton instance
-    public static VehicleOddsOfHitting getInstance() {
-        if (instance == null) {
-            instance = new VehicleOddsOfHitting();
-        }
-        return instance;
-    }
-
-    // Initialize data for the range and odds list
-    private void initializeData() {
-        rangeOddsList = new ArrayList<>();
-        // Add the specified data to the list
-        // Format: {range, odds of hitting}
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(34); add(99); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(33); add(99); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(32); add(99); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(31); add(99); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(30); add(99); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(29); add(99); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(28); add(99); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(27); add(98); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(26); add(96); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(25); add(95); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(24); add(90); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(23); add(86); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(22); add(80); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(21); add(74); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(20); add(67); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(19); add(60); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(18); add(53); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(17); add(46); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(16); add(39); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(15); add(33); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(14); add(27); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(13); add(22); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(12); add(18); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(11); add(15); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(10); add(12); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(9); add(9); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(8); add(7); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(7); add(6); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(6); add(5); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(5); add(4); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(4); add(3); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(3); add(2); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(2); add(1); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(1); add(1); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(0); add(1); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(-1); add(0); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(-2); add(0); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(-3); add(0); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(-4); add(0); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(-5); add(0); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(-6); add(0); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(-8); add(0); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(-10); add(0); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(-15); add(0); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(-17); add(0); }});
-        rangeOddsList.add(new ArrayList<Integer>() {{ add(-22); add(0); }});
-    }
-
-    // Static method to get the odds of hitting based on the number of hexes
-    public static int getOddsOfHitting(int eal) {
-        // Iterate through the list and find a result that is less than or equal to the given range
-        for (ArrayList<Integer> entry : getInstance().rangeOddsList) {
-            int range = entry.get(0);
-            int odds = entry.get(1);
-            if (range <= eal) {
-                return odds;
-            }
-        }
-        // Return a default value if no matching range is found
-        return -1; // You can change this default value as needed
-    }
-
-    // Example usage
-    public static void main(String[] args) {
-        // Get the odds of hitting for a specific range
-        int oddsForRange = VehicleOddsOfHitting.getOddsOfHitting(20);
-        System.out.println("Odds of hitting for range 20 eal: " + oddsForRange);
-    }
+		speed = target.getTargetSpeedInHexesPerTurn();
+		
+		movingTargetValue = VehicleShotCalculator.getMovingTargetAccuracy(target, rangeHexes, ammo.ammoType,
+				turret.movingTargetAccuracyMod, speed);
+		
+		movingShooterValue = vehicle.movementData.speed != 0 ? 
+				VehicleMovingShooterAccuracy.getMovingShooterAccuracy(
+						rangeHexes, Math.abs(vehicle.movementData.speed)) + turret.movingShooterAccuracyMod
+				: Integer.MAX_VALUE;
+		
+		eal = alm + sizeAlm;
+		
+		if(movingTargetValue < alm && movingTargetValue < balisticAccuracy 
+				&& movingTargetValue < movingShooterValue)
+			eal = movingTargetValue + sizeAlm;
+		else if(balisticAccuracy < alm && balisticAccuracy < movingTargetValue
+				&& balisticAccuracy < movingShooterValue)
+			eal = balisticAccuracy + sizeAlm;
+		else if(movingShooterValue < alm && movingShooterValue < balisticAccuracy &&
+				movingShooterValue < movingTargetValue)
+			eal = movingShooterValue + sizeAlm;
+		
+		odds = VehicleOddsOfHittingTable.getOddsOfHitting(eal);
+		
+	}
+	
+	public void roll() {
+		roll = DiceRoller.roll(0, 99);
+	}
+	
+	public void getHits() {
+		shotsHit = roll > odds ? 0 : fullAuto ? getFullAutoHits() : 1;
+	}
+	
+	private int getFullAutoHits() {
+		return -1;
+	}
+	
+	public String getOddsResults() {
+		String oddsResults = "Shooter "+crewPosition.crewMemeber.crewMember.name+
+				", SL: " + sl + ", Aim Value: " + aimValue + ", Range Hexes: " + rangeHexes +
+				", Range ALM: " +rangeAlm+", BA: "+balisticAccuracy+", Size ALM: "+sizeAlm
+				+", Visibility Alm: " + visibilityAlm
+				+", ALM: " + alm + (movingTargetValue != Integer.MAX_VALUE 
+					? ", MTA: " + movingTargetValue : "") + ", Target Speed: " + speed + 
+				(movingShooterValue != Integer.MAX_VALUE 
+				? ", MSTA: " + movingShooterValue : "") + ", Shooter Speed: "+ vehicle.movementData.speed
+				+", EAL: "+eal+", Odds: " + odds+", Roll: " + roll+", Shots Fired: "+shotsFired
+				+ (fullAuto ? ", PALM: "+palm +", Rslts: "+fullAutoResults + (
+						fullAutoResults.contains("*")? "" : ", Second Roll: "+secondFullAutoRoll): "");
+		
+		return oddsResults;
+	}
+	
+	
 }

@@ -85,6 +85,8 @@ public class VehicleCombatXmlReader {
 			var ammoNode = (Element) ammoElements.item(i);
 			var baString = VehicleXmlReader.getElementString(ammoNode, "balistic_accuracy");
 			var balisticAccuracy = VehicleXmlReader.getDataListFromString(baString);
+			var palmString = VehicleXmlReader.getElementString(ammoNode, "palm");
+			var palm = VehicleXmlReader.getDataListFromString(palmString);
 			var ammoTypeString = ammoNode.getAttribute("ammoType");
 			
 			VehicleAmmoType ammoType = VehicleAmmoType.FAST;
@@ -96,7 +98,8 @@ public class VehicleCombatXmlReader {
 				}
 			}
 			
-			ammo.add(new VehicleAmmo(ammoNode.getAttribute("ammoName"), balisticAccuracy, ammoType));
+			ammo.add(new VehicleAmmo(ammoNode.getAttribute("ammoName"), ammoType, balisticAccuracy,
+					palm));
 		}
 		
 		return ammo;

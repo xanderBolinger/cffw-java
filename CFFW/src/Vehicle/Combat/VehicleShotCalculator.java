@@ -1,12 +1,9 @@
 package Vehicle.Combat;
 
 import Conflict.GameWindow;
-import Spot.Utility.SpotVisibility;
-import UtilityClasses.DiceRoller;
 import Vehicle.Vehicle;
 import Vehicle.Combat.VehicleAmmo.VehicleAmmoType;
 import Vehicle.Data.CrewPosition;
-import Vehicle.Spot.VehicleSpotCalculator;
 
 public class VehicleShotCalculator {
 
@@ -22,67 +19,15 @@ public class VehicleShotCalculator {
 			return;
 		}
 
-		var target = turret.vehicleAimTarget;
-		turret.fired = true;
-		turret.timeSpentReloading = 0;
-		vehicle.spotData.fired = true;
-		var ammo = turret.ammunitionTypes.get(ammoIndex);
-		int rangeHexes = turret.getRangeToTargetIn20YardHexes(vehicle);
+		var odds = new VehicleOddsOfHitting(vehicle, crewPosition, turret, ammoIndex, 1);
 		
-		int sl = crewPosition.crewMemeber.crewMember.sl;
-		int aimValue = turret.getAimValue();
-		int rangeAlm = VehicleRangeAlm.getAlmForRange(rangeHexes);
-		var nightWeatherMod = VehicleSpotCalculator.getNightTimeMods(vehicle, crewPosition.spotData);
-		var smokeMod = SpotVisibility.getSmokeModifier(
-				VehicleSpotCalculator.isThermalEquipped(vehicle, crewPosition),
-				vehicle.movementData.location, target.getTargetCord());
-		var visibilityAlm = -nightWeatherMod - smokeMod;
-		var alm = sl + aimValue + rangeAlm + visibilityAlm; 
-
-		int sizeAlm = target.getTargetSizeAlm(vehicle);
+		odds.roll();
 		
-		int balisticAccuracy = ammo.getBalisticAccuracy(rangeHexes);
-
-		var speed = target.getTargetSpeedInHexesPerTurn();
-		
-		int movingTargetValue = getMovingTargetAccuracy(target, rangeHexes, ammo.ammoType,
-				turret.movingTargetAccuracyMod, speed);
-		
-		int movingShooterValue = vehicle.movementData.speed == 0 ? 
-				VehicleMovingShooterAccuracy.getMovingShooterAccuracy(
-						rangeHexes, Math.abs(vehicle.movementData.speed)) + turret.movingShooterAccuracyMod
-				: Integer.MAX_VALUE;
-		
-		int eal = alm + sizeAlm;
-		
-		if(movingTargetValue < alm && movingTargetValue < balisticAccuracy 
-				&& movingTargetValue < movingShooterValue)
-			eal = movingTargetValue + sizeAlm;
-		else if(balisticAccuracy < alm && balisticAccuracy < movingTargetValue
-				&& balisticAccuracy < movingShooterValue)
-			eal = balisticAccuracy + sizeAlm;
-		else if(movingShooterValue < alm && movingShooterValue < balisticAccuracy &&
-				movingShooterValue < movingTargetValue)
-			eal = movingShooterValue + sizeAlm;
-		
-		var odds = VehicleOddsOfHitting.getOddsOfHitting(eal);
-		
-		var roll = DiceRoller.roll(0, 99);
-		
-		String oddsResults = "Shooter "+crewPosition.crewMemeber.crewMember.name+
-				", SL: " + sl + ", Aim Value: " + aimValue + ", Range Hexes: " + rangeHexes +
-				", Range ALM: " +rangeAlm+", BA: "+balisticAccuracy+", Size ALM: "+sizeAlm
-				+", ALM: " + alm + (movingTargetValue != Integer.MAX_VALUE 
-					? ", MTA: " + movingTargetValue : "") + ", Target Speed: " + speed + 
-				(movingShooterValue != Integer.MAX_VALUE 
-				? ", MSTA: " + movingShooterValue : "") + ", Shooter Speed: "+ vehicle.movementData.speed
-				+", EAL: "+eal+", Odds: " + odds+", Roll: " + roll;
-		
-		resolveShot(roll, odds, vehicle, turret, oddsResults);
+		resolveShot(odds, vehicle, turret);
 	}
 	
 	
-	private static int getMovingTargetAccuracy(VehicleAimTarget target, int rangeHexes, 
+	public static int getMovingTargetAccuracy(VehicleAimTarget target, int rangeHexes, 
 			VehicleAmmoType ammoType,
 			int movingTargetModifier,
 			int speed) {
@@ -94,15 +39,17 @@ public class VehicleShotCalculator {
 				+ movingTargetModifier;
 	}
 	
-	private static void resolveShot(int roll, int odds, Vehicle vehicle, VehicleTurret
-			turret, String oddsResults) {
+	private static void resolveShot(VehicleOddsOfHitting odds, Vehicle vehicle, VehicleTurret
+			turret) {
 		
-		if(roll <= odds) {
+		odds.getHits();
+		
+		if(odds.shotsHit > 0) {
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue(vehicle.getVehicleCallsign()
-					+" shot: "+turret.toString()+", HIT. " + oddsResults);
+					+" shot: "+turret.toString()+", HIT(s): " +odds.shotsHit+", "+odds.getOddsResults());
 		} else {
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue(vehicle.getVehicleCallsign()
-					+" shot: "+turret.toString()+", Miss. " + oddsResults);
+					+" shot: "+turret.toString()+", Miss. " + odds.getOddsResults());
 		}
 	}
 	
