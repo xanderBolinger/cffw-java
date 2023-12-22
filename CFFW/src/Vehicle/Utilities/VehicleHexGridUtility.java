@@ -10,6 +10,17 @@ import HexGrid.HexDirectionUtility.HexDirection;
 
 public class VehicleHexGridUtility {
 
+	public static Chit findChit(String identifier) throws Exception {
+		
+		var chits = GameWindow.gameWindow.game.chits;
+		for(var c : chits) {
+			if(c.labeled && c.chitIdentifier.equals(identifier))
+				return c;
+		}
+		
+		throw new Exception("Chit not found for vic callsign: "+identifier);
+	}
+	
 	public static void drawVehicleTurretChevron(Graphics2D g2) {
 		if(GameWindow.gameWindow.vehicleCombatWindow == null 
 				|| GameWindow.gameWindow.vehicleCombatWindow.getSelectedTurret() == null)

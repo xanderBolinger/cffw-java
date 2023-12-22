@@ -61,6 +61,7 @@ public class VehicleMovementData implements Serializable {
 		facing = HexDirectionUtility.getFaceInDirection(facing, clockwise);
 		changedFaces++; 
 		speed = speed - 1 > 0 ? speed - 1 : 0;
+		VehicleMovement.updateChit(vehicle);
 	}
 	
 	public void enterHex(Hex hex) {

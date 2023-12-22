@@ -18,11 +18,15 @@ public class DrawLosVehicles {
 	}
 	
 	public static void drawLosForVehicle(Graphics2D g2, Vehicle vic) {
+		if(vic.knockedOut)
+			return;
+		
 		var cord = vic.movementData.location;
 		var center = GameWindow.gameWindow.hexGrid.panel.getHexCenter(cord.xCord, cord.yCord);
 		
 		for(var losVehicle : vic.getLosVehicles()) {
-			
+			if(losVehicle.knockedOut)
+				continue;
 			var targetCord = losVehicle.movementData.location;
 			var targetCenter = GameWindow.gameWindow.hexGrid.panel
 					.getHexCenter(targetCord.xCord, targetCord.yCord);

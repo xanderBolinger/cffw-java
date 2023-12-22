@@ -13,6 +13,7 @@ import Vehicle.Data.CrewMember.CrewAction;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownDecision;
 import Vehicle.Spot.VehicleSpotManager;
 import Vehicle.Utilities.VehicleDataUtility;
+import Vehicle.Utilities.VehicleHexGridUtility;
 
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -52,6 +53,9 @@ import javax.swing.JPanel;
 import java.awt.Label;
 import javax.swing.JCheckBox;
 import javax.swing.event.ChangeListener;
+
+import CeHexGrid.Chit;
+
 import javax.swing.event.ChangeEvent;
 
 public class VehicleCombatWindow {
@@ -121,6 +125,7 @@ public class VehicleCombatWindow {
 	private JComboBox comboBoxTurretCrewPosition;
 	private JComboBox comboBoxAmmoType;
 	private JSpinner spinnerFiredShots;
+	private JLabel lblTurretFired;
 	
 	/**
 	 * Create the application.
@@ -264,6 +269,7 @@ public class VehicleCombatWindow {
 		lblHullTurnRate.setText("Hull Turn Rate: ");
 		lblSidesTurned.setText("Sides Turned: ");
 		lblSpeed.setText("Speed: ");
+		
 		textAreaHullDown.setText("Hull Down: ");
 		selectedVehicle = null;
 		textAreaNotes.setText("");
@@ -316,6 +322,10 @@ public class VehicleCombatWindow {
 		setTurretCrewPositions(vehicleTurret);
 		setAmmoTypes(vehicleTurret);
 		setFiredShotsSpinner(vehicleTurret);
+		
+		lblTurretFired.setText("Turret: "+(!vehicleTurret.fired ? "LOADED" : "UNLOADED, "
+				+ vehicleTurret.timeSpentReloading+"/"+vehicleTurret.reloadTime));
+		
 	}
 	
 	private void setFiredShotsSpinner(VehicleTurret vehicleTurret) {
@@ -425,6 +435,7 @@ public class VehicleCombatWindow {
 		spinnerTargetX.setValue(0);
 		spinnerTargetY.setValue(0);
 		lblAimTarget.setText("Aim Target: ");
+		lblTurretFired.setText("");
 	}
 	
 	public VehicleTurret getSelectedTurret() {
@@ -508,7 +519,7 @@ public class VehicleCombatWindow {
 		
 		lblSelectedVehicle = new JLabel("Selected Vehicle");
 		lblSelectedVehicle.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblSelectedVehicle.setBounds(404, 13, 441, 16);
+		lblSelectedVehicle.setBounds(404, 13, 299, 16);
 		frame.getContentPane().add(lblSelectedVehicle);
 		
 		JButton btnNewButton = new JButton("Next Turn");
@@ -637,7 +648,7 @@ public class VehicleCombatWindow {
 		frame.getContentPane().add(lblDirection);
 		
 		lblHullTurnRate = new JLabel("Hull Turn Rate");
-		lblHullTurnRate.setBounds(560, 249, 92, 14);
+		lblHullTurnRate.setBounds(560, 249, 115, 14);
 		frame.getContentPane().add(lblHullTurnRate);
 		
 		lblSidesTurned = new JLabel("Sides Turned:");
@@ -1109,6 +1120,7 @@ public class VehicleCombatWindow {
 					@Override
 					protected void done() {
 						GameWindow.gameWindow.conflictLog.addQueuedText();
+						selectTurret();
 					}
 
 				};
@@ -1131,6 +1143,10 @@ public class VehicleCombatWindow {
 		spinnerFiredShots = new JSpinner();
 		spinnerFiredShots.setBounds(353, 164, 70, 20);
 		Combat.add(spinnerFiredShots);
+		
+		lblTurretFired = new JLabel("Turret: LOADED");
+		lblTurretFired.setBounds(165, 167, 178, 14);
+		Combat.add(lblTurretFired);
 		
 		chckbxFired = new JCheckBox("Fired");
 		chckbxFired.addActionListener(new ActionListener() {
@@ -1182,6 +1198,29 @@ public class VehicleCombatWindow {
 		JLabel lblAltitude = new JLabel("Altitude:");
 		lblAltitude.setBounds(702, 366, 92, 14);
 		frame.getContentPane().add(lblAltitude);
+		
+		JButton btnNewButton_4_1 = new JButton("Destroy");
+		btnNewButton_4_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				var destroyVic = selectedVehicle;
+				try {
+					Chit chit = VehicleHexGridUtility.findChit(destroyVic.identifier);
+					GameWindow.gameWindow.game.chits.remove(chit);
+	            	Chit.unselectChit();
+	            	destroyVic.knockedOut = true;
+	            	unselectVehicle();
+	            	vehicles.remove(destroyVic);
+	            	refreshVehicleList();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+				
+			}
+		});
+		btnNewButton_4_1.setBounds(713, 10, 132, 23);
+		frame.getContentPane().add(btnNewButton_4_1);
 		textAreaNotes.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {

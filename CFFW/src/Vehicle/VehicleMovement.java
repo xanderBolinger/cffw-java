@@ -11,6 +11,7 @@ import HexGrid.HexDirectionUtility.HexDirection;
 import Vehicle.Data.VehicleMovementData;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownDecision;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
+import Vehicle.Utilities.VehicleHexGridUtility;
 
 public class VehicleMovement implements Serializable {
 
@@ -80,13 +81,13 @@ public class VehicleMovement implements Serializable {
 		md.hullDownDecision = HullDownDecision.NOTHING;
 	}
 	
-	private static void updateChit(Vehicle vehicle) {
+	public static void updateChit(Vehicle vehicle) {
 		if(GameWindow.gameWindow == null || GameWindow.gameWindow.game == null || GameWindow.gameWindow.game.chits == null) {
 			return;
 		}
 		
 		try {
-			var chit = findChit(vehicle.identifier);
+			var chit = VehicleHexGridUtility.findChit(vehicle.identifier);
 			var md = vehicle.movementData;
 			chit.facing = convertFacing(md.facing);
 			chit.xCord = md.location.xCord;
@@ -97,16 +98,7 @@ public class VehicleMovement implements Serializable {
 		
 	}
 	
-	private static Chit findChit(String identifier) throws Exception {
-		
-		var chits = GameWindow.gameWindow.game.chits;
-		for(var c : chits) {
-			if(c.labeled && c.chitIdentifier.equals(identifier))
-				return c;
-		}
-		
-		throw new Exception("Chit not found for vic callsign: "+identifier);
-	}
+	
 
 	private static Facing convertFacing(HexDirection facing) throws Exception {
 		
