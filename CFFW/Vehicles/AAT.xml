@@ -106,7 +106,7 @@
                 <moving_target_modifier>10</moving_target_modifier>
                 <moving_shooter_modifier>16</moving_shooter_modifier>
                 <rate_of_fire>1</rate_of_fire>
-                <reload_time>0</reload_time>
+                <reload_time>2</reload_time>
                 <facing_width>20</facing_width>
                 <rotation_speed>30</rotation_speed>
                 <can_rotate>true</can_rotate>
