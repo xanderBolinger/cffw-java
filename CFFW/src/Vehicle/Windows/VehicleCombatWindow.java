@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import Vehicle.Vehicle;
 import Vehicle.Combat.VehicleAimTarget;
 import Vehicle.Combat.VehicleAimUtility;
+import Vehicle.Combat.VehicleBrewUp;
 import Vehicle.Combat.VehicleShotCalculator;
 import Vehicle.Combat.VehicleTurret;
 import Vehicle.Data.CrewMember.CrewAction;
@@ -479,6 +480,8 @@ public class VehicleCombatWindow {
 		setAimTarget(turret);
 	}
 	
+	
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -519,7 +522,7 @@ public class VehicleCombatWindow {
 		
 		lblSelectedVehicle = new JLabel("Selected Vehicle");
 		lblSelectedVehicle.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblSelectedVehicle.setBounds(404, 13, 299, 16);
+		lblSelectedVehicle.setBounds(404, 13, 162, 16);
 		frame.getContentPane().add(lblSelectedVehicle);
 		
 		JButton btnNewButton = new JButton("Next Turn");
@@ -1199,28 +1202,23 @@ public class VehicleCombatWindow {
 		lblAltitude.setBounds(702, 366, 92, 14);
 		frame.getContentPane().add(lblAltitude);
 		
-		JButton btnNewButton_4_1 = new JButton("Destroy");
+		JButton btnNewButton_4_1 = new JButton("Knockout");
 		btnNewButton_4_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				var destroyVic = selectedVehicle;
-				try {
-					Chit chit = VehicleHexGridUtility.findChit(destroyVic.identifier);
-					GameWindow.gameWindow.game.chits.remove(chit);
-	            	Chit.unselectChit();
-	            	destroyVic.knockedOut = true;
-	            	unselectVehicle();
-	            	vehicles.remove(destroyVic);
-	            	refreshVehicleList();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
-				
-				
+				VehicleBrewUp.knockoutVehicle(selectedVehicle);
 			}
 		});
 		btnNewButton_4_1.setBounds(713, 10, 132, 23);
 		frame.getContentPane().add(btnNewButton_4_1);
+		
+		JButton btnNewButton_4_1_1 = new JButton("Brew Up");
+		btnNewButton_4_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VehicleBrewUp.vehicleBrewUp(selectedVehicle);
+			}
+		});
+		btnNewButton_4_1_1.setBounds(571, 10, 132, 23);
+		frame.getContentPane().add(btnNewButton_4_1_1);
 		textAreaNotes.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {

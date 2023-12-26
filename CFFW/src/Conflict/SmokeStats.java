@@ -24,7 +24,6 @@ public class SmokeStats implements Serializable {
 		VehicleTrailingSmoke,
 		WpGrenade,Wp60mm,Wp81mm,Wp120mm,Wp155mm,
 		WpGrenadeIon,Wp60mmIon,Wp81mmIon,Wp120mmIon,Wp155mmIon
-	
 	}
 	
 	public SmokeStats(String smokeType) throws Exception {
