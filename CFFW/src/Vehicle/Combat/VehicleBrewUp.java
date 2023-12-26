@@ -7,6 +7,7 @@ import Conflict.SmokeStats.SmokeType;
 import Hexes.Feature;
 import Hexes.Hex;
 import Vehicle.Vehicle;
+import Vehicle.VehicleManager;
 import Vehicle.Utilities.VehicleHexGridUtility;
 
 public class VehicleBrewUp {
@@ -21,7 +22,7 @@ public class VehicleBrewUp {
 		hex.explosiveImpacts.addMarker();
 		
 		destroyVehicle(vehicle);
-		createCoverPosition(hex, vehicle);
+		VehicleManager.createCoverPosition(hex, vehicle);
 		
 		if(!addSmoke)
 			return;
@@ -52,15 +53,6 @@ public class VehicleBrewUp {
 		
 	}
 
-	private static void createCoverPosition(
-			Hex hex, Vehicle vehicle) {
-		var newCoverPositions = (vehicle.spotData.hullSize + vehicle.spotData.turretSize) / 5;
-		hex.features.add(new Feature(vehicle.getVehicleType()+" Hull", newCoverPositions));
-		var unitsInHex = GameWindow.gameWindow.getUnitsInHex("", hex.xCord, hex.yCord);
-		for(var unit : unitsInHex)
-			unit.seekCover(hex, GameWindow.gameWindow);
-		
-		GameWindow.gameWindow.conflictLog.addNewLineToQueue("Impact crater cover positions: "+newCoverPositions);
-	}
+	
 	
 }

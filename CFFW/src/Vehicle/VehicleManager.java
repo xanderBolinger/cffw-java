@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import Conflict.GameWindow;
+import Hexes.Feature;
+import Hexes.Hex;
 import Vehicle.Combat.VehicleAimUtility;
 import Vehicle.Data.CrewMember.CrewAction;
 import Vehicle.HullDownPositions.HullDownPositionManager;
@@ -87,6 +89,38 @@ public class VehicleManager implements Serializable {
 			nextTurn();
 		
 		GameWindow.gameWindow.conflictLog.addNewLineToQueue("Next Vehicle Phase: "+phase);
+		
+	}
+	
+	public static void createCoverPosition(
+			Hex hex, Vehicle vehicle) {
+		var newCoverPositions = (vehicle.spotData.hullSize + vehicle.spotData.turretSize) / 5;
+		hex.features.add(new Feature(vehicle.getVehicleType()+" Hull", newCoverPositions));
+		var unitsInHex = GameWindow.gameWindow.getUnitsInHex("", hex.xCord, hex.yCord);
+		hex.setTotalPositions();
+		for(var unit : unitsInHex)
+			unit.seekCover(hex, GameWindow.gameWindow);
+	}
+	
+	public static void removeCoverPosition(Hex hex, Vehicle vehicle) {
+		
+		var featureName = vehicle.getVehicleType()+" Hull";
+		
+		Feature feature = null;
+		
+		for(var f : hex.features) {
+			if(f.featureType.equals(featureName)) {
+				feature = f;
+				break;
+			}
+		}
+		
+		hex.features.remove(feature);
+		hex.setTotalPositions();
+		
+		var unitsInHex = GameWindow.gameWindow.getUnitsInHex("", hex.xCord, hex.yCord);
+		for(var unit : unitsInHex)
+			unit.seekCover(hex, GameWindow.gameWindow);
 		
 	}
 	

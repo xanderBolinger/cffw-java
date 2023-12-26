@@ -8,6 +8,7 @@ import Conflict.GameWindow;
 import HexGrid.CalculateLOS;
 import HexGrid.HexDirectionUtility;
 import HexGrid.HexDirectionUtility.HexDirection;
+import Hexes.Hex;
 import Vehicle.Data.VehicleMovementData;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownDecision;
 import Vehicle.HullDownPositions.HullDownPosition.HullDownStatus;
@@ -15,6 +16,7 @@ import Vehicle.Utilities.VehicleHexGridUtility;
 
 public class VehicleMovement implements Serializable {
 
+	
 	
 	public static void moveVehicle(Vehicle vehicle) {
 		
@@ -24,14 +26,19 @@ public class VehicleMovement implements Serializable {
 			vehicle.smokeData.deployTrailingSmoke();
 		}
 		
+		var oldHex = GameWindow.gameWindow.findHex(md.location.xCord, md.location.yCord);
+		
 		for(int i = 0; i < md.speed; i++) {
 			var cord = HexDirectionUtility.getHexInDirection(md.facing, md.location, md.movedClockwise);
 			var hex = GameWindow.gameWindow.findHex(cord.xCord, cord.yCord);
 			md.movedClockwise = !md.movedClockwise;
 			if(hex == null)
 				continue;
-
+			
 			md.enterHex(hex);
+			VehicleManager.removeCoverPosition(oldHex,vehicle);
+			VehicleManager.createCoverPosition(hex, vehicle);
+			oldHex = hex;
 		}
 
 		updateHullDown(md);
@@ -39,8 +46,6 @@ public class VehicleMovement implements Serializable {
 		updateChit(vehicle);
 		
 		CalculateLOS.calcVehicles(vehicle);
-		
-		
 		
 	}
 	
