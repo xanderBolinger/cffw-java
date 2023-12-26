@@ -28,7 +28,6 @@ public class VehicleBrewUp {
 		
 		var smokeStats = new SmokeStats(SmokeType.Mortar81mm);
 		GameWindow.gameWindow.game.smoke.deploySmoke(vicCord, smokeStats);
-		hex.explosiveImpacts.addMarker();
 	}
 	
 	public static void vehicleBrewUp(Vehicle vehicle) {
