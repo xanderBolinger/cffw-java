@@ -29,7 +29,9 @@ import Conflict.GameWindow;
 import CorditeExpansion.Cord;
 import HexGrid.CalculateLOS;
 import HexGrid.HexDirectionUtility;
+import HexGrid.HexDirectionUtility.HexDirection;
 import UtilityClasses.ExcelUtility;
+import Vehicle.VehicleManager;
 
 public class Chit implements Serializable {
 	public transient Image chitImage;
@@ -100,6 +102,39 @@ public class Chit implements Serializable {
 				facingValue = 12; 
 			
 			return Facing.valueOf(facingValue);
+		}
+		
+		public static HexDirection getHexDirection(Facing dir) {
+			switch(dir) {
+			
+			case A: 
+				return HexDirection.A;
+			case AB:
+				return HexDirection.AB;
+			case B:
+				return HexDirection.B;
+			case BC:
+				return HexDirection.BC;
+			case C:
+				return HexDirection.C;
+			case CD:
+				return HexDirection.CD;
+			case D:
+				return HexDirection.D;
+			case DE:
+				return HexDirection.DE;
+			case E:
+				return HexDirection.E;
+			case EF:
+				return HexDirection.EF;
+			case F:
+				return HexDirection.F;
+			case FA:
+				return HexDirection.FA;
+			default:
+				return null;
+			
+			}
 		}
 		
 	}
@@ -360,14 +395,22 @@ public class Chit implements Serializable {
 	}
 	
 	public static void moveSelectedChit(int x, int y) {
+		System.out.println("Move Chit, Current ("+selectedChit.xCord+", "+selectedChit.yCord+"), to ("
+				+x+", "+y+")");
 		selectedChit.xCord = x; 
 		selectedChit.yCord = y; 
 		
 		if(selectedChit.labeled && GameWindow.gameWindow != null && GameWindow.gameWindow.vehicleCombatWindow != null) {
 			for(var vic : GameWindow.gameWindow.vehicleCombatWindow.vehicles) {
 				if(vic.identifier.equals(selectedChit.chitIdentifier)) {
+					var oldCord = vic.movementData.location;
+					var oldHex = GameWindow.gameWindow.findHex(oldCord.xCord, oldCord.yCord);
+					var newHex = GameWindow.gameWindow.findHex(x, y);
+					VehicleManager.removeCoverPosition(oldHex, vic);
+					VehicleManager.createCoverPosition(newHex, vic);
 					vic.movementData.location = new Cord(x,y);
 					vic.movementData.exitHullDownPosition();
+					vic.movementData.facing = Facing.getHexDirection(selectedChit.facing);
 					CalculateLOS.calcVehicles(vic);
 					HexDirectionUtility.testTargetDirections(vic);
 					GameWindow.gameWindow.vehicleCombatWindow.refreshSelectedVehicle();
