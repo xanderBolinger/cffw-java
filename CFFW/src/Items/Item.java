@@ -32,6 +32,10 @@ public class Item implements Serializable {
 
 		DC15A, DC15S, DC15LE, DC20, M5, DC15X, Z6, DC17M, DC17MRocket, DC17MSniper, DC40, RPS6,
 		
+		MA37,M392,M739,
+		
+		M9Frag,
+		
 		HEAT, HE, ION, SMOKE, SmallArmsAmmo,FlameCharge,
 		Frag, Krak,
 
@@ -103,6 +107,10 @@ public class Item implements Serializable {
 				
 				new Item(ItemType.SoundStrikePattern), new Item(ItemType.SoundStrikePattern, ItemType.Krak),
 				new Item(ItemType.SoundStrikePattern, ItemType.Frag),
+
+				new Item(ItemType.MA37),new Item(ItemType.M392),new Item(ItemType.M739),
+				
+				new Item(ItemType.M9Frag),
 
 				new Item(ItemType.GoblinJavelin), new Item(ItemType.ShortBow),
 
@@ -206,6 +214,17 @@ public class Item implements Serializable {
 			itemWeight = 2;
 		}
 
+		else if ((ItemType.MA37 == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("7.62x51mm 32rnd AR Magazine", 32);
+			itemWeight = 2;
+		} else if ((ItemType.M392 == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("7.62x51mm 14rnd DMR Magazine", 14);
+			itemWeight = 1;
+		} else if ((ItemType.M739 == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
+			ammo = new PCAmmo("7.62x51mm 75rnd Drum Magazine", 75);
+			itemWeight = 3;
+		}
+		
 		else if ((ItemType.M870 == weaponType) && ItemType.SmallArmsAmmo == ammoType) {
 			ammo = new PCAmmo("Buckshot", 7);
 			itemWeight = 1;
@@ -452,7 +471,25 @@ public class Item implements Serializable {
 			weapon = new Weapons().findWeapon("M870");
 			itemWeight = 9;
 		}
+		
+		else if (ItemType.MA37 == itemType) {
+			weapon = new Weapons().findWeapon("MA37");
+			itemWeight = 11;
+		}
+		else if (ItemType.M392 == itemType) {
+			weapon = new Weapons().findWeapon("M392 DMR");
+			itemWeight = 13;
+		}
+		else if (ItemType.M739 == itemType) {
+			weapon = new Weapons().findWeapon("M739 SAW");
+			itemWeight = 14;
+		}
 
+		else if (ItemType.M9Frag == itemType) {
+			weapon = new Weapons().findWeapon("M9 Frag");
+			itemWeight = 3;
+		}
+		
 		else if (ItemType.AstartesFragGrenade == itemType) {
 			weapon = new Weapons().findWeapon("Astartes Frag Grenade");
 			itemWeight = 4;

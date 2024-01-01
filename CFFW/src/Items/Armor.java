@@ -895,9 +895,6 @@ public class Armor implements Serializable {
 		differingZonePF.add(20);
 		differingHardnessZone.add(false);
 		
-		
-
-		
 	}
 	
 	public void unscMarine() {
@@ -908,6 +905,7 @@ public class Armor implements Serializable {
 		
 		nightVision = true;
 		nightVisionEffectiveness = 4;
+		armorWeight = 25;
 		
 		// Fore arm fire
 		ArrayList<Integer> a6 = new ArrayList<Integer>();

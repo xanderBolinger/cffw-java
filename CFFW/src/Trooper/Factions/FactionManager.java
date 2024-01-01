@@ -9,7 +9,11 @@ public class FactionManager {
 	public static ArrayList<Faction> factions;
 	
 	public enum FactionType {
-		Astartes,PhaseOneClones
+		Astartes,PhaseOneClones,
+		
+		UnitedNationsSpaceCommand
+		
+		
 	}
 	
 	
@@ -17,6 +21,7 @@ public class FactionManager {
 		factions = new ArrayList<Faction>();
 		factions.add(new Astartes());
 		factions.add(new PhaseOneClones());
+		factions.add(new UnitedNationsSpaceCommand());
 	}
 	
 	
