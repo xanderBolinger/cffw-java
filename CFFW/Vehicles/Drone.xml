@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<vehicle>
+    <vehicle_data shielded="false" maxValue="1000" rechargeRate="150" class="ARMOR">
+        <crew_compartments>
+            <compartment name="OPERATORS" shielded="false">
+                <crew_positions>
+                    <position name="Camera">
+                        <thermal_mod>0</thermal_mod>
+                        <magnification>24</magnification>
+                        <night_vision>0</night_vision>
+                        <elevation>0</elevation>
+                        <position_types>
+                            <type>DRIVER</type>
+                        </position_types>
+                        <view_directions>
+                            <direction>A</direction>
+                            <direction>AB</direction>
+                            <direction>B</direction>
+                            <direction>BC</direction>
+                            <direction>C</direction>
+                            <direction>CD</direction>
+                            <direction>D</direction>
+                            <direction>DE</direction>
+                            <direction>E</direction>
+                            <direction>EF</direction>
+                            <direction>F</direction>
+                            <direction>FA</direction>
+                        </view_directions>
+                    </position>
+                    
+
+                </crew_positions>
+                
+            </compartment>
+            
+        </crew_compartments>
+        <turret_data>
+            
+        </turret_data>
+        <movement_data>
+            <hull_turn_rate>6</hull_turn_rate>
+            <acceleration>8</acceleration>
+            <deceleration>8</deceleration>
+            <boost recovery="2">12</boost>
+            <terrain feature="Paved Road">16</terrain>
+            <terrain feature="Dirt Road">16</terrain>
+            <terrain feature="Mud">16</terrain>
+            <terrain feature="Deep Mud">16</terrain>
+            <terrain feature="Soil">16</terrain>
+        </movement_data>
+        <smoke_data>
+            <trailing_smoke>VehicleTrailingSmoke</trailing_smoke>
+            <trailing_smoke_turns>0</trailing_smoke_turns>
+            <launched_smoke>VehicleSmokeLauncher</launched_smoke>
+            <smoke_launches>0</smoke_launches>
+            <smoke_launcher_range>2</smoke_launcher_range>
+        </smoke_data>
+        <turret_size>1</turret_size>
+        <hull_size>2</hull_size>
+        <stealth_field>0</stealth_field>
+        <camo>0</camo>
+        <thermal_shroud>Resistant</thermal_shroud>
+    </vehicle_data>
+</vehicle>
