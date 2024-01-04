@@ -151,13 +151,15 @@ public class Shoot {
 		if(wep.flameThrower != null)
 			return;
 		
-		if(pcAmmo != null && pcAmmo.shots != -1 && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, 1)) {
+		if(pcAmmo != null && pcAmmo.shots != -1 && 0 == shooter.inventory.launcherAmmoCheck(wep, pcAmmo, 1)) {
 			shotResults = "Not enough ammunition.";
+			System.out.println("out of ammo is true");
 			outOfAmmo = true;
 			return;
 		} else if ((pcAmmo == null || pcAmmo.shots == -1 || pcAmmo.linked) && !ammoCheckSingle()) {
 			System.out.println("shot return");
 			shotResults = "Not enough ammunition.";
+			System.out.println("out of ammo is true 2s");
 			outOfAmmo = true;
 			return;
 		}
@@ -191,7 +193,7 @@ public class Shoot {
 	public void burst() {
 		if(wep.flameThrower != null)
 			return;
-		if(pcAmmo != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, wep.fullAutoROF)) {
+		if(pcAmmo != null && shooter.inventory.launcherAmmoCheck(wep, pcAmmo, wep.fullAutoROF) == 0) {
 			shotResults = "Not enough ammunition.";
 			return;
 		} else if (pcAmmo == null && !ammoCheckFull()) {
@@ -231,25 +233,29 @@ public class Shoot {
 	}
 	
 	public void suppressiveFire(int shots) {
-		if(wep.flameThrower != null && shooter.inventory.launcherAmmoCheck(wep, pcAmmo, 1)) {
+		if(wep.flameThrower != null && shooter.inventory.launcherAmmoCheck(wep, pcAmmo, 1) > 0) {
 			FlameDamageCalculator.FlameHex(targetUnit.X, targetUnit.Y, wep.flameThrower, 1);
 			return;
-		} else if(wep.flameThrower != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, 1)) {
+		} else if(wep.flameThrower != null) {
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Flamer out of ammo");
 			return;
 		}
 		
 		System.out.println("Shoot suppressive");
 		
-		if(pcAmmo != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, shots)) {
+		var canFire = shooter.inventory.launcherAmmoCheck(wep, pcAmmo, shots);
+		
+		if(pcAmmo != null && 0 == canFire) {
 			shotResults = "Not enough ammunition.";
+			outOfAmmo = true;
 			return;
 		} else if (pcAmmo == null && !ammoCheckSuppressive(shots)) {
 			shotResults = "Not enough ammunition.";
+			outOfAmmo = true;
 			return;
 		}
 
-		for (int i = 0; i < shots; i++) {
+		for (int i = 0; i < canFire; i++) {
 			suppressiveShotRoll(DiceRoller.roll(0, 99));
 		}
 
@@ -269,16 +275,18 @@ public class Shoot {
 	public void suppressiveFireFree(int shots) {
 		
 		System.out.println("Shoot suppressive free");
-		
-		if(pcAmmo != null && !shooter.inventory.launcherAmmoCheck(wep, pcAmmo, shots)) {
+		var canFire = shooter.inventory.launcherAmmoCheck(wep, pcAmmo, shots);
+		if(pcAmmo != null && canFire == 0) {
 			shotResults = "Not enough ammunition.";
+			outOfAmmo = true;
 			return;
 		} else if (pcAmmo == null && !ammoCheckSuppressive(shots)) {
 			shotResults = "Not enough ammunition.";
+			outOfAmmo = true;
 			return;
 		}
 
-		for (int i = 0; i < shots; i++) {
+		for (int i = 0; i < canFire; i++) {
 			suppressiveShotRoll(DiceRoller.roll(0, 99));
 		}
 

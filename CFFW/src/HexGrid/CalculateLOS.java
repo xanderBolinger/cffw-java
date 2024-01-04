@@ -172,7 +172,7 @@ public class CalculateLOS {
 		}
 		
 		if(!hasLos(spotter.movementData.location, target.movementData.location, 
-				spotterPosition.elevationAboveVehicle, target.altitude,
+				spotterPosition.elevationAboveVehicle + spotter.altitude, target.altitude,
 				VehicleSpotCalculator.isThermalEquipped(spotter, spotterPosition)))
 			return;
 		
@@ -203,7 +203,7 @@ public class CalculateLOS {
 		var cord = new Cord(targetUnit.X, targetUnit.Y);
 		
 		if(!hasLos(vehicle.movementData.location, cord,
-				spotterPosition.elevationAboveVehicle, 0,
+				spotterPosition.elevationAboveVehicle + vehicle.altitude, 0,
 				VehicleSpotCalculator.isThermalEquipped(vehicle, spotterPosition)))
 			return;
 		

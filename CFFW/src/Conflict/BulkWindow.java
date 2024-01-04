@@ -4089,6 +4089,9 @@ public class BulkWindow {
 									if (comboBoxTargetZone.getSelectedIndex() > 0) {
 										setCalledShotBounds(shoot);
 									}
+									
+									
+									
 								}
 								
 								if (comboBoxTargetUnits.getSelectedIndex() > 0){

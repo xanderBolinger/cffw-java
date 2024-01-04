@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <vehicle>
-    <vehicle_data shielded="false" maxValue="1000" rechargeRate="150" class="ARMOR">
+    <vehicle_data shielded="false" maxValue="1000" rechargeRate="150" class="UAV">
         <crew_compartments>
             <compartment name="OPERATORS" shielded="false">
                 <crew_positions>

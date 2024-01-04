@@ -324,20 +324,20 @@ public class Inventory implements Serializable {
 			return true;
 	}
 	
-	public boolean launcherAmmoCheck(Weapons wep, PCAmmo pcAmmo, int shots) {		
+	public int launcherAmmoCheck(Weapons wep, PCAmmo pcAmmo, int shots) {		
 		System.out.println("Launcher ammo check");
 		System.out.println("wep name: "+wep.name);
 		System.out.println("PC ammo name: "+pcAmmo.name);
 		if(pcAmmo.linked) {
 			System.out.println("Linked returning true");
-			return true;
+			return shots;
 		}
 		
 		if(wep.type.equals("Static")) {
 			if(wep.ammoLoaded <= 0)
-				return false; 
+				return 0; 
 			wep.ammoLoaded-=wep.fullAutoROF; 
-			return true;
+			return wep.ammoLoaded < 0 ? shots + wep.ammoLoaded : shots;
 		}
 		
 		String name = wep.name + ": "
@@ -349,9 +349,11 @@ public class Inventory implements Serializable {
 			System.out.println("Round is null, could not make attack");
 			GameWindow.gameWindow.conflictLog
 					.addNewLineToQueue("Could not make attack, trooper does not have item. Name: " + name);
-			return false;
+			return 0;
 		}
 
+		int canFire = 0;
+		
 		System.out.println("Launcher Shots: "+shots);
 		while(shots > 0 && trooper.inventory.containsItem(name)) {
 			System.out.println("While loop");
@@ -368,11 +370,12 @@ public class Inventory implements Serializable {
 			}
 			
 			shots--;
+			canFire++;
 		}
 		
 		
 
-		return shots <= 0;
+		return canFire;
 	}
 	
 }
