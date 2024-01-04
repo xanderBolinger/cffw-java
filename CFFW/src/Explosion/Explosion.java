@@ -73,11 +73,14 @@ public class Explosion {
 		
 		for(Unit unit : targetUnits) {
 			
+			System.out.println("Explode Unit: "+unit.callsign);
+			
 			for(Trooper trooper : unit.individuals) {
 				
 				if(!excludeTroopers.contains(trooper)) {
 					int roll1 = DiceRoller.roll(0, 10);
 					//int roll2 = DiceRoller.roll(0, 10);
+					System.out.println("explode trooper distance: "+roll1);
 					explodeTrooper(trooper, /*(roll1 < roll2 ? roll2 : roll1)*/roll1);
 				}
 						
@@ -87,6 +90,8 @@ public class Explosion {
 					|| (shell != null && shell.pcAmmo != null && shell.pcAmmo.clusterMunition))
 				continue;
 			
+			
+			System.out.println("Increase unit stats");
 			unit.suppression += 10; 
 			unit.organization -= 10; 
 			
@@ -189,16 +194,21 @@ public class Explosion {
 				bshc = "0";
 				bc = 0;
 			} 
-			else if(rangeCol >= shell.bc.size()) {
+			else if(rangeCol >= shell.bc.size() && shell.pcAmmo.getExplosiveData(rangePCHexes) != null) {
 				System.out.println("Shell, range col out of bounds with pc ammo");
 				var data = shell.pcAmmo.getExplosiveData(rangePCHexes);
 				bshc = data.bshc;
 				bc = data.bc;
 			}
-			else {
+			else if(rangeCol < shell.bc.size()){
 				System.out.println("Shell, get range col regular");
 				bshc = shell.bshc.get(rangeCol); 
 				bc = shell.bc.get(rangeCol);				
+			} else {
+				
+				bshc = "0";
+				bc = 0;
+				
 			}
 		} else {
 			System.err.println("Explode Trooper failed. No valid weapon.");

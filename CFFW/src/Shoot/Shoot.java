@@ -243,7 +243,9 @@ public class Shoot {
 		
 		System.out.println("Shoot suppressive");
 		
-		var canFire = shooter.inventory.launcherAmmoCheck(wep, pcAmmo, shots);
+		var canFire = pcAmmo != null ?
+				shooter.inventory.launcherAmmoCheck(wep, pcAmmo, shots)
+				: shots;
 		
 		if(pcAmmo != null && 0 == canFire) {
 			shotResults = "Not enough ammunition.";

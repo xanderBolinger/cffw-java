@@ -2226,7 +2226,10 @@ public class GameWindow implements Serializable {
 
 			es.submit(() -> {
 				for (FireMission fireMission : vic.fireMissions) {
-					fireMission.advanceTime();
+					
+					try { fireMission.advanceTime();} 
+					catch(Exception e) {e.printStackTrace();}
+					
 				}
 			});
 			
