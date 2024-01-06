@@ -1,8 +1,5 @@
 package ShipCreation;
 
-import Ship.Component.ComponentType;
-import Ship.Ship;
-
 public interface ShipTemplate {
 
 	public void createShip();
