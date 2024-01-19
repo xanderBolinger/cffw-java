@@ -94,7 +94,6 @@ public class AddUnit implements Serializable {
 				CIS Droid Army
 				UNSC
 				Covenant
-				
 				*/
 				
 				var faction = comboBoxFaction.getSelectedItem().toString();
@@ -102,7 +101,6 @@ public class AddUnit implements Serializable {
 				comboBoxSquad.addItem("Empty");
 				
 				if(comboBoxFaction.getSelectedItem().toString().equals("Clone Trooper Phase 1")) {
-					
 					comboBoxSquad.addItem("Riflesquad");
 					comboBoxSquad.addItem("Special Riflesquad");
 					comboBoxSquad.addItem("Platoon Squad");
@@ -117,7 +115,6 @@ public class AddUnit implements Serializable {
 					comboBoxSquad.addItem("Droid Integrated Squad");
 				} else if(comboBoxFaction.getSelectedItem().toString().equals("UNSC")) {
 					comboBoxSquad.addItem("Riflesquad");
-				
 				} else if(comboBoxFaction.getSelectedItem().toString().equals("Covenant")) {
 					comboBoxSquad.addItem("Unggoy Lance");
 					comboBoxSquad.addItem("Kig-Yar Lance - Marksman");
@@ -184,7 +181,7 @@ public class AddUnit implements Serializable {
 							unit.concealment = comboBoxConcealment.getSelectedItem().toString();
 							unit.speed = comboBoxSpeed.getSelectedItem().toString();
 							unit.unitType = getUnitType();
-							
+							unit.defaultSplit = squad.split;
 							// Sets class variable
 							createdElement = unit;
 							// Sets text pain equal to trooper
@@ -231,7 +228,7 @@ public class AddUnit implements Serializable {
 					unit.concealment = comboBoxConcealment.getSelectedItem().toString();
 					unit.speed = comboBoxSpeed.getSelectedItem().toString();
 					unit.unitType = getUnitType();
-					
+					unit.defaultSplit = squad.split;
 					// Sets class variable
 					createdElement = unit;
 					// Sets text pain equal to trooper

@@ -55,6 +55,8 @@ public class Unit implements Serializable {
 	public boolean soughtCover = false; 
 	public String identifier;
 	
+	public DefaultSplit defaultSplit;
+	
 	public int individualsInCover = 0;
 	public boolean inBuilding = false; 
 	public int floor = 0;

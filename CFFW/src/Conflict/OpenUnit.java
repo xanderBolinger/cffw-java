@@ -13,6 +13,7 @@ import Unit.Unit.UnitType;
 import UtilityClasses.DiceRoller;
 import UtilityClasses.PCUtility;
 import UtilityClasses.UnitReorderListener;
+import Vehicle.Windows.VehicleCombatWindow;
 
 import javax.swing.JLabel;
 import javax.swing.DefaultListModel;
@@ -77,7 +78,6 @@ public class OpenUnit implements Serializable {
 	private JSpinner spinnerSuppression;
 	private JSpinner spinnerCommandValue;
 	private JSpinner spinnerMoral;
-	private JTextField textFieldUnit;
 	private JLabel lblImobalized;
 	private JSpinner spinnerX;
 	private JSpinner spinnerY;
@@ -99,6 +99,7 @@ public class OpenUnit implements Serializable {
 	private JButton btnOpenCharacterBuilder;
 	private JButton btnInventory;
 	private JButton btnCommandRoll;
+	
 	/*
 	 * Launch the application.
 	 */
@@ -622,18 +623,16 @@ public class OpenUnit implements Serializable {
 		spinnerMoral = new JSpinner();
 		spinnerMoral.setBounds(221, 115, 40, 20);
 		
-		JButton btnSplitUnit = new JButton("Split");
-		btnSplitUnit.setBounds(201, 173, 62, 23);
-		btnSplitUnit.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		JButton btnSplitUnit = new JButton("Split Unit");
+		btnSplitUnit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				
 				// Adds new unit 
 				// Splits unit 
 				ArrayList<Trooper> individuals = new ArrayList<Trooper>();
 				generateSquad squad = new generateSquad("Clone Trooper Phase 1", "Empty");
 				individuals = squad.getSquad();
-				Unit newUnit = new Unit(textFieldUnit.getText(), 0, 0, individuals, 100, 0, 100, 0, 0, 20, 0, unit.behavior);
+				Unit newUnit = new Unit(unit.callsign+"-1", 0, 0, individuals, 100, 0, 100, 0, 0, 20, 0, unit.behavior);
 				
 				//Unit newUnit = unit.copyUnit(unit); 
 				newUnit.side = unit.side;
@@ -654,22 +653,6 @@ public class OpenUnit implements Serializable {
 				//newUnit.lineOfSight = Collections.copy(unit.lineOfSight);
 				window.initiativeOrder.add(newUnit);
 				
-				window.rollInitiativeOrder();
-				window.refreshInitiativeOrder();
-				
-				// Loops through initiative order
-				// Finds units that have LOS with this unit 
-				// Adds new unit to the spotting units LOS
-				
-				for(Unit initUnit : window.initiativeOrder) {
-					
-					if(initUnit.lineOfSight.contains(unit)) {
-						initUnit.lineOfSight.add(newUnit);
-					}
-					
-				}
-				
-				
 				// Finds newUnit's company 
 				// Adds unit to company 
 				for(int i = 0; i < window.companies.size(); i++) {
@@ -685,19 +668,24 @@ public class OpenUnit implements Serializable {
 					
 				}
 				
+				unit.defaultSplit.splitUnit(unit, newUnit);
+					
+				GameWindow.gameWindow.CalcLOS(newUnit);
 				
+				window.rollInitiativeOrder();
+				window.refreshInitiativeOrder();
+				refreshIndividuals();
+				window.conflictLog.addQueuedText();
+			}
+		});
+		btnSplitUnit.setBounds(10, 173, 131, 23);
+		btnSplitUnit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				
 				
 			}
 		});
-		
-		JLabel lblName = new JLabel("New Callsign");
-		lblName.setBounds(10, 177, 83, 14);
-		lblName.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 11));
-		
-		textFieldUnit = new JTextField();
-		textFieldUnit.setBounds(89, 174, 102, 20);
-		textFieldUnit.setColumns(10);
 		
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
@@ -830,8 +818,6 @@ public class OpenUnit implements Serializable {
 		f.getContentPane().add(spinnerMoral);
 		f.getContentPane().add(lblCloseCombat);
 		f.getContentPane().add(btnSplitUnit);
-		f.getContentPane().add(textFieldUnit);
-		f.getContentPane().add(lblName);
 		f.getContentPane().add(label_5);
 		f.getContentPane().add(scrollPane);
 		f.getContentPane().add(btnMove);
@@ -1088,7 +1074,7 @@ public class OpenUnit implements Serializable {
 				new BulkInventoryWindow(troopers);
 			}
 		});
-		btnInventory.setBounds(271, 173, 137, 23);
+		btnInventory.setBounds(160, 173, 137, 23);
 		f.getContentPane().add(btnInventory);
 		
 		btnCommandRoll = new JButton("Command Roll");

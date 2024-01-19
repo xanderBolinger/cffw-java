@@ -18,10 +18,13 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import Company.Formation.LeaderType;
 import Trooper.Factions.FactionManager;
+import Unit.DefaultSplit;
 
 public class generateSquad implements Serializable {
 	private ArrayList<Trooper> individuals = new ArrayList<Trooper>();
 
+	public DefaultSplit split;
+	
 	public generateSquad(String faction, String type) {
 		//System.out.println("Pass Generate Squad");
 		createSquad(faction, type);
@@ -50,7 +53,6 @@ public class generateSquad implements Serializable {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 			
 		}
 
@@ -161,6 +163,9 @@ public class generateSquad implements Serializable {
 			// Combat Life Saver
 			troopers[8] = new Trooper("Clone Combat Life Saver", faction);
 			setSquad(troopers);
+			
+			split = new DefaultSplit(troopers, new int[] {1, 5, 6, 7, 8});
+			
 
 		} else if (type.equals("Special Riflesquad")) {
 			Trooper[] troopers = new Trooper[12];
@@ -186,6 +191,10 @@ public class generateSquad implements Serializable {
 			troopers[9] = new Trooper("Clone Combat Life Saver", faction);
 			troopers[10] = new Trooper("Clone AT Specialist", faction);
 			troopers[11] = new Trooper("Clone Assistant AT Specialist", faction);
+			
+			
+			
+			
 			setSquad(troopers);
 
 		} else if (type.equals("Platoon Squad")) {
@@ -217,6 +226,8 @@ public class generateSquad implements Serializable {
 			troopers[8] = new Trooper("Clone Marksman", faction);
 			// Combat Life Saver
 			troopers[9] = new Trooper("Clone Combat Life Saver", faction);
+			
+			split = new DefaultSplit(troopers, new int[] {2, 6, 7, 8, 9});
 			
 			setSquad(troopers);
 
@@ -257,6 +268,8 @@ public class generateSquad implements Serializable {
 			// Combat Life Saver
 			troopers[10] = new Trooper("Clone Combat Life Saver", faction);
 			
+			split = new DefaultSplit(troopers, new int[] {2, 3, 7, 8, 9, 10});
+			
 			setSquad(troopers);
 
 		} else if (type.equals("Commando Squad")) {
@@ -294,6 +307,8 @@ public class generateSquad implements Serializable {
 			troopers[6] = new Trooper("B1 Rifleman", faction);
 			troopers[7] = new Trooper("B1 Rifleman", faction);
 
+			split = new DefaultSplit(troopers, new int[] {4,5,6,7});
+			
 			setSquad(troopers);
 		} else if (type.equals("Heavy Droid Riflesquad")) {
 			Trooper[] troopers = new Trooper[8];
@@ -305,9 +320,9 @@ public class generateSquad implements Serializable {
 			troopers[3] = new Trooper("B2", faction);
 			troopers[4] = new Trooper("B2", faction);
 			troopers[5] = new Trooper("B2", faction);
-			troopers[6] = new Trooper("B2", faction);
-			troopers[7] = new Trooper("B2", faction);
 
+			split = new DefaultSplit(troopers, new int[] {3,4,5});
+			
 			setSquad(troopers);
 		} else if (type.equals("Droid Marksman")) {
 			Trooper[] troopers = new Trooper[8];
@@ -322,6 +337,7 @@ public class generateSquad implements Serializable {
 			troopers[6] = new Trooper("B1 Marksman", faction);
 			troopers[7] = new Trooper("B1 Marksman", faction);
 
+			split = new DefaultSplit(troopers, new int[] {4,5,6,7});
 			setSquad(troopers);
 		} else if (type.equals("Droid AT Specalists")) {
 			Trooper[] troopers = new Trooper[8];
@@ -336,6 +352,8 @@ public class generateSquad implements Serializable {
 			troopers[6] = new Trooper("B1 AT Specialist", faction);
 			troopers[7] = new Trooper("B1 Assistant AT Specialist", faction);
 
+			split = new DefaultSplit(troopers, new int[] {4,5,6,7});
+			
 			setSquad(troopers);
 		} else if (type.equals("Droid Fire Support")) {
 			Trooper[] troopers = new Trooper[8];
@@ -350,6 +368,8 @@ public class generateSquad implements Serializable {
 			troopers[6] = new Trooper("B1 Autorifleman", faction);
 			troopers[7] = new Trooper("B1 Assistant Autorifleman", faction);
 
+			split = new DefaultSplit(troopers, new int[] {4,5,6,7});
+			
 			setSquad(troopers);
 		} else if (type.equals("Droid Integrated Squad")) {
 			Trooper[] troopers = new Trooper[8];
@@ -364,6 +384,8 @@ public class generateSquad implements Serializable {
 			troopers[6] = new Trooper("B1 AT Specialist", faction);
 			troopers[7] = new Trooper("B1 Assistant AT Specialist", faction);
 
+			split = new DefaultSplit(troopers, new int[] {4,5,6,7});
+			
 			setSquad(troopers);
 		}
 	}
