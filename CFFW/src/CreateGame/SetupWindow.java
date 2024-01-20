@@ -533,6 +533,7 @@ public class SetupWindow implements Serializable {
 					for(int j = 0; j < companies.get(i).getUnits().get(x).getSize(); j++) {
 						
 						Unit unit = companies.get(i).getUnits().get(x);
+						System.out.println("Unit: "+unit.callsign);
 						Trooper individual = unit.getTroopers().get(j);
 						individual.spentPhase1 = 0; 
 						individual.spentPhase2 = 0;

@@ -3647,74 +3647,74 @@ public class Weapons implements Serializable {
 
 		String name = "HEAT";
 		ArrayList<Integer> pen = new ArrayList<Integer>();
-		pen.add(1600);
-		pen.add(112);
-		pen.add(112);
-		pen.add(112);
-		pen.add(112);
-		pen.add(112);
+		pen.add(55);
+		pen.add(44);
+		pen.add(15);
+		pen.add(2);
+		pen.add(1);
+		pen.add(1);
 
 		ArrayList<Integer> dc = new ArrayList<Integer>();
-		dc.add(10);
 		dc.add(6);
-		dc.add(6);
-		dc.add(6);
-		dc.add(6);
-		dc.add(6);
+		dc.add(4);
+		dc.add(3);
+		dc.add(2);
+		dc.add(2);
+		dc.add(1);
 
 		ArrayList<String> bshc = new ArrayList<String>();
-		bshc.add("*10");
-		bshc.add("*1");
-		bshc.add("73");
-		bshc.add("26");
-		bshc.add("0");
+		bshc.add("*3");
+		bshc.add("47");
+		bshc.add("11");
+		bshc.add("4");
+		bshc.add("1");
 		bshc.add("0");
 
 		ArrayList<Integer> bc = new ArrayList<Integer>();
-		bc.add(3300);
-		bc.add(393);
-		bc.add(105);
-		bc.add(52);
+		bc.add(541);
+		bc.add(171);
+		bc.add(43);
 		bc.add(22);
-		bc.add(7);
+		bc.add(5);
+		bc.add(1);
 
-		PCAmmo heat = new PCAmmo(name, pen, dc, bshc, bc, 7200, 10);
+		PCAmmo heat = new PCAmmo(name, pen, dc, bshc, bc, 288, 10);
 		pcAmmoTypes.add(heat);
 
 		name = "HE";
 		pen = new ArrayList<Integer>();
-		pen.add(6);
-		pen.add(5);
-		pen.add(5);
-		pen.add(5);
 		pen.add(4);
 		pen.add(3);
+		pen.add(2);
+		pen.add(1);
+		pen.add(1);
+		pen.add(1);
 
 		dc = new ArrayList<Integer>();
-		dc.add(8);
-		dc.add(8);
 		dc.add(4);
-		dc.add(4);
+		dc.add(3);
 		dc.add(2);
 		dc.add(2);
+		dc.add(2);
+		dc.add(1);
 
 		bshc = new ArrayList<String>();
-		bshc.add("*23");
-		bshc.add("*6");
-		bshc.add("*2");
+		bshc.add("*5");
 		bshc.add("*1");
-		bshc.add("65");
-		bshc.add("40");
+		bshc.add("62");
+		bshc.add("15");
+		bshc.add("6");
+		bshc.add("2");
 
 		bc = new ArrayList<Integer>();
-		bc.add(2400);
-		bc.add(414);
-		bc.add(114);
-		bc.add(85);
-		bc.add(60);
-		bc.add(20);
+		bc.add(383);
+		bc.add(150);
+		bc.add(41);
+		bc.add(26);
+		bc.add(7);
+		bc.add(2);
 
-		PCAmmo he = new PCAmmo(name, pen, dc, bshc, bc, 8, 10);
+		PCAmmo he = new PCAmmo(name, pen, dc, bshc, bc, 2, 10);
 		pcAmmoTypes.add(he);
 
 		// Aim time

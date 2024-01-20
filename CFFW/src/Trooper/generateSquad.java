@@ -303,7 +303,7 @@ public class generateSquad implements Serializable {
 			
 			setSquad(troopers);
 		} else if (type.equals("Heavy Droid Riflesquad")) {
-			Trooper[] troopers = new Trooper[8];
+			Trooper[] troopers = new Trooper[6];
 			// Sergeant
 			troopers[0] = new Trooper("B2", faction);
 			// Rifleman
