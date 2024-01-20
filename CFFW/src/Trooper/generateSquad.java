@@ -135,7 +135,6 @@ public class generateSquad implements Serializable {
 			troopers[8] = new Trooper("Combat Life Saver", faction);
 			//System.out.println("Trooper: "+troopers[0]);
 			setSquad(troopers);
-
 		}
 	}
 	
@@ -165,8 +164,6 @@ public class generateSquad implements Serializable {
 			setSquad(troopers);
 			
 			split = new DefaultSplit(troopers, new int[] {1, 5, 6, 7, 8});
-			
-
 		} else if (type.equals("Special Riflesquad")) {
 			Trooper[] troopers = new Trooper[12];
 			// Squad leader
@@ -192,14 +189,10 @@ public class generateSquad implements Serializable {
 			troopers[10] = new Trooper("Clone AT Specialist", faction);
 			troopers[11] = new Trooper("Clone Assistant AT Specialist", faction);
 			
-			
-			
-			
 			setSquad(troopers);
 
 		} else if (type.equals("Platoon Squad")) {
 			Trooper[] troopers = new Trooper[10];
-			
 			
 			troopers[0] = new Trooper("Clone Platoon Leader", faction);
 			troopers[0].leaderType = LeaderType.PC;
@@ -233,7 +226,6 @@ public class generateSquad implements Serializable {
 
 		} else if (type.equals("Company Squad")) {
 			Trooper[] troopers = new Trooper[11];
-			
 			
 			troopers[0] = new Trooper("Clone Captain", faction);
 			troopers[0].leaderType = LeaderType.CC;
