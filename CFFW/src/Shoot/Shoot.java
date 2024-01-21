@@ -191,33 +191,45 @@ public class Shoot {
 	}
 	
 	public void burst() {
-		if(wep.flameThrower != null)
-			return;
-		if(pcAmmo != null && shooter.inventory.launcherAmmoCheck(wep, pcAmmo, wep.fullAutoROF) == 0) {
-			shotResults = "Not enough ammunition.";
-			return;
-		} else if (pcAmmo == null && !ammoCheckFull()) {
-			shotResults = "Not enough ammunition.";
-			return;
-		}
-
-		burstRoll();
-		resolveHits();
-		resolveSuppressiveHits();
-		spentCombatActions++;
-		shots++;
-		fullAutoShots++;
-		setShotResults(true);
-		recalc();
-		hiddenEalBonus -= wep.sab * fullAutoShots;
-		hiddenEalBonus += ealConcurrentBonus;
-		setALM();
-		setEAL();
-		setSingleTn();
-		setSuppressiveTn();
-		setFullAutoTn();
 		
-		updateInjuryLog();
+
+		try {
+			
+			if(wep.flameThrower != null)
+				return;
+			if(pcAmmo != null && shooter.inventory.launcherAmmoCheck(wep, pcAmmo, wep.fullAutoROF) == 0) {
+				shotResults = "Shoot Shot Results: Not enough ammunition.";
+				return;
+			} else if (pcAmmo == null && !ammoCheckFull()) {
+				shotResults = "Shoot Shot Results: Not enough ammunition.";
+				return;
+			}
+			
+			System.out.println("Burst roll");
+			burstRoll();
+			resolveHits();
+			resolveSuppressiveHits();
+			spentCombatActions++;
+			shots++;
+			fullAutoShots++;
+			System.out.println("Burst roll 2");
+			setShotResults(true);
+			recalc();
+			hiddenEalBonus -= wep.sab * fullAutoShots;
+			hiddenEalBonus += ealConcurrentBonus;
+			setALM();
+			setEAL();
+			setSingleTn();
+			setSuppressiveTn();
+			setFullAutoTn();
+			
+			updateInjuryLog();
+			System.out.println("Update injury log");
+		} catch(Exception e) {
+			
+			e.printStackTrace();
+			
+		}
 		
 		if(wep == null || wep.tracers)
 			shooter.firedTracers = true;
@@ -241,11 +253,13 @@ public class Shoot {
 			return;
 		}
 		
-		System.out.println("Shoot suppressive");
+		System.out.println("Shoot suppressive, shots: "+shots);
 		
 		var canFire = pcAmmo != null ?
-				shooter.inventory.launcherAmmoCheck(wep, pcAmmo, shots)
+				 shooter.inventory.launcherAmmoCheck(wep, pcAmmo, shots)
 				: shots;
+		
+		System.out.println("can fire: "+canFire);
 		
 		if(pcAmmo != null && 0 == canFire) {
 			shotResults = "Not enough ammunition.";
@@ -306,6 +320,8 @@ public class Shoot {
 	}
 	
 	public void setShotResults(boolean fullAuto) {
+		
+		System.out.println("setShotResults");
 		
 		if(target != null) {
 			shotResults = (fullAuto ? "Full Auto Burst from " : "Single Shot from ") + shooterUnit.callsign + ": "
@@ -443,6 +459,9 @@ public class Shoot {
 			try {
 				autofireResults = ExcelUtility.getStringFromSheet(rof, ma, "\\PC Hit Calc Xlsxs\\automaticfire.xlsx",
 						true, true);
+				
+				System.out.println("Autofire results: "+autofireResults);
+				
 				if (FullAuto.hits(autofireResults)) {
 					hits = FullAuto.getNumericResults(autofireResults);
 				} else {

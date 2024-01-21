@@ -1006,7 +1006,12 @@ public class BulkWindow {
 										}
 										else if (chckbxFullAuto.isSelected()) {
 											shoot.burst();
+											GameWindow.gameWindow.conflictLog
+											.addNewLineToQueue("Burst Results: " + shoot.shotResults);
 											shoot.suppressiveFire(DiceRoller.roll(0, 10));
+											GameWindow.gameWindow.conflictLog
+											.addNewLineToQueue("Suppresive Results: " + shoot.shotResults);
+											System.out.println("Post burst");
 										} else {
 											
 											
@@ -1015,10 +1020,15 @@ public class BulkWindow {
 												shoot.shot(chckbxGuided.isSelected());
 											else 
 												shoot.shot(false);
+											GameWindow.gameWindow.conflictLog
+											.addNewLineToQueue("Single Fire Results: " + shoot.shotResults);
+											
+											System.out.println("Post shot");
 											
 											if(chckbxSingleShot.isSelected())
 												shoot.suppressiveFireFree(DiceRoller.roll(0, 5));
-										
+											GameWindow.gameWindow.conflictLog
+											.addNewLineToQueue("Suppresive Results: " + shoot.shotResults);
 										
 										}
 
@@ -1030,8 +1040,7 @@ public class BulkWindow {
 
 										valleyValidTargetCheck(shoot, bulkTrooper);
 
-										GameWindow.gameWindow.conflictLog
-												.addNewLineToQueue("Shot Results: " + shoot.shotResults);
+										
 										// System.out.println("Supp results: "+shoot.shotResults);
 
 									} catch (Exception e) {
@@ -4090,19 +4099,21 @@ public class BulkWindow {
 										setCalledShotBounds(shoot);
 									}
 									
-									
-									
 								}
 								
 								if (comboBoxTargetUnits.getSelectedIndex() > 0){
+									System.out.println("Volley suppress");
 									var manSup = (int) spinnerSuppressiveRof.getValue();
 									shoot.suppressiveFire(
 											chckbxManualSup.isSelected() && manSup <= 
 											shoot.wep.suppressiveROF  ? manSup : shoot.wep.suppressiveROF + DiceRoller.roll(1, shoot.wep.suppressiveROF/4));
 								}
 								else if (chckbxFullAuto.isSelected()) {
+									System.out.println("Pre burst roll");
 									shoot.burst();
+									GameWindow.gameWindow.conflictLog.addNewLineToQueue("Burst Results: " + shoot.shotResults);
 									shoot.suppressiveFire(DiceRoller.roll(0, 10));
+									GameWindow.gameWindow.conflictLog.addNewLineToQueue("Suppressive Results: " + shoot.shotResults);
 								} else {
 									
 									if(shoot.wep.launcherHomingInfantry)
@@ -4110,11 +4121,13 @@ public class BulkWindow {
 									else 
 										shoot.shot(false);
 									
-									if(!chckbxSingleShot.isSelected())
+									GameWindow.gameWindow.conflictLog.addNewLineToQueue("Single Fire Results: " + shoot.shotResults);
+									
+									if(!chckbxSingleShot.isSelected()) {
 										shoot.suppressiveFireFree(DiceRoller.roll(0, 5));
+										GameWindow.gameWindow.conflictLog.addNewLineToQueue("Suppressive Results: " + shoot.shotResults);
+									}
 								}
-
-								GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shot Results: " + shoot.shotResults);
 
 								valleyValidTargetCheck(shoot, bulkTrooper);
 								

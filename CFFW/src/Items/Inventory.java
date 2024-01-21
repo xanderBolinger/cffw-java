@@ -329,7 +329,7 @@ public class Inventory implements Serializable {
 		System.out.println("wep name: "+wep.name);
 		System.out.println("PC ammo name: "+pcAmmo.name);
 		if(pcAmmo.linked) {
-			System.out.println("Linked returning true");
+			System.out.println("Linked returning shots: "+shots);
 			return shots;
 		}
 		

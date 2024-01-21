@@ -674,7 +674,7 @@ public class Weapons implements Serializable {
 		this.damageBonus = 5;
 		this.damageMultiplier = 5;
 		this.armorPiercing = 3;
-		this.fullAutoROF = 0;
+		this.fullAutoROF = 3;
 		this.tracers = true;
 		this.light = true;
 		this.laser = true;

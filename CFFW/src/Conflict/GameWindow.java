@@ -218,7 +218,7 @@ public class GameWindow implements Serializable {
 
 			}
 		});
-		comboBoxVisibility.setBounds(219, 162, 193, 23);
+		comboBoxVisibility.setBounds(219, 162, 209, 23);
 		comboBoxVisibility.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 
@@ -230,7 +230,7 @@ public class GameWindow implements Serializable {
 		lblVisibility.setBounds(152, 165, 59, 17);
 		lblVisibility.setFont(new Font("Calibri", Font.BOLD, 13));
 
-		btnStartingSpotTest = new JButton("General Spot Test");
+		btnStartingSpotTest = new JButton("Spot");
 		btnStartingSpotTest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ActionResolver.resolveSpotAction(initiativeOrder, null, false);
@@ -438,7 +438,7 @@ public class GameWindow implements Serializable {
 		lblActiveUnit_1.setBounds(10, 134, 80, 17);
 		f.getContentPane().add(lblActiveUnit_1);
 
-		JButton btnClearAllSpotted = new JButton("Clear All Spotted");
+		JButton btnClearAllSpotted = new JButton("Clear Spots");
 		btnClearAllSpotted.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -629,13 +629,31 @@ public class GameWindow implements Serializable {
 		btnSetContact.setBounds(546, 70, 128, 23);
 		f.getContentPane().add(btnSetContact);
 
-		JButton btnSelectedUnits = new JButton("Selected Units");
+		JButton btnSelectedUnits = new JButton("Spot Reactions");
 		btnSelectedUnits.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new SelectedUnitsWindow();
+				
+				for(var unit : initiativeOrder) {
+					if(unit.speed.equals("Rush"))
+						continue;
+
+					ArrayList<Unit> targetUnits = new ArrayList<Unit>();
+					
+					for(var targetUnit : unit.lineOfSight) {
+						if(targetUnit.speed.equals("None") || targetUnit.speed.equals("Crawl"))
+							continue;
+						targetUnits.add(targetUnit);
+						
+					}
+					
+					if(targetUnits.size() > 0)
+						ActionResolver.resolveSpotAction(new ArrayList<Unit>(Arrays.asList(unit)), targetUnits, true);
+					
+				}
+				
 			}
 		});
-		btnSelectedUnits.setBounds(418, 162, 128, 23);
+		btnSelectedUnits.setBounds(433, 162, 113, 23);
 		f.getContentPane().add(btnSelectedUnits);
 
 		JButton btnNextAction = new JButton("Next Action");

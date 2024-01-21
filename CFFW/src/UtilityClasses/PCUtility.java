@@ -27,18 +27,18 @@ public class PCUtility {
 			return 0.5;
 		
 		if(trooper.sl < 5) {
-			return 5.0;
+			return 2.5;
 		}
 		else if(trooper.sl == 5 || trooper.sl == 6) {
-			return 4.0;
-		} else if(trooper.sl >= 7 && trooper.sl < 10) {
-			return 3.0;
-		} else if(trooper.sl == 10) {
 			return 2.0;
+		} else if(trooper.sl >= 7 && trooper.sl < 10) {
+			return 1.5;
+		} else if(trooper.sl == 10) {
+			return 1.0;
 		} else if(trooper.sl >= 11 && trooper.sl < 13) {
-			return 1.0; 
-		} else {
 			return 0.5; 
+		} else {
+			return 0.25; 
 		}
 	}
 	

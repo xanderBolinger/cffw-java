@@ -1,5 +1,6 @@
 package Command;
 
+import Company.Formation.LeaderType;
 import Conflict.GameWindow;
 import Trooper.Trooper;
 import Unit.Unit;
@@ -28,7 +29,7 @@ public class UnitCommand {
 		
 		for(Trooper trooper : unit.individuals) {
 			
-			if(leader.subordinates.contains(trooper)) {
+			if(leader.subordinates.contains(trooper.identifier) && trooper.leaderType != LeaderType.NONE) {
 				ftlCommandSum += trooper.getSkill("Command") / 10;
 			}
 			
