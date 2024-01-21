@@ -177,7 +177,7 @@ public class TrooperUtility {
 	public static double maximumSpeed(int encum, Trooper trooper) {
 
 		try {
-			return ExcelUtility.getNumberFromSheet(trooper.baseSpeed.get(trooper), trooper.agi,
+			return ExcelUtility.getNumberFromSheet(trooper.getBaseSpeed(), trooper.agi,
 					"MaximumSpeed.xlsx", true, false);
 		} catch (Exception e) {
 			e.printStackTrace();

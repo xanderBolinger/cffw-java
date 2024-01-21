@@ -6,14 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Random;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -24,13 +21,10 @@ import Conflict.ConflictLog;
 import Conflict.Game;
 import Conflict.GameWindow;
 import Injuries.Injuries;
-import Injuries.Injury;
-import Conflict.OpenUnit;
 import CorditeExpansionStatBlock.StatBlock;
 import FatigueSystem.FatigueSystem;
 import Hexes.Building;
 import Hexes.Hex;
-import Injuries.ManualInjury;
 import Injuries.ResolveHits;
 import Items.Armor;
 import Items.Armor.ArmorType;
@@ -38,9 +32,6 @@ import Items.Container.ContainerType;
 import Items.Inventory;
 import Items.Item.ItemType;
 import Items.PersonalShield.ShieldType;
-import Trooper.Trooper.BaseSpeed;
-import Trooper.Trooper.MaximumSpeed;
-import Trooper.Factions.Astartes;
 import Trooper.Factions.FactionManager;
 import Items.PersonalShield;
 import Items.Weapons;
@@ -204,8 +195,6 @@ public class Trooper implements Serializable {
 	// Veterancy
 	public int veterancy;
 	public FatigueSystem fatigueSystem;
-	public BaseSpeed baseSpeed;
-	public MaximumSpeed maximumSpeed;
 
 	public int magnification = 0;
 
@@ -221,22 +210,15 @@ public class Trooper implements Serializable {
 
 	public transient StatBlock ceStatBlock;
 
-	public class MaximumSpeed implements Serializable {
 
-		public double get(Trooper trooper) {
-			return TrooperUtility.maximumSpeed(encumberance, trooper);
-		}
-
+	public double getMaxiumSpeed() {
+		return TrooperUtility.maximumSpeed(encumberance, this);
 	}
-
-	public class BaseSpeed implements Serializable {
-
-		public double get(Trooper trooper) {
-			return TrooperUtility.baseSpeed(encumberance, trooper);
-		}
-
+	
+	public double getBaseSpeed() {
+		return TrooperUtility.baseSpeed(encumberance, this);
 	}
-
+	
 	public Trooper() {
 		inventory = new Inventory(this);
 	}
@@ -251,7 +233,6 @@ public class Trooper implements Serializable {
 		calculateAttributes();
 		calculateSkills();
 
-		baseSpeed = new BaseSpeed();
 		fatigueSystem = new FatigueSystem(this);
 		setCombatStats(this);
 
@@ -302,8 +283,6 @@ public class Trooper implements Serializable {
 		}
 
 		this.input = input;
-		baseSpeed = new BaseSpeed();
-		maximumSpeed = new MaximumSpeed();
 		fatigueSystem = new FatigueSystem(this);
 		setCombatStats(this);
 	}
@@ -2823,15 +2802,12 @@ public class Trooper implements Serializable {
 	}
 
 	public void setCombatStats(Trooper individual) {
-		if (maximumSpeed == null) {
-			baseSpeed = new BaseSpeed();
-			maximumSpeed = new MaximumSpeed();
+		if (fatigueSystem == null) {
 			fatigueSystem = new FatigueSystem(this);
 		}
 
 		new PCStats(individual, true);
 		individual.setCombatActions(combatActions);
-
 	}
 
 	public void setCombatActions(int combatActions) {

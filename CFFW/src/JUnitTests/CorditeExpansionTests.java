@@ -70,7 +70,7 @@ public class CorditeExpansionTests {
 
 		actionOrder.addTrooper(clone);
 
-		assertEquals(clone.maximumSpeed.get(clone), actionOrder.get(clone).ceStatBlock.quickness, 0);
+		assertEquals(clone.getMaxiumSpeed(), actionOrder.get(clone).ceStatBlock.quickness, 0);
 				
 		actionOrder.removeTrooper(clone);
 

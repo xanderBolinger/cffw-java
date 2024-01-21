@@ -24,8 +24,6 @@ import CorditeExpansionActions.FireAction;
 import CorditeExpansionRangedCombat.CalledShots.ShotTarget;
 import Items.Weapons;
 import Trooper.Trooper;
-import Trooper.Trooper.BaseSpeed;
-import Trooper.Trooper.MaximumSpeed;
 import UtilityClasses.ExcelUtility;
 
 public class StatBlock {
@@ -92,11 +90,9 @@ public class StatBlock {
 	}
 	
 	public StatBlock(Trooper trooper) {
-		if(trooper.maximumSpeed == null) {
-			trooper.setCombatStats(trooper);
-		}
 		
-		quickness = trooper.maximumSpeed.get(trooper);
+		trooper.setCombatStats(trooper);
+		quickness = trooper.getMaxiumSpeed();
 		combatActions = trooper.combatActions;
 		adaptabilityFactor = 1+Math.round(((trooper.getSkill("Fighter")/10)%10)/2);
 		

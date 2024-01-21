@@ -123,7 +123,7 @@ public class MedicalStatBlock {
 		spentCa = 0;
 		statusDuration = pd / 25;
 		statBlock.combatActions = TrooperUtility.calculateCA(statBlock.trooper
-				.maximumSpeed.get(statBlock.trooper), 
+				.getMaxiumSpeed(), 
 				statBlock.trooper.isf);
 		statBlock.combatActions -= 2; 
 		spentCheck(statBlock);
@@ -137,8 +137,7 @@ public class MedicalStatBlock {
 		status = Status.DAZED;
 		spentCa = 0;
 		statusDuration = pd / 25;
-		statBlock.combatActions = TrooperUtility.calculateCA(statBlock.trooper.maximumSpeed
-				.get(statBlock.trooper), 
+		statBlock.combatActions = TrooperUtility.calculateCA(statBlock.trooper.getMaxiumSpeed(), 
 				statBlock.trooper.isf);
 		statBlock.combatActions -= 2; 
 		spentCheck(statBlock);
@@ -153,7 +152,7 @@ public class MedicalStatBlock {
 		spentCa = 0;
 		statusDuration = pd / 25;
 		statBlock.combatActions = TrooperUtility.calculateCA(statBlock.trooper
-				.maximumSpeed.get(statBlock.trooper), 
+				.getMaxiumSpeed(), 
 				statBlock.trooper.isf);
 		statBlock.combatActions -= 1; 
 		spentCheck(statBlock);
@@ -172,7 +171,7 @@ public class MedicalStatBlock {
 		}
 		
 		statBlock.combatActions = TrooperUtility.calculateCA(statBlock.trooper
-				.maximumSpeed.get(statBlock.trooper), 
+				.getMaxiumSpeed(), 
 				statBlock.trooper.isf);
 		
 	}

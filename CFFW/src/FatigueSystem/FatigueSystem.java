@@ -220,7 +220,7 @@ public class FatigueSystem implements Serializable
 
     public void CalcAV()
     {
-    	 analeticValue = (int) (((character.getSkill("Endurance") / 3) * (character.wil / 3)  / 2) * (character.baseSpeed.get(character) / 2));
+    	 analeticValue = (int) (((character.getSkill("Endurance") / 3) * (character.wil / 3)  / 2) * (character.getBaseSpeed() / 2));
     }
 
   

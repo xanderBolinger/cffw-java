@@ -222,9 +222,9 @@ public class Damage {
 		}
 		
 		if(trooper.disabledLegs == 1) {
-			trooper.ceStatBlock.quickness = trooper.maximumSpeed.get(trooper) - 3;
+			trooper.ceStatBlock.quickness = trooper.getMaxiumSpeed() - 3;
 		} else if(trooper.disabledLegs > 1) {
-			trooper.ceStatBlock.quickness = trooper.maximumSpeed.get(trooper) - 5;
+			trooper.ceStatBlock.quickness = trooper.getMaxiumSpeed() - 5;
 		} 
 		
 	}
