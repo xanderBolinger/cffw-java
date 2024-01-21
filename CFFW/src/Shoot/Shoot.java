@@ -276,7 +276,7 @@ public class Shoot {
 		}
 
 		shotResults = "Suppresive fire from " + shooterUnit.callsign + " to " 
-				+ targetUnit.callsign + ": " + suppressiveHits + " hits.";
+				+ targetUnit.callsign + ": " + suppressiveHits + " hits, Shots: "+canFire+", TN: "+suppressiveTn;
 		
 		spentCombatActions = shooter.combatActions;
 		this.shots = shooter.combatActions;
@@ -291,7 +291,7 @@ public class Shoot {
 	public void suppressiveFireFree(int shots) {
 		
 		System.out.println("Shoot suppressive free");
-		var canFire = shooter.inventory.launcherAmmoCheck(wep, pcAmmo, shots);
+		var canFire = pcAmmo != null ? shooter.inventory.launcherAmmoCheck(wep, pcAmmo, shots) : shots;
 		if(pcAmmo != null && canFire == 0) {
 			shotResults = "Not enough ammunition.";
 			outOfAmmo = true;

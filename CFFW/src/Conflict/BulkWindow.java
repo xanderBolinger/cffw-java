@@ -4138,6 +4138,7 @@ public class BulkWindow {
 								System.out.println("Volley Valid Supp Target Test: "
 										+ (comboBoxTargetUnits.getSelectedIndex() > 0));
 								System.out.println("Volley Out of Ammo Test: " + (!shoot.outOfAmmo));
+								System.out.println("Shoot results: "+shoot.shotResults);
 							}
 
 						} catch (Exception e) {
