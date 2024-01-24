@@ -6,6 +6,8 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Comparator;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -21,8 +23,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JList;
 import javax.swing.event.ListSelectionListener;
+
+import Company.Company;
+
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.JCheckBox;
 
 public class BulkInventoryWindow extends JFrame {
 
@@ -40,6 +46,17 @@ public class BulkInventoryWindow extends JFrame {
 	private JLabel lblEncumberance;
 	private JSpinner spinnerItemCount;
 	private JLabel lblAnaleticValue;
+	
+	Company company;
+	private JCheckBox chckbxAddCompany;
+	private JList listCompanyInventory;
+	
+	public boolean isCompanyInventory() {
+			
+		return company != null;
+		
+	}
+	
 	
 	/**
 	 * Launch the application.
@@ -75,17 +92,19 @@ public class BulkInventoryWindow extends JFrame {
 		refreshWindow();
 	}
 	
-	public BulkInventoryWindow(ArrayList<Unit> units, ArrayList<Trooper> troopers) {
+	public BulkInventoryWindow(ArrayList<Unit> units, ArrayList<Trooper> troopers, Company company) {
 		this.units = units;
 		this.troopers = troopers;
 	
+		this.company = company;
+		
 		initWindow();
 		refreshWindow();
 	}
 	
 	public void initWindow() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 1355, 665);
+		setBounds(100, 100, 1355, 884);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -111,14 +130,14 @@ public class BulkInventoryWindow extends JFrame {
 		contentPane.add(lblArmorPage_1);
 		
 		JScrollPane scrollPane_8 = new JScrollPane();
-		scrollPane_8.setBounds(453, 41, 433, 574);
+		scrollPane_8.setBounds(453, 41, 433, 379);
 		contentPane.add(scrollPane_8);
 		
 		listInventory = new JList();
 		scrollPane_8.setViewportView(listInventory);
 		
 		JScrollPane scrollPane_8_1 = new JScrollPane();
-		scrollPane_8_1.setBounds(896, 41, 433, 574);
+		scrollPane_8_1.setBounds(896, 41, 433, 793);
 		contentPane.add(scrollPane_8_1);
 		
 		listItems = new JList();
@@ -186,7 +205,7 @@ public class BulkInventoryWindow extends JFrame {
 		contentPane.add(lblArmorPage_1_2);
 		
 		JScrollPane scrollPane_8_2 = new JScrollPane();
-		scrollPane_8_2.setBounds(10, 41, 433, 574);
+		scrollPane_8_2.setBounds(10, 41, 433, 793);
 		contentPane.add(scrollPane_8_2);
 		
 		listTroopers = new JList();
@@ -205,8 +224,11 @@ public class BulkInventoryWindow extends JFrame {
 				try {
 					for(Trooper trooper : getSelectedTroopers()) {
 						String item = items.get(listInventory.getSelectedIndex());
-						if(trooper.inventory.containsItem(item))
+						if(trooper.inventory.containsItem(item)) {
+							if(isCompanyInventory() && chckbxAddCompany.isSelected())
+								company.companyInventory.add(trooper.inventory.getItem(item));
 							trooper.inventory.removeItem(item);
+						}
 					}
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -223,12 +245,67 @@ public class BulkInventoryWindow extends JFrame {
 		lblAnaleticValue.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		lblAnaleticValue.setBounds(739, 12, 147, 16);
 		contentPane.add(lblAnaleticValue);
+		
+		JLabel lblArmorPage_1_2_1 = new JLabel("Company Inventory");
+		lblArmorPage_1_2_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblArmorPage_1_2_1.setForeground(Color.BLACK);
+		lblArmorPage_1_2_1.setFont(new Font("Calibri", Font.BOLD, 16));
+		lblArmorPage_1_2_1.setBounds(453, 457, 433, 16);
+		contentPane.add(lblArmorPage_1_2_1);
+		
+		chckbxAddCompany = new JCheckBox("Add Items to Company Inventory");
+		chckbxAddCompany.setFont(new Font("Tahoma", Font.BOLD, 12));
+		chckbxAddCompany.setBounds(453, 427, 433, 23);
+		contentPane.add(chckbxAddCompany);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(453, 473, 433, 361);
+		contentPane.add(scrollPane);
+		
+		listCompanyInventory = new JList();
+		listCompanyInventory.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				if(!isCompanyInventory() || getSelectedTroopers().size() == 0 || listCompanyInventory.getSelectedIndex() < 0)
+					return;
+				
+				var trooper = getSelectedTroopers().get(0);
+				
+				var itemIndex = companyItemIndex((String)listCompanyInventory.getModel()
+						.getElementAt(listCompanyInventory.getSelectedIndex()));
+				
+				var item = company.companyInventory.get(itemIndex);
+				
+				try {
+					trooper.inventory.addItem(item);
+					company.companyInventory.remove(itemIndex);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+				refreshInventory();
+				refreshTroopers();
+				refreshWindow();
+			}
+		});
+		scrollPane.setViewportView(listCompanyInventory);
 		setVisible(true);
+	}
+	
+	private int companyItemIndex(String itemName) {
+		for(int i = 0; i < company.companyInventory.size(); i++) {
+			if(company.companyInventory.get(i).getItemName().equals(itemName))
+				return i;
+		}
+		
+		return -1;
 	}
 	
 	public void refreshWindow() {
 		refreshInventory();
 		refreshTroopers();
+		refreshCompanyInventory();
 	}
 	
 	public void refreshTroopers() {
@@ -328,6 +405,21 @@ public class BulkInventoryWindow extends JFrame {
 		
 		lblAnaleticValue.setText("Avg. Analetic Value: "+avgAv);
 		lblEncumberance.setText("Avg. Encumerance: "+avgEncum);
+	}
+	
+	public void refreshCompanyInventory() {
+		if(!isCompanyInventory())
+			return;
+		
+		ArrayList<String> items = new ArrayList<String>();
+		
+		items.sort(Comparator.naturalOrder());
+		
+		for(var item : company.companyInventory) {
+			items.add(item.getItemName());
+		}
+		
+		SwingUtility.setList(listCompanyInventory, items);
 	}
 	
 	public ArrayList<Trooper> getSelectedTroopers() {

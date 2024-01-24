@@ -3,6 +3,7 @@ package Company;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import Items.Item;
 import JsonSaveRunner.TrooperJson;
 import Trooper.Trooper;
 import Unit.Unit;
@@ -25,6 +26,8 @@ public class Company implements Serializable {
 	private ArrayList<Trooper> roster = new ArrayList<Trooper>();
 	private ArrayList<Unit> units = new ArrayList<Unit>();
 	public ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
+	public ArrayList<Item> companyInventory = new ArrayList<Item>();
+	
 	// Notes
 	private String notes;
 	// Activated

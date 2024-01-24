@@ -462,7 +462,7 @@ public class EditCompany implements Serializable {
 		JButton btnBulkInventory = new JButton("Bulk Inventory");
 		btnBulkInventory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new BulkInventoryWindow(units, roster);
+				new BulkInventoryWindow(units, roster, company);
 			}
 		});
 		btnBulkInventory.setBounds(522, 70, 252, 23);
