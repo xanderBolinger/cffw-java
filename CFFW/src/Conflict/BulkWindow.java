@@ -1911,6 +1911,7 @@ public class BulkWindow {
 				newUnit.lineOfSight = new ArrayList<Unit>(unit.lineOfSight);
 				// Collections.copy(newUnit.lineOfSight, unit.lineOfSight);
 				// newUnit.lineOfSight = Collections.copy(unit.lineOfSight);
+				
 				gameWindow.initiativeOrder.add(newUnit);
 
 				gameWindow.rollInitiativeOrder();
@@ -1938,7 +1939,7 @@ public class BulkWindow {
 						// Adds companies to setupWindow
 						//gameWindow.confirmCompany(gameWindow.companies.get(i), i);
 						// f.dispose();
-
+						break;
 					}
 
 				}
@@ -3213,7 +3214,7 @@ public class BulkWindow {
 
 						tempUnit.setIndividual(target, target.number);
 
-						gameWindow.initiativeOrder.set(i, tempUnit);
+						//gameWindow.initiativeOrder.set(i, tempUnit);
 
 					}
 				}

@@ -651,6 +651,7 @@ public class OpenUnit implements Serializable {
 				newUnit.lineOfSight = new ArrayList<Unit>(unit.lineOfSight);
 				//Collections.copy(newUnit.lineOfSight, unit.lineOfSight);
 				//newUnit.lineOfSight = Collections.copy(unit.lineOfSight);
+				
 				window.initiativeOrder.add(newUnit);
 				
 				// Finds newUnit's company 
@@ -663,7 +664,7 @@ public class OpenUnit implements Serializable {
 						//window.confirmCompany(window.companies.get(i), i);
 						//window.companies.get(i).updateUnit(unit);
 						//f.dispose();
-						
+						break;
 					}
 					
 				}

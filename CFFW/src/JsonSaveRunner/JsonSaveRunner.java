@@ -93,6 +93,47 @@ public class JsonSaveRunner {
 		return trooperJson.getTrooper();
 	}
 	
+	public static ArrayList<Company> loadCompaniesInDirection() {
+		
+		var companies = new ArrayList<Company>();
+		
+		try {
+			var files = getFilesInDirectory("Company Json");
+			
+			for(var f : files) {
+				
+				var content = new String(Files.readAllBytes(Paths.get(f.getAbsolutePath())));
+				companies.add(loadCompany(content));
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return companies;
+	}
+	
+	public static File[] getFilesInDirectory(String startPath) throws IOException {
+		JFrame parentFrame = new JFrame();
+
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File(ExcelUtility.path + "\\"+startPath));
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fileChooser.setDialogTitle("Select Company Directory");
+		
+		int userSelection = fileChooser.showOpenDialog(parentFrame);
+		if (userSelection == JFileChooser.APPROVE_OPTION) {
+			System.out.println("getCurrentDirectory(): " 
+			         +  fileChooser.getCurrentDirectory());
+			      System.out.println("getSelectedFile() : " 
+			         +  fileChooser.getSelectedFile());
+			return fileChooser.getSelectedFile().listFiles();
+		}
+		
+		return new File[0];
+	}
+	
 	public static void saveFile(String companyName, String json) throws IOException {
 		// parent component of the dialog
 		JFrame parentFrame = new JFrame();

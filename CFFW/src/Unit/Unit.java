@@ -243,7 +243,9 @@ public class Unit implements Serializable {
 	
 	// Creates a new unit from a number of fleeing individuals 
 	public void flee(GameWindow window, Unit unit, ArrayList<Trooper> flee) {
-		if(unit.callsign.toLowerCase().contains("rout"))
+		return;
+		
+		/*if(unit.callsign.toLowerCase().contains("rout"))
 			return; 
 		
 		// Adds new unit 
@@ -314,7 +316,7 @@ public class Unit implements Serializable {
 				
 			}
 			
-		}
+		}*/
 	}
 	
 	// Removes LOS unit from index 

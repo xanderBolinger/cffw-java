@@ -369,6 +369,16 @@ public class SetupWindow implements Serializable {
 		});
 		btnModify.setBounds(205, 276, 89, 23);
 		f.getContentPane().add(btnModify);
+		
+		JButton btnLoad_1 = new JButton("Load");
+		btnLoad_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				companies = JsonSaveRunner.JsonSaveRunner.loadCompaniesInDirection();
+				refreshCreated();
+			}
+		});
+		btnLoad_1.setBounds(106, 275, 89, 23);
+		f.getContentPane().add(btnLoad_1);
 		f.setVisible(true);
 		
 		
@@ -537,6 +547,7 @@ public class SetupWindow implements Serializable {
 						Trooper individual = unit.getTroopers().get(j);
 						individual.spentPhase1 = 0; 
 						individual.spentPhase2 = 0;
+						individual.HD = false;
 						
 					}
 					
@@ -655,5 +666,4 @@ public class SetupWindow implements Serializable {
 		
 		
 	}
-	
 }
