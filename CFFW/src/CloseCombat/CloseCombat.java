@@ -79,10 +79,9 @@ public class CloseCombat {
 		for(int i = 0; i < window.companies.size(); i++) {
 			
 			if(window.companies.get(i).getName().equals(fleeUnit.company)) {
-				window.companies.get(i).updateUnit(unit);
 				window.companies.get(i).addUnit(fleeUnit);
 				// Adds companies to setupWindow
-				window.confirmCompany(window.companies.get(i), i);
+				//window.confirmCompany(window.companies.get(i), i);
 				//f.dispose();
 				
 			}

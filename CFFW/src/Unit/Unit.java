@@ -306,10 +306,9 @@ public class Unit implements Serializable {
 		for(int i = 0; i < window.companies.size(); i++) {
 			
 			if(window.companies.get(i).getUnits().contains(this)) {
-				window.companies.get(i).updateUnit(unit);
 				window.companies.get(i).addUnit(newUnit);
 				// Adds companies to setupWindow
-				window.confirmCompany(window.companies.get(i), i);
+				//window.confirmCompany(window.companies.get(i), i);
 				
 				
 				

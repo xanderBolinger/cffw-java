@@ -816,10 +816,10 @@ public class GameWindow implements Serializable {
 
 	// Sets companies equal to the comapny in the setup window
 	// Used to save changes made to a company during a conflict
-	public void confirmCompany(Company company, int index) {
+	/*public void confirmCompany(Company company, int index) {
 		setupWindow.setCompany(company, index);
 		setupWindow.refreshCreated();
-	}
+	}*/
 
 	// Refresh conflict
 	public void refreshConflict(SetupWindow setupWindow) {

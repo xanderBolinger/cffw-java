@@ -1934,10 +1934,9 @@ public class BulkWindow {
 					if (gameWindow.companies.get(i).getUnits().contains(unit)) {
 						// if(gameWindow.companies.get(i).getName().equals(newUnit.company) &&
 						// gameWindow.companies.get(i).getSide().equals(newUnit.side)) {
-						gameWindow.companies.get(i).updateUnit(unit);
 						gameWindow.companies.get(i).addUnit(newUnit);
 						// Adds companies to setupWindow
-						gameWindow.confirmCompany(gameWindow.companies.get(i), i);
+						//gameWindow.confirmCompany(gameWindow.companies.get(i), i);
 						// f.dispose();
 
 					}

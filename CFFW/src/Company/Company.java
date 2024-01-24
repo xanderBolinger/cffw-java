@@ -117,17 +117,6 @@ public class Company implements Serializable {
 		} 
 	}
 
-	// Overwrites and updates a unit in a compnay
-	public void updateUnit(Unit unit) {
-		for(int i = 0; i < units.size(); i++) {
-			if(units.get(i).compareTo(unit)) {
-				//System.out.println("Match <ade");
-				units.set(i, unit);
-			}
-			
-		}
-	}
-
 	public void setNotes(String param) {
 		notes = param;
 	}
