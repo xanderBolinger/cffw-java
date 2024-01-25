@@ -93,7 +93,30 @@ public class JsonSaveRunner {
 		return trooperJson.getTrooper();
 	}
 	
-	public static ArrayList<Company> loadCompaniesInDirection() {
+	public static void saveCompaniesToDirectory(String filePath, ArrayList<Company> companies) {
+		
+		try {
+			var dir = getDirectory(filePath);
+			
+			for(var c : companies) {
+				var json = saveCompany(c);
+				FileWriter fw = new FileWriter(dir.getAbsolutePath() + "\\"+ c.getName() + ".json");
+				fw.write(json);
+				System.out.println("Save as file: " + dir.getAbsolutePath() + "\\"+ c.getName() + ".json");
+				fw.close();
+				
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+	}
+	
+	public static ArrayList<Company> loadCompaniesInDirectory() {
 		
 		var companies = new ArrayList<Company>();
 		
@@ -112,6 +135,27 @@ public class JsonSaveRunner {
 		
 		
 		return companies;
+	}
+	
+	
+	public static File getDirectory(String startPath) throws IOException {
+		JFrame parentFrame = new JFrame();
+
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File(ExcelUtility.path + "\\"+startPath));
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fileChooser.setDialogTitle("Select Company Directory");
+		
+		int userSelection = fileChooser.showOpenDialog(parentFrame);
+		if (userSelection == JFileChooser.APPROVE_OPTION) {
+			System.out.println("getCurrentDirectory(): " 
+			         +  fileChooser.getCurrentDirectory());
+			      System.out.println("getSelectedFile() : " 
+			         +  fileChooser.getSelectedFile());
+			return fileChooser.getSelectedFile();
+		}
+		
+		return new File(ExcelUtility.path + "\\"+startPath);
 	}
 	
 	public static File[] getFilesInDirectory(String startPath) throws IOException {

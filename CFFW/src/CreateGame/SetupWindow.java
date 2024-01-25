@@ -126,10 +126,6 @@ public class SetupWindow implements Serializable {
 		JScrollPane scrollPaneCreated = new JScrollPane();
 		scrollPaneCreated.setBounds(11, 307, 283, 197);
 
-		JLabel lblCreatedCompanies = new JLabel("Companies");
-		lblCreatedCompanies.setBounds(11, 279, 73, 17);
-		lblCreatedCompanies.setFont(new Font("Calibri", Font.BOLD, 13));
-
 		listCreatedCompanies = new JList();
 		listCreatedCompanies.addMouseListener(new MouseAdapter() {
 			@Override
@@ -267,7 +263,6 @@ public class SetupWindow implements Serializable {
 		JLabel lblHexrows = new JLabel("Hex Rows");
 		lblHexrows.setBounds(36, 11, 57, 20);
 		f.getContentPane().add(lblHexrows);
-		f.getContentPane().add(lblCreatedCompanies);
 		f.getContentPane().add(scrollPaneCreated);
 		f.getContentPane().add(btnCreateCompany);
 		f.getContentPane().add(btnDeleteConflcit);
@@ -373,12 +368,22 @@ public class SetupWindow implements Serializable {
 		JButton btnLoad_1 = new JButton("Load");
 		btnLoad_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				companies = JsonSaveRunner.JsonSaveRunner.loadCompaniesInDirection();
+				companies = JsonSaveRunner.JsonSaveRunner.loadCompaniesInDirectory();
 				refreshCreated();
+				resetTrooperTransientFields();
 			}
 		});
-		btnLoad_1.setBounds(106, 275, 89, 23);
+		btnLoad_1.setBounds(106, 276, 89, 23);
 		f.getContentPane().add(btnLoad_1);
+		
+		JButton btnLoad_1_1 = new JButton("Save");
+		btnLoad_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JsonSaveRunner.JsonSaveRunner.saveCompaniesToDirectory("Company Json", companies);
+			}
+		});
+		btnLoad_1_1.setBounds(11, 276, 89, 23);
+		f.getContentPane().add(btnLoad_1_1);
 		f.setVisible(true);
 		
 		
