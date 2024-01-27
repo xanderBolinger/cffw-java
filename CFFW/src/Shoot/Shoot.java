@@ -505,7 +505,7 @@ public class Shoot {
 			if(suppressiveHits > 0)
 				explosion.explodeHex(targetUnit.X, targetUnit.Y, shooterUnit.side);
 		} else {
-			System.out.println("null ammo");
+			//System.out.println("null ammo");
 		}
 	}
 	

@@ -810,7 +810,7 @@ public class Unit implements Serializable {
 			
 			float time = 20;
 			
-			if(spentMP != 0)
+			if(spentMP != 0 || trooper.entirelyMechanical)
 				continue;
 			
 			if(speed.equals("Crawl")) {

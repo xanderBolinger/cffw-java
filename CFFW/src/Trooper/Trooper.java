@@ -2556,7 +2556,7 @@ public class Trooper implements Serializable {
 	}
 
 	public void advanceTime(GameWindow game, ConflictLog log) {
-		if (physicalDamage <= 0 || !alive)
+		if (physicalDamage <= 0 || !alive || entirelyMechanical)
 			return;
 
 		timePassed++;

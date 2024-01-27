@@ -31,8 +31,10 @@ import Company.Company;
 import Company.EditCompany;
 import Conflict.Game;
 import Conflict.GameWindow;
+import FatigueSystem.FatigueSystem;
 import HexGrid.HexGrid;
 import Items.Item;
+import Medical.MedicalWindow;
 import SaveCompanies.GameSave;
 import SaveCompanies.Hexes;
 import SaveCompanies.InitOrder;
@@ -74,7 +76,7 @@ public class SetupWindow implements Serializable {
 		setupWindow = this;
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		f.setSize(319, 554);
+		f.setSize(319, 701);
 
 		// Get the screen size
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -124,7 +126,7 @@ public class SetupWindow implements Serializable {
 		});
 
 		JScrollPane scrollPaneCreated = new JScrollPane();
-		scrollPaneCreated.setBounds(11, 307, 283, 197);
+		scrollPaneCreated.setBounds(11, 334, 283, 317);
 
 		listCreatedCompanies = new JList();
 		listCreatedCompanies.addMouseListener(new MouseAdapter() {
@@ -328,6 +330,16 @@ public class SetupWindow implements Serializable {
 				
 				refreshCreated();
 				
+				for(var c : companies) {
+					for(var u : c.getUnits()) {
+						
+						for(var i : u.individuals) {
+							i.fatigueSystem = new FatigueSystem(i);
+						}
+						
+					}
+				}
+				
 				/*for(Company company : companies) {
 					
 					for(Trooper trooper : company.getRoster()) {
@@ -369,6 +381,15 @@ public class SetupWindow implements Serializable {
 		btnLoad_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				companies = JsonSaveRunner.JsonSaveRunner.loadCompaniesInDirectory();
+				for(var c : companies) {
+					for(var u : c.getUnits()) {
+						
+						for(var i : u.individuals) {
+							i.fatigueSystem = new FatigueSystem(i);
+						}
+						
+					}
+				}
 				refreshCreated();
 				resetTrooperTransientFields();
 			}
@@ -384,6 +405,38 @@ public class SetupWindow implements Serializable {
 		});
 		btnLoad_1_1.setBounds(11, 276, 89, 23);
 		f.getContentPane().add(btnLoad_1_1);
+		
+		JButton btnLoad_1_1_1 = new JButton("Medical Window");
+		btnLoad_1_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(companies.size() == 0)
+					return;
+				
+				var units = new ArrayList<Unit>();
+				var roster = new ArrayList<Trooper>();
+				
+				for(var c : companies) {
+					
+					for(var u : c.getUnits()) {
+						
+						units.add(u);
+						
+					}
+				
+					for(var i : c.getRoster())
+						roster.add(i);
+					
+				}
+				
+				
+				
+				new MedicalWindow(units, roster);
+				
+			}
+		});
+		btnLoad_1_1_1.setBounds(11, 310, 132, 23);
+		f.getContentPane().add(btnLoad_1_1_1);
 		f.setVisible(true);
 		
 		

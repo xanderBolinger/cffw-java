@@ -58,6 +58,8 @@ public class UnitCommand {
 		
 		if(roll <= leader.getSkill("Command")) {
 			margin = leader.getSkill("Command") - roll + 1;
+			unit.suppression -= 10; 
+			unit.organization += 10;
 		}
 		
 		unit.suppression -= margin / 2;

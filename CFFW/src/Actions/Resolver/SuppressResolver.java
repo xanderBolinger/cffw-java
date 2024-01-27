@@ -31,7 +31,7 @@ public class SuppressResolver extends ActionToResolve {
 			
 			System.out.println("Shooter unit: "+shooterUnit.callsign+", target unit: "+unit.callsign);
 			
-			Shoot shoot = new Shoot(shooterUnit, unit, shooter, null
+			Shoot shoot = new Shoot(shooterUnit, unit, shooter, unit.individuals.get(DiceRoller.roll(0, unit.individuals.size()-1))
 					, shooter.wep,0);
 			shoot.aimTime = shooter.combatActions-1;
 			shoot.recalc();

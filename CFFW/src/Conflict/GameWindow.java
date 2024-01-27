@@ -17,6 +17,7 @@ import Company.Company;
 import Conflict.SmokeStats.SmokeType;
 import CorditeExpansion.Cord;
 import CreateGame.SetupWindow;
+import FatigueSystem.FatigueSystem;
 import HexGrid.CalculateLOS;
 import HexGrid.HexGrid;
 import HexGrid.HexGridShadeHexes;
@@ -379,11 +380,7 @@ public class GameWindow implements Serializable {
 
 					if (unit.side.equals(comboBoxValueMod.getSelectedItem())) {
 
-						if (unit.suppression + (int) spinnerValueMod.getValue() > 100) {
-							unit.suppression = 100;
-						} else {
-							unit.suppression += (int) spinnerValueMod.getValue();
-						}
+						unit.suppression = (int) spinnerValueMod.getValue();
 
 					}
 
@@ -787,6 +784,27 @@ public class GameWindow implements Serializable {
 		});
 		btnPrintShots.setBounds(433, 71, 113, 23);
 		f.getContentPane().add(btnPrintShots);
+		
+		JButton btnResetFat = new JButton("Reset Fat.");
+		btnResetFat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				for(var c : companies) {
+					for(var u : c.getUnits()) {
+						
+						for(var i : u.individuals) {
+							i.fatigueSystem = new FatigueSystem(i);
+						}
+						
+					}
+				}
+				
+				System.out.println("Reset fatigue");
+				
+			}
+		});
+		btnResetFat.setBounds(600, 6, 74, 23);
+		f.getContentPane().add(btnResetFat);
 		
 		
 		vehicleCombatWindow = new VehicleCombatWindow();

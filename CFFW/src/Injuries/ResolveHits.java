@@ -1030,7 +1030,7 @@ public class ResolveHits implements Serializable {
 
 		log.addNewLineToQueue(
 				"Resolving " + hits + " hits on " + targetUnit.callsign + ":: " + trooper.number + " " + trooper.name);
-
+		System.out.println("Resolving " + hits + " hits on " + targetUnit.callsign + ":: " + trooper.number + " " + trooper.name);
 		for (int i = 0; i < hits; i++) {
 			log.addNewLineToQueue("Hit: " + (i + 1));
 
