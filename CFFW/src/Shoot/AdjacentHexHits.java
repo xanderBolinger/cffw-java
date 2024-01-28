@@ -3,7 +3,6 @@ package Shoot;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import CorditeExpansion.Cord;
 import HexGrid.HexDirectionUtility;
 import Items.PCAmmo;
@@ -33,7 +32,7 @@ public class AdjacentHexHits {
 		Cord cord = adjacentCords.get(DiceRoller.roll(0, adjacentCords.size()-1));
 		
 		if(!hits.containsKey(cord)) {
-			hits.put(cord, new AdjacentHexHitData(weapon, pcAmmo, shooterUnit, targetUnit));
+			hits.put(cord, new AdjacentHexHitData(weapon, pcAmmo, shooterUnit, cord));
 			return;
 		}
 		
@@ -48,6 +47,3 @@ public class AdjacentHexHits {
 	}
 	
 }
-
-
-

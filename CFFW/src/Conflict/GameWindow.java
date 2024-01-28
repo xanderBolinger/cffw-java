@@ -2176,6 +2176,13 @@ public class GameWindow implements Serializable {
 			WaypointManager.moveUnits();
 			
 		}
+		
+		for(var u : initiativeOrder) {
+			var action = game.getCurrentAction();
+			if(action != 0 && action <= 3)
+				AdvanceTimeUnit.advanceTimeUnit(u);
+		}
+		
 		recalcLosForAllUnits();
 		hexGrid.refreshingDeployedUnits = true;
 		hexGrid.refreshDeployedUnits();
@@ -2284,8 +2291,7 @@ public class GameWindow implements Serializable {
 
 		int actions = game.getCurrentAction();
 
-		if(actions != 0 && actions <= 3)
-			AdvanceTimeUnit.advanceTimeUnit(unit);
+		
 		
 		ArrayList<Trooper> troopers = unit.getTroopers();
 

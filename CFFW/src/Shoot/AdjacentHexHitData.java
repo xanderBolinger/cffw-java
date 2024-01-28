@@ -12,19 +12,17 @@ import UtilityClasses.DiceRoller;
 
 public class AdjacentHexHitData {
 		Unit shooterUnit;
-		Unit targetUnit;
 		PCAmmo pcAmmo;
 		Weapons weapon;
 		int hits;
 		Cord cord;
 		ArrayList<Unit> units;
 		
-		public AdjacentHexHitData(Weapons weapon, PCAmmo pcAmmo, Unit shooterUnit, Unit targetUnit) {
+		public AdjacentHexHitData(Weapons weapon, PCAmmo pcAmmo, Unit shooterUnit, Cord hexCord) {
 			this.weapon = weapon;
 			this.pcAmmo = pcAmmo;
-			this.cord = new Cord(targetUnit.X, targetUnit.Y);
+			this.cord = hexCord;
 			this.shooterUnit = shooterUnit;
-			this.targetUnit = targetUnit;
 			hits = 1;
 			units = GameWindow.gameWindow.getUnitsInHexExcludingSide("", cord.xCord, cord.yCord);
 		}

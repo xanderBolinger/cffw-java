@@ -37,12 +37,10 @@ public class AdvanceTimeUnit {
 
 					if (trooper.inCover) {
 						trooper.hunkerDown(gameWindow);
-						conflictLog.addNewLineToQueue(GameWindow.gameWindow.getLogHead(trooper)
+						conflictLog.addNewLineToQueue(GameWindow.getLogHead(trooper)
 								+ " hunkers down. Morale too low.");
 					}
-
 				}
-
 			}
 
 			if (unit.suppression > 10) {
@@ -53,7 +51,7 @@ public class AdvanceTimeUnit {
 
 					if (trooper.inCover) {
 						trooper.hunkerDown(gameWindow);
-						conflictLog.addNewLineToQueue(GameWindow.gameWindow.getLogHead(trooper)
+						conflictLog.addNewLineToQueue(GameWindow.getLogHead(trooper)
 								+ " hunkers down. SUPPRESSED.");
 					} else {
 
@@ -62,8 +60,8 @@ public class AdvanceTimeUnit {
 						} else {
 							trooper.spentPhase2++;
 						}
-
-						conflictLog.addNewLineToQueue(GameWindow.gameWindow.getLogHead(trooper)
+						
+						conflictLog.addNewLineToQueue(GameWindow.getLogHead(trooper)
 								+  " cowers. SUPPRESSED.");
 					}
 
@@ -77,6 +75,17 @@ public class AdvanceTimeUnit {
 
 		modifySuppressionAndOrganization(unit);
 
+	}
+	
+	private static boolean nextActionPhaseOne() {
+		var g = GameWindow.gameWindow.game;
+		if(g.getPhase() == 1 && g.getCurrentAction() == 3) {
+			return false;
+		} else if(g.getPhase() == 2 && g.getCurrentAction() == 3)
+			return true;
+		else 
+			return true;
+		
 	}
 	
 	private static boolean unitSafe(Unit unit) {
