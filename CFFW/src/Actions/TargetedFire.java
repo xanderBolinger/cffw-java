@@ -240,9 +240,9 @@ public class TargetedFire implements Serializable {
 		//System.out.println("Max Aim Before Aiming: "+maxAim);
 		// IF EAL satisfactory, perform shot, otherwise increase 
 		
-		if(shooterTrooper.storedAimTime.containsKey(targetTrooper)) {
+		if(shooterTrooper.storedAimTime.containsKey(targetTrooper.identifier)) {
 			
-			spentAimTime = shooterTrooper.storedAimTime.get(targetTrooper);
+			spentAimTime = shooterTrooper.storedAimTime.get(targetTrooper.identifier);
 			if(maxAim > 0)
 				spentAimTime += maxAim;
 			

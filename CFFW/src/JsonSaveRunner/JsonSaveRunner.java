@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 import Company.Company;
+import HexGrid.Waypoint.WaypointData;
 import Trooper.Trooper;
 import Trooper.generateSquad;
 import Unit.Unit;
@@ -99,6 +100,9 @@ public class JsonSaveRunner {
 			var dir = getDirectory(filePath);
 			
 			for(var c : companies) {
+				
+				clearCompanyFields(c);
+				
 				var json = saveCompany(c);
 				FileWriter fw = new FileWriter(dir.getAbsolutePath() + "\\"+ c.getName() + ".json");
 				fw.write(json);
@@ -111,8 +115,22 @@ public class JsonSaveRunner {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private static void clearCompanyFields(Company c) {
 		
-		
+		for(var u : c.getUnits()) {
+			u.fireMissions.clear();
+			u.waypointData = new WaypointData();
+			u.lineOfSight.clear();
+			u.spottedVehicles.clear();
+			u.losVehicles.clear();
+			
+			for(var i : u.individuals) {
+				i.spotted.clear();
+			}
+			
+		}
 		
 	}
 	

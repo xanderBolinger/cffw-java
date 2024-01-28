@@ -31,7 +31,19 @@ public class SuppressResolver extends ActionToResolve {
 			
 			System.out.println("Shooter unit: "+shooterUnit.callsign+", target unit: "+unit.callsign);
 			
-			Shoot shoot = new Shoot(shooterUnit, unit, shooter, unit.individuals.get(DiceRoller.roll(0, unit.individuals.size()-1))
+			
+			var target = unit.individuals.get(DiceRoller.roll(0, unit.individuals.size()-1));
+			
+			try {
+				if(shooterUnit.individuals.contains(target)) {
+					throw new Exception("shooter unit "+shooterUnit.callsign+" contains "+target.number+" "+target.name);
+				}
+			} catch(Exception e) { e.printStackTrace();}
+			
+			
+			System.out.println("Create shoot, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
+					+ ", Target Unit: "+unit.callsign+", Target: "+target.number+" "+target.name);
+			Shoot shoot = new Shoot(shooterUnit, unit, shooter, target
 					, shooter.wep,0);
 			shoot.aimTime = shooter.combatActions-1;
 			shoot.recalc();

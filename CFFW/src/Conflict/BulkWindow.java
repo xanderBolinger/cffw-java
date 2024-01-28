@@ -3534,10 +3534,10 @@ public class BulkWindow {
 		// If set to auto, uses maximum amount of remaining aim
 		if (aimTime <= 0) {
 
-			if (trooper.storedAimTime.containsKey(targetTrooper)) {
+			if (trooper.storedAimTime.containsKey(targetTrooper.identifier)) {
 				// System.out.println("Pass 1");
 				int additionalAim = bulkTrooper.CA - bulkTrooper.spentCA;
-				int currentAim = trooper.storedAimTime.get(targetTrooper);
+				int currentAim = trooper.storedAimTime.get(targetTrooper.identifier);
 				int newAim;
 
 				if (currentAim + additionalAim > maxAim - 1) {
@@ -3692,7 +3692,7 @@ public class BulkWindow {
 		if (bulkTrooper.trooper.storedAimTime.size() > 0) {
 
 			for (Trooper target : bulkTrooper.targetTroopers) {
-				if (bulkTrooper.trooper.storedAimTime.containsKey(target)) {
+				if (bulkTrooper.trooper.storedAimTime.containsKey(target.identifier)) {
 					return target;
 				}
 			}
@@ -3866,7 +3866,7 @@ public class BulkWindow {
 		Unit shooterUnit = findTrooperUnit(shooterTrooper);
 
 		for (Trooper t : bulkTrooper.targetTroopers) {
-			if (shooterTrooper.storedAimTime.containsKey(t)) {
+			if (shooterTrooper.storedAimTime.containsKey(t.identifier)) {
 				targetTrooper = t;
 				break;
 			}

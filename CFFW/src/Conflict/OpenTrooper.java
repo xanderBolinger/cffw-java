@@ -6846,7 +6846,7 @@ public class OpenTrooper implements Serializable {
 				targets[i + 1] = targetUnit.callsign + ":: " + target.number + ":: " + target.name;
 			}
 
-			if (openTrooper.storedAimTime.containsKey(target)) {
+			if (openTrooper.storedAimTime.containsKey(target.identifier)) {
 				targets[i + 1] = "Targeted: " + targets[i + 1];
 			}
 		}

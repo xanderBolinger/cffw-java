@@ -1250,7 +1250,7 @@ public class StaticWeaponWindow {
 						targetTroopers.add(target);
 						Trooper gunner = findGunner();
 						String targetString = target.toTarget(window);
-						if(gunner.storedAimTime.containsKey(target)) 
+						if(gunner.storedAimTime.containsKey(target.identifier)) 
 							targetString = "Targeted: "+targetString;
 						comboBoxTargets.addItem(targetString);
 					}
@@ -1895,9 +1895,9 @@ public class StaticWeaponWindow {
 
 		setAction(gunner);
 
-		if (gunner.storedAimTime.containsKey(targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1))) {
+		if (gunner.storedAimTime.containsKey(targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1).identifier)) {
 			gunner.storedAimTime.put(targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1).identifier, TFCA - spentCA
-					+ gunner.storedAimTime.get(targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1)));
+					+ gunner.storedAimTime.get(targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1).identifier));
 		} else {
 			gunner.storedAimTime.clear();
 			gunner.storedAimTime.put(targetTroopers.get(comboBoxTargets.getSelectedIndex() - 1).identifier, TFCA - spentCA);

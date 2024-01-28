@@ -120,8 +120,12 @@ public class Shoot {
 
 		spentCombatActions = 0;
 
-		if (target != null && shooter.storedAimTime.containsKey(target)) {
-			aimTime = shooter.storedAimTime.get(target);
+		
+		System.out.println("Shoot constructor 1, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
+				+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
+		
+		if (target != null && shooter.storedAimTime.containsKey(target.identifier)) {
+			aimTime = shooter.storedAimTime.get(target.identifier);
 			System.out.println("stored aim time: "+aimTime);
 		}
 
@@ -135,6 +139,10 @@ public class Shoot {
 		setDistance();
 		setStartingAim();
 		recalc();
+		
+		
+		System.out.println("Shoot constructor 2, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
+				+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
 	}
 
 	public void setBonuses(int percent, int eal, int ealConcurrent) {
@@ -254,7 +262,8 @@ public class Shoot {
 		}
 		
 		System.out.println("Shoot suppressive, shots: "+shots);
-		
+		System.out.println("Shoot suppressive, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
+				+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
 		var canFire = pcAmmo != null ?
 				 shooter.inventory.launcherAmmoCheck(wep, pcAmmo, shots)
 				: shots;
@@ -280,6 +289,8 @@ public class Shoot {
 		
 		spentCombatActions = shooter.combatActions;
 		this.shots = shooter.combatActions;
+		System.out.println("Shoot suppressive 2, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
+				+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
 		resolveHits();
 		resolveSuppressiveHits();
 		
@@ -521,6 +532,14 @@ public class Shoot {
 				System.out.println("resolve hit target null, new target: "+targetUnit.callsign+" "+target.number+" "+target.name);
 			}
 			
+			if(!targetUnit.individuals.contains(target)) {
+				System.out.println("target unit does not contain target, exception not getting thrown");
+				try {throw new Exception("target not in target unit, shooter: "+shooter.number+" "+shooter.name
+						+", target unit: "+targetUnit.callsign+", target: "+target.number+" "+target.name);} catch(Exception e) {e.printStackTrace();}
+				
+			}
+			System.out.println("Resolve hits("+hits+") 1, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
+					+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
 			ResolveHits resolveHits = new ResolveHits(target, hits, wep,
 					GameWindow.gameWindow != null ? GameWindow.gameWindow.conflictLog : null, targetUnit, shooterUnit,
 					GameWindow.gameWindow);
@@ -625,9 +644,9 @@ public class Shoot {
 	}
 
 	public void setStartingAim() {
-		if (target != null && shooter.storedAimTime.get(target) != null) {
-			aimTime = shooter.storedAimTime.get(target);
-			startingAimTime = shooter.storedAimTime.get(target);
+		if (target != null && shooter.storedAimTime.get(target.identifier) != null) {
+			aimTime = shooter.storedAimTime.get(target.identifier);
+			startingAimTime = shooter.storedAimTime.get(target.identifier);
 		} else {
 			aimTime = 0;
 		}

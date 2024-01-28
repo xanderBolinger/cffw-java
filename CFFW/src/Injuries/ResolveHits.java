@@ -73,6 +73,8 @@ public class ResolveHits implements Serializable {
 	public ResolveHits(Trooper target, int incommingHits, Weapons weapon, ConflictLog log, Unit targetUnit,
 			Unit shooterUnit, GameWindow gameWindow) {
 		this.trooper = target;
+		System.out.println("Create resolve hits, Target Unit: "+targetUnit.callsign+", Shooter Unit: "+shooterUnit.callsign+", target: "
+				+ target.number+" "+target.name);
 		this.hits = incommingHits;
 		this.weapon = weapon;
 		this.log = log;
