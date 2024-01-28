@@ -289,6 +289,12 @@ public class Shoot {
 		
 		spentCombatActions = shooter.combatActions;
 		this.shots = shooter.combatActions;
+		
+		if(shooterUnit == null) {System.out.println("Shooter unit is null");}
+		if(targetUnit == null) {System.out.println("targetUnit is null");}
+		if(shooter == null) {System.out.println("shooter is null");}
+		if(target == null) {System.out.println("target is null");}
+		
 		System.out.println("Shoot suppressive 2, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
 				+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
 		resolveHits();
@@ -521,14 +527,57 @@ public class Shoot {
 	}
 	
 	public void resolveHits() {
-		if(pcAmmo != null)
+		if(pcAmmo != null) {
+			System.out.println("pc ammo not null returning");
 			return;
+		}
 		
-		while (hits > 0) {
+		Trooper target;
+		
+		if(this.target == null) {
+			var roll = DiceRoller.roll(0, targetUnit.individuals.size()-1);
+			System.out.println("Target null, roll: "+roll+", unit size: "+targetUnit.individuals.size()+", target unit: "+targetUnit.callsign);
+			target = targetUnit.individuals.get(roll);
+		}
+		else 
+			target = this.target;
+		
+		System.out.println("Resolve hits target: "+target.number+" "+target.name);
+		
+		for(int i = 0; i < hits; i++) {
+			
+			System.out.println("Hit "+i+1);
+			if(shooterUnit == null) {System.out.println("Shooter unit 2 is null, "+1);}
+			if(targetUnit == null) {System.out.println("targetUnit 2 is null, "+i);}
+			if(shooter == null) {System.out.println("shooter 2 is null, "+i);}
+			if(target == null) {System.out.println("target 2 is null, "+i);}
+			
+			System.out.println("Resolve hits("+hits+") 1, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
+					+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
+			ResolveHits resolveHits = new ResolveHits(target, hits, wep,
+					GameWindow.gameWindow != null ? GameWindow.gameWindow.conflictLog : null, targetUnit, shooterUnit,
+					GameWindow.gameWindow);
+			
+			if (calledShotBounds.size() > 0) {
+				resolveHits.calledShot = true;
+				resolveHits.calledShotBounds = calledShotBounds;
+			}
+
+			if (GameWindow.gameWindow != null)
+				resolveHits.performCalculations(GameWindow.gameWindow.game, GameWindow.gameWindow.conflictLog);
+			
+			InjuryLog.InjuryLog.addTrooper(target);
+		}
+		
+		hits = 0;
+		
+		/*while (hits > 0) {
 			Trooper target = this.target;
 			
+			System.out.println("While hits loop");
+			
 			if(this.target == null) {
-				target = targetUnit.individuals.get(DiceRoller.roll(0, targetUnit.individuals.size()-1));
+				
 				System.out.println("resolve hit target null, new target: "+targetUnit.callsign+" "+target.number+" "+target.name);
 			}
 			
@@ -538,6 +587,10 @@ public class Shoot {
 						+", target unit: "+targetUnit.callsign+", target: "+target.number+" "+target.name);} catch(Exception e) {e.printStackTrace();}
 				
 			}
+			if(shooterUnit == null) {System.out.println("Shooter unit 2 is null");}
+			if(targetUnit == null) {System.out.println("targetUnit 2 is null");}
+			if(shooter == null) {System.out.println("shooter 2 is null");}
+			if(target == null) {System.out.println("target 2 is null");}
 			System.out.println("Resolve hits("+hits+") 1, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
 					+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
 			ResolveHits resolveHits = new ResolveHits(target, hits, wep,
@@ -554,7 +607,7 @@ public class Shoot {
 
 			hits--;
 			InjuryLog.InjuryLog.addTrooper(target);
-		}
+		}*/
 
 	}
 

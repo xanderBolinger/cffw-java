@@ -45,8 +45,8 @@ public class AdjacentHexHitData {
 			
 		}
 		
-		public void directHit() {
-			var target = shooterUnit.individuals.get(DiceRoller.roll(0, shooterUnit.individuals.size()-1));
+		public void directHit(Unit targetUnit) {
+			var target = targetUnit.individuals.get(DiceRoller.roll(0, targetUnit.individuals.size()-1));
 			ResolveHits resolveHits = new ResolveHits(target, hits, weapon,
 					GameWindow.gameWindow != null ? GameWindow.gameWindow.conflictLog : null, targetUnit, shooterUnit,
 					GameWindow.gameWindow);
@@ -75,7 +75,7 @@ public class AdjacentHexHitData {
 
 			for(int i = 0; i < hits; i++) {
 				if(DiceRoller.roll(0, 99) <= 0)
-					directHit();
+					directHit(unit);
 			}
 			
 		}

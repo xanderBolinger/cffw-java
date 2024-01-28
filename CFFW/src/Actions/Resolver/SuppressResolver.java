@@ -38,17 +38,17 @@ public class SuppressResolver extends ActionToResolve {
 				if(shooterUnit.individuals.contains(target)) {
 					throw new Exception("shooter unit "+shooterUnit.callsign+" contains "+target.number+" "+target.name);
 				}
+				
+				System.out.println("Create shoot, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
+						+ ", Target Unit: "+unit.callsign+", Target: "+target.number+" "+target.name);
+				Shoot shoot = new Shoot(shooterUnit, unit, shooter, target
+						, shooter.wep,0);
+				shoot.aimTime = shooter.combatActions-1;
+				shoot.recalc();
+				shoot.suppressiveFire(shoot.wep.suppressiveROF+ DiceRoller.roll(1, shoot.wep.suppressiveROF/4));
+				GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shot Results: " + shoot.shotResults);
+				
 			} catch(Exception e) { e.printStackTrace();}
-			
-			
-			System.out.println("Create shoot, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
-					+ ", Target Unit: "+unit.callsign+", Target: "+target.number+" "+target.name);
-			Shoot shoot = new Shoot(shooterUnit, unit, shooter, target
-					, shooter.wep,0);
-			shoot.aimTime = shooter.combatActions-1;
-			shoot.recalc();
-			shoot.suppressiveFire(shoot.wep.suppressiveROF+ DiceRoller.roll(1, shoot.wep.suppressiveROF/4));
-			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shot Results: " + shoot.shotResults);
 			
 			if(freeAction)
 				continue;
