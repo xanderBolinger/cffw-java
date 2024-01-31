@@ -633,15 +633,11 @@ public class WeaponsStats {
 
 		weapon.aimTime.add(-36);
 		weapon.aimTime.add(-25);
-		weapon.aimTime.add(-16);
-		weapon.aimTime.add(-11);
 		weapon.aimTime.add(-9);
-		weapon.aimTime.add(-1);
-		weapon.aimTime.add(0);
-		weapon.aimTime.add(1);
 		weapon.aimTime.add(2);
 		weapon.aimTime.add(3);
 		weapon.aimTime.add(4);
+
 
 		// 10 20 40 70 100 200 300 400
 		// PEN

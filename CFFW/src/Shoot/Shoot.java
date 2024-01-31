@@ -121,8 +121,8 @@ public class Shoot {
 		spentCombatActions = 0;
 
 		
-		System.out.println("Shoot constructor 1, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
-				+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
+		//System.out.println("Shoot constructor 1, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
+		//		+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
 		
 		if (target != null && shooter.storedAimTime.containsKey(target.identifier)) {
 			aimTime = shooter.storedAimTime.get(target.identifier);
@@ -141,8 +141,8 @@ public class Shoot {
 		recalc();
 		
 		
-		System.out.println("Shoot constructor 2, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
-				+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
+		//System.out.println("Shoot constructor 2, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
+		//		+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
 	}
 
 	public void setBonuses(int percent, int eal, int ealConcurrent) {
@@ -172,13 +172,13 @@ public class Shoot {
 			return;
 		}
 
-		System.out.println("shot");
+		//System.out.println("shot");
 		singleShotRoll(homing);
-		System.out.println("shot 2");
+		//System.out.println("shot 2");
 		resolveHits();
-		System.out.println("shot 3");
+		//System.out.println("shot 3");
 		resolveSuppressiveHits();
-		System.out.println("shot 4");
+		//System.out.println("shot 4");
 		spentCombatActions++;
 		shots++;
 		setShotResults(false);
@@ -261,9 +261,9 @@ public class Shoot {
 			return;
 		}
 		
-		System.out.println("Shoot suppressive, shots: "+shots);
-		System.out.println("Shoot suppressive, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
-				+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
+		//System.out.println("Shoot suppressive, shots: "+shots);
+		//System.out.println("Shoot suppressive, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
+		//		+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
 		var canFire = pcAmmo != null ?
 				 shooter.inventory.launcherAmmoCheck(wep, pcAmmo, shots)
 				: shots;
@@ -295,8 +295,8 @@ public class Shoot {
 		if(shooter == null) {System.out.println("shooter is null");}
 		if(target == null) {System.out.println("target is null");}
 		
-		System.out.println("Shoot suppressive 2, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
-				+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
+		//System.out.println("Shoot suppressive 2, shooter unit: "+shooterUnit.callsign+", shooter: "+shooter.number+" "+shooter.name
+		//		+ ", Target Unit: "+targetUnit.callsign+", Target: "+target.number+" "+target.name);
 		resolveHits();
 		resolveSuppressiveHits();
 		

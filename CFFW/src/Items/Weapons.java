@@ -2472,16 +2472,11 @@ public class Weapons implements Serializable {
 		this.irLaser = true;
 
 		this.aimTime.add(-36);
-		this.aimTime.add(-26);
-		this.aimTime.add(-21);
-		this.aimTime.add(-16);
-		this.aimTime.add(-12);
+		this.aimTime.add(-25);
 		this.aimTime.add(-9);
-		this.aimTime.add(-7);
-		this.aimTime.add(-6);
-		this.aimTime.add(-4);
-		this.aimTime.add(-3);
-		this.aimTime.add(-1);
+		this.aimTime.add(2);
+		this.aimTime.add(3);
+		this.aimTime.add(4);
 
 		// 10 20 40 70 100 200 300 400
 		// PEN
@@ -2568,6 +2563,7 @@ public class Weapons implements Serializable {
 		this.aimTime.add(4);*/
 		
 		this.aimTime.add(-36);
+		this.aimTime.add(-25);
 		this.aimTime.add(-9);
 		this.aimTime.add(2);
 		this.aimTime.add(3);
