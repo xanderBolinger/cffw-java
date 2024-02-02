@@ -58,6 +58,7 @@ public class HexKeyListener {
     						.clearWaypoints(panel.selectedUnit.unit);
                         } else if(e.getKeyCode() == KeyEvent.VK_A && panel.selectedUnit != null) {
                         	WaypointManager.addWaypoints = !WaypointManager.addWaypoints;
+                        	System.out.println("Toggle add waypoints: "+WaypointManager.addWaypoints);
                         } 
                         
                         break;

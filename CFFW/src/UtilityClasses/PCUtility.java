@@ -22,6 +22,14 @@ import Unit.Unit;
 
 public class PCUtility {
 
+	public static boolean impactOnMap(int x, int y) {
+		int xMax = GameWindow.gameWindow.hexCols;
+		int yMax = xMax;
+		var onMap = x <= xMax && y <= yMax;
+		System.out.println("Impact on map, max: "+xMax+", x: "+x+", y: "+y+", on map: "+onMap);
+		return onMap;
+	}
+	
 	public static double suppressionPenalty(Trooper trooper) {
 		if(trooper.entirelyMechanical)
 			return 0.5;

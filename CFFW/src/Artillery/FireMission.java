@@ -19,6 +19,7 @@ import Injuries.ResolveHits;
 import Trooper.Trooper;
 import Unit.Unit;
 import UtilityClasses.DiceRoller;
+import UtilityClasses.PCUtility;
 
 public class FireMission implements Serializable {
 
@@ -471,7 +472,12 @@ public class FireMission implements Serializable {
 		impactX = cords.get(0);
 		impactY = cords.get(1);
 		GameWindow.gameWindow.conflictLog.addNewLineToQueue("Fire Mision: "+fireMissionDisplayName+" X: "+impactX+", Y: "+impactY);
-		//System.out.println("X: "+impactX+", Y: "+impactY);
+		System.out.println("Impact X: "+impactX+", Y: "+impactY);
+		
+		if(!PCUtility.impactOnMap(impactX, impactY)) {
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Impact off map. Adjust fire mission.");
+			return;
+		}
 		
 		if(GameWindow.gameWindow.game.shieldManager.shieldedHex(impactX, impactY)) {
 			GameWindow.gameWindow.conflictLog.addNewLineToQueue("Shielded Impact: "+fireMissionDisplayName+" X: "+impactX+", Y: "+impactY);
@@ -499,6 +505,9 @@ public class FireMission implements Serializable {
 		InjuryLog.InjuryLog.printResultsToLog();
 		
 	}
+	
+	
+	
 	
 	public int getFireMissionTime() {
 		//System.out.println("Getting Fire Mission Time, fire mission speed: "+fireMissionSpeed);
