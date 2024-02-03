@@ -29,6 +29,9 @@ import Company.Company;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JCheckBox;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BulkInventoryWindow extends JFrame {
 
@@ -201,7 +204,7 @@ public class BulkInventoryWindow extends JFrame {
 		lblArmorPage_1_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblArmorPage_1_2.setForeground(Color.BLACK);
 		lblArmorPage_1_2.setFont(new Font("Calibri", Font.BOLD, 16));
-		lblArmorPage_1_2.setBounds(10, 15, 433, 16);
+		lblArmorPage_1_2.setBounds(179, 15, 264, 16);
 		contentPane.add(lblArmorPage_1_2);
 		
 		JScrollPane scrollPane_8_2 = new JScrollPane();
@@ -290,6 +293,44 @@ public class BulkInventoryWindow extends JFrame {
 			}
 		});
 		scrollPane.setViewportView(listCompanyInventory);
+		
+		JButton btnNewButton = new JButton("Remove Depleted");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				var removeCount = 0;
+				
+				for(var t : troopers) {
+					
+					var removeItems = new ArrayList<String>();
+					
+					for(var i : t.inventory.getItemsArray()) {
+						
+						if(i.isRound()) {
+							removeItems.add(i.getItemName());
+						}
+						
+					}
+					
+					for(var i : removeItems) {
+						
+						try {
+							t.inventory.removeItem(i);
+							removeCount++;
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+						
+					}
+					
+				}
+				
+				
+				System.out.println("Remove depleted ammo: "+removeCount);
+			}
+		});
+		btnNewButton.setBounds(10, 10, 159, 23);
+		contentPane.add(btnNewButton);
 		setVisible(true);
 	}
 	
