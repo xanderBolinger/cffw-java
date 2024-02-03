@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.util.SystemOutLogger;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import Actions.Spot;
@@ -451,9 +452,17 @@ public class Shoot {
 	public void singleShotRoll(boolean homing) {
 		shotRoll = DiceRoller.roll(0, 99);
 
+		if(homing) {
+			var hs = GameWindow.getLogHead(shooter)+", homing shot to "+GameWindow.getLogHead(target)+", TN: "+wep.homingHitChance
+					+", Roll: "+shotRoll+ (shotRoll <= wep.homingHitChance ? ", HIT" : "");
+			System.out.println(hs);
+			GameWindow.gameWindow.conflictLog.addNewLineToQueue(hs);
+		}
+		
 		if (shotRoll <= (!homing ? singleTn : wep.homingHitChance)) {
 			hits++;
 			suppressiveHits++;
+			System.out.println("HIT");
 			System.out.println("Plus Suppressive Hits");
 		} else {
 			suppressiveShotRoll(shotRoll);
