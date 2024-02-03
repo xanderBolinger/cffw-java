@@ -300,31 +300,39 @@ public class BulkInventoryWindow extends JFrame {
 				
 				var removeCount = 0;
 				
-				for(var t : troopers) {
+				System.out.println("Unit Size: "+units.size());
+				
+				for(var u : units) {
 					
-					var removeItems = new ArrayList<String>();
-					
-					for(var i : t.inventory.getItemsArray()) {
+					for(var t : u.individuals) {
 						
-						if(i.isRound()) {
-							removeItems.add(i.getItemName());
+						var removeItems = new ArrayList<String>();
+						
+						for(var i : t.inventory.getItemsArray()) {
+							
+							System.out.println("Item: "+i.getItemName()+", is round: "+i.isRound()+
+									(i.isRound() ? ", Depleted: "+i.ammo.depleted : ""));
+							
+							if(i.isRound() && i.ammo.depleted) {
+								removeItems.add(i.getItemName());
+							}
+							
 						}
 						
-					}
-					
-					for(var i : removeItems) {
-						
-						try {
-							t.inventory.removeItem(i);
-							removeCount++;
-						} catch (Exception e1) {
-							e1.printStackTrace();
+						for(var i : removeItems) {
+							
+							try {
+								t.inventory.removeItem(i);
+								removeCount++;
+							} catch (Exception e1) {
+								e1.printStackTrace();
+							}
+							
 						}
 						
 					}
 					
 				}
-				
 				
 				System.out.println("Remove depleted ammo: "+removeCount);
 			}

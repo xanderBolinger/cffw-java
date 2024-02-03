@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import Conflict.GameWindow;
 import FatigueSystem.FatigueSystem.FatiguePoints;
 import FatigueSystem.FatigueSystem.PhysicalRecoveryTime;
+import Items.Item;
 import Items.Weapons;
 import Trooper.IndividualStats;
 import Trooper.Trooper;
@@ -22,6 +23,20 @@ public class TrooperUtility {
 
 	public TrooperUtility() {
 
+	}
+	
+	public static void setAmmo(Trooper trooper) {
+		int ammo = 0; 
+		
+		for(Item item : trooper.inventory.getItemsArray()) {
+			if(item.isRound() && item.weapon.name.equals(trooper.wep) && !item.ammo.depleted) {
+				ammo += item.ammo.shots - item.ammo.firedShots;
+				 
+			}
+			
+		}
+		
+		trooper.ammo = ammo; 
 	}
 	
 	public static Weapons getWep(Trooper trooper) throws Exception {

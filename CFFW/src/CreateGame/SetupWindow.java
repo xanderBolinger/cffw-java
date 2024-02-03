@@ -43,6 +43,7 @@ import SaveCompanies.SavedGameDialogBox;
 import Unit.Unit;
 import UtilityClasses.FileUtility;
 import UtilityClasses.SwingUtility;
+import UtilityClasses.TrooperUtility;
 import Trooper.Trooper;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -335,6 +336,7 @@ public class SetupWindow implements Serializable {
 						
 						for(var i : u.individuals) {
 							i.fatigueSystem = new FatigueSystem(i);
+							TrooperUtility.setAmmo(i);
 						}
 						
 					}
@@ -613,6 +615,7 @@ public class SetupWindow implements Serializable {
 				
 			}
 			
+			game = new Game(1, 1, 1);
 		}
 		
 		if(game == null) {

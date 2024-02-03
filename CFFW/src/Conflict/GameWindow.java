@@ -2143,8 +2143,6 @@ public class GameWindow implements Serializable {
 		activeUnit = 0;
 		advanceTime();
 		markUnmoved();
-		timedEvents();
-		
 
 		game.setCurrentAction(game.getCurrentAction() + 1);
 
@@ -2182,6 +2180,8 @@ public class GameWindow implements Serializable {
 			if(action != 0 && action <= 3)
 				AdvanceTimeUnit.advanceTimeUnit(u);
 		}
+		
+		timedEvents();
 		
 		recalcLosForAllUnits();
 		hexGrid.refreshingDeployedUnits = true;

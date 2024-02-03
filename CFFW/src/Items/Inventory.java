@@ -9,6 +9,7 @@ import Conflict.GameWindow;
 import Items.Container.ContainerType;
 import Items.Item.ItemType;
 import Trooper.Trooper;
+import UtilityClasses.TrooperUtility;
 
 public class Inventory implements Serializable {
 
@@ -50,6 +51,7 @@ public class Inventory implements Serializable {
 		}
 
 		containers.get(0).addItem(item);
+		TrooperUtility.setAmmo(trooper);
 		setEncumberance();
 	}
 	
@@ -60,6 +62,7 @@ public class Inventory implements Serializable {
 		}
 
 		containers.get(0).addItem(itemType);
+		TrooperUtility.setAmmo(trooper);
 		setEncumberance();
 	}
 
@@ -70,18 +73,21 @@ public class Inventory implements Serializable {
 		}
 
 		containers.get(0).addItem(weaponType, ammoType);
+		TrooperUtility.setAmmo(trooper);
 		setEncumberance();
 	}
 
 	public void addItems(ItemType itemType, int count) throws Exception {
 		for (int i = 0; i < count; i++)
 			addItem(itemType);
+		TrooperUtility.setAmmo(trooper);
 		setEncumberance();
 	}
 
 	public void addItems(ItemType weaponType, ItemType ammoType, int count) throws Exception {
 		for (int i = 0; i < count; i++)
 			addItem(weaponType, ammoType);
+		TrooperUtility.setAmmo(trooper);
 		setEncumberance();
 	}
 
@@ -111,6 +117,7 @@ public class Inventory implements Serializable {
 			removalContainer.items.remove(removeItem);
 		}
 		setEncumberance();
+		TrooperUtility.setAmmo(trooper);
 	}
 
 	public void removeItem(ItemType weaponType, ItemType ammoType) throws Exception {
@@ -145,6 +152,7 @@ public class Inventory implements Serializable {
 			removalContainer.items.remove(removalItem);
 		}
 		setEncumberance();
+		TrooperUtility.setAmmo(trooper);
 	}
 
 	public void removeItem(ItemType itemType) throws Exception {
@@ -177,6 +185,7 @@ public class Inventory implements Serializable {
 			removalContainer.items.remove(removalItem);
 		}
 		setEncumberance();
+		TrooperUtility.setAmmo(trooper);
 	}
 
 	public boolean containsItem(String itemName) {
@@ -257,6 +266,7 @@ public class Inventory implements Serializable {
 			removalContainer.items.remove(removalItem);
 		}
 		setEncumberance();
+		TrooperUtility.setAmmo(trooper);
 	}
 
 	public ArrayList<String> getItems() {
@@ -306,17 +316,7 @@ public class Inventory implements Serializable {
 			
 		}
 		
-		int ammo = 0; 
-		
-		for(Item item : getItemsArray()) {
-			if(item.isRound() && item.weapon.name.equals(trooper.wep) && !item.ammo.depleted) {
-				ammo += item.ammo.shots - item.ammo.firedShots;
-				 
-			}
-			
-		}
-		
-		trooper.ammo = ammo; 
+		TrooperUtility.setAmmo(trooper);
 		
 		if(shots > 0)
 			return false;
