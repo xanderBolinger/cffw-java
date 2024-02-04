@@ -261,8 +261,8 @@ public class FireMission implements Serializable {
 			// Accounts for 20 seconds built into PC table 
 			actionsToFire--; 
 			
-			if(actionsToFire == -1) {
-				System.out.println("Actions to fire -1");
+			if(actionsToFire <= 0) {
+				System.out.println("Actions to fire < 0");
 				actionsToFire = 1; 
 			}
 			
@@ -360,6 +360,8 @@ public class FireMission implements Serializable {
 		}
 		
 		advancePlotTime();
+		
+		System.out.println("Actions to fire fm: "+actionsToFire);
 		
 		if(actionsToFire > 0) {
 			

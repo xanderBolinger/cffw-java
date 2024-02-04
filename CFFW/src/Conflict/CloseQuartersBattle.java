@@ -512,7 +512,7 @@ public class CloseQuartersBattle implements Serializable {
 				// Creates attacker list
 				for(Trooper floorTrooper : trooperFloor.getAllOccupants()) {
 					if(floorTrooper.compareTo(trooper) || !floorTrooper.alive || !floorTrooper.conscious || floorTrooper.defendingInCloseCombat || 
-							!floorTrooper.attackingInCloseCombat || floorTrooper.HD || floorTrooper.returnTrooperUnit(gameWindow).side.equals(unit))
+							!floorTrooper.attackingInCloseCombat || floorTrooper.HD || floorTrooper.returnTrooperUnit(gameWindow).side.equals(unit.side))
 						continue; 
 					
 					attackers.add(floorTrooper);

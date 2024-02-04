@@ -424,6 +424,7 @@ public class CloseQuartersBattleWindow {
 					trooper.spotted.clear();
 					trooper.spotted.add(new Spot());
 					trooper.spotted.get(0).spottedIndividuals.add(trooper.closeCombatTarget);
+					trooper.storedAimTime.put(trooper.closeCombatTarget.identifier, 0);
 					cqbTroopers.add(trooper);
 				}
 
