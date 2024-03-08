@@ -1,5 +1,6 @@
-/UtilityClasses/
-/Vehicle/
+/Actions/
+/Artillery/
+/CeHexGrid/
 /CharacterBuilder/
 /CloseCombat/
 /Command/
@@ -34,7 +35,8 @@
 /Spot/
 /Trooper/
 /Unit/
+/UtilityClasses/
+/Vehicle/
 /multiDimensionalArrayList.class
 /test/
 /testPackage/
-/Artillery/
